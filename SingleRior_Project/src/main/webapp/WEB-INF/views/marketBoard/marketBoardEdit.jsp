@@ -26,6 +26,7 @@
 <body>
 	<jsp:include page="../common/top.jsp"/>
 	<div style="background: #008cd4">
+	
 	<ul class="nav justify-content-center">
 	  <li class="nav-item">
 	    <a style="color: white;" class="nav-link active" aria-current="page" href="#">같이사요</a>
@@ -45,21 +46,21 @@
 		<main>
 			
 			<div style="margin-left: 350px; margin-right: 350px; margin-top: 100px;">
-				<form class="needs-validation" action="${ contextPath }/marketBoardInsert.ma" method="POST" enctype="multipart/form-data" id="form">
+				<form class="needs-validation" action="${ contextPath }/marketBoardInsert.ma" method="POST" enctype="multipart/form-data" id="attmForm">
 					
 					<div class="row g-3">
 					<h1 style="align-self: center;"><img alt="" src="https://cdn-icons-png.flaticon.com/512/595/595752.png" style="width: 40px; height: 40px; " >씽씽마켓</h1>
 						<div class="col-12">
-						<select name="marketType" class="form-select form-select-sm" aria-label=".form-select-sm example" style="width: 120px; margin-bottom: 15px;">
-							<option value="같이사요">같이사요</option>
-							<option value="팝니다">팝니다</option>
-							<option value="삽니다">삽니다</option>
+						<select class="form-select form-select-sm" aria-label=".form-select-sm example" style="width: 120px; margin-bottom: 15px;">
+							<option>같이사요</option>
+							<option>팝니다</option>
+							<option>삽니다</option>
 						</select>
 						
 							<label for="boardTitle" class="form-label">TITLE</label>
 							<input type="text" class="form-control" id="boardTitle" name="boardTitle">
 							<label for="boardTitle" class="form-label">PRICE</label>
-							<input type="number" class="form-control" id="boardTitle" name="marketPrice">
+							<input type="number" class="form-control" id="boardTitle" name="boardTitle">
 						</div>
 						
 
@@ -74,15 +75,17 @@
 							<div class="mb-3">
 								<button type="button" class="btn " id="addFile"> <img src="https://cdn-icons-png.flaticon.com/512/4148/4148851.png" style="width: 40px; height: 40px;"> </button>
 								<input type="file" class="form-control" name="file">
+								
 							</div>
 						</div>
 						<br><br><br><br><br>
 						
-						<button class="btn btn-outline-primary" type="button" id="submit">SUBMIT</button>
+						<button class="btn btn-outline-primary" type="button" id="submitAttm">UPDATE</button>
 						<button class="btn btn-outline-primary" type="button" onclick="javascript:history.back();">BACK</button>
 					</div>
 				</form>
 			</div>
+			
 		<footer>
 			<jsp:include page="../common/footer.jsp"/>
 		</footer>
@@ -104,6 +107,10 @@
 			});
 			
 		}
+		
+		
+		
+		
 		
 		
 		
