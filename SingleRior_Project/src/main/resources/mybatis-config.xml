@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd" >
+<configuration>
+
+	<typeAliases> 
+		<typeAlias type="com.E1I4.project.member.model.vo.Member" alias="Member"/>
+		<typeAlias type="com.E1I4.project.marketBoard.model.vo.MarketBoard" alias="MarketBoard"/>
+		<typeAlias type="com.E1I4.project.notiBoard.model.vo.NotiBoard" alias="NotiBoard"/>
+		<typeAlias type="com.E1I4.project.storeBoard.model.vo.StoreBoard" alias="StoreBoard"/>
+		<typeAlias type="com.E1I4.project.commuBoard.model.vo.CommuBoard" alias="CommuBoard"/>
+	</typeAliases>
+
+	<mappers>
+		<mapper resource="mappers/member-mapper.xml"/>
+	   	<mapper resource="mappers/market-mapper.xml"/>
+	   	<mapper resource="mappers/store-mapper.xml"/>
+	   	<mapper resource="mappers/noti-mapper.xml"/>
+	   	<mapper resource="mappers/commu-mapper.xml"/>
+	</mappers>
+</configuration>
