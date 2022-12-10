@@ -117,15 +117,15 @@
 	      <li><a href="#">가구<i class='fa fa-angle-down'></i></a>
 	      	<ul>
 	          <li><a href="${ contextPath }/categoryList.st">침대</a></li>
-	          <li><a href="/#">테이블</a></li>
-	          <li><a href="/#">서랍장</a></li>
-	          <li><a href="/#">의자</a></li>
-	          <li><a href="/#">옷장</a></li>
-	          <li><a href="/#">화장대</a></li>
+	          <li><a href="#">테이블</a></li>
+	          <li><a href="#">서랍장</a></li>
+	          <li><a href="#">의자</a></li>
+	          <li><a href="#">옷장</a></li>
+	          <li><a href="#">화장대</a></li>
 	        </ul>
 	       </li>
 	 
-	       <li><a href="2-0">패브릭<i class='fa fa-angle-down'></i></a>
+	       <li><a href="#">패브릭<i class='fa fa-angle-down'></i></a>
 	      	<ul>
 	          <li><a href="#">이불</a></li>
 	          <li><a href="#">배개</a></li>
@@ -186,9 +186,6 @@
 	    $('ul', this).stop().slideUp(200);
 	  }
 	);
-	
-	
-	
 	</script>
 </body>
 </html>

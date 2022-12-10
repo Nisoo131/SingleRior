@@ -17,11 +17,11 @@
 		</div>
 	</header>
 	
-<!-- 대분류/소분류에 따라 구분 -->
-	<div style="padding:20px 250px 250px 250px;">
-		<h5><b>전체 > 가구 > 침대/매트릭스 </b></h5>
+	<!-- 대분류/소분류에 따라 구분 -->
+	<div style="padding:20px 120px 10px 120px;">
+		<h5><b>전체 > 가구 > 침대/매트릭스</b></h5>
 			<h3><b>침대/매트릭스</b></h3>
-
+			
 		<div id="selectOption" dir="rtl" border-radius ="50px";>
 			<select style="width:100px; height:30px; class="form-select" aria-label="Default select example">
 			  <option selected>인기순</option>
@@ -30,14 +30,14 @@
 			  <option value="3">높은 가격순</option>
 			</select>
 		</div>
+	</div>
 	
-	<!-- 카드 -->
-	  <div class="album py-5">
-	    <div class="container">
+	<!-- 카드 4x3--> 
+    <div class="container">
 	      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-3">
-	      <a href="${ contextPath }/productDetail.st" target="card"></a> 
-	        <div class="col" name="card" >
+	        <div class="col">
 	          <div class="card shadow-sm" >
+	          <a href="${ contextPath }/productDetail.st">
 	            <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"/><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
 	            <div class="card-body">
 	              <p class="card-text">
@@ -49,6 +49,7 @@
 					</p>
 					<div class="d-flex justify-content-between align-items-center">                
 	              	</div>
+	              	</a>
 	            </div>
 	          </div>
 	        </div>
@@ -244,7 +245,9 @@
 	        </div>
 	      </div>
 	    </div>
-	  </div>
-	  	
+	  
+	  <footer>
+		<jsp:include page="../common/footer.jsp"/>
+	 </footer>  	
 </body>
 </html>

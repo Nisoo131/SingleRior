@@ -5,24 +5,22 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="">
-<meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
-<meta name="generator" content="Hugo 0.104.2">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
 <title>Insert title here</title>
 <script src="http://code.jquery.com/jquery-1.12.4.min.js"></script> 
-
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
 
     <style>
 	button {font-size: 20px; padding: 10px 10px; border-radius: 15px;}
+	.category{padding:20px 200px 20px 200px;}
 	.wishlist {color: #008cd4;}
 	.payment{background-color:#008cd4; color:white; }
 	.inquiry{font-size:30px}
 	#inquiryBtn{size: 100px; background-color:#008cd4;}
 	.review{display:table; width:300px; height:100px; background-color:#dcdcdc; margin:0 auto;}
 	.star{text-align: center; display:table-cell; background-color: white;}
-	
+		
       .bd-placeholder-img {
         font-size: 1.125rem;
         text-anchor: middle;
@@ -80,24 +78,23 @@
     <link href="https://fonts.googleapis.com/css?family=Playfair&#43;Display:700,900&amp;display=swap" rel="stylesheet">
     <!-- Custom styles for this template -->
   </head>
-
-	<body>
+  <body>
 		<header class="sticky-top">
 			<div>
 				<jsp:include page="../storeBoard/navbar.jsp"/>
 			</div>
 		</header>
+	    
+		<div class="category">
+			<h5><b>전체 > 가구 > 침대/매트릭스 </b></h5>
+		</div>
 		
-		<div style="padding:20px 250px 250px 250px;">
-			<h5><b>전체 > 가구 > 침대/매트릭스 ></b></h5>
-		
-		
-	<main class="container">
-	   <div class="row mx-md-n5">
-	 	 <div class="col px-md-5"><div class="p-3 border bg-light">
-	 	 	<img src="https://cdn.ggumim.co.kr/cache/furniture/600/20220603102316CGZ2FtksY9.jpg">
-	 	 </div>
-	 	</div>
+		<main class="container">
+		   <div class="row mx-md-n5">
+		 	 <div class="col px-md-5"><div class="p-3 border bg-light">
+		 	 	<img src="https://cdn.ggumim.co.kr/cache/furniture/600/20220603102316CGZ2FtksY9.jpg">
+		 	 </div>
+		 	</div>
 	  <div class="col px-md-5">
 	  	<div class="p-3 border bg-light">
 		  <h5>최고가구</h5>
@@ -135,7 +132,6 @@
 		 	 </form>
 	  		</div>
 	  	</div>
-	  </div>
 	 
 	  
 	<!--상세정보 네비바 -->
@@ -182,8 +178,9 @@
 	      <article class="blog-post">
 	        <h2 class="blog-post-title mb-1">리뷰 (개수)</h2>
 	        <div class="review">
-	        	<div class="star"> ★★★★☆이2 </div>
+	        	<div class="star"> ★★★★☆ </div>
 	        </div>
+	       </article>
 	       <hr>
 	       
 	   <!-- 문의하기 -->
@@ -193,7 +190,7 @@
 		        	<table>
 		        		<tr>
 		        			<td class="inquiry">문의</td>
-		        			<td colspan="3" width="700px"></td>
+		        			<td colspan="3" width="650px"></td>
 		        			<td><button type="button" class="btn btn-primary" id="inquiryBtn">문의하기</button></td>
 		        		</tr>
 		        	</table>
@@ -246,41 +243,30 @@
 	     
 	    <!-- 스크롤 옵션바 -->
 	    <div class="col-md-4">
-	      <div class="position-sticky" style="top: 10rem;">
-	        <div class="p-4 mb-3 bg-light rounded">
-	          <h4 class="fst-italic"></h4>
-	          <p class="mb-0"></p>
-	        </div>
+	      <div class="position-sticky" style="top: 15rem;">
+	       
 	
 	        <div class="p-4">
-	          <h4 class="fst-italic">옵션선택</h4>
-	          <tr class="list-unstyled mb-0">    
-	            <td>
-	            	 <select class="form-select" aria-label="Default select example">
+	          <h4>옵션선택</h4>
+	           	 <select class="form-select" aria-label="Default select example">
 						  <option selected>사이즈</option>
 						  <option value="1">01.MS(멀티싱글)</option>
 						  <option value="2">02.SS(슈퍼싱글)</option>
 						  <option value="3">03.Q(퀸)</option>
-					  </select>
-	            </td>
-	            <td>
-					<select class="form-select" aria-label="Default select example">
+				 </select>
+	             <select class="form-select" aria-label="Default select example">
 						  <option selected>색상</option>
 						  <option value="1">WHITE</option>
 						  <option value="2">BLACK</option>
 						  <option value="3">GRAY</option>
-					  </select>
-				</td>
-	            <td>
-	            	<select class="form-select" aria-label="Default select example">
+				</select>
+				<select class="form-select" aria-label="Default select example">
 						  <option selected>[추가옵션]</option>
 						  <option value="1">정리끈1[SET]    4000원</option>
-					</select>
-	            </td>
-	          </tr>
-	          <hr>        
-	         <br><br><br><br><br><br><br><br><br><br><br><br><br>
-	          	<h2>총 1개 29,900원</h2>
+				</select>
+	            <hr>        
+	            <br><br><br><br><br><br>
+	          	<h4>총 1개 29,900원</h4>
 				  <form>
 					  <div class="btn-group">
 						  <input type="submit" class="wishlist" value="장바구니" style="width:200px;height:50px;font-size:20px;"> 
@@ -291,8 +277,7 @@
 	      </div>
 	    </div>
 	  </div>
-	</main>
-</div>
+	</div>
 
 		<!--문의하기 모달창 -->
 		<div class="modal" tabindex="-1" id="inquiryModal">
@@ -314,16 +299,22 @@
 					  </select>
 				  <br>
 				  <p>문의내용 <span id="counter">0</span>/300</p>
-				  <textarea cols="100" row="200" id="inquiryContent"></textarea>
-				  
-					  
+				  <textarea cols="54" rows="3" id="inquiryContent"></textarea>
 		      </div>
-		      <div class="modal-footer">
-		        <button type="button" class="btn btn-primary">완료</button>
-		      </div>
+		      <form>
+			      <div class="modal-footer">
+			        <button type="button" class="btn btn-primary">완료</button>
+			      </div>
+			  </form>
 		    </div>
 		  </div>
 		</div>
+	</main>
+	
+    <footer>
+		<jsp:include page="../common/footer.jsp"/>
+	</footer>
+	
 
 <script>
 	window.onload=()=>{
