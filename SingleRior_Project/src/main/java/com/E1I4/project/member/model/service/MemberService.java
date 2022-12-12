@@ -18,4 +18,6 @@ public interface MemberService {
 
 	int changePwd(Member m);
 
+	int checkEmailConfirm(String email);
+
 }
