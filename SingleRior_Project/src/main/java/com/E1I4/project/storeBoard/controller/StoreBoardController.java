@@ -24,4 +24,11 @@ public class StoreBoardController {
 		return "productDetail";
 	}
 	
+	// 결제
+	@RequestMapping("payment.st")
+	public String payment() {
+		return "payment";
+	}
+	
+	
 }

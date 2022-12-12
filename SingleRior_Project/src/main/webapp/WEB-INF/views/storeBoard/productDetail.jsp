@@ -124,12 +124,11 @@
 			  </select>
 			  <hr>
 			  <h2>총 1개 29,900원</h2>
-			  <form>
-				  <div class="btn-group">
-					  <input type="submit" class="wishlist" value="장바구니" style="width:200px;height:50px;font-size:20px;"> 
-					  <input type="submit" class="payment" value="바로구매" style="width:200px;height:50px;font-size:20px;">
-				  </div>
-		 	 </form>
+			  <div class="btn-group">
+				  <button type="button" class="wishlist" style="width:200px;height:50px;font-size:20px;"> 장바구니 </button>
+				  <button type="button" class="payment"  style="width:200px;height:50px;font-size:20px;" onclick="location.href='${ contextPath }/payment.st'">결제하기</button>
+			  </div>
+		
 	  		</div>
 	  	</div>
 	 
@@ -267,12 +266,10 @@
 	            <hr>        
 	            <br><br><br><br><br><br>
 	          	<h4>총 1개 29,900원</h4>
-				  <form>
-					  <div class="btn-group">
-						  <input type="submit" class="wishlist" value="장바구니" style="width:200px;height:50px;font-size:20px;"> 
-						  <input type="submit" class="payment" value="바로구매" style="width:200px;height:50px;font-size:20px;">
-					  </div>
-				</form>
+				  <div class="btn-group">
+					  <button type="button" class="wishlist" style="width:200px;height:50px;font-size:20px;">장바구니</button>
+					  <button type="button" class="payment" style="width:200px;height:50px;font-size:20px;" onclick="location.href='${ contextPath }/payment.st'">결제하기</button>
+				  </div>
 	        </div>
 	      </div>
 	    </div>
@@ -321,6 +318,12 @@
 		document.getElementById('inquiryBtn').addEventListener('click', ()=>{
 			$('#inquiryModal').modal('show');
 		});
+		
+		// 로그인 상태에서 문의하기 가능
+		//const loginUser = '${loginUser}';
+	    //if(loginUser == ''){
+			//alert('로그인 후 이용해주세요.');
+			//location.href='${contextPath}/#';s
 	}
 	
 	// 문의하기 모달창 글자수 제한

@@ -10,9 +10,7 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
 <style>
-	#category6{
-		margin: 
-	}
+	.front{margin: 10px 180px;}
 </style>
 </head>
 <body>
@@ -23,7 +21,7 @@
 	</header>
 
 	<!-- 카드 카테고리 -->
-	<div class="container">
+	<div class="front">
 		<div class="row justify-content-md-center">
 		   <!--  <div class="row row-cols-1 row-cols-lg-3 align-items-stretch g-4 my-5"> -->
 		      <div class="col">
@@ -55,8 +53,8 @@
 		      </div>
 		    </div>
 
-            <div class="row row-cols-1 row-cols-lg-3 align-items-stretch my-5">
-		      <div class="col">
+			<div class="row row-cols-1 row-cols-lg-3 align-items-stretch my-2">
+           	 <div class="col">
 		        <div class="card card-cover h-100 overflow-hidden text-bg-dark rounded-4 shadow-lg" style="background-image: url('https://image.ohou.se/i/bucketplace-v2-development/uploads/productions/162752789399376857.jpg?gif=1&w=640&h=640&c=c&webp=1');">
 		          <div class="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1">
 		            <h3 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold">주방용품</h3>
