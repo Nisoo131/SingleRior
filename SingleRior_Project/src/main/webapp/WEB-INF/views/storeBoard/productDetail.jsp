@@ -18,8 +18,7 @@
 	.payment{background-color:#008cd4; color:white; }
 	.inquiry{font-size:30px}
 	#inquiryBtn{size: 100px; background-color:#008cd4;}
-	.review{display:table; width:300px; height:100px; background-color:#dcdcdc; margin:0 auto;}
-	.star{text-align: center; display:table-cell; background-color: white;}
+	.star{text-align:center; display:table; width:300px; height:100px; margin:0 auto;}
 		
       .bd-placeholder-img {
         font-size: 1.125rem;
@@ -134,7 +133,7 @@
 	 
 	  
 	<!--상세정보 네비바 -->
-	  <div class="row mb-1"> 
+	    <div class="row mb-1"> 
 	  </div>
 	  <div class="row g-5">
 	    <div class="col-md-8">
@@ -142,27 +141,30 @@
 	        <nav class="navbar navbar-expand-lg bg-light">
 			  <div class="container-fluid">
 			    <a class="navbar-brand" href="#">상품정보</a>
-			    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-			      <span class="navbar-toggler-icon"></span>
-			    </button>
+				    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+				      <span class="navbar-toggler-icon"></span>
+				    </button>
 			    
 			    <a class="navbar-brand" href="#">리뷰(100)</a>
-			    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-			      <span class="navbar-toggler-icon"></span>
-			    </button>
+				    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+				      <span class="navbar-toggler-icon"></span>
+				    </button>
 			    
 			      <a class="navbar-brand" href="#">문의하기</a>
-			    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-			      <span class="navbar-toggler-icon"></span>
-			    </button>
+				    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+				      <span class="navbar-toggler-icon"></span>
+				    </button>
 			    
 			      <a class="navbar-brand" href="#">배송/환불</a>
-			    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-			      <span class="navbar-toggler-icon"></span>
-			    </button>
-			  </div>
-			</nav>
-	      </h3>
+				    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+				      <span class="navbar-toggler-icon"></span>
+				    </button>
+				  </div>
+				 </nav>
+				</h3>
+				   
+			 
+			
 	
 	   <!-- 상품 설명 이미지 -->
 	      <article class="blog-post">
@@ -176,9 +178,10 @@
 	   <!-- 리뷰 -->
 	      <article class="blog-post">
 	        <h2 class="blog-post-title mb-1">리뷰 (개수)</h2>
-	        <div class="review">
-	        	<div class="star"> ★★★★☆ </div>
-	        </div>
+	        	<div class="star">
+		        	<h2 style="color:#008cd4">★★★★☆</h2>
+		        	<h2>4.0</h2>
+		        </div>
 	       </article>
 	       <hr>
 	       
@@ -195,10 +198,13 @@
 		        	</table>
 	        	</form>
 	 		</div>
-	        <p class="blog-post-meta">질문 | 배송 | 답변완료</p>
-			<p>id넣기 | 작성일자</p>
-			<p> <img src="https://cdn-icons-png.flaticon.com/512/8371/8371275.png" width="20px" height="20px"> 언제 배송되나요?</p>
-	    	<p> 페이징처리 필요</p>
+	 		<div style="border:black solid 1px; width:600px; padding:10px 10px; border-radius:10px;">
+		        <p class="blog-post-meta">배송 | <span style="color:#008cd4;">답변완료</span></p>
+				<p>강건강 | 2022-12-12</p>
+				<p><img src="https://cdn-icons-png.flaticon.com/512/8371/8371275.png" width="20px" height="20px"> 언제 배송되나요?</p>
+				<p><img src="https://cdn-icons-png.flaticon.com/512/25/25628.png" width="20px" height="20px"> 고객님 늦어서 죄송합니다. 오늘 발송예정입니다.</p>
+	    	</div>
+	    	<p> 페이징처리</p>
 	    	</article>
 	    	<hr>
 	    	

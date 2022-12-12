@@ -159,7 +159,7 @@
 	       <div class="p-4">
 	         <div style="height: auto; width: 330px; border:1px solid gray; background-color:#DCDCDC; padding:7px 7px;">
 	         	<form>
-	         		<h3>결제금액1111</h3>
+	         		<h3>결제금액</h3>
 	         		 <table>
 				   		<tr>
 					   		<td>총 상품 금액</td>
