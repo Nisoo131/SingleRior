@@ -3,9 +3,33 @@
 <mapper namespace="marketMapper">
 
 	<resultMap type="MarketBoard" id="MarketBoardResultSet">
-		<id column="#" property="#"/>
-		<result column="#" property="#"/>
+		<id column="BOARD_NO" property="boardNo"/>
+		<result column="BOARD_TYPE" property="boardType"/>
+		<result column="BOARD_TITLE" property="boardTitle"/>
+		<result column="BOARD_CONTENT" property="boardContent"/>
+		<result column="CREATE_DATE" property="createDate"/>
+		<result column="UPDATE_DATE" property="modifyDate"/>
+		<result column="NOTICE_STATUS" property="noticeStatus"/>
+		<result column="B_STATUS" property="status"/>
+		<result column="BOARD_WRITER" property="writer"/>
+		<result column="BOARD_COUNT" property="count"/>
+		<result column="PRICE" property="marketPrice"/>
+		<result column="MARKET_TYPE" property="marketType"/>
 	</resultMap>
-
+	
+	<resultMap type="Attachment" id="attachmentResultSet">
+		<id property="imgNo" column="IMG_NO"/>
+		<result property="imgOriginalName" column="IMG_NAME"/>
+		<result property="imgRename" column="IMG_SERVER_NAME"/>
+		<result property="imgCreateDate" column="IMG_CREATE_DATE"/>
+		<result property="imgModifyDate" column="IMG_CREATE_DATE"/>
+		<result property="imgKey" column="IMG_STATUS"/>
+		<result property="imgPath" column="IMG_KEY"/>
+		<result property="imgStatus" column="IMG_PATH"/>
+		<result property="level" column="IMG_LEVEL"/>
+		<result property="boardNo" column="BOARD_NO"/>
+	</resultMap>
+	
+	
 
 </mapper>
