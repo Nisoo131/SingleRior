@@ -6,6 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script src="${ contextPath }/resources/js/jquery-3.6.1.min.js"></script>
 <style>
 	@font-face {
 	    font-family: 'BMJUA';
@@ -25,6 +26,10 @@
 		text-overflow: ellipsis;
 		font-size: 30px;
 		line-height: 28px;
+	}
+	.list-click{
+		font-size: 20px;
+		font-weight: bold;
 	}
 </style>
 </head>
@@ -215,11 +220,53 @@
 		            </li>
 		    	</ul>
 	        </nav>
+	        
+	        <div class="py-4">
+	        	<table class="mx-auto">
+		        	<tr>
+		        		<td>
+				        	<select class="form-select form-select-sm" aria-label=".form-select-sm example" style="width: 120px; text-align: center;">
+				        		<option>--------</option>
+				        		<option>제목</option>
+				        		<option>내용</option>
+				        		<option>작성자</option>
+				        	</select>
+		        		</td>
+		        		<td>
+				        	<form class="d-flex" role="search">
+				        		<input class="form-control me-2" style="width: 300px;" type="search" placeholder="Search" aria-label="Search">
+				        		<button class="btn btn-outline-primary" type="submit">검색</button>
+				        	</form>
+				        </td>
+				    </tr>
+		        </table>
+	        </div>
 		</div>
 	</main>
 	
 	<footer>
 		<jsp:include page="../common/footer.jsp"/>
 	</footer>
+	
+	<script>
+		$(function(){
+			$('#list1').addClass('list-click');
+			$('#list1').click(function(){
+				$(this).toggleClass('list-click');
+				$('#list2').removeClass('list-click');
+				$('#list3').removeClass('list-click');
+			});
+			$('#list2').click(function(){
+				$(this).toggleClass('list-click');
+				$('#list1').removeClass('list-click');
+				$('#list3').removeClass('list-click');
+			});
+			$('#list3').click(function(){
+				$(this).toggleClass('list-click');
+				$('#list1').removeClass('list-click');
+				$('#list2').removeClass('list-click');
+			});
+		})
+	</script>
 </body>
 </html>
