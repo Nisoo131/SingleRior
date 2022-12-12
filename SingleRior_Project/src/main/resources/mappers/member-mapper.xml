@@ -45,4 +45,18 @@
 		from member
 		where member_name = #{memberName} and email = #{email}
 	</select>
+	
+	<select id ="findPwd" resultType="_int">
+		select count(*)
+		from member
+		where member_id = #{memberId} and email = #{email}
+	</select>
+	
+	<update id="changePwd">
+		update member
+		set member_pwd = #{memberPwd}
+		where email = #{email}
+			and member_id = #{memberId}
+			and status = 'Y'
+	</update>
 </mapper>
