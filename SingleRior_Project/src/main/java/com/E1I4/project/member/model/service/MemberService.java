@@ -6,4 +6,10 @@ public interface MemberService {
 
 	Member login(Member m);
 
+	int checkId(String memberId);
+
+	int checkNickName(String nickName);
+
+	int insertMember(Member m);
+
 }
