@@ -140,22 +140,22 @@
 	      <h3 class="pb-4 mb-4 border-bottom">
 	        <nav class="navbar navbar-expand-lg bg-light">
 			  <div class="container-fluid">
-			    <a class="navbar-brand" href="#">상품정보</a>
+			    <a class="navbar-brand" href="#productInfo">상품정보</a>
 				    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
 				      <span class="navbar-toggler-icon"></span>
 				    </button>
 			    
-			    <a class="navbar-brand" href="#">리뷰(100)</a>
+			    <a class="navbar-brand" href="#review">리뷰(100)</a>
 				    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
 				      <span class="navbar-toggler-icon"></span>
 				    </button>
 			    
-			      <a class="navbar-brand" href="#">문의하기</a>
+			      <a class="navbar-brand" href="#inquiry">문의하기</a>
 				    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
 				      <span class="navbar-toggler-icon"></span>
 				    </button>
 			    
-			      <a class="navbar-brand" href="#">배송/환불</a>
+			      <a class="navbar-brand" href="#delivery">배송/환불</a>
 				    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
 				      <span class="navbar-toggler-icon"></span>
 				    </button>
@@ -167,26 +167,28 @@
 			
 	
 	   <!-- 상품 설명 이미지 -->
-	      <article class="blog-post">
+	      <article class="blog-post" id="productInfo">
 	        <h2 class="blog-post-title mb-1">상품정보</h2>
 	        <p class="blog-post-meta"></p>
 			      <img src="https://exit.ohou.se/4de1f196f83828afbb1634e688af311c0de7abbd/urbane7940.speedgabia.com/ortho/bed/20221026_ivy/01.png">
 			      <img src="https://exit.ohou.se/07c15636f58600a5ce2c992fcd80bd1337060afb/urbane7940.speedgabia.com/ortho/bed/20221026_ivy/02.png">
 	   	 </article>
+	   	 
+	   	 <div id="review">
 	      <hr>
-	      
-	   <!-- 리뷰 -->
-	      <article class="blog-post">
-	        <h2 class="blog-post-title mb-1">리뷰 (개수)</h2>
+	      <article class="blog-post" >
+	        <h2 class="blog-post-title mb-1" >리뷰 (개수)</h2>
 	        	<div class="star">
 		        	<h2 style="color:#008cd4">★★★★☆</h2>
 		        	<h2>4.0</h2>
 		        </div>
 	       </article>
+	      </div>
+	      
 	       <hr>
 	       
 	   <!-- 문의하기 -->
-	       <article class="blog-post">
+	       <article class="blog-post" id="inquiry">
 	        <div class="blog-post-title mb-1">
 	        	<form>
 		        	<table>
@@ -198,7 +200,7 @@
 		        	</table>
 	        	</form>
 	 		</div>
-	 		<div style="border:black solid 1px; width:600px; padding:10px 10px; border-radius:10px;">
+	 		<div style="border:black solid 1px; width:600px; padding:10px 10px; border-radius:10px;" id="delivery">
 		        <p class="blog-post-meta">배송 | <span style="color:#008cd4;">답변완료</span></p>
 				<p>강건강 | 2022-12-12</p>
 				<p><img src="https://cdn-icons-png.flaticon.com/512/8371/8371275.png" width="20px" height="20px"> 언제 배송되나요?</p>
@@ -209,7 +211,7 @@
 	    	<hr>
 	    	
 	   <!-- 배송/환불 -->
-	       <article class="blog-post">
+	       <article class="blog-post" id="delievery">
 	        <h2 class="blog-post-title mb-1">배송/환불</h2>
 	        <br>
 	        <p class="blog-post-meta">▶배송</p>
@@ -292,7 +294,7 @@
 		      </div>
 		      <div class="modal-body">
 		        <p>문의유형</p>
-		        	<select class="form-select" aria-label="Default select example">
+		        	<select class="form-select" aria-label="Default select example" id="inquiry_ops">
 						  <option value="1">상품</option>
 						  <option value="2">배송</option>
 						  <option value="3">반품</option>
@@ -302,13 +304,11 @@
 					  </select>
 				  <br>
 				  <p>문의내용 <span id="counter">0</span>/300</p>
-				  <textarea cols="54" rows="3" id="inquiryContent"></textarea>
+				  <textarea cols="54" rows="3"></textarea>
 		      </div>
-		      <form>
 			      <div class="modal-footer">
-			        <button type="button" class="btn btn-primary">완료</button>
+			        <button type="button" class="btn btn-primary" id="inquiry_modal">완료</button>
 			      </div>
-			  </form>
 		    </div>
 		  </div>
 		</div>
@@ -325,11 +325,6 @@
 			$('#inquiryModal').modal('show');
 		});
 		
-		// 로그인 상태에서 문의하기 가능
-		//const loginUser = '${loginUser}';
-	    //if(loginUser == ''){
-			//alert('로그인 후 이용해주세요.');
-			//location.href='${contextPath}/#';s
 	}
 	
 	// 문의하기 모달창 글자수 제한
@@ -349,7 +344,32 @@
 				const piece = input.substr(0, 300);
 				$(this).val(piece);
 			});
-		});
+	});
+	
+		// 문의하기 데이터 Ajax 통해 전달하기
+		document.getElementById('inquiry_modal').addEventListener('click',()=>{
+			  $(document).ready(function(){
+			    	const optionChoice = $('#inquiry_ops option:selected').text();
+			    	const textarea = $('textarea').text();
+			    	console.log(optionChoice);
+			    	console.log(textarea);
+			    	
+			    	$.ajax({
+			    		url:'',
+			    		data: {optionChoice:optionChoice,
+			    				textarea:textarea}, // 공간명, 데이터명 동일
+			    		success: function(data){
+			    			console.log('서버 전송 성공 시 호출');
+			    		},
+			    		error: function(data){
+			    			console.log('서버 전공 실패 시 호출');
+			    		}
+			    	});
+				});	
+			});
+  
+
+	
 </script>
 </body>
 </html>
