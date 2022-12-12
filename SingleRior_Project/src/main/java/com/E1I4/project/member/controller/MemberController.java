@@ -48,19 +48,15 @@ public class MemberController {
 			 System.out.println("로그인성공");
 			 return "redirect:/";
 		} else {
-
 			throw new MemberException("로그인에 실패하였습니다.");
 		}
-		
 	}
-	
 	// 로그아웃
 	@RequestMapping("logout.me")
 	public String logout(HttpSession session) {
 		session.invalidate();
 		return "redirect:home.do";
 	}
-	
 	// 회원가입 아이디 중복체크
 	@RequestMapping("checkId.me")
 	@ResponseBody
@@ -78,6 +74,16 @@ public class MemberController {
 		
 		return count;
 	}
+	
+	// 회원가입 이메일 중복확인
+	@RequestMapping(value="checkEmailConfirm.me", method=RequestMethod.POST)
+	@ResponseBody
+	public int checkEmailConfirm(@RequestParam("email") String email) {
+		
+		int count = mService.checkEmailConfirm(email);
+		return count;
+	}
+	
 	
 	// 회원가입 이메일 인증
 	@RequestMapping("checkMail.me")

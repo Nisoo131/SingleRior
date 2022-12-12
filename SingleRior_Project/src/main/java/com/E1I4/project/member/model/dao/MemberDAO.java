@@ -38,4 +38,8 @@ public class MemberDAO {
 		return sqlSession.update("memberMapper.changePwd", m);
 	}
 
+	public int checkEmailConfirm(SqlSessionTemplate sqlSession, String email) {
+		return sqlSession.selectOne("memberMapper.checkEmailConfirm", email);
+	}
+
 }

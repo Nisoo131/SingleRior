@@ -35,6 +35,13 @@
 		where nickname = #{nickName}
 	</select>
 	
+	<!-- email 중복확인 -->
+	<select id ="checkEmailConfirm" resultType="_int">
+		select count(*)
+		from member
+		where email = #{email}
+	</select>
+	
 	<insert id = "insertMember">
 		insert into member
 		values(#{memberId}, #{memberPwd}, #{memberName}, #{nickName}, #{phone}, #{email}, #{address}, sysdate, sysdate, default, default)
@@ -59,4 +66,6 @@
 			and member_id = #{memberId}
 			and status = 'Y'
 	</update>
+	
+	
 </mapper>

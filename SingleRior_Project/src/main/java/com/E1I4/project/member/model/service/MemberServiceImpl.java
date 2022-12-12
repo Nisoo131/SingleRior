@@ -51,4 +51,9 @@ public class MemberServiceImpl implements MemberService {
 		return mDAO.changePwd(sqlSession,m);
 	}
 
+	@Override
+	public int checkEmailConfirm(String email) {
+		return mDAO.checkEmailConfirm(sqlSession,email);
+	}
+
 }
