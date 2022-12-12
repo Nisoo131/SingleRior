@@ -34,6 +34,7 @@
 					<i class="bi bi-person-circle" style="font-size:2rem;" role="button" data-bs-toggle="dropdown" aria-expanded="false"></i>
 					<ul class = "dropdown-menu dropdown-menu" aria-labelledby="navbarDarkDropdownMenuLink">
 						<li><a class="dropdown-item" href="${contextPath}/myPage.me">My Page</a></li>
+						<li><a class="dropdown-item" href="${contextPath}/index.adm">Admin</a></li>
 						<li><a class="dropdown-item" href="${contextPath}/logout.me">Logout</a></li>
 					</ul>
 				</li>

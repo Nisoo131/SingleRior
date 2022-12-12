@@ -114,7 +114,7 @@
                                 <nav class="sb-sidenav-menu-nested nav">
                                     <a class="nav-link" href="${contextPath}/manageNotice.adm">공지사항 관리</a>
                                     <a class="nav-link" href="${contextPath}/manageQNA.adm">Q&A관리</a>
-                                    <a class="nav-link" href="#">배너 및 기획전 관리</a>
+                                    <a class="nav-link" href="${contextPath}/manageBanner.adm">배너 및 기획전 관리</a>
                                     <a class="nav-link" href="${contextPath}/manageReport.adm">신고글 관리</a>
                                 </nav>
                             </div>
