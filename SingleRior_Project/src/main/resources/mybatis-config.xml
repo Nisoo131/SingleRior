@@ -8,6 +8,7 @@
 		<typeAlias type="com.E1I4.project.notiBoard.model.vo.NotiBoard" alias="NotiBoard"/>
 		<typeAlias type="com.E1I4.project.storeBoard.model.vo.StoreBoard" alias="StoreBoard"/>
 		<typeAlias type="com.E1I4.project.commuBoard.model.vo.CommuBoard" alias="CommuBoard"/>
+		<typeAlias type="com.E1I4.project.common.model.vo.Attachment" alias="Attachment"/>
 	</typeAliases>
 
 	<mappers>
