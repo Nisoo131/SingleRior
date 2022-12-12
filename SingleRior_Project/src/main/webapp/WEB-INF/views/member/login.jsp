@@ -29,11 +29,11 @@
 		<form action="${ contextPath }/login.me" method="post">
 			<a href="${ contextPath }/home.do"><img class="mb-4" src="${ contextPath }/resources/image/SingleRior_logo.png" width="320"></a>
 			<div class="form-floating">
-				<input type="text" class="form-control" id="floatingInput" name="id" placeholder="input your id">
+				<input type="text" class="form-control" id="memberId" name="memberId" placeholder="input your id">
 				<label for="floatingInput">ID</label>
 			</div>
 			<div class="form-floating">
-				<input type="password" class="form-control" id="floatingPassword" name="pwd" placeholder="Password">
+				<input type="password" class="form-control" id="memberPwd" name="memberPwd" placeholder="Password">
 				<label for="floatingPassword">Password</label>
 			</div>
 

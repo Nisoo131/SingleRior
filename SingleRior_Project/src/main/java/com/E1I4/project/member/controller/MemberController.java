@@ -1,11 +1,17 @@
 package com.E1I4.project.member.controller;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.E1I4.project.common.exception.MemberException;
 import com.E1I4.project.member.model.service.MemberService;
+import com.E1I4.project.member.model.vo.Member;
 
 @Controller
 public class MemberController {
@@ -20,6 +26,23 @@ public class MemberController {
 	public String loginView() {
 		return "login";
 	}
+	
+	// 비크립트 전 로그인
+	@RequestMapping(value="login.me", method=RequestMethod.POST)
+	public String login(@ModelAttribute Member m, HttpSession session) {
+//		System.out.println(m);
+		
+		Member loginUser = mService.login(m);
+//		System.out.println(loginUser);
+		
+		if(loginUser != null) {
+			session.setAttribute("loginUser", loginUser);
+			return "redirect:/";
+		}else {
+			throw new MemberException("로그인에 실패하였습니다.");
+		}
+	}
+	
 	@RequestMapping("enrollView.me")
 	public String enrollView(){
 		return "enrollView";
