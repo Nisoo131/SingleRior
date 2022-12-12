@@ -83,7 +83,7 @@ public class MemberController {
 	@ResponseBody
 	public String checkMail(@RequestParam("email") String email) {
 		
-		System.out.println(email);
+//		System.out.println(email);
 		return mss.joinEmail(email);
 	}
 	
@@ -111,6 +111,23 @@ public class MemberController {
 	@RequestMapping("findIdView.me")
 	public String findIdView() {
 		return "findIdView";
+	}
+	
+	// 아이디 찾기
+	@RequestMapping("findId.me")
+	@ResponseBody
+	public String findLoginId(@ModelAttribute Member m) {
+		
+		String id = mService.findId(m);
+		if(id != null) {
+			mss.findId(m.getEmail(), id);
+	//		System.out.println(id);
+		}else {
+			throw new MemberException("아이디 찾기 실패");
+		}
+		return "성공";
+		
+		
 	}
 	@RequestMapping("findPwdView.me")
 	public String findPwdView() {
