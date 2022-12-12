@@ -30,4 +30,12 @@ public class MemberDAO {
 		return sqlSession.selectOne("memberMapper.findId", m);
 	}
 
+	public int findPwd(SqlSessionTemplate sqlSession, Member m) {
+		return sqlSession.selectOne("memberMapper.findPwd", m);
+	}
+
+	public int changePwd(SqlSessionTemplate sqlSession, Member m) {
+		return sqlSession.update("memberMapper.changePwd", m);
+	}
+
 }

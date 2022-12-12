@@ -37,12 +37,13 @@ public class MemberController {
 	// 로그인
 	@RequestMapping(value="login.me", method=RequestMethod.POST)
 	public String login(@ModelAttribute Member m, HttpSession session, Model model) {
-		System.out.println(m);
+//		System.out.println(m);
 		
 		Member loginUser = mService.login(m);
-//		System.out.println(loginUser);
+//		System.out.println("뭔가 잘못됨:" +loginUser);
 		
-		if(bcrypt.matches(m.getMemberPwd(), loginUser.getMemberPwd())) { //(암호화 전, 암호화 후) boolean값 반환함
+//		System.out.println(bcrypt.encode(m.getMemberPwd()));  // 암호화 비밀번호
+		if(bcrypt.matches(m.getMemberPwd(), loginUser.getMemberPwd())) {
 			session.setAttribute("loginUser", loginUser);
 			 System.out.println("로그인성공");
 			 return "redirect:/";
@@ -133,6 +134,30 @@ public class MemberController {
 	public String findPwdView() {
 		return "findPwdView";
 	}
+	
+	// 비밀번호 찾기
+	@RequestMapping("findPwd.me")
+	@ResponseBody
+	public int findPwd(@ModelAttribute Member m) {
+		// 일치하는 회원 정보 
+		int result = mService.findPwd(m);
+		int changePwd = 0;
+		//회원 정보가 있다면 메일에 임시 비밀번호 발급
+		if(result >= 1) {
+			String newPwd = mss.findPwd(m.getEmail());
+			String encPwd = bcrypt.encode(newPwd);
+			m.setMemberPwd(encPwd);
+			
+			changePwd = mService.changePwd(m);
+		}
+		
+		if(changePwd >= 1) {
+			return changePwd;
+		}else {
+			throw new MemberException("비밀번호 발급 실패");
+		}
+	}
+	
 	@RequestMapping("myPage.me")
 	public String myPage() {
 		return "myPage";

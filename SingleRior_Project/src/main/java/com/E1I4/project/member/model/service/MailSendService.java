@@ -17,6 +17,7 @@ public class MailSendService {
 	private JavaMailSenderImpl mailSender;
 	private int authNumber; 
 	
+	// 회원가입 인증 난수
 	public void makeRandomNumber() {
 		Random r = new Random();
 		int checkNum = r.nextInt(999999);
@@ -56,6 +57,42 @@ public class MailSendService {
 			    "해당 아이디로 로그인해주세요."; //이메일 내용 삽입
 		mailSend(setFrom, toMail, title, content);
 		
+	}
+	
+	
+	public String getTempPassword(){
+        char[] charSet = new char[] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F',
+                'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z' };
+
+        String str = "";
+
+        // 문자 배열 길이의 값을 랜덤으로 10개를 뽑아 구문을 작성함
+        int idx = 0;
+        for (int i = 0; i < 10; i++) {
+            idx = (int) (charSet.length * Math.random());
+            str += charSet[idx];
+        }
+        return str;
+    }
+	
+	// 비밀번호 새로 발급
+	public String findPwd(String email) {
+		
+		String str = getTempPassword();
+		System.out.println("난수: " +str);
+		
+//		System.out.println("인증" + email);
+		String setFrom = "singlerior8080@gmail.com"; // email-context에 설정한 자신의 이메일 주소를 입력 
+		String toMail = email;
+		String title = "싱글리어에서 임시 비밀번호를 발급해드립니다."; // 이메일 제목 
+		String content = 
+				"SingleRior를 방문해주셔서 감사합니다." + 	//html 형식으로 작성 ! 
+                "<br><br>" + 
+			    "회원님의 새로운 비밀번호는 " + str + " 입니다." + 
+			    "<br>" + 
+			    "해당 비밀번호로 로그인 하신 후, 반드시 비밀번호를 다시 변경해주세요. "; //이메일 내용 삽입
+		mailSend(setFrom, toMail, title, content);
+		return str;
 	}
 	
 	public void mailSend(String setFrom, String toMail, String title, String content) { 

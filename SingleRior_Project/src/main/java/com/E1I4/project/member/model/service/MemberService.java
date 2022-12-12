@@ -14,4 +14,8 @@ public interface MemberService {
 
 	String findId(Member m);
 
+	int findPwd(Member m);
+
+	int changePwd(Member m);
+
 }
