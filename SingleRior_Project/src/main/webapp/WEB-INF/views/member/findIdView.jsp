@@ -5,6 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
 <style>
 	.form-findId {margin:auto; margin-top:200px; max-width: 500px; padding:50px;}
 </style>
@@ -14,19 +15,48 @@
 		<jsp:include page="../common/top.jsp"/>
 	</header>
 	<main class="form-findId">
-		<form action="${ contextPath }/login.me" method="post">
+<%-- 		<form action="${ contextPath }/findLoginId.me" method="post"> --%>
 			<div>
-				<div>이메일을 입력해주세요.</div><br>
-				<input type="email" class="form-control" name="email" placeholder="singlerior@singlerior.com" style="height:50px;">
+				<div><h3>아이디 찾기</h3></div><br>
+				<label for="memberName" class="form-label">이름</label>
+				<input type="text" class="form-control" name="memberName" id="memberName" placeholder="김싱글" style="height:50px;"><br>
+				<label for="email" class="form-label">이메일</label>
+				<input type="email" class="form-control" name="email" id="email" placeholder="singlerior@singlerior.com" style="height:50px;">
 			</div>
 			<br>
-			<button class="w-100 btn btn-lg btn-light" type="submit" style="background:#008cd4; color:white">아이디 찾기</button><br><br>
-		</form>
-		<h6 style="text-align:center;">입력하신 이메일로 아이디를 보내드렸습니다.</h6>
+			<button class="w-100 btn btn-lg btn-light" type="submit" style="background:#008cd4; color:white" id="findIdBtn">아이디 찾기</button><br><br>
+<!-- 		</form> -->
+		<h6 style="text-align:center;" id="findIdMsg"></h6>
 		<br><br><br>
 	</main>
 	<footer>
 		<jsp:include page="../common/footer.jsp"/>
 	</footer>
+	
+	<script>
+	
+	$(function(){
+		
+		$('#findIdBtn').on('click',function(){
+			
+			const memberName = $('#memberName').val();
+			const email = $('#email').val();
+// 			console.log(email);
+			$.ajax({
+				type : 'post',
+				url : '${contextPath}/findId.me',
+				data : {memberName:memberName, email:email },
+				success: (data) =>{
+// 					console.log(data);
+					$('#findIdMsg').html("입력하신 이메일로 아이디를 보내드렸습니다.");
+				},
+				error:(data)=>{
+// 					console.log(data);
+				}
+			});
+		});
+	});
+	
+	</script>
 </body>
 </html>

@@ -39,4 +39,10 @@
 		insert into member
 		values(#{memberId}, #{memberPwd}, #{memberName}, #{nickName}, #{phone}, #{email}, #{address}, sysdate, sysdate, default, default)
 	</insert>
+	
+	<select id ="findId" resultType="string">
+		select member_id
+		from member
+		where member_name = #{memberName} and email = #{email}
+	</select>
 </mapper>
