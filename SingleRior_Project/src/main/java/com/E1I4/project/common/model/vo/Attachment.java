@@ -14,13 +14,14 @@ import lombok.ToString;
 @Setter
 @ToString
 public class Attachment {
-	private int attmId;
-	private int boardId;
-	private String fileType;
-	private Date createDate;
-	private String originalName;
-	private String renameName;
-	private String fileLink;
+	private int imgNo;
+	private String imgOriginalName;
+	private String imgRename;
+	private Date imgCreateDate;
+	private Date imgModifyDate;
+	private String imgKey;
+	private String imgPath;
+	private String imgStatus;
 	private int level;
-	private String fileStatus;
+	private int boardNo;
 }

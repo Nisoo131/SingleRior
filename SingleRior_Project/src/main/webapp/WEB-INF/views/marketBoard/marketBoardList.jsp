@@ -45,12 +45,9 @@ li a:hover {
 	</header>
 	<div style="background: #008cd4">
 		<ul class="nav justify-content-center">
-			<li class="nav-item"><a style="color: white;"
-				class="nav-link active" aria-current="page" href="#">같이사요</a></li>
-			<li class="nav-item"><a style="color: white;"
-				class="nav-link active" href="#">팝니다</a></li>
-			<li class="nav-item"><a style="color: white;"
-				class="nav-link active" href="#">삽니다</a></li>
+			<li class="nav-item"><a style="color: white;" class="nav-link active" aria-current="page" href="marketBoardList.ma?marketType=1">같이사요</a></li>
+			<li class="nav-item"><a style="color: white;" class="nav-link active" href="marketBoardList.ma?marketType=2">팝니다</a></li>
+			<li class="nav-item"><a style="color: white;" class="nav-link active" href="marketBoardList.ma?marketType=3">삽니다</a></li>
 		</ul>
 	</div>
 	<div id="today_special_price" class="carousel carousel-dark slide"
