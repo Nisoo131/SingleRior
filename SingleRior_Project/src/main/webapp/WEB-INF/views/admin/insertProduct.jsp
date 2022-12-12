@@ -72,7 +72,7 @@
                     </div>
                     <div id="pInsert">
                     
-                    	<form>
+                    	<form action="${contextPath}/enrollProduct.adm" method="POST" enctype="multipart/form-data">
 							<fieldset>
 								
 								<table id="pTable">
@@ -93,7 +93,7 @@
 									<tr>
 										<td style="text-align:right;">하위 카테고리 :&nbsp;&nbsp;  </td>
 										<td>
-											<select class="form-select" aria-label="Disabled select example" id="subCategory">
+											<select class="form-select" aria-label="Disabled select example" id="subCategory" name="subCateCode">
 											</select>
 										</td>
 									</tr>
@@ -103,32 +103,32 @@
 									
 									<tr>
 										<td style="text-align:right;">상품 이름 :&nbsp;&nbsp;  </td>
-										<td colspan="3"><input type="text" style="width:500px;" placeholder="상품명을 입력해주세요"></td>
+										<td colspan="3"><input type="text" style="width:500px;" placeholder="상품명을 입력해주세요" name="boardTitle"></td>
 									</tr>								
 									<tr>
 										<td style="text-align:right;">상품 가격(원가) :&nbsp;&nbsp;  </td>
-										<td colspan="3"><input type="text" style="width:500px;" placeholder="가격을 입력해주세요"></td>
+										<td colspan="3"><input type="text" style="width:500px;" placeholder="가격을 입력해주세요" name="productPrice"></td>
 									</tr>		
 									<tr>
 										<td style="text-align:right;">상품 할인율 :&nbsp;&nbsp;  </td>
-										<td colspan="3"><input type="text" style="width:500px;" placeholder="적용하지 않을시 0으로 입력해주세요"></td>
+										<td colspan="3"><input type="text" style="width:500px;" placeholder="적용하지 않을시 0으로 입력해주세요" name="productDiscount"></td>
 									</tr>				
 									<tr>
 										<td style="text-align:right;">상품 옵션 :&nbsp;&nbsp;  </td>
-										<td colspan="2"><input type="text" style="width:500px;" placeholder="옵션 설명"></td>
+										<td colspan="2"><input type="text" style="width:500px;" placeholder="옵션 설명" name="productOption"></td>
 										<td><input class="btn btn-secondary" id="addOption" type="button" value="추가"></td>
 									</tr>
 									<tr>
 										<td style="text-align:right;">상품 모델명 :&nbsp;&nbsp;  </td>
-										<td colspan="3"><input type="text" style="width:500px;" placeholder="모델명을 입력해주세요"></td>
+										<td colspan="3"><input type="text" style="width:500px;" placeholder="모델명을 입력해주세요" name="modelName"></td>
 									</tr>
 									<tr>
 										<td style="text-align:right;">브랜드 :&nbsp;&nbsp;  </td>
-										<td colspan="3"><input type="text" style="width:500px;" placeholder="브랜드를 입력해주세요"></td>
+										<td colspan="3"><input type="text" style="width:500px;" placeholder="브랜드를 입력해주세요" name="brand"></td>
 									</tr>
 									<tr>
 										<td style="text-align:right;">상품 사진 :&nbsp;&nbsp;  </td>
-										<td colspan="2"><input type="file" style="width:500px;" ></td>
+										<td colspan="2"><input type="file" style="width:500px;" name="file" ></td>
 										<td><input class="btn btn-secondary" type="button" value="추가" onclick="addAttm(this)"></td>
 									</tr>	
 										
@@ -174,7 +174,7 @@
         			const newOpt2=newOpt.insertCell(1);
         			const newOpt3=newOpt.insertCell(2);
         			newOpt1.innerHTML="<td style='text-align:right;'> </td>";
-        			newOpt2.innerHTML="<td colspan='2' class='tds'><input type='text' style='width:400px;' placeholder='옵션 설명'></td>";
+        			newOpt2.innerHTML="<td colspan='2' class='tds'><input type='text' style='width:400px;' placeholder='옵션 설명' name='productOption'></td>";
         			newOpt3.innerHTML="<td><input class='btn btn-danger' name='dBtn' type='button' value='삭제' onclick='deleteKey(this)'></td>";
         		
         		});	
@@ -246,7 +246,7 @@
         //사진 추가
 	        function addAttm(obj){
 	        	var insertTr='';
-	        	insertTr+="<tr><td style='text-align:right;'></td><td colspan='2'><input type='file' style='width:500px;' ></td><td><input class='btn btn-danger' type='button' value='삭제' onclick='deleteKey(this)'></td></tr>"	;
+	        	insertTr+="<tr><td style='text-align:right;'></td><td colspan='2'><input type='file' name='file' style='width:500px;' ></td><td><input class='btn btn-danger' type='button' value='삭제' onclick='deleteKey(this)'></td></tr>"	;
 	        	$('#pTable').append(insertTr)
 	        }
         </script>
