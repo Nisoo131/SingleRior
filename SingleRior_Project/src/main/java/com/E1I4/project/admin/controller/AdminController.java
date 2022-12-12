@@ -54,7 +54,16 @@ public class AdminController {
 	public String manageReport() {
 		return "manageReport";
 	}
-
-
-
+	@RequestMapping("manageBanner.adm")
+	public String managerBanner() {
+		return "manageBanner";
+	}
+	@RequestMapping("insertBanner.adm")
+	public String insertBanner() {
+		return "insertBanner";
+	}
+	@RequestMapping("updateBanner.adm")
+	public String updateBanner() {
+		return "updateBanner";
+	}
 }
