@@ -26,13 +26,13 @@
 				font-family: 'BMJUA';
 			}
 			
-			#pInsert{
+			#pTable{
 			
 				display: flex;
 				flex-direction: column;
 				justify-content: center;
 				align-items: center;
-				margin-top:30px;	
+				margin-top:50px;	
 			}
 			input { 
 				padding: 10px 20px; 
@@ -46,7 +46,7 @@
 				margin-left:50px;
 				
 			}
-			.btn{
+			#updateBtn{
 			
 				display: flex;
 				flex-direction: row;
@@ -68,81 +68,41 @@
                     <div id="logo">
                     <img src="${ pageContext.servletContext.contextPath }/resources/image/SingleRior_logo.png" style="width:250px; height:100px;">
                     <br>
-                    <h1>상품 등록</h1>
+                    <h1>포인트 변경</h1>
                     </div>
-                    <div id="pInsert">
-                    
-                    	<form>
+                    <form>
 							<fieldset>
 								
 								<table id="pTable">
-									<tr>
-										<td style="text-align:right;">상위 카테고리 :&nbsp;&nbsp;  </td>
-										<td>
-											<select class="form-select" aria-label="Disabled select example" id="mainCategory" >
-												<option value="선택">카테고리 선택</option>
-												<option value="가구">가구</option>
-												<option value="패브릭">패브릭</option>
-												<option value="인테리어 소품">인테리어</option>
-												<option value="주방용품">주방용품</option>
-												<option value="가전제품">가전제품</option>
-												<option value="소형가전">소형가전</option>
-											</select>
-										</td>
-									</tr>
-									<tr>
-										<td style="text-align:right;">하위 카테고리 :&nbsp;&nbsp;  </td>
-										<td>
-											<select class="form-select" aria-label="Disabled select example" id="subCategory">
-											</select>
-										</td>
-									</tr>
-									
-									
 									
 									
 									<tr>
-										<td style="text-align:right;">상품 이름 :&nbsp;&nbsp;  </td>
-										<td colspan="3"><input type="text" style="width:500px;" placeholder="상품명을 입력해주세요"></td>
+										<td style="text-align:right;">회원 아이디 :&nbsp;&nbsp;  </td>
+										<td colspan="3"><input type="text" style="width:500px;"></td>
 									</tr>								
 									<tr>
-										<td style="text-align:right;">상품 가격(원가) :&nbsp;&nbsp;  </td>
-										<td colspan="3"><input type="text" style="width:500px;" placeholder="가격을 입력해주세요"></td>
+										<td style="text-align:right;">회원 이름 :&nbsp;&nbsp;  </td>
+										<td colspan="3"><input type="text" style="width:500px;"></td>
 									</tr>		
 									<tr>
-										<td style="text-align:right;">상품 할인율 :&nbsp;&nbsp;  </td>
-										<td colspan="3"><input type="text" style="width:500px;" placeholder="적용하지 않을시 0으로 입력해주세요"></td>
+										<td style="text-align:right;">포인트 :&nbsp;&nbsp;  </td>
+										<td colspan="3"><input type="text" style="width:500px;"></td>
 									</tr>				
 									<tr>
-										<td style="text-align:right;">상품 옵션 :&nbsp;&nbsp;  </td>
-										<td colspan="2"><input type="text" style="width:500px;" placeholder="옵션 설명"></td>
-										<td><input class="btn btn-secondary" id="addOption" type="button" value="추가"></td>
+										<td style="text-align:right;">포인트 수정:&nbsp;&nbsp;  </td>
+										<td colspan="2"><input type="text" style="width:500px;"></td>
 									</tr>
 									<tr>
-										<td style="text-align:right;">상품 모델명 :&nbsp;&nbsp;  </td>
-										<td colspan="3"><input type="text" style="width:500px;" placeholder="모델명을 입력해주세요"></td>
+										<td style="text-align:right;">포인트 내용 :&nbsp;&nbsp;  </td>
+										<td colspan="3"><input type="text" style="width:500px;"></td>
 									</tr>
-									<tr>
-										<td style="text-align:right;">브랜드 :&nbsp;&nbsp;  </td>
-										<td colspan="3"><input type="text" style="width:500px;" placeholder="브랜드를 입력해주세요"></td>
-									</tr>
-									<tr>
-										<td style="text-align:right;">상품 사진 :&nbsp;&nbsp;  </td>
-										<td colspan="2"><input type="file" style="width:500px;" ></td>
-										<td><input class="btn btn-secondary" type="button" value="추가" onclick="addAttm(this)"></td>
-									</tr>	
-										
 								</table>
-							</fieldset>
-								
-								<div class="btn">
-									<button type="submit" class="btn btn-success">상품등록</button>&nbsp;&nbsp;&nbsp;&nbsp;
-									<button type="reset" class="btn btn-danger">초기화</button>
-								</div>	
-						</form>
-                    </div>
-                    
-                    
+								<br><br>
+                    		<div id="updateBtn">
+								<button type="button" class="btn btn-primary">수정 완료</button>&nbsp;&nbsp;&nbsp;
+								<button type="reset"  class="btn btn-danger" onclick="history.back();">목록으로</button>
+							</div>
+                 
                     
                     
                 </main>
@@ -155,108 +115,8 @@
                     </div>
                 </footer>
             </div>
-        </div>
         
         
-        
-        <script>
-        // 상품 옵션 추가 자바스크립트
-        	window.onload=()=>{
-        		
-        		document.getElementById("addOption").addEventListener('click',()=>{
-        			
-        			//테이블 접근
-        			const table=document.getElementById("pTable");
-					//테이블 추가 행접근
-        			const newOpt=table.insertRow(6);
-        			//새 행에 추가
-        			const newOpt1=newOpt.insertCell(0);
-        			const newOpt2=newOpt.insertCell(1);
-        			const newOpt3=newOpt.insertCell(2);
-        			newOpt1.innerHTML="<td style='text-align:right;'> </td>";
-        			newOpt2.innerHTML="<td colspan='2' class='tds'><input type='text' style='width:400px;' placeholder='옵션 설명'></td>";
-        			newOpt3.innerHTML="<td><input class='btn btn-danger' name='dBtn' type='button' value='삭제' onclick='deleteKey(this)'></td>";
-        		
-        		});	
-        		
-        		
-        		//querySelect로 mainCategory에 접근한다.
-        		var mainCategory= document.querySelector('#mainCategory');
-    			
-        		//selelct~option 변경시 함수 발동
-				mainCategory.onchange=function(){
-        			//subCategory 접근
-					var subCategory = document.querySelector('#subCategory');
-					// select~option 값 뽑아 내기!!!
-					var mainOption=mainCategory.options[mainCategory.selectedIndex].innerText;
-					
-					
-					//하위 요소들 담기
-					 var subOptions={
-							funiture:['침대','테이블','TV장','서랍장','책장','의자','옷장','화장대'],
-							bed:['이불','배게','커튼&블라인드','러그'],
-							mini:['식물','시계','캔들/디퓨저','윌데코/장식'],
-							kitchen:['냄비/프라이팬','그릇','보관용기','수저/커트러리','컵/텀블러','칼/도마'],
-							electrnic:['냉장고','TV/모니터','세탁기/건조기','청소기','에어컨','컴퓨터/노트북/태블릿','계절가전'],
-							minielect:['이어폰/헤드셋','스피커','마이크','빔프로젝터','미용가전']
-					}
-					 
-					
-					//상위 카테고리 선택 시 하위카테고리 담기
-					switch(mainOption){
-						case '가구':
-							var subOption=subOptions.funiture;
-							break;
-						case '패브릭':
-							var subOption=subOptions.bed;
-							break;
-						case '인테리어':
-							var subOption=subOptions.mini;
-							break;
-						case '주방용품':
-							var subOption=subOptions.kitchen;
-							break;
-						case '가전제품':
-							var subOption=subOptions.electrnic;
-							break;
-						case '소형가전':
-							var subOption=subOptions.minielect;
-							break;
-					}
-
-					
-					subCategory.options.length=0;
-					
-				 	for(var i=0;i<subOption.length;i++){
-						var option=document.createElement('option');
-						option.innerText=subOption[i];
-						subCategory.append(option);
-					}
-				}
-        	}
-        </script>
-        <script>
-        
-        //삭제 버튼 클릭시 해당 요소 삭제
-	        function deleteKey(obj){
-	        	var div = $(obj).parent().parent();
-	        	div.remove();
-	        	}
-        
-        //사진 추가
-	        function addAttm(obj){
-	        	var insertTr='';
-	        	insertTr+="<tr><td style='text-align:right;'></td><td colspan='2'><input type='file' style='width:500px;' ></td><td><input class='btn btn-danger' type='button' value='삭제' onclick='deleteKey(this)'></td></tr>"	;
-	        	$('#pTable').append(insertTr)
-	        }
-        </script>
-		<script>
-			
-		
-		
-		
-		
-		</script>			        
         
         
         
