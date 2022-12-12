@@ -220,6 +220,27 @@
 		            </li>
 		    	</ul>
 	        </nav>
+	        
+	        <div class="py-4">
+	        	<table class="mx-auto">
+		        	<tr>
+		        		<td>
+				        	<select class="form-select form-select-sm" aria-label=".form-select-sm example" style="width: 120px; text-align: center;">
+				        		<option>--------</option>
+				        		<option>제목</option>
+				        		<option>내용</option>
+				        		<option>작성자</option>
+				        	</select>
+		        		</td>
+		        		<td>
+				        	<form class="d-flex" role="search">
+				        		<input class="form-control me-2" style="width: 300px;" type="search" placeholder="Search" aria-label="Search">
+				        		<button class="btn btn-outline-primary" type="submit">검색</button>
+				        	</form>
+				        </td>
+				    </tr>
+		        </table>
+	        </div>
 		</div>
 	</main>
 	
@@ -229,6 +250,7 @@
 	
 	<script>
 		$(function(){
+			$('#list1').addClass('list-click');
 			$('#list1').click(function(){
 				$(this).toggleClass('list-click');
 				$('#list2').removeClass('list-click');
