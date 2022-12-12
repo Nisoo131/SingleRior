@@ -12,5 +12,12 @@ import lombok.ToString;
 @Setter
 @ToString
 public class Member {
-	private int memberId;
+	private String memberId;
+	private String memberPwd;
+	private String memberName;
+	private String phone;
+	private String email;
+	private String address;
+	private String memberStatus;
+	private String memberAuthority;
 }

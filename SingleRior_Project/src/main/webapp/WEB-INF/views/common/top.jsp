@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -27,16 +28,20 @@
 				<img class="bi" style="margin-left: 150px;" width="320" height="120" src="${ contextPath }/resources/image/SingleRior_logo.png">
 			</a>
 			<ul class="nav d-flex align-items-center">
-				<li class="nav-item"><a href="${contextPath}/loginView.me" class="nav-link link-dark px-2">Login</a></li>
-				<li class="nav-item"><a href="${contextPath}/enrollView.me" class="nav-link link-dark px-2">Sign up</a></li>
-				<li class="nav-item"><i class="bi bi-cart-fill nav-link link-dark px-2" role="button" style="font-size:2rem;" onclick="location.href='${contextPath}/myCart.me'"></i></li>&nbsp;&nbsp;&nbsp;
-				<li class="nav-item dropdown-center">
-					<i class="bi bi-person-circle" style="font-size:2rem;" role="button" data-bs-toggle="dropdown" aria-expanded="false"></i>
-					<ul class = "dropdown-menu dropdown-menu" aria-labelledby="navbarDarkDropdownMenuLink">
-						<li><a class="dropdown-item" href="${contextPath}/myPage.me">My Page</a></li>
-						<li><a class="dropdown-item" href="${contextPath}/logout.me">Logout</a></li>
-					</ul>
-				</li>
+				<c:if test = "${ empty loginUser }">
+					<li class="nav-item"><a href="${contextPath}/loginView.me" class="nav-link link-dark px-2">Login</a></li>
+					<li class="nav-item"><a href="${contextPath}/enrollView.me" class="nav-link link-dark px-2">Sign up</a></li>
+				</c:if>
+				<c:if test = "${ !empty loginUser }">
+					<li class="nav-item"><i class="bi bi-cart-fill nav-link link-dark px-2" role="button" style="font-size:2rem;" onclick="location.href='${contextPath}/myCart.me'"></i></li>&nbsp;&nbsp;&nbsp;
+					<li class="nav-item dropdown-center">
+						<i class="bi bi-person-circle" style="font-size:2rem;" role="button" data-bs-toggle="dropdown" aria-expanded="false"></i>
+						<ul class = "dropdown-menu dropdown-menu" aria-labelledby="navbarDarkDropdownMenuLink">
+							<li><a class="dropdown-item" href="${contextPath}/myPage.me">My Page</a></li>
+							<li><a class="dropdown-item" href="${contextPath}/logout.me">Logout</a></li>
+						</ul>
+					</li>
+				</c:if>
 			</ul>
 		</div>
 	</nav>

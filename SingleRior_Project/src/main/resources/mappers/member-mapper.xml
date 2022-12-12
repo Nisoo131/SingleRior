@@ -3,9 +3,22 @@
 <mapper namespace="memberMapper">
 
 	<resultMap type="Member" id="MemberResultSet">
-		<id column="#" property="#"/>
-		<result column="#" property="#"/>
+		<id column="MEMBER_ID" property="memberId"/>
+		<result column="MEMBER_PWD" property="memberPwd"/>
+		<result column="MEMBER_NAME" property="memberName"/>
+		<result column="PHONE" property="phone"/>
+		<result column="EMAIL" property="email"/>
+		<result column="ADDRESS" property="address"/>
+		<result column="STATUS" property="memberStatus"/>
+		<result column="AUTHORITY" property="memberAuthority"/>
 	</resultMap>
 
-
+	<select id="login" resultMap="MemberResultSet">
+		select * 
+		from member
+			where MEMBER_ID=#{memberId} 
+				and MEMBER_PWD=#{memberPwd} 
+				and STATUS = 'Y'
+	</select>
+	
 </mapper>
