@@ -70,4 +70,8 @@ public class AdminController {
 	public String managePoint() {
 		return "managePoint";
 	}
+	@RequestMapping("updatePoint.adm")
+	public String updatePoint() {
+		return "updatePoint";
+	}
 }
