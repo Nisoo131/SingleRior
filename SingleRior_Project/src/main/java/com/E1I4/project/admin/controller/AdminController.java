@@ -66,4 +66,12 @@ public class AdminController {
 	public String updateBanner() {
 		return "updateBanner";
 	}
+	@RequestMapping("managePoint.adm")
+	public String managePoint() {
+		return "managePoint";
+	}
+	@RequestMapping("updatePoint.adm")
+	public String updatePoint() {
+		return "updatePoint";
+	}
 }

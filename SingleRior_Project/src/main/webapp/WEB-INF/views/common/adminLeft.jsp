@@ -120,14 +120,14 @@
                             </div>
                             
                             <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts3" aria-expanded="false" aria-controls="collapseLayouts">
-                               포인트 관리
+                               포인트 및 문의함 관리
                                 <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                             </a>
                             <div class="collapse" id="collapseLayouts3" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                                
                                 <nav class="sb-sidenav-menu-nested nav">
-                                    <a class="nav-link" href="#">보유 포인트 리스트</a>
-                                    <a class="nav-link" href="#">소멸 포인트 리스트</a>
+                                    <a class="nav-link" href="${contextPath}/managePoint.adm">포인트 관리</a>
+                                    <a class="nav-link" href="#">문의함 관리</a>
                                 </nav>
                             </div>
                         </div>
