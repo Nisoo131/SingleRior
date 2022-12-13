@@ -1,24 +1,29 @@
 package com.E1I4.project.admin.controller;
 
 import java.io.File;
-import java.io.IOException;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.E1I4.project.admin.model.service.AdminService;
 import com.E1I4.project.common.model.vo.Attachment;
 import com.E1I4.project.common.model.vo.Product;
 import com.E1I4.project.member.model.vo.Member;
 @Controller
 public class AdminController {
+	
+	
+	@Autowired
+	private AdminService aService;
 	
 	@RequestMapping("index.adm")
 	public String adminView() {
@@ -29,15 +34,108 @@ public class AdminController {
 		return "insertProduct";
 	}
 	@RequestMapping("enrollProduct.adm")
-	public String enrollProduct(@ModelAttribute Product p,@RequestParam("file") ArrayList<MultipartFile> files, HttpServletRequest request ) {
+	public String enrollProduct(@ModelAttribute Product p,@RequestParam("file") ArrayList<MultipartFile> files, HttpServletRequest request,@RequestParam("subCategory") String subCategory) {
 		
 		String id=((Member)request.getSession().getAttribute("loginUser")).getMemberId();
 		p.setBoardWriter(id);
 		p.setProductContent("상품등록");
 		
-		System.out.println(p);
-		System.out.println(files);
 		
+		switch(subCategory) {
+		case "침대" : 
+			p.setProSubCateCode(101);
+			break;
+		case "테이블" : 
+			p.setProSubCateCode(102);
+			break;
+		case "서랍장" : 
+			p.setProSubCateCode(103);
+			break;
+		case "의자" : 
+			p.setProSubCateCode(104);
+			break;
+		case "옷장" : 
+			p.setProSubCateCode(105);
+			break;
+		case "화장대" : 
+			p.setProSubCateCode(106);
+			break;
+		case "이불" : 
+			p.setProSubCateCode(201);
+			break;
+		case "배게" : 
+			p.setProSubCateCode(202);
+			break;
+		case "커튼/블라인드" : 
+			p.setProSubCateCode(203);
+			break;
+		case "러그" : 
+			p.setProSubCateCode(204);
+			break;
+		case "식물" : 
+			p.setProSubCateCode(301);
+			break;
+		case "시계" : 
+			p.setProSubCateCode(302);
+			break;
+		case "캔들/디퓨저" : 
+			p.setProSubCateCode(303);
+			break;
+		case "윌데코/장식" : 
+			p.setProSubCateCode(304);
+			break;
+		case "냄비/프라이팬" : 
+			p.setProSubCateCode(401);
+			break;
+		case "그릇" : 
+			p.setProSubCateCode(402);
+			break;
+		case "보관용기" : 
+			p.setProSubCateCode(403);
+			break;
+		case "수저/커트러리" : 
+			p.setProSubCateCode(404);
+			break;
+		case "컵/텀블러" : 
+			p.setProSubCateCode(405);
+			break;
+		case "칼/도마" : 
+			p.setProSubCateCode(406);
+			break;
+		case "냉장고" : 
+			p.setProSubCateCode(501);
+			break;
+		case "TV/모니터" : 
+			p.setProSubCateCode(502);
+			break;
+		case "세탁기/건조대" : 
+			p.setProSubCateCode(503);
+			break;
+		case "컴퓨터/노트북/태블릿" : 
+			p.setProSubCateCode(504);
+			break;
+		case "청소기" : 
+			p.setProSubCateCode(505);
+			break;
+		case "계절가전" : 
+			p.setProSubCateCode(506);
+			break;
+		case "이어폰/헤드셋" : 
+			p.setProSubCateCode(601);
+			break;
+		case "스피커" : 
+			p.setProSubCateCode(602);
+			break;
+		case "마이크" : 
+			p.setProSubCateCode(603);
+			break;
+		case "빔프로젝터" : 
+			p.setProSubCateCode(604);
+			break;
+		case "미용가전" : 
+			p.setProSubCateCode(605);
+			break;
+		}
 		ArrayList<Attachment> list = new ArrayList<Attachment>();
 		//ArrayList안에 파일들을 넣는다.!! 
 		
@@ -67,6 +165,13 @@ public class AdminController {
 				a.setLevel(1);
 			}
 		}
+		
+		
+		int result1=aService.insertProduct(p);
+		int result2=aService.insertAttm(list);
+		
+		
+		
 		
 		
 		return null;

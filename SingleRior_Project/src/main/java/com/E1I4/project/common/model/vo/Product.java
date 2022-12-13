@@ -22,13 +22,14 @@ public class Product {
 	private String productContent;//상품등록으로 일괄 입력
 	private Date createDate;
 	private Date modifyDate;
-	private String boardStatue;
+	private String noticeStatus;
+	private String boardStatus;
 	private String boardWriter;
 	private int boardCount;
 	private int productNo;
 	private int productPrice;
 	private int productDiscount;
-	private String[] productOption;
+	private String productOption;
 	private String modelName;
 	private String brand;
 	private String deliveryPayment;
