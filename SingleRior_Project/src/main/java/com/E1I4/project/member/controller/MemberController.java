@@ -1,5 +1,7 @@
 package com.E1I4.project.member.controller;
 
+import java.util.HashMap;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,28 +37,78 @@ public class MemberController {
 	}
 	
 	// 로그인
-	@RequestMapping(value="login.me", method=RequestMethod.POST)
+	@RequestMapping(value="login.me", method=RequestMethod.POST )
 	public String login(@ModelAttribute Member m, HttpSession session, Model model) {
-		System.out.println(m);
-		
+//		System.out.println(m);
 		Member loginUser = mService.login(m);
-		System.out.println("뭔가 잘못됨:" +loginUser);
+//		System.out.println("뭔가 잘못됨:" +loginUser);
 		
-		System.out.println(bcrypt.encode(m.getMemberPwd()));  // 암호화 비밀번호
+//		System.out.println(bcrypt.encode(m.getMemberPwd()));  // 암호화 비밀번호
 		if(bcrypt.matches(m.getMemberPwd(), loginUser.getMemberPwd())) {
 			session.setAttribute("loginUser", loginUser);
-			 System.out.println("로그인성공");
+//			 System.out.println("로그인성공");
 			 return "redirect:/";
 		} else {
 			throw new MemberException("로그인에 실패하였습니다.");
 		}
 	}
+	
+	//카카오 로그인
+	@RequestMapping(value="kakaoLogin.me", method=RequestMethod.GET)
+	public String kakaoLogin(@RequestParam(value = "code", required = false) String code,@ModelAttribute Member m, HttpSession session) {
+//		System.out.println(code);
+		
+		String access_Token = mService.getAccessToken(code);
+//		System.out.println(access_Token);
+		
+		HashMap<String, Object> userInfo = mService.getUserInfo(access_Token);
+//		System.out.println("###access_Token#### : " + access_Token);
+//		System.out.println("###nickname#### : " + userInfo.get("nickname"));
+//		System.out.println("###email#### : " + userInfo.get("email"));
+//		System.out.println("###id#### : " + userInfo.get("kakaoId"));
+		
+		String memberId = (String) userInfo.get("kakaoId");
+		String email = (String) userInfo.get("email");
+		String memberName = (String)userInfo.get("nickname");
+		
+		int count = mService.checkId(memberId);
+//		System.out.println("회원가입이 되어있는가..:"+ count);
+		
+		// count 1이면 로그인
+		Member loginUser = null;
+		if(count == 1) {
+			m.setMemberId(memberId);
+			loginUser = mService.login(m);
+		
+		}else if(count == 0) {
+			m.setMemberId(memberId);
+			String encPwd = bcrypt.encode(memberId);
+			m.setMemberPwd(encPwd);
+			m.setMemberName(memberName);
+			m.setEmail(email);
+			System.out.println(m);
+			int result = mService.insertMember(m);
+			
+			if(result > 0) {
+				m.setMemberId(memberId);
+				loginUser = mService.login(m);
+				session.setAttribute("loginUser", loginUser);
+				return "redirect:/";
+			}
+		}
+		session.setAttribute("loginUser", loginUser);
+		return "redirect:/";
+		
+	}
+	
+	
 	// 로그아웃
 	@RequestMapping("logout.me")
 	public String logout(HttpSession session) {
 		session.invalidate();
 		return "redirect:home.do";
 	}
+	
 	// 회원가입 아이디 중복체크
 	@RequestMapping("checkId.me")
 	@ResponseBody
