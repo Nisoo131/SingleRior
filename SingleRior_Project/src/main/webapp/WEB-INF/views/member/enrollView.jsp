@@ -21,7 +21,7 @@
 
 			<div style="margin-left: 350px; margin-right: 350px;">
 				<h3>회원가입</h3><br><br>
-				<form class="needs-validation" action="${ contextPath }/insertMember.me" method="POST">
+				<form class="needs-validation" action="${ contextPath }/insertMember.me" method="POST" onsubmit="return mySubmit()">
 					<div class="row g-3">
 						<div class="col-12">
 							<label for="id" class="form-label">아이디</label>
@@ -54,7 +54,7 @@
 
 							<label for="email" class="form-label">이메일</label>
 						<div class="input-group mb-3">
- 							 <input type="email" class="form-control" id="email" name="email" placeholder="이메일을 입력해주세요." aria-label="Recipient's username" aria-describedby="button-addon2">
+ 							 <input type="email" class="form-control" id="email" name="email" placeholder="이메일을 입력해주세요." aria-label="Recipient's username" aria-describedby="button-addon2" required>
 							 <button class="btn btn-outline-secondary" type="button" id="emailCheckBtn" disabled>인증</button>
 						</div>
 							 <span id="emailCheckConfirmMsg"></span>
@@ -83,13 +83,17 @@
 	
 	<script>
 	
-		
-		// 아이디
+	let idChecked = false;
+	let nickNameChecked = false;
+	let passwordChecked = false;
+	let passwordConfirmChecked = false;
+	let emailChecked = false;
+	
+	// 아이디 중복체크, 유효성 검사
 	$(function(){
-		$('#memberId').on('focus', function(){
+		$('#memberId').on('focus', function(e){
 			$('#idCheckMsg').html('영문, 숫자를 포함한 6~20자 이상의 아이디를 입력해주세요.');
 			$('#idCheckMsg').css('color','black');
-			
 		});
 		
 		$('#memberId').on('focusout',function(){
@@ -98,21 +102,21 @@
 			const idReg = /^[a-zA-Z]{1}[a-zA-Z0-9]{5,19}$/;
 			if(!idReg.test(memberId)){
 				$('#idCheckMsg').css('color','red');
-				return false;
+				idChecked = false;
 			}else{
 				$.ajax({
 					url : '${contextPath}/checkId.me',
 					data : {memberId:memberId},
 					success: (data) =>{
 						console.log(data);
-						if( data == 0 ) {
+						if( data != 1 ) {
 							$('#idCheckMsg').html('멋진 아이디네요!');
 							$('#idCheckMsg').css('color','green');
-// 							return true;
+							idChecked = true;
 						} else {
 							$('#idCheckMsg').html('이미 사용중이거나 탈퇴한 아이디입니다.');
 							$('#idCheckMsg').css('color','red');
-// 							return false;
+							idChecked = false;
 						}
 					},
 					error : (data)=>{
@@ -123,10 +127,9 @@
 		});
 	});
 		
-
-		// 비밀번호
+	// 비밀번호
 	$(function(){
-		$('#memberPwd').on('focus', function(){
+		$('#memberPwd').on('focus', function(e){
 			$('#pwdCheckMsg').html('영문, 숫자, 특수기호를 포함한 6자 이상의 비밀번호를 입력해주세요.');
 			$('#pwdCheckMsg').css('color','black');
 		});
@@ -136,29 +139,29 @@
 			const pwdReg = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{6,}$/;
 			if(!pwdReg.test(memberPwd)){
 				$('#pwdCheckMsg').css('color','red');
-// 				return false;
+				passwordChecked = false;
 			}else{
 				$('#pwdCheckMsg').html('');
-// 				return true;
+				passwordChecked = true;
 			}
 		});
 		
-		$('#pwdConfirm').keyup(function() {
+		$('#pwdConfirm').keyup(function(e) {
 			if($('#memberPwd').val() != $('#pwdConfirm').val()) {
 				$('#pwdConfirmMsg').html('비밀번호 불일치');
 				$('#pwdConfirmMsg').css('color','red');
-// 				return false;
+				passwordConfirmChecked = false;
 			} else {
 				$('#pwdConfirmMsg').html('비밀번호 일치');
 				$('#pwdConfirmMsg').css('color','green');
-// 				return true;
+				passwordConfirmChecked = true;
 			}
 		});
 	});
 		
 		// 닉네임 중복확인
 	$(function(){
-		$('#nickName').on('focusout', function(){
+		$('#nickName').on('focusout', function(e){
 			let nickName = $('#nickName').val();
 //	 		console.log(nickName);
 			$.ajax({
@@ -169,11 +172,11 @@
 					if( data == 0 ) {
 						$('#nickNameCheckMsg').html('멋진 닉네임네요!');
 						$('#nickNameCheckMsg').css('color','green');
-// 						return true;
+						nickNameChecked = true;
 					} else {
 						$('#nickNameCheckMsg').html('이미 사용중인 닉네임입니다.');
 						$('#nickNameCheckMsg').css('color','red');
-// 						return false;
+						nickNameChecked =  false;
 					}
 				},
 				error:(data)=>{
@@ -183,7 +186,7 @@
 		});
 	});
 		// 이메일 중복확인
-		$('#email').blur(function(){
+		$('#email').blur(function(e){
 			const email = $('#email').val();
 			console.log(email);
 			$.ajax({
@@ -195,12 +198,13 @@
 						$('#emailCheckBtn').attr('disabled', false);
 						$('#emailCheckConfirmMsg').html("사용가능한 이메일입니다. 인증번호를 입력해주세요.");
 						$('#emailCheckConfirmMsg').css('color','green');
-// 						return true;
+						emailChecked = true;
 					}else{
 						$('#emailCheckBtn').attr("disabled", true);
 						$('#emailCheckConfirmMsg').html("이미 사용중인 이메일입니다.");
 						$('#emailCheckConfirmMsg').css('color','red');
-// 						return false;
+						emailChecked = false;
+//							e.preventDefault();
 					}
 				},
 				error:(data)=>{
@@ -232,26 +236,47 @@
 			});
 		});
 			
-		$('#emailCheckInput').blur(function(){
+		$('#emailCheckInput').blur(function(e){
 			const inputCode = $(this).val();
 			console.log(code);
 			if(inputCode === code){
 				$('#emailCheckMsg').html('인증번호가 일치합니다.');
 				$('#emailCheckMsg').css('color','green');
-				return true;
+				emailChecked = true;
 			}else{
 				$('#emailCheckMsg').html('인증번호가 일치하지 않습니다. 다시 확인해주세요');
 				$('#emailCheckMsg').css('color','red');
-				return false;
+				emailChecked = false;
 			}
 		});
 
+
+	function mySubmit(){
+
+		if(idChecked == false){
+			$('#memberId').focus();
+			return false;
+		}
+		if(nickNameChecked == false){
+			$('#nickName').focus();
+			return false;
+		}
+		if(passwordChecked == false){
+			
+			$('#memberPwd').focus();
+			return false;
+		}
+		if(passwordConfirmChecked == false){
+			$('#pwdConfirm').focus();
+			return false;
+		}
+		if(emailChecked == false){
+			$('#emailCheckInput').focus();
+			return false;
+		}
+		
+	}
 	
-	
-		
-		
-		
-		
 	</script>
 </body>
 </html>
