@@ -1,7 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -24,8 +22,7 @@
 	
 	<!-- 대분류/소분류 구분 -->
 	<div class="front">
-		
- 		<h5><b>전체 > 가구 > 침대/매트릭스</b></h5>
+		<h5><b>전체 > 가구 > 침대/매트릭스</b></h5>
 			<h3><b>침대/매트릭스</b></h3>
 			
 		<div id="selectOption" dir="rtl">
@@ -45,9 +42,9 @@
 	      <div class="card">
 	        <img src="https://image.ohou.se/i/bucketplace-v2-development/uploads/productions/166632957544570272.jpg?gif=1&w=640&h=640&c=c&webp=1" class="card-img-top" alt="...">
 	         <div class="card-body">
-	          <h6 class="card-title">${ p.brand }</h6>
-	          <h5 class="card-text">${  p.productName }</h5>
-	          <span style="width:20px">${ p.productPrice }%</span><span>　</span><span> 할인가격 </span><br>
+	          <h6 class="card-title">최고가구</h6>
+	          <h5 class="card-text">푹신푹신 침대</h5>
+	          <span style="width:20px">50%</span><span>　</span><span>29,900</span><br>
 	          <span>★4.9</span>
 	        </div>
 	        </a>
