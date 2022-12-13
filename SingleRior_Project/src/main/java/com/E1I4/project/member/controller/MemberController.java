@@ -37,12 +37,12 @@ public class MemberController {
 	// 로그인
 	@RequestMapping(value="login.me", method=RequestMethod.POST)
 	public String login(@ModelAttribute Member m, HttpSession session, Model model) {
-//		System.out.println(m);
+		System.out.println(m);
 		
 		Member loginUser = mService.login(m);
-//		System.out.println("뭔가 잘못됨:" +loginUser);
+		System.out.println("뭔가 잘못됨:" +loginUser);
 		
-//		System.out.println(bcrypt.encode(m.getMemberPwd()));  // 암호화 비밀번호
+		System.out.println(bcrypt.encode(m.getMemberPwd()));  // 암호화 비밀번호
 		if(bcrypt.matches(m.getMemberPwd(), loginUser.getMemberPwd())) {
 			session.setAttribute("loginUser", loginUser);
 			 System.out.println("로그인성공");
