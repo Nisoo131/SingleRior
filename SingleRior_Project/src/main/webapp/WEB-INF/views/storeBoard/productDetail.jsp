@@ -350,7 +350,7 @@
 		document.getElementById('inquiry_modal').addEventListener('click',()=>{
 			  $(document).ready(function(){
 			    	const optionChoice = $('#inquiry_ops option:selected').text();
-			    	const textarea = $('textarea').text();
+			    	const textarea = $('textarea').val();
 			    	console.log(optionChoice);
 			    	console.log(textarea);
 			    	
