@@ -93,7 +93,7 @@
 			  	</c:if>
 			  	<c:if test="${ !empty loginUser }">
 			  		<div class="col-md-2 py-2" style="text-align: center;">
-				  		<button class="w-100 btn btn-outline-primary btn-lg" type="button" onclick="location.href='${ contextPath }/insertCommuBoard.co'">게시글 작성</button>
+				  		<button class="w-100 btn btn-outline-primary btn-lg" type="button" onclick="location.href='${ contextPath }/writeCommuBoard.co'">게시글 작성</button>
 				  	</div>
 			  	</c:if>
 			</div>

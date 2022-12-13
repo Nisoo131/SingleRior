@@ -3,9 +3,27 @@
 <mapper namespace="commuMapper">
 
 	<resultMap type="CommuBoard" id="CommuBoardResultSet">
-		<id column="#" property="#"/>
-		<result column="#" property="#"/>
+		<id column="BOARD_NO" property="boardNo"/>
+		<result column="BOARD_TYPE" property="boardType"/>
+		<result column="BOARD_TITLE" property="boardTitle"/>
+		<result column="BOARD_CONTENT" property="boardContent"/>
+		<result column="CREATE_DATE" property="createDate"/>
+		<result column="MODIFY_DATE" property="modifyDate"/>
+		<result column="NOTICE_STATUS" property="noticeStatus"/>
+		<result column="B_STATUS" property="status"/>
+		<result column="BOARD_WRITER" property="writer"/>
+		<result column="BOARD_COUNT" property="count"/>
+		<result column="SYMPT_COUNT" property="symptCount"/>
+		<result column="COMMU_TYPE" property="commuType"/>
 	</resultMap>
-
+	
+	<insert id="insertCommuBoard">
+		insert all
+		into board
+		values(SEQ_BID.nextval, #{boardType}, #{boardTitle}, #{boardContent}, sysdate, sysdate, default, default, #{writer}, default, #{symptCount}, #{commuType})
+		into community
+		values(SEQ_BID.currval, #{symptCount}, #{commuType})
+		select * from dual
+	</insert>
 
 </mapper>

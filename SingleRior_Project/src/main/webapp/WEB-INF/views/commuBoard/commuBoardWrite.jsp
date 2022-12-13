@@ -45,11 +45,11 @@
 	<main>
   		<div class="container">
 			<div style="margin-left: 200px; margin-right: 200px; margin-top: 100px;">
-				<form class="needs-validation" action="${ contextPath }/commuBoardInsert.co" method="POST" enctype="multipart/form-data" id="attmForm">
+				<form class="needs-validation" action="${ contextPath }/insertCommuBoard.co" method="POST" enctype="multipart/form-data" id="attmForm">
 					<div class="row g-3">
 						<h1 style="align-self: center;">싱글벙글</h1>
 						<div class="col-12">
-							<select class="form-select form-select-sm" aria-label=".form-select-sm example" style="width: 120px; margin-bottom: 15px; text-align: center;">
+							<select class="form-select form-select-sm" name="commuType" aria-label=".form-select-sm example" style="width: 120px; margin-bottom: 15px; text-align: center;">
 								<option>생활팁</option>
 								<option>후기</option>
 								<option>자유</option>
