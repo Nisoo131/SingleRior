@@ -93,7 +93,7 @@
 									<tr>
 										<td style="text-align:right;">하위 카테고리 :&nbsp;&nbsp;  </td>
 										<td>
-											<select class="form-select" aria-label="Disabled select example" id="subCategory" name="subCateCode">
+											<select class="form-select" aria-label="Disabled select example" id="subCategory" name="subCategory">
 											</select>
 										</td>
 									</tr>
@@ -103,7 +103,7 @@
 									
 									<tr>
 										<td style="text-align:right;">상품 이름 :&nbsp;&nbsp;  </td>
-										<td colspan="3"><input type="text" style="width:500px;" placeholder="상품명을 입력해주세요" name="boardTitle"></td>
+										<td colspan="3"><input type="text" style="width:500px;" placeholder="상품명을 입력해주세요" name="productName"></td>
 									</tr>								
 									<tr>
 										<td style="text-align:right;">상품 가격(원가) :&nbsp;&nbsp;  </td>
@@ -193,11 +193,11 @@
 					
 					//하위 요소들 담기
 					 var subOptions={
-							funiture:['침대','테이블','TV장','서랍장','책장','의자','옷장','화장대'],
-							bed:['이불','배게','커튼&블라인드','러그'],
+							funiture:['침대','테이블','서랍장','의자','옷장','화장대'],
+							bed:['이불','배개','커튼/블라인드','러그'],
 							mini:['식물','시계','캔들/디퓨저','윌데코/장식'],
 							kitchen:['냄비/프라이팬','그릇','보관용기','수저/커트러리','컵/텀블러','칼/도마'],
-							electrnic:['냉장고','TV/모니터','세탁기/건조기','청소기','에어컨','컴퓨터/노트북/태블릿','계절가전'],
+							electrnic:['냉장고','TV/모니터','세탁기/건조기','컴퓨터/노트북/태블릿','청소기','계절가전'],
 							minielect:['이어폰/헤드셋','스피커','마이크','빔프로젝터','미용가전']
 					}
 					 

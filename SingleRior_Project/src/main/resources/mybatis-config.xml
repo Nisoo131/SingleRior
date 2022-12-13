@@ -9,6 +9,7 @@
 		<typeAlias type="com.E1I4.project.storeBoard.model.vo.StoreBoard" alias="StoreBoard"/>
 		<typeAlias type="com.E1I4.project.commuBoard.model.vo.CommuBoard" alias="CommuBoard"/>
 		<typeAlias type="com.E1I4.project.common.model.vo.Attachment" alias="Attachment"/>
+		<typeAlias type="com.E1I4.project.common.model.vo.Product" alias="Product"/>
 	</typeAliases>
 
 	<mappers>
@@ -17,5 +18,6 @@
 	   	<mapper resource="mappers/store-mapper.xml"/>
 	   	<mapper resource="mappers/noti-mapper.xml"/>
 	   	<mapper resource="mappers/commu-mapper.xml"/>
+	   	<mapper resource="mappers/admin-mapper.xml"/>
 	</mappers>
 </configuration>
