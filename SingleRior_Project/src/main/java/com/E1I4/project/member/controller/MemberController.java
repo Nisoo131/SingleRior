@@ -57,6 +57,7 @@ public class MemberController {
 	@RequestMapping(value="kakaoLogin.me", method=RequestMethod.GET)
 	public String kakaoLogin(@RequestParam(value = "code", required = false) String code,@ModelAttribute Member m, HttpSession session) {
 //		System.out.println(code);
+//		System.out.println(code);
 		
 		String access_Token = mService.getAccessToken(code);
 //		System.out.println(access_Token);
