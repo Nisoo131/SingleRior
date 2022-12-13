@@ -8,6 +8,15 @@
 <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
 <style>
 	.form-findId {margin:auto; margin-top:200px; max-width: 500px; padding:50px;}
+	@font-face {
+	    font-family: 'BMJUA';
+	    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/BMJUA.woff') format('woff');
+	    font-weight: normal;
+	    font-style: normal;
+	}
+	* {
+		font-family: 'BMJUA';
+	}
 </style>
 </head>
 <body>

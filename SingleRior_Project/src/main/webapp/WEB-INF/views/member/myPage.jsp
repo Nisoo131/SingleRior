@@ -54,7 +54,7 @@
 			<table class="table table-borderless" id="profileTable">
 				<tr>
 					<td rowspan="2" width="200"><img src="${ contextPath }/resources/image/babychicken.png" width="160"></td>
-					<td colspan="2"><h2>user01</h2></td>
+					<td colspan="2"><h2>${ loginUser.nickName }</h2></td>
 				</tr>
 				<tr>
 					<td>내 포인트</td>

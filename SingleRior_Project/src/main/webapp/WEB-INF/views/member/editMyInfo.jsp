@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -25,7 +26,7 @@
 					<div class="row g-3">
 						<div class="col-12">
 							<label for="id" class="form-label">아이디</label>
-							<input type="text" class="form-control" id="memberId" name="memberId" readonly>
+							<input type="text" class="form-control" id="memberId" name="memberId" disabled value="${loginUser.memberId }">
 						</div>
 						
 						<div class="col-12">
@@ -41,24 +42,28 @@
 						
 						<div class="col-12">
 							<label for="name" class="form-label">이름</label>
-							<input type="text" class="form-control" id="memberName" name="memberName" readonly>
+							<input type="text" class="form-control" id="memberName" name="memberName" disabled value="${loginUser.memberName }">
 						</div>
 						
 						<div class="col-12">
 							<label for="nickName" class="form-label">닉네임</label>
-							<input type="text" class="form-control" id="nickName" name="nickName" required>
+							<input type="text" class="form-control" id="nickName" name="nickName" required value="${loginUser.nickName }">
 							<label id="nickNameCheckResult">영문, 숫자를 포함한 5~20자 이상의 닉네임를 입력해주세요.</label>
 						</div>
 
 						<div>이메일</div>
 						<div class="input-group mb-3">
- 							 <input type="email" class="form-control" id="email" name="email" placeholder="이메일을 입력해주세요." aria-label="Recipient's username" aria-describedby="button-addon2">
-							 <button class="btn btn-outline-secondary" type="button" id="button-addon2">인증</button>
+ 							 <input type="email" class="form-control" id="email" name="email" disabled value="${loginUser.email }" >
 						</div>
 
 						<div class="col-12">
 							<label for="phone" class="form-label">핸드폰 번호 (-포함)</label>
-							<input type="text" class="form-control" id="phone" name="phone">
+							<c:if test="${loginUser.phone == null }">
+								<input type="text" class="form-control" id="phone" name="phone">
+							</c:if>
+							<c:if test="${loginUser.phone != null }">
+								<input type="text" class="form-control" id="phone" name="phone" value="${loginUser.phone}">
+							</c:if>
 						</div>
 						
 						<br><br><br><br><br>
@@ -73,7 +78,7 @@
 	
 	<!--  회원 탈퇴 모달창 -->
 	<div class="modal" tabindex="-1" id="deleteModal">
-		<div class="modal-dialog">
+		<div class="modal-dialog modal-dialog-centered">
 			<div class="modal-content">
 				<div class="modal-header">
 					<h5 class="modal-title">회원 탈퇴</h5>
@@ -82,6 +87,10 @@
 				</div>
 				<div class="modal-body">
 					<p>정말로 탈퇴하시겠습니까?<br>탈퇴 후 계정은 복구할 수 없습니다.</p>
+					<div class="mb-3">
+						  <label for="exampleFormControlInput1" class="form-label">비밀번호를 입력해주세요.</label>
+						  <input type="tex" class="form-control" id="memberPwd">
+						</div>
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary"

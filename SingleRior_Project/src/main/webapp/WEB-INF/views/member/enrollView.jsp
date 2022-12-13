@@ -10,6 +10,15 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
 <style>
 	body {display: flex; align-items: center; padding-top: 40px; padding-bottom: 40px;}
+	@font-face {
+	    font-family: 'BMJUA';
+	    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/BMJUA.woff') format('woff');
+	    font-weight: normal;
+	    font-style: normal;
+	}
+	* {
+		font-family: 'BMJUA';
+	}
 </style>
 </head>
 <body class="bg-light">
@@ -286,14 +295,14 @@
 	        //카카오 지도 발생
 	        new daum.Postcode({
 	            oncomplete: function(data) { //선택시 입력값 세팅
+	            	console.log(data);
 	                document.getElementById("address_kakao").value = data.address; // 주소 넣기
-	                document.querySelector("input[name=address_detail]").focus(); //상세입력 포커싱
+	                self.close();
+// 	                document.querySelector("input[name=address_detail]").focus(); //상세입력 포커싱
 	            }
 	        }).open();
 	    });
 	}
-	
-	
 	</script>
 </body>
 </html>
