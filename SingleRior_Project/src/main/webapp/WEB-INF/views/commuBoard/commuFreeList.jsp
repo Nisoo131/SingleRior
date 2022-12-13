@@ -86,9 +86,16 @@
 			  	
 			  	<div class="col-md-8" style="width: 620px;"></div>
 			  	
-			  	<div class="col-md-2 py-2" style="text-align: center;">
-			  		<button class="w-100 btn btn-outline-primary btn-lg" type="button" onclick="location.href='${ contextPath }/insertCommuBoard.co'">게시글 작성</button>
-			  	</div>
+			  	<c:if test="${ empty loginUser }">
+			  		<div class="col-md-2 py-2" style="text-align: center;">
+				  		<button class="w-100 btn btn-outline-primary btn-lg" type="button" id="loginModal">게시글 작성</button>
+				  	</div>
+			  	</c:if>
+			  	<c:if test="${ !empty loginUser }">
+			  		<div class="col-md-2 py-2" style="text-align: center;">
+				  		<button class="w-100 btn btn-outline-primary btn-lg" type="button" onclick="location.href='${ contextPath }/insertCommuBoard.co'">게시글 작성</button>
+				  	</div>
+			  	</c:if>
 			</div>
   		</div>
   		
@@ -244,6 +251,23 @@
 		</div>
 	</main>
 	
+	<div class="modal fade" tabindex="-1" role="dialog" id="modalChoice">
+		<div class="modal-dialog" role="document">
+	    	<div class="modal-content rounded-3 shadow">
+	      		<div class="modal-body p-4 text-center">
+	        		<h3 class="mb-0">로그인 후에 이용하실 수 있는 서비스입니다.</h3>
+	        		<p class="mb-0">로그인 페이지로 이동합니다.</p>
+	      		</div>
+	      		<div class="modal-footer flex-nowrap p-0">
+	        		<button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0 border-end" data-bs-dismiss="modal">취소</button>
+	        		<button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0" id="yes" onclick="location.href='${ contextPath }/loginView.me'">
+	        			<strong>확인</strong>
+	        		</button>
+	      		</div>
+	    	</div>
+	  	</div>
+	</div>
+	
 	<footer>
 		<jsp:include page="../common/footer.jsp"/>
 	</footer>
@@ -267,6 +291,15 @@
 				$('#list2').removeClass('list-click');
 			});
 		})
+		
+		window.onload = () => {
+			const loginModal = document.getElementById('loginModal');
+			if(loginModal != null){
+				loginModal.addEventListener('click', ()=>{
+					$('#modalChoice').modal('show');
+				});
+			}
+		}
 	</script>
 </body>
 </html>
