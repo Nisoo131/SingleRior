@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -161,21 +162,21 @@
 	</main>
 	
 	<div class="modal fade" tabindex="-1" role="dialog" id="modalChoice">
-			<div class="modal-dialog" role="document">
-	    		<div class="modal-content rounded-3 shadow">
-	      			<div class="modal-body p-4 text-center">
-	        			<h3 class="mb-0">정말로 삭제하시겠습니까?</h3>
-	        			<p class="mb-0">삭제 후 게시글은 복구할 수 없습니다.</p>
-	      			</div>
-	      			<div class="modal-footer flex-nowrap p-0">
-	        			<button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0 border-end" id="delete">
-	        				<strong>네</strong>
-	        			</button>
-	        			<button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0" data-bs-dismiss="modal">아니오</button>
-	      			</div>
-	    		</div>
-	  		</div>
-		</div>
+		<div class="modal-dialog" role="document">
+	    	<div class="modal-content rounded-3 shadow">
+	      		<div class="modal-body p-4 text-center">
+	        		<h3 class="mb-0">정말로 삭제하시겠습니까?</h3>
+	        		<p class="mb-0">삭제 후 게시글은 복구할 수 없습니다.</p>
+	      		</div>
+	      		<div class="modal-footer flex-nowrap p-0">
+	        		<button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0 border-end" id="delete">
+	        			<strong>네</strong>
+	        		</button>
+	        		<button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0" data-bs-dismiss="modal">아니오</button>
+	      		</div>
+	    	</div>
+	  	</div>
+	</div>
 	
 	<footer>
 		<jsp:include page="../common/footer.jsp"/>

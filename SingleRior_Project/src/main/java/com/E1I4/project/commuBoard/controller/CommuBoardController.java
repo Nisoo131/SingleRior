@@ -1,10 +1,16 @@
 package com.E1I4.project.commuBoard.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.E1I4.project.commuBoard.model.service.CommuBoardService;
+
 @Controller
 public class CommuBoardController {
+	
+	@Autowired
+	private CommuBoardService cService;
 	
 	@RequestMapping("commuAllList.co")
 	public String selectCommuAllList() {
