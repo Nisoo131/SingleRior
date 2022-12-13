@@ -49,5 +49,37 @@
 			<br>
 			<span>SNS계정으로 간편 로그인</span>
 			<hr>
+			<div>
+				<a href='https://kauth.kakao.com/oauth/authorize?client_id=3511f863b828fb1a348dbb6100a0ddb0&redirect_uri=http://localhost:8088/SingleRior/kakaoLogin.me&response_type=code'>
+					<img src="${ contextPath }/resources/image/kakao_login_large_wide.png" alt="카카오계정 로그인" style="width:300px;  height:50px;">
+				</a>
+			</div><br>
+			<div>
+				<a href="#;"><img src="${ contextPath }/resources/image/naver_login.png" alt="네이버계정 로그인" style="width:300px; height:50px;"></a>
+			</div>
 	</main>
+	
+	
+	<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+	<script>
+		window.Kakao.init('f6d3ec046c3e92308e683b2ee8e4cee7');
+		
+// 		//카카오로그인
+		function kakaoLogin() {
+		
+		    Kakao.Auth.login({
+		      scope:'profile_nickname, account_email, birthday',
+		      success : function(autoObj){
+		    	  console.log(autoObj);
+		    	  window.Kakao.API.request({
+		    		  url : '/v2/user/me',
+		    		  success: (res) => {
+		    			  console.log(res);
+		    			  const kakao_account = res;
+		    		  }
+		    	  });
+		  		}
+		    })
+		  }
+	</script>
 </html>

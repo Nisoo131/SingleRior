@@ -1,5 +1,7 @@
 package com.E1I4.project.member.model.service;
 
+import java.util.HashMap;
+
 import com.E1I4.project.member.model.vo.Member;
 
 public interface MemberService {
@@ -19,5 +21,9 @@ public interface MemberService {
 	int changePwd(Member m);
 
 	int checkEmailConfirm(String email);
+
+	String getAccessToken(String code);
+
+	HashMap<String, Object> getUserInfo(String access_Token);
 
 }

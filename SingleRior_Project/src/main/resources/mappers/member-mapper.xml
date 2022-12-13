@@ -44,7 +44,27 @@
 	
 	<insert id = "insertMember">
 		insert into member
-		values(#{memberId}, #{memberPwd}, #{memberName}, #{nickName}, #{phone}, #{email}, #{address}, sysdate, sysdate, default, default)
+		values(#{memberId}, #{memberPwd}, #{memberName}, 
+		<if test="nickName == null">
+			null,
+		</if>
+		<if test="nickName != null">
+			#{nickName},
+		</if>
+		<if test="phone == null">
+			null,
+		</if>
+		<if test="phone != null">
+			#{phone},
+		</if>
+		 #{email}, 
+		 <if test="address == null">
+			null,
+		</if>
+		<if test="address != null">
+			#{address},
+		</if>
+		 sysdate, sysdate, default, default)
 	</insert>
 	
 	<select id ="findId" resultType="string">
