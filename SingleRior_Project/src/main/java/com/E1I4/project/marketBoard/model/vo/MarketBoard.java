@@ -23,8 +23,14 @@ public class MarketBoard {
 	private String noticeStatus;
 	private String status;
 	private String writer;
-	private String count;
+	private int count;
 	private String marketPrice;
-	private String marketType;
+	private int marketType;
+	private int marketArray;
+	
+	
+	//boardType 3 market
+	//marketType 같이사요 0, 팝니다1, 삽니다2
+	//marketArray 조회수0, 좋아요수1, 댓글수2
 	
 }

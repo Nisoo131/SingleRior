@@ -1,10 +1,16 @@
 package com.E1I4.project.marketBoard.model.service;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.E1I4.project.common.model.vo.Attachment;
+import com.E1I4.project.common.model.vo.PageInfo;
 import com.E1I4.project.marketBoard.model.dao.MarketBoardDAO;
+import com.E1I4.project.marketBoard.model.vo.MarketBoard;
 
 
 
@@ -16,4 +22,32 @@ public class MarketBoardServiceImpl implements MarketBoardService{
 	
 	@Autowired
 	private SqlSessionTemplate sqlSession;
+
+	@Override
+	public int marketBoardInsert(MarketBoard mkBoard) {
+		return mkDAO.marketBoardInsert(sqlSession, mkBoard);
+	}
+
+	@Override
+	public int insertAttm(HashMap<String, Object> map) {
+		return mkDAO.insertAttm(sqlSession, map);
+	}
+
+	@Override
+	public int getMkListCount(HashMap<String, Object> map) {
+		return mkDAO.getMkListCount(sqlSession, map);
+	}
+
+	@Override
+	public ArrayList<MarketBoard> marketBoardList(PageInfo pi, HashMap<String, Object> map) {
+		return mkDAO.marketBoardList(sqlSession, pi, map);
+	}
+
+	@Override
+	public ArrayList<Attachment> attmListSelect() {
+		return mkDAO.attmListSelect(sqlSession);
+	}
+
+	
+	
 }
