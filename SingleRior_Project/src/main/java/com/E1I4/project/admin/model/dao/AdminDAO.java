@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import com.E1I4.project.common.model.vo.Attachment;
 import com.E1I4.project.common.model.vo.Product;
+import com.E1I4.project.member.model.vo.Member;
 @Repository("aDAO")
 public class AdminDAO {
 
@@ -15,7 +16,11 @@ public class AdminDAO {
 	}
 
 	public int insertAttm(SqlSessionTemplate sqlSession, ArrayList<Attachment> list) {
-		return sqlSession.insert("adminMapper.insert",list);
+		return sqlSession.insert("adminMapper.insertProductAttm",list);
+	}
+
+	public ArrayList<Member> selectMemberList(SqlSessionTemplate sqlSession) {
+		return (ArrayList)sqlSession.selectList("adminMapper.selectMemberList");
 	}
 
 }

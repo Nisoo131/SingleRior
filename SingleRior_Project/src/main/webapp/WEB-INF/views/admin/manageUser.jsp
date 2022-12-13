@@ -79,90 +79,17 @@
                                         </tr>
                                     </tfoot>
                                     <tbody>
-                                        <tr>
-                                            <td>1</td>
-                                            <td>user01</td>
-                                            <td>강건강</td>
-                                            <td>user01@iei.kr</td>
-                                            <td>정상</td>
-                                            <td>2022.12.12</td>
-                                            <td>2022.12.12 09:39</td>
-                                        </tr>
-                                        <tr>
-                                            <td>2</td>
-                                            <td>user02</td>
-                                            <td>남나눔</td>
-                                            <td>user02@iei.kr</td>
-                                            <td>정상</td>
-                                            <td>2022.12.12</td>
-                                            <td>2022.12.12 09:40</td>
-                                        </tr><tr>
-                                            <td>3</td>
-                                            <td>user03</td>
-                                            <td>도대담</td>
-                                            <td>user03@iei.kr</td>
-                                            <td>정상</td>
-                                            <td>2022.12.12</td>
-                                            <td>2022.12.12 09:41</td>
-                                        </tr><tr>
-                                            <td>4</td>
-                                            <td>user04</td>
-                                            <td>류라라</td>
-                                            <td>user01@iei.kr</td>
-                                            <td>정상</td>
-                                            <td>2022.12.12</td>
-                                            <td>2022.12.12 09:42</td>
-                                        </tr><tr>
-                                            <td>5</td>
-                                            <td>user05</td>
-                                            <td>문미미</td>
-                                            <td>user05@iei.kr</td>
-                                            <td>정상</td>
-                                            <td>2022.12.12</td>
-                                            <td>2022.12.12 09:43</td>
-                                        </tr>   
-                                          <tr>
-                                            <td>6</td>
-                                            <td>user01</td>
-                                            <td>강건강</td>
-                                            <td>user01@iei.kr</td>
-                                            <td>정상</td>
-                                            <td>2022.12.12</td>
-                                            <td>2022.12.12 09:39</td>
-                                        </tr>
-                                        <tr>
-                                            <td>7</td>
-                                            <td>user02</td>
-                                            <td>남나눔</td>
-                                            <td>user02@iei.kr</td>
-                                            <td>탈퇴</td>
-                                            <td>2022.12.12</td>
-                                            <td>2022.12.12 09:40</td>
-                                        </tr><tr>
-                                            <td>8</td>
-                                            <td>user03</td>
-                                            <td>도대담</td>
-                                            <td>user03@iei.kr</td>
-                                            <td>탈퇴</td>
-                                            <td>2022.12.12</td>
-                                            <td>2022.12.12 09:41</td>
-                                        </tr><tr>
-                                            <td>9</td>
-                                            <td>user04</td>
-                                            <td>류라라</td>
-                                            <td>user01@iei.kr</td>
-                                            <td>정상</td>
-                                            <td>2022.12.12</td>
-                                            <td>2022.12.12 09:42</td>
-                                        </tr><tr>
-                                            <td>10</td>
-                                            <td>user05</td>
-                                            <td>문미미</td>
-                                            <td>user05@iei.kr</td>
-                                            <td>정상</td>
-                                            <td>2022.12.12</td>
-                                            <td>2022.12.12 09:43</td>
-                                        </tr>                                      
+                                    <c:forEach items="${ mList}" var="m" varStatus="status">
+                                       <tr>
+                                       	<td><c:out value="${status.count}"/></td>
+                                       	<td>${m.memberId}</td>
+                                       	<td>${m.memberName}</td>
+                                       	<td>${m.email}</td>
+                                       	<td><c:if test="${m.memberStatus eq 'Y'}">정상</c:if><c:if test="${m.memberStatus eq 'N'}">탈퇴</c:if></td>
+                                       	<td>${m.enrollDate }</td>
+                                       	<td>2022.12.13 08:00</td>
+                                       </tr>          
+                                       </c:forEach>
                                     </tbody>
                                 </table>
                             </div>

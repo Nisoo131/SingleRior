@@ -6,15 +6,19 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.E1I4.project.admin.model.service.AdminService;
+import com.E1I4.project.common.exception.AdminException;
+import com.E1I4.project.common.exception.ProductException;
 import com.E1I4.project.common.model.vo.Attachment;
 import com.E1I4.project.common.model.vo.Product;
 import com.E1I4.project.member.model.vo.Member;
@@ -33,6 +37,24 @@ public class AdminController {
 	public String insertProduct() {
 		return "insertProduct";
 	}
+	
+	//회원정보관리
+		@RequestMapping("manageUser.adm")
+		public String manageUser(Model model, HttpSession session) {
+			
+			ArrayList<Member> selectMember=aService.selectMemberList();
+			
+			
+			
+			if(selectMember!=null) {
+				model.addAttribute("mList",selectMember);
+				return "manageUser";
+			}else {
+				throw new AdminException("유저정보 조회 실패");
+			}
+		}
+	
+	// 상품등록
 	@RequestMapping("enrollProduct.adm")
 	public String enrollProduct(@ModelAttribute Product p,@RequestParam("file") ArrayList<MultipartFile> files, HttpServletRequest request,@RequestParam("subCategory") String subCategory) {
 		
@@ -151,7 +173,7 @@ public class AdminController {
 					
 					a.setImgOriginalName(upload.getOriginalFilename());
 					a.setImgRename(returnArr[1]);
-					a.setImgPath(id);
+					a.setImgPath(returnArr[0]);
 					list.add(a);
 				}
 			}
@@ -164,22 +186,35 @@ public class AdminController {
 			}else {
 				a.setLevel(1);
 			}
+				a.setBoardType(1);
 		}
 		
 		
 		int result1=aService.insertProduct(p);
 		int result2=aService.insertAttm(list);
 		
-		
-		
-		
-		
-		return null;
+		if(result1>0&&result2>0) {
+			return "redirect:manageProduct.adm";
+		}else {
+			for(Attachment a:list) {
+				deleteFile(a.getImgRename(),request);
+			}
+			throw new ProductException("상품 등록 실패");
+		}
 	}
 		
+	//파일 삭제
+		public void deleteFile(String fileName, HttpServletRequest request) {
+			String root = request.getSession().getServletContext().getRealPath("resources");
+			String savePath = root + "\\uploadFiles";
+			
+			File folder = new File(savePath + "\\" + fileName);
+			if(folder.exists()) {
+				folder.delete();
+			}
+		}
 	
-	
-	
+	//로컬에 파일 저장 
 	public String[] saveFile(MultipartFile file,HttpServletRequest request) {
 		String root = request.getSession().getServletContext().getRealPath("resources");
 		
@@ -223,10 +258,8 @@ public class AdminController {
 	public String orderList() {
 		return "orderList";
 	}
-	@RequestMapping("manageUser.adm")
-	public String manageUser() {
-		return "manageUser";
-	}
+	
+	
 	@RequestMapping("manageProduct.adm")
 	public String manageProduct() {
 		return "manageProduct";

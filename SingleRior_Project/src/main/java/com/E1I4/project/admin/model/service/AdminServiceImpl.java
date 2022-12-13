@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.E1I4.project.admin.model.dao.AdminDAO;
 import com.E1I4.project.common.model.vo.Attachment;
 import com.E1I4.project.common.model.vo.Product;
+import com.E1I4.project.member.model.vo.Member;
 
 @Service("aService")
 public class AdminServiceImpl implements AdminService {
@@ -27,6 +28,11 @@ public class AdminServiceImpl implements AdminService {
 	@Override
 	public int insertAttm(ArrayList<Attachment> list) {
 		return aDAO.insertAttm(sqlSession,list);
+	}
+
+	@Override
+	public ArrayList<Member> selectMemberList() {
+		return aDAO.selectMemberList(sqlSession);
 	}
 
 }

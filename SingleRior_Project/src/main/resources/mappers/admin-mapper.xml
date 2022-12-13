@@ -30,11 +30,23 @@
 		<result property="imgRename" column="IMG_SERVER_NAME"/>
 		<result property="imgCreateDate" column="IMG_CREATE_DATE"/>
 		<result property="imgModifyDate" column="IMG_CREATE_DATE"/>
-		<result property="imgKey" column="IMG_STATUS"/>
-		<result property="imgPath" column="IMG_KEY"/>
-		<result property="imgStatus" column="IMG_PATH"/>
+		<result property="imgKey" column="IMG_KEY"/>
+		<result property="imgPath" column="IMG_PATH"/>
+		<result property="imgStatus" column="IMG_STATUS"/>
 		<result property="level" column="IMG_LEVEL"/>
-		<result property="boardNo" column="BOARD_NO"/>
+		<result property="boardType" column="IMG_B_TYPE"/>
+	</resultMap>
+	
+	<resultMap type="Member" id="MemberResultSet">
+		<id column="MEMBER_ID" property="memberId"/>
+		<result column="MEMBER_PWD" property="memberPwd"/>
+		<result column="MEMBER_NAME" property="memberName"/>
+		<result column="NICKNAME" property="nickName"/>
+		<result column="PHONE" property="phone"/>
+		<result column="EMAIL" property="email"/>
+		<result column="ADDRESS" property="address"/>
+		<result column="STATUS" property="memberStatus"/>
+		<result column="AUTHORITY" property="memberAuthority"/>
 	</resultMap>
 	
 	<insert id="insertProduct">
@@ -43,6 +55,17 @@
 			into product values(seq_pid.nextval,#{productPrice},#{productDiscount},#{productOption},#{modelName},#{brand},null,default,#{proSubCateCode},seq_bid.currval)
 		select *from dual
 	</insert>
-
-
+	<insert id="insertProductAttm" >
+		insert all
+		<foreach collection="list" item="a">
+			into IMG_REPOSITORY
+			values(SingleRior_aid, #{a.imgOriginalName}, #{a.imgRename}, sysdate, sysdate, default, seq_bId.currval, #{a.imgPath}, #{a.boardType}, #{a.level})
+		</foreach>
+		select * from dual
+	</insert>
+	
+	<select id="selectMemberList" resultMap="MemberResultSet">
+		select *
+		from member	
+	</select>
 </mapper>
