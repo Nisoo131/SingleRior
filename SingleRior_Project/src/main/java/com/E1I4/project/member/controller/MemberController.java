@@ -86,6 +86,7 @@ public class MemberController {
 			m.setMemberPwd(encPwd);
 			m.setMemberName(memberName);
 			m.setEmail(email);
+			m.setNickName(memberName);
 			System.out.println(m);
 			int result = mService.insertMember(m);
 			
