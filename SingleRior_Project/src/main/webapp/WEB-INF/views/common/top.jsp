@@ -44,8 +44,6 @@
 					</li>
 				</c:if>
 				<c:if test = "${ !empty loginUser && loginUser.memberAuthority=='Y' }">
-				<li class="nav-item"><a href="${contextPath}/loginView.me" class="nav-link link-dark px-2">Login</a></li>
-				<li class="nav-item"><a href="${contextPath}/enrollView.me" class="nav-link link-dark px-2">Sign up</a></li>
 				<li class="nav-item"><i class="bi bi-cart-fill nav-link link-dark px-2" role="button" style="font-size:2rem;" onclick="location.href='${contextPath}/myCart.me'"></i></li>&nbsp;&nbsp;&nbsp;
 				<li class="nav-item dropdown-center">
 					<i class="bi bi-person-circle" style="font-size:2rem;" role="button" data-bs-toggle="dropdown" aria-expanded="false"></i>
