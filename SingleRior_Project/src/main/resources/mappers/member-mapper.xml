@@ -39,7 +39,7 @@
 	<select id ="checkEmailConfirm" resultType="_int">
 		select count(*)
 		from member
-		where email = #{email}
+		where email = #{email} and status = 'Y'
 	</select>
 	
 	<insert id = "insertMember">

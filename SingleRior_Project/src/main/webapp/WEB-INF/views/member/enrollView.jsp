@@ -10,6 +10,15 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
 <style>
 	body {display: flex; align-items: center; padding-top: 40px; padding-bottom: 40px;}
+	@font-face {
+	    font-family: 'BMJUA';
+	    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/BMJUA.woff') format('woff');
+	    font-weight: normal;
+	    font-style: normal;
+	}
+	* {
+		font-family: 'BMJUA';
+	}
 </style>
 </head>
 <body class="bg-light">
@@ -294,8 +303,6 @@
 	        }).open();
 	    });
 	}
-	
-	
 	</script>
 </body>
 </html>
