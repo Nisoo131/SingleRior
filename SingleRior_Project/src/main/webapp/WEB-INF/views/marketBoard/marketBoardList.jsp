@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -57,14 +58,14 @@ li a:hover {
 				<div class="album py-3">
 					<div class="container">
 						<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3 p-2 px-4">
-							
 							<div class="col">
 								<div class="carouselCardFir shadow-sm">
+		            				<img src="resources/uploadFiles/${ mkA.imgRename }" class="card-img-top" height="225">
 									<img class="bd-placeholder-img card-img-top" width="100%" height="225"  src="https://ifh.cc/g/yX3tCA.png">
 									<div class="card-body">
-										<p class="card-text">우리집고양이 구경</p>
+										<p class="card-text">${mkB.boardTitle }</p>
 										<div class="d-flex justify-content-between align-items-center">
-											<p class="card-text" style="width: 280px;">3000원</p>
+											<p class="card-text" style="width: 280px;">${ mkB.marketPrice}</p>
 											<div class="btn-group">
 												<span><img src="https://cdn-icons-png.flaticon.com/512/2589/2589197.png"style="width: 30px; height: 30px;">2<img src="https://cdn-icons-png.flaticon.com/512/2589/2589054.png" style="width: 30px; height: 30px; display: none;"></span>
 										  &nbsp;<img src="https://cdn-icons-png.flaticon.com/512/7789/7789458.png" style="width: 30px; height: 30px;">4
@@ -74,6 +75,7 @@ li a:hover {
 									</div>
 								</div>
 							</div>
+							
 							
 						</div>
 					</div>
@@ -122,7 +124,7 @@ li a:hover {
 	<br>
 	<!-- 글작성 버튼 -->
 	<div style="padding-left: 170px;">
-	<button type="button" class="btn btn-outline-secondary" style="width: 100px;">글쓰기</button>
+	<button type="button" class="btn btn-outline-secondary" style="width: 100px;" onclick="location.href='${contextPath}/marketBoardWrite.ma'">글쓰기</button>
 	</div>
 	<br>
 	
@@ -133,13 +135,13 @@ li a:hover {
          		<table class="">
              		<tr style="text-align: center;">
                  		<td width="70px;">
-                   			<img src="https://cdn-icons.flaticon.com/svg/3917/3917749.svg?token=exp=1670486670~hmac=84a197fe65626dbb13e5a5c6963c214d" style="margin-right: 5px;" width="16" height="16">최신순
+                   			<a style="color: white;" class="nav-link active" href="marketBoardList.ma?marketArray=1&marketType=${marketType}"><img src="https://cdn-icons.flaticon.com/svg/3917/3917749.svg?token=exp=1670486670~hmac=84a197fe65626dbb13e5a5c6963c214d" style="margin-right: 5px;" width="16" height="16">조회수 많은 순</a>
              			</td>
               			<td width="120px;">
-             				<img src="https://cdn-icons.flaticon.com/svg/3917/3917749.svg?token=exp=1670486670~hmac=84a197fe65626dbb13e5a5c6963c214d" style="margin-right: 5px;" width="16" height="16">하트 많은 순
+             				<a style="color: white;" class="nav-link active" href="marketBoardList.ma?marketArray=2&marketType=${marketType}"><img src="https://cdn-icons.flaticon.com/svg/3917/3917749.svg?token=exp=1670486670~hmac=84a197fe65626dbb13e5a5c6963c214d" style="margin-right: 5px;" width="16" height="16">좋아요 많은 순</a>
           				</td>
               			<td>
-               				<img src="https://cdn-icons.flaticon.com/svg/3917/3917749.svg?token=exp=1670486670~hmac=84a197fe65626dbb13e5a5c6963c214d" style="margin-right: 5px;" width="16" height="16">댓글 많은 순
+               				<a style="color: white;" class="nav-link active" href="marketBoardList.ma?marketArray=3&marketType=${marketType}"><img src="https://cdn-icons.flaticon.com/svg/3917/3917749.svg?token=exp=1670486670~hmac=84a197fe65626dbb13e5a5c6963c214d" style="margin-right: 5px;" width="16" height="16">댓글 많은 순</a>
                 		</td>
             		</tr>
            		</table>
@@ -149,13 +151,24 @@ li a:hover {
 
 <!-- 글 리스트 -->	
 	<div class="row row-cols-1 row-cols-md-5 g-4" style="margin: 150px;">
+		<c:forEach items="${ mkBList }" var="mkB">
+		 <c:set var="marketType" value="${mkB.marketType }"/>
 		<div class="col">
 			<div class="card shadow-sm">
-			<img class="bd-placeholder-img card-img-top" width="100%" height="225"  src="https://ifh.cc/g/yX3tCA.png">
+			<c:forEach items="${ mkAList }" var="mkA">
+			<c:if test="${ mkB.boardNo eq mkA.imgKey }">
+				<c:if test="${ mkA.imgOriginalName != '' }">
+					<img src="resources/uploadFiles/${ mkA.imgRename }" class="card-img-top" height="225">
+				</c:if>		
+				<c:if test="${ mkA.imgOriginalName == '' }">
+				<img class="bd-placeholder-img card-img-top" width="100%" height="225"  src="https://ifh.cc/g/yX3tCA.png">
+				</c:if>
+			</c:if>
+			</c:forEach>
 				<div class="card-body">
-					<p class="card-text">우리집고양이 구경</p>
+					<p class="card-text">${mkB.boardTitle }</p>
 					<div class="d-flex justify-content-between align-items-center">
-						<p class="card-text" style="width: 280px;">3000원</p>
+						<p class="card-text" style="width: 280px;">${mkB.marketPrice }</p>
 						<div class="btn-group">
 							<img src="https://cdn-icons-png.flaticon.com/512/2589/2589197.png" style="width: 30px; height: 30px;">2&nbsp;&nbsp;
 							<img src="https://cdn-icons-png.flaticon.com/512/2589/2589054.png" style="width: 30px; height: 30px; display: none;">&nbsp;
@@ -166,6 +179,8 @@ li a:hover {
 				</div>
 			</div>
 		</div>
+		
+		</c:forEach>
 	</div>
 	<footer>
 		<jsp:include page="../common/footer.jsp" />

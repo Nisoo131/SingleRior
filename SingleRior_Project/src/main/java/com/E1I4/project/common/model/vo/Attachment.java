@@ -23,5 +23,5 @@ public class Attachment {
 	private String imgPath;
 	private String imgStatus;
 	private int level;
-	private int boardNo;
+	private int boardType;
 }
