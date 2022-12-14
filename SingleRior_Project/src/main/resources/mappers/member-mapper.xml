@@ -79,6 +79,7 @@
 		where member_id = #{memberId} and email = #{email}
 	</select>
 	
+	<!--  이메일로 새로운 비밀번호 발급된거 넣어주기 -->
 	<update id="changePwd">
 		update member
 		set member_pwd = #{memberPwd}

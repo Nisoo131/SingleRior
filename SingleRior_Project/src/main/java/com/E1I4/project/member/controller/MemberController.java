@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.support.SessionStatus;
 
 import com.E1I4.project.common.exception.MemberException;
+import com.E1I4.project.member.model.service.KakaoLogin;
 import com.E1I4.project.member.model.service.MailSendService;
 import com.E1I4.project.member.model.service.MemberService;
 import com.E1I4.project.member.model.vo.Member;
@@ -27,6 +28,8 @@ public class MemberController {
 	private MemberService mService;
 	@Autowired
 	private MailSendService mss;
+	@Autowired
+	private KakaoLogin kl;
 	
 	@Autowired
 	private BCryptPasswordEncoder bcrypt;
@@ -59,10 +62,10 @@ public class MemberController {
 //		System.out.println(code);
 //		System.out.println(code);
 		
-		String access_Token = mService.getAccessToken(code);
+		String access_Token = kl.getAccessToken(code);
 //		System.out.println(access_Token);
 		
-		HashMap<String, Object> userInfo = mService.getUserInfo(access_Token);
+		HashMap<String, Object> userInfo = kl.getUserInfo(access_Token);
 //		System.out.println("###access_Token#### : " + access_Token);
 //		System.out.println("###nickname#### : " + userInfo.get("nickname"));
 //		System.out.println("###email#### : " + userInfo.get("email"));
