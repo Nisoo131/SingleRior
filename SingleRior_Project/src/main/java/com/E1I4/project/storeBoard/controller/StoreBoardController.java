@@ -21,23 +21,24 @@ public class StoreBoardController {
 	@Autowired
 	private StoreBoardService sService;
 	
-	// 대분류-소분류 카테고리 선택시
+	// 리스트 
 	@RequestMapping("categoryList.st")
 	public String storeList(@RequestParam(value="page", required=false) Integer page, Model model) {
 			int currentPage = 1;
 			if(page != null) {
 				currentPage = page;
 			}
-			//board type이 스토어 1인 것만 가져오기
-			int listCount = sService.getListCount(1);
+			//board type 스토어 1인 것만 가져오기
+			int listCount = sService.getStoreListCount(1);
 			
 			//boardLimit: 카드 12개
 			PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 12);
-			ArrayList<StoreBoard> slist = sService.selectBoardList(pi, 1); // board_type:1(스토어)
-			ArrayList<Attachment> aList = sService.selectAttmList(null); // 다 가지고 오기
-			if(slist != null) {
+			ArrayList<StoreBoard> sList = sService.selectBoardList(pi, 1); // board_type:1(스토어)
+			ArrayList<Attachment> aList = sService.selectAttmList(1); // 다 가지고 오기
+			System.out.println();
+			if(sList != null) {
 				model.addAttribute("pi", pi);
-				model.addAttribute("slist", slist);
+				model.addAttribute("sList", sList);
 				model.addAttribute("aList", aList);
 				
 				return "categoryList";

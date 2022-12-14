@@ -21,7 +21,7 @@ public class StoreBoardServiceImpl implements StoreBoardService{
 	
 
 	@Override
-	public int getListCount(int i) {
+	public int getStoreListCount(int i) {
 		return sDAO.getListCount(sqlSession, i);
 	}
 
@@ -31,7 +31,7 @@ public class StoreBoardServiceImpl implements StoreBoardService{
 	}
 
 	@Override
-	public ArrayList<Attachment> selectAttmList(Integer bId) {
-		return sDAO.selectAttmList(sqlSession,bId);
+	public ArrayList<Attachment> selectAttmList(int i) {
+		return sDAO.selectAttmList(sqlSession, i);
 	}
 }

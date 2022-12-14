@@ -2,7 +2,6 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -24,13 +23,12 @@
 	</header>
 	
 	<!-- 대분류/소분류 구분 -->
-	${ slist }
-	${ alist }
-	이거 끝
+	${ sList }  
+	${ aList }  
 	
  	<div class="front">
-		<h5><b>전체 > 가구 > </b></h5>
-			<h3><b>${ p.proSubCateCode } </b></h3>
+		<h5><b>전체 > 가구 > 침대 </b></h5>
+			<h3><b> 침대 </b></h3>
 		
 		<div id="selectOption" dir="rtl">
 			<select style="width:100px; height:30px;">
@@ -42,160 +40,28 @@
 		</div>
 		<br>
 	
-	<!-- 카드 4x3-->
-	
-	  <div class="row">
-	    <div class="col-3">
-	     <a href="${ contextPath }/productDetail.st">
-	      <div class="card">
-	        <img src="https://image.ohou.se/i/bucketplace-v2-development/uploads/productions/166632957544570272.jpg?gif=1&w=640&h=640&c=c&webp=1" class="card-img-top" alt="...">
-	         <div class="card-body">
-	          <h6 class="card-title">최고가구</h6>
-	          <h5 class="card-text">푹신푹신 침대</h5>
-	          <span style="width:20px">50%</span><span>　</span><span>29,900</span><br>
-	          <span>★4.9</span>
-	        </div>
-	        </a>
-	      </div>
-	    </div>
-	    <div class="col-3">
-	    	 <div class="card">
-	        <img src="https://image.ohou.se/i/bucketplace-v2-development/uploads/productions/images/159185612857229438.jpg?gif=1&w=640&h=640&c=c&webp=1" class="card-img-top" alt="...">
-	         <div class="card-body">
-	          <h6 class="card-title">넘버원베드</h6>
-	          <h5 class="card-text">솜사탕침대</h5>
-	          <span style="width:20px">40%</span><span>　</span><span>69,000</span><br>
-	          <span>★4.2</span>
-	        </div>
-	      </div>
-	    </div>
-	    <div class="col-3">
-	    	 <div class="card">
-	          <img src="https://image.ohou.se/i/bucketplace-v2-development/uploads/productions/167030880120378156.jpg?gif=1&w=640&h=640&c=c&webp=1" class="card-img-top" alt="...">
-	         <div class="card-body">
-	          <h6 class="card-title">솜사탕</h6>
-	          <h5 class="card-text">잠이솔솔 침대</h5>
-	          <span style="width:20px">62%</span><span>　</span><span>69,900</span><br>
-	          <span>★4.3</span>
-	        </div>
-	      </div>
-	    </div>
-	    <div class="col-3">
-	    	 <div class="card">
-	         <img src="https://image.ohou.se/i/bucketplace-v2-development/uploads/productions/164689139714715370.jpg?gif=1&w=640&h=640&c=c&webp=1" class="card-img-top" alt="...">
-	         <div class="card-body">
-	          <h6 class="card-title">싱글침대최고</h6>
-	          <h5 class="card-text">낭떨어지노노</h5>
-	          <span style="width:20px">15%</span><span>　</span><span>19,900</span><br>
-	          <span>★4.2</span>
-	        </div>
-	      </div>
-	    </div>
-	  </div>
-  	  <br>
-  
-  	  <div class="row">
-	    <div class="col-3">
-	      <div class="card">
-	        <img src="https://image.ohou.se/i/bucketplace-v2-development/uploads/productions/166632957544570272.jpg?gif=1&w=640&h=640&c=c&webp=1" class="card-img-top" alt="...">
-	         <div class="card-body">
-	          <h6 class="card-title">최고가구</h6>
-	          <h5 class="card-text">푹신푹신 침대</h5>
-	          <span style="width:20px">50%</span><span>　</span><span>29,900</span><br>
-	          <span>★4.9</span>
-	        </div>
-	      </div>
-	    </div>
-	    <div class="col-3">
-	    	 <div class="card">
-	        <img src="https://image.ohou.se/i/bucketplace-v2-development/uploads/productions/images/159185612857229438.jpg?gif=1&w=640&h=640&c=c&webp=1" class="card-img-top" alt="...">
-	         <div class="card-body">
-	          <h6 class="card-title">넘버원베드</h6>
-	          <h5 class="card-text">솜사탕침대</h5>
-	          <span style="width:20px">40%</span><span>　</span><span>69,000</span><br>
-	          <span>★4.2</span>
-	        </div>
-	      </div>
-	    </div>
-	    <div class="col-3">
-	    	 <div class="card">
-	          <img src="https://image.ohou.se/i/bucketplace-v2-development/uploads/productions/167030880120378156.jpg?gif=1&w=640&h=640&c=c&webp=1" class="card-img-top" alt="...">
-	         <div class="card-body">
-	          <h6 class="card-title">솜사탕</h6>
-	          <h5 class="card-text">잠이솔솔 침대</h5>
-	          <span style="width:20px">62%</span><span>　</span><span>69,900</span><br>
-	          <span>★4.3</span>
-	        </div>
-	      </div>
-	    </div>
-	    <div class="col-3">
-	    	 <div class="card">
-	         <img src="https://image.ohou.se/i/bucketplace-v2-development/uploads/productions/164689139714715370.jpg?gif=1&w=640&h=640&c=c&webp=1" class="card-img-top" alt="...">
-	         <div class="card-body">
-	          <h6 class="card-title">싱글침대최고</h6>
-	          <h5 class="card-text">낭떨어지노노</h5>
-	          <span style="width:20px">15%</span><span>　</span><span>19,900</span><br>
-	          <span>★4.2</span>
-	        </div>
-	      </div>
-	    </div>
-	  </div>
-	  </body>
-	   <br>
-  
-  	  <div class="row">
-	    <div class="col-3">
-	      <div class="card">
-	        <img src="https://image.ohou.se/i/bucketplace-v2-development/uploads/productions/166632957544570272.jpg?gif=1&w=640&h=640&c=c&webp=1" class="card-img-top" alt="...">
-	         <div class="card-body">
-	          <h6 class="card-title">최고가구</h6>
-	          <h5 class="card-text">푹신푹신 침대</h5>
-	          <span style="width:20px">50%</span><span>　</span><span>29,900</span><br>
-	          <span>★4.9</span>
-	        </div>
-	      </div>
-	    </div>
-	    <div class="col-3">
-	    	 <div class="card">
-	        <img src="https://image.ohou.se/i/bucketplace-v2-development/uploads/productions/images/159185612857229438.jpg?gif=1&w=640&h=640&c=c&webp=1" class="card-img-top" alt="...">
-	         <div class="card-body">
-	          <h6 class="card-title">넘버원베드</h6>
-	          <h5 class="card-text">솜사탕침대</h5>
-	          <span style="width:20px">40%</span><span>　</span><span>69,000</span><br>
-	          <span>★4.2</span>
-	        </div>
-	      </div>
-	    </div>
-	    <div class="col-3">
-	    	 <div class="card">
-	          <img src="https://image.ohou.se/i/bucketplace-v2-development/uploads/productions/167030880120378156.jpg?gif=1&w=640&h=640&c=c&webp=1" class="card-img-top" alt="...">
-	         <div class="card-body">
-	          <h6 class="card-title">솜사탕</h6>
-	          <h5 class="card-text">잠이솔솔 침대</h5>
-	          <span style="width:20px">62%</span><span>　</span><span>69,900</span><br>
-	          <span>★4.3</span>
-	        </div>
-	      </div>
-	    </div>
-	    <div class="col-3">
-	    	 <div class="card">
-	         <img src="https://image.ohou.se/i/bucketplace-v2-development/uploads/productions/164689139714715370.jpg?gif=1&w=640&h=640&c=c&webp=1" class="card-img-top" alt="...">
-	         <div class="card-body">
-	          <h6 class="card-title">싱글침대최고</h6>
-	          <h5 class="card-text">낭떨어지노노</h5>
-	          <span style="width:20px">15%</span><span>　</span><span>19,900</span><br>
-	          <span>★4.2</span>
-	        </div>
-	      </div>
-	    </div>
-	  </div>
-	 
-	<!-- 페이징 처리 -->
+	<!-- 상품카드 12개 -->
+		
+		 <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-4">
+		  <c:forEach items="${ sList }" var="s">
+		    <div class="col-3">
+		      <div class="card">
+		        <img src="resources/uploadFiles/${ a.imgRename }" width="100%" height="225">
+		         <div class="card-body">
+		          <h6 class="card-title">${ s.brand } </h6>
+		          <h5 class="card-text">${ s.boardTitle }</h5>
+		          <span style="width:20px">${ s.discount }%</span><span>　</span><span>${ s.price }</span><br>
+		          <span>★4.9</span>
+		        </div>
+		      </div>
+		    </div>
+		   </c:forEach>
+		</div>
+	</div>
  
 	<footer>
 		<jsp:include page="../common/footer.jsp"/>
 	</footer>  	
 	
-
 </body>
 </html>

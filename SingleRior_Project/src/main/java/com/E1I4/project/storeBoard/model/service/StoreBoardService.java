@@ -8,9 +8,10 @@ import com.E1I4.project.storeBoard.model.vo.StoreBoard;
 
 public interface StoreBoardService {
 
-	int getListCount(int i);
+	int getStoreListCount(int i);
 
 	ArrayList<StoreBoard> selectBoardList(PageInfo pi, int i);
 
-	ArrayList<Attachment> selectAttmList(Integer imgKey);
+	ArrayList<Attachment> selectAttmList(int i);
+
 }

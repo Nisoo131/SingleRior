@@ -2,26 +2,24 @@
 <!DOCTYPE mapper PUBLIC "-//mtbatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="storeMapper">
 
-    <resultMap type="Product" id="ProductResultSet">
-		<id column="board_no" property="boardNo"/>
-		<result column="board_type" property="boardType"/>
-		<result column="board_title" property="productName"/>
-		<result column="board_content" property="productContent"/>
+    <resultMap type="StoreBoard" id="=StoreBoardResultSet">
+		<id column="boardNo" property="boardNo"/>
+		<result column="boardType" property="boardType"/>
+		<result column="board_title" property="boardTitle"/>
 		<result column="create_date" property="createDate"/>
-		<result column="modify_date" property="modifyDate"/>
-		<result column="notice_status" property="noticeStatus"/>
 		<result column="b_status" property="boardStatus"/>
 		<result column="board_writer" property="boardWriter"/>
 		<result column="board_count" property="boardCount"/>
-		<result column="product_no" property="productNo"/>
-		<result column="product_price" property="productPrice"/>
-		<result column="product_discount" property="productDiscount"/>
-		<result column="product_option" property="productOption"/>
+		<result column="product_no" property="pNo"/>
+		<result column="product_price" property="price"/>
+		<result column="product_discount" property="discount"/>
+		<result column="product_option" property="option"/>
 		<result column="model_name" property="modelName"/>
 		<result column="brand" property="brand"/>
-		<result column="delivery_payment" property="delivertPayment"/>
+		<result column="delivery_payment" property="dPayment"/>
 		<result column="PRODUCT_STATUS" property="productStatus"/>
-		<result column="PRO_SUBCATE_CODE" property="proSubCateCode"/>
+		<result column="PRO_SUBCATE_CODE" property="subCateCode"/>
+		<result column="PRO_TOPCATE_CODE" property="topCateCode"/>
 	</resultMap>
 	
 	<resultMap type="Member" id="MemberResultSet">
@@ -56,7 +54,7 @@
 		      and b_status = 'Y'
 	</select>
 	
-	<select id="selectBoardList" resultMap="ProductResultSet">
+	<select id="selectBoardList" resultMap="=StoreBoardResultSet">
       select *
       from board
            join member on(board_writer = member_id)

@@ -25,8 +25,8 @@ public class StoreBoardDAO {
 		
 	}
 
-	public ArrayList<Attachment> selectAttmList(SqlSessionTemplate sqlSession, Integer bId) {
-		return (ArrayList)sqlSession.selectList("storeMapper.selectAttmList");
+	public ArrayList<Attachment> selectAttmList(SqlSessionTemplate sqlSession, int i) {
+		return (ArrayList)sqlSession.selectList("storeMapper.selectAttmList",i );
 	}
 	
 	
