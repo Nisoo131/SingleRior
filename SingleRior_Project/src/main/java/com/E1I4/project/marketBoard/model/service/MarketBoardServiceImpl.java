@@ -9,6 +9,9 @@ import org.springframework.stereotype.Service;
 
 import com.E1I4.project.common.model.vo.Attachment;
 import com.E1I4.project.common.model.vo.PageInfo;
+import com.E1I4.project.common.model.vo.ReReply;
+import com.E1I4.project.common.model.vo.Reply;
+import com.E1I4.project.common.model.vo.WishList;
 import com.E1I4.project.marketBoard.model.dao.MarketBoardDAO;
 import com.E1I4.project.marketBoard.model.vo.MarketBoard;
 
@@ -46,6 +49,45 @@ public class MarketBoardServiceImpl implements MarketBoardService{
 	@Override
 	public ArrayList<Attachment> attmListSelect() {
 		return mkDAO.attmListSelect(sqlSession);
+	}
+
+	@Override
+	public WishList wishListSelect(WishList wl) {
+		return mkDAO.wishListSelect(sqlSession,wl);
+	}
+	
+	@Override
+	public MarketBoard marketBoardSelect(int bNo, boolean yn) {
+		if(yn) {
+			mkDAO.marketBoardCount(sqlSession, bNo);
+		};
+		
+		return mkDAO.marketBoardSelect(sqlSession, bNo);
+	}
+
+	@Override
+	public ArrayList<Attachment> selectAttm(int bNo) {
+		return mkDAO.selectAttm(sqlSession, bNo);
+	}
+
+	@Override
+	public ArrayList<Reply> replySelect(int bNo) {
+		return mkDAO.replySelect(sqlSession, bNo);
+	}
+
+	@Override
+	public ArrayList<ReReply> reReplySelect(int bNo) {
+		return mkDAO.reReplySelect(sqlSession, bNo);
+	}
+
+	@Override
+	public ArrayList<MarketBoard> marketTopList(HashMap<String, Object> map) {
+		return mkDAO.marketTopList(sqlSession, map);
+	}
+
+	@Override
+	public ArrayList<Attachment> topAttmListSelect() {
+		return mkDAO.topAttmListSelect(sqlSession);
 	}
 
 	

@@ -58,16 +58,28 @@ li a:hover {
 				<div class="album py-3">
 					<div class="container">
 						<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3 p-2 px-4">
+							
+							<c:forEach items="${ topBList }" var="tb" begin="0" end="2" step="1">
 							<div class="col">
-								<div class="carouselCardFir shadow-sm">
-		            				<img src="resources/uploadFiles/${ mkA.imgRename }" class="card-img-top" height="225">
-									<img class="bd-placeholder-img card-img-top" width="100%" height="225"  src="https://ifh.cc/g/yX3tCA.png">
+								<div class="carouselCardSec shadow-sm">
+									<c:forEach items="${ topAList }" var="ta" begin="0" end="2" step="1">
+										<c:if test="${ tb.boardNo eq ta.imgKey }">
+											<c:if test="${ ta.imgOriginalName != '' }">
+												<img src="resources/uploadFiles/${ ta.imgRename }" class="card-img-top" height="225">
+											</c:if>		
+											<c:if test="${ ta.imgOriginalName == '' }">
+												<img class="bd-placeholder-img card-img-top" width="100%" height="225"  src="https://ifh.cc/g/yX3tCA.png">
+											</c:if>
+										</c:if>
+									</c:forEach>
 									<div class="card-body">
-										<p class="card-text">${mkB.boardTitle }</p>
+									<span style="float: right; font-size: 13px;" class="card-text">${ tb.writer }</span>
+										<p class="card-text">${tb.boardTitle }</p>
+										<input type="hidden" value="${ tb.boardNo }">
 										<div class="d-flex justify-content-between align-items-center">
-											<p class="card-text" style="width: 280px;">${ mkB.marketPrice}</p>
+											<p class="card-text" style="width: 280px;">${tb.marketPrice }원</p>
 											<div class="btn-group">
-												<span><img src="https://cdn-icons-png.flaticon.com/512/2589/2589197.png"style="width: 30px; height: 30px;">2<img src="https://cdn-icons-png.flaticon.com/512/2589/2589054.png" style="width: 30px; height: 30px; display: none;"></span>
+												<img src="https://cdn-icons-png.flaticon.com/512/2589/2589197.png"style="width: 30px; height: 30px;">2<img src="https://cdn-icons-png.flaticon.com/512/2589/2589054.png" style="width: 30px; height: 30px; display: none;">
 										  &nbsp;<img src="https://cdn-icons-png.flaticon.com/512/7789/7789458.png" style="width: 30px; height: 30px;">4
 											</div>
 											<small class="text-muted"></small>
@@ -75,7 +87,7 @@ li a:hover {
 									</div>
 								</div>
 							</div>
-							
+							</c:forEach>
 							
 						</div>
 					</div>
@@ -88,13 +100,26 @@ li a:hover {
 				<div class="album py-3">
 					<div class="container">
 						<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3 p-2 px-4">
+							
+							<c:forEach items="${ topBList }" var="tb" begin="3" end="5" step="1">
 							<div class="col">
 								<div class="carouselCardSec shadow-sm">
-									<img class="bd-placeholder-img card-img-top" width="100%" height="225"  src="https://ifh.cc/g/yX3tCA.png">
+									<c:forEach items="${ topAList }" var="ta" begin="3" end="5" step="1">
+										<c:if test="${ tb.boardNo eq ta.imgKey }">
+											<c:if test="${ ta.imgOriginalName != '' }">
+												<img src="resources/uploadFiles/${ ta.imgRename }" class="card-img-top" height="225">
+											</c:if>		
+											<c:if test="${ ta.imgOriginalName == '' }">
+												<img class="bd-placeholder-img card-img-top" width="100%" height="225"  src="https://ifh.cc/g/yX3tCA.png">
+											</c:if>
+										</c:if>
+									</c:forEach>
 									<div class="card-body">
-										<p class="card-text">우리집고양이 구경</p>
+									<span style="float: right; font-size: 13px;" class="card-text">${ tb.writer }</span>
+										<p class="card-text">${tb.boardTitle }</p>
+										<input type="hidden" value="${ tb.boardNo }">
 										<div class="d-flex justify-content-between align-items-center">
-											<p class="card-text" style="width: 280px;">3000원</p>
+											<p class="card-text" style="width: 280px;">${tb.boardPrice }원</p>
 											<div class="btn-group">
 												<img src="https://cdn-icons-png.flaticon.com/512/2589/2589197.png"style="width: 30px; height: 30px;">2<img src="https://cdn-icons-png.flaticon.com/512/2589/2589054.png" style="width: 30px; height: 30px; display: none;">
 										  &nbsp;<img src="https://cdn-icons-png.flaticon.com/512/7789/7789458.png" style="width: 30px; height: 30px;">4
@@ -104,6 +129,8 @@ li a:hover {
 									</div>
 								</div>
 							</div>
+							</c:forEach>
+							
 						</div>
 					</div>
 				</div>
@@ -154,7 +181,7 @@ li a:hover {
 		<c:forEach items="${ mkBList }" var="mkB">
 		 <c:set var="marketType" value="${mkB.marketType }"/>
 		<div class="col">
-			<div class="card shadow-sm">
+			<div class="cards shadow-sm">
 			<c:forEach items="${ mkAList }" var="mkA">
 			<c:if test="${ mkB.boardNo eq mkA.imgKey }">
 				<c:if test="${ mkA.imgOriginalName != '' }">
@@ -166,22 +193,46 @@ li a:hover {
 			</c:if>
 			</c:forEach>
 				<div class="card-body">
-					<p class="card-text">${mkB.boardTitle }</p>
+				<span style="float: right; font-size: 13px;" class="card-text">${ mkB.writer }</span>
+					<p class="card-text">${ mkB.boardTitle }</p>
+					<input type="hidden" value="${ mkB.boardNo }">
 					<div class="d-flex justify-content-between align-items-center">
-						<p class="card-text" style="width: 280px;">${mkB.marketPrice }</p>
+						<p class="card-text" style="width: 280px;">${ mkB.marketPrice }원</p>
 						<div class="btn-group">
 							<img src="https://cdn-icons-png.flaticon.com/512/2589/2589197.png" style="width: 30px; height: 30px;">2&nbsp;&nbsp;
 							<img src="https://cdn-icons-png.flaticon.com/512/2589/2589054.png" style="width: 30px; height: 30px; display: none;">&nbsp;
 							<img src="https://cdn-icons-png.flaticon.com/512/7789/7789458.png" style="width: 30px; height: 30px;">4
 						</div>
-						<small class="text-muted"></small>
 					</div>
 				</div>
 			</div>
 		</div>
-		
 		</c:forEach>
 	</div>
+	     			<ul class="pagination" style="justify-content: center;">
+					<c:if test="${ pi.currentPage > 1 }">
+					<li class="page-item"><c:url var="goBack" value="${ loc }">
+							<c:param name="page" value="${ pi.currentPage-1 }"></c:param>
+						</c:url> <a class="page-link" href="${ goBack }" aria-label="Previous">
+							<span aria-hidden="true">&laquo;</span>
+					</a></li>
+					</c:if>
+					<c:forEach begin="${ pi.startPage }" end="${ pi.endPage }" var="p">
+						<c:url var="goNum" value="${ loc }">
+							<c:param name="page" value="${ p }"></c:param>
+						</c:url>
+						<li class="page-item"><a class="page-link" href="${ goNum }">${ p }</a></li>
+					</c:forEach>
+					<c:if test="${ pi.currentPage < pi.maxPage }">
+					<li class="page-item"><c:url var="goNext" value="${ loc }">
+							<c:param name="page" value="${ pi.currentPage+1 }"></c:param>
+						</c:url> <a class="page-link" href="${ goNext }" aria-label="Next"> <span
+							aria-hidden="true">&raquo;</span>
+					</a></li>
+					</c:if>
+				</ul>
+	
+	
 	<footer>
 		<jsp:include page="../common/footer.jsp" />
 	</footer>
@@ -192,29 +243,36 @@ li a:hover {
 		
 		//첫번째 슬라이드 상세페이지
 		const fiRcards = document.getElementsByClassName('carouselCardFir');
+		
 		for(const card of fiRcards){
 			const wish = this.querySelector('span')
 				wish.addEventListener('click', function() {
-				location.href='${contextPath}/marketBoardLike.ma?bId=' + bId;
+				location.href='${contextPath}/marketBoardLike.ma?bNo=' + bNo;
 			});
 			card.addEventListener('click', function() {
-				location.href='${contextPath}/marketBoardDetail.ma?bId=' + bId;
+				const bNo = this.querySelector('input[type="hidden"]').value;
+				const memberId = this.querySelector('span').innerText;
+				location.href='${contextPath}/marketBoardDetail.ma?bNo=' + bNo +'&memberId=' + memberId;
 			});
 		}
 		//두번째 슬라이드 상세페이지
 		const seCcards = document.getElementsByClassName('carouselCardSec');
 		for(const card of seCcards){
 			
-			
+		
 			card.addEventListener('click', function() {
-				location.href='${contextPath}/marketBoardDetail.ma?bId=' + bId;
+				const bNo = this.querySelector('input[type="hidden"]').value;
+				const memberId = this.querySelector('span').innerText;
+				location.href='${contextPath}/marketBoardDetail.ma?bNo=' + bNo  +'&memberId=' + memberId;
 			});
 		}
 		//게시글 상세페이지
 		const cards = document.getElementsByClassName('cards');
 		for(const card of cards){
 			card.addEventListener('click', function() {
-				location.href='${contextPath}/marketBoardDetail.ma?bId=' + bId;
+				const bNo = this.querySelector('input[type="hidden"]').value;
+				const memberId = this.querySelector('span').innerText;
+				location.href='${contextPath}/marketBoardDetail.ma?bNo=' + bNo +'&memberId=' + memberId;
 			});
 		}
 	}

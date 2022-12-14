@@ -9,6 +9,9 @@
 		<typeAlias type="com.E1I4.project.storeBoard.model.vo.StoreBoard" alias="StoreBoard"/>
 		<typeAlias type="com.E1I4.project.commuBoard.model.vo.CommuBoard" alias="CommuBoard"/>
 		<typeAlias type="com.E1I4.project.common.model.vo.Attachment" alias="Attachment"/>
+		<typeAlias type="com.E1I4.project.common.model.vo.WishList" alias="WishList"/>
+		<typeAlias type="com.E1I4.project.common.model.vo.Reply" alias="Reply"/>
+		<typeAlias type="com.E1I4.project.common.model.vo.ReReply" alias="ReReply"/>
 	</typeAliases>
 
 	<mappers>

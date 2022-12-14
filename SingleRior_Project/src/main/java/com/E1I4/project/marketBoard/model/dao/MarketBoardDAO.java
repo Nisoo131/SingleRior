@@ -2,6 +2,7 @@ package com.E1I4.project.marketBoard.model.dao;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -9,6 +10,9 @@ import org.springframework.stereotype.Repository;
 
 import com.E1I4.project.common.model.vo.Attachment;
 import com.E1I4.project.common.model.vo.PageInfo;
+import com.E1I4.project.common.model.vo.ReReply;
+import com.E1I4.project.common.model.vo.Reply;
+import com.E1I4.project.common.model.vo.WishList;
 import com.E1I4.project.marketBoard.model.vo.MarketBoard;
 
 @Repository("mkDAO")
@@ -37,5 +41,41 @@ public class MarketBoardDAO {
 	public int insertAttm(SqlSessionTemplate sqlSession, HashMap<String, Object> map) {
 		return sqlSession.insert("marketMapper.insertAttm", map);
 	}
+
+	public WishList wishListSelect(SqlSessionTemplate sqlSession, WishList wl) {
+		return sqlSession.selectOne("marketMapper.wishListSelect", wl);
+	}
+
+	public int marketBoardCount(SqlSessionTemplate sqlSession, int bNo) {
+		return sqlSession.update("marketMapper.marketBoardCount", bNo);
+	}
+
+	public MarketBoard marketBoardSelect(SqlSessionTemplate sqlSession, int bNo) {
+		return sqlSession.selectOne("marketMapper.marketBoardSelect", bNo);
+	}
+
+	
+	public ArrayList<Attachment> selectAttm(SqlSessionTemplate sqlSession, int bNo) {
+		return (ArrayList)sqlSession.selectList("marketMapper.selectAttm", bNo);
+	}
+	
+	public ArrayList<Reply> replySelect(SqlSessionTemplate sqlSession, int bNo) {
+		return (ArrayList)sqlSession.selectList("marketMapper.replySelect", bNo);
+	}
+
+	public ArrayList<ReReply> reReplySelect(SqlSessionTemplate sqlSession, int bNo) {
+		return (ArrayList)sqlSession.selectList("marketMapper.reReplySelect", bNo);
+	}
+
+	public ArrayList<MarketBoard> marketTopList(SqlSessionTemplate sqlSession, HashMap<String, Object> map) {
+		return (ArrayList)sqlSession.selectList("marketMapper.marketTopList", map);
+	}
+
+	public ArrayList<Attachment> topAttmListSelect(SqlSessionTemplate sqlSession) {
+		return (ArrayList)sqlSession.selectList("marketMapper.topAttmListSelect");
+	}
+
+
+	
 
 }
