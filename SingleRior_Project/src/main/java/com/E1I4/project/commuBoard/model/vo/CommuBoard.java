@@ -23,6 +23,7 @@ public class CommuBoard {
 	private String noticeStatus;
 	private String status;
 	private String writer;
+	private String nickName;
 	private int count;
 	private int symptCount;
 	private String commuType;
