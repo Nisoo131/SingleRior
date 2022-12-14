@@ -203,7 +203,7 @@ public class MarketBoardController {
 	
 	//상세페이지
 		@RequestMapping("marketBoardDetail.ma")
-		public String marketBoardDetail(@RequestParam("bNo") int bNo, @RequestParam(value="memberId", required=false) String boardWriter, HttpSession session, Model model) {
+		public String marketBoardDetail(@RequestParam("bNo") int bNo, @RequestParam(value="boardWriter", required=false) String boardWriter, HttpSession session, Model model) {
 			Member loginUser = (Member)session.getAttribute("loginUser");
 			boolean yn = true;
 			
@@ -230,6 +230,8 @@ public class MarketBoardController {
 			
 			ArrayList<Reply> mkRList = mkService.replySelect(bNo);
 			ArrayList<ReReply> mkRRList = mkService.reReplySelect(bNo);
+			
+			
 			
 			System.out.println(mkBoard);
 			System.out.println(mkAList);

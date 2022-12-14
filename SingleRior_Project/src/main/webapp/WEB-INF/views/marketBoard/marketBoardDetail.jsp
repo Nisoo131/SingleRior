@@ -60,6 +60,14 @@
 							<input  style="font-size: 20px; border-style: none;" value="3000원" readonly="readonly">
 							</div>
 						<div>
+						
+					<div class="mx-auto" style="height: 20%; text-align: center">
+						<c:forEach items="${ aList }" var="a">
+						<img style="margin: auto; width: 700px; height: 500px;" src="resources/uploadFiles/${ a.renameName }">
+			</c:forEach>
+		</div>
+						
+						
 						<div class="col-12">
 							<div class="input-group">
 					          <textarea class="form-control" rows="10" name="boardContent" style="resize: none; "readonly>우리집고양이있따부럽지</textarea>
