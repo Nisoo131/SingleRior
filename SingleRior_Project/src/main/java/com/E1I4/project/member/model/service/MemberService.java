@@ -22,5 +22,7 @@ public interface MemberService {
 
 	int checkEmailConfirm(String email);
 
+	int updateMember(Member m);
+
 
 }
