@@ -57,7 +57,7 @@
 						
 						<div class="col-12">
 							<label for="nickName" class="form-label">닉네임</label>
-							<input type="text" class="form-control" id="nickName" name="nickName" value="${loginUser.nickName }">
+							<input type="text" class="form-control" id="nickName" name="nickName" value="${loginUser.nickName }" required>
 							<span id="nickNameCheckMsg"></span>
 						</div>
 

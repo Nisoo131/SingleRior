@@ -120,7 +120,7 @@ public class KakaoLogin {
 				userInfo.put("nickname", nickname);
 				userInfo.put("email", email);
 				userInfo.put("kakaoId", id);
-
+				userInfo.put("provider", "kakao");
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
