@@ -251,8 +251,8 @@ li a:hover {
 			});
 			card.addEventListener('click', function() {
 				const bNo = this.querySelector('input[type="hidden"]').value;
-				const memberId = this.querySelector('span').innerText;
-				location.href='${contextPath}/marketBoardDetail.ma?bNo=' + bNo +'&memberId=' + memberId;
+				const boardWriter = this.querySelector('span').innerText;
+				location.href='${contextPath}/marketBoardDetail.ma?bNo=' + bNo +'&boardWriter=' + boardWriter;
 			});
 		}
 		//두번째 슬라이드 상세페이지
@@ -262,8 +262,8 @@ li a:hover {
 		
 			card.addEventListener('click', function() {
 				const bNo = this.querySelector('input[type="hidden"]').value;
-				const memberId = this.querySelector('span').innerText;
-				location.href='${contextPath}/marketBoardDetail.ma?bNo=' + bNo  +'&memberId=' + memberId;
+				const boardWriter = this.querySelector('span').innerText;
+				location.href='${contextPath}/marketBoardDetail.ma?bNo=' + bNo  +'&boardWriter=' + boardWriter;
 			});
 		}
 		//게시글 상세페이지
@@ -271,8 +271,8 @@ li a:hover {
 		for(const card of cards){
 			card.addEventListener('click', function() {
 				const bNo = this.querySelector('input[type="hidden"]').value;
-				const memberId = this.querySelector('span').innerText;
-				location.href='${contextPath}/marketBoardDetail.ma?bNo=' + bNo +'&memberId=' + memberId;
+				const boardWriter = this.querySelector('span').innerText;
+				location.href='${contextPath}/marketBoardDetail.ma?bNo=' + bNo +'&boardWriter=' + boardWriter;
 			});
 		}
 	}
