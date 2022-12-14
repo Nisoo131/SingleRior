@@ -17,13 +17,70 @@
 		<result column="COMMU_TYPE" property="commuType"/>
 	</resultMap>
 	
+	<resultMap type="Attachment" id="attachmentResultSet">
+		<id property="imgNo" column="IMG_NO"/>
+		<result property="imgOriginalName" column="IMG_NAME"/>
+		<result property="imgRename" column="IMG_SERVER_NAME"/>
+		<result property="imgCreateDate" column="IMG_CREATE_DATE"/>
+		<result property="imgModifyDate" column="IMG_CREATE_DATE"/>
+		<result property="imgKey" column="IMG_KEY"/>
+		<result property="imgPath" column="IMG_PATH"/>
+		<result property="imgStatus" column="IMG_STATUS"/>
+		<result property="level" column="IMG_LEVEL"/>
+		<result property="boardType" column="IMG_B_TYPE"/>
+	</resultMap>
+	
+	<select id="getCommuListCount" resultType="_int">
+		select count(*)
+		from board
+		where board_type=#{i}
+			  and b_status = 'Y'
+	</select>
+	
+	<select id="selectCommuAllList" resultMap="CommuBoardResultSet">
+		select *
+		from board b
+     		 join member on (board_writer = member_id)
+     		 join community c on (b.board_no = c.board_no)
+		where b_status = 'Y' and board_type = #{i}
+	</select>
+	
 	<insert id="insertCommuBoard">
 		insert all
 		into board
-		values(SEQ_BID.nextval, #{boardType}, #{boardTitle}, #{boardContent}, sysdate, sysdate, default, default, #{writer}, default, #{symptCount}, #{commuType})
+		values(SEQ_BID.nextval, #{boardType}, #{boardTitle}, #{boardContent}, sysdate, sysdate, default, default, #{writer}, default)
 		into community
 		values(SEQ_BID.currval, #{symptCount}, #{commuType})
 		select * from dual
 	</insert>
+	
+	<insert id="insertAttm">
+		insert all
+		<foreach collection="list" item="a">
+			into IMG_REPOSITORY
+			values(SingleRior_aid, #{a.imgOriginalName}, #{a.imgRename}, sysdate, sysdate, default, seq_bId.currval, #{a.imgPath}, #{a.boardType}, #{a.level})
+		</foreach>
+		select * from dual
+	</insert>
+	
+	<update id="addCount">
+		update board
+		set board_count = board_count + 1
+		where board_no = #{bNo}
+	</update>
+	
+	<select id="selectCommuBoard" resultMap="CommuBoardResultSet">
+		select *
+		from board b
+			 join member on (board_writer = member_id)
+			 join community c on (b.board_no = c.board_no)
+		where b_status='Y' and b.board_no = #{bNo}
+	</select>
+	
+	<select id="selectAttmList" resultMap="attachmentResultSet">
+		select *
+		from IMG_REPOSITORY
+		where IMG_STATUS = 'Y' and IMG_B_TYPE = '2' and IMG_LEVEL = 0
+	</select>
 
 </mapper>

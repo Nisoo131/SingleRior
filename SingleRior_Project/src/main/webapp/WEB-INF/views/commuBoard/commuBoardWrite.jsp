@@ -50,9 +50,9 @@
 						<h1 style="align-self: center;">싱글벙글</h1>
 						<div class="col-12">
 							<select class="form-select form-select-sm" name="commuType" aria-label=".form-select-sm example" style="width: 120px; margin-bottom: 15px; text-align: center;">
-								<option>생활팁</option>
-								<option>후기</option>
-								<option>자유</option>
+								<option value="1">생활팁</option>
+								<option value="2">후기</option>
+								<option value="3">자유</option>
 							</select>
 						
 							<label for="boardTitle" class="form-label">TITLE</label>
@@ -76,8 +76,9 @@
 						<br><br><br><br><br>
 						
 						<div style="text-align: center;">
+							<input type="hidden" name="boardType" value="2">
 							<button class="btn btn-outline-primary" type="button" style="width: 100px;" onclick="javascript:history.back();">취소</button>
-							<button class="btn btn-outline-primary" type="button" id="submitAttm" style="width: 100px;">등록</button>
+							<button class="btn btn-outline-primary" type="submit" id="submitAttm" style="width: 100px;">등록</button>
 						</div>
 					</div>
 				</form>

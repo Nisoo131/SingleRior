@@ -31,6 +31,7 @@
 		font-size: 20px;
 		font-weight: bold;
 	}
+	td:hover{cursor: pointer;}
 </style>
 </head>
 <body>
@@ -106,96 +107,28 @@
 						<tr class="fs-5">
 							<th width="100px">카테고리</th>
 							<th>글 제목</th>
+							<th width="130px">작성자</th>
 							<th width="130px">작성일</th>
 							<th width="70px">공감</th>
 							<th width="70px">댓글</th>
 		          		</tr>
 		          	</thead>
 	         		<tbody>
-	          			<tr>
-							<th>[공지]</th>
-							<th>이곳은 모두가 함께 사용하는 공간입니다. 타인에게 매너를 지켜주세요.</th>
-							<th>2022-12-06</th>
-							<th>0</th>
-							<th>0</th>
-	          			</tr>
-	          			<tr>
-							<th>[공지]</th>
-							<th>글 작성 시 개인정보 유출에 주의 바랍니다.</th>
-							<th>2022-12-06</th>
-							<th>0</th>
-							<th>0</th>
-	          			</tr>
-	          			<tr>
-							<td>[생활팁]</td>
-							<td>여러분 과탄산소다가 여기저기 쓸 곳 많은 거 알고계시나요...?</td>
-							<td>2022-12-06</td>
-							<td>0</td>
-							<td>0</td>
-	          			</tr>
-	          			<tr>
-							<td>[자유]</td>
-							<td><a href="${ contextPath }/selectCommuBoard.co">배가 너무 아픈데 주변에 약국이 다 문을 닫았어요..ㅜㅜ</a></td>
-							<td>2022-12-06</td>
-							<td>0</td>
-							<td>0</td>
-	          			</tr>
-	          			<tr>
-							<td>[후기]</td>
-							<td>이번에 가습기 하나 장만했는디 가성비 좋네여!!!</td>
-							<td>2022-12-06</td>
-							<td>0</td>
-							<td>0</td>
-	          			</tr>
-	          			<tr>
-							<td>[자유]</td>
-							<td>오늘 롯데월드 갔다왔는데 사람 너무 많았음;;;;;;</td>
-							<td>2022-12-06</td>
-							<td>0</td>
-							<td>0</td>
-	          			</tr>
-	          			<tr>
-							<td>[후기]</td>
-							<td>XX 매트리스 내돈내산 후기....^^</td>
-							<td>2022-12-06</td>
-							<td>0</td>
-							<td>0</td>
-	          			</tr>
-	          			<tr>
-							<td>[생활팁]</td>
-							<td>자취 꿀팁!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!</td>
-							<td>2022-12-06</td>
-							<td>0</td>
-							<td>0</td>
-	          			</tr>
-	          			<tr>
-							<td>[자유]</td>
-							<td>WW 침대 프레임이랑 XX 매트리스 호환되나요? 아시는 분?</td>
-							<td>2022-12-06</td>
-							<td>0</td>
-							<td>0</td>
-	          			</tr>
-	          			<tr>
-							<td>[생활팁]</td>
-							<td>다이소 압축봉 장만하셔요!!!!! 이걸로 수납공간 확보 완료!!!!!</td>
-							<td>2022-12-06</td>
-							<td>0</td>
-							<td>0</td>
-	          			</tr>
-	          			<tr>
-							<td>[자유]</td>
-							<td>하 집 가고 싶다......^^</td>
-							<td>2022-12-06</td>
-							<td>0</td>
-							<td>0</td>
-	          			</tr>
-	          			<tr>
-							<td>[자유]</td>
-							<td>자꾸 하수구에서 냄새가 올라오는데 어케 해야하나요?</td>
-							<td>2022-12-06</td>
-							<td>0</td>
-							<td>0</td>
-	          			</tr>
+	         			<c:forEach items="${ list }" var="b">
+	         				<tr>
+								<td>
+									<c:if test="${ b.commuType == 1 }">생활팁</c:if>
+									<c:if test="${ b.commuType == 2 }">후기</c:if>
+									<c:if test="${ b.commuType == 3 }">자유</c:if>
+									<input type="hidden" class="bNo" value="${ b.boardNo }">${ b.boardNo }
+								</td>
+								<td>${ b.boardTitle }</td>
+								<td class="writer">${ b.nickName }</td>
+								<td>${ b.createDate }</td>
+								<td>${ b.symptCount }</td>
+								<td>0</td>
+		          			</tr>
+	         			</c:forEach>
 	          		</tbody>
 	        	</table>
 	       	</div>
@@ -263,7 +196,6 @@
 	        		<button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0" id="yes" onclick="location.href='${ contextPath }/loginView.me'">
 	        			<strong>확인</strong>
 	        		</button>
-	        		
 	      		</div>
 	    	</div>
 	  	</div>
@@ -298,6 +230,17 @@
 			if(loginModal != null){
 				loginModal.addEventListener('click', ()=>{
 					$('#modalChoice').modal('show');
+				});
+			}
+			
+			const table = document.getElementsByClassName('table');
+			for(const tr of table){
+				tr.addEventListener('click', function(){
+					const bNo = this.querySelector('.bNo').value;
+					console.log(bNo);
+					const writer = this.querySelector('.writer').innerText;
+					console.log(writer);
+					location.href='${contextPath}/selectCommuBoard.co?bNo=' + bNo + '&writer=' + writer + '&page=' + ${pi.currentPage};
 				});
 			}
 		}

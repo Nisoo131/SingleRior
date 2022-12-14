@@ -109,7 +109,7 @@ public class MarketBoardController {
 		for(MultipartFile file : files) {
 			String fileName = file.getOriginalFilename();
 			if(!fileName.equals("")) {
-				String fileType = fileName.substring(fileName.lastIndexOf(".")+1).toLowerCase();
+				String fileType = fileName.substring(fileName.lastIndexOf(".") + 1).toLowerCase();
 				
 				if(fileType.equals("png") || fileType.equals("jpg") || fileType.equals("gif") || fileType.equals("jpeg") || fileType.equals("jfif")) {
 					
