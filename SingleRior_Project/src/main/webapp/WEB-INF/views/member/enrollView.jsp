@@ -69,16 +69,16 @@
 							 <span id="emailCheckConfirmMsg"></span>
 							 
 						<div class="mail-check-box">
-							<input class="form-control mail-check-input" id="emailCheckInput" disabled="disabled" placeholder="인증번호 6자리를 입력해주세요!"  maxlength="6">
+							<input class="form-control mail-check-input" id="emailCheckInput" disabled="disabled" placeholder="인증번호 6자리를 입력해주세요!"  maxlength="6" required>
 							<span id="emailCheckMsg"></span>
 						</div>
 						<div class="col-12">
 							<label for="phone" class="form-label">핸드폰 번호 (-포함)</label>
-							<input type="text" class="form-control" id="phone" name="phone">
+							<input type="text" class="form-control" id="phone" name="phone" required>
 						</div>
 						<div class="col-12">
 							<label for="address" class="form-label">주소</label>
-							<input type="text" class="form-control" id="address_kakao" name="address">
+							<input type="text" class="form-control" id="address_kakao" name="address" required>
 						</div>
 						
 						<br><br><br><br><br>

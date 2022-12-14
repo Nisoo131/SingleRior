@@ -22,8 +22,5 @@ public interface MemberService {
 
 	int checkEmailConfirm(String email);
 
-	String getAccessToken(String code);
-
-	HashMap<String, Object> getUserInfo(String access_Token);
 
 }
