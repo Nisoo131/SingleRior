@@ -113,7 +113,7 @@
 							<th width="70px">댓글</th>
 		          		</tr>
 		          	</thead>
-	         		<tbody>
+	         		<tbody class="tbody">
 	         			<c:forEach items="${ list }" var="b">
 	         				<tr>
 								<td>
@@ -123,7 +123,7 @@
 									<input type="hidden" class="bNo" value="${ b.boardNo }">${ b.boardNo }
 								</td>
 								<td>${ b.boardTitle }</td>
-								<td class="writer">${ b.nickName }</td>
+								<td><input type="hidden" value="${ b.nickName }">${ b.nickName }</td>
 								<td>${ b.createDate }</td>
 								<td>${ b.symptCount }</td>
 								<td>0</td>
@@ -233,16 +233,16 @@
 				});
 			}
 			
-			const table = document.getElementsByClassName('table');
-			for(const tr of table){
-				tr.addEventListener('click', function(){
-					const bNo = this.querySelector('.bNo').value;
-					console.log(bNo);
-					const writer = this.querySelector('.writer').innerText;
-					console.log(writer);
-					location.href='${contextPath}/selectCommuBoard.co?bNo=' + bNo + '&writer=' + writer + '&page=' + ${pi.currentPage};
-				});
-			}
+			const tbody = document.querySelector('.tbody');
+	         const trs = tbody.querySelectorAll('tr');
+	         console.log(trs);
+	         for(const tr of trs){
+	            tr.addEventListener('click', function(){
+	               const bNo = this.querySelectorAll('input')[0].value;
+	               const writer = this.querySelectorAll('input')[1].value;
+	               location.href='${contextPath}/selectCommuBoard.co?bNo=' + bNo + '&writer=' + writer + '&page=' + ${pi.currentPage};
+	            });
+	         }
 		}
 	</script>
 </body>
