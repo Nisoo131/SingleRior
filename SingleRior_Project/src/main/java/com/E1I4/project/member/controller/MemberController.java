@@ -264,14 +264,13 @@ public class MemberController {
 //			System.out.println("새비번ㄴㄴ음: " + m);
 		}
 	
-//		int result = mService.updateMember(m);
-//		if(result > 0) {
-//			session.setAttribute("loginUser", mService.login(m));
-//			return "redirect:myPage.me";
-//		}else {
-//			throw new MemberException("비밀번호 발급 실패");
-//		}
-		return null;
+		int result = mService.updateMember(m);
+		if(result > 0) {
+			session.setAttribute("loginUser", mService.login(m));
+			return "redirect:myPage.me";
+		}else {
+			throw new MemberException("비밀번호 발급 실패");
+		}
 	}
 	@RequestMapping("myCart.me")
 	public String myCart() {
