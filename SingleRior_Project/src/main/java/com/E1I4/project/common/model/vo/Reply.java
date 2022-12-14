@@ -1,5 +1,6 @@
 package com.E1I4.project.common.model.vo;
 
+import java.sql.Date;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -12,7 +13,14 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class WishList {
-	private int boardNo;
+public class Reply {
+	private int replyNo;
+	private String replyContent;
+	private Date replyCreateDate;
+	private Date replyModifyDate;
+	private String replySecret;
+	private String replyStatus;
 	private String memberId;
+	private String boardNo;
+	private String nickName;
 }

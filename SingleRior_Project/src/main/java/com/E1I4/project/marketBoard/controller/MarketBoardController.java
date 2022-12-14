@@ -21,6 +21,8 @@ import com.E1I4.project.common.Pagination;
 import com.E1I4.project.common.exception.BoardException;
 import com.E1I4.project.common.model.vo.Attachment;
 import com.E1I4.project.common.model.vo.PageInfo;
+import com.E1I4.project.common.model.vo.ReReply;
+import com.E1I4.project.common.model.vo.Reply;
 import com.E1I4.project.common.model.vo.WishList;
 import com.E1I4.project.marketBoard.model.service.MarketBoardService;
 import com.E1I4.project.marketBoard.model.vo.MarketBoard;
@@ -68,6 +70,9 @@ public class MarketBoardController {
 		ArrayList<MarketBoard> mkBList = mkService.marketBoardList(pi, map);
 		ArrayList<Attachment> mkAList = mkService.attmListSelect();
 		
+		ArrayList<MarketBoard> topBList = mkService.marketTopList(map);
+		ArrayList<Attachment> topAList = mkService.topAttmListSelect();
+		
 		System.out.println(mkBList);
 		System.out.println(mkAList);
 		
@@ -75,6 +80,8 @@ public class MarketBoardController {
 			model.addAttribute("pi", pi);
 			model.addAttribute("mkBList", mkBList);
 			model.addAttribute("mkAList", mkAList);
+			model.addAttribute("topBList", topBList);
+			model.addAttribute("topAList", mkAList);
 			return "marketBoardList";
 		} else {
 			throw new BoardException("게시글 조회 실패");
@@ -90,9 +97,7 @@ public class MarketBoardController {
 	//글insert
 	@RequestMapping("marketBoardInsert.ma")
 	public String marketBoardInsert(HttpServletRequest request,@ModelAttribute MarketBoard mkBoard, @RequestParam("file") ArrayList<MultipartFile> files ) {
-		
-		
-		System.out.println(mkBoard);
+
 		String id = ((Member)request.getSession().getAttribute("loginUser")).getMemberId();
 		mkBoard.setWriter(id);
 		mkBoard.setMarketType(mkBoard.getMarketType());
@@ -172,7 +177,6 @@ public class MarketBoardController {
 		if(!folder.exists()) {
 			folder.mkdirs();
 		}
-		System.out.println("folder : "+folder);
 		
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmssSSS");
 		int ranNum = (int)(Math.random()*10000);
@@ -197,6 +201,59 @@ public class MarketBoardController {
 		return returnArr;
 	}
 	
+	//상세페이지
+		@RequestMapping("marketBoardDetail.ma")
+		public String marketBoardDetail(@RequestParam("bNo") int bNo, @RequestParam(value="memberId", required=false) String boardWriter, HttpSession session, Model model) {
+			Member loginUser = (Member)session.getAttribute("loginUser");
+			boolean yn = true;
+			
+			System.out.println(bNo);
+			
+			if(loginUser != null && boardWriter != null) {
+				String id = loginUser.getMemberId();
+				if(id.equals(boardWriter)) {
+					yn = false;
+				}
+			}
+			
+			WishList wl = new WishList();
+			WishList wishList = null;
+			
+			if(loginUser != null) {
+				wl.setBoardNo(bNo);
+				wl.setMemberId (loginUser.getMemberId());
+				wishList = mkService.wishListSelect(wl);
+			}
+			
+			MarketBoard mkBoard = mkService.marketBoardSelect(bNo, yn);
+			ArrayList<Attachment> mkAList = mkService.selectAttm(bNo);
+			
+			ArrayList<Reply> mkRList = mkService.replySelect(bNo);
+			ArrayList<ReReply> mkRRList = mkService.reReplySelect(bNo);
+			
+			System.out.println(mkBoard);
+			System.out.println(mkAList);
+			System.out.println(wishList);
+			System.out.println(mkRList);
+			System.out.println(mkRRList);
+			
+			if(mkBoard != null) {
+				model.addAttribute("mkBoard", mkBoard);
+				model.addAttribute("mkAList", mkAList);
+				model.addAttribute("wishList", wishList);
+				model.addAttribute("mkRList", mkRList);
+				model.addAttribute("mkRRList", mkRRList);
+				
+				return "marketBoardDetail";
+			
+			} else {
+				throw new BoardException("봉사 게시글 조회 실패.");
+			}
+		}
+
+
+
+
 
 	
 }
