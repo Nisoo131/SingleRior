@@ -1,11 +1,15 @@
 package com.E1I4.project.storeBoard.model.service;
 
+import java.util.ArrayList;
+
+import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.mybatis.spring.SqlSessionTemplate;
 
-
+import com.E1I4.project.common.model.vo.Attachment;
+import com.E1I4.project.common.model.vo.PageInfo;
 import com.E1I4.project.storeBoard.model.dao.StoreBoardDAO;
+import com.E1I4.project.storeBoard.model.vo.StoreBoard;
 
 @Service("sService")
 public class StoreBoardServiceImpl implements StoreBoardService{
@@ -14,4 +18,20 @@ public class StoreBoardServiceImpl implements StoreBoardService{
 	
 	@Autowired
 	private SqlSessionTemplate sqlSession;
+	
+
+	@Override
+	public int getListCount(int i) {
+		return sDAO.getListCount(sqlSession, i);
+	}
+
+	@Override
+	public ArrayList<StoreBoard> selectBoardList(PageInfo pi, int i) {
+		return sDAO.selectBoardList(sqlSession, pi, i);
+	}
+
+	@Override
+	public ArrayList<Attachment> selectAttmList(Integer bId) {
+		return sDAO.selectAttmList(sqlSession,bId);
+	}
 }

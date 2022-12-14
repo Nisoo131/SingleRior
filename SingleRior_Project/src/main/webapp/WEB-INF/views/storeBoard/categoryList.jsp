@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -21,10 +24,14 @@
 	</header>
 	
 	<!-- 대분류/소분류 구분 -->
-	<div class="front">
-		<h5><b>전체 > 가구 > 침대/매트릭스</b></h5>
-			<h3><b>침대/매트릭스</b></h3>
-			
+	${ slist }
+	${ alist }
+	이거 끝
+	
+ 	<div class="front">
+		<h5><b>전체 > 가구 > </b></h5>
+			<h3><b>${ p.proSubCateCode } </b></h3>
+		
 		<div id="selectOption" dir="rtl">
 			<select style="width:100px; height:30px;">
 			  <option selected>인기순</option>
@@ -36,6 +43,7 @@
 		<br>
 	
 	<!-- 카드 4x3-->
+	
 	  <div class="row">
 	    <div class="col-3">
 	     <a href="${ contextPath }/productDetail.st">
@@ -132,6 +140,7 @@
 	      </div>
 	    </div>
 	  </div>
+	  </body>
 	   <br>
   
   	  <div class="row">
@@ -180,12 +189,13 @@
 	      </div>
 	    </div>
 	  </div>
-	</div>
-	
+	 
 	<!-- 페이징 처리 -->
  
 	<footer>
 		<jsp:include page="../common/footer.jsp"/>
 	</footer>  	
+	
+
 </body>
 </html>

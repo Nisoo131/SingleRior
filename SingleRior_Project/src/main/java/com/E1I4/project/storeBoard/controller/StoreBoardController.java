@@ -1,21 +1,56 @@
 package com.E1I4.project.storeBoard.controller;
 
+import java.util.ArrayList;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import com.E1I4.project.common.Pagination;
+import com.E1I4.project.common.exception.BoardException;
+import com.E1I4.project.common.model.vo.Attachment;
+import com.E1I4.project.common.model.vo.PageInfo;
+import com.E1I4.project.storeBoard.model.service.StoreBoardService;
+import com.E1I4.project.storeBoard.model.vo.StoreBoard;
 
 @Controller
 public class StoreBoardController {
-
-	// 스토어 클릭시 메인페이지
-	@RequestMapping("storeList.st")
-	public String storeList() {
-		return "storeList";
-	}
+	
+	@Autowired
+	private StoreBoardService sService;
 	
 	// 대분류-소분류 카테고리 선택시
 	@RequestMapping("categoryList.st")
-	public String categoryList() {
-		return "categoryList";
+	public String storeList(@RequestParam(value="page", required=false) Integer page, Model model) {
+			int currentPage = 1;
+			if(page != null) {
+				currentPage = page;
+			}
+			//board type이 스토어 1인 것만 가져오기
+			int listCount = sService.getListCount(1);
+			
+			//boardLimit: 카드 12개
+			PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 12);
+			ArrayList<StoreBoard> slist = sService.selectBoardList(pi, 1); // board_type:1(스토어)
+			ArrayList<Attachment> aList = sService.selectAttmList(null); // 다 가지고 오기
+			if(slist != null) {
+				model.addAttribute("pi", pi);
+				model.addAttribute("slist", slist);
+				model.addAttribute("aList", aList);
+				
+				return "categoryList";
+			} else {
+				throw new BoardException("게시글 조회 실패");
+			}
+		}
+
+	
+	// 스토어 클릭스 메인페이지 - 단순 카테 이동
+	@RequestMapping("storeList.st")
+	public String storeList() {
+		return "storeList";
 	}
 	
 	// 썸네일 클릭시

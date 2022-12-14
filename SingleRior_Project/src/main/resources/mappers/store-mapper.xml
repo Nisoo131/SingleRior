@@ -2,10 +2,80 @@
 <!DOCTYPE mapper PUBLIC "-//mtbatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="storeMapper">
 
-	<resultMap type="StoreBoard" id="StoreBoardResultSet">
-		<id column="#" property="#"/>
-		<result column="#" property="#"/>
+    <resultMap type="Product" id="ProductResultSet">
+		<id column="board_no" property="boardNo"/>
+		<result column="board_type" property="boardType"/>
+		<result column="board_title" property="productName"/>
+		<result column="board_content" property="productContent"/>
+		<result column="create_date" property="createDate"/>
+		<result column="modify_date" property="modifyDate"/>
+		<result column="notice_status" property="noticeStatus"/>
+		<result column="b_status" property="boardStatus"/>
+		<result column="board_writer" property="boardWriter"/>
+		<result column="board_count" property="boardCount"/>
+		<result column="product_no" property="productNo"/>
+		<result column="product_price" property="productPrice"/>
+		<result column="product_discount" property="productDiscount"/>
+		<result column="product_option" property="productOption"/>
+		<result column="model_name" property="modelName"/>
+		<result column="brand" property="brand"/>
+		<result column="delivery_payment" property="delivertPayment"/>
+		<result column="PRODUCT_STATUS" property="productStatus"/>
+		<result column="PRO_SUBCATE_CODE" property="proSubCateCode"/>
 	</resultMap>
+	
+	<resultMap type="Member" id="MemberResultSet">
+		<id column="MEMBER_ID" property="memberId"/>
+		<result column="MEMBER_PWD" property="memberPwd"/>
+		<result column="MEMBER_NAME" property="memberName"/>
+		<result column="NICKNAME" property="nickName"/>
+		<result column="PHONE" property="phone"/>
+		<result column="EMAIL" property="email"/>
+		<result column="ADDRESS" property="address"/>
+		<result column="STATUS" property="memberStatus"/>
+		<result column="AUTHORITY" property="memberAuthority"/>
+	</resultMap>
+	
+	<resultMap type="Attachment" id="attmResultSet">
+  		<id column="IMG_NO" property="imgNo"/>
+    	<result column="IMG_NAME" property="imgOriginalName"/>
+    	<result column="IMG_SERVER_NAME" property="imgRename"/>
+    	<result column="IMG_CREATE_DATE" property="imgCreateDate"/>
+    	<result column="IMG_MODIFY_DATE" property="imgModifyDate"/>
+    	<result column="IMG_STATUS" property="imgStatus"/>
+    	<result column="IMG_KEY" property="imgKey"/>
+    	<result column="IMG_PATH" property="imgPath"/>
+    	<result column="IMG_B_TYPE" property="boardType"/>
+    	<result column="IMG_LEVEL" property="level"/>
+	 </resultMap>
+   
+	<select id="getListCount" resultType="_int">
+		select count(*)
+		from board
+		where board_type=#{i}
+		      and b_status = 'Y'
+	</select>
+	
+	<select id="selectBoardList" resultMap="ProductResultSet">
+      select *
+      from board
+           join member on(board_writer = member_id)
+      where b_status = 'Y' and board_type = #{i}
+      order by board_no desc
+   </select>
+   
+  	<!-- 썸네일 -->
+    <select id="selectAttmList" resultMap="attmResultSet">
+     select *
+		from img_repository 
+		      join board on(board_no=img_key)  
+		      join product using(board_no)
+		      join product_sub_Cate using(pro_subcate_code)
+		      join product_top_Cate using(pro_topcate_code) 
+		where img_B_type=#{i}
+		      and img_level=0
+		order by img_no			
+   </select>
 
 
 </mapper>
