@@ -2,6 +2,7 @@ package com.E1I4.project.member.controller;
 
 import java.util.HashMap;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.support.SessionStatus;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.E1I4.project.common.exception.MemberException;
 import com.E1I4.project.member.model.service.KakaoLogin;
@@ -46,7 +47,7 @@ public class MemberController {
 		Member loginUser = mService.login(m);
 //		System.out.println("뭔가 잘못됨:" +loginUser);
 		
-//		System.out.println(bcrypt.encode(m.getMemberPwd()));  // 암호화 비밀번호
+		System.out.println(bcrypt.encode(m.getMemberPwd()));  // 암호화 비밀번호
 		if(bcrypt.matches(m.getMemberPwd(), loginUser.getMemberPwd())) {
 			session.setAttribute("loginUser", loginUser);
 //			 System.out.println("로그인성공");
@@ -225,9 +226,52 @@ public class MemberController {
 	public String myPage() {
 		return "myPage";
 	}
+	
+	@RequestMapping("checkPwd.me")
+	@ResponseBody
+	public String checkPwd(@RequestParam("memberPwd") String memberPwd, HttpSession session) {
+		
+		Member m = (Member)session.getAttribute("loginUser");
+//		System.out.println(m);
+		
+		if(bcrypt.matches(memberPwd, m.getMemberPwd())) {
+			return "true";
+		} else {
+			return "false";
+		}
+	}
+	
+	
 	@RequestMapping("editMyInfo.me")
 	public String editMyInfo() {
 		return "editMyInfo";
+	}
+	
+	@RequestMapping("updateMember.me")
+	public String updateMember(HttpServletRequest reqeust, @ModelAttribute Member m, @RequestParam(value="newPwd", required=false) String newPwd,
+								HttpSession session,Model model , @RequestParam(value="real-upload", required=false) String profilePhoto ) {
+		
+		System.out.println(profilePhoto);
+		
+		
+		//회원 정보 수정
+		if(newPwd != null && newPwd != "") {
+			String encPwd = bcrypt.encode(newPwd);
+			m.setMemberPwd(encPwd);
+//			System.out.println("새비번있음: ");
+		}else {
+			m.setMemberPwd(null);
+//			System.out.println("새비번ㄴㄴ음: " + m);
+		}
+	
+//		int result = mService.updateMember(m);
+//		if(result > 0) {
+//			session.setAttribute("loginUser", mService.login(m));
+//			return "redirect:myPage.me";
+//		}else {
+//			throw new MemberException("비밀번호 발급 실패");
+//		}
+		return null;
 	}
 	@RequestMapping("myCart.me")
 	public String myCart() {

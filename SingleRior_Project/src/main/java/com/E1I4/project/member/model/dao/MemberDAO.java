@@ -42,4 +42,8 @@ public class MemberDAO {
 		return sqlSession.selectOne("memberMapper.checkEmailConfirm", email);
 	}
 
+	public int updateMember(SqlSessionTemplate sqlSession, Member m) {
+		return sqlSession.update("memberMapper.updateMember", m);
+	}
+
 }

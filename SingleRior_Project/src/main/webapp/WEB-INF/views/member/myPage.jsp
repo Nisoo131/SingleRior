@@ -40,6 +40,8 @@
 		border-bottom: 1px solid lightgray;
 		}
 	#myPageContent span{cursor:pointer;}
+	#upload{width:160px; height:160px;border-radius:70%; overflow: hidden;}
+	#thumb{width:100%; height:100%;}
 </style>
 <link rel="stylesheet"
 	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
@@ -53,7 +55,11 @@
 			<div id="editButton"><i class="bi bi-gear-fill"></i></div>
 			<table class="table table-borderless" id="profileTable">
 				<tr>
-					<td rowspan="2" width="200"><img src="${ contextPath }/resources/image/babychicken.png" width="160"></td>
+					<td rowspan="2" width="200">
+						<div id="upload">
+							<img src="${ contextPath }/resources/image/userProfile.png" id="thumb">
+						</div>
+					</td>
 					<td colspan="2"><h2>${ loginUser.nickName }</h2></td>
 				</tr>
 				<tr>
