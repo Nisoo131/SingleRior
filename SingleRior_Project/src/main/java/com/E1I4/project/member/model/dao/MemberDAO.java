@@ -67,4 +67,12 @@ public class MemberDAO {
 		return sqlSession.delete("memberMapper.deleteProfile", memberId);
 	}
 
+	public int deleteMember(SqlSessionTemplate sqlSession, String memberId) {
+		return sqlSession.update("memberMapper.deleteMember", memberId);
+	}
+
+	public int deleteKakaoMember(SqlSessionTemplate sqlSession, String memberId) {
+		return sqlSession.delete("memberMapper.deleteKakaoMember", memberId);
+	}
+
 }

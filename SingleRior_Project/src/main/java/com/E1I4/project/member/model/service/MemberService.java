@@ -35,6 +35,10 @@ public interface MemberService {
 
 	int deleteProfile(String memberId);
 
+	int deleteMember(String memberId);
+
+	int deleteKakaoMember(String memberId);
+
 
 
 }

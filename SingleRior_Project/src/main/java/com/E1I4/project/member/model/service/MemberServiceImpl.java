@@ -100,6 +100,16 @@ public class MemberServiceImpl implements MemberService {
 		return mDAO.deleteProfile(sqlSession,memberId);
 	}
 
+	@Override
+	public int deleteMember(String memberId) {
+		return mDAO.deleteMember(sqlSession,memberId);
+	}
+
+	@Override
+	public int deleteKakaoMember(String memberId) {
+		return mDAO.deleteKakaoMember(sqlSession,memberId);
+	}
+
 
 
 
