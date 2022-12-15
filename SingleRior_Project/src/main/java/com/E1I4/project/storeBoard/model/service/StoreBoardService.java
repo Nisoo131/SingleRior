@@ -10,8 +10,8 @@ public interface StoreBoardService {
 
 	int getStoreListCount(int i);
 
-	ArrayList<StoreBoard> selectBoardList(PageInfo pi, int i);
+	ArrayList<StoreBoard> selectStoreBoardList(PageInfo pi, int i);
 
-	ArrayList<Attachment> selectAttmList(int i);
+	ArrayList<Attachment> selectAttmList();
 
 }

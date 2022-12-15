@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,6 +15,8 @@
 </head>
 <style>
 	.front{margin: 10px 300px}
+	.pagination{justify-content: center;}
+	.
 </style>
 <body>
 	<header class="sticky-top">
@@ -23,10 +26,9 @@
 	</header>
 	
 	<!-- 대분류/소분류 구분 -->
-	${ sList }  
-	${ aList }  
-	
- 	<div class="front">
+	${ sList }
+	<!-- ${ aList } --> 
+	<div class="front">
 		<h5><b>전체 > 가구 > 침대 </b></h5>
 			<h3><b> 침대 </b></h3>
 		
@@ -40,28 +42,77 @@
 		</div>
 		<br>
 	
-	<!-- 상품카드 12개 -->
-		
+	<!-- 상품카드 12개 & 페이징 -->		
 		 <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-4">
-		  <c:forEach items="${ sList }" var="s">
-		    <div class="col-3">
-		      <div class="card">
-		        <img src="resources/uploadFiles/${ a.imgRename }" width="100%" height="225">
-		         <div class="card-body">
-		          <h6 class="card-title">${ s.brand } </h6>
-		          <h5 class="card-text">${ s.boardTitle }</h5>
-		          <span style="width:20px">${ s.discount }%</span><span>　</span><span>${ s.price }</span><br>
-		          <span>★4.9</span>
-		        </div>
-		      </div>
-		    </div>
-		   </c:forEach>
+		 
+		 <c:forEach items="${ sList }" var="s" varStatus="status">
+			<fmt:formatNumber type="number" maxFractionDigits="3" value="${s.price}" var="commaPrice" />
+				<c:set var="discountPrice" value="${ s.price-(s.price*s.discount/100)}"/>
+				<fmt:formatNumber type="number" maxFractionDigits="3" value="${ s.price-(s.price*s.discount/100)}" var="totalPrice" />
+			    <div class="col-3">
+			      <div class="card" style="cursor:pointer";>
+			        <img src="resources/uploadFiles/${ aList[status.index].imgRename }" width="100%" height="225">
+			         <div class="card-body">
+			          <h6 class="card-title">${ s.brand } </h6>
+			          <h5 class="card-text">${ s.boardTitle }</h5>
+			          <span><s>${ commaPrice }</s>원 ${ s.boardNo }</span><br>
+			          <span style="width:20px">${ s.discount }%</span><span>　</span><span style="color:#008cd4; font-size: 25px;">${ totalPrice } 원</span><br>
+			          <span>★4.9</span>
+			          <input type="hidden" value="${ s.boardNo }" id="bNo">
+			        </div>
+			      </div>
+			    </div>
+			 </c:forEach>
 		</div>
 	</div>
- 
+	<br><br>
+    
+	<nav aria-label="Standard pagination example" style="background:white" ;>
+		<ul class="pagination">
+			<li class="page-item">
+					<c:url var="goBack" value="${ loc }">
+						<c:param name="page" value="${ pi.currentPage-1 }"></c:param>
+					</c:url>
+					<a class="page-link" href="${ goBack }" aria-label="Previous">
+						<span aria-hidden="true">&laquo;</span>
+	 				</a>
+			</li>
+			<c:forEach begin="${ pi.startPage }" end="${ pi.endPage }" var="p">
+				<c:url var="goNum" value="${ loc }">
+					<c:param name="page" value="${ p }"></c:param>
+				</c:url>
+					<li class="page-item"><a class="page-link" href="${ goNum }">${ p }</a></li>
+				</c:forEach>
+				<li class="page-item">
+					<c:url var="goNext" value="${ loc }">
+						<c:param name="page" value="${ pi.currentPage+1 }"></c:param>
+					</c:url>
+					<a class="page-link" href="${ goNext }" aria-label="Next">
+						<span aria-hidden="true">&raquo;</span>
+					</a>
+     			</li>
+ 			</ul>
+    	</nav>
+	 
 	<footer>
 		<jsp:include page="../common/footer.jsp"/>
 	</footer>  	
-	
+
+<script>
+    window.onload=()=>{
+    	const cards = document.getElementsByClassName('card');
+    	for(const div of cards){
+    		div.addEventListener('click',function(){
+    			const boardNo = document.getElementById('bNo').value;
+    			//console.log(boardNo);
+    			
+    			location.href='${contextPath}/productDetail.st?bNo=' + boardNo + '&page=' + ${pi.currentPage};
+    		});
+    	}
+    }
+ 		
+ 		
+ 
+</script>	
 </body>
 </html>

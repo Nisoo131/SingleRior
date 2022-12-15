@@ -13,20 +13,20 @@ import com.E1I4.project.storeBoard.model.vo.StoreBoard;
 @Repository("sDAO")
 public class StoreBoardDAO {
 
-	public int getListCount(SqlSessionTemplate sqlSession, int i) {
-		return sqlSession.selectOne("storeMapper.getListCount",i);
+	public int getStoreListCount(SqlSessionTemplate sqlSession, int i) {
+		return sqlSession.selectOne("storeMapper.getStoreListCount", i);
 	}
 	
-	public ArrayList<StoreBoard> selectBoardList(SqlSessionTemplate sqlSession, PageInfo pi, int i) {
+	public ArrayList<StoreBoard> selectStoreBoardList(SqlSessionTemplate sqlSession, PageInfo pi, int i) {
 		
 		int offset = (pi.getCurrentPage() -1 ) * pi.getBoardLimit();
 		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
-		return (ArrayList)sqlSession.selectList("storeMapper.selectBoardList", i , rowBounds);
+		return (ArrayList)sqlSession.selectList("storeMapper.selectStoreBoardList", i, rowBounds);
 		
 	}
 
-	public ArrayList<Attachment> selectAttmList(SqlSessionTemplate sqlSession, int i) {
-		return (ArrayList)sqlSession.selectList("storeMapper.selectAttmList",i );
+	public ArrayList<Attachment> selectAttmList(SqlSessionTemplate sqlSession ) {
+		return (ArrayList)sqlSession.selectList("storeMapper.selectAttmList");
 	}
 	
 	

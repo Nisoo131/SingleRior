@@ -33,13 +33,14 @@ public class StoreBoardController {
 			
 			//boardLimit: 카드 12개
 			PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 12);
-			ArrayList<StoreBoard> sList = sService.selectBoardList(pi, 1); // board_type:1(스토어)
-			ArrayList<Attachment> aList = sService.selectAttmList(1); // 다 가지고 오기
+			ArrayList<StoreBoard> sList = sService.selectStoreBoardList(pi, 1); // board_type:1(스토어)
+			ArrayList<Attachment> aList = sService.selectAttmList();
 			System.out.println();
 			if(sList != null) {
 				model.addAttribute("pi", pi);
 				model.addAttribute("sList", sList);
 				model.addAttribute("aList", aList);
+			
 				
 				return "categoryList";
 			} else {
