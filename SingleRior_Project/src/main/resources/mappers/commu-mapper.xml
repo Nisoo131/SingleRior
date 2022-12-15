@@ -106,10 +106,10 @@
 		where b_status='Y' and b.board_no = #{bNo}
 	</select>
 	
-	<select id="selectAttmList" resultMap="attachmentResultSet">
+	<select id="selectAttmBoard" resultMap="attachmentResultSet">
 		select *
 		from IMG_REPOSITORY
-		where IMG_STATUS = 'Y' and IMG_B_TYPE = '2' and IMG_LEVEL = 0
+		where IMG_STATUS = 'Y' and IMG_B_TYPE = '2' and img_key = #{bNo}
 	</select>
 	
 	<select id="selectReply" resultMap="replyResultSet">

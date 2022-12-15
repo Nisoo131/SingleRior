@@ -51,10 +51,13 @@
 	
 	<main>
   		<div class="container d-flex flex-wrap css-title" style="padding-left: 50px; padding-top: 100px;">
-  			<span class="px-4">전체 게시글</span>
+  			<c:if test="${ commuType == 1 }">
+  				바보
+  			</c:if>
+  			<span class="category px-4">전체 게시글</span>
   		</div>
   		<div class="container d-flex flex-wrap" style="padding-left: 50px; padding-bottom: 40px; font-size: 20px;">
-  			<span class="px-4">커뮤니티에 게시된 전체 게시글 입니다.</span>
+  			<span class="categoryContent px-4">커뮤니티에 게시된 전체 게시글 입니다.</span>
   		</div>
   		
   		<div class="container px-5">
@@ -214,6 +217,7 @@
 	<script>
 		$(function(){
 			$('#list1').addClass('list-click');
+			$('.category').text('전체 게시글');
 			$('#list1').click(function(){
 				$(this).toggleClass('list-click');
 				$('#list2').removeClass('list-click');

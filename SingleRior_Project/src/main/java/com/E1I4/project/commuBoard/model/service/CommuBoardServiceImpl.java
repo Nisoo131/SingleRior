@@ -56,8 +56,8 @@ public class CommuBoardServiceImpl implements CommuBoardService{
 	}
 
 	@Override
-	public ArrayList<Attachment> selectAttmList(Integer bNo) {
-		return cDAO.selectAttmList(sqlSession, bNo);
+	public ArrayList<Attachment> selectAttmBoard(Integer bNo) {
+		return cDAO.selectAttmBoard(sqlSession, bNo);
 	}
 
 	@Override
