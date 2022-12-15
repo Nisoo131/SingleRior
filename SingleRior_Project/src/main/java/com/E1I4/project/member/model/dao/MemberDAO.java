@@ -63,4 +63,8 @@ public class MemberDAO {
 		return sqlSession.selectOne("memberMapper.selectProfile", memberId);
 	}
 
+	public int deleteProfile(SqlSessionTemplate sqlSession, String memberId) {
+		return sqlSession.delete("memberMapper.deleteProfile", memberId);
+	}
+
 }

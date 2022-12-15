@@ -41,6 +41,7 @@
 									</c:if>
 								</c:if>
 							<input type="file" id="file" name="file" accept="image/*" multiple style="display: none;" onchange="readURL(this);">
+							<button type="button" class="btn btn-secondary btn-sm" id="defaultProfile" style="float:right">기본사진으로 변경</button>
 						</div>
 						<div class="col-12">
 							<label for="id" class="form-label">아이디</label>
@@ -236,6 +237,26 @@
 	$(function(){
 		$('#upload').on('click',function(){
 			$('#file').click();
+		});
+	});
+	
+	
+	//기본 프로필로 변경
+	$(function(){
+		$('#defaultProfile').on('click', function(){
+			 const memberId = '${loginUser.memberId}';
+			 console.log(memberId);
+				$.ajax({
+					url : '${contextPath}/deleteProfile.me',
+					data : {memberId:memberId},
+					success: (data) =>{
+						console.log(data);
+						document.getElementById('thumb').src ="${ contextPath }/resources/image/userProfile.png";
+					},
+					error:(data)=>{
+						console.log(data);
+					}
+				});
 		});
 	});
 	
