@@ -13,6 +13,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.E1I4.project.common.model.vo.Attachment;
 import com.E1I4.project.member.model.dao.MemberDAO;
 import com.E1I4.project.member.model.vo.Member;
 import com.google.gson.JsonElement;
@@ -73,6 +74,28 @@ public class MemberServiceImpl implements MemberService {
 		// TODO Auto-generated method stub
 		return mDAO.updateMember(sqlSession,m);
 	}
+
+	@Override
+	public int getProfilePhotoCount(String memberId) {
+		return mDAO.getProfilePhotoCount(sqlSession,memberId);
+	}
+
+	@Override
+	public int insertProfile(Attachment a) {
+		return mDAO.insertProfile(sqlSession,a);
+	}
+
+	@Override
+	public int updateProfile(Attachment a) {
+		return mDAO.updateProfile(sqlSession,a);
+	}
+
+	@Override
+	public Attachment selectProfile(String memberId) {
+		return mDAO.selectProfile(sqlSession,memberId);
+	}
+
+
 
 
 
