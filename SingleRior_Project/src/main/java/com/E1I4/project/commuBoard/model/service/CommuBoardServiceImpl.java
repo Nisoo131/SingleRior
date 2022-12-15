@@ -11,6 +11,7 @@ import com.E1I4.project.common.model.vo.Attachment;
 import com.E1I4.project.common.model.vo.PageInfo;
 import com.E1I4.project.common.model.vo.ReReply;
 import com.E1I4.project.common.model.vo.Reply;
+import com.E1I4.project.common.model.vo.WishList;
 import com.E1I4.project.commuBoard.model.dao.CommuBoardDAO;
 import com.E1I4.project.commuBoard.model.vo.CommuBoard;
 
@@ -56,7 +57,7 @@ public class CommuBoardServiceImpl implements CommuBoardService{
 	}
 
 	@Override
-	public ArrayList<Attachment> selectAttmBoard(Integer bNo) {
+	public ArrayList<Attachment> selectAttmBoard(String bNo) {
 		return cDAO.selectAttmBoard(sqlSession, bNo);
 	}
 
@@ -73,6 +74,23 @@ public class CommuBoardServiceImpl implements CommuBoardService{
 	@Override
 	public int insertReply(Reply r) {
 		return cDAO.insertReply(sqlSession, r);
+	}
+
+	@Override
+	public int symptOn(WishList wl, int bNo) {
+		cDAO.addSymptCount(sqlSession, bNo);
+		return cDAO.symptOn(sqlSession, wl);
+	}
+
+	@Override
+	public WishList selectSymptOn(WishList wl) {
+		return cDAO.selectSymptOn(sqlSession, wl);
+	}
+
+	@Override
+	public int symptOff(WishList wl, int bNo) {
+		cDAO.deleteSymptCount(sqlSession, bNo);
+		return cDAO.symptOff(sqlSession, wl);
 	}
 
 }

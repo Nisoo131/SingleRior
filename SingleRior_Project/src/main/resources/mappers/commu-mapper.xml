@@ -55,6 +55,11 @@
 		<result column="NICKNAME" property="nickName"/>
 	</resultMap>
 	
+	<resultMap type="WishList" id="wishListResultSet">
+		<id property="boardNo" column="BOARD_NO"/>
+		<id property="memberId" column="MEMBER_ID"/>
+	</resultMap>
+	
 	<select id="getCommuListCount" resultType="_int">
 		select count(*)
 		from board
@@ -111,6 +116,34 @@
 		from IMG_REPOSITORY
 		where IMG_STATUS = 'Y' and IMG_B_TYPE = '2' and img_key = #{bNo}
 	</select>
+	
+	<select id="selectSymptOn" resultMap="wishListResultSet">
+		select *
+		from wishList
+		where MEMBER_ID = #{memberId} and BOARD_NO = #{boardNo}
+	</select>
+	
+	<insert id="symptOn">
+		insert into WISHLIST
+		values(#{memberId}, #{boardNo})
+	</insert>
+	
+	<update id="addSymptCount">
+		update community
+		set SYMPT_COUNT = SYMPT_COUNT + 1
+		where board_no = #{bNo}
+	</update>
+	
+	<delete id="symptOff">
+		delete wishList
+		where board_no=#{boardNo} and member_id=#{memberId}
+	</delete>
+	
+	<update id="deleteSymptCount">
+		update community
+		set SYMPT_COUNT = SYMPT_COUNT - 1
+		where board_no = #{bNo}
+	</update>
 	
 	<select id="selectReply" resultMap="replyResultSet">
 		select *
