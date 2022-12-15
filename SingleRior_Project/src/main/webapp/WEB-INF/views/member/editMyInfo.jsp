@@ -156,7 +156,7 @@
 					url : '${contextPath}/checkNickName.me',
 					data : {nickName:nickName},
 					success: (data) =>{
-// 						console.log(data);
+						console.log(data);
 						if( data == 0 ) {
 							$('#nickNameCheckMsg').html('멋진 닉네임네요!');
 							$('#nickNameCheckMsg').css('color','green');
@@ -190,7 +190,7 @@
 					$('#newPwdCheckMsg').css('color','red');
 					newPwdCheck = false;
 				}else{
-					$('#newPwdCheckMsg').html('정규표현식 맞음');
+					$('#newPwdCheckMsg').html('');
 					newPwdCheck = true;
 				}
 			}else{
@@ -351,14 +351,6 @@
 				}
 		});
 	})
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	</script>
 	<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
