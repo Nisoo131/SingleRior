@@ -42,9 +42,9 @@
 		
 		<div class="py-1 border-bottom fs-5" style="background-color: #008cd4; text-align: center;">
 			<ul class="nav me-auto justify-content-center">
-		        <li class="nav-item"><a href="${ contextPath }/commuTipList.co" class="nav-link px-5 mx-2" style="color: white;">생활팁</a></li>
-		        <li class="nav-item"><a href="${ contextPath }/commuReviewList.co" class="nav-link px-5 mx-2" style="color: white;">후기</a></li>
-		        <li class="nav-item"><a href="${ contextPath }/commuFreeList.co" class="nav-link px-5 mx-2" style="color: white;">자유</a></li>
+		        <li class="nav-item"><a href="${ contextPath }/commuAllList.co?commuType=1" class="nav-link px-5 mx-2" style="color: white;">생활팁</a></li>
+		        <li class="nav-item"><a href="${ contextPath }/commuAllList.co?commuType=2" class="nav-link px-5 mx-2" style="color: white;">후기</a></li>
+		        <li class="nav-item"><a href="${ contextPath }/commuAllList.co?commuType=3" class="nav-link px-5 mx-2" style="color: white;">자유</a></li>
 		    </ul>
 		</div>
 	</header>
@@ -65,19 +65,25 @@
 			  				<table>
 			  					<tr style="text-align: center; height: 35px;">
 			  						<td id="list1" width="80px;">
-			  							<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-check-lg me-1" viewBox="0 0 16 16">
-			  								<path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022Z"/>
-			  							</svg>최신순
+			  							<a class="nav-link active" href="commuAllList.co?commuArray=1&commuType=${commuType}">
+				  							<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-check-lg me-1" viewBox="0 0 16 16">
+				  								<path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022Z"/>
+				  							</svg>최신순
+			  							</a>
 			  						</td>
 			  						<td id="list2" width="120px;">
-			  							<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-check-lg me-1" viewBox="0 0 16 16">
-			  								<path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022Z"/>
-			  							</svg>공감 많은 순
+			  							<a class="nav-link active" href="commuAllList.co?commuArray=2&commuType=${commuType}">
+				  							<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-check-lg me-1" viewBox="0 0 16 16">
+				  								<path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022Z"/>
+				  							</svg>공감 많은 순
+			  							</a>
 			  						</td>
 			  						<td id="list3">
-			  							<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-check-lg me-1" viewBox="0 0 16 16">
-			  								<path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022Z"/>
-			  							</svg>댓글 많은 순
+			  							<a class="nav-link active" href="commuAllList.co?commuArray=3&commuType=${commuType}">
+				  							<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-check-lg me-1" viewBox="0 0 16 16">
+				  								<path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022Z"/>
+				  							</svg>댓글 많은 순
+			  							</a>
 			  						</td>
 			  					</tr>
 			  				</table>
@@ -120,7 +126,7 @@
 									<c:if test="${ b.commuType == 1 }">생활팁</c:if>
 									<c:if test="${ b.commuType == 2 }">후기</c:if>
 									<c:if test="${ b.commuType == 3 }">자유</c:if>
-									<input type="hidden" class="bNo" value="${ b.boardNo }">${ b.boardNo }
+									<input type="hidden" value="${ b.boardNo }">
 								</td>
 								<td>${ b.boardTitle }</td>
 								<td><input type="hidden" value="${ b.nickName }">${ b.nickName }</td>
@@ -234,15 +240,14 @@
 			}
 			
 			const tbody = document.querySelector('.tbody');
-	         const trs = tbody.querySelectorAll('tr');
-	         console.log(trs);
-	         for(const tr of trs){
-	            tr.addEventListener('click', function(){
-	               const bNo = this.querySelectorAll('input')[0].value;
-	               const writer = this.querySelectorAll('input')[1].value;
-	               location.href='${contextPath}/selectCommuBoard.co?bNo=' + bNo + '&writer=' + writer + '&page=' + ${pi.currentPage};
-	            });
-	         }
+			const trs = tbody.querySelectorAll('tr');
+			for(const tr of trs){
+				tr.addEventListener('click', function(){
+					const bNo = this.querySelectorAll('input')[0].value;
+					const writer = this.querySelectorAll('input')[1].value;
+					location.href='${contextPath}/selectCommuBoard.co?bNo=' + bNo + '&writer=' + writer + '&page=' + ${pi.currentPage};
+				});
+			}
 		}
 	</script>
 </body>

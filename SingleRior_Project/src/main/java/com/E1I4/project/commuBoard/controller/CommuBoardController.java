@@ -1,12 +1,14 @@
 package com.E1I4.project.commuBoard.controller;
 
 import java.io.File;
+import java.io.IOException;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,9 +24,14 @@ import com.E1I4.project.common.Pagination;
 import com.E1I4.project.common.exception.BoardException;
 import com.E1I4.project.common.model.vo.Attachment;
 import com.E1I4.project.common.model.vo.PageInfo;
+import com.E1I4.project.common.model.vo.ReReply;
+import com.E1I4.project.common.model.vo.Reply;
 import com.E1I4.project.commuBoard.model.service.CommuBoardService;
 import com.E1I4.project.commuBoard.model.vo.CommuBoard;
 import com.E1I4.project.member.model.vo.Member;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonIOException;
 
 @Controller
 public class CommuBoardController {
@@ -34,43 +41,42 @@ public class CommuBoardController {
 	
 	// 커뮤니티 전체 글 목록
 	@RequestMapping("commuAllList.co")
-	public String selectCommuAllList(@RequestParam(value="page", required=false) Integer page, Model model) {
+	public String selectCommuAllList(@RequestParam(value="page", required=false) Integer page, Model model,
+			@RequestParam(value="commuArray", required=false) Integer coArray, @RequestParam(value="commuType", required=false) Integer coType) {
+		// 싱글벙글 카테고리 -> 1: 생활팁, 2: 후기, 3: 자유
+		int commuType = 0;
+		if(coType != null) {
+			commuType = coType;
+		}
+		
+		// 정렬 -> 1: 최신순, 2: 공감순, 3: 댓글순
+		int commuArray = 0;
+		if(coArray != null) {
+			commuArray = coArray;
+		}
+		
 		int currentPage = 1;
-		if(page != null) {
+		if(page != null && page > 1) {
 			currentPage = page;
 		}
 		
-		int listCount = cService.getCommuListCount(2);
+		HashMap<String, Object> map = new HashMap<>();
+		map.put("commuType", commuType);
+		map.put("commuArray", commuArray);
+		
+		int listCount = cService.getCommuListCount(map);
 		
 		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 10);
 		
-		ArrayList<CommuBoard> list = cService.selectCommuAllList(pi, 2);
+		ArrayList<CommuBoard> list = cService.selectCommuAllList(pi, map);
 		
 		if(list != null) {
 			model.addAttribute("pi", pi);
 			model.addAttribute("list", list);
 			return "commuBoardList";
 		} else {
-			throw new BoardException("게시글 조회에 실패하였습니다.");
+			throw new BoardException("게시글 목록 조회에 실패하였습니다.");
 		}
-	}
-	
-	// 커뮤니티 생활팁 글 목록
-	@RequestMapping("commuTipList.co")
-	public String selectCommuTipList() {
-		return "commuTipList";
-	}
-	
-	// 커뮤니티 후기 글 목록
-	@RequestMapping("commuReviewList.co")
-	public String selectCommuReviewList() {
-		return "commuReviewList";
-	}
-	
-	// 커뮤니티 자유 글 목록
-	@RequestMapping("commuFreeList.co")
-	public String selectCommuFreeList() {
-		return "commuFreeList";
 	}
 	
 	// 커뮤니티 글 작성 페이지
@@ -183,28 +189,61 @@ public class CommuBoardController {
 	public ModelAndView selectCommuBoard(@RequestParam("bNo") int bNo, @RequestParam("writer") String writer, @RequestParam("page") int page, ModelAndView mv, HttpSession session) {
 		Member m = (Member)session.getAttribute("loginUser");
 		String login = null;
+		
 		if(m != null) {
 			login = m.getNickName();
 		}
+		
 		boolean yn = false;
 		if(!writer.equals(login)) {
 			yn = true;
 		}
+		
 		CommuBoard coBoard = cService.selectCommuBoard(bNo, yn);
 		ArrayList<Attachment> list = cService.selectAttmList((Integer)bNo);
 		
+		ArrayList<Reply> coRList = cService.selectReply(bNo);
+		ArrayList<ReReply> coRRList = cService.selectReReply(bNo);
+		
 		System.out.println(coBoard);
-		System.out.println(page);
 		System.out.println(list);
+		System.out.println(coRList);
+		System.out.println(coRRList);
+		System.out.println(page);
 		System.out.println(writer);
 		
 		if(coBoard != null) {
-			mv.addObject("coBoard", coBoard).addObject("page", page).addObject("list", list).setViewName("commuBoardDetail");
+			mv.addObject("coBoard", coBoard);
+			mv.addObject("coRList", coRList);
+			mv.addObject("coRRList", coRRList);
+			mv.addObject("page", page);
+			mv.addObject("list", list);
+			mv.setViewName("commuBoardDetail");
 		} else {
 			throw new BoardException("게시글 상세보기에 실패하였습니다.");
 		}
 		
 		return mv;
+	}
+	
+	// 커뮤니티 댓글 등록 (insert)
+	@RequestMapping(value="insertReply.co")
+	public void insertReply(@ModelAttribute Reply r, HttpServletResponse response) {
+		int result = cService.insertReply(r);
+		ArrayList<Reply> list = cService.selectReply(r.getBoardNo());
+		
+		System.out.println(r);
+		System.out.println(list);
+		
+		response.setContentType("application/json; charset=UTF-8");
+		GsonBuilder gb = new GsonBuilder();
+		GsonBuilder gb2 = gb.setDateFormat("yyyy-MM-dd");
+		Gson gson = gb2.create();
+		try {
+			gson.toJson(list, response.getWriter());
+		} catch (JsonIOException | IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	// 커뮤니티 글 수정
