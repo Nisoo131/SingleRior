@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 
 import com.E1I4.project.common.model.vo.Attachment;
 import com.E1I4.project.common.model.vo.PageInfo;
+import com.E1I4.project.common.model.vo.ReReply;
+import com.E1I4.project.common.model.vo.Reply;
 import com.E1I4.project.commuBoard.model.dao.CommuBoardDAO;
 import com.E1I4.project.commuBoard.model.vo.CommuBoard;
 
@@ -23,15 +25,15 @@ public class CommuBoardServiceImpl implements CommuBoardService{
 	private SqlSessionTemplate sqlSession;
 	
 	@Override
-	public int getCommuListCount(int i) {
-		return cDAO.getCommuListCount(sqlSession, i);
+	public int getCommuListCount(HashMap<String, Object> map) {
+		return cDAO.getCommuListCount(sqlSession, map);
 	}
 	
 	@Override
-	public ArrayList<CommuBoard> selectCommuAllList(PageInfo pi, int i) {
-		return cDAO.selectCommuAllList(sqlSession, pi, i);
+	public ArrayList<CommuBoard> selectCommuAllList(PageInfo pi, HashMap<String, Object> map) {
+		return cDAO.selectCommuAllList(sqlSession, pi, map);
 	}
-
+	
 	@Override
 	public int insertCommuBoard(CommuBoard coBoard) {
 		return cDAO.insertCommuBoard(sqlSession, coBoard);
@@ -56,6 +58,21 @@ public class CommuBoardServiceImpl implements CommuBoardService{
 	@Override
 	public ArrayList<Attachment> selectAttmList(Integer bNo) {
 		return cDAO.selectAttmList(sqlSession, bNo);
+	}
+
+	@Override
+	public ArrayList<Reply> selectReply(int bNo) {
+		return cDAO.selectReply(sqlSession, bNo);
+	}
+
+	@Override
+	public ArrayList<ReReply> selectReReply(int bNo) {
+		return cDAO.selectReReply(sqlSession, bNo);
+	}
+
+	@Override
+	public int insertReply(Reply r) {
+		return cDAO.insertReply(sqlSession, r);
 	}
 
 }

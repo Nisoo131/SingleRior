@@ -30,19 +30,48 @@
 		<result property="boardType" column="IMG_B_TYPE"/>
 	</resultMap>
 	
+	<resultMap type="Reply" id="replyResultSet">
+		<id column="REPLY_NO" property="replyNo"/>
+		<result column="REPLY_CONTENT" property="replyContent"/>
+		<result column="REPLY_MODIFY_DATE" property="replyModifyDate"/>
+		<result column="REPLY_CREATE_DATE" property="replyCreateDate"/>
+		<result column="MEMBER_ID" property="memberId"/>
+		<result column="RE_SECRET" property="replySecret"/>
+		<result column="REPLY_STATUS" property="replyStatus"/>
+		<result column="BOARD_NO" property="boardNo"/>
+		<result column="NICKNAME" property="nickName"/>
+	</resultMap>
+	
+	<resultMap type="ReReply" id="rReplyResultSet">
+		<id column="RE_REPLY_NO" property="rReplyNo"/>
+		<result column="RE_REPLY_CONTENT" property="rReplyContent"/>
+		<result column="RE_REPLY_CREATE_DATE" property="rReplyCreateDate"/>
+		<result column="RE_REPLY_MODIFY_DATE" property="rReplyModifyDate"/>
+		<result column="RE_REPLY_SECRET" property="rReplySecret"/>
+		<result column="RE_REPLY_STATUS" property="rReplyStatus"/>
+		<result column="REPLY_NO" property="replyNo"/>
+		<result column="MEMBER_ID" property="memberId"/>
+		<result column="BOARD_NO" property="boardNo"/>
+		<result column="NICKNAME" property="nickName"/>
+	</resultMap>
+	
 	<select id="getCommuListCount" resultType="_int">
 		select count(*)
 		from board
-		where board_type=#{i}
+		where board_type = '2'
 			  and b_status = 'Y'
 	</select>
 	
-	<select id="selectCommuAllList" resultMap="CommuBoardResultSet">
+	<select id="selectCommuAllList" parameterType="hashmap" resultMap="CommuBoardResultSet">
 		select *
 		from board b
-     		 join member on (board_writer = member_id)
+			 join member on (b.board_writer = member_id)
      		 join community c on (b.board_no = c.board_no)
-		where b_status = 'Y' and board_type = #{i}
+		where b.b_status = 'Y' and b.board_type = '2'
+		<if test="commuType > 0">
+			and c.commu_type = #{commuType}
+		</if>
+		order by b.board_no desc
 	</select>
 	
 	<insert id="insertCommuBoard">
@@ -82,5 +111,24 @@
 		from IMG_REPOSITORY
 		where IMG_STATUS = 'Y' and IMG_B_TYPE = '2' and IMG_LEVEL = 0
 	</select>
+	
+	<select id="selectReply" resultMap="replyResultSet">
+		select *
+		from reply
+		where board_no = #{boardNo} and reply_status = 'Y'
+		order by reply_no desc
+	</select>
+	
+	<select id="selectReReply" resultMap="rReplyResultSet">
+		select *
+		from re_reply
+		where board_no = #{boardNo} and re_reply_status = 'Y'
+		order by re_reply_no desc
+	</select>
+	
+	<insert id="insertReply">
+		insert into reply
+		values(seq_rid.nextval, #{replyContent}, sysdate, sysdate, default, default, #{memberId}, #{BoardNo})
+	</insert>
 
 </mapper>
