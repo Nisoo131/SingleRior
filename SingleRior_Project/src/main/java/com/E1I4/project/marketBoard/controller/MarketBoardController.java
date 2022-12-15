@@ -1,12 +1,14 @@
 package com.E1I4.project.marketBoard.controller;
 
 import java.io.File;
+import java.io.IOException;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,10 +29,15 @@ import com.E1I4.project.common.model.vo.WishList;
 import com.E1I4.project.marketBoard.model.service.MarketBoardService;
 import com.E1I4.project.marketBoard.model.vo.MarketBoard;
 import com.E1I4.project.member.model.vo.Member;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonIOException;
 
 @Controller
 public class MarketBoardController {
 
+	Gson gson = new Gson();
+	
 	@Autowired
 	private MarketBoardService mkService;
 	
@@ -70,18 +77,15 @@ public class MarketBoardController {
 		ArrayList<MarketBoard> mkBList = mkService.marketBoardList(pi, map);
 		ArrayList<Attachment> mkAList = mkService.attmListSelect();
 		
-		ArrayList<MarketBoard> topBList = mkService.marketTopList(map);
-		ArrayList<Attachment> topAList = mkService.topAttmListSelect();
-		
-		System.out.println(mkBList);
-		System.out.println(mkAList);
+		ArrayList<MarketBoard> topBList = mkService.marketTopList(marketType);
+		ArrayList<Attachment> topAList = mkService.topAttmListSelect(marketType);
 		
 		if(mkBList != null) {
 			model.addAttribute("pi", pi);
 			model.addAttribute("mkBList", mkBList);
 			model.addAttribute("mkAList", mkAList);
 			model.addAttribute("topBList", topBList);
-			model.addAttribute("topAList", mkAList);
+			model.addAttribute("topAList", topAList);
 			return "marketBoardList";
 		} else {
 			throw new BoardException("게시글 조회 실패");
@@ -249,13 +253,67 @@ public class MarketBoardController {
 				return "marketBoardDetail";
 			
 			} else {
-				throw new BoardException("봉사 게시글 조회 실패.");
+				throw new BoardException("게시글 조회 실패.");
 			}
 		}
 
 
+		//댓글 insert
+		@RequestMapping("replyInsert.ma")
+		public void replyInsert(@ModelAttribute Reply reply, HttpServletResponse response ) {
+			System.out.println(reply);
+			int result = mkService.replyInsert(reply);
+			
+			ArrayList<Reply> rList = mkService.replySelect(reply.getBoardNo());
+			
+			response.setContentType("application/json; charset=UTF-8");
+			GsonBuilder gb = new GsonBuilder();
+			gson = gb.setDateFormat("yyyy-MM-dd").create();
+			
+			try {
+				gson.toJson(rList, response.getWriter());
+			} catch (JsonIOException | IOException e) {
+				e.printStackTrace();
+			}
 
+		
+		}
 
+		//좋아요 Insert
+		@RequestMapping("marketLike.ma")
+		public String marketBoardLike(@RequestParam("bNo") int bNo, HttpSession session, Model model) {
+			String id = ((Member)session.getAttribute("loginUser")).getMemberId();
+			System.out.println("일로오나????");
+			WishList wl = new WishList();
+			
+			wl.setBoardNo(bNo);
+			wl.setMemberId (id);
+			
+			int result = mkService.marketLike(wl);
+			System.out.println("결과"+result);
+			if(result > 0) {
+				model.addAttribute("bNo", bNo);
+				return "redirect:marketBoardDetail.ma";
+			} else {
+				throw new BoardException("좋아요 실패");
+			}
+		}
+		
+		// 좋아요취소
+			@RequestMapping("mkLikeCancle.ma")
+			public String cheerCancle(@RequestParam("bNo") int bNo, HttpSession session, Model model) {
+				String id = ((Member)session.getAttribute("loginUser")).getMemberId();
+				WishList wl = new WishList(bNo, id);
+				
+				int result =  mkService.marketLikeCancle(wl);
+				
+				if(result > 0) {
+					model.addAttribute("bNo", bNo);
+					return "redirect:marketBoardDetail.ma";
+				} else {
+					throw new BoardException("좋아요취소 실패");
+				}
+			}
 
 	
 }

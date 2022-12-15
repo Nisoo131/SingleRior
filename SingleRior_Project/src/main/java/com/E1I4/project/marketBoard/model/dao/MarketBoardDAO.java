@@ -67,13 +67,27 @@ public class MarketBoardDAO {
 		return (ArrayList)sqlSession.selectList("marketMapper.reReplySelect", bNo);
 	}
 
-	public ArrayList<MarketBoard> marketTopList(SqlSessionTemplate sqlSession, HashMap<String, Object> map) {
-		return (ArrayList)sqlSession.selectList("marketMapper.marketTopList", map);
+	public ArrayList<MarketBoard> marketTopList(SqlSessionTemplate sqlSession, int matketType) {
+		return (ArrayList)sqlSession.selectList("marketMapper.marketTopList", matketType);
 	}
 
-	public ArrayList<Attachment> topAttmListSelect(SqlSessionTemplate sqlSession) {
-		return (ArrayList)sqlSession.selectList("marketMapper.topAttmListSelect");
+	public ArrayList<Attachment> topAttmListSelect(SqlSessionTemplate sqlSession, int matketType) {
+		return (ArrayList)sqlSession.selectList("marketMapper.topAttmListSelect", matketType);
 	}
+
+	public int replyInsert(SqlSessionTemplate sqlSession, Reply reply) {
+		return sqlSession.insert("marketMapper.replyInsert", reply);
+	}
+
+	public int marketLike(SqlSessionTemplate sqlSession, WishList wl) {
+		return sqlSession.insert("marketMapper.marketLike", wl);
+	}
+
+	public int marketLikeCancle(SqlSessionTemplate sqlSession, WishList wl) {
+		return sqlSession.delete("marketMapper.marketLikeCancle", wl);
+	}
+
+	
 
 
 	

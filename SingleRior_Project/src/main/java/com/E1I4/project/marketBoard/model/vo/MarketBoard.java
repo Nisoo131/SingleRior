@@ -23,7 +23,9 @@ public class MarketBoard {
 	private String noticeStatus;
 	private String status;
 	private String writer;
+	private String nickName;
 	private int count;
+	private int like;
 	private String marketPrice;
 	private int marketType;
 	private int marketArray;

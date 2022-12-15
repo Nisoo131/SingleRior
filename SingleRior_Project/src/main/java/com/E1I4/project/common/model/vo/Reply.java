@@ -21,6 +21,6 @@ public class Reply {
 	private String replySecret;
 	private String replyStatus;
 	private String memberId;
-	private String boardNo;
+	private int boardNo;
 	private String nickName;
 }

@@ -81,13 +81,28 @@ public class MarketBoardServiceImpl implements MarketBoardService{
 	}
 
 	@Override
-	public ArrayList<MarketBoard> marketTopList(HashMap<String, Object> map) {
-		return mkDAO.marketTopList(sqlSession, map);
+	public ArrayList<MarketBoard> marketTopList(int matketType) {
+		return mkDAO.marketTopList(sqlSession, matketType);
 	}
 
 	@Override
-	public ArrayList<Attachment> topAttmListSelect() {
-		return mkDAO.topAttmListSelect(sqlSession);
+	public ArrayList<Attachment> topAttmListSelect(int matketType) {
+		return mkDAO.topAttmListSelect(sqlSession, matketType);
+	}
+
+	@Override
+	public int replyInsert(Reply reply) {
+		return mkDAO.replyInsert(sqlSession, reply);
+	}
+
+	@Override
+	public int marketLike(WishList wl) {
+		return mkDAO.marketLike(sqlSession, wl);
+	}
+
+	@Override
+	public int marketLikeCancle(WishList wl) {
+		return mkDAO.marketLikeCancle(sqlSession, wl);
 	}
 
 	
