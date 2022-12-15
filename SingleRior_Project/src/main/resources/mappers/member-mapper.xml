@@ -155,4 +155,14 @@
 		where img_key = #{memberId}
 	</delete>
 	
+	<update id="deleteMember">
+		update member
+		set status = 'N'
+		where member_id = #{memberId}
+	</update>
+	
+	<delete id="deleteKakaoMember">
+		delete from member
+		where member_id = #{memberId}
+	</delete>
 </mapper>

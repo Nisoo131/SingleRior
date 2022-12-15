@@ -115,14 +115,22 @@
 				</div>
 				<div class="modal-body">
 					<p>정말로 탈퇴하시겠습니까?<br>탈퇴 후 계정은 복구할 수 없습니다.</p>
-					<div class="mb-3">
-						  <label for="exampleFormControlInput1" class="form-label">비밀번호를 입력해주세요.</label>
-						  <input type="text" class="form-control" id="memberPwd">
+					<c:if test="${ (loginUser.memberId).indexOf('kakao*') == -1}">
+						<div class="mb-3">
+							  <label for="exampleFormControlInput1" class="form-label">비밀번호를 입력해주세요.</label>
+							  <input type="password" class="form-control" id="deleteMemberPwd">
+							  <span id="deletePwdCheckMsg"></span>
 						</div>
+					</c:if>
+					<c:if test="${ (loginUser.memberId).indexOf('kakao*') != -1}">
+						<div class="mb-3">
+							  <input type="hidden" class="form-control" id="deleteMemberPwd" value="${loginUser.memberPwd}">
+						</div>
+					</c:if>
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">창 닫기</button>
-					<button type="submit" class="btn btn-ligth" style="background:#008cd4; color:white">회원 탈퇴</button>
+					<button type="submit" class="btn btn-ligth" style="background:#008cd4; color:white" id="deleteMemberSubmit">회원 탈퇴</button>
 				</div>
 			</div>
 		</div>
@@ -260,6 +268,8 @@
 		});
 	});
 	
+	
+	//프로필 사진 미리보기
 	function readURL(input) {
 		console.log(input.files);
 		  if (input.files[0]) {
@@ -301,6 +311,54 @@
 			return false;
 		}
 	}
+	
+	
+	// 회원 탈퇴
+	
+	let deleteMemberChecked = true;
+	$(function(){
+		$('#deleteMemberPwd').keyup(function(){
+			const memberPwd = $('#deleteMemberPwd').val();
+// 			console.log(memberPwd);
+			$.ajax({
+				url : '${contextPath}/checkPwd.me',
+				data : {memberPwd:memberPwd},
+				success: (data) =>{
+					console.log(data);
+					if(data == 'true'){
+						$('#deletePwdCheckMsg').html('');
+						deleteMemberChecked = true;
+					}else if(data == 'false'){
+						$('#deletePwdCheckMsg').html('비밀번호를 다시 확인해주세요.');
+						$('#deletePwdCheckMsg').css('color','red');
+						deleteMemberChecked = false;
+					}
+				},
+				error:(data)=>{
+					console.log(data);
+				}
+			});
+		})
+	});
+	
+	$(function(){
+		$('#deleteMemberSubmit').on('click',function(){
+				if(deleteMemberChecked){
+					const memberId = '${loginUser.memberId }';
+					console.log(memberId);
+					location.href='${contextPath}/deleteMember.me?memberId='+memberId;
+					alert('싱글리어를 이용해 주셔서 감사합니다. 회원 탈퇴되었습니다.');
+				}
+		});
+	})
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	</script>
 	<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>

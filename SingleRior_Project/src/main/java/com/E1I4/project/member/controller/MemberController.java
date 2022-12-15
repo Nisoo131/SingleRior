@@ -81,27 +81,27 @@ public class MemberController {
 		String email = (String) userInfo.get("email");
 		String memberName = (String)userInfo.get("nickname");
 		
-		int count = mService.checkId("kakao"+memberId);
+		int count = mService.checkId("kakao*"+memberId);
 //		System.out.println("회원가입이 되어있는가..:"+ count);
 		
 		// count 1이면 로그인
 		Member loginUser = null;
 		if(count == 1) {
-			m.setMemberId("kakao"+memberId);
+			m.setMemberId("kakao*"+memberId);
 			loginUser = mService.login(m);
 		
 		}else if(count == 0) {
-			m.setMemberId("kakao"+memberId);
+			m.setMemberId("kakao*"+memberId);
 			String encPwd = bcrypt.encode(memberId);
 			m.setMemberPwd(encPwd);
 			m.setMemberName(memberName);
 			m.setEmail(email);
 			m.setNickName(memberName);
-			System.out.println(m);
+//			System.out.println(m);
 			int result = mService.insertMember(m);
 			
 			if(result > 0) {
-				m.setMemberId("kakao"+memberId);
+				m.setMemberId("kakao*"+memberId);
 				loginUser = mService.login(m);
 				session.setAttribute("loginUser", loginUser);
 				return "redirect:/";
@@ -368,6 +368,27 @@ public class MemberController {
 			return "fail";
 		}
 	}
+	
+	// 회원탈퇴
+	@RequestMapping("deleteMember.me")
+	public String deleteMember(@RequestParam("memberId") String memberId) {
+		if(!memberId.contains("kakao*")) {
+			int result = mService.deleteMember(memberId);
+			if(result>0) {
+				return "redirect:logout.me";
+			} else {
+				throw new MemberException("회원탈퇴를 실패하였습니다.");
+			}
+		}else{
+			int result = mService.deleteKakaoMember(memberId);
+			if(result>0) {
+				return "redirect:logout.me";
+			} else {
+				throw new MemberException("회원탈퇴를 실패하였습니다.");
+			}
+		}
+	}
+	
 	@RequestMapping("myCart.me")
 	public String myCart() {
 		return "myCart";
