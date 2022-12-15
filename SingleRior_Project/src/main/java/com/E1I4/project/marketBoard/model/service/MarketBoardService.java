@@ -32,9 +32,15 @@ public interface MarketBoardService {
 
 	ArrayList<ReReply> reReplySelect(int bNo);
 
-	ArrayList<MarketBoard> marketTopList(HashMap<String, Object> map);
+	ArrayList<MarketBoard> marketTopList(int marketType);
 
-	ArrayList<Attachment> topAttmListSelect();
+	ArrayList<Attachment> topAttmListSelect(int marketType);
+
+	int replyInsert(Reply reply);
+
+	int marketLike(WishList wl);
+
+	int marketLikeCancle(WishList wl);
 
 
 

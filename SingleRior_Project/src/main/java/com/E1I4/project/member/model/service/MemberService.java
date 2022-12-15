@@ -2,6 +2,7 @@ package com.E1I4.project.member.model.service;
 
 import java.util.HashMap;
 
+import com.E1I4.project.common.model.vo.Attachment;
 import com.E1I4.project.member.model.vo.Member;
 
 public interface MemberService {
@@ -23,6 +24,17 @@ public interface MemberService {
 	int checkEmailConfirm(String email);
 
 	int updateMember(Member m);
+
+	int getProfilePhotoCount(String memberId);
+
+	int insertProfile(Attachment a);
+
+	int updateProfile(Attachment a);
+
+	Attachment selectProfile(String memberId);
+
+	int deleteProfile(String memberId);
+
 
 
 }

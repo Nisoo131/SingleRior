@@ -5,20 +5,28 @@ import java.util.HashMap;
 
 import com.E1I4.project.common.model.vo.Attachment;
 import com.E1I4.project.common.model.vo.PageInfo;
+import com.E1I4.project.common.model.vo.ReReply;
+import com.E1I4.project.common.model.vo.Reply;
 import com.E1I4.project.commuBoard.model.vo.CommuBoard;
 
 public interface CommuBoardService {
 	
-	int getCommuListCount(int i);
+	int getCommuListCount(HashMap<String, Object> map);
 	
-	ArrayList<CommuBoard> selectCommuAllList(PageInfo pi, int i);
-
+	ArrayList<CommuBoard> selectCommuAllList(PageInfo pi, HashMap<String, Object> map);
+	
 	int insertCommuBoard(CommuBoard coBoard);
 
 	int insertAttm(HashMap<String, Object> map);
 
 	CommuBoard selectCommuBoard(int bNo, boolean yn);
 
-	ArrayList<Attachment> selectAttmList(Integer bNo);
+	ArrayList<Attachment> selectAttmBoard(Integer bNo);
+
+	ArrayList<Reply> selectReply(int bNo);
+
+	ArrayList<ReReply> selectReReply(int bNo);
+
+	int insertReply(Reply r);
 
 }

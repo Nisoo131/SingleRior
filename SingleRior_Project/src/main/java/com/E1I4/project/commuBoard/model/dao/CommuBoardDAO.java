@@ -9,22 +9,24 @@ import org.springframework.stereotype.Repository;
 
 import com.E1I4.project.common.model.vo.Attachment;
 import com.E1I4.project.common.model.vo.PageInfo;
+import com.E1I4.project.common.model.vo.ReReply;
+import com.E1I4.project.common.model.vo.Reply;
 import com.E1I4.project.commuBoard.model.vo.CommuBoard;
 
 @Repository("cDAO")
 public class CommuBoardDAO {
 	
-	public int getCommuListCount(SqlSessionTemplate sqlSession, int i) {
-		return sqlSession.selectOne("commuMapper.getCommuListCount", i);
+	public int getCommuListCount(SqlSessionTemplate sqlSession, HashMap<String, Object> map) {
+		return sqlSession.selectOne("commuMapper.getCommuListCount", map);
 	}
 	
-	public ArrayList<CommuBoard> selectCommuAllList(SqlSessionTemplate sqlSession, PageInfo pi, int i) {
+	public ArrayList<CommuBoard> selectCommuAllList(SqlSessionTemplate sqlSession, PageInfo pi, HashMap<String, Object> map) {
 		int offset = (pi.getCurrentPage() - 1)*pi.getBoardLimit();
 		
 		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
-		return (ArrayList)sqlSession.selectList("commuMapper.selectCommuAllList", i, rowBounds);
+		return (ArrayList)sqlSession.selectList("commuMapper.selectCommuAllList", map, rowBounds);
 	}
-
+	
 	public int insertCommuBoard(SqlSessionTemplate sqlSession, CommuBoard coBoard) {
 		return sqlSession.insert("commuMapper.insertCommuBoard", coBoard);
 	}
@@ -41,8 +43,20 @@ public class CommuBoardDAO {
 		return sqlSession.selectOne("commuMapper.selectCommuBoard", bNo);
 	}
 
-	public ArrayList<Attachment> selectAttmList(SqlSessionTemplate sqlSession, Integer bNo) {
-		return (ArrayList)sqlSession.selectList("commuMapper.selectAttmList", bNo);
+	public ArrayList<Attachment> selectAttmBoard(SqlSessionTemplate sqlSession, Integer bNo) {
+		return (ArrayList)sqlSession.selectList("commuMapper.selectAttmBoard", bNo);
+	}
+
+	public ArrayList<Reply> selectReply(SqlSessionTemplate sqlSession, int bNo) {
+		return (ArrayList)sqlSession.selectList("commuMapper.selectReply", bNo);
+	}
+
+	public ArrayList<ReReply> selectReReply(SqlSessionTemplate sqlSession, int bNo) {
+		return (ArrayList)sqlSession.selectList("commuMapper.selectReReply", bNo);
+	}
+
+	public int insertReply(SqlSessionTemplate sqlSession, Reply r) {
+		return sqlSession.insert("commuMapper.insertReply", r);
 	}
 
 }

@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -23,12 +24,24 @@
 			<div style="margin-left: 350px; margin-right: 350px;">
 				<br><br><br>
 				<h3>회원정보 수정</h3><a href="#" id="deleteMember" data-bs-toggle="modal" data-bs-target="#deleteModal">회원탈퇴</a><br><br>
-				<form class="needs-validation" action="${ contextPath }/updateMember.me" method="POST" onsubmit="return newSubmit()">
+				<form class="needs-validation" action="${ contextPath }/updateMember.me" method="POST" onsubmit="return newSubmit()" enctype="multipart/form-data">
 					<div class="row g-3">
 						<div class="col-12">
 							<h6 class="form-label">프로필사진</h6><br>
-							<div id="upload"><img src="${ contextPath }/resources/image/userProfile.png" id="thumb"></div>
-							<input type="file" id="real-upload" name="real-upload" accept="image/*" multiple style="display: none;" onchange="readURL(this);">
+								<c:if test="${ a == null }">
+									<div id="upload">
+										<img src="${ contextPath }/resources/image/userProfile.png" id="thumb">
+									</div>
+								</c:if>
+								<c:if test="${ a != null }">
+									<c:if test="${ fn:containsIgnoreCase(a.imgRename, 'jpg') or fn:containsIgnoreCase(a.imgRename, 'png')}">
+										<div id="upload">
+											<img src="${ contextPath }/resources/uploadFiles/${a.imgRename }" id="thumb">
+										</div>
+									</c:if>
+								</c:if>
+							<input type="file" id="file" name="file" accept="image/*" multiple style="display: none;" onchange="readURL(this);">
+							<button type="button" class="btn btn-secondary btn-sm" id="defaultProfile" style="float:right">기본사진으로 변경</button>
 						</div>
 						<div class="col-12">
 							<label for="id" class="form-label">아이디</label>
@@ -57,7 +70,7 @@
 						
 						<div class="col-12">
 							<label for="nickName" class="form-label">닉네임</label>
-							<input type="text" class="form-control" id="nickName" name="nickName" value="${loginUser.nickName }" required>
+							<input type="text" class="form-control" id="nickName" name="nickName" value="${loginUser.nickName}" required>
 							<span id="nickNameCheckMsg"></span>
 						</div>
 
@@ -120,10 +133,10 @@
 	
 	<script>
 	
-	let nickNameChecked = null;
-	let oldPwdCheck = null;
-	let newPwdCheck = null;
-	let newPwdCheckConfirm = false;
+	let nickNameChecked = true;
+	let oldPwdCheck = true;
+	let newPwdCheck = true;
+	let newPwdCheckConfirm = true;
 	
 	// 닉네임 중복확인
 	$(function(){
@@ -159,48 +172,41 @@
 	
 	// 비밀번호
 	$(function(){
-			$('#newPwd').on('focusout',function(){
-				let newPwd = $('#newPwd').val();
-// 				$('#newPwd').on('focus', function(e){
-// 					$('#newPwdCheckMsg').html('영문, 숫자, 특수기호를 포함한 6자 이상의 비밀번호를 입력해주세요.');
-// 					$('#newPwdCheckMsg').css('color','black');
-// 				});
-			 		console.log(newPwd);
-			 		
-				if(newPwd != ''){
-					const pwdReg = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{6,}$/;
-					if(!pwdReg.test(newPwd)){
-						$('#newPwdCheckMsg').html('영문, 숫자, 특수기호를 포함한 6자 이상의 비밀번호를 입력해주세요.');
-						$('#newPwdCheckMsg').css('color','red');
-						newPwdCheck = false;
-						console.log(newPwdCheck);
-					}else{
-						$('#newPwdCheckMsg').html('');
-						newPwdCheck = true;
-					}
+		$('#newPwd').on('focusout',function(){
+			let newPwd = $('#newPwd').val();
+				
+			if(newPwd != ''){
+				const pwdReg = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{6,}$/;
+				if(!pwdReg.test(newPwd)){
+					$('#newPwdCheckMsg').html('영문, 숫자, 특수기호를 포함한 6자 이상의 비밀번호를 입력해주세요.');
+					$('#newPwdCheckMsg').css('color','red');
+					newPwdCheck = false;
 				}else{
+					$('#newPwdCheckMsg').html('정규표현식 맞음');
 					newPwdCheck = true;
 				}
-			});
+			}else{
+				$('#newPwdCheckMsg').html('');
+				$('#newPwd').val("");
+				newPwdCheck = true;
+				console.log("비번공백: " + newPwd);
+			}
+		});
 			
-			
-// 			if(newPwdConrfirm != ''){
-				$('#newPwdConrfirm').focusout(function(e) {
-					if($('#newPwd').val() != $('#newPwdConrfirm').val()) {
-						$('#newPwdConfirmMsg').html('비밀번호 불일치');
-						$('#newPwdConfirmMsg').css('color','red');
-						newPwdCheckConfirm = false;
-					} else {
-						$('#newPwdConfirmMsg').html('비밀번호 일치');
-						$('#newPwdConfirmMsg').css('color','green');
-						newPwdCheckConfirm = true;
-					}
-// 					if($('#newPwd').val() == ''){
-// 						$('#newPwdConfirmMsg').html('');
-// 						$('#newPwdConrfirm').val("");
-// 					}
-				});
-// 			}
+		$('#newPwdConrfirm').focusout(function(e) {
+			if($('#newPwd').val() != $('#newPwdConrfirm').val()) {
+				$('#newPwdConfirmMsg').html('비밀번호 불일치');
+				$('#newPwdConfirmMsg').css('color','red');
+				newPwdCheckConfirm = false;
+			} else {
+				$('#newPwdConfirmMsg').html('비밀번호 일치');
+				$('#newPwdConfirmMsg').css('color','green');
+				newPwdCheckConfirm = true;
+			}
+			if($('#newPwd').val() == ''){
+				$('#newPwdConfirmMsg').html('');
+			}
+		});
 	});
 	
 	// 현재 비밀번호가 맞는지?
@@ -212,7 +218,7 @@
 				url : '${contextPath}/checkPwd.me',
 				data : {memberPwd:memberPwd},
 				success: (data) =>{
-					console.log(data);
+// 					console.log(data);
 					if(data == 'true'){
 						$('#pwdCheckMsg').html('');
 						oldPwdCheck = true;
@@ -230,7 +236,27 @@
 	// 프로필 사진 변경
 	$(function(){
 		$('#upload').on('click',function(){
-			$('#real-upload').click();
+			$('#file').click();
+		});
+	});
+	
+	
+	//기본 프로필로 변경
+	$(function(){
+		$('#defaultProfile').on('click', function(){
+			 const memberId = '${loginUser.memberId}';
+			 console.log(memberId);
+				$.ajax({
+					url : '${contextPath}/deleteProfile.me',
+					data : {memberId:memberId},
+					success: (data) =>{
+						console.log(data);
+						document.getElementById('thumb').src ="${ contextPath }/resources/image/userProfile.png";
+					},
+					error:(data)=>{
+						console.log(data);
+					}
+				});
 		});
 	});
 	
@@ -248,10 +274,11 @@
 		}
 	
 	function newSubmit(){
-		console.log("oldPwdCheck : " + oldPwdCheck)
-		console.log("nickNameChecked : " + nickNameChecked)
-		console.log("newPwdCheck : " + newPwdCheck)
-		console.log("newPwdCheckConfirm : " + newPwdCheckConfirm)
+// 		console.log("oldPwdCheck : " + oldPwdCheck)
+// 		console.log("nickNameChecked : " + nickNameChecked)
+// 		console.log("newPwdCheck : " + newPwdCheck)
+// 		console.log("newPwdCheckConfirm : " + newPwdCheckConfirm)
+		
  		if (!oldPwdCheck){
  			$('#memberPwd').focus();
  			$('#pwdCheckMsg').html('현재 비밀번호 불일치');
@@ -260,12 +287,11 @@
  		}
  		
 		if(!newPwdCheck){
-			console.log('들어오니?')
 			$('#newPwd').focus();
 			return false;
 		}
 		
-		if(nickNameChecked == false){
+		if(!nickNameChecked){
 			$('#nickName').focus();
 			return false;
 		}
@@ -292,6 +318,8 @@
 	        }).open();
 	    });
 	}
+	
+	
 	</script>
 </body>
 </html>

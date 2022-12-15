@@ -12,6 +12,7 @@
 		<result column="NOTICE_STATUS" property="noticeStatus"/>
 		<result column="B_STATUS" property="status"/>
 		<result column="BOARD_WRITER" property="writer"/>
+		<result column="NICKNAME" property="nickName"/>
 		<result column="BOARD_COUNT" property="count"/>
 		<result column="PRICE" property="marketPrice"/>
 		<result column="MARKET_TYPE" property="marketType"/>
@@ -64,6 +65,7 @@
 		select *
 		from BOARD b
 			join market m on(b.BOARD_NO = m.BOARD_NO)
+			join member on (board_writer = member_id)
 		where b.BOARD_TYPE = '3' and b.B_STATUS = 'Y'
 
 		<if test="marketType > 0">
@@ -84,22 +86,32 @@
 		from(	select *
 				from BOARD b
 					join market m on(b.BOARD_NO = m.BOARD_NO)
+					join member on (board_writer = member_id)
 				where BOARD_TYPE = '3' and B_STATUS = 'Y'
 				<if test="marketType > 0">
 				and MARKET_TYPE = #{marketType}
 				</if>
-				order by BOARD_COUNT )
+				order by BOARD_COUNT desc)
 		<![CDATA[
-		where rownum <= 6
+		where rownum <= 8
 		]]>
 	</select>
 		
 	<select id="topAttmListSelect" resultMap = "attachmentResultSet">
-		select *
-		from IMG_REPOSITORY
-            join board on(BOARD_NO=IMG_KEY)
-		where  IMG_B_TYPE = '3' and IMG_STATUS = 'Y' and IMG_LEVEL = 0
-		order by BOARD_COUNT
+		select *        
+		from(
+				select *
+				from IMG_REPOSITORY
+		            join board b on(BOARD_NO=IMG_KEY)
+		            join market m on(b.BOARD_NO = m.BOARD_NO)
+				where  IMG_B_TYPE = '3' and IMG_STATUS = 'Y' and IMG_LEVEL = 0
+				<if test="marketType > 0">
+				and MARKET_TYPE = #{marketType}
+				</if>
+				order by BOARD_COUNT desc)
+		<![CDATA[
+		where rownum <= 8
+		]]>
 	</select>
 	
 	<resultMap type="WishList" id="wishListResultSet">
@@ -107,9 +119,9 @@
 		<id property="memberId" column="MEMBER_ID"/>
 	</resultMap>
 	
-	<insert id="wishListInsert">
+	<insert id="marketLike" >
 		insert into WISHLIST
-		values(#{boardNo}, #{memberId})
+		values(#{memberId},#{boardNo} )
 	</insert>
 	
 	<select id="wishListSelect" resultMap="wishListResultSet">
@@ -118,10 +130,16 @@
 		where MEMBER_ID = #{memberId} and BOARD_NO = #{boardNo}
 	</select>
 	
+	<delete id="marketLikeCancle">
+		delete wishList
+		where board_no=#{boardNo} and member_id=#{memberId}
+	</delete>
+	
 	<select id="marketBoardSelect" resultMap="marketBoardResultSet">
 		select *
 		from board b
 			join market k on(k.BOARD_NO = b.BOARD_NO)
+			join member on (board_writer = member_id)
 		where b.BOARD_NO = #{bNo} and b.B_STATUS = 'Y'
 	</select>
 	
@@ -159,12 +177,13 @@
 	
 	<insert id="replyInsert">
 		insert into reply
-		values(seq_rid.nextval, #{replyContent}, sysdate, sysdate, default, default, #{memberId}, #{BoardId})
+		values(seq_rid.nextval, #{replyContent}, sysdate, sysdate, default, default, #{memberId}, #{boardNo})
 	</insert>
 	
 	<select id="replySelect" resultMap="replyResultSet">
 		select *
-		from reply 
+		from reply r
+			join member m on(r.MEMBER_ID = m.MEMBER_ID)
 		where BOARD_NO=#{boardNo} and REPLY_STATUS = 'Y'
 		order by reply_no desc
 	</select>
@@ -177,7 +196,9 @@
 	<select id="reReplySelect" resultMap="rReplyResultSet">
 		select *
 		from RE_REPLY r
+			join member m on(r.MEMBER_ID = m.MEMBER_ID)
 		where board_no = #{boardNo} and RE_REPLY_STATUS = 'Y'
 		order by reply_no desc
 	</select>
+	
 </mapper>

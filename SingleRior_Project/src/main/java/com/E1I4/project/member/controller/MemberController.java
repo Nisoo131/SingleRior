@@ -1,5 +1,9 @@
 package com.E1I4.project.member.controller;
 
+import java.io.File;
+import java.io.IOException;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.E1I4.project.common.exception.MemberException;
+import com.E1I4.project.common.model.vo.Attachment;
 import com.E1I4.project.member.model.service.KakaoLogin;
 import com.E1I4.project.member.model.service.MailSendService;
 import com.E1I4.project.member.model.service.MemberService;
@@ -47,7 +52,7 @@ public class MemberController {
 		Member loginUser = mService.login(m);
 //		System.out.println("뭔가 잘못됨:" +loginUser);
 		
-		System.out.println(bcrypt.encode(m.getMemberPwd()));  // 암호화 비밀번호
+//		System.out.println(bcrypt.encode(m.getMemberPwd()));  // 암호화 비밀번호
 		if(bcrypt.matches(m.getMemberPwd(), loginUser.getMemberPwd())) {
 			session.setAttribute("loginUser", loginUser);
 //			 System.out.println("로그인성공");
@@ -67,10 +72,10 @@ public class MemberController {
 //		System.out.println(access_Token);
 		
 		HashMap<String, Object> userInfo = kl.getUserInfo(access_Token);
-//		System.out.println("###access_Token#### : " + access_Token);
-//		System.out.println("###nickname#### : " + userInfo.get("nickname"));
-//		System.out.println("###email#### : " + userInfo.get("email"));
-//		System.out.println("###id#### : " + userInfo.get("kakaoId"));
+//		System.out.println("access_Token : " + access_Token);
+//		System.out.println("nickname : " + userInfo.get("nickname"));
+//		System.out.println("email : " + userInfo.get("email"));
+//		System.out.println("id : " + userInfo.get("kakaoId"));
 		
 		String memberId = (String) userInfo.get("kakaoId");
 		String email = (String) userInfo.get("email");
@@ -223,8 +228,15 @@ public class MemberController {
 	}
 	
 	@RequestMapping("myPage.me")
-	public String myPage() {
-		return "myPage";
+	public String myPage(HttpSession session, Model model) {
+		
+		Member m = (Member)session.getAttribute("loginUser");
+		// 프로필 사진 가져오기
+		
+		Attachment a = mService.selectProfile(m.getMemberId());
+//		System.out.println(a);
+			model.addAttribute("a", a);
+			return "myPage";
 	}
 	
 	@RequestMapping("checkPwd.me")
@@ -243,19 +255,54 @@ public class MemberController {
 	
 	
 	@RequestMapping("editMyInfo.me")
-	public String editMyInfo() {
+	public String editMyInfo(HttpSession session, Model model) {
+		
+		Member m = (Member)session.getAttribute("loginUser");
+		// 프로필 사진 가져오기
+		
+		Attachment a = mService.selectProfile(m.getMemberId());
+//		System.out.println(a);
+		
+		model.addAttribute("a", a);
 		return "editMyInfo";
 	}
 	
+	// 회원 정보 수정
 	@RequestMapping("updateMember.me")
 	public String updateMember(HttpServletRequest reqeust, @ModelAttribute Member m, @RequestParam(value="newPwd", required=false) String newPwd,
-								HttpSession session,Model model , @RequestParam(value="real-upload", required=false) String profilePhoto ) {
-		
-		System.out.println(profilePhoto);
+								HttpSession session, Model model , @RequestParam(value="file", required=false) MultipartFile file, HttpServletRequest request) {
 		
 		
+		int count = mService.getProfilePhotoCount(m.getMemberId());
+		
+		Attachment a = null;
+		boolean check = false;
+			MultipartFile upload = file;
+//			System.out.println("null인가..:" + upload);
+			
+			if(!upload.getOriginalFilename().equals("")) {
+				
+				String[] returnArr = saveFile(upload, request);
+//				System.out.println(returnArr);
+					
+				if(returnArr[1] != null) {
+					a = new Attachment();
+					a.setImgOriginalName(upload.getOriginalFilename());
+					a.setImgRename(returnArr[1]);
+					a.setImgPath(returnArr[0]);
+					a.setImgKey(m.getMemberId());
+					a.setBoardType(4);  // 프로필은 4로
+				}
+				if(count != 1) {
+					int result = mService.insertProfile(a);
+				}else {
+					int result = mService.updateProfile(a);
+				}
+			}
+//			System.out.println("들어왔나 : " + a);
+
 		//회원 정보 수정
-		if(newPwd != null && newPwd != "") {
+		if(!newPwd.trim().equals("")) {
 			String encPwd = bcrypt.encode(newPwd);
 			m.setMemberPwd(encPwd);
 //			System.out.println("새비번있음: ");
@@ -263,13 +310,62 @@ public class MemberController {
 			m.setMemberPwd(null);
 //			System.out.println("새비번ㄴㄴ음: " + m);
 		}
-	
+		
+
 		int result = mService.updateMember(m);
+		
 		if(result > 0) {
+//			System.out.println("최종 : " +a);
+			model.addAttribute("profile", a);
 			session.setAttribute("loginUser", mService.login(m));
 			return "redirect:myPage.me";
 		}else {
 			throw new MemberException("비밀번호 발급 실패");
+		}
+	}
+	
+	private String[] saveFile(MultipartFile upload, HttpServletRequest request) {
+		String root = request.getSession().getServletContext().getRealPath("resources");
+		String savePath = root + "\\uploadFiles";
+		
+		File folder = new File(savePath);
+		if(!folder.exists()) {
+			folder.mkdirs();
+		}
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmssSSS");
+		int ranNum = (int)(Math.random()*10000);
+		String originFileName = upload.getOriginalFilename();
+		String renameFileName = sdf.format(new Date(System.currentTimeMillis())) + ranNum
+									+ originFileName.substring(originFileName.lastIndexOf("."));
+		
+		String renamePath = folder + "\\" + renameFileName;
+		
+		try {
+			upload.transferTo(new File(renamePath));
+		} catch (IllegalStateException | IOException e) {
+			e.printStackTrace();
+		}
+		
+		String[] returnArr = new String[2];
+		returnArr[0] = savePath;
+		returnArr[1] = renameFileName;
+		
+		return returnArr;
+	}
+
+	// 프로필 사진 기본 사진으로 변경
+	@RequestMapping("deleteProfile.me")
+	@ResponseBody
+	public String deleteProfile(@RequestParam("memberId") String memberId) {
+//		System.out.println(memberId);
+		
+		int result = mService.deleteProfile(memberId);
+//		System.out.println(result);
+		if(result>0) {
+			return "success";
+		}else {
+			return "fail";
 		}
 	}
 	@RequestMapping("myCart.me")

@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -71,7 +72,8 @@
 					</table>
 					<table>
 						<tr>
-							<td class="px-5" width="200">${ coBoard.nickName }</td>
+							<td class="px-5" style="text-align: center;" width="40"><img src="${ contextPath }/resources/image/user.png" width="20" height="20"></td>
+							<td width="150">${ coBoard.nickName }</td>
 							<td width="150">${ coBoard.createDate }</td>
 							<td width="60">조회수</td>
 							<td>${ coBoard.count }</td>
@@ -81,6 +83,20 @@
 					<div style="border-bottom: 1px solid #DCDCDC; padding-top: 10px;"></div>
 					
 					<!-- 본문 -->
+					
+					<!-- 이미지 파일 추가 -->
+					<c:forEach items="${ list }" var="a">
+						<c:if test="${ fn:containsIgnoreCase(a.imgRename, 'jpg') or fn:containsIgnoreCase(a.imgRename, 'png') }">
+							<div class="container px-5 pt-5">
+								<div class="row">
+									<div>
+										<img src="${ contextPath }/resources/uploadFiles/${ a.imgRename }" width="300" height="300">
+									</div>
+								</div>
+							</div>
+						</c:if>
+					</c:forEach>
+						
 					<div class="p-5" style="font-size: 20px; height: 600px;">
 						<span>${ coBoard.boardContent }</span>
 					</div>
@@ -98,43 +114,85 @@
 					
 					<div style="border-bottom: 1px solid #DCDCDC; padding-top: 10px;"></div>
 					
-					<!-- 댓글 -->
+					<!-- 댓글 작성 -->
 					<div class="px-5">
 						<div class="input-group" style="padding-top: 50px;">
 							<textarea class="form-control" rows="3" id="replyContent" style="resize: none;" placeholder="댓글을 작성해주세요."></textarea>
-							<button class="btn btn-outline-primary btn-lg" id="replySubmit" type="button" style="width: 100px;">등록</button>
+							<c:if test="${ empty loginUser }">
+								<button class="btn btn-outline-primary btn-lg" id="loginModal" type="button" style="width: 100px;">등록</button>
+							</c:if>
+							<c:if test="${ !empty loginUser }">
+								<button class="btn btn-outline-primary btn-lg" id="replySubmit" type="button" style="width: 100px;">등록</button>
+							</c:if>
 						</div>
 						<div class="justify-content-center" style="padding-bottom: 50px; padding-right: 100px; color: #A9A9A9; text-align: right; font-size: 20px;">
 							<span>0 / 600</span>
-							<img class="m-3" src="https://cdn-icons.flaticon.com/svg/3917/3917606.svg?token=exp=1670471019~hmac=4f53bb92f7e43f4146c6da299ae3cc7e" width="20" height="20">
+							<img class="m-3" src="${ contextPath }/resources/image/unlock.png" width="20" height="20">
 						</div>
 					</div>
 					
-					
-					<div class="px-5" style="padding-bottom: 50px;">
-						<table>
-							<tr>
-								<td style="text-align: center;" width="40"><img src="https://cdn-icons.flaticon.com/svg/3917/3917711.svg?token=exp=1670467359~hmac=b45251c2afca4a6751ba3fed9124eb31" width="20" height="20"></td>
-								<td class="px-4">건강최고</td>
-								<td class="px-4">22.12.08 &nbsp;&nbsp;&nbsp; 09:00</td>
-								<td width="850"></td>
-								<td>
-									<div class="dropdown">
-										<img class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" src="https://cdn-icons.flaticon.com/svg/3917/3917158.svg?token=exp=1670467948~hmac=2f18f7118b556af438bb1d4438649f4a" width="20" height="20">
-										<ul class="dropdown-menu" style="text-align: center;">
-											<li><a class="dropdown-item" href="#">수정</a></li>
-											<li><a class="dropdown-item" href="#">삭제</a></li>
-											<li><a class="dropdown-item" href="#">신고</a></li>
-										</ul>
-									</div>
-								</td>
-							</tr>
-						</table>
-						<table style="font-size: 20px;">
-							<tr>
-								<td class="px-5 py-3">헉 괜찮으세요..? XX역 근처에는 YY약국이 지금 운영중인 것 같아요. 제가 좀 전에 지나가면서 봤거든요.</td>
-							</tr>
-						</table>
+					<!-- 댓글 목록 -->
+					<div id="replyList">
+						<!-- 댓글(reply) 출력 -->
+						<div class="px-5">
+							<table class="table">
+								<tr>
+									<td style="text-align: center;" width="40"><img src="${ contextPath }/resources/image/user.png" width="20" height="20"></td>
+									<td class="px-4">닉네임</td>
+									<td class="px-4">2022-12-15</td>
+									<td width="850"></td>
+									<td>
+										<div class="dropdown">
+											<img class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" src="${ contextPath }/resources/image/menu-dots.png" width="20" height="20">
+											<ul class="dropdown-menu" style="text-align: center;">
+												<c:if test="${ loginUser.memberId eq r.memberId }">
+													<li><a class="dropdown-item" href="#">댓글달기</a></li>
+													<li><a class="dropdown-item" href="#">수정</a></li>
+													<li><a class="dropdown-item" href="#">삭제</a></li>
+												</c:if>
+												<c:if test="${ !(loginUser.memberId eq r.memberId) }">
+													<li><a class="dropdown-item" href="#">답글달기</a></li>
+													<li><a class="dropdown-item" href="#">신고</a></li>
+												</c:if>
+											</ul>
+										</div>
+									</td>
+								</tr>
+								<tr style="font-size: 20px;">
+									<td class="px-5 py-3" colspan="5">내용입니다요 내용내용 으아아아아아아내용입니다요 내용내용 으아아아아아아내용입니다요 내용내용 으아아아아아아내용입니다요 내용내용 으아아아아아아내용입니다요 내용내용 으아아아아아아</td>
+								</tr>
+							</table>
+						</div>
+						
+						<!-- 답글(reReply) 출력 -->
+						<div class="px-5" style="padding-bottom: 50px; margin-left: 60px;">
+							<table class="table">
+								<tr>
+									<td style="text-align: center;" width="40"><img src="${ contextPath }/resources/image/down-right.png" width="20" height="20">
+									<td style="text-align: center;" width="40"><img src="${ contextPath }/resources/image/user.png" width="20" height="20"></td>
+									<td class="px-4">닉네임</td>
+									<td class="px-4">2022-12-15</td>
+									<td width="750"></td>
+									<td>
+										<div class="dropdown">
+											<img class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" src="${ contextPath }/resources/image/menu-dots.png" width="20" height="20">
+											<ul class="dropdown-menu" style="text-align: center;">
+												<c:if test="${ loginUser.memberId eq r.memberId }">
+													<li><a class="dropdown-item" href="#">수정</a></li>
+													<li><a class="dropdown-item" href="#">삭제</a></li>
+												</c:if>
+												<c:if test="${ !(loginUser.memberId eq r.memberId) }">
+													<li><a class="dropdown-item" href="#">신고</a></li>
+												</c:if>
+											</ul>
+										</div>
+									</td>
+								</tr>
+								<tr style="font-size: 20px;">
+									<td class="px-5 py-3" colspan="6">내용입니다요 내용내용 으아아아아아아내용입니다요 내용내용 으아아아아아아내용입니다요 내용내용 으아아아아아아내용입니다요 내용내용 으아아아아아아내용입니다요 내용내용 으아아아아아아</td>
+								</tr>
+							</table>
+						</div>
 					</div>
 					
 					<div style="border-bottom: 1px solid #DCDCDC; padding-top: 10px;"></div>
@@ -148,24 +206,28 @@
 							<button class="w-100 btn btn-outline-dark btn-lg" type="button" id="nextForm">다음글</button>
 						</div>
 						
-						<div class="col-md-10" style="width: 600px;"></div>
-						
-						<div class="col-md-1" style="text-align: center; width: 100px;">
-							<button class="w-100 btn btn-outline-primary btn-lg" type="button" id="updateForm">수정</button>
-						</div>
-						<div class="col-md-1" style="text-align: center; width: 100px;">
-							<button class="w-100 btn btn-outline-secondary btn-lg" type="button" id="deleteModal">삭제</button>
-						</div>
-						<div class="col-md-1" style="text-align: center; width: 100px;">
-							<button class="w-100 btn btn-outline-danger btn-lg" type="button" id="reportForm">신고</button>
-						</div>
+						<c:if test="${ loginUser.memberId eq coBoard.writer }">
+							<div class="col-md-10" style="width: 700px;"></div>
+							<div class="col-md-1" style="text-align: center; width: 100px;">
+								<button class="w-100 btn btn-outline-primary btn-lg" type="button" id="updateForm">수정</button>
+							</div>
+							<div class="col-md-1" style="text-align: center; width: 100px;">
+								<button class="w-100 btn btn-outline-secondary btn-lg" type="button" id="deleteModal">삭제</button>
+							</div>
+						</c:if>
+						<c:if test="${ !(loginUser.memberId eq coBoard.writer) }">
+							<div class="col-md-10" style="width: 800px;"></div>
+							<div class="col-md-1" style="text-align: center; width: 100px; float: right;">
+								<button class="w-100 btn btn-outline-danger btn-lg" type="button" id="reportForm">신고</button>
+							</div>
+						</c:if>
 					</div>
 				</form>
 			</div>
 		</div>
 	</main>
 	
-	<div class="modal fade" tabindex="-1" role="dialog" id="modalChoice">
+	<div class="modal fade" tabindex="-1" role="dialog" id="modalChoice1">
 		<div class="modal-dialog" role="document">
 	    	<div class="modal-content rounded-3 shadow">
 	      		<div class="modal-body p-4 text-center">
@@ -182,6 +244,23 @@
 	  	</div>
 	</div>
 	
+	<div class="modal fade" tabindex="-1" role="dialog" id="modalChoice2">
+		<div class="modal-dialog" role="document">
+	    	<div class="modal-content rounded-3 shadow">
+	      		<div class="modal-body p-4 text-center">
+	        		<h3 class="mb-0">로그인 후에 이용하실 수 있는 서비스입니다.</h3>
+	        		<p class="mb-0">로그인 페이지로 이동합니다.</p>
+	      		</div>
+	      		<div class="modal-footer flex-nowrap p-0">
+	      			<button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0 border-end" data-bs-dismiss="modal">취소</button>
+	        		<button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0" id="yes" onclick="location.href='${ contextPath }/loginView.me'">
+	        			<strong>확인</strong>
+	        		</button>
+	      		</div>
+	    	</div>
+	  	</div>
+	</div>
+	
 	<footer>
 		<jsp:include page="../common/footer.jsp"/>
 	</footer>
@@ -191,9 +270,44 @@
 			const deleteModal = document.getElementById('deleteModal');
 			if(deleteModal != null){
 				deleteModal.addEventListener('click', ()=>{
-					$('#modalChoice').modal('show');
+					$('#modalChoice1').modal('show');
 				});
 			}
+			
+			const loginModal = document.getElementById('loginModal');
+			if(loginModal != null){
+				loginModal.addEventListener('click', ()=>{
+					$('#modalChoice2').modal('show');
+				});
+			}
+			
+			document.getElementById('replySubmit').addEventListener('click', ()=>{
+				$.ajax({
+					url: '${contextPath}/insertReply.co',
+					data: {replyContent:document.getElementById('replyContent').value,
+							boardNo:${coBoard.boardNo}, nickName:'${loginUser.memberId}'},
+					success: function(data)=>{
+						console.log(data);
+						
+						let listHtml = "";
+						for(const i in data){
+							let replyNo = data[i].replyNo;
+							let replyContent = data[i].replyContent;
+							let replyCreateDate = data[i].replyCreateDate;
+							let replyModifyDate = data[i].replyModifyDate;
+							let replySecret = data[i].replySecret;
+							let replyStatus = data[i].replyStatus;
+							let nickName = data[i].nickName;
+						}
+						}
+						
+						document.getElementById('replyContent').value = '';
+					},
+					error: (data)=>{
+						console.log(data);
+					}
+				});
+			});
 		}
 	</script>
 </body>
