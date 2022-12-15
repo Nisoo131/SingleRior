@@ -26,7 +26,7 @@
 	</header>
 	
 	<!-- 대분류/소분류 구분 -->
-	${ sList }
+	<!-- ${ sList } -->
 	<!-- ${ aList } --> 
 	<div class="front">
 		<h5><b>전체 > 가구 > 침대 </b></h5>
@@ -50,7 +50,7 @@
 				<c:set var="discountPrice" value="${ s.price-(s.price*s.discount/100)}"/>
 				<fmt:formatNumber type="number" maxFractionDigits="3" value="${ s.price-(s.price*s.discount/100)}" var="totalPrice" />
 			    <div class="col-3">
-			      <div class="card" style="cursor:pointer";>
+			      <div class="card" style="cursor:pointer">
 			        <img src="resources/uploadFiles/${ aList[status.index].imgRename }" width="100%" height="225">
 			         <div class="card-body">
 			          <h6 class="card-title">${ s.brand } </h6>

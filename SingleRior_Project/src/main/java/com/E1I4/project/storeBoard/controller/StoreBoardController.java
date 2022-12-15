@@ -21,6 +21,12 @@ public class StoreBoardController {
 	@Autowired
 	private StoreBoardService sService;
 	
+	// 스토어 메인페이지
+		@RequestMapping("storeList.st")
+		public String storeList() {
+			return "storeList";
+		}
+	
 	// 리스트 
 	@RequestMapping("categoryList.st")
 	public String storeList(@RequestParam(value="page", required=false) Integer page, Model model) {
@@ -47,17 +53,22 @@ public class StoreBoardController {
 				throw new BoardException("게시글 조회 실패");
 			}
 		}
-
-	
-	// 스토어 클릭스 메인페이지 - 단순 카테 이동
-	@RequestMapping("storeList.st")
-	public String storeList() {
-		return "storeList";
-	}
-	
-	// 썸네일 클릭시
+   
+	// 상품 상세보기
 	@RequestMapping("productDetail.st")
-	public String productDetail() {
+	public String productDetail(@RequestParam("bNo") int bNo, Model model) {
+		
+		String strBNo = Integer.toString(bNo);
+		
+		ArrayList<StoreBoard> pList = sService.selectProduct(strBNo);
+		ArrayList<Attachment> list = sService.selectImg(strBNo);
+		
+//		System.out.println(pList);
+//		System.out.println(list);
+		
+		model.addAttribute("pList", pList);
+		model.addAttribute("list", list);
+		
 		return "productDetail";
 	}
 	

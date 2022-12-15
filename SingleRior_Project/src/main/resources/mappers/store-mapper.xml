@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mtbatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="storeMapper">
 
-    <resultMap type="StoreBoard" id="=StoreBoardResultSet">
+    <resultMap type="StoreBoard" id="StoreBoardResultSet">
 		<id column="BOARD_NO" property="boardNo"/>
 		<result column="BOARD_TYPE" property="boardType"/>
 		<result column="BOARD_TITLE" property="boardTitle"/>
@@ -53,17 +53,16 @@
 		where board_type='1' and b_status = 'Y'
 	</select>
 	
-	<select id="selectStoreBoardList" resultMap="=StoreBoardResultSet">
+	<select id="selectStoreBoardList" resultMap="StoreBoardResultSet">
 		select *
 		from board
 		     join product using (board_no)
 		     join product_sub_Cate using(pro_subcate_code)
 		     join product_top_Cate using(pro_topcate_code) 
-		where b_status = 'Y' and board_type='1'
+		where b_status = 'Y' and board_type='1' and pro_subcate_code='101'
 		order by board_no desc
    </select>
    
-  	<!-- 썸네일 -->
     <select id="selectAttmList" resultMap="attmResultSet">
      select *
 		from img_repository 
@@ -72,6 +71,20 @@
 		      and img_status='Y'
 	    order by img_key desc
    </select>
+   
+   <select id="selectProduct" resultMap="StoreBoardResultSet">
+	   	select *
+		from product
+	     	 join board using (board_no)
+	    where board_no=#{bNo}
+   </select>
+   
+   <select id="selectImg" resultMap="attmResultSet">
+		select *
+		from IMG_REPOSITORY
+		where IMG_KEY = #{bNo} and IMG_STATUS = 'Y'
+	</select>
+ 
 
 
 </mapper>

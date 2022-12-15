@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -20,39 +23,6 @@
 	#inquiryBtn{size: 100px; background-color:#008cd4;}
 	.star{text-align:center; display:table; width:300px; height:100px; margin:0 auto;}
 		
-      .bd-placeholder-img {
-        font-size: 1.125rem;
-        text-anchor: middle;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        user-select: none;
-      }
-
-      @media (min-width: 768px) {
-        .bd-placeholder-img-lg {
-          font-size: 3.5rem;
-        }
-      }
-
-      .b-example-divider {
-        height: 3rem;
-        background-color: rgba(0, 0, 0, .1);
-        border: solid rgba(0, 0, 0, .15);
-        border-width: 1px 0;
-        box-shadow: inset 0 .5em 1.5em rgba(0, 0, 0, .1), inset 0 .125em .5em rgba(0, 0, 0, .15);
-      }
-
-      .b-example-vr {
-        flex-shrink: 0;
-        width: 1.5rem;
-        height: 100vh;
-      }
-
-      .bi {
-        vertical-align: -.125em;
-        fill: currentColor;
-      }
-
       .nav-scroller {
         position: relative;
         z-index: 2;
@@ -83,26 +53,43 @@
 				<jsp:include page="../storeBoard/navbar.jsp"/>
 			</div>
 		</header>
-	    
+	  
+	 	${ list }<br><br>
+	 	<br>
+	 	${ list[0].imgRename }
+	 	${ list[1].imgRename }
+	 	<br>
+	      ${ pList }
+	   <c:forEach items="${ pList }" var="p">
+	   
+	   	  
 		<div class="category">
-			<h5><b>전체 > 가구 > 침대/매트릭스 </b></h5>
+			<h5><b> 전체 > 가구 > 침대</b></h5> 
+			<br>
+	
 		</div>
-		
 		<main class="container">
 		   <div class="row mx-md-n5">
 		 	 <div class="col px-md-5"><div class="p-3 border bg-light">
-		 	 	<img src="https://cdn.ggumim.co.kr/cache/furniture/600/20220603102316CGZ2FtksY9.jpg">
+		 	 	<c:if test="${ fn:containsIgnoreCase([list[0].imgRename], 'jpg') or fn:containsIgnoreCase([list[0].imgRename], 'png') }">
+		 	 		<img src="resources/uploadFiles/${ list[0].imgRename }" width="100%" height="100%">
+				</c:if>
+				
 		 	 </div>
 		 	</div>
+		 	
+	<fmt:formatNumber type="number" maxFractionDigits="3" value="${p.price}" var="commaPrice" />
+	<c:set var="discountPrice" value="${ s.price-(s.price*s.discount/100)}"/>
+	<fmt:formatNumber type="number" maxFractionDigits="3" value="${ p.price-(p.price*p.discount/100)}" var="totalPrice" />
 	  <div class="col px-md-5">
 	  	<div class="p-3 border bg-light">
-		  <h5>최고가구</h5>
-		  <h2>아이비 원목 프레임 (싱글/퀸)</h2>
-		  <p><s>81,000</s></p>
-		  <h1>63%    29,900원</h1>
+		  <h5>${ p.brand }</h5>
+		  <h2>${ p.boardTitle }</h2>
+		  <p><s>${ commaPrice } 원</s></p>
+		  <h1><span>${ p.discount }%</span>　<span style="color:#008cd4;">${ totalPrice } 원</span></h1>
 		  <br><br>
 		  <p>구매리뷰</p>
-		  <p>배송비</p>
+		  <p>배송비 무료</p>
 		  <hr>
 		 	<p>옵션선택</p>
 			  <select class="form-select" aria-label="Default select example">
@@ -122,7 +109,7 @@
 				  <option value="1">정리끈1[SET]    4000원</option>
 			  </select>
 			  <hr>
-			  <h2>총 1개 29,900원</h2>
+			  <h2>총 1개 ${ totalPrice}원</h2>
 			  <div class="btn-group">
 				  <button type="button" class="wishlist" style="width:200px;height:50px;font-size:20px;"> 장바구니 </button>
 				  <button type="button" class="payment"  style="width:200px;height:50px;font-size:20px;" onclick="location.href='${ contextPath }/payment.st'">결제하기</button>
@@ -130,6 +117,7 @@
 		
 	  		</div>
 	  	</div>
+	  	</c:forEach>
 	 
 	  
 	<!--상세정보 네비바 -->
@@ -162,16 +150,13 @@
 				  </div>
 				 </nav>
 				</h3>
-				   
-			 
-			
 	
 	   <!-- 상품 설명 이미지 -->
 	      <article class="blog-post" id="productInfo">
 	        <h2 class="blog-post-title mb-1">상품정보</h2>
 	        <p class="blog-post-meta"></p>
-			      <img src="https://exit.ohou.se/4de1f196f83828afbb1634e688af311c0de7abbd/urbane7940.speedgabia.com/ortho/bed/20221026_ivy/01.png">
-			      <img src="https://exit.ohou.se/07c15636f58600a5ce2c992fcd80bd1337060afb/urbane7940.speedgabia.com/ortho/bed/20221026_ivy/02.png">
+			   <img src="resources/uploadFiles/${ list[1].imgRename }" width="100%" height="100%">
+			      
 	   	 </article>
 	   	 
 	   	 <div id="review">
@@ -312,7 +297,7 @@
 		    </div>
 		  </div>
 		</div>
-	</main>
+	
 	
     <footer>
 		<jsp:include page="../common/footer.jsp"/>
@@ -345,6 +330,8 @@
 				$(this).val(piece);
 			});
 	});
+	
+	
 	
 		// 문의하기 데이터 Ajax 통해 전달하기
 		document.getElementById('inquiry_modal').addEventListener('click',()=>{
