@@ -26,6 +26,7 @@ import com.E1I4.project.common.model.vo.Attachment;
 import com.E1I4.project.common.model.vo.PageInfo;
 import com.E1I4.project.common.model.vo.ReReply;
 import com.E1I4.project.common.model.vo.Reply;
+import com.E1I4.project.common.model.vo.WishList;
 import com.E1I4.project.commuBoard.model.service.CommuBoardService;
 import com.E1I4.project.commuBoard.model.vo.CommuBoard;
 import com.E1I4.project.member.model.vo.Member;
@@ -188,10 +189,17 @@ public class CommuBoardController {
 	@RequestMapping("selectCommuBoard.co")
 	public ModelAndView selectCommuBoard(@RequestParam("bNo") int bNo, @RequestParam("writer") String writer, @RequestParam("page") int page, ModelAndView mv, HttpSession session) {
 		Member m = (Member)session.getAttribute("loginUser");
+		
+		WishList wl = new WishList();
+		WishList wishList = null;
+		
 		String login = null;
 		
 		if(m != null) {
 			login = m.getNickName();
+			wl.setBoardNo(bNo);
+			wl.setMemberId (m.getMemberId());
+			wishList = cService.selectSymptOn(wl);
 		}
 		
 		boolean yn = false;
@@ -199,23 +207,19 @@ public class CommuBoardController {
 			yn = true;
 		}
 		
+		String strBNo = Integer.toString(bNo);
+		
 		CommuBoard coBoard = cService.selectCommuBoard(bNo, yn);
-		ArrayList<Attachment> list = cService.selectAttmBoard((Integer)bNo);
+		ArrayList<Attachment> list = cService.selectAttmBoard(strBNo);
 		
 		ArrayList<Reply> coRList = cService.selectReply(bNo);
 		ArrayList<ReReply> coRRList = cService.selectReReply(bNo);
-		
-		System.out.println(coBoard);
-		System.out.println(list);
-		System.out.println(coRList);
-		System.out.println(coRRList);
-		System.out.println(page);
-		System.out.println(writer);
 		
 		if(coBoard != null) {
 			mv.addObject("coBoard", coBoard);
 			mv.addObject("coRList", coRList);
 			mv.addObject("coRRList", coRRList);
+			mv.addObject("wishList", wishList);
 			mv.addObject("page", page);
 			mv.addObject("list", list);
 			mv.setViewName("commuBoardDetail");
@@ -250,6 +254,44 @@ public class CommuBoardController {
 	@RequestMapping("updateCommuBoard.co")
 	public String updateCommuBoard() {
 		return "commuBoardEdit";
+	}
+	
+	// 공감하기 버튼 on (사용자가 공감 버튼을 눌렀을 때)
+	@RequestMapping("symptOn.co")
+	public String symptOn(@RequestParam("bNo") int bNo, HttpSession session, Model model) {
+		String id = ((Member)session.getAttribute("loginUser")).getMemberId();
+		
+		WishList wl = new WishList();
+		wl.setBoardNo(bNo);
+		wl.setMemberId(id);
+		
+		int result = cService.symptOn(wl, bNo);
+		
+		if(result > 0) {
+			model.addAttribute("bNo", bNo);
+			return "redirect:selectCommuBoard.co";
+		} else {
+			throw new BoardException("공감하기 등록에 실패하였습니다.");
+		}
+	}
+	
+	// 공감하기 버튼 off (사용자가 공감 버튼을 취소했을 때)
+	@RequestMapping("symptOff.co")
+	public String cheerCancle(@RequestParam("bNo") int bNo, HttpSession session, Model model) {
+		String id = ((Member)session.getAttribute("loginUser")).getMemberId();
+		
+		WishList wl = new WishList();
+		wl.setBoardNo(bNo);
+		wl.setMemberId(id);
+		
+		int result =  cService.symptOff(wl, bNo);
+		
+		if(result > 0) {
+			model.addAttribute("bNo", bNo);
+			return "redirect:selectCommuBoard.co";
+		} else {
+			throw new BoardException("공감하기 취소에 실패하였습니다.");
+		}
 	}
 
 }

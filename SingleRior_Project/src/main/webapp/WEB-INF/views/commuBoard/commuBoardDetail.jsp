@@ -29,9 +29,9 @@
 		
 		<div class="py-1 border-bottom fs-5" style="background-color: #008cd4; text-align: center;">
 			<ul class="nav me-auto justify-content-center">
-		        <li class="nav-item"><a href="${ contextPath }/commuTipList.co" class="nav-link px-5 mx-2" style="color: white;">생활팁</a></li>
-		        <li class="nav-item"><a href="${ contextPath }/commuReviewList.co" class="nav-link px-5 mx-2" style="color: white;">후기</a></li>
-		        <li class="nav-item"><a href="${ contextPath }/commuFreeList.co" class="nav-link px-5 mx-2" style="color: white;">자유</a></li>
+		        <li class="nav-item"><a href="${ contextPath }/commuAllList.co?commuType=1" class="nav-link px-5 mx-2" style="color: white;">생활팁</a></li>
+		        <li class="nav-item"><a href="${ contextPath }/commuAllList.co?commuType=2" class="nav-link px-5 mx-2" style="color: white;">후기</a></li>
+		        <li class="nav-item"><a href="${ contextPath }/commuAllList.co?commuType=3" class="nav-link px-5 mx-2" style="color: white;">자유</a></li>
 		    </ul>
 		</div>
 	</header>
@@ -87,10 +87,10 @@
 					<!-- 이미지 파일 추가 -->
 					<c:forEach items="${ list }" var="a">
 						<c:if test="${ fn:containsIgnoreCase(a.imgRename, 'jpg') or fn:containsIgnoreCase(a.imgRename, 'png') }">
-							<div class="container px-5 pt-5">
+							<div class="container px-5 pt-5" style="width: 500px;">
 								<div class="row">
 									<div>
-										<img src="${ contextPath }/resources/uploadFiles/${ a.imgRename }" width="300" height="300">
+										<img src="${ contextPath }/resources/uploadFiles/${ a.imgRename }" width="100%" height="300">
 									</div>
 								</div>
 							</div>
@@ -102,13 +102,33 @@
 					</div>
 					<div class="col-md-1" style="text-align: center; padding-top: 30px; padding-left: 50px; width: 170px;">
 						<div class="row g-0 flex-md-row shadow-sm h-md-250 position-relative mt-2 mb-4">
-							<button type="button" class="btn btn-outline-dark" data-bs-toggle="button">
+							<c:if test="${ empty loginUser }">
+								<button type="button" class="btn btn-outline-dark loginModal">
 								<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-emoji-smile" viewBox="0 0 16 16">
 									<path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
 									<path d="M4.285 9.567a.5.5 0 0 1 .683.183A3.498 3.498 0 0 0 8 11.5a3.498 3.498 0 0 0 3.032-1.75.5.5 0 1 1 .866.5A4.498 4.498 0 0 1 8 12.5a4.498 4.498 0 0 1-3.898-2.25.5.5 0 0 1 .183-.683zM7 6.5C7 7.328 6.552 8 6 8s-1-.672-1-1.5S5.448 5 6 5s1 .672 1 1.5zm4 0c0 .828-.448 1.5-1 1.5s-1-.672-1-1.5S9.448 5 10 5s1 .672 1 1.5z"/>
 								</svg>
 								공감하기
 							</button>
+							</c:if>
+							<c:if test="${ !empty loginUser && wishList == null }">
+								<button type="button" class="btn btn-outline-dark" data-bs-toggle="button" onclick="location.href='${ contextPath }/symptOn.co?bNo=${ coBoard.boardNo }'">
+								<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-emoji-smile" viewBox="0 0 16 16">
+									<path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+									<path d="M4.285 9.567a.5.5 0 0 1 .683.183A3.498 3.498 0 0 0 8 11.5a3.498 3.498 0 0 0 3.032-1.75.5.5 0 1 1 .866.5A4.498 4.498 0 0 1 8 12.5a4.498 4.498 0 0 1-3.898-2.25.5.5 0 0 1 .183-.683zM7 6.5C7 7.328 6.552 8 6 8s-1-.672-1-1.5S5.448 5 6 5s1 .672 1 1.5zm4 0c0 .828-.448 1.5-1 1.5s-1-.672-1-1.5S9.448 5 10 5s1 .672 1 1.5z"/>
+								</svg>
+								공감하기
+							</button>
+							</c:if>
+							<c:if test="${ !empty loginUser && wishList != null }">
+								<button type="button" class="btn btn-outline-dark active" data-bs-toggle="button" onclick="location.href='${ contextPath }/symptOff.co?bNo=${ coBoard.boardNo }'">
+								<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-emoji-smile" viewBox="0 0 16 16">
+									<path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+									<path d="M4.285 9.567a.5.5 0 0 1 .683.183A3.498 3.498 0 0 0 8 11.5a3.498 3.498 0 0 0 3.032-1.75.5.5 0 1 1 .866.5A4.498 4.498 0 0 1 8 12.5a4.498 4.498 0 0 1-3.898-2.25.5.5 0 0 1 .183-.683zM7 6.5C7 7.328 6.552 8 6 8s-1-.672-1-1.5S5.448 5 6 5s1 .672 1 1.5zm4 0c0 .828-.448 1.5-1 1.5s-1-.672-1-1.5S9.448 5 10 5s1 .672 1 1.5z"/>
+								</svg>
+								공감하기
+							</button>
+							</c:if>
 						</div>
 					</div>
 					
@@ -119,7 +139,7 @@
 						<div class="input-group" style="padding-top: 50px;">
 							<textarea class="form-control" rows="3" id="replyContent" style="resize: none;" placeholder="댓글을 작성해주세요."></textarea>
 							<c:if test="${ empty loginUser }">
-								<button class="btn btn-outline-primary btn-lg" id="loginModal" type="button" style="width: 100px;">등록</button>
+								<button class="btn btn-outline-primary btn-lg loginModal" type="button" style="width: 100px;">등록</button>
 							</c:if>
 							<c:if test="${ !empty loginUser }">
 								<button class="btn btn-outline-primary btn-lg" id="replySubmit" type="button" style="width: 100px;">등록</button>
@@ -274,7 +294,7 @@
 				});
 			}
 			
-			const loginModal = document.getElementById('loginModal');
+			const loginModal = document.getElementsByClassName('loginModal');
 			if(loginModal != null){
 				loginModal.addEventListener('click', ()=>{
 					$('#modalChoice2').modal('show');

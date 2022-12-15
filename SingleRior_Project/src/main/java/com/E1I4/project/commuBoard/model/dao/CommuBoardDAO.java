@@ -11,6 +11,7 @@ import com.E1I4.project.common.model.vo.Attachment;
 import com.E1I4.project.common.model.vo.PageInfo;
 import com.E1I4.project.common.model.vo.ReReply;
 import com.E1I4.project.common.model.vo.Reply;
+import com.E1I4.project.common.model.vo.WishList;
 import com.E1I4.project.commuBoard.model.vo.CommuBoard;
 
 @Repository("cDAO")
@@ -43,7 +44,7 @@ public class CommuBoardDAO {
 		return sqlSession.selectOne("commuMapper.selectCommuBoard", bNo);
 	}
 
-	public ArrayList<Attachment> selectAttmBoard(SqlSessionTemplate sqlSession, Integer bNo) {
+	public ArrayList<Attachment> selectAttmBoard(SqlSessionTemplate sqlSession, String bNo) {
 		return (ArrayList)sqlSession.selectList("commuMapper.selectAttmBoard", bNo);
 	}
 
@@ -59,4 +60,23 @@ public class CommuBoardDAO {
 		return sqlSession.insert("commuMapper.insertReply", r);
 	}
 
+	public int symptOn(SqlSessionTemplate sqlSession, WishList wl) {
+		return sqlSession.insert("commuMapper.symptOn", wl);
+	}
+	
+	public int addSymptCount(SqlSessionTemplate sqlSession, int bNo) {
+		return sqlSession.update("commuMapper.addSymptCount", bNo);
+	}
+
+	public WishList selectSymptOn(SqlSessionTemplate sqlSession, WishList wl) {
+		return sqlSession.selectOne("commuMapper.selectSymptOn", wl);
+	}
+
+	public int symptOff(SqlSessionTemplate sqlSession, WishList wl) {
+		return sqlSession.delete("commuMapper.symptOff", wl);
+	}
+
+	public int deleteSymptCount(SqlSessionTemplate sqlSession, int bNo) {
+		return sqlSession.update("commuMapper.deleteSymptCount", bNo);
+	}
 }
