@@ -14,4 +14,8 @@ public interface AdminService {
 
 	ArrayList<Member> selectMemberList();
 
+	Member selectMember(String memberId);
+
+	int editMember(Member m);
+
 }

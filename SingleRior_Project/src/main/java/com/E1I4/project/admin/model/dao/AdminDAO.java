@@ -23,4 +23,12 @@ public class AdminDAO {
 		return (ArrayList)sqlSession.selectList("adminMapper.selectMemberList");
 	}
 
+	public Member selectMemberList(SqlSessionTemplate sqlSession, String memberId) {
+		return sqlSession.selectOne("adminMapper.selectMember",memberId);
+	}
+
+	public int editMember(SqlSessionTemplate sqlSession, Member m) {
+		return sqlSession.update("adminMapper.editMember", m);
+	}
+
 }

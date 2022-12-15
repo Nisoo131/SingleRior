@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -29,6 +30,10 @@ public class AdminController {
 	@Autowired
 	private AdminService aService;
 	
+	@Autowired
+	private BCryptPasswordEncoder bcrypt;
+	
+	
 	@RequestMapping("index.adm")
 	public String adminView() {
 		return"index";
@@ -39,20 +44,48 @@ public class AdminController {
 	}
 	
 	//회원정보관리
-		@RequestMapping("manageUser.adm")
-		public String manageUser(Model model, HttpSession session) {
-			
-			ArrayList<Member> selectMember=aService.selectMemberList();
-			
-			
-			
-			if(selectMember!=null) {
-				model.addAttribute("mList",selectMember);
-				return "manageUser";
-			}else {
-				throw new AdminException("유저정보 조회 실패");
-			}
+	@RequestMapping("manageUser.adm")
+	public String manageUser(Model model, HttpSession session) {
+		
+		ArrayList<Member> selectMember=aService.selectMemberList();
+		
+		
+		
+		if(selectMember!=null) {
+			model.addAttribute("mList",selectMember);
+			return "manageUser";
+		}else {
+			throw new AdminException("유저정보 조회 실패");
 		}
+	}
+	
+	@RequestMapping("updateManageUser.adm")
+	public String updateManageMember(@RequestParam("memberId") String memberId,Model model) {
+		Member member=aService.selectMember(memberId);
+
+		model.addAttribute("m", member);
+		
+		
+		return "updateManageUser";
+	}
+	@RequestMapping("editMember.adm")
+	public String editMember(Model model, @RequestParam("memberId") String memberId,@ModelAttribute Member m) {
+		System.out.println(m);
+		System.out.println(memberId);
+		
+		int result=0;
+		
+		if(!m.getMemberPwd().equals("")) {
+			String encPwd = bcrypt.encode(m.getMemberPwd());
+			m.setMemberPwd(encPwd);
+			result=aService.editMember(m);
+		}else {
+			result=aService.editMember(m);
+		}
+		System.out.println(result);
+		
+		return null;
+	}
 	
 	// 상품등록
 	@RequestMapping("enrollProduct.adm")

@@ -80,7 +80,7 @@
                                     </tfoot>
                                     <tbody>
                                     <c:forEach items="${ mList}" var="m" varStatus="status">
-                                       <tr>
+                                       <tr class="trs">
                                        	<td><c:out value="${status.count}"/></td>
                                        	<td>${m.memberId}</td>
                                        	<td>${m.memberName}</td>
@@ -105,7 +105,41 @@
                     </div>
                 </footer>
             </div>
-        </div>
+        <script>
+        
+         $(function(){
+        	
+        	$(document).on('click','.trs',function(){
+        	
+        		const memberId=this.childNodes[1].innerText;
+        		
+        		location.href='${contextPath}/updateManageUser.adm?memberId='+memberId;
+        		
+        	});
+        });
+        
+    
+     
+        
+/*         
+    	 window.onload=()=>{
+			const tbody=document.querySelector('tbody');
+			
+			const tds=tbody.querySelectorAll('td');
+			console.log(tds);
+			for(const td of tds){
+				td.addEventListener('click', function(){
+				const trTds = this.parentElement.querySelectorAll('td');
+				const memberId =trTds[1].innerText;
+				console.log(memberId)
+				location.href='${contextPath}/updateManagerMember.adm?memberId='+memberId;
+				
+				});
+			}
+		}
+ */         
+        
+        </script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
         <script src='${ pageContext.servletContext.contextPath }/resources/js/scripts.js'></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>

@@ -68,4 +68,20 @@
 		select *
 		from member	
 	</select>
+	<select id="selectMember" resultMap="MemberResultSet">
+		select *
+		from member	
+		where member_id=#{memberId}
+	</select>
+	<update id="editMember">
+		update member
+		set member_name=#{memberName}, nickname=#{nickName}, phone=#{phone}, email=#{email}, address=#{address}, modifydate=sysdate
+			<if test="memberPwd!=''">
+				, member_pwd=#{memberPwd}
+			</if>
+		where member_id=#{memberId}
+	</update>
+	
+	
+	
 </mapper>
