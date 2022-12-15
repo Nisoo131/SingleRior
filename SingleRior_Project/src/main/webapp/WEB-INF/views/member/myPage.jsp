@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -56,9 +58,18 @@
 			<table class="table table-borderless" id="profileTable">
 				<tr>
 					<td rowspan="2" width="200">
-						<div id="upload">
-							<img src="${ contextPath }/resources/image/userProfile.png" id="thumb">
-						</div>
+						<c:if test="${ a == null }">
+							<div id="upload">
+								<img src="${ contextPath }/resources/image/userProfile.png" id="thumb">
+							</div>
+						</c:if>
+						<c:if test="${ a != null }">
+							<c:if test="${ fn:containsIgnoreCase(a.imgRename, 'jpg') or fn:containsIgnoreCase(a.imgRename, 'png')}">
+								<div id="upload">
+									<img src="${ contextPath }/resources/uploadFiles/${a.imgRename }" id="thumb">
+								</div>
+							</c:if>
+						</c:if>
 					</td>
 					<td colspan="2"><h2>${ loginUser.nickName }</h2></td>
 				</tr>

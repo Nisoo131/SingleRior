@@ -113,4 +113,43 @@
 			 member_id = #{memberId} and status = 'Y'
 	</update>
 	
+	<!-- 프로필 사진 유무 확인 -->
+	<select id="getProfilePhotoCount" resultType="_int">
+		select count(*)
+		from IMG_REPOSITORY
+		where img_key = #{memberId}
+	</select>
+	
+	<insert id="insertProfile">
+		insert into IMG_REPOSITORY
+		values(SingleRior_aid, #{imgOriginalName}, #{imgRename}, sysdate, sysdate, default, #{imgKey}, #{imgPath}, #{boardType}, 0)
+	</insert>
+	
+	<update id="updateProfile">
+		update img_repository
+		set img_name = #{imgOriginalName}, IMG_SERVER_NAME = #{imgRename}, IMG_MODIFY_DATE = sysdate, IMG_PATH = #{imgPath}
+		where img_key =  #{imgKey}
+	</update>
+	
+	<select id="selectProfile" resultMap="attachmentResultSet">
+		select *
+		from img_repository
+		where img_key = #{memberId}
+	</select>
+	
+	<resultMap type="Attachment" id="attachmentResultSet">
+		<id property="imgNo" column="IMG_NO"/>
+		<result property="imgOriginalName" column="IMG_NAME"/>
+		<result property="imgRename" column="IMG_SERVER_NAME"/>
+		<result property="imgCreateDate" column="IMG_CREATE_DATE"/>
+		<result property="imgModifyDate" column="IMG_CREATE_DATE"/>
+		<result property="imgKey" column="IMG_KEY"/>
+		<result property="imgPath" column="IMG_PATH"/>
+		<result property="imgStatus" column="IMG_STATUS"/>
+		<result property="level" column="IMG_LEVEL"/>
+		<result property="boardType" column="IMG_B_TYPE"/>
+	</resultMap>
+	
+	
+	
 </mapper>

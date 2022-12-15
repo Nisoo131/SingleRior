@@ -3,6 +3,7 @@ package com.E1I4.project.member.model.dao;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.E1I4.project.common.model.vo.Attachment;
 import com.E1I4.project.member.model.vo.Member;
 
 @Repository("mDAO")
@@ -44,6 +45,22 @@ public class MemberDAO {
 
 	public int updateMember(SqlSessionTemplate sqlSession, Member m) {
 		return sqlSession.update("memberMapper.updateMember", m);
+	}
+
+	public int getProfilePhotoCount(SqlSessionTemplate sqlSession, String memberId) {
+		return sqlSession.selectOne("memberMapper.getProfilePhotoCount", memberId);
+	}
+
+	public int insertProfile(SqlSessionTemplate sqlSession, Attachment a) {
+		return sqlSession.insert("memberMapper.insertProfile", a);
+	}
+
+	public int updateProfile(SqlSessionTemplate sqlSession, Attachment a) {
+		return sqlSession.insert("memberMapper.updateProfile", a);
+	}
+
+	public Attachment selectProfile(SqlSessionTemplate sqlSession, String memberId) {
+		return sqlSession.selectOne("memberMapper.selectProfile", memberId);
 	}
 
 }
