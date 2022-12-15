@@ -26,7 +26,7 @@
 	</header>
 	
 	<!-- 대분류/소분류 구분 -->
-	<!-- ${ sList } -->
+    <!--  ${ sList } -->
 	<!-- ${ aList } --> 
 	<div class="front">
 		<h5><b>전체 > 가구 > 침대 </b></h5>
@@ -57,8 +57,8 @@
 			          <h5 class="card-text">${ s.boardTitle }</h5>
 			          <span><s>${ commaPrice }</s>원 ${ s.boardNo }</span><br>
 			          <span style="width:20px">${ s.discount }%</span><span>　</span><span style="color:#008cd4; font-size: 25px;">${ totalPrice } 원</span><br>
-			          <span>★4.9</span>
-			          <input type="hidden" value="${ s.boardNo }" id="bNo">
+			          <span>★4.9</span>			          
+			          <input type="hidden" value="${ s.boardNo }" name="bNo">
 			        </div>
 			      </div>
 			    </div>
@@ -67,7 +67,7 @@
 	</div>
 	<br><br>
     
-	<nav aria-label="Standard pagination example" style="background:white" ;>
+	<nav aria-label="Standard pagination example" style="background:white" >
 		<ul class="pagination">
 			<li class="page-item">
 					<c:url var="goBack" value="${ loc }">
@@ -101,18 +101,16 @@
 <script>
     window.onload=()=>{
     	const cards = document.getElementsByClassName('card');
+    	//console.log(cards);
     	for(const div of cards){
-    		div.addEventListener('click',function(){
-    			const boardNo = document.getElementById('bNo').value;
-    			//console.log(boardNo);
-    			
+    		div.addEventListener('click', function(){
+    			const boardNo = this.querySelectorAll('input')[0].value;
+    			// console.log(boardNo); 
     			location.href='${contextPath}/productDetail.st?bNo=' + boardNo + '&page=' + ${pi.currentPage};
     		});
     	}
     }
- 		
- 		
- 
+
 </script>	
 </body>
 </html>
