@@ -55,14 +55,13 @@ li a:hover {
 		data-bs-ride="true">
 		<div class="carousel-inner">
 			<div class="carousel-item active" data-bs-interval="10000">
-				<div class="album py-3">
+				<div class="album py-4">
 					<div class="container">
-						<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3 p-2 px-4">
-							
-							<c:forEach items="${ topBList }" var="tb" begin="0" end="2" step="1">
+						<div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-3 p-2 px-4">
+							<c:forEach items="${ topBList }" var="tb" begin="0" end="3" step="1">
 							<div class="col">
 								<div class="carouselCardSec shadow-sm">
-									<c:forEach items="${ topAList }" var="ta" begin="0" end="2" step="1">
+									<c:forEach items="${ topAList }" var="ta" begin="0" end="3" step="1">
 										<c:if test="${ tb.boardNo eq ta.imgKey }">
 											<c:if test="${ ta.imgOriginalName != '' }">
 												<img src="resources/uploadFiles/${ ta.imgRename }" class="card-img-top" height="225">
@@ -72,8 +71,8 @@ li a:hover {
 											</c:if>
 										</c:if>
 									</c:forEach>
-									<div class="card-body">
-									<span style="float: right; font-size: 13px;" class="card-text">${ tb.writer }</span>
+									<div class="card-body"  style="padding:15px;">
+									<span style="float: right; font-size: 13px;" class="card-text">${ tb.nickName }</span>
 										<p class="card-text">${tb.boardTitle }</p>
 										<input type="hidden" value="${ tb.boardNo }">
 										<div class="d-flex justify-content-between align-items-center">
@@ -97,29 +96,28 @@ li a:hover {
 <!-- 첫번째 슬라이드  끝-->
 
 			<div class="carousel-item">
-				<div class="album py-3">
+				<div class="album py-4">
 					<div class="container">
-						<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3 p-2 px-4">
-							
-							<c:forEach items="${ topBList }" var="tb" begin="3" end="5" step="1">
+						<div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-3 p-2 px-4">
+							<c:forEach items="${ topBList }" var="tb" begin="4" end="7" step="1">
 							<div class="col">
 								<div class="carouselCardSec shadow-sm">
-									<c:forEach items="${ topAList }" var="ta" begin="3" end="5" step="1">
+									<c:forEach items="${ topAList }" var="ta" begin="4" end="7" step="1">
 										<c:if test="${ tb.boardNo eq ta.imgKey }">
 											<c:if test="${ ta.imgOriginalName != '' }">
 												<img src="resources/uploadFiles/${ ta.imgRename }" class="card-img-top" height="225">
-											</c:if>		
+											</c:if>		tl
 											<c:if test="${ ta.imgOriginalName == '' }">
 												<img class="bd-placeholder-img card-img-top" width="100%" height="225"  src="https://ifh.cc/g/yX3tCA.png">
 											</c:if>
 										</c:if>
 									</c:forEach>
-									<div class="card-body">
+									<div class="card-body"  style="padding:15px;">
 									<span style="float: right; font-size: 13px;" class="card-text">${ tb.writer }</span>
 										<p class="card-text">${tb.boardTitle }</p>
 										<input type="hidden" value="${ tb.boardNo }">
 										<div class="d-flex justify-content-between align-items-center">
-											<p class="card-text" style="width: 280px;">${tb.boardPrice }원</p>
+											<p class="card-text" style="width: 280px;">${tb.marketPrice }원</p>
 											<div class="btn-group">
 												<img src="https://cdn-icons-png.flaticon.com/512/2589/2589197.png"style="width: 30px; height: 30px;">2<img src="https://cdn-icons-png.flaticon.com/512/2589/2589054.png" style="width: 30px; height: 30px; display: none;">
 										  &nbsp;<img src="https://cdn-icons-png.flaticon.com/512/7789/7789458.png" style="width: 30px; height: 30px;">4
@@ -192,9 +190,9 @@ li a:hover {
 				</c:if>
 			</c:if>
 			</c:forEach>
-				<div class="card-body">
-				<span style="float: right; font-size: 13px;" class="card-text">${ mkB.writer }</span>
-					<p class="card-text">${ mkB.boardTitle }</p>
+				<div class="card-body" style="padding:15px;">
+				<span style="float: right; font-size: 13px;" class="card-text">${ mkB.nickName }</span>
+					<p class="card-text" style="font-size: 18px;">${ mkB.boardTitle }</p>
 					<input type="hidden" value="${ mkB.boardNo }">
 					<div class="d-flex justify-content-between align-items-center">
 						<p class="card-text" style="width: 280px;">${ mkB.marketPrice }원</p>
@@ -252,7 +250,7 @@ li a:hover {
 			card.addEventListener('click', function() {
 				const bNo = this.querySelector('input[type="hidden"]').value;
 				const boardWriter = this.querySelector('span').innerText;
-				location.href='${contextPath}/marketBoardDetail.ma?bNo=' + bNo +'&boardWriter=' + boardWriter;
+				location.href='${contextPath}/marketBoardDetail.ma?bNo=' + bNo +'&boardWriter=' + boardWriter + '&page=' + ${pi.currentPage};
 			});
 		}
 		//두번째 슬라이드 상세페이지
@@ -263,7 +261,7 @@ li a:hover {
 			card.addEventListener('click', function() {
 				const bNo = this.querySelector('input[type="hidden"]').value;
 				const boardWriter = this.querySelector('span').innerText;
-				location.href='${contextPath}/marketBoardDetail.ma?bNo=' + bNo  +'&boardWriter=' + boardWriter;
+				location.href='${contextPath}/marketBoardDetail.ma?bNo=' + bNo  +'&boardWriter=' + boardWriter + '&page=' + ${pi.currentPage};
 			});
 		}
 		//게시글 상세페이지
@@ -272,7 +270,7 @@ li a:hover {
 			card.addEventListener('click', function() {
 				const bNo = this.querySelector('input[type="hidden"]').value;
 				const boardWriter = this.querySelector('span').innerText;
-				location.href='${contextPath}/marketBoardDetail.ma?bNo=' + bNo +'&boardWriter=' + boardWriter;
+				location.href='${contextPath}/marketBoardDetail.ma?bNo=' + bNo +'&boardWriter=' + boardWriter + '&page=' + ${pi.currentPage};
 			});
 		}
 	}
