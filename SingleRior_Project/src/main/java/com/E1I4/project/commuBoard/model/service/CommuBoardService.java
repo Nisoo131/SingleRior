@@ -21,7 +21,7 @@ public interface CommuBoardService {
 
 	CommuBoard selectCommuBoard(int bNo, boolean yn);
 
-	ArrayList<Attachment> selectAttmList(Integer bNo);
+	ArrayList<Attachment> selectAttmBoard(Integer bNo);
 
 	ArrayList<Reply> selectReply(int bNo);
 

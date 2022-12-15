@@ -200,7 +200,7 @@ public class CommuBoardController {
 		}
 		
 		CommuBoard coBoard = cService.selectCommuBoard(bNo, yn);
-		ArrayList<Attachment> list = cService.selectAttmList((Integer)bNo);
+		ArrayList<Attachment> list = cService.selectAttmBoard((Integer)bNo);
 		
 		ArrayList<Reply> coRList = cService.selectReply(bNo);
 		ArrayList<ReReply> coRRList = cService.selectReReply(bNo);

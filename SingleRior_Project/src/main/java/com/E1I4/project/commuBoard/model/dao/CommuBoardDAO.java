@@ -43,8 +43,8 @@ public class CommuBoardDAO {
 		return sqlSession.selectOne("commuMapper.selectCommuBoard", bNo);
 	}
 
-	public ArrayList<Attachment> selectAttmList(SqlSessionTemplate sqlSession, Integer bNo) {
-		return (ArrayList)sqlSession.selectList("commuMapper.selectAttmList", bNo);
+	public ArrayList<Attachment> selectAttmBoard(SqlSessionTemplate sqlSession, Integer bNo) {
+		return (ArrayList)sqlSession.selectList("commuMapper.selectAttmBoard", bNo);
 	}
 
 	public ArrayList<Reply> selectReply(SqlSessionTemplate sqlSession, int bNo) {

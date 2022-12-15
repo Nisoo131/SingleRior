@@ -72,7 +72,8 @@
 					</table>
 					<table>
 						<tr>
-							<td class="px-5" width="200">${ coBoard.nickName }</td>
+							<td class="px-5" style="text-align: center;" width="40"><img src="${ contextPath }/resources/image/user.png" width="20" height="20"></td>
+							<td width="150">${ coBoard.nickName }</td>
 							<td width="150">${ coBoard.createDate }</td>
 							<td width="60">조회수</td>
 							<td>${ coBoard.count }</td>
@@ -82,41 +83,19 @@
 					<div style="border-bottom: 1px solid #DCDCDC; padding-top: 10px;"></div>
 					
 					<!-- 본문 -->
-					<div class="container p-5">
-						<div class="row">
-							<c:forEach items="${ list }" var="a">
-								<c:if test="${ fn:containsIgnoreCase(a.imgRename, 'jpg') or fn:containsIgnoreCase(a.imgRename, 'png') }">
-									<!-- 이미지 파일일 때 -->
-									<div class="mb-2">
-										<div class="card" style="width: 300px;">
-											<img src="${ contextPath }/resources/uploadFiles/${ a.imgRename }" width="100%" height="300">
-											<div class="card-body">
-												<h5 class="card-title">
-													<a href="${ contextPath }/resources/uploadFiles/${ a.imgRename }" download="${ a.imgOriginalName }">
-														${ a.imgOriginalName }
-													</a>
-												</h5>
-											</div>
-										</div>
+					
+					<!-- 이미지 파일 추가 -->
+					<c:forEach items="${ list }" var="a">
+						<c:if test="${ fn:containsIgnoreCase(a.imgRename, 'jpg') or fn:containsIgnoreCase(a.imgRename, 'png') }">
+							<div class="container px-5 pt-5">
+								<div class="row">
+									<div>
+										<img src="${ contextPath }/resources/uploadFiles/${ a.imgRename }" width="300" height="300">
 									</div>
-								</c:if>
-								<c:if test="${ !(fn:containsIgnoreCase(a.imgRename, 'jpg') or fn:containsIgnoreCase(a.imgRename, 'png')) }">
-									<!-- 이미지 파일이 아닐 때 -->
-									<div class="mb-2">
-										<div class="card">
-											<div class="card-body">
-												<h5 class="card-title">
-													<a href="${ contextPath }/resources/uploadFiles/${ a.imgRename }" download="${ a.imgOriginalName }">
-														${ a.imgOriginalName }
-													</a>
-												</h5>
-											</div>
-										</div>
-									</div>
-								</c:if>
-							</c:forEach>
-						</div>
-					</div>
+								</div>
+							</div>
+						</c:if>
+					</c:forEach>
 						
 					<div class="p-5" style="font-size: 20px; height: 600px;">
 						<span>${ coBoard.boardContent }</span>
@@ -148,22 +127,23 @@
 						</div>
 						<div class="justify-content-center" style="padding-bottom: 50px; padding-right: 100px; color: #A9A9A9; text-align: right; font-size: 20px;">
 							<span>0 / 600</span>
-							<img class="m-3" src="https://cdn-icons.flaticon.com/svg/3917/3917606.svg?token=exp=1670471019~hmac=4f53bb92f7e43f4146c6da299ae3cc7e" width="20" height="20">
+							<img class="m-3" src="${ contextPath }/resources/image/unlock.png" width="20" height="20">
 						</div>
 					</div>
 					
-					<div>
+					<!-- 댓글 목록 -->
+					<div id="replyList">
 						<!-- 댓글(reply) 출력 -->
 						<div class="px-5">
 							<table class="table">
 								<tr>
-									<td style="text-align: center;" width="40"><img src="https://cdn-icons.flaticon.com/svg/3917/3917711.svg?token=exp=1670467359~hmac=b45251c2afca4a6751ba3fed9124eb31" width="20" height="20"></td>
+									<td style="text-align: center;" width="40"><img src="${ contextPath }/resources/image/user.png" width="20" height="20"></td>
 									<td class="px-4">닉네임</td>
 									<td class="px-4">2022-12-15</td>
 									<td width="850"></td>
 									<td>
 										<div class="dropdown">
-											<img class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" src="https://cdn-icons.flaticon.com/svg/3917/3917158.svg?token=exp=1670467948~hmac=2f18f7118b556af438bb1d4438649f4a" width="20" height="20">
+											<img class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" src="${ contextPath }/resources/image/menu-dots.png" width="20" height="20">
 											<ul class="dropdown-menu" style="text-align: center;">
 												<c:if test="${ loginUser.memberId eq r.memberId }">
 													<li><a class="dropdown-item" href="#">댓글달기</a></li>
@@ -188,14 +168,14 @@
 						<div class="px-5" style="padding-bottom: 50px; margin-left: 60px;">
 							<table class="table">
 								<tr>
-									<td style="text-align: center;" width="40"><img src="https://cdn-icons-png.flaticon.com/512/9058/9058850.png" width="20" height="20">
-									<td style="text-align: center;" width="40"><img src="https://cdn-icons.flaticon.com/svg/3917/3917711.svg?token=exp=1670467359~hmac=b45251c2afca4a6751ba3fed9124eb31" width="20" height="20"></td>
+									<td style="text-align: center;" width="40"><img src="${ contextPath }/resources/image/down-right.png" width="20" height="20">
+									<td style="text-align: center;" width="40"><img src="${ contextPath }/resources/image/user.png" width="20" height="20"></td>
 									<td class="px-4">닉네임</td>
 									<td class="px-4">2022-12-15</td>
 									<td width="750"></td>
 									<td>
 										<div class="dropdown">
-											<img class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" src="https://cdn-icons.flaticon.com/svg/3917/3917158.svg?token=exp=1670467948~hmac=2f18f7118b556af438bb1d4438649f4a" width="20" height="20">
+											<img class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" src="${ contextPath }/resources/image/menu-dots.png" width="20" height="20">
 											<ul class="dropdown-menu" style="text-align: center;">
 												<c:if test="${ loginUser.memberId eq r.memberId }">
 													<li><a class="dropdown-item" href="#">수정</a></li>
@@ -305,29 +285,20 @@
 				$.ajax({
 					url: '${contextPath}/insertReply.co',
 					data: {replyContent:document.getElementById('replyContent').value,
-							boardNo:${coBoard.boardNo}, nickName:'${loginUser.memberId}',
-							},
-					success: (data)=>{
+							boardNo:${coBoard.boardNo}, nickName:'${loginUser.memberId}'},
+					success: function(data)=>{
 						console.log(data);
-						const table = document.getElementsByClassName('table');
-						table.innerHTML = '';
 						
-						for(const r of data){
-							const tr1 = document.createElement('tr');
-							const writerTd = document.createElement('td');
-							writerTd.innerText = r.nickName;
-							const dateTd = document.createElement('td');
-							dateTd.innerText = r.replyModifyDate;
-							
-							const tr2 = document.createElement('tr');
-							const contentTd = document.createElement('td');
-							contentTd.innerText = r.replyContent;
-							
-							tr.append(writerTd);
-							tr.append(dateTd);
-							tr.append(contentTd);
-							
-							table.append(tr);
+						let listHtml = "";
+						for(const i in data){
+							let replyNo = data[i].replyNo;
+							let replyContent = data[i].replyContent;
+							let replyCreateDate = data[i].replyCreateDate;
+							let replyModifyDate = data[i].replyModifyDate;
+							let replySecret = data[i].replySecret;
+							let replyStatus = data[i].replyStatus;
+							let nickName = data[i].nickName;
+						}
 						}
 						
 						document.getElementById('replyContent').value = '';
