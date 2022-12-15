@@ -66,17 +66,16 @@
 		<div class="category">
 			<h5><b> 전체 > 가구 > 침대</b></h5> 
 			<br>
-	
 		</div>
-		<main class="container">
-		   <div class="row mx-md-n5">
-		 	 <div class="col px-md-5"><div class="p-3 border bg-light">
-		 	 	<c:if test="${ fn:containsIgnoreCase([list[0].imgRename], 'jpg') or fn:containsIgnoreCase([list[0].imgRename], 'png') }">
-		 	 		<img src="resources/uploadFiles/${ list[0].imgRename }" width="100%" height="100%">
-				</c:if>
-				
-		 	 </div>
-		 	</div>
+		
+	<main class="container">
+	   <div class="row mx-md-n5">
+	 	 <div class="col px-md-5"><div class="p-3 border bg-light">
+	 	 	<c:if test="${ fn:containsIgnoreCase([list[0].imgRename], 'jpg') or fn:containsIgnoreCase([list[0].imgRename], 'png') }">
+	 	 		<img src="resources/uploadFiles/${ list[0].imgRename }" width="100%" height="100%">
+			</c:if>
+	 	 </div>
+	 	</div>
 		 	
 	<fmt:formatNumber type="number" maxFractionDigits="3" value="${p.price}" var="commaPrice" />
 	<c:set var="discountPrice" value="${ s.price-(s.price*s.discount/100)}"/>
@@ -88,7 +87,7 @@
 		  <p><s>${ commaPrice } 원</s></p>
 		  <h1><span>${ p.discount }%</span>　<span style="color:#008cd4;">${ totalPrice } 원</span></h1>
 		  <br><br>
-		  <p>구매리뷰</p>
+		  <p>구매리뷰 (개수)</p>
 		  <p>배송비 무료</p>
 		  <hr>
 		 	<p>옵션선택</p>
@@ -297,6 +296,7 @@
 		    </div>
 		  </div>
 		</div>
+	
 	
 	
     <footer>
