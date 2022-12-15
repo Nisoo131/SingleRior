@@ -234,7 +234,7 @@ public class MemberController {
 		// 프로필 사진 가져오기
 		
 		Attachment a = mService.selectProfile(m.getMemberId());
-		System.out.println(a);
+//		System.out.println(a);
 			model.addAttribute("a", a);
 			return "myPage";
 	}
@@ -261,9 +261,9 @@ public class MemberController {
 		// 프로필 사진 가져오기
 		
 		Attachment a = mService.selectProfile(m.getMemberId());
-		System.out.println(a);
-			model.addAttribute("a", a);
+//		System.out.println(a);
 		
+		model.addAttribute("a", a);
 		return "editMyInfo";
 	}
 	
@@ -278,13 +278,13 @@ public class MemberController {
 		Attachment a = null;
 		boolean check = false;
 			MultipartFile upload = file;
-	//		System.out.println(upload.getOriginalFilename());
+//			System.out.println("null인가..:" + upload);
 			
 			if(!upload.getOriginalFilename().equals("")) {
 				
 				String[] returnArr = saveFile(upload, request);
-				System.out.println(returnArr);
-				
+//				System.out.println(returnArr);
+					
 				if(returnArr[1] != null) {
 					a = new Attachment();
 					a.setImgOriginalName(upload.getOriginalFilename());
@@ -293,36 +293,29 @@ public class MemberController {
 					a.setImgKey(m.getMemberId());
 					a.setBoardType(4);  // 프로필은 4로
 				}
+				if(count != 1) {
+					int result = mService.insertProfile(a);
+				}else {
+					int result = mService.updateProfile(a);
+				}
 			}
-			System.out.println("들어왔나 : " + a);
-		// 프로필 사진 한번도 업뎃 안 한 경우
-		if(count != 1) {
-			int result = mService.insertProfile(a);
-				if(result > 0) {
-					check = true;
-				}
-		}else {
-			int result = mService.updateProfile(a);
-				if(result>0) {
-					check = true;
-				}
-			
-		}
-			
+//			System.out.println("들어왔나 : " + a);
+
 		//회원 정보 수정
 		if(!newPwd.trim().equals("")) {
 			String encPwd = bcrypt.encode(newPwd);
 			m.setMemberPwd(encPwd);
-			System.out.println("새비번있음: ");
+//			System.out.println("새비번있음: ");
 		}else {
 			m.setMemberPwd(null);
-			System.out.println("새비번ㄴㄴ음: " + m);
+//			System.out.println("새비번ㄴㄴ음: " + m);
 		}
 		
 
 		int result = mService.updateMember(m);
-		if(result > 0 && check) {
-			System.out.println("최종 : " +a);
+		
+		if(result > 0) {
+//			System.out.println("최종 : " +a);
 			model.addAttribute("profile", a);
 			session.setAttribute("loginUser", mService.login(m));
 			return "redirect:myPage.me";
@@ -361,6 +354,20 @@ public class MemberController {
 		return returnArr;
 	}
 
+	// 프로필 사진 기본 사진으로 변경
+	@RequestMapping("deleteProfile.me")
+	@ResponseBody
+	public String deleteProfile(@RequestParam("memberId") String memberId) {
+//		System.out.println(memberId);
+		
+		int result = mService.deleteProfile(memberId);
+//		System.out.println(result);
+		if(result>0) {
+			return "success";
+		}else {
+			return "fail";
+		}
+	}
 	@RequestMapping("myCart.me")
 	public String myCart() {
 		return "myCart";

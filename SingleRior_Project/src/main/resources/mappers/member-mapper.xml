@@ -150,6 +150,9 @@
 		<result property="boardType" column="IMG_B_TYPE"/>
 	</resultMap>
 	
-	
+	<delete id="deleteProfile">
+		delete from img_repository
+		where img_key = #{memberId}
+	</delete>
 	
 </mapper>

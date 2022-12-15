@@ -95,6 +95,11 @@ public class MemberServiceImpl implements MemberService {
 		return mDAO.selectProfile(sqlSession,memberId);
 	}
 
+	@Override
+	public int deleteProfile(String memberId) {
+		return mDAO.deleteProfile(sqlSession,memberId);
+	}
+
 
 
 

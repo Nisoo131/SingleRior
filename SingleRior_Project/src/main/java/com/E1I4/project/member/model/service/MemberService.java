@@ -33,6 +33,8 @@ public interface MemberService {
 
 	Attachment selectProfile(String memberId);
 
+	int deleteProfile(String memberId);
+
 
 
 }
