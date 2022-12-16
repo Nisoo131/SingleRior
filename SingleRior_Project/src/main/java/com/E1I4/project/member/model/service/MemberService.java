@@ -1,8 +1,11 @@
 package com.E1I4.project.member.model.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.E1I4.project.common.model.vo.Attachment;
+import com.E1I4.project.common.model.vo.Board;
+import com.E1I4.project.common.model.vo.PageInfo;
 import com.E1I4.project.member.model.vo.Member;
 
 public interface MemberService {
@@ -38,6 +41,14 @@ public interface MemberService {
 	int deleteMember(String memberId);
 
 	int deleteKakaoMember(String memberId);
+
+	int getMyContentListCount(String memberId);
+
+	ArrayList<Board> selectBoardList(PageInfo pi, String memberId);
+
+	int getLikeCount(int boardNo);
+
+	int getReplyCount(int boardNo);
 
 
 

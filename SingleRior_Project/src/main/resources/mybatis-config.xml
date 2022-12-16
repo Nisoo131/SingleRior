@@ -17,7 +17,12 @@
 		<typeAlias type="com.E1I4.project.common.model.vo.WishList" alias="WishList"/>
 		<typeAlias type="com.E1I4.project.common.model.vo.Reply" alias="Reply"/>
 		<typeAlias type="com.E1I4.project.common.model.vo.ReReply" alias="ReReply"/>
+<<<<<<< HEAD
 		<typeAlias type="com.E1I4.project.common.model.vo.ProductList" alias="ProductList"/>
+=======
+		<typeAlias type="com.E1I4.project.common.model.vo.Board" alias="Board"/>
+
+>>>>>>> bella
 	</typeAliases>
 
 	<mappers>

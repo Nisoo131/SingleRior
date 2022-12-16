@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
@@ -20,8 +21,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.E1I4.project.common.Pagination;
 import com.E1I4.project.common.exception.MemberException;
 import com.E1I4.project.common.model.vo.Attachment;
+import com.E1I4.project.common.model.vo.Board;
+import com.E1I4.project.common.model.vo.PageInfo;
 import com.E1I4.project.member.model.service.KakaoLogin;
 import com.E1I4.project.member.model.service.MailSendService;
 import com.E1I4.project.member.model.service.MemberService;
@@ -397,7 +401,10 @@ public class MemberController {
 	public String serviceCenter() {
 		return "serviceCenter";
 	}
-	
+	@RequestMapping("wishList.me")
+	public String wishList() {
+		return "wishList";
+	}
 	@RequestMapping("orderList.me")
 	public String searchOrder() {
 		return "orderList";
@@ -427,7 +434,34 @@ public class MemberController {
 		return "myAskDoneList";
 	}
 	@RequestMapping("myContentList.me")
-	public String myContentList() {
+	public String myContentList(@RequestParam(value="page", required=false) Integer page, HttpSession session, Model model) {
+		Member m = (Member)session.getAttribute("loginUser");
+		String memberId = m.getMemberId();
+		
+		int currentPage =1;
+		if(page != null) {
+			currentPage = page;
+		}
+		int listCount = mService.getMyContentListCount(memberId);
+		
+		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 10);
+		ArrayList<Board> bList = mService.selectBoardList(pi, memberId);
+		System.out.println(bList);
+		
+		for(int i=0; i< bList.size(); i++) {
+			int boardNo = bList.get(i).getBoardNo();
+			int likeCount = mService.getLikeCount(boardNo);
+			int replyCount = mService.getReplyCount(boardNo);
+			bList.get(i).setLikeCount(likeCount);
+			bList.get(i).setReplyCount(replyCount);
+		}
+		
+//		System.out.println(bList);
+		
+		if(bList != null) {
+			model.addAttribute("pi", pi);
+			model.addAttribute("bList", bList);
+		}
 		return "myContentList";
 	}
 	@RequestMapping("myReplyList.me")
