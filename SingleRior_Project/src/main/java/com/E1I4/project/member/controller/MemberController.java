@@ -445,8 +445,28 @@ public class MemberController {
 		int listCount = mService.getMyContentListCount(memberId);
 		
 		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 10);
+		
+//		int cateNum = 0;
+//		
+//		if(!category.isEmpty()) {
+//			switch(category) {
+//			case "전체" :
+//				cateNum = 0;break;
+//			case "싱글벙글" :
+//				cateNum = 2;break;
+//			case "씽씽마켓" :
+//				cateNum = 3;break;
+//			}
+//		}
+//		
+//		System.out.println(cateNum);
+//		
+//		HashMap<String, String> cateMap = new HashMap<String, String>();
+//		cateMap.put("category", category);
+//		cateMap.put("memberId", memberId);
+		
 		ArrayList<Board> bList = mService.selectBoardList(pi, memberId);
-		System.out.println(bList);
+//		System.out.println(bList);
 		
 		for(int i=0; i< bList.size(); i++) {
 			int boardNo = bList.get(i).getBoardNo();
@@ -456,7 +476,6 @@ public class MemberController {
 			bList.get(i).setReplyCount(replyCount);
 		}
 		
-//		System.out.println(bList);
 		
 		if(bList != null) {
 			model.addAttribute("pi", pi);
@@ -464,6 +483,14 @@ public class MemberController {
 		}
 		return "myContentList";
 	}
+	
+	@RequestMapping("selectCategory.me")
+	public String selectCategory(@RequestParam(value="page", required=false) Integer page, @RequestParam("category") String category) {
+		System.out.println(category);
+		
+		return null;
+	}
+	
 	@RequestMapping("myReplyList.me")
 	public String myReplyList() {
 		return "myReplyList";

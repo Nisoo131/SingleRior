@@ -42,7 +42,7 @@
 			<select class="form-select form-select-sm" name="category" id="category">
 				<option selected>전체</option>
 				<option >싱글벙글</option>
-				<option>싱글마켓</option>
+				<option>씽씽마켓</option>
 			</select>
 		</div>
 		<br><br><br>
@@ -131,6 +131,26 @@
 			});
 		}
 	}
+	
+	$(function(){
+		
+		$('select[name=category]').change(function(){
+			let category = $('select[name=category]').val();
+			console.log(category);
+			const page = '${pi.currentPage}';
+			$.ajax({
+				url : '${contextPath}/selectCategory.me',
+				data : {category:category,page:page},
+				success: (data) =>{
+					console.log(data);
+					
+				},
+				error:(data)=>{
+					console.log(data);
+				}
+			});
+		})
+	});
 	</script>
 </body>
 </html>
