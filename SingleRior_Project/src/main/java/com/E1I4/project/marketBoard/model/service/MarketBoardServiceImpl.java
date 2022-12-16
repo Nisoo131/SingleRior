@@ -66,8 +66,8 @@ public class MarketBoardServiceImpl implements MarketBoardService{
 	}
 
 	@Override
-	public ArrayList<Attachment> selectAttm(int bNo) {
-		return mkDAO.selectAttm(sqlSession, bNo);
+	public ArrayList<Attachment> selectAttm(String strBNo) {
+		return mkDAO.selectAttm(sqlSession, strBNo);
 	}
 
 	@Override
@@ -103,6 +103,21 @@ public class MarketBoardServiceImpl implements MarketBoardService{
 	@Override
 	public int marketLikeCancle(WishList wl) {
 		return mkDAO.marketLikeCancle(sqlSession, wl);
+	}
+
+	@Override
+	public int reReplyInsert(ReReply reReply) {
+		return mkDAO.reReplyInsert(sqlSession, reReply);
+	}
+
+	@Override
+	public int marketBoardDelete(int bNo) {
+		return mkDAO.marketBoardDelete(sqlSession, bNo);
+	}
+
+	@Override
+	public int deleteAttm(String strBNo) {
+		return mkDAO.deleteAttm(sqlSession, strBNo);
 	}
 
 	

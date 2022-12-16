@@ -106,14 +106,14 @@ li a:hover {
 										<c:if test="${ tb.boardNo eq ta.imgKey }">
 											<c:if test="${ ta.imgOriginalName != '' }">
 												<img src="resources/uploadFiles/${ ta.imgRename }" class="card-img-top" height="225">
-											</c:if>		tl
+											</c:if>
 											<c:if test="${ ta.imgOriginalName == '' }">
 												<img class="bd-placeholder-img card-img-top" width="100%" height="225"  src="https://ifh.cc/g/yX3tCA.png">
 											</c:if>
 										</c:if>
 									</c:forEach>
 									<div class="card-body"  style="padding:15px;">
-									<span style="float: right; font-size: 13px;" class="card-text">${ tb.writer }</span>
+									<span style="float: right; font-size: 13px;" class="card-text">${ tb.nickName }</span>
 										<p class="card-text">${tb.boardTitle }</p>
 										<input type="hidden" value="${ tb.boardNo }">
 										<div class="d-flex justify-content-between align-items-center">
@@ -250,18 +250,16 @@ li a:hover {
 			card.addEventListener('click', function() {
 				const bNo = this.querySelector('input[type="hidden"]').value;
 				const boardWriter = this.querySelector('span').innerText;
-				location.href='${contextPath}/marketBoardDetail.ma?bNo=' + bNo +'&boardWriter=' + boardWriter + '&page=' + ${pi.currentPage};
+				location.href='${contextPath}/marketBoardDetail.ma?bNo=' + bNo +'&boardWriter=' + boardWriter;
 			});
 		}
 		//두번째 슬라이드 상세페이지
 		const seCcards = document.getElementsByClassName('carouselCardSec');
 		for(const card of seCcards){
-			
-		
 			card.addEventListener('click', function() {
 				const bNo = this.querySelector('input[type="hidden"]').value;
 				const boardWriter = this.querySelector('span').innerText;
-				location.href='${contextPath}/marketBoardDetail.ma?bNo=' + bNo  +'&boardWriter=' + boardWriter + '&page=' + ${pi.currentPage};
+				location.href='${contextPath}/marketBoardDetail.ma?bNo=' + bNo  +'&boardWriter=' + boardWriter;
 			});
 		}
 		//게시글 상세페이지
@@ -270,7 +268,7 @@ li a:hover {
 			card.addEventListener('click', function() {
 				const bNo = this.querySelector('input[type="hidden"]').value;
 				const boardWriter = this.querySelector('span').innerText;
-				location.href='${contextPath}/marketBoardDetail.ma?bNo=' + bNo +'&boardWriter=' + boardWriter + '&page=' + ${pi.currentPage};
+				location.href='${contextPath}/marketBoardDetail.ma?bNo=' + bNo +'&boardWriter=' + boardWriter;
 			});
 		}
 	}

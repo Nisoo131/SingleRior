@@ -26,7 +26,7 @@ public interface MarketBoardService {
 
 	MarketBoard marketBoardSelect(int bNo, boolean yn);
 
-	ArrayList<Attachment> selectAttm(int bNo);
+	ArrayList<Attachment> selectAttm(String strBNo);
 
 	ArrayList<Reply> replySelect(int bNo);
 
@@ -41,6 +41,14 @@ public interface MarketBoardService {
 	int marketLike(WishList wl);
 
 	int marketLikeCancle(WishList wl);
+
+	int reReplyInsert(ReReply reReply);
+	
+	int marketBoardDelete(int bNo);
+	
+	int deleteAttm(String bNo);
+
+
 
 
 
