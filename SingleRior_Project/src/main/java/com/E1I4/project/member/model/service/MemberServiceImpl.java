@@ -7,6 +7,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.mybatis.spring.SqlSessionTemplate;
@@ -14,6 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.E1I4.project.common.model.vo.Attachment;
+import com.E1I4.project.common.model.vo.Board;
+import com.E1I4.project.common.model.vo.PageInfo;
 import com.E1I4.project.member.model.dao.MemberDAO;
 import com.E1I4.project.member.model.vo.Member;
 import com.google.gson.JsonElement;
@@ -71,7 +74,6 @@ public class MemberServiceImpl implements MemberService {
 
 	@Override
 	public int updateMember(Member m) {
-		// TODO Auto-generated method stub
 		return mDAO.updateMember(sqlSession,m);
 	}
 
@@ -108,6 +110,26 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public int deleteKakaoMember(String memberId) {
 		return mDAO.deleteKakaoMember(sqlSession,memberId);
+	}
+
+	@Override
+	public int getMyContentListCount(String memberId) {
+		return mDAO.getMyContentListCount(sqlSession, memberId);
+	}
+
+	@Override
+	public ArrayList<Board> selectBoardList(PageInfo pi, String memberId) {
+		return mDAO.selectBoardList(sqlSession,pi,memberId);
+	}
+
+	@Override
+	public int getLikeCount(int boardNo) {
+		return mDAO.getLikeCount(sqlSession,boardNo);
+	}
+
+	@Override
+	public int getReplyCount(int boardNo) {
+		return mDAO.getReplyCount(sqlSession,boardNo);
 	}
 
 

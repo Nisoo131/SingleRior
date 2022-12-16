@@ -1,9 +1,14 @@
 package com.E1I4.project.member.model.dao;
 
+import java.util.ArrayList;
+
+import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.E1I4.project.common.model.vo.Attachment;
+import com.E1I4.project.common.model.vo.Board;
+import com.E1I4.project.common.model.vo.PageInfo;
 import com.E1I4.project.member.model.vo.Member;
 
 @Repository("mDAO")
@@ -73,6 +78,25 @@ public class MemberDAO {
 
 	public int deleteKakaoMember(SqlSessionTemplate sqlSession, String memberId) {
 		return sqlSession.delete("memberMapper.deleteKakaoMember", memberId);
+	}
+
+	public int getMyContentListCount(SqlSessionTemplate sqlSession, String memberId) {
+		return sqlSession.selectOne("memberMapper.getMyContentListCount", memberId);
+	}
+
+	public ArrayList<Board> selectBoardList(SqlSessionTemplate sqlSession, PageInfo pi, String memberId) {
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		
+		return (ArrayList)sqlSession.selectList("memberMapper.selectBoardList", memberId, rowBounds);
+	}
+
+	public int getLikeCount(SqlSessionTemplate sqlSession, int boardNo) {
+		return sqlSession.selectOne("memberMapper.getLikeCount", boardNo);
+	}
+
+	public int getReplyCount(SqlSessionTemplate sqlSession, int boardNo) {
+		return sqlSession.selectOne("memberMapper.getReplyCount", boardNo);
 	}
 
 }

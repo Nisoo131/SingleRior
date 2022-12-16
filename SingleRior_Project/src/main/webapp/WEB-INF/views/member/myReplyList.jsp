@@ -20,6 +20,7 @@
 		cursor:pointer;
 	}
 	.dropdown{float:right;}
+	#category{width:100px; float:right;}
 </style>
 </head>
 <body>
@@ -35,23 +36,21 @@
 		</div>
 	</nav>
 	<section>
-	<div class="dropdown">
-			<button class="btn btn-secondary dropdown-toggle" type="button"
-				data-bs-toggle="dropdown" aria-expanded="false">카테고리 선택</button>
-			<ul class="dropdown-menu">
-				<li><a class="dropdown-item" href="#">전체</a></li>
-				<li><a class="dropdown-item" href="#">싱글벙글</a></li>
-				<li><a class="dropdown-item" href="#">싱글마켓</a></li>
-			</ul>
+		<div class="col mb-3" id="categoryDiv">
+			<select class="form-select form-select-sm" name="category" id="category">
+				<option selected>전체</option>
+				<option >싱글벙글</option>
+				<option>싱글마켓</option>
+			</select>
 		</div>
-		<br><br><br><br>
-	<div class="container" style="text-align: center; padding:0;">
+		<br><br><br>
+		<div style="text-align: center;">
 			<div class="bd-example">
 				<table class="table table-hover">
 					<thead>
 						<tr class="fs-5">
 							<th width="100px">카테고리</th>
-							<th>댓글 내용</th>
+							<th>댓글</th>
 							<th width="130px">작성일</th>
 							<th width="70px">공감</th>
 							<th width="70px">댓글</th>
@@ -75,7 +74,8 @@
 					</tbody>
 				</table>
 			</div>
-			<br><br>
+			<br>
+			<br>
 			<!-- 페이징 -->
 			<nav aria-label="Standard pagination example">
 				<ul class="pagination justify-content-center">

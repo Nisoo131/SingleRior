@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -20,6 +21,8 @@
 		cursor:pointer;
 	}
 	.dropdown{float:right;}
+	#category{width:100px; float:right;}
+	tr:hover{cursor:pointer}
 </style>
 </head>
 <body>
@@ -29,26 +32,21 @@
 	<nav class="navbar navbar-expand-lg" id="navMyContent">
 		<div class="collapse navbar-collapse" id="navbarNavAltMarkup">
 			<div class="navbar-nav">
-				<a class="nav-link active" aria-current="page"
-					style="color: #008cd4"
-					onclick="location.href='${contextPath}/myContentList.me'">나의
-					게시글</a> <a class="nav-link"
-					onclick="location.href='${contextPath}/myReplyList.me'">나의 댓글</a>
+				<a class="nav-link active" aria-current="page" style="color: #008cd4" onclick="location.href='${contextPath}/myContentList.me'">나의 게시글</a>
+				<a class="nav-link" onclick="location.href='${contextPath}/myReplyList.me'">나의 댓글</a>
 			</div>
 		</div>
 	</nav>
 	<section>
-		<div class="dropdown">
-			<button class="btn btn-secondary dropdown-toggle" type="button"
-				data-bs-toggle="dropdown" aria-expanded="false">카테고리 선택</button>
-			<ul class="dropdown-menu">
-				<li><a class="dropdown-item" href="#">전체</a></li>
-				<li><a class="dropdown-item" href="#">싱글벙글</a></li>
-				<li><a class="dropdown-item" href="#">싱글마켓</a></li>
-			</ul>
+		<div class="col mb-3" id="categoryDiv">
+			<select class="form-select form-select-sm" name="category" id="category">
+				<option selected>전체</option>
+				<option >싱글벙글</option>
+				<option>싱글마켓</option>
+			</select>
 		</div>
-		<br><br><br><br>
-		<div class="container" style="text-align: center; padding: 0;">
+		<br><br><br>
+		<div style="text-align: center;">
 			<div class="bd-example">
 				<table class="table table-hover">
 					<thead>
@@ -56,27 +54,35 @@
 							<th width="100px">카테고리</th>
 							<th>글 제목</th>
 							<th width="130px">작성일</th>
-							<th width="70px">공감</th>
+							<th width="70px">좋아요</th>
 							<th width="70px">댓글</th>
 						</tr>
 					</thead>
-					<tbody>
-						<tr>
-							<td>싱글벙글</td>
-							<td>배가 너무 아픈데 주변에 약국이 다 문을 닫았어요..ㅜㅜ</td>
-							<td>2022-12-06</td>
-							<td>0</td>
-							<td>0</td>
-						</tr>
-						<tr>
-							<td>씽씽마켓</td>
-							<td>이번에 가습기 하나 장만했는디 가성비 좋네여!!!</td>
-							<td>2022-12-06</td>
-							<td>0</td>
-							<td>0</td>
-						</tr>
-					</tbody>
+						<c:if test="${ !empty bList }">
+							<tbody>
+								<c:forEach items="${ bList }" var="b">
+									<tr>
+										<c:if test="${ b.boardType == 2 }">
+											<td>싱글벙글</td>
+										</c:if>
+										<c:if test="${ b.boardType == 3 }">
+											<td>씽씽마켓</td>
+										</c:if>
+										<td>${ b.boardTitle}</td>
+										<td>${ b.modifyDate}</td>
+										<td>${ b.likeCount}</td>
+										<td>${ b.replyCount}</td>
+										<td style="display:none">${ b.boardNo }</td>
+									</tr>
+								</c:forEach>
+							</tbody>
+						</c:if>
 				</table>
+						<c:if test="${ empty bList }">
+							<div class="alert alert-secondary" role="alert">
+ 								아직 작성하신 게시글이 없습니다.
+							</div>
+						</c:if>
 			</div>
 			<br>
 			<br>
@@ -106,5 +112,25 @@
 	<footer>
 		<jsp:include page="../common/footer.jsp"/>
 	</footer>
+	
+	<script>
+	window.onload = () =>{
+		const tbody = document.querySelector('tbody');
+		const trs = tbody.querySelectorAll('tr');
+		for(const tr of trs) {
+// 			console.log(tr);
+			tr.addEventListener('click', function(){
+				
+				const cate = this.childNodes[1].innerText;
+				const boardNo = this.childNodes[11].innerText;
+				const writer = '${loginUser.nickName}';
+				if(cate == "싱글벙글"){
+					location.href='${contextPath}/selectCommuBoard.co?bNo=' + boardNo + '&writer=' + writer + '&page=' + ${pi.currentPage};
+				}else if(cate == "씽씽마켓")
+					location.href='${contextPath}/marketBoardDetail.ma?bNo=' + boardNo  +'&boardWriter=' + writer + '&page=' + ${pi.currentPage};
+			});
+		}
+	}
+	</script>
 </body>
 </html>
