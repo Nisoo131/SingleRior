@@ -118,9 +118,13 @@
 						
 						<br><br><br><br><br>
 						
-						<input type='submit' id="enrollBtn" class="w-100 btn btn-light btn-lg" style="background:#008cd4; color:white" value="회원 정보수정">
+<!-- 					<input type='submit' id="enrollBtn" class="w-100 btn btn-light btn-lg" style="background:#008cd4; color:white" value="회원 정보수정">
 						<input type='button' id="enrollBtn" class="w-100 btn btn-light btn-lg" style="background:#008cd4; color:white" value="탈퇴하기">
-					</div>
+ -->			 
+ 						<button type="submit" class="btn btn-primary" id="enrollBtn">회원 정보 수정</button>
+ 						<button type="button" class="btn btn-danger" id="deleteMemberSubmit">회원 탈퇴</button>
+ 
+ 				</div>
 				</form>
 			</div>
 			<br>
@@ -231,7 +235,17 @@
         	}
         	
         }
-	    
+        let deleteMemberChecked = true;
+        $(function(){
+    		$('#deleteMemberSubmit').on('click',function(){
+    				if(deleteMemberChecked){
+    					const memberId = '${m.memberId }';
+    					console.log(memberId);
+    					location.href='${contextPath}/deleteMember.adm?memberId='+memberId;
+    					alert('싱글리어를 이용해 주셔서 감사합니다. 회원 탈퇴되었습니다.');
+    				}
+    		});
+    	})
 	    
 	    	
         </script>

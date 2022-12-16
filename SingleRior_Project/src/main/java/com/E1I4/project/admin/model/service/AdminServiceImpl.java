@@ -9,7 +9,9 @@ import org.springframework.stereotype.Service;
 import com.E1I4.project.admin.model.dao.AdminDAO;
 import com.E1I4.project.common.model.vo.Attachment;
 import com.E1I4.project.common.model.vo.Product;
+import com.E1I4.project.common.model.vo.ProductList;
 import com.E1I4.project.member.model.vo.Member;
+import com.E1I4.project.storeBoard.model.vo.StoreBoard;
 
 @Service("aService")
 public class AdminServiceImpl implements AdminService {
@@ -43,6 +45,16 @@ public class AdminServiceImpl implements AdminService {
 	@Override
 	public int editMember(Member m) {
 		return aDAO.editMember(sqlSession,m);
+	}
+
+	@Override
+	public ArrayList<ProductList> selectProductList(int i) {
+		return aDAO.selectProductList(sqlSession,i);
+	}
+
+	@Override
+	public ArrayList<Attachment> selectAttmList() {
+		return aDAO.selectAttmList(sqlSession);
 	}
 
 }

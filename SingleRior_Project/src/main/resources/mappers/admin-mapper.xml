@@ -49,6 +49,28 @@
 		<result column="AUTHORITY" property="memberAuthority"/>
 	</resultMap>
 	
+	<resultMap type="ProductList" id="ProductListResultSet">
+		<id column="BOARD_NO" property="boardNo"/>
+		<result column="BOARD_TYPE" property="boardType"/>
+		<result column="BOARD_TITLE" property="boardTitle"/>
+		<result column="CREATE_DATE" property="createDate"/>
+		<result column="MODIFY_DATE" property="modifyDate"/>
+		<result column="B_STATUS" property="boardStatus"/>
+		<result column="BOARD_WRITER" property="boardWriter"/>
+		<result column="BOARD_COUNT" property="boardCount"/>
+		<result column="PRODUCT_NO" property="productNo"/>
+		<result column="PRODUCT_PRICE" property="productPrice"/>
+		<result column="PRODUCT_DISCOUNT" property="discount"/>
+		<result column="PRODUCT_OPTION" property="option"/>
+		<result column="MODEL_NAME" property="modelName"/>
+		<result column="BRAND" property="brand"/>
+		<result column="delivery_payment" property="dPayment"/>
+		<result column="PRODUCT_STATUS" property="productStatus"/>
+		<result column="PRO_SUBCATE_CODE" property="subCateCode"/>
+		<result column="PRO_SUBCATE_NAME" property="subCateName"/>
+		<result column="PRO_TOPCATE_CODE" property="topCateCode"/>
+		<result column="PRO_TOPCATE_NAME" property="topCateName"/>
+	</resultMap>
 	<insert id="insertProduct">
 		insert all
 			into board values(seq_bid.nextval,1,#{productName},#{productContent},sysdate,sysdate,default,default,#{boardWriter},default)
@@ -82,6 +104,29 @@
 		where member_id=#{memberId}
 	</update>
 	
+	
+   
+  	<!-- 썸네일 -->
+    <select id="selectAttmList" resultMap="attachmentResultSet">
+     select *
+		from img_repository 
+		where img_B_type= '1'
+		      and img_level=0
+		      and img_status='Y'
+	    order by img_key desc
+   </select>
+   
+   <select id="selectProductList" resultMap="ProductListResultSet">
+   
+    select b.board_no,b.board_type,b.board_title,b.create_date,b.modify_date,b.b_status,b.board_writer,b.board_count,p.product_no,p.product_price,p.product_discount,p.product_option,p.model_name,p.brand,p.delivery_payment,p.product_status,ps.pro_subcate_code,ps.pro_subcate_name,pt.pro_topcate_code,pt.pro_topcate_name
+	from board b
+	    join product p on (b.board_no=p.board_no)
+	    join product_sub_cate ps on(p.pro_subcate_code=ps.pro_subcate_code)
+	    join product_top_cate pt on(ps.pro_topcate_code=pt.pro_topcate_code)
+	where board_type=#{i}
+   order by p.product_no
+   
+   </select>
 	
 	
 </mapper>
