@@ -7,7 +7,9 @@ import org.springframework.stereotype.Repository;
 
 import com.E1I4.project.common.model.vo.Attachment;
 import com.E1I4.project.common.model.vo.Product;
+import com.E1I4.project.common.model.vo.ProductList;
 import com.E1I4.project.member.model.vo.Member;
+import com.E1I4.project.storeBoard.model.vo.StoreBoard;
 @Repository("aDAO")
 public class AdminDAO {
 
@@ -29,6 +31,14 @@ public class AdminDAO {
 
 	public int editMember(SqlSessionTemplate sqlSession, Member m) {
 		return sqlSession.update("adminMapper.editMember", m);
+	}
+
+	public ArrayList<ProductList> selectProductList(SqlSessionTemplate sqlSession, int i) {
+		return (ArrayList)sqlSession.selectList("adminMapper.selectProductList",i);
+	}
+
+	public ArrayList<Attachment> selectAttmList(SqlSessionTemplate sqlSession) {
+		return (ArrayList)sqlSession.selectList("adminMapper.selectAttmList");
 	}
 
 }

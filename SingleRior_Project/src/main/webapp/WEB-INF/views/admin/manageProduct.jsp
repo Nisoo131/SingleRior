@@ -84,74 +84,20 @@
                                         </tr>
                                     </tfoot>
                                     <tbody>
+                                  
+                                    <c:forEach var="s" items="${ sList }">
                                         <tr>
-                                            <td>001</td>
-                                            <td>에이스 침대침대</td>
-                                            <td>19999원</td>
-                                            <td>가구</td>
-                                            <td>침대</td>
-                                            <td>판매중</td>
-                                            <td>2022.12.12</td>
-                                            <td>2022.12.12</td>
+                                            <td>${s.productNo }</td>
+                                            <td>${ s.boardTitle }</td>
+                                            <td>${ s.productPrice}</td>
+                                            <td>${ s.topCateName}</td>
+                                            <td>${ s.subCateName}</td>
+                                            <td><c:if test="${ s.boardStatus eq 'Y'}">판매중</c:if><c:if test="${ s.boardStatus eq 'N'}">판매 중단</c:if></td>
+                                            <td>${ s.createDate}</td>
+                                            <td>${ s.modifyDate }</td>
                                             <td><button style="display:inline-block;" type="button" class="btn btn-primary">수정</button>&nbsp;<button style="display:inline-block;" type="button" class="btn btn-danger">삭제</button></td>
                                         </tr>
-                                         <tr>
-                                            <td>002</td>
-                                            <td>에이스 침대침대</td>
-                                            <td>19999원</td>
-                                            <td>가구</td>
-                                            <td>침대</td>
-                                            <td>판매중</td>
-                                            <td>2022.12.12</td>
-                                            <td>2022.12.12</td>
-                                            <td><button style="display:inline-block;" type="button" class="btn btn-primary">수정</button>&nbsp;<button style="display:inline-block;" type="button" class="btn btn-danger">삭제</button></td>
-                                        </tr>
-                                         <tr>
-                                            <td>003</td>
-                                            <td>에이스 침대침대</td>
-                                            <td>19999원</td>
-                                            <td>가구</td>
-                                            <td>침대</td>
-                                            <td>판매중</td>
-                                            <td>2022.12.12</td>
-                                            <td>2022.12.12</td>
-                                            <td><button style="display:inline-block;" type="button" class="btn btn-primary">수정</button>&nbsp;<button style="display:inline-block;" type="button" class="btn btn-danger">삭제</button></td>
-                                        </tr>
-                                         <tr>
-                                            <td>001</td>
-                                            <td>에이스 침대침대</td>
-                                            <td>19999원</td>
-                                            <td>가구</td>
-                                            <td>침대</td>
-                                            <td>판매중</td>
-                                            <td>2022.12.12</td>
-                                            <td>2022.12.12</td>
-                                            <td><button style="display:inline-block;" type="button" class="btn btn-primary">수정</button>&nbsp;<button style="display:inline-block;" type="button" class="btn btn-danger">삭제</button></td>
-                                        </tr>
-                                         <tr>
-                                            <td>001</td>
-                                            <td>에이스 침대침대</td>
-                                            <td>19999원</td>
-                                            <td>가구</td>
-                                            <td>침대</td>
-                                            <td>판매중</td>
-                                            <td>2022.12.12</td>
-                                            <td>2022.12.12</td>
-                                            <td><button style="display:inline-block;" type="button" class="btn btn-primary">수정</button>&nbsp;<button style="display:inline-block;" type="button" class="btn btn-danger">삭제</button></td>
-                                        </tr>
-                                         <tr>
-                                            <td>001</td>
-                                            <td>에이스 침대침대</td>
-                                            <td>19999원</td>
-                                            <td>가구</td>
-                                            <td>침대</td>
-                                            <td>판매중</td>
-                                            <td>2022.12.12</td>
-                                            <td>2022.12.12</td>
-                                            <td><button style="display:inline-block;" type="button" class="btn btn-primary">수정</button>&nbsp;<button style="display:inline-block;" type="button" class="btn btn-danger">삭제</button></td>
-                                        </tr>
-                                        
-                                        
+                                        </c:forEach>
                                     </tbody>
                                 </table>
                             </div>

@@ -17,7 +17,7 @@
 		<typeAlias type="com.E1I4.project.common.model.vo.WishList" alias="WishList"/>
 		<typeAlias type="com.E1I4.project.common.model.vo.Reply" alias="Reply"/>
 		<typeAlias type="com.E1I4.project.common.model.vo.ReReply" alias="ReReply"/>
-
+		<typeAlias type="com.E1I4.project.common.model.vo.ProductList" alias="ProductList"/>
 	</typeAliases>
 
 	<mappers>

@@ -22,9 +22,14 @@ import com.E1I4.project.common.exception.AdminException;
 import com.E1I4.project.common.exception.ProductException;
 import com.E1I4.project.common.model.vo.Attachment;
 import com.E1I4.project.common.model.vo.Product;
+import com.E1I4.project.common.model.vo.ProductList;
+import com.E1I4.project.member.model.service.MemberService;
 import com.E1I4.project.member.model.vo.Member;
 @Controller
 public class AdminController {
+	
+	@Autowired
+	private MemberService mService;
 	
 	
 	@Autowired
@@ -83,9 +88,27 @@ public class AdminController {
 			result=aService.editMember(m);
 		}
 		System.out.println(result);
-		
-		return null;
+		return"redirect:manageUser.adm";
 	}
+	@RequestMapping("deleteMember.adm")
+	public String deleteMemberAdm(@RequestParam("memberId") String memberId) {
+		if(!memberId.contains("kakao*")) {
+			int result = mService.deleteMember(memberId);
+			if(result>0) {
+				return "redirect:manageUser.adm";
+			} else {
+				throw new AdminException("회원탈퇴를 실패하였습니다.");
+			}
+		}else{
+			int result = mService.deleteKakaoMember(memberId);
+			if(result>0) {
+				return "redirect:manageUser.adm";
+			} else {
+				throw new AdminException("회원탈퇴를 실패하였습니다.");
+			}
+		}
+	}
+	
 	
 	// 상품등록
 	@RequestMapping("enrollProduct.adm")
@@ -284,19 +307,26 @@ public class AdminController {
 		
 		return returnArr;
 	}
-	
-	
+	//등록된 상품 리스트 출력
+	@RequestMapping("manageProduct.adm")
+	public String manageProduct(Model model) {
+
+		ArrayList<ProductList> sList=aService.selectProductList(1);
+		ArrayList<Attachment> aList=aService.selectAttmList();
+		
+		if(sList!=null) {
+			model.addAttribute("sList",sList);
+			return "manageProduct";
+		}else {
+			throw new AdminException("상품정보 조회 실패");
+		}
+	}
 	
 	@RequestMapping("orderList.adm")
 	public String orderList() {
 		return "orderList";
 	}
-	
-	
-	@RequestMapping("manageProduct.adm")
-	public String manageProduct() {
-		return "manageProduct";
-	}
+
 	@RequestMapping("statUser.adm")
 	public String statUser() {
 		return "statUser";
