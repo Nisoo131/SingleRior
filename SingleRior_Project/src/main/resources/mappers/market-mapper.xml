@@ -64,9 +64,9 @@
 	<select id="marketBoardList" parameterType="hashmap" resultMap="marketBoardResultSet">
 		select *
 		from BOARD b
-			join market m on(b.BOARD_NO = m.BOARD_NO)
-			join member on (board_writer = member_id)
-		where b.BOARD_TYPE = '3' and b.B_STATUS = 'Y'
+			join market m on(m.board_no = b.board_no)
+			join member on(board_writer = member_id)
+		where BOARD_TYPE = '3' and B_STATUS = 'Y'
 
 		<if test="marketType > 0">
 			and m.MARKET_TYPE = #{marketType}
@@ -85,7 +85,7 @@
 		select *        
 		from(	select *
 				from BOARD b
-					join market m on(b.BOARD_NO = m.BOARD_NO)
+					join market mk on(b.BOARD_NO = mk.BOARD_NO)
 					join member on (board_writer = member_id)
 				where BOARD_TYPE = '3' and B_STATUS = 'Y'
 				<if test="marketType > 0">
@@ -105,6 +105,7 @@
 		            join board b on(BOARD_NO=IMG_KEY)
 		            join market m on(b.BOARD_NO = m.BOARD_NO)
 				where  IMG_B_TYPE = '3' and IMG_STATUS = 'Y' and IMG_LEVEL = 0
+				
 				<if test="marketType > 0">
 				and MARKET_TYPE = #{marketType}
 				</if>
@@ -146,7 +147,7 @@
 	<select id="selectAttm" resultMap="attachmentResultSet">
 		select *
 		from IMG_REPOSITORY
-		where IMG_KEY = #{bNo} and IMG_STATUS = 'Y'
+		where IMG_KEY = #{strBNo} and IMG_STATUS = 'Y'
 	</select>
 	
 	<resultMap type="Reply" id="replyResultSet">
@@ -177,7 +178,7 @@
 	
 	<insert id="replyInsert">
 		insert into reply
-		values(seq_rid.nextval, #{replyContent}, sysdate, sysdate, default, default, #{memberId}, #{boardNo})
+		values(seq_rid.nextval, #{replyContent}, sysdate, sysdate, #{replySecret}, default, #{memberId}, #{boardNo})
 	</insert>
 	
 	<select id="replySelect" resultMap="replyResultSet">
@@ -188,9 +189,9 @@
 		order by reply_no desc
 	</select>
 	
-	<insert id="rReplyInsert">
+	<insert id="reReplyInsert">
 		insert into reply
-		values(seq_rrid.nextval, #{rReplyContent}, sysdate, sysdate, default, default, ${replyNo},#{memberId}, #{BoardNo})
+		values(seq_rrid.nextval, #{rReplyContent}, sysdate, sysdate, #{rReplySecret}, default, ${replyNo},#{memberId}, #{BoardNo})
 	</insert>
 	
 	<select id="reReplySelect" resultMap="rReplyResultSet">
@@ -200,5 +201,25 @@
 		where board_no = #{boardNo} and RE_REPLY_STATUS = 'Y'
 		order by reply_no desc
 	</select>
+	
+	<update id="marketBoardUpdate">
+	
+	
+	</update>
+	
+	
+	
+	
+	<update id="marketBoardDelete">
+		update board
+		set B_STATUS = 'N'
+		where BOARD_NO = #{bNo}
+	</update>
+	
+	<update id="deleteAttm">
+		update IMG_REPOSITORY
+		set IMG_STATUS = 'N'
+		where IMG_KEY = #{strBNo}
+	</update>
 	
 </mapper>

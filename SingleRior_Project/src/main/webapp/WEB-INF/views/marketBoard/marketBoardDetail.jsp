@@ -119,70 +119,109 @@
 					
 					<div style=" padding-top: 10px;"></div>
 					
-					<!-- 댓글 -->
+					<!-- 댓글작성 -->
 					<div class="px-5">
-						<div class="input-group" style="padding-top: 50px;">
+						<div class="input-group" style="padding-top: 50px;" id="replyDiv">
 							<textarea class="form-control" rows="3" id="replyContent" style="resize: none;" placeholder="댓글을 작성해주세요."></textarea>
-							<button class="btn btn-outline-primary btn-lg" id="replySubmit" type="button" style="width: 100px;">등록</button>
+							<c:if test="${ empty loginUser }">
+								<button class="btn btn-outline-primary btn-lg" id="loginModal" type="button" style="width: 100px;">등록</button>
+							</c:if>
+							<c:if test="${ !empty loginUser }">
+								<button class="btn btn-outline-primary btn-lg" id="replySubmit" type="button" style="width: 100px;">등록</button>
+							</c:if>
 						</div>
 						<div class="justify-content-center" style="padding-bottom: 50px; padding-right: 100px; color: #A9A9A9; text-align: right; font-size: 20px;">
 							<span>0 / 600</span>
-							<img class="m-3" src="https://cdn-icons.flaticon.com/svg/3917/3917606.svg?token=exp=1670471019~hmac=4f53bb92f7e43f4146c6da299ae3cc7e" width="20" height="20">
+							<img class="m-3" id="secretBtn" src="https://cdn-icons.flaticon.com/svg/3917/3917606.svg?token=exp=1670471019~hmac=4f53bb92f7e43f4146c6da299ae3cc7e" width="20" height="20">
+							<input type="hidden" id="replySecret" value="N">
 						</div>
 					</div>
 					
-					<div id="replyDiv" class="px-5" style="padding-bottom: 50px;" >
-						<c:forEach items="${ mkRList }" var="r">
-						<table>
-							<tr>
-								<td style="text-align: center;" width="40"><img src="https://cdn-icons.flaticon.com/svg/3917/3917711.svg?token=exp=1670467359~hmac=b45251c2afca4a6751ba3fed9124eb31" width="20" height="20"></td>
-								<td class="px-4">${r.nickName }</td>
-								<td class="px-4">${r.replyModifyDate }</td>
-								
-								<td>
-									<div class="dropdown">
-										<img class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" src="https://cdn-icons.flaticon.com/svg/3917/3917158.svg?token=exp=1670467948~hmac=2f18f7118b556af438bb1d4438649f4a" width="20" height="20">
-										<ul class="dropdown-menu" style="text-align: center;">
-											<c:if test="${ loginUser != null && (r.memberId == loginUser.memberId || loginUser.memberAuthority == 'Y') }">
-												<li><a class="dropdown-item" href="#">수정</a></li>
-												<li><a class="dropdown-item" >삭제</a></li>
-											</c:if>
-											<c:if test="${ loginUser == null && (r.memberId != loginUser.memberId || loginUser.memberAuthority != 'Y') }">
-												<li><a class="dropdown-item" href="#">신고</a></li>
-											</c:if>
-										</ul>
-									</div>
-								</td>
-							</tr>
-						</table>
+					<!-- 댓글 -->
+						<div class="px-5 replyDiv">
+						<c:forEach items="${mkRList }" var="r">
+							<table class="table">
+								<tr>
+									<td style="text-align: center;" width="40"><img src="https://cdn-icons.flaticon.com/svg/3917/3917711.svg?token=exp=1670467359~hmac=b45251c2afca4a6751ba3fed9124eb31" width="20" height="20"></td>
+									<td class="px-4">${r.nickName}</td>
+									<td class="px-4">${r.replyModifyDate}</td>
+									<td width="850px;"></td>
+									<td>
+										<div class="dropdown">
+											<img class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" src="https://cdn-icons.flaticon.com/svg/3917/3917158.svg?token=exp=1670467948~hmac=2f18f7118b556af438bb1d4438649f4a" width="20" height="20">
+											<ul class="dropdown-menu" style="text-align: center;">
+												<c:if test="${ loginUser.memberId eq r.memberId }">
+													<li><a class="dropdown-item" href="#">댓글달기</a></li>
+													<li><a class="dropdown-item" href="#">수정</a></li>
+													<li><a class="dropdown-item" href="#">삭제</a></li>
+												</c:if>
+												<c:if test="${ !(loginUser.memberId eq r.memberId) }">
+													<li><a class="dropdown-item" href="#">답글달기</a></li>
+													<li><a class="dropdown-item" href="#">신고</a></li>
+												</c:if>
+											</ul>
+										</div>
+									</td>
+								</tr>
+								<tr style="font-size: 20px;">
+									<td class="px-5 py-3" colspan="5">${r.replyContent }</td>
+								</tr>
+							</table>
+							</c:forEach>
+						</div>
 						
-						<table style="font-size: 20px;">
-							<tr>
-								<td class="px-5 py-3">${r.replyContent }</td>
-							</tr>
-						</table>
 						
-						</c:forEach>
-					</div>
+						<!-- 대댓글 -->
+						<div class="px-5" style="padding-bottom: 50px; margin-left: 60px;">
+							<c:forEach items="${mkRRList }" var="rr">
+							<table class="table">
+								<tr>
+									<td style="text-align: center;" width="40"><img src="https://cdn-icons-png.flaticon.com/512/9058/9058850.png" width="20" height="20">
+									<td style="text-align: center;" width="40"><img src="https://cdn-icons.flaticon.com/svg/3917/3917711.svg?token=exp=1670467359~hmac=b45251c2afca4a6751ba3fed9124eb31" width="20" height="20"></td>
+									<td class="px-4">${rr.nickName}</td>
+									<td class="px-4">${rr.rReplyModifyDate}</td>
+									<td width="750"></td>
+									<td>
+										<div class="dropdown">
+											<img class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" src="https://cdn-icons.flaticon.com/svg/3917/3917158.svg?token=exp=1670467948~hmac=2f18f7118b556af438bb1d4438649f4a" width="20" height="20">
+											<ul class="dropdown-menu" style="text-align: center;">
+												<c:if test="${ loginUser.memberId eq r.memberId }">
+													<li><a class="dropdown-item" href="#">수정</a></li>
+													<li><a class="dropdown-item" href="#">삭제</a></li>
+												</c:if>
+												<c:if test="${ !(loginUser.memberId eq r.memberId) }">
+													<li><a class="dropdown-item" href="#">신고</a></li>
+												</c:if>
+											</ul>
+										</div>
+									</td>
+								</tr>
+								<tr style="font-size: 20px;">
+									<td class="px-5 py-3" colspan="6">${rr.rReplyContent}</td>
+								</tr>
+							</table>
+							</c:forEach>
+						</div>
+					
 					
 					<div style="border-bottom: 1px solid #DCDCDC; padding-top: 10px;"></div>
 					
 					<!-- 이동 -->
 					<div class="row px-5 py-4">
 						<div class="col-md-1" style="text-align: center; width: 150px;">
-							<button class="w-100 btn btn-outline-dark btn-lg" type="button" id="preForm">이전글</button>
+							<button class="w-100 btn btn-outline-dark btn-lg" type="button" id="preForm" onclick="location.href='${contextPath}/marketBoardDetail.ma?bNo=${mkBoard.boardNo-1 }&boardWriter=${mkBoard.writer }'">이전글</button>
 						</div>
 						<div class="col-md-1" style="text-align: center; width: 150px;">
-							<button class="w-100 btn btn-outline-dark btn-lg" type="button" id="nextForm">다음글</button>
+							<button class="w-100 btn btn-outline-dark btn-lg" type="button" id="nextForm" onclick="location.href='${contextPath}/marketBoardDetail.ma?bNo=${mkBoard.boardNo+1 }&boardWriter=${mkBoard.writer }'">다음글</button>
 						</div>
 						
 						<div class="col-md-10" style="width: 600px;"></div>
 						
 						<div class="col-md-1" style="text-align: center; width: 100px;">
-							<button class="w-100 btn btn-outline-primary btn-lg" type="button" id="updateForm">수정</button>
+							<button class="w-100 btn btn-outline-primary btn-lg" type="button" id="updateForm" onclick="location.href='${contextPath}/mkBoardUpdateView.ma?bNo=${mkBoard.boardNo}'">수정</button>
 						</div>
 						<div class="col-md-1" style="text-align: center; width: 100px;">
-							<button class="w-100 btn btn-outline-secondary btn-lg" type="button" id="deleteBtn">삭제</button>
+							<button class="w-100 btn btn-outline-secondary btn-lg" type="button" id="deleteBtn" >삭제</button>
 						</div>
 						<div class="col-md-1" style="text-align: center; width: 100px;">
 							<button class="w-100 btn btn-outline-danger btn-lg" type="button" id="reportBtn">신고</button>
@@ -214,7 +253,6 @@
 	    </div>
 	  </div>
 	</div>
-	
 	<!-- 신고모달 -->
 	
 	<div class="modal fade" id="reportModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -297,53 +335,25 @@
 					$('#deleteModal').modal('show');	
 				});
 				
+				document.getElementById('secretBtn').addEventListener('click', ()=>{
+					document.getElementById('replySecret').src = 'https://cdn-icons-png.flaticon.com/512/2575/2575570.png';
+					document.getElementById('replySecret').value = 'Y';
+					console.log(document.getElementById('replySecret').src);
+					console.log(document.getElementById('replySecret').value);
+				});
 				
-				document.getElementById('replySubmit').addEventListener('click', () => {
 				
-					$.ajax({
-						url: '${contextPath}/replyInsert.ma',
-						data: {replyContent:document.getElementById('replyContent').value,
-								boardNo:'${mkBoard.boardNo}', memberId:'${loginUser.memberId}'},
-						success: (data) => {
-							document.getElementById('replyContent').value = '';
-							const replyDiv = document.getElementById('replyDiv');
-							replyDiv.innerHTML = '';
-							
-							for(const r of data){
-								let str = '<tr><td>' + r.replyContent + '</td>';
-								str += '<td>' + mkRList.nickName + '</td>';
-								str += '<td>' + mkRList.replyModifyDate + '</td>';
-								if(${loginUser ne null}){
-									if(mkRList.memberId == '${ loginUser.memberId}'||'${ loginUser.memberAuthority}' == 'Y'){
-										str += '';
-										str += '<input type="hidden" value="${ mkRList.replyId }">';
-									}
-								}
-								str += '</tr>';
-								
-								tbody.innerHTML += str;
-							}
-						},
-						error: (data) => {
-							console.log(data);
-						}
+				
+					
 						
-					});
-				});	
+					
 				
-				const deleteReply = document.getElementsByClassName('deleteReply');
-				for(const d of deleteReply){
-					d.addEventListener('mouseover', () => {
-						d.style.cursor = 'pointer';
-					});
-					d.addEventListener('click', function() {
-						location.href = '${contextPath}/deleteReply.co?rId=' + d.nextElementSibling.value + '&bId=' + ${mkBoard.boardNo} + '&boardType=3';
-					});
-				}
 				
+				
+						
+						
+			
 			}
-			
-			
 			
 		</script>
 	

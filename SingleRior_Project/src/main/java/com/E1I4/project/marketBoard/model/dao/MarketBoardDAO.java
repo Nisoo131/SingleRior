@@ -55,8 +55,8 @@ public class MarketBoardDAO {
 	}
 
 	
-	public ArrayList<Attachment> selectAttm(SqlSessionTemplate sqlSession, int bNo) {
-		return (ArrayList)sqlSession.selectList("marketMapper.selectAttm", bNo);
+	public ArrayList<Attachment> selectAttm(SqlSessionTemplate sqlSession, String strBNo) {
+		return (ArrayList)sqlSession.selectList("marketMapper.selectAttm", strBNo);
 	}
 	
 	public ArrayList<Reply> replySelect(SqlSessionTemplate sqlSession, int bNo) {
@@ -85,6 +85,18 @@ public class MarketBoardDAO {
 
 	public int marketLikeCancle(SqlSessionTemplate sqlSession, WishList wl) {
 		return sqlSession.delete("marketMapper.marketLikeCancle", wl);
+	}
+
+	public int reReplyInsert(SqlSessionTemplate sqlSession, ReReply reReply) {
+		return sqlSession.insert("marketMapper.reReplyInsert", reReply);
+	}
+
+	public int marketBoardDelete(SqlSessionTemplate sqlSession, int bNo) {
+		return sqlSession.insert("marketMapper.marketBoardDelete", bNo);
+	}
+
+	public int deleteAttm(SqlSessionTemplate sqlSession, String strBNo) {
+		return sqlSession.insert("marketMapper.deleteAttm", strBNo);
 	}
 
 	

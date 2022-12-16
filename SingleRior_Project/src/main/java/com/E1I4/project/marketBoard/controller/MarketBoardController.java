@@ -80,6 +80,14 @@ public class MarketBoardController {
 		ArrayList<MarketBoard> topBList = mkService.marketTopList(marketType);
 		ArrayList<Attachment> topAList = mkService.topAttmListSelect(marketType);
 		
+		
+		System.out.println(mkBList);
+		System.out.println(mkAList);
+		System.out.println(topBList);
+		System.out.println(topAList);
+		
+		
+		
 		if(mkBList != null) {
 			model.addAttribute("pi", pi);
 			model.addAttribute("mkBList", mkBList);
@@ -210,9 +218,7 @@ public class MarketBoardController {
 		public String marketBoardDetail(@RequestParam("bNo") int bNo, @RequestParam(value="boardWriter", required=false) String boardWriter, HttpSession session, Model model) {
 			Member loginUser = (Member)session.getAttribute("loginUser");
 			boolean yn = true;
-			
-			System.out.println(bNo);
-			
+			String strBNo = Integer.toString(bNo);
 			if(loginUser != null && boardWriter != null) {
 				String id = loginUser.getMemberId();
 				if(id.equals(boardWriter)) {
@@ -229,9 +235,9 @@ public class MarketBoardController {
 				wishList = mkService.wishListSelect(wl);
 			}
 			
-			MarketBoard mkBoard = mkService.marketBoardSelect(bNo, yn);
-			ArrayList<Attachment> mkAList = mkService.selectAttm(bNo);
 			
+			MarketBoard mkBoard = mkService.marketBoardSelect(bNo, yn);
+			ArrayList<Attachment> mkAList = mkService.selectAttm(strBNo);
 			ArrayList<Reply> mkRList = mkService.replySelect(bNo);
 			ArrayList<ReReply> mkRRList = mkService.reReplySelect(bNo);
 			
@@ -265,6 +271,27 @@ public class MarketBoardController {
 			int result = mkService.replyInsert(reply);
 			
 			ArrayList<Reply> rList = mkService.replySelect(reply.getBoardNo());
+			
+			response.setContentType("application/json; charset=UTF-8");
+			GsonBuilder gb = new GsonBuilder();
+			gson = gb.setDateFormat("yyyy-MM-dd").create();
+			
+			try {
+				gson.toJson(rList, response.getWriter());
+			} catch (JsonIOException | IOException e) {
+				e.printStackTrace();
+			}
+
+		
+		}
+		
+		//대댓글 insert
+		@RequestMapping("reReplyInsert.ma")
+		public void reReplyInsert(@ModelAttribute ReReply reReply, HttpServletResponse response ) {
+			System.out.println(reReply);
+			int result = mkService.reReplyInsert(reReply);
+			
+			ArrayList<Reply> rList = mkService.replySelect(reReply.getBoardNo());
 			
 			response.setContentType("application/json; charset=UTF-8");
 			GsonBuilder gb = new GsonBuilder();
@@ -315,5 +342,39 @@ public class MarketBoardController {
 				}
 			}
 
+			//게시글 수정페이지
+			@RequestMapping("mkBoardUpdateView.ma")
+			public String mkBoardUpdateView(@RequestParam("bNo") int bNo, Model model) {
+				String strBNo = Integer.toString(bNo);
+				MarketBoard mkBoard= mkService.marketBoardSelect(bNo, false);
+				ArrayList<Attachment> mkAList = mkService.selectAttm(strBNo);
+				
+				if(mkBoard != null) {
+					model.addAttribute("mkBoard", mkBoard);
+					model.addAttribute("mkAList", mkAList);
+					return "marketBoardEdit";
+				} else {
+					throw new BoardException("게시글 조회 실패.");
+				}
+			}
+			
+			
+		
+			
+			
+			//게시글 삭제
+			@RequestMapping("marketBoardDelete.ma")
+			public String marketBoardDelete(@RequestParam("bNo") int bNo) {
+				String strBNo = Integer.toString(bNo);
+				int result = mkService.marketBoardDelete(bNo);
+				result += mkService.deleteAttm(strBNo);
+				
+				
+				if(result > 0) {
+						return "redirect:marketBoardList.ma";
+				} else {
+					throw new BoardException("봉사 게시글 삭제 실패");
+				}
+			}
 	
 }
