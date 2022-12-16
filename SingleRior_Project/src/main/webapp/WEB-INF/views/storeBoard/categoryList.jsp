@@ -26,8 +26,8 @@
 	</header>
 	
 	<!-- 대분류/소분류 구분 -->
-    <!--  ${ sList } -->
-	<!-- ${ aList } --> 
+ <%--    ${ sList } <br><br><br>
+	${ aList }  --%>
 	<div class="front">
 		<h5><b>전체 > 가구 > 침대 </b></h5>
 			<h3><b> 침대 </b></h3>
@@ -51,7 +51,12 @@
 				<fmt:formatNumber type="number" maxFractionDigits="3" value="${ s.price-(s.price*s.discount/100)}" var="totalPrice" />
 			    <div class="col-3">
 			      <div class="card" style="cursor:pointer">
-			        <img src="resources/uploadFiles/${ aList[status.index].imgRename }" width="100%" height="225">
+			      	<c:if test="${ s.boardNo eq aList[status.index].imgKey}">
+			        	<img src="resources/uploadFiles/${ aList[status.index].imgRename }" width="100%" height="255">
+			     	</c:if>
+			     	<c:if test="${ !(s.boardNo eq aList[status.index].imgKey) }">
+			        	<img src="resources/image/SingleRior_logo.png" width="100%" height="255">
+			     	</c:if>
 			         <div class="card-body">
 			          <h6 class="card-title">${ s.brand } </h6>
 			          <h5 class="card-text">${ s.boardTitle }</h5>

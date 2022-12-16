@@ -53,18 +53,11 @@
 				<jsp:include page="../storeBoard/navbar.jsp"/>
 			</div>
 		</header>
-	  
-	 	${ list }<br><br>
-	 	<br>
-	 	${ list[0].imgRename }
-	 	${ list[1].imgRename }
-	 	<br>
-	      ${ pList }
 	   <c:forEach items="${ pList }" var="p">
-	   
-	   	  
+
 		<div class="category">
-			<h5><b> 전체 > 가구 > 침대</b></h5> 
+			<h5><b> 전체 > 가구 > 침대</b></h5>
+			<h2><b> 침대 </b></h2> 
 			<br>
 		</div>
 		
@@ -88,39 +81,34 @@
 		  <h1><span>${ p.discount }%</span>　<span style="color:#008cd4;">${ totalPrice } 원</span></h1>
 		  <br><br>
 		  <p>구매리뷰 (개수)</p>
-		  <p>배송비 무료</p>
+		  <p>배송비 2,500원</p>
 		  <hr>
 		 	<p>옵션선택</p>
+		 	
 			  <select class="form-select" aria-label="Default select example">
-				  <option selected>사이즈</option>
-				  <option value="1">01.MS(멀티싱글)</option>
-				  <option value="2">02.SS(슈퍼싱글)</option>
-				  <option value="3">03.Q(퀸)</option>
+				  <c:forEach items="${ pList[0].option }" var="op">
+				   <option selected>사이즈</option>
+					  <option value="1">${ fn:split( op, ',') [0] }</option>
+				  </c:forEach>
+				   <c:forEach items="${ pList[1].option }" var="op">
+				   <option selected>색상</option>
+					  <option value="1">${ fn:split( op, ',') [0] }</option>
+				  </c:forEach>
 			  </select>
-			  <select class="form-select" aria-label="Default select example">
-				  <option selected>색상</option>
-				  <option value="1">WHITE</option>
-				  <option value="2">BLACK</option>
-				  <option value="3">GRAY</option>
-			  </select>
-			  <select class="form-select" aria-label="Default select example">
-				  <option selected>[추가옵션]</option>
-				  <option value="1">정리끈1[SET]    4000원</option>
-			  </select>
-			  <hr>
+			  <br><br>
+			  
 			  <h2>총 1개 ${ totalPrice}원</h2>
 			  <div class="btn-group">
 				  <button type="button" class="wishlist" style="width:200px;height:50px;font-size:20px;"> 장바구니 </button>
 				  <button type="button" class="payment"  style="width:200px;height:50px;font-size:20px;" onclick="location.href='${ contextPath }/payment.st'">결제하기</button>
 			  </div>
-		
 	  		</div>
 	  	</div>
 	  	</c:forEach>
 	 
 	  
 	<!--상세정보 네비바 -->
-	    <div class="row mb-1"> 
+	 <div class="row mb-1"> 
 	  </div>
 	  <div class="row g-5">
 	    <div class="col-md-8">
@@ -179,7 +167,12 @@
 		        		<tr>
 		        			<td class="inquiry">문의</td>
 		        			<td colspan="3" width="650px"></td>
-		        			<td><button type="button" class="btn btn-primary" id="inquiryBtn">문의하기</button></td>
+		        			<c:if test="${ empty loginUser }">
+							  	<td><button type="button" class="btn btn-primary" id="inquiryBtn1" onclick="location.href='${contextPath}/loginView.me'" >문의하기</button></td>
+						  	</c:if>
+						  	<c:if test="${ !empty loginUser }">
+							  	<td><button type="button" class="btn btn-primary" id="inquiryBtn2" data-bs-toggle="modal" data-bs-target="#inquiryModal">문의하기</button></td>
+						  	</c:if>	
 		        		</tr>
 		        	</table>
 	        	</form>
@@ -266,7 +259,6 @@
 	      </div>
 	    </div>
 	  </div>
-	</div>
 
 		<!--문의하기 모달창 -->
 		<div class="modal" tabindex="-1" id="inquiryModal">
@@ -288,36 +280,32 @@
 					  </select>
 				  <br>
 				  <p>문의내용 <span id="counter">0</span>/300</p>
-				  <textarea cols="54" rows="3"></textarea>
+				  <textarea cols="50" rows="3" id="textarea"></textarea>
 		      </div>
 			      <div class="modal-footer">
-			        <button type="button" class="btn btn-primary" id="inquiry_modal">완료</button>
+			        <button type="submit" class="btn btn-primary" id="inquiry_modal" onclick="location.href='${ contextPath }/myAskList.me'">완료</button>
 			      </div>
 		    </div>
 		  </div>
 		</div>
-	
-	
-	
+
+
     <footer>
 		<jsp:include page="../common/footer.jsp"/>
 	</footer>
 	
 
-<script>
-	window.onload=()=>{
-		document.getElementById('inquiryBtn').addEventListener('click', ()=>{
-			$('#inquiryModal').modal('show');
-		});
-		
-	}
+<script>                                	
+	document.getElementById('#inquiryBtn2').addEventListener('click', ()=>{
+		$('#inquiryModal').modal('show');
+	});
 	
 	// 문의하기 모달창 글자수 제한
 	$(function(){
-			$('#inquiryContent').keyup(function(e){
+			$('#textarea').keyup(function(e){
 				const input = $(this).val();
 				const inputLength = input.length;
-				
+
 				$('#counter').html('<b>' + inputLength + '<b>');
 				
 				if(inputLength > 300){
@@ -331,29 +319,20 @@
 			});
 	});
 	
+	document.getElementById('inquiry_modal').addEventListener('click',()=>{
+		  $(document).ready(function(){
+		    	const optionChoice = $('#inquiry_ops option:selected').text();
+		    	const textarea = $('textarea').val();
+		    	console.log(optionChoice);
+		    	console.log(textarea);
+		    	
+		    
+			});	
+		});
 	
 	
-		// 문의하기 데이터 Ajax 통해 전달하기
-		document.getElementById('inquiry_modal').addEventListener('click',()=>{
-			  $(document).ready(function(){
-			    	const optionChoice = $('#inquiry_ops option:selected').text();
-			    	const textarea = $('textarea').val();
-			    	console.log(optionChoice);
-			    	console.log(textarea);
-			    	
-			    	$.ajax({
-			    		url:'',
-			    		data: {optionChoice:optionChoice,
-			    				textarea:textarea}, // 공간명, 데이터명 동일
-			    		success: function(data){
-			    			console.log('서버 전송 성공 시 호출');
-			    		},
-			    		error: function(data){
-			    			console.log('서버 전공 실패 시 호출');
-			    		}
-			    	});
-				});	
-			});
+	
+		
   
 
 	
