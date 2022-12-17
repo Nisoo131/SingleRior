@@ -171,6 +171,16 @@
 		select count(*)
 		from board
 		where board_writer = #{memberId}
+		<if test='category != "전체"'>
+			<if test='category == "싱글벙글"'>
+				and board_type = 2
+			
+			</if>
+			<if test='category == "씽씽마켓"'>
+				and board_type = 3
+			</if>
+		</if>
+		
 	</select>
 	
 	<resultMap type="Board" id="boardResultSet">
@@ -191,6 +201,15 @@
 		select *
 		from board
 		where board_writer = #{memberId}
+		<if test='category != "전체"'>
+			<if test='category == "싱글벙글"'>
+				and board_type = 2
+			
+			</if>
+			<if test='category == "씽씽마켓"'>
+				and board_type = 3
+			</if>
+		</if>
 	</select>
 	
 	<select id="getLikeCount" resultType="_int">

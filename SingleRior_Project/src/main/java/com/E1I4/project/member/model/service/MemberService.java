@@ -42,9 +42,9 @@ public interface MemberService {
 
 	int deleteKakaoMember(String memberId);
 
-	int getMyContentListCount(String memberId);
+	int getMyContentListCount(HashMap<String, String> map);
 
-	ArrayList<Board> selectBoardList(PageInfo pi, String memberId);
+	ArrayList<Board> selectBoardList(PageInfo pi, HashMap<String, String> map);
 
 	int getLikeCount(int boardNo);
 

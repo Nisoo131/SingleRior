@@ -113,13 +113,13 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public int getMyContentListCount(String memberId) {
-		return mDAO.getMyContentListCount(sqlSession, memberId);
+	public int getMyContentListCount(HashMap<String, String> map) {
+		return mDAO.getMyContentListCount(sqlSession, map);
 	}
 
 	@Override
-	public ArrayList<Board> selectBoardList(PageInfo pi, String memberId) {
-		return mDAO.selectBoardList(sqlSession,pi,memberId);
+	public ArrayList<Board> selectBoardList(PageInfo pi, HashMap<String, String> map) {
+		return mDAO.selectBoardList(sqlSession,pi,map);
 	}
 
 	@Override

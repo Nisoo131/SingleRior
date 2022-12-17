@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,9 @@ import com.E1I4.project.member.model.service.KakaoLogin;
 import com.E1I4.project.member.model.service.MailSendService;
 import com.E1I4.project.member.model.service.MemberService;
 import com.E1I4.project.member.model.vo.Member;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonIOException;
 
 @Controller
 public class MemberController {
@@ -442,31 +446,15 @@ public class MemberController {
 		if(page != null) {
 			currentPage = page;
 		}
-		int listCount = mService.getMyContentListCount(memberId);
+		
+		HashMap<String, String> map = new HashMap<String, String>();
+		map.put("memberId", memberId);
+		int listCount = mService.getMyContentListCount(map);
+		
 		
 		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 10);
 		
-//		int cateNum = 0;
-//		
-//		if(!category.isEmpty()) {
-//			switch(category) {
-//			case "전체" :
-//				cateNum = 0;break;
-//			case "싱글벙글" :
-//				cateNum = 2;break;
-//			case "씽씽마켓" :
-//				cateNum = 3;break;
-//			}
-//		}
-//		
-//		System.out.println(cateNum);
-//		
-//		HashMap<String, String> cateMap = new HashMap<String, String>();
-//		cateMap.put("category", category);
-//		cateMap.put("memberId", memberId);
-		
-		ArrayList<Board> bList = mService.selectBoardList(pi, memberId);
-//		System.out.println(bList);
+		ArrayList<Board> bList = mService.selectBoardList(pi, map);
 		
 		for(int i=0; i< bList.size(); i++) {
 			int boardNo = bList.get(i).getBoardNo();
@@ -485,10 +473,51 @@ public class MemberController {
 	}
 	
 	@RequestMapping("selectCategory.me")
-	public String selectCategory(@RequestParam(value="page", required=false) Integer page, @RequestParam("category") String category) {
+	public String selectCategory(@RequestParam(value="page", required=false) Integer page, @RequestParam("category") String category,HttpSession session,
+									Model model,HttpServletResponse response) {
 		System.out.println(category);
+		Member m = (Member)session.getAttribute("loginUser");
+		String memberId = m.getMemberId();
 		
-		return null;
+		int currentPage =1;
+		if(page != null) {
+			currentPage = page;
+		}
+		
+		HashMap<String, String> map = new HashMap<String, String>();
+		map.put("memberId", memberId);
+		map.put("category", category);
+		int listCount = mService.getMyContentListCount(map);
+//		System.out.println(listCount);
+		
+		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 10);
+		
+		ArrayList<Board> bList = mService.selectBoardList(pi, map);
+		
+		for(int i=0; i< bList.size(); i++) {
+			int boardNo = bList.get(i).getBoardNo();
+			int likeCount = mService.getLikeCount(boardNo);
+			int replyCount = mService.getReplyCount(boardNo);
+			bList.get(i).setLikeCount(likeCount);
+			bList.get(i).setReplyCount(replyCount);
+		}
+		
+//		response.setContentType("application/json; charset=UTF-8");
+//		GsonBuilder gb = new GsonBuilder();
+//		GsonBuilder gb2 = gb.setDateFormat("yyyy-MM-dd");
+//		Gson gson = gb2.create();
+//		
+//		try {
+//			gson.toJson(bList, response.getWriter());
+//		} catch (JsonIOException | IOException e) {
+//			e.printStackTrace();
+//		}
+		if(bList != null) {
+			model.addAttribute("pi", pi);
+			model.addAttribute("bList", bList);
+			model.addAttribute("category",category);
+		}
+		return "myContentList";
 	}
 	
 	@RequestMapping("myReplyList.me")

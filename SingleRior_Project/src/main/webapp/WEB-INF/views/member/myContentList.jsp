@@ -40,14 +40,14 @@
 	<section>
 		<div class="col mb-3" id="categoryDiv">
 			<select class="form-select form-select-sm" name="category" id="category">
-				<option selected>전체</option>
-				<option >싱글벙글</option>
-				<option>씽씽마켓</option>
+				<option <c:if test="${category != '싱글벙글' && category != '씽씽마켓'}">selected</c:if>>전체</option> 
+				<option <c:if test="${category == '싱글벙글'}">selected</c:if>>싱글벙글</option>
+				<option <c:if test="${category == '씽씽마켓'}">selected</c:if>>씽씽마켓</option>
 			</select>
 		</div>
 		<br><br><br>
-		<div style="text-align: center;">
-			<div class="bd-example">
+		<div style="text-align:center;" class="divAppendClone">
+			<div class="bd-example cList">
 				<table class="table table-hover">
 					<thead>
 						<tr class="fs-5">
@@ -58,34 +58,32 @@
 							<th width="70px">댓글</th>
 						</tr>
 					</thead>
-						<c:if test="${ !empty bList }">
-							<tbody>
-								<c:forEach items="${ bList }" var="b">
-									<tr>
-										<c:if test="${ b.boardType == 2 }">
-											<td>싱글벙글</td>
-										</c:if>
-										<c:if test="${ b.boardType == 3 }">
-											<td>씽씽마켓</td>
-										</c:if>
-										<td>${ b.boardTitle}</td>
-										<td>${ b.modifyDate}</td>
-										<td>${ b.likeCount}</td>
-										<td>${ b.replyCount}</td>
-										<td style="display:none">${ b.boardNo }</td>
-									</tr>
-								</c:forEach>
-							</tbody>
-						</c:if>
+					<c:if test="${ !empty bList }">
+						<tbody class="tbody">
+							<c:forEach items="${ bList }" var="b">
+								<tr>
+									<c:if test="${ b.boardType == 2 }">
+										<td class="category">싱글벙글</td>
+									</c:if>
+									<c:if test="${ b.boardType == 3 }">
+										<td class="category">씽씽마켓</td>
+									</c:if>
+									<td class="boardTitle">${ b.boardTitle}</td>
+									<td class="modifyDate">${ b.modifyDate}</td>
+									<td class="likeCount">${ b.likeCount}</td>
+									<td class="replyCount">${ b.replyCount}</td>
+									<td style="display: none">${ b.boardNo }</td>
+								</tr>
+							</c:forEach>
+						</tbody>
+					</c:if>
 				</table>
-						<c:if test="${ empty bList }">
-							<div class="alert alert-secondary" role="alert">
- 								아직 작성하신 게시글이 없습니다.
-							</div>
-						</c:if>
+				<c:if test="${ empty bList }">
+					<div class="alert alert-secondary" role="alert">아직 작성하신 게시글이
+						없습니다.</div>
+				</c:if>
 			</div>
-			<br>
-			<br>
+			<br> <br>
 			<!-- 페이징 -->
 			<nav aria-label="Standard pagination example">
 				<ul class="pagination justify-content-center">
@@ -109,6 +107,45 @@
 			</nav>
 		</div>
 	</section>
+	
+	<!--  클론할 부분 -->
+	<div class="bd-example clone" style="display:none">
+				<table class="table table-hover">
+					<thead>
+						<tr class="fs-5">
+							<th width="100px">카테고리</th>
+							<th>글 제목</th>
+							<th width="130px">작성일</th>
+							<th width="70px">좋아요</th>
+							<th width="70px">댓글</th>
+						</tr>
+					</thead>
+					<c:if test="${ !empty bList }">
+						<tbody class="tbody">
+							<c:forEach items="${ bList }" var="b">
+								<tr>
+									<c:if test="${ b.boardType == 2 }">
+										<td class="category">싱글벙글</td>
+									</c:if>
+									<c:if test="${ b.boardType == 3 }">
+										<td class="category">씽씽마켓</td>
+									</c:if>
+									<td class="boardTitle"></td>
+									<td class="modifyDate"></td>
+									<td class="likeCount"></td>
+									<td class="replyCount"></td>
+									<td style="display: none" class="boardNo"></td>
+								</tr>
+							</c:forEach>
+						</tbody>
+					</c:if>
+				</table>
+				<c:if test="${ empty bList }">
+					<div class="alert alert-secondary" role="alert">아직 작성하신 게시글이
+						없습니다.</div>
+				</c:if>
+			</div>
+							
 	<footer>
 		<jsp:include page="../common/footer.jsp"/>
 	</footer>
@@ -133,22 +170,40 @@
 	}
 	
 	$(function(){
+		var cloneDiv = $('.clone').clone();
 		
 		$('select[name=category]').change(function(){
+			
 			let category = $('select[name=category]').val();
 			console.log(category);
 			const page = '${pi.currentPage}';
-			$.ajax({
-				url : '${contextPath}/selectCategory.me',
-				data : {category:category,page:page},
-				success: (data) =>{
-					console.log(data);
-					
-				},
-				error:(data)=>{
-					console.log(data);
-				}
-			});
+// 			$.ajax({
+// 				url : '${contextPath}/selectCategory.me',
+// 				data : {category:category,page:page},
+// 				success: (data) =>{
+// 					console.log(data);
+// 					$(".cList").html("");
+// 					for(var i=0 ; i<data.length; i++){
+// 						cloneDiv.prop("style").removeProperty("display");
+// 						if(data[i].boardType == 2){
+// 							cloneDiv.find(".category").text('싱글벙글');
+// 						}else{
+// 							cloneDiv.find(".category").text('씽씽마켓');
+// 						}
+// 						cloneDiv.find(".boardTitle").text(data[i].boardTitle);
+// 						cloneDiv.find(".modifyDate").text(data[i].modifyDate);
+// 						cloneDiv.find(".likeCount").text(data[i].likeCount);
+// 						cloneDiv.find(".replyCount").text(data[i].replyCount);
+// 						cloneDiv.find(".boardNo").text(data[i].boardNo);
+						
+// 					}
+// 						$(".divAppendClone").prepend(cloneDiv.html());
+// 				},
+// 				error:(data)=>{
+// 					console.log(data);
+// 				}
+// 			});
+			location.href='${contextPath}/selectCategory.me?category=' + category + '&page=' + ${pi.currentPage};
 		})
 	});
 	</script>

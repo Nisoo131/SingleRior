@@ -1,6 +1,7 @@
 package com.E1I4.project.member.model.dao;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -80,15 +81,15 @@ public class MemberDAO {
 		return sqlSession.delete("memberMapper.deleteKakaoMember", memberId);
 	}
 
-	public int getMyContentListCount(SqlSessionTemplate sqlSession, String memberId) {
-		return sqlSession.selectOne("memberMapper.getMyContentListCount", memberId);
+	public int getMyContentListCount(SqlSessionTemplate sqlSession, HashMap<String, String> map) {
+		return sqlSession.selectOne("memberMapper.getMyContentListCount", map);
 	}
 
-	public ArrayList<Board> selectBoardList(SqlSessionTemplate sqlSession, PageInfo pi, String memberId) {
+	public ArrayList<Board> selectBoardList(SqlSessionTemplate sqlSession, PageInfo pi, HashMap<String, String> map) {
 		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
 		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
 		
-		return (ArrayList)sqlSession.selectList("memberMapper.selectBoardList", memberId, rowBounds);
+		return (ArrayList)sqlSession.selectList("memberMapper.selectBoardList", map, rowBounds);
 	}
 
 	public int getLikeCount(SqlSessionTemplate sqlSession, int boardNo) {
