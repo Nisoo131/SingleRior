@@ -449,10 +449,11 @@ public class MemberController {
 		
 		HashMap<String, String> map = new HashMap<String, String>();
 		map.put("memberId", memberId);
+//		map.put("category", category);
 		int listCount = mService.getMyContentListCount(map);
 		
 		
-		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 10);
+		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 5);
 		
 		ArrayList<Board> bList = mService.selectBoardList(pi, map);
 		
@@ -468,13 +469,14 @@ public class MemberController {
 		if(bList != null) {
 			model.addAttribute("pi", pi);
 			model.addAttribute("bList", bList);
+//			model.addAttribute("category",category);
 		}
 		return "myContentList";
 	}
 	
 	@RequestMapping("selectCategory.me")
 	public String selectCategory(@RequestParam(value="page", required=false) Integer page, @RequestParam("category") String category,HttpSession session,
-									Model model,HttpServletResponse response) {
+									Model model) {
 		System.out.println(category);
 		Member m = (Member)session.getAttribute("loginUser");
 		String memberId = m.getMemberId();
@@ -483,14 +485,14 @@ public class MemberController {
 		if(page != null) {
 			currentPage = page;
 		}
-		
+		System.out.println(currentPage);
 		HashMap<String, String> map = new HashMap<String, String>();
 		map.put("memberId", memberId);
 		map.put("category", category);
 		int listCount = mService.getMyContentListCount(map);
 //		System.out.println(listCount);
 		
-		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 10);
+		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 5);
 		
 		ArrayList<Board> bList = mService.selectBoardList(pi, map);
 		
@@ -502,16 +504,6 @@ public class MemberController {
 			bList.get(i).setReplyCount(replyCount);
 		}
 		
-//		response.setContentType("application/json; charset=UTF-8");
-//		GsonBuilder gb = new GsonBuilder();
-//		GsonBuilder gb2 = gb.setDateFormat("yyyy-MM-dd");
-//		Gson gson = gb2.create();
-//		
-//		try {
-//			gson.toJson(bList, response.getWriter());
-//		} catch (JsonIOException | IOException e) {
-//			e.printStackTrace();
-//		}
 		if(bList != null) {
 			model.addAttribute("pi", pi);
 			model.addAttribute("bList", bList);

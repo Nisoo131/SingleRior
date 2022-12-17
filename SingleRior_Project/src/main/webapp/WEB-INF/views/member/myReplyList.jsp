@@ -44,35 +44,29 @@
 			</select>
 		</div>
 		<br><br><br>
-		<div style="text-align: center;">
-			<div class="bd-example">
-				<table class="table table-hover">
-					<thead>
-						<tr class="fs-5">
-							<th width="100px">카테고리</th>
-							<th>댓글</th>
-							<th width="130px">작성일</th>
-							<th width="70px">공감</th>
-							<th width="70px">댓글</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td>싱글벙글</td>
-							<td>배가 너무 아픈데 주변에 약국이 다 문을 닫았어요..ㅜㅜ</td>
-							<td>2022-12-06</td>
-							<td>0</td>
-							<td>0</td>
-						</tr>
-						<tr>
-							<td>씽씽마켓</td>
-							<td>이번에 가습기 하나 장만했는디 가성비 좋네여!!!</td>
-							<td>2022-12-06</td>
-							<td>0</td>
-							<td>0</td>
-						</tr>
-					</tbody>
-				</table>
+		<div>
+			<div class="card">
+				<div class="card-header">집 밖에 나가기 너무 귀찮아요</div>
+				<div class="card-body">
+					<p>저두요..</p>
+					<span style="float:right">2022-10-13</span>
+				</div>
+			</div>
+			<br><br>
+			<div class="card">
+				<div class="card-header">집 밖에 나가기 너무 귀찮아요</div>
+				<div class="card-body">
+					<p>저두요..</p>
+					<span style="float:right">2022-10-13</span>
+				</div>
+			</div>
+			<br><br>
+			<div class="card">
+				<div class="card-header">집 밖에 나가기 너무 귀찮아요</div>
+				<div class="card-body">
+					<p>저두요..</p>
+					<span style="float:right">2022-10-13</span>
+				</div>
 			</div>
 			<br>
 			<br>

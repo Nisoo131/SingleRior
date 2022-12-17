@@ -22,7 +22,8 @@
 	}
 	.dropdown{float:right;}
 	#category{width:100px; float:right;}
-	tr:hover{cursor:pointer}
+	.card:hover{cursor:pointer}
+	.pFloat{float:right; display:inline-block; margin:auto;}
 </style>
 </head>
 <body>
@@ -46,41 +47,33 @@
 			</select>
 		</div>
 		<br><br><br>
-		<div style="text-align:center;" class="divAppendClone">
+		<div  class="divAppendClone">
 			<div class="bd-example cList">
-				<table class="table table-hover">
-					<thead>
-						<tr class="fs-5">
-							<th width="100px">카테고리</th>
-							<th>글 제목</th>
-							<th width="130px">작성일</th>
-							<th width="70px">좋아요</th>
-							<th width="70px">댓글</th>
-						</tr>
-					</thead>
-					<c:if test="${ !empty bList }">
-						<tbody class="tbody">
-							<c:forEach items="${ bList }" var="b">
-								<tr>
-									<c:if test="${ b.boardType == 2 }">
-										<td class="category">싱글벙글</td>
-									</c:if>
-									<c:if test="${ b.boardType == 3 }">
-										<td class="category">씽씽마켓</td>
-									</c:if>
-									<td class="boardTitle">${ b.boardTitle}</td>
-									<td class="modifyDate">${ b.modifyDate}</td>
-									<td class="likeCount">${ b.likeCount}</td>
-									<td class="replyCount">${ b.replyCount}</td>
-									<td style="display: none">${ b.boardNo }</td>
-								</tr>
-							</c:forEach>
-						</tbody>
+			<c:if test="${ !empty bList }">
+			<c:forEach items="${ bList }" var="b">
+			<div class="card">
+				<div class="card-header">
+					<c:if test="${ b.boardType == 2 }">
+						<span class="category">[싱글벙글]</span>
 					</c:if>
-				</table>
+					<c:if test="${ b.boardType == 3 }">
+						<span class="category">[씽씽마켓]</span>
+					</c:if>
+				<span>&nbsp;&nbsp;&nbsp;${ b.boardTitle}</span>
+				</div>
+				<div class="card-body">
+					<p>${ b.boardContent}</p>
+					<p class="pFloat">작성일 : ${ b.modifyDate} &nbsp;&nbsp;</p>
+					<p class="pFloat">좋아요<i class="bi bi-suit-heart-fill"></i> : ${ b.likeCount} &nbsp;&nbsp;</p>
+					<p class="pFloat">댓글 <i class="bi bi-pencil-fill"></i> : ${ b.replyCount} &nbsp;&nbsp;</p>
+					<div style="display:none">${ b.boardNo }</div>
+				</div>
+			</div>
+			<br><br>
+			</c:forEach>
+			</c:if>
 				<c:if test="${ empty bList }">
-					<div class="alert alert-secondary" role="alert">아직 작성하신 게시글이
-						없습니다.</div>
+					<div class="alert alert-secondary" role="alert">아직 작성하신 게시글이 없습니다.</div>
 				</c:if>
 			</div>
 			<br> <br>
@@ -108,43 +101,6 @@
 		</div>
 	</section>
 	
-	<!--  클론할 부분 -->
-	<div class="bd-example clone" style="display:none">
-				<table class="table table-hover">
-					<thead>
-						<tr class="fs-5">
-							<th width="100px">카테고리</th>
-							<th>글 제목</th>
-							<th width="130px">작성일</th>
-							<th width="70px">좋아요</th>
-							<th width="70px">댓글</th>
-						</tr>
-					</thead>
-					<c:if test="${ !empty bList }">
-						<tbody class="tbody">
-							<c:forEach items="${ bList }" var="b">
-								<tr>
-									<c:if test="${ b.boardType == 2 }">
-										<td class="category">싱글벙글</td>
-									</c:if>
-									<c:if test="${ b.boardType == 3 }">
-										<td class="category">씽씽마켓</td>
-									</c:if>
-									<td class="boardTitle"></td>
-									<td class="modifyDate"></td>
-									<td class="likeCount"></td>
-									<td class="replyCount"></td>
-									<td style="display: none" class="boardNo"></td>
-								</tr>
-							</c:forEach>
-						</tbody>
-					</c:if>
-				</table>
-				<c:if test="${ empty bList }">
-					<div class="alert alert-secondary" role="alert">아직 작성하신 게시글이
-						없습니다.</div>
-				</c:if>
-			</div>
 							
 	<footer>
 		<jsp:include page="../common/footer.jsp"/>
@@ -152,59 +108,40 @@
 	
 	<script>
 	window.onload = () =>{
-		const tbody = document.querySelector('tbody');
-		const trs = tbody.querySelectorAll('tr');
-		for(const tr of trs) {
-// 			console.log(tr);
-			tr.addEventListener('click', function(){
+		
+		const cardDivs = document.getElementsByClassName("card");
+		for(cardDiv of cardDivs){
+			cardDiv.addEventListener('click', function(){
+				const cate = this.childNodes[1].childNodes[1].innerText;
 				
-				const cate = this.childNodes[1].innerText;
-				const boardNo = this.childNodes[11].innerText;
+				const boardNo = this.childNodes[3].childNodes[9].innerText;
+				console.log(boardNo);
 				const writer = '${loginUser.nickName}';
-				if(cate == "싱글벙글"){
+				if(cate == "[싱글벙글]"){
 					location.href='${contextPath}/selectCommuBoard.co?bNo=' + boardNo + '&writer=' + writer + '&page=' + ${pi.currentPage};
-				}else if(cate == "씽씽마켓")
+				}else if(cate == "[씽씽마켓]"){
 					location.href='${contextPath}/marketBoardDetail.ma?bNo=' + boardNo  +'&boardWriter=' + writer + '&page=' + ${pi.currentPage};
+				}
 			});
+			
 		}
 	}
 	
+	let category;
+	const page = '${pi.currentPage}';
 	$(function(){
-		var cloneDiv = $('.clone').clone();
 		
 		$('select[name=category]').change(function(){
 			
-			let category = $('select[name=category]').val();
-			console.log(category);
-			const page = '${pi.currentPage}';
-// 			$.ajax({
-// 				url : '${contextPath}/selectCategory.me',
-// 				data : {category:category,page:page},
-// 				success: (data) =>{
-// 					console.log(data);
-// 					$(".cList").html("");
-// 					for(var i=0 ; i<data.length; i++){
-// 						cloneDiv.prop("style").removeProperty("display");
-// 						if(data[i].boardType == 2){
-// 							cloneDiv.find(".category").text('싱글벙글');
-// 						}else{
-// 							cloneDiv.find(".category").text('씽씽마켓');
-// 						}
-// 						cloneDiv.find(".boardTitle").text(data[i].boardTitle);
-// 						cloneDiv.find(".modifyDate").text(data[i].modifyDate);
-// 						cloneDiv.find(".likeCount").text(data[i].likeCount);
-// 						cloneDiv.find(".replyCount").text(data[i].replyCount);
-// 						cloneDiv.find(".boardNo").text(data[i].boardNo);
-						
-// 					}
-// 						$(".divAppendClone").prepend(cloneDiv.html());
-// 				},
-// 				error:(data)=>{
-// 					console.log(data);
-// 				}
-// 			});
-			location.href='${contextPath}/selectCategory.me?category=' + category + '&page=' + ${pi.currentPage};
-		})
+			category = $('select[name=category]').val();
+// 			console.log(category);
+// 		 	page = '${pi.currentPage}';
+			console.log(page);
+// 			let category = '${ category }';
+			location.href='${contextPath}/selectCategory.me?category=' + category;
+			
+		});
+		
 	});
 	</script>
 </body>
