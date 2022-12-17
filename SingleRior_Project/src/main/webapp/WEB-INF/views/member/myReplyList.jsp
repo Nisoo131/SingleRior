@@ -21,6 +21,7 @@
 	}
 	.dropdown{float:right;}
 	#category{width:100px; float:right;}
+	.card{cursor:pointer};
 </style>
 </head>
 <body>
@@ -45,29 +46,26 @@
 		</div>
 		<br><br><br>
 		<div>
-			<div class="card">
-				<div class="card-header">집 밖에 나가기 너무 귀찮아요</div>
-				<div class="card-body">
-					<p>저두요..</p>
-					<span style="float:right">2022-10-13</span>
-				</div>
-			</div>
-			<br><br>
-			<div class="card">
-				<div class="card-header">집 밖에 나가기 너무 귀찮아요</div>
-				<div class="card-body">
-					<p>저두요..</p>
-					<span style="float:right">2022-10-13</span>
-				</div>
-			</div>
-			<br><br>
-			<div class="card">
-				<div class="card-header">집 밖에 나가기 너무 귀찮아요</div>
-				<div class="card-body">
-					<p>저두요..</p>
-					<span style="float:right">2022-10-13</span>
-				</div>
-			</div>
+			<c:if test="${rList != null }">
+				<c:forEach items="${rList }" var ='r' varStatus="b">
+						<div class="card">
+							<div class="card-header">
+									${ bList[b.index].boardTitle}
+							</div>
+							<div class="card-body">
+								<p>${r.replyContent }</p>
+								<span style="float:right">${r.replyModifyDate }</span>
+								<div style="display:none" class="boardNo">${r.boardNo }</div>
+								<div style="display:none" class="boardType">${ bList[b.index].boardType}</div>
+								<div style="display:none" class="boardWriter">${ bList[b.index].writer}</div>
+							</div>
+						</div>
+						<br><br>
+					</c:forEach>
+			</c:if>
+			<c:if test="${rList == null }">
+				<div class="alert alert-secondary" role="alert">아직 작성하신 게시글이 없습니다.</div>
+			</c:if>
 			<br>
 			<br>
 			<!-- 페이징 -->
@@ -96,5 +94,27 @@
 	<footer>
 		<jsp:include page="../common/footer.jsp"/>
 	</footer>
+	
+	<script>
+window.onload = () =>{
+		const cardDivs = document.getElementsByClassName("card");
+		for(cardDiv of cardDivs){
+			
+			cardDiv.addEventListener('click', function(){
+				
+				const cate = this.childNodes[3].childNodes[7].innerText;
+				const boardNo = this.childNodes[3].childNodes[5].innerText;
+				const writer = this.childNodes[3].childNodes[9].innerText;
+				
+				if(cate == "2"){
+					location.href='${contextPath}/selectCommuBoard.co?bNo=' + boardNo + '&writer=' + writer + '&page=' + ${pi.currentPage};
+				}else if(cate == "3"){
+					location.href='${contextPath}/marketBoardDetail.ma?bNo=' + boardNo  +'&boardWriter=' + writer + '&page=' + ${pi.currentPage};
+				}
+				
+			});
+		}
+	}
+	</script>
 </body>
 </html>

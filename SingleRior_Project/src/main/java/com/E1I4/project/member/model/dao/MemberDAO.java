@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import com.E1I4.project.common.model.vo.Attachment;
 import com.E1I4.project.common.model.vo.Board;
 import com.E1I4.project.common.model.vo.PageInfo;
+import com.E1I4.project.common.model.vo.Reply;
 import com.E1I4.project.member.model.vo.Member;
 
 @Repository("mDAO")
@@ -98,6 +99,20 @@ public class MemberDAO {
 
 	public int getReplyCount(SqlSessionTemplate sqlSession, int boardNo) {
 		return sqlSession.selectOne("memberMapper.getReplyCount", boardNo);
+	}
+
+	public int getMyReplyListCount(SqlSessionTemplate sqlSession, HashMap<String, String> map) {
+		return sqlSession.selectOne("memberMapper.getMyReplyListCount", map);
+	}
+
+	public ArrayList<Reply> selectReplyList(SqlSessionTemplate sqlSession, PageInfo pi, HashMap<String, String> map) {
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		return (ArrayList)sqlSession.selectList("memberMapper.selectReplyList", map, rowBounds);
+	}
+
+	public Board selectReplyBoardList(SqlSessionTemplate sqlSession, int boardNo) {
+		return (Board) sqlSession.selectOne("memberMapper.selectReplyBoardList", boardNo);
 	}
 
 }

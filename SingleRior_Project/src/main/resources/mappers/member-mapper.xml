@@ -196,6 +196,17 @@
 		<result column="BOARD_COUNT" property="count"/>
 	</resultMap>
 	
+	<resultMap type="Reply" id="replyResultSet">
+		<id column="REPLY_NO" property="replyNo"/>
+		<result column="REPLY_CONTENT" property="replyContent"/>
+		<result column="REPLY_CREATE_DATE" property="replyCreateDate"/>
+		<result column="REPLY_MODIFY_DATE" property="replyModifyDate"/>
+		<result column="RE_SECRET" property="replySecret"/>
+		<result column="REPLY_STATUS" property="replyStatus"/>
+		<result column="MEMBER_ID" property="memberId"/>
+		<result column="BOARD_NO" property="boardNo"/>
+		<result column="BOARD_TITLE" property="boardTitle"/>
+	</resultMap>
 	
 	<select id="selectBoardList" resultMap="boardResultSet">
 		select *
@@ -209,6 +220,7 @@
 			<if test='category == "씽씽마켓"'>
 				and board_type = 3
 			</if>
+		
 		</if>
 	</select>
 	
@@ -222,5 +234,27 @@
 		select count(*)
 		from reply
 		where board_no = #{boardNo}
+	</select>
+	
+	<select id="getMyReplyListCount" resultType="_int">
+		SELECT (SELECT COUNT(*) FROM reply where member_id=#{memberId}) + (SELECT COUNT(*) from re_reply where member_id=#{memberId}) FROM DUAL
+	</select>
+	
+	<select id="selectReplyList" resultMap="replyResultSet">
+	select reply_no, reply_content,reply_modify_date, member_id, board_no
+	    from reply
+	    join board b using(board_no)
+	    where member_id=#{memberId}
+	union 
+	select re_reply_no, re_reply_content,re_reply_modify_date, member_id, board_no
+	    from re_reply
+	    join board b using(board_no)
+	    where member_id=#{memberId}
+	</select>
+	
+	<select id="selectReplyBoardList" resultMap="boardResultSet">
+		select *
+		from board
+		where board_No = #{boardNo}
 	</select>
 </mapper>

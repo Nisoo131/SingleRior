@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import com.E1I4.project.common.model.vo.Attachment;
 import com.E1I4.project.common.model.vo.Board;
 import com.E1I4.project.common.model.vo.PageInfo;
+import com.E1I4.project.common.model.vo.Reply;
 import com.E1I4.project.member.model.dao.MemberDAO;
 import com.E1I4.project.member.model.vo.Member;
 import com.google.gson.JsonElement;
@@ -131,6 +132,23 @@ public class MemberServiceImpl implements MemberService {
 	public int getReplyCount(int boardNo) {
 		return mDAO.getReplyCount(sqlSession,boardNo);
 	}
+
+	@Override
+	public int getMyReplyListCount(HashMap<String, String> map) {
+		return mDAO.getMyReplyListCount(sqlSession, map);
+	}
+
+	@Override
+	public ArrayList<Reply> selectReplyList(PageInfo pi, HashMap<String, String> map) {
+		return mDAO.selectReplyList(sqlSession,pi, map);
+	}
+
+	@Override
+	public Board selectReplyBoardList(int boardNo) {
+		return  mDAO.selectReplyBoardList(sqlSession,boardNo);
+	}
+
+
 
 
 

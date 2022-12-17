@@ -6,6 +6,7 @@ import java.util.HashMap;
 import com.E1I4.project.common.model.vo.Attachment;
 import com.E1I4.project.common.model.vo.Board;
 import com.E1I4.project.common.model.vo.PageInfo;
+import com.E1I4.project.common.model.vo.Reply;
 import com.E1I4.project.member.model.vo.Member;
 
 public interface MemberService {
@@ -49,6 +50,12 @@ public interface MemberService {
 	int getLikeCount(int boardNo);
 
 	int getReplyCount(int boardNo);
+
+	int getMyReplyListCount(HashMap<String, String> map);
+
+	ArrayList<Reply> selectReplyList(PageInfo pi, HashMap<String, String> map);
+
+	Board selectReplyBoardList(int boardNo);
 
 
 

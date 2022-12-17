@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,13 +26,11 @@ import com.E1I4.project.common.exception.MemberException;
 import com.E1I4.project.common.model.vo.Attachment;
 import com.E1I4.project.common.model.vo.Board;
 import com.E1I4.project.common.model.vo.PageInfo;
+import com.E1I4.project.common.model.vo.Reply;
 import com.E1I4.project.member.model.service.KakaoLogin;
 import com.E1I4.project.member.model.service.MailSendService;
 import com.E1I4.project.member.model.service.MemberService;
 import com.E1I4.project.member.model.vo.Member;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonIOException;
 
 @Controller
 public class MemberController {
@@ -451,7 +448,7 @@ public class MemberController {
 		map.put("memberId", memberId);
 //		map.put("category", category);
 		int listCount = mService.getMyContentListCount(map);
-		
+//		System.out.println(listCount);
 		
 		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 5);
 		
@@ -513,7 +510,43 @@ public class MemberController {
 	}
 	
 	@RequestMapping("myReplyList.me")
-	public String myReplyList() {
+	public String myReplyList(@RequestParam(value="page", required=false) Integer page,HttpSession session, Model model) {
+		Member m = (Member)session.getAttribute("loginUser");
+		
+		String memberId = m.getMemberId();
+		int currentPage =1;
+		if(page != null) {
+			currentPage = page;
+		}
+		
+		HashMap<String, String> map = new HashMap<String, String>();
+		map.put("memberId", memberId);
+		
+		int listCount = mService.getMyReplyListCount(map);
+		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 5);
+//		System.out.println(listCount);
+		ArrayList<Reply> rList = mService.selectReplyList(pi, map);
+		
+		
+//		System.out.println(rList);
+		ArrayList<Board> bList = new ArrayList<Board>();
+		Board b = new Board();
+		
+		for(int i = 0; i<rList.size(); i++) {
+			int boardNo = rList.get(i).getBoardNo();
+			
+			b = mService.selectReplyBoardList(boardNo);
+//			System.out.println(b);
+			
+			bList.add(b);
+		}
+//		System.out.println(bList);
+		
+		if(rList != null) {
+			model.addAttribute("pi", pi);
+			model.addAttribute("rList", rList);
+			model.addAttribute("bList", bList);
+		}
 		return "myReplyList";
 	}
 }
