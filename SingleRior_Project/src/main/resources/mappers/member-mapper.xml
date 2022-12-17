@@ -205,7 +205,7 @@
 		<result column="REPLY_STATUS" property="replyStatus"/>
 		<result column="MEMBER_ID" property="memberId"/>
 		<result column="BOARD_NO" property="boardNo"/>
-		<result column="BOARD_TITLE" property="boardTitle"/>
+		<result column="BOARD_TYPE" property="boardType"/>
 	</resultMap>
 	
 	<select id="selectBoardList" resultMap="boardResultSet">
@@ -255,6 +255,12 @@
 	<select id="selectReplyBoardList" resultMap="boardResultSet">
 		select *
 		from board
+		<if test='boardType == 2'>
+			join community using(board_no)
+		</if>
+		<if test='boardType == 3'>
+			join market using(board_no)
+		</if>
 		where board_No = #{boardNo}
 	</select>
 </mapper>

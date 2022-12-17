@@ -111,8 +111,8 @@ public class MemberDAO {
 		return (ArrayList)sqlSession.selectList("memberMapper.selectReplyList", map, rowBounds);
 	}
 
-	public Board selectReplyBoardList(SqlSessionTemplate sqlSession, int boardNo) {
-		return (Board) sqlSession.selectOne("memberMapper.selectReplyBoardList", boardNo);
+	public Board selectReplyBoardList(SqlSessionTemplate sqlSession, HashMap<String, Integer> replyMap) {
+		return (Board) sqlSession.selectOne("memberMapper.selectReplyBoardList", replyMap);
 	}
 
 }

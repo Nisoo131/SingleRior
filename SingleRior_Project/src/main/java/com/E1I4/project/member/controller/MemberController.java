@@ -531,11 +531,12 @@ public class MemberController {
 //		System.out.println(rList);
 		ArrayList<Board> bList = new ArrayList<Board>();
 		Board b = new Board();
-		
+		HashMap<String, Integer> replyMap = new HashMap<String, Integer>();
 		for(int i = 0; i<rList.size(); i++) {
 			int boardNo = rList.get(i).getBoardNo();
 			
-			b = mService.selectReplyBoardList(boardNo);
+			replyMap.put("boardNo", boardNo);
+			b = mService.selectReplyBoardList(replyMap);
 //			System.out.println(b);
 			
 			bList.add(b);

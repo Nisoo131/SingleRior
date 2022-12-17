@@ -50,7 +50,13 @@
 				<c:forEach items="${rList }" var ='r' varStatus="b">
 						<div class="card">
 							<div class="card-header">
-									${ bList[b.index].boardTitle}
+								<c:if test="${ bList[b.index].boardType == 2}">
+									<span>[싱글벙글]</span>
+								</c:if>
+								<c:if test="${ bList[b.index].boardType == 3}">
+									<span>[씽씽마켓]</span>
+								</c:if>
+									<span>${ bList[b.index].boardTitle}</span>
 							</div>
 							<div class="card-body">
 								<p>${r.replyContent }</p>

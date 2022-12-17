@@ -55,7 +55,7 @@ public interface MemberService {
 
 	ArrayList<Reply> selectReplyList(PageInfo pi, HashMap<String, String> map);
 
-	Board selectReplyBoardList(int boardNo);
+	Board selectReplyBoardList(HashMap<String, Integer> replyMap);
 
 
 

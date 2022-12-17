@@ -143,9 +143,11 @@ public class MemberServiceImpl implements MemberService {
 		return mDAO.selectReplyList(sqlSession,pi, map);
 	}
 
+
+
 	@Override
-	public Board selectReplyBoardList(int boardNo) {
-		return  mDAO.selectReplyBoardList(sqlSession,boardNo);
+	public Board selectReplyBoardList(HashMap<String, Integer> replyMap) {
+		return  mDAO.selectReplyBoardList(sqlSession,replyMap);
 	}
 
 
