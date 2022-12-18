@@ -98,7 +98,7 @@
 			  	
 			  	<c:if test="${ empty loginUser }">
 			  		<div class="col-md-2 py-2" style="text-align: center;">
-				  		<button class="w-100 btn btn-outline-primary btn-lg" type="button" id="loginModal">게시글 작성</button>
+				  		<button class="w-100 btn btn-outline-primary btn-lg" type="button" data-bs-toggle="modal" data-bs-target="#modalChoice">게시글 작성</button>
 				  	</div>
 			  	</c:if>
 			  	<c:if test="${ !empty loginUser }">
@@ -135,7 +135,7 @@
 								<td><input type="hidden" value="${ b.nickName }">${ b.nickName }</td>
 								<td>${ b.createDate }</td>
 								<td>${ b.symptCount }</td>
-								<td>0</td>
+								<td>${ b.replyCount }</td>
 		          			</tr>
 	         			</c:forEach>
 	          		</tbody>
@@ -236,13 +236,6 @@
 		})
 		
 		window.onload = () => {
-			const loginModal = document.getElementById('loginModal');
-			if(loginModal != null){
-				loginModal.addEventListener('click', ()=>{
-					$('#modalChoice').modal('show');
-				});
-			}
-			
 			const tbody = document.querySelector('.tbody');
 			const trs = tbody.querySelectorAll('tr');
 			for(const tr of trs){

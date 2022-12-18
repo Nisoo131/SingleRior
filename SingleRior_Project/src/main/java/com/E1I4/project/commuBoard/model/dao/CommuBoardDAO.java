@@ -79,4 +79,20 @@ public class CommuBoardDAO {
 	public int deleteSymptCount(SqlSessionTemplate sqlSession, int bNo) {
 		return sqlSession.update("commuMapper.deleteSymptCount", bNo);
 	}
+
+	public ArrayList<CommuBoard> replyCount(SqlSessionTemplate sqlSession, HashMap<String, Object> map) {
+		return (ArrayList)sqlSession.selectList("commuMapper.replyCount", map);
+	}
+
+	public int deleteAttm(SqlSessionTemplate sqlSession, ArrayList<String> delRename) {
+		return sqlSession.delete("commuMapper.deleteAttm", delRename);
+	}
+
+	public int updateCommuBoard(SqlSessionTemplate sqlSession, CommuBoard coBoard) {
+		return sqlSession.update("commuMapper.updateCommuBoard", coBoard);
+	}
+
+	public void updateAttmLevel(SqlSessionTemplate sqlSession, int boardNo) {
+		sqlSession.update("commuMapper.updateAttmLevel", boardNo);
+	}
 }

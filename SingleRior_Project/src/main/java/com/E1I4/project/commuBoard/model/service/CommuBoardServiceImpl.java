@@ -93,4 +93,24 @@ public class CommuBoardServiceImpl implements CommuBoardService{
 		return cDAO.symptOff(sqlSession, wl);
 	}
 
+	@Override
+	public ArrayList<CommuBoard> replyCount(HashMap<String, Object> map) {
+		return cDAO.replyCount(sqlSession, map);
+	}
+
+	@Override
+	public int deleteAttm(ArrayList<String> delRename) {
+		return cDAO.deleteAttm(sqlSession, delRename);
+	}
+
+	@Override
+	public int updateCommuBoard(CommuBoard coBoard) {
+		return cDAO.updateCommuBoard(sqlSession, coBoard);
+	}
+
+	@Override
+	public void updateAttmLevel(int boardNo) {
+		cDAO.updateAttmLevel(sqlSession, boardNo);
+	}
+
 }

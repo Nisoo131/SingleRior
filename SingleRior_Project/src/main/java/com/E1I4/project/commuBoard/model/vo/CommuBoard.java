@@ -26,5 +26,7 @@ public class CommuBoard {
 	private String nickName;
 	private int count;
 	private int symptCount;
-	private String commuType;
+	private int commuType;
+	private int commuArray;
+	private int replyCount;
 }

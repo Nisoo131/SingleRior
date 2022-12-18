@@ -63,8 +63,7 @@
 	<select id="getCommuListCount" resultType="_int">
 		select count(*)
 		from board
-		where board_type = '2'
-			  and b_status = 'Y'
+		where board_type = '2' and b_status = 'Y'
 	</select>
 	
 	<select id="selectCommuAllList" parameterType="hashmap" resultMap="CommuBoardResultSet">
@@ -147,7 +146,8 @@
 	
 	<select id="selectReply" resultMap="replyResultSet">
 		select *
-		from reply
+		from reply r
+			 join member m on(r.member_id = m.member_id)
 		where board_no = #{boardNo} and reply_status = 'Y'
 		order by reply_no desc
 	</select>
@@ -161,7 +161,38 @@
 	
 	<insert id="insertReply">
 		insert into reply
-		values(seq_rid.nextval, #{replyContent}, sysdate, sysdate, default, default, #{memberId}, #{BoardNo})
+		values(seq_rid.nextval, #{replyContent}, sysdate, sysdate, default, default, #{memberId}, #{boardNo})
 	</insert>
+	
+	<select id="replyCount" resultType="_int">
+		SELECT (SELECT count(*)
+				FROM reply r
+				WHERE r.board_no = b.board_no )
+		FROM board b
+		where board_type = '2' and b_status = 'Y'
+	</select>
+	
+	<delete id="deleteAttm">
+		delete from IMG_REPOSITORY
+		where IMG_SERVER_NAME in
+		<foreach collection="list" open="(" close=")" separator="," item="item">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="updateAttmLevel">
+		update IMG_REPOSITORY
+		set IMG_LEVEL = 0
+		where IMG_NO = (select min(IMG_NO)
+						from IMG_REPOSITORY
+						     join board on(board_type = IMG_B_TYPE)
+						where IMG_B_TYPE = #{boardNo})
+	</update>
+	
+	<update id="updateCommuBoard">
+		update board
+		set board_title = #{boardTitle}, board_content = #{boardContent}, MODIFY_DATE = sysdate
+		where board_no = #{boardNo}
+	</update>
 
 </mapper>
