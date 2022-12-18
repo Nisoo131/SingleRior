@@ -81,10 +81,6 @@ public class MarketBoardController {
 		ArrayList<Attachment> topAList = mkService.topAttmListSelect(marketType);
 		
 		
-		System.out.println(mkBList);
-		System.out.println(mkAList);
-		System.out.println(topBList);
-		System.out.println(topAList);
 		
 		
 		
@@ -127,7 +123,6 @@ public class MarketBoardController {
 					
 					String[] returnArr = saveFile(file, request);
 					
-					System.out.println("rename : " +fileName);
 					
 					if(returnArr[1] != null) {
 						Attachment attm = new Attachment();
@@ -208,8 +203,6 @@ public class MarketBoardController {
 		returnArr[0] = savePath;
 		returnArr[1] = renameFileName;
 		
-		System.out.println(returnArr);
-		
 		return returnArr;
 	}
 	
@@ -243,11 +236,6 @@ public class MarketBoardController {
 			
 			
 			
-			System.out.println(mkBoard);
-			System.out.println(mkAList);
-			System.out.println(wishList);
-			System.out.println(mkRList);
-			System.out.println(mkRRList);
 			
 			if(mkBoard != null) {
 				model.addAttribute("mkBoard", mkBoard);
@@ -267,14 +255,14 @@ public class MarketBoardController {
 		//댓글 insert
 		@RequestMapping("replyInsert.ma")
 		public void replyInsert(@ModelAttribute Reply reply, HttpServletResponse response ) {
-			System.out.println(reply);
 			int result = mkService.replyInsert(reply);
-			
 			ArrayList<Reply> rList = mkService.replySelect(reply.getBoardNo());
-			
+
 			response.setContentType("application/json; charset=UTF-8");
+			
 			GsonBuilder gb = new GsonBuilder();
-			gson = gb.setDateFormat("yyyy-MM-dd").create();
+			GsonBuilder gb2 =  gb.setDateFormat("yyyy-MM-dd");
+			Gson gson = gb2.create();
 			
 			try {
 				gson.toJson(rList, response.getWriter());
@@ -285,18 +273,53 @@ public class MarketBoardController {
 		
 		}
 		
+		// 댓글 삭제
+		@RequestMapping("replyDelete.ma")
+		public String replyDelete(@RequestParam("rNo") int rNo, @RequestParam("bNo") String bNo, Model model) {
+			int result = mkService.replyDelete(rNo);
+			
+			if(result > 0) {
+				model.addAttribute("bNo", bNo);
+				return "redirect:marketBoardDetail.ma";
+			} else {
+				throw new BoardException("댓글 삭제 실패");
+			}
+
+		}
+		//댓글 수정
+		@RequestMapping("replyUpdate.ma")
+		public void replyUpdate(@ModelAttribute Reply reply, HttpServletResponse response ) {
+			int result = mkService.replyUpdate(reply);
+			ArrayList<Reply> rList = mkService.replySelect(reply.getBoardNo());
+			response.setContentType("application/json; charset=UTF-8");
+			
+			GsonBuilder gb = new GsonBuilder();
+			GsonBuilder gb2 =  gb.setDateFormat("yyyy-MM-dd");
+			Gson gson = gb2.create();
+
+			try {
+				gson.toJson(rList, response.getWriter());
+			} catch (JsonIOException | IOException e) {
+				e.printStackTrace();
+			}
+
+		
+		}
+		
+		
+		
+		
 		//대댓글 insert
 		@RequestMapping("reReplyInsert.ma")
 		public void reReplyInsert(@ModelAttribute ReReply reReply, HttpServletResponse response ) {
-			System.out.println(reReply);
 			int result = mkService.reReplyInsert(reReply);
-			
 			ArrayList<Reply> rList = mkService.replySelect(reReply.getBoardNo());
-			
 			response.setContentType("application/json; charset=UTF-8");
-			GsonBuilder gb = new GsonBuilder();
-			gson = gb.setDateFormat("yyyy-MM-dd").create();
 			
+			GsonBuilder gb = new GsonBuilder();
+			GsonBuilder gb2 =  gb.setDateFormat("yyyy-MM-dd");
+			Gson gson = gb2.create();
+
 			try {
 				gson.toJson(rList, response.getWriter());
 			} catch (JsonIOException | IOException e) {
@@ -308,37 +331,49 @@ public class MarketBoardController {
 
 		//좋아요 Insert
 		@RequestMapping("marketLike.ma")
-		public String marketBoardLike(@RequestParam("bNo") int bNo, HttpSession session, Model model) {
+		public void marketBoardLike(@RequestParam("boardNo") int bNo, HttpSession session, Model model, HttpServletResponse response) {
 			String id = ((Member)session.getAttribute("loginUser")).getMemberId();
-			System.out.println("일로오나????");
 			WishList wl = new WishList();
 			
 			wl.setBoardNo(bNo);
 			wl.setMemberId (id);
 			
 			int result = mkService.marketLike(wl);
-			System.out.println("결과"+result);
-			if(result > 0) {
-				model.addAttribute("bNo", bNo);
-				return "redirect:marketBoardDetail.ma";
-			} else {
-				throw new BoardException("좋아요 실패");
+			
+			response.setContentType("application/json; charset=UTF-8");
+			
+			GsonBuilder gb = new GsonBuilder();
+			Gson gson = gb.create();
+
+			try {
+				gson.toJson(result, response.getWriter());
+			} catch (JsonIOException | IOException e) {
+				e.printStackTrace();
 			}
+
+			
 		}
 		
 		// 좋아요취소
-			@RequestMapping("mkLikeCancle.ma")
-			public String cheerCancle(@RequestParam("bNo") int bNo, HttpSession session, Model model) {
+			@RequestMapping("marketLikeCancle.ma")
+			public  void marketBoardLikeCancle(@RequestParam("boardNo") int bNo, HttpSession session, Model model, HttpServletResponse response) {
 				String id = ((Member)session.getAttribute("loginUser")).getMemberId();
-				WishList wl = new WishList(bNo, id);
+				WishList wl = new WishList();
+				
+				wl.setBoardNo(bNo);
+				wl.setMemberId (id);
 				
 				int result =  mkService.marketLikeCancle(wl);
 				
-				if(result > 0) {
-					model.addAttribute("bNo", bNo);
-					return "redirect:marketBoardDetail.ma";
-				} else {
-					throw new BoardException("좋아요취소 실패");
+				response.setContentType("application/json; charset=UTF-8");
+				
+				GsonBuilder gb = new GsonBuilder();
+				Gson gson = gb.create();
+
+				try {
+					gson.toJson(result, response.getWriter());
+				} catch (JsonIOException | IOException e) {
+					e.printStackTrace();
 				}
 			}
 
@@ -359,7 +394,112 @@ public class MarketBoardController {
 			}
 			
 			
-		
+			// 게시글 수정
+			@RequestMapping("marketBoardUpdate.ma")
+			public String updateVolBoard(@ModelAttribute MarketBoard mkBoard, @RequestParam(value="deleteAttm", required = false) String[] deleteAttm, 
+										 @RequestParam("file") ArrayList<MultipartFile> files, HttpServletRequest request, Model model) {
+				int boardResult = mkService.marketboardUpdate(mkBoard);
+				// 새파일 저장
+				ArrayList<Attachment> list = new ArrayList<>();
+				for(MultipartFile file : files) {
+					String fileName = file.getOriginalFilename();
+					if(!fileName.equals("")) {
+						String fileType = fileName.substring(fileName.lastIndexOf(".")+1).toLowerCase();
+						if(fileType.equals("png") || fileType.equals("jpg") || fileType.equals("gif") || fileType.equals("jpeg")) {
+							String[] returnArr = saveFile(file, request);
+							
+							if(returnArr[1] != null) {
+								Attachment attm = new Attachment();
+								attm.setImgOriginalName(file.getOriginalFilename());
+								attm.setImgRename(returnArr[1]);
+								attm.setImgPath(returnArr[0]);
+								
+								list.add(attm);
+							}
+						}
+					}
+				}
+				
+				// 선택한 파일들 삭제
+				ArrayList<String> delRename = new ArrayList<>();
+				ArrayList<Integer> delLevel = new ArrayList<>();
+				
+				if(deleteAttm != null) {
+					for (String rename : deleteAttm) {
+						if (!rename.equals("")) {
+							String[] split = rename.split("/");
+							delRename.add(split[0]);
+							delLevel.add(Integer.parseInt(split[1]));
+						}
+					}
+				}
+				
+				int deleteAttmResult = 0;
+				boolean existBeforeAttm = true;  // 기존 파일이 남아 있는지 확인
+				
+				if(!delRename.isEmpty()) {
+					deleteAttmResult = mkService.deleteAttm(delRename);
+					if(deleteAttmResult > 0) {
+						for(String rename : delRename) {
+							deleteFile(rename, request);
+						}
+					}
+					
+					if(delRename.size() == deleteAttm.length) { // 기존 파일을 전부 삭제하겠다고 한 경우
+						existBeforeAttm = false;
+					} else {
+						for(int level : delLevel) {
+							if(level == 0) {
+								String strBNo = Integer.toString(mkBoard.getBoardNo());
+								mkService.AttmLevelUpdate(strBNo);
+								break;
+							}
+						}
+					}
+				}
+				
+				if(deleteAttm == null) {
+					existBeforeAttm = false;
+				}
+				
+				for(int i = 0; i < list.size(); i++) {
+					Attachment a = list.get(i);
+					
+					if(existBeforeAttm) {
+						a.setLevel(1);
+					} else {
+						if(i == 0) {
+							a.setLevel(0);
+						} else {
+							a.setLevel(1);
+						}
+					}
+					a.setImgKey("3");
+				}
+				
+				int attmResult = 0;
+				String strBNo = Integer.toString( mkBoard.getBoardNo());
+				
+				if(!list.isEmpty()) {
+					HashMap<String, Object> map = new HashMap<String, Object>();
+					map.put("list", list);
+					map.put("bNo",strBNo);
+					
+					attmResult = mkService.insertAttm(map);
+				}
+				
+				if(boardResult + attmResult == 2+list.size()) {
+					model.addAttribute("bNo", mkBoard.getBoardNo());
+					model.addAttribute("boardWriter", mkBoard.getWriter());
+					return "redirect:marketBoardDetail.ma";
+				} else {
+					for(Attachment a : list) {
+						deleteFile(a.getImgRename(), request);
+					}
+					throw new BoardException("게시글 수정 실패");
+				}
+			}
+			
 			
 			
 			//게시글 삭제
@@ -367,7 +507,7 @@ public class MarketBoardController {
 			public String marketBoardDelete(@RequestParam("bNo") int bNo) {
 				String strBNo = Integer.toString(bNo);
 				int result = mkService.marketBoardDelete(bNo);
-				result += mkService.deleteAttm(strBNo);
+				result += mkService.updateAttmStatus(strBNo);
 				
 				
 				if(result > 0) {

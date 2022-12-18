@@ -14,15 +14,15 @@ import lombok.ToString;
 @Setter
 @ToString
 public class ReReply {
-	private int rReplyNo;
+	private int reReplyNo;
 	private int replyNo;
-	private String rReplyContent;
-	private Date rReplyCreateDate;
-	private Date rReplyModifyDate;
+	private String reReplyContent;
+	private Date reReplyCreateDate;
+	private Date reReplyModifyDate;
 	private String memberId;
 	private int boardNo;
-	private String rReplyStatus;
-	private String rReplySecret;
+	private String reReplyStatus;
+	private String reReplySecret;
 	private String nickName;
 	
 }

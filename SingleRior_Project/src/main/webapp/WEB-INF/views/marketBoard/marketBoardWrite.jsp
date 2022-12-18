@@ -53,7 +53,7 @@
 						
 							<label for="boardTitle" class="form-label">TITLE</label>
 							<input type="text" class="form-control" id="boardTitle" name="boardTitle">
-							<label for="boardTitle" class="form-label">PRICE</label>
+							<label for="marketPrice" class="form-label">PRICE</label>
 							<input type="number" min="0" class="form-control" id="marketPrice" name="marketPrice">
 						</div>
 						

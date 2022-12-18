@@ -46,7 +46,27 @@ public interface MarketBoardService {
 	
 	int marketBoardDelete(int bNo);
 	
-	int deleteAttm(String bNo);
+	int updateAttmStatus(String bNo);
+
+	int marketboardUpdate(MarketBoard mkBoard);
+	
+	int deleteAttm(ArrayList<String> delRename);
+
+	void AttmLevelUpdate(String strBNo);
+
+	int replyDelete(int rNo);
+
+	int replyUpdate(Reply reply);
+
+	
+
+	
+
+	
+
+
+
+	
 
 
 

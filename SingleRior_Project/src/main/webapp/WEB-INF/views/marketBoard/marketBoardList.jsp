@@ -57,9 +57,9 @@ li a:hover {
 			<div class="carousel-item active" data-bs-interval="10000">
 				<div class="album py-4">
 					<div class="container">
-						<div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-3 p-2 px-4">
+						<div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-3 p-5 px-4">
 							<c:forEach items="${ topBList }" var="tb" begin="0" end="3" step="1">
-							<div class="col">
+							<div class="col px-4" >
 								<div class="carouselCardSec shadow-sm">
 									<c:forEach items="${ topAList }" var="ta" begin="0" end="3" step="1">
 										<c:if test="${ tb.boardNo eq ta.imgKey }">
@@ -98,9 +98,9 @@ li a:hover {
 			<div class="carousel-item">
 				<div class="album py-4">
 					<div class="container">
-						<div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-3 p-2 px-4">
+						<div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-3 p-5 px-4">
 							<c:forEach items="${ topBList }" var="tb" begin="4" end="7" step="1">
-							<div class="col">
+							<div class="col px-4">
 								<div class="carouselCardSec shadow-sm">
 									<c:forEach items="${ topAList }" var="ta" begin="4" end="7" step="1">
 										<c:if test="${ tb.boardNo eq ta.imgKey }">
@@ -178,7 +178,7 @@ li a:hover {
 	<div class="row row-cols-1 row-cols-md-5 g-4" style="margin: 150px;">
 		<c:forEach items="${ mkBList }" var="mkB">
 		 <c:set var="marketType" value="${mkB.marketType }"/>
-		<div class="col">
+		<div class="col px-4">
 			<div class="cards shadow-sm">
 			<c:forEach items="${ mkAList }" var="mkA">
 			<c:if test="${ mkB.boardNo eq mkA.imgKey }">

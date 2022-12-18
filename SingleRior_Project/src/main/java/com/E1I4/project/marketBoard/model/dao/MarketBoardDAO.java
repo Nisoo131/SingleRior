@@ -92,11 +92,34 @@ public class MarketBoardDAO {
 	}
 
 	public int marketBoardDelete(SqlSessionTemplate sqlSession, int bNo) {
-		return sqlSession.insert("marketMapper.marketBoardDelete", bNo);
+		return sqlSession.update("marketMapper.marketBoardDelete", bNo);
 	}
 
-	public int deleteAttm(SqlSessionTemplate sqlSession, String strBNo) {
-		return sqlSession.insert("marketMapper.deleteAttm", strBNo);
+	public int updateAttmStatus(SqlSessionTemplate sqlSession, String strBNo) {
+		return sqlSession.update("marketMapper.updateAttmStatus", strBNo);
+	}
+
+	public int deleteAttm(SqlSessionTemplate sqlSession, ArrayList<String> delRename) {
+		return sqlSession.update("marketMapper.deleteAttm", delRename);
+	}
+
+	public void AttmLevelUpdate(SqlSessionTemplate sqlSession, String strBNo) {
+		sqlSession.update("marketMapper.AttmLevelUpdate", strBNo);
+	}
+
+	public int marketboardUpdate(SqlSessionTemplate sqlSession, MarketBoard mkBoard) {
+		int result = sqlSession.update("marketMapper.marketUpdate", mkBoard);
+		result += sqlSession.update("marketMapper.boardUpdate", mkBoard);
+		System.out.println(result);
+		return result;
+	}
+
+	public int replyDelete(SqlSessionTemplate sqlSession, int rNo) {
+		return sqlSession.update("marketMapper.replyDelete", rNo);
+	}
+
+	public int replyUpdate(SqlSessionTemplate sqlSession, Reply reply) {
+		return sqlSession.update("marketMapper.replyUpdate", reply);
 	}
 
 	
