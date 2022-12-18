@@ -52,16 +52,16 @@
 					<div class="row g-3">
 					<h1 style="align-self: center;"><img alt="" src="https://cdn-icons-png.flaticon.com/512/595/595752.png" style="width: 40px; height: 40px; " >씽씽마켓</h1>
 						<div class="col-12">
-						<select class="form-select form-select-sm" aria-label=".form-select-sm example" style="width: 120px; margin-bottom: 15px;">
-							<option>같이사요</option>
-							<option>팝니다</option>
-							<option>삽니다</option>
+						<select name="marketType" class="form-select form-select-sm" aria-label=".form-select-sm example" style="width: 120px; margin-bottom: 15px;">
+							<option value="1">같이사요</option>
+							<option value="2">팝니다</option>
+							<option value="3">삽니다</option>
 						</select>
 						
 							<label for="boardTitle" class="form-label">TITLE</label>
 							<input type="text" class="form-control" id="boardTitle" name="boardTitle" value="${mkBoard.boardTitle }">
-							<label for="boardTitle" class="form-label">PRICE</label>
-							<input type="number" class="form-control" id="boardTitle" name="boardTitle" value="${mkBoard.marketPrice }">
+							<label for="marketPrice" class="form-label">PRICE</label>
+							<input type="number" class="form-control" id="marketPrice" name="marketPrice" value="${mkBoard.marketPrice }">
 						</div>
 						
 
@@ -78,7 +78,7 @@
 										${a.imgOriginalName }
 									</a>
 									<button type="button" class="btn btn-outline-dark btn-sm deleteAttm" id="delete-${a.imgRename }/${a.level}">
-										삭제 OFF
+										삭제하기
 									</button>
 									<input type="hidden" name="deleteAttm" >
 								</h5>
@@ -94,8 +94,10 @@
 							</div>
 						</div>
 						<br><br><br><br><br>
-						
-						<button class="btn btn-outline-primary" type="button" id="submitAttm">UPDATE</button>
+						<input type="hidden" name="writer" value="${mkBoard.writer }">
+						<input type="hidden" name="boardNo" value="${mkBoard.boardNo }">
+						<input type="hidden" name="boardType" value="3">
+						<button class="btn btn-outline-primary"  id="submitAttm">UPDATE</button>
 						<button class="btn btn-outline-primary" type="button" onclick="javascript:history.back();">BACK</button>
 					</div>
 				</form>
@@ -120,6 +122,26 @@
 				
 				fileArea.append(newDiv);
 			});
+			
+			
+			
+			const delBtns = document.getElementsByClassName('deleteAttm');
+			for(const btn of delBtns){
+				btn.addEventListener('click', function() {
+					const nextHidden = this.nextElementSibling;
+					if(nextHidden.value == ''){ // 삭제 버튼을 누르지 않은 경우(삭제 OFF)
+						this.style.background = 'black';
+						this.style.color = 'white';
+						this.innerHTML = '취소';
+						nextHidden.value = this.id.split("-")[1];
+					} else{ // 삭제 버튼을 누른 경우 (삭제 ON)
+						this.style.background = 'none';
+						this.style.color = 'black';
+						this.innerHTML = '삭제하기';
+						nextHidden.removeAttribute('value');
+					}
+				});
+			}
 			
 		}
 		

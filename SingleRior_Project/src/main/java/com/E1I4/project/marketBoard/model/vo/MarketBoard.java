@@ -32,7 +32,7 @@ public class MarketBoard {
 	
 	
 	//boardType 3 market
-	//marketType 같이사요 0, 팝니다1, 삽니다2
-	//marketArray 조회수0, 좋아요수1, 댓글수2
+	//marketType 같이사요 1, 팝니다2, 삽니다3
+	//marketArray 최신순1, 좋아요수2, 댓글수3
 	
 }

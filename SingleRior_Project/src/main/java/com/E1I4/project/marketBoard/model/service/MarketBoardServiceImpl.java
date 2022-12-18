@@ -116,9 +116,45 @@ public class MarketBoardServiceImpl implements MarketBoardService{
 	}
 
 	@Override
-	public int deleteAttm(String strBNo) {
-		return mkDAO.deleteAttm(sqlSession, strBNo);
+	public int updateAttmStatus(String strBNo) {
+		return mkDAO.updateAttmStatus(sqlSession, strBNo);
 	}
+
+	@Override
+	public int marketboardUpdate(MarketBoard mkBoard) {
+		return mkDAO.marketboardUpdate(sqlSession, mkBoard);
+	}
+	
+	@Override
+	public int deleteAttm(ArrayList<String> delRename) {
+		return mkDAO.deleteAttm(sqlSession, delRename);
+	}
+
+	@Override
+	public void AttmLevelUpdate(String strBNo) {
+		mkDAO.AttmLevelUpdate(sqlSession, strBNo);
+		
+	}
+
+	@Override
+	public int replyDelete(int rNo) {
+		return mkDAO.replyDelete(sqlSession, rNo);
+	}
+
+	@Override
+	public int replyUpdate(Reply reply) {
+		return mkDAO.replyUpdate(sqlSession, reply);
+	}
+
+	
+
+	
+
+	
+
+	
+
+	
 
 	
 	

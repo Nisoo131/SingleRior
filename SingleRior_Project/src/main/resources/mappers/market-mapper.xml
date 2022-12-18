@@ -44,7 +44,14 @@
 		insert all
 		<foreach collection="list" item="a">
 			into IMG_REPOSITORY
-			values(SingleRior_aid, #{a.imgOriginalName}, #{a.imgRename}, sysdate, sysdate, default, seq_bId.currval, #{a.imgPath}, #{a.boardType}, #{a.level})
+			values(SingleRior_aid, #{a.imgOriginalName}, #{a.imgRename}, sysdate, sysdate, default, 
+			<if test="bNo == null">
+			 	seq_bid.currval, 
+			 </if>
+			 <if test="bNo != null">
+				 #{bNo},
+			 </if>
+			 #{a.imgPath}, #{a.boardType}, #{a.level})
 		</foreach>
 		select * from dual
 	</insert>
@@ -162,13 +169,13 @@
 		<result column="NICKNAME" property="nickName"/>
 	</resultMap>
 	
-		<resultMap type="ReReply" id="rReplyResultSet">
-		<id column="RE_REPLY_NO" property="rReplyNo"/>
-		<result column="RE_REPLY_CONTENT" property="rReplyContent"/>
-		<result column="RE_REPLY_CREATE_DATE" property="rReplyCreateDate"/>
-		<result column="RE_REPLY_MODIFY_DATE" property="rReplyModifyDate"/>
-		<result column="RE_REPLY_SECRET" property="rReplySecret"/>
-		<result column="RE_REPLY_STATUS" property="rReplyStatus"/>
+		<resultMap type="ReReply" id="reReplyResultSet">
+		<id column="RE_REPLY_NO" property="reReplyNo"/>
+		<result column="RE_REPLY_CONTENT" property="reReplyContent"/>
+		<result column="RE_REPLY_CREATE_DATE" property="reReplyCreateDate"/>
+		<result column="RE_REPLY_MODIFY_DATE" property="reReplyModifyDate"/>
+		<result column="RE_REPLY_SECRET" property="reReplySecret"/>
+		<result column="RE_REPLY_STATUS" property="reReplyStatus"/>
 		<result column="REPLY_NO" property="replyNo"/>
 		<result column="MEMBER_ID" property="memberId"/>
 		<result column="BOARD_NO" property="boardNo"/>
@@ -194,7 +201,7 @@
 		values(seq_rrid.nextval, #{rReplyContent}, sysdate, sysdate, #{rReplySecret}, default, ${replyNo},#{memberId}, #{BoardNo})
 	</insert>
 	
-	<select id="reReplySelect" resultMap="rReplyResultSet">
+	<select id="reReplySelect" resultMap="reReplyResultSet">
 		select *
 		from RE_REPLY r
 			join member m on(r.MEMBER_ID = m.MEMBER_ID)
@@ -202,12 +209,17 @@
 		order by reply_no desc
 	</select>
 	
-	<update id="marketBoardUpdate">
-	
-	
+	<update id="boardUpdate">
+		update board
+		set BOARD_TITLE = #{boardTitle}, BOARD_CONTENT = #{boardContent}, MODIFY_DATE = sysdate, BOARD_TYPE = #{boardType}
+		where BOARD_NO = #{boardNo}
 	</update>
 	
-	
+	<update id="marketUpdate">
+		update MARKET
+		set PRICE = #{marketPrice}, MARKET_TYPE = #{marketType}
+		where BOARD_NO = #{boardNo}
+	</update>
 	
 	
 	<update id="marketBoardDelete">
@@ -216,10 +228,38 @@
 		where BOARD_NO = #{bNo}
 	</update>
 	
-	<update id="deleteAttm">
+	<update id="updateAttmStatus">
 		update IMG_REPOSITORY
 		set IMG_STATUS = 'N'
 		where IMG_KEY = #{strBNo}
+	</update>
+	
+	<update id="AttmLevelUpdate">
+		update IMG_REPOSITORY
+		set IMG_LEVEL = 0
+		where IMG_NO =  (select min(IMG_NO)
+					   	from IMG_REPOSITORY
+					   	where IMG_KEY = #{strBNo})
+	</update>
+	
+	<delete id="deleteAttm">
+	delete from IMG_REPOSITORY
+		where IMG_SERVER_NAME in
+		<foreach collection="list" open="(" close=")" separator="," item="item">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<update id="replyDelete">
+		update REPLY
+		set REPLY_STATUS = 'N'
+		where REPLY_NO = #{rNo}
+	</update>
+	
+	<update id="replyUpdate">
+		update REPLY
+		set REPLY_CONTENT = ${replyContent},REPLY_MODIFY_DATE = sysdate, RE_SECRET = ${replySecret}
+		where REPLY_NO = #{replyNo}
 	</update>
 	
 </mapper>
