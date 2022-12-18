@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
@@ -70,6 +71,13 @@ public class CommuBoardController {
 		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 10);
 		
 		ArrayList<CommuBoard> list = cService.selectCommuAllList(pi, map);
+		ArrayList<CommuBoard> rList = cService.replyCount(map);
+		
+		System.out.println(rList);
+		
+		for(int i = 0; i < rList.size(); i++ ) {
+			System.out.println(rList.get(i));
+		}
 		
 		if(list != null) {
 			model.addAttribute("pi", pi);
@@ -185,6 +193,109 @@ public class CommuBoardController {
 		}
 	}
 	
+	@RequestMapping("updateForm.co")
+	public String updateForm(@RequestParam("boardNo") int bNo, @RequestParam("page") int page, Model model) {
+		CommuBoard coBoard = cService.selectCommuBoard(bNo, false);
+		
+		String strBNo = Integer.toString(bNo);
+		ArrayList<Attachment> list = cService.selectAttmBoard(strBNo);
+		
+		model.addAttribute("coBoard", coBoard);
+		model.addAttribute("list", list);
+		model.addAttribute("page", page);
+		return "commuBoardEdit";
+	}
+	
+	// 커뮤니티 글 수정
+	@RequestMapping("updateCommuBoard.co")
+	public String updateCommuBoard(@ModelAttribute CommuBoard coBoard, @RequestParam("page") int page, @RequestParam("deleteAttm") String[] deleteAttm, @RequestParam("file") ArrayList<MultipartFile> files, HttpServletRequest request, Model model) {
+		System.out.println(coBoard);
+		System.out.println(Arrays.toString(deleteAttm));
+		System.out.println(files);
+		
+		coBoard.setBoardType(2);
+		
+		ArrayList<Attachment> list = new ArrayList<>();
+		for(int i = 0; i < files.size(); i++) {
+			MultipartFile upload = files.get(i);
+			
+			if(!upload.getOriginalFilename().equals("")) {
+				String[] returnArr = saveFile(upload, request);
+				
+				if(returnArr[1] != null) {
+					Attachment a = new Attachment();
+					a.setImgOriginalName(upload.getOriginalFilename());
+					a.setImgRename(returnArr[1]);
+					a.setImgPath(returnArr[0]);
+					
+					list.add(a);
+				}
+			}
+		}
+		
+		// 선택한 파일들 삭제
+		ArrayList<String> delRename = new ArrayList<String>();
+		ArrayList<Integer> delLevel = new ArrayList<Integer>();
+		for(String rename : deleteAttm) {
+			if(!rename.equals("")) {
+				String[] split = rename.split("/");
+				delRename.add(split[0]);
+				delLevel.add(Integer.parseInt(split[1]));
+			}
+		}
+		
+		int deleteAttmResult = 0;
+		boolean existBeforeAttm = true;
+		if(!delRename.isEmpty()) { // 저장했던 첨부파일 중 하나라도 삭제하겠다고 한 경우
+			deleteAttmResult = cService.deleteAttm(delRename);
+			if(deleteAttmResult > 0) {
+				for(String rename : delRename) {
+					deleteFile(rename, request);
+				}
+			}
+			
+			if(delRename.size() == deleteAttm.length) { // 기존 파일을 전부 삭제하겠다고 한 경우
+				existBeforeAttm = false;
+			} else {
+				for(int level : delLevel) {
+					if(level == 0) {
+						cService.updateAttmLevel(coBoard.getBoardNo());
+						break;
+					}
+				}
+			}
+		}
+		
+		for(int i = 0; i < list.size(); i++) {
+			Attachment a = list.get(i);
+			
+			if(existBeforeAttm) {
+				a.setLevel(1);
+			} else {
+				if(i == 0) {
+					a.setLevel(0);
+				} else {
+					a.setLevel(1);
+				}
+			}
+		}
+		
+		int updateBoardResult = cService.updateCommuBoard(coBoard);
+		
+		int updateAttmResult = 0;
+		if(!list.isEmpty()) {
+			HashMap<String, Object> map = new HashMap<String, Object>();
+			map.put("list", list);
+			updateAttmResult = cService.insertAttm(map);
+			
+			return "redirect:selectCommuBoard.co?bNo=" + coBoard.getBoardNo()
+			+ "&writer=" + ((Member)request.getSession().getAttribute("loginUser")).getNickName()
+			+ "&page=" + page;
+		} else {
+			throw new BoardException("게시글 수정에 실패하였습니다.");
+		}
+	}
+	
 	// 커뮤니티 글 조회
 	@RequestMapping("selectCommuBoard.co")
 	public ModelAndView selectCommuBoard(@RequestParam("bNo") int bNo, @RequestParam("writer") String writer, @RequestParam("page") int page, ModelAndView mv, HttpSession session) {
@@ -231,9 +342,10 @@ public class CommuBoardController {
 	}
 	
 	// 커뮤니티 댓글 등록 (insert)
-	@RequestMapping(value="insertReply.co")
+	@RequestMapping("insertReply.co")
 	public void insertReply(@ModelAttribute Reply r, HttpServletResponse response) {
 		int result = cService.insertReply(r);
+		
 		ArrayList<Reply> list = cService.selectReply(r.getBoardNo());
 		
 		System.out.println(r);
@@ -248,12 +360,6 @@ public class CommuBoardController {
 		} catch (JsonIOException | IOException e) {
 			e.printStackTrace();
 		}
-	}
-	
-	// 커뮤니티 글 수정
-	@RequestMapping("updateCommuBoard.co")
-	public String updateCommuBoard() {
-		return "commuBoardEdit";
 	}
 	
 	// 공감하기 버튼 on (사용자가 공감 버튼을 눌렀을 때)

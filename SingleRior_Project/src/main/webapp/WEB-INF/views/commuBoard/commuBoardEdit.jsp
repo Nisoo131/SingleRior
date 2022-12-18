@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -45,25 +46,43 @@
 	<main>
   		<div class="container">
 			<div style="margin-left: 200px; margin-right: 200px; margin-top: 100px;">
-				<form class="needs-validation" action="${ contextPath }/commuBoardInsert.co" method="POST" enctype="multipart/form-data" id="attmForm">
+				<form class="needs-validation" action="${ contextPath }/updateCommuBoard.co" method="POST" enctype="multipart/form-data" id="commuBoardForm">
 					<div class="row g-3">
 						<h1 style="align-self: center;">싱글벙글</h1>
 						<div class="col-12">
-							<select class="form-select form-select-sm" aria-label=".form-select-sm example" style="width: 120px; margin-bottom: 15px; text-align: center;">
-								<option>생활팁</option>
-								<option>후기</option>
-								<option>자유</option>
+							<select class="form-select form-select-sm" name="commuType" aria-label=".form-select-sm example" style="width: 120px; margin-bottom: 15px; text-align: center;">
+								<option value="1">생활팁</option>
+								<option value="2">후기</option>
+								<option value="3">자유</option>
 							</select>
 						
 							<label for="boardTitle" class="form-label">TITLE</label>
-							<input type="text" class="form-control" id="boardTitle" name="boardTitle">
+							<input type="hidden" name="boardNo" value="${ coBoard.boardNo }">
+							<input type="hidden" name="page" value="${ page }">
+							<input type="text" class="form-control" id="boardTitle" name="boardTitle" value="${ coBoard.boardTitle }">
 						</div>
 
 						<div class="col-12">
 							<label for="boardContent" class="form-label">CONTENT</label>
 							<div class="input-group">
-								<textarea class="form-control" rows="10" name="boardContent" style="resize: none;"></textarea>
+								<textarea class="form-control" rows="10" name="boardContent" style="resize: none;">${ coBoard.boardContent }</textarea>
 					        </div>
+						</div>
+						
+						<br><br><br>
+						<div>
+							<c:forEach items="${ list }" var="a">
+								<h5>
+									<a href="${ contextPath }/resources/uploadFiles/${ a.imgRename }" download="${ a.imgOriginalName }">
+										${ a.imgOriginalName }
+									</a>
+									<button type="button" class="btn btn-outline-dark btn-sm deleteAttm" id="delete-${ a.imgRename }/${a.level}">
+										삭제 OFF
+									</button>
+									<input type="hidden" name="deleteAttm">
+								</h5>
+								<br>
+							</c:forEach>
 						</div>
 						
 						<div id="fileArea">
@@ -76,8 +95,9 @@
 						<br><br><br><br><br>
 						
 						<div style="text-align: center;">
+							<input type="hidden" name="boardType" value="2">
 							<button class="btn btn-outline-primary" type="button" style="width: 100px;" onclick="javascript:history.back();">취소</button>
-							<button class="btn btn-outline-primary" type="button" id="submitAttm" style="width: 100px;">등록</button>
+							<button class="btn btn-outline-primary" type="submit" id="submitAttm" style="width: 100px;">등록</button>
 						</div>
 					</div>
 				</form>
@@ -100,6 +120,42 @@
 				fileArea.append(newDiv);
 			});
 		}
+		
+		const delBtns = document.getElementsByClassName('deleteAttm');
+		for(const btn of delBtns){
+			btn.addEventListener('click', function(){
+				const nextHidden = this.nextElementSibling;
+				if(nextHidden.value == ''){ // 삭제 버튼을 누르지 않았다면(삭제 OFF)
+					this.style.background = 'black';
+					this.style.color = 'white';
+					this.innerText = '삭제 ON';
+					nextHidden.value = this.id.split("-")[1];
+				} else { // 삭제 버튼이 눌린 상태라면(삭제 ON)
+					this.style.background = 'none';
+					this.style.color = 'black';
+					this.innerText = '삭제 OFF';
+					nextHidden.removeAttribute('value');
+				}
+			});
+		}
+		
+		const form = document.getElementById('attmForm');
+		document.getElementById('submitAttm').addEventListener('click', ()=>{
+			const files = document.getElementsByName('file');
+			let isEmpty = true;
+			for(const f of files){
+				if(f.value != ''){
+					isEmpty = false;
+				}
+			}
+			
+			let isAllRemove = true;
+			for(const btn of delBtns){
+				if(btn.innerText == '삭제 OFF'){
+					isAllRemove = false;
+				}
+			}
+		});
 	</script>
 </body>
 </html>

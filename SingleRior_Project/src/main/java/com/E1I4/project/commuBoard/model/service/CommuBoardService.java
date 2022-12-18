@@ -36,4 +36,12 @@ public interface CommuBoardService {
 
 	int symptOff(WishList wl, int bNo);
 
+	ArrayList<CommuBoard> replyCount(HashMap<String, Object> map);
+
+	int deleteAttm(ArrayList<String> delRename);
+
+	int updateCommuBoard(CommuBoard coBoard);
+
+	void updateAttmLevel(int boardNo);
+
 }

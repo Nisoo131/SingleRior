@@ -7,7 +7,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
+<script src="${ contextPath }/resources/js/jquery-3.6.1.min.js"></script>
 <style>
 	@font-face {
 	    font-family: 'BMJUA';
@@ -65,9 +65,9 @@
 						<tr>
 							<td class="fs-3 px-5 py-3" width="1100">${ coBoard.boardTitle }</td>
 							<td width="20"><img src="https://cdn-icons.flaticon.com/svg/3916/3916586.svg?token=exp=1670462433~hmac=154ca1ce619f5c92644b4e20378081cd" width="20" height="20"></td>
-							<td class="fs-5" style="text-align: center;" width="60">${ coBoard.symptCount }</td>
+							<td class="fs-5" style="text-align: center;" width="60" id="symptCount">${ coBoard.symptCount }</td>
 							<td width="20"><img src="https://cdn-icons.flaticon.com/svg/3916/3916603.svg?token=exp=1670462662~hmac=f05590d1f51351a3e5542f67adfcb754" width="20" height="20"></td>
-							<td class="fs-5" style="text-align: center;" width="60">0</td>
+							<td class="fs-5" id="replyCount" style="text-align: center;" width="60">0</td>
 						</tr>
 					</table>
 					<table>
@@ -103,31 +103,31 @@
 					<div class="col-md-1" style="text-align: center; padding-top: 30px; padding-left: 50px; width: 170px;">
 						<div class="row g-0 flex-md-row shadow-sm h-md-250 position-relative mt-2 mb-4">
 							<c:if test="${ empty loginUser }">
-								<button type="button" class="btn btn-outline-dark loginModal">
-								<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-emoji-smile" viewBox="0 0 16 16">
-									<path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-									<path d="M4.285 9.567a.5.5 0 0 1 .683.183A3.498 3.498 0 0 0 8 11.5a3.498 3.498 0 0 0 3.032-1.75.5.5 0 1 1 .866.5A4.498 4.498 0 0 1 8 12.5a4.498 4.498 0 0 1-3.898-2.25.5.5 0 0 1 .183-.683zM7 6.5C7 7.328 6.552 8 6 8s-1-.672-1-1.5S5.448 5 6 5s1 .672 1 1.5zm4 0c0 .828-.448 1.5-1 1.5s-1-.672-1-1.5S9.448 5 10 5s1 .672 1 1.5z"/>
-								</svg>
-								공감하기
-							</button>
+								<button type="button" class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#modalChoice2">
+									<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-emoji-smile" viewBox="0 0 16 16">
+										<path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+										<path d="M4.285 9.567a.5.5 0 0 1 .683.183A3.498 3.498 0 0 0 8 11.5a3.498 3.498 0 0 0 3.032-1.75.5.5 0 1 1 .866.5A4.498 4.498 0 0 1 8 12.5a4.498 4.498 0 0 1-3.898-2.25.5.5 0 0 1 .183-.683zM7 6.5C7 7.328 6.552 8 6 8s-1-.672-1-1.5S5.448 5 6 5s1 .672 1 1.5zm4 0c0 .828-.448 1.5-1 1.5s-1-.672-1-1.5S9.448 5 10 5s1 .672 1 1.5z"/>
+									</svg>
+									좋아요
+								</button>
 							</c:if>
 							<c:if test="${ !empty loginUser && wishList == null }">
-								<button type="button" class="btn btn-outline-dark" data-bs-toggle="button" onclick="location.href='${ contextPath }/symptOn.co?bNo=${ coBoard.boardNo }'">
-								<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-emoji-smile" viewBox="0 0 16 16">
-									<path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-									<path d="M4.285 9.567a.5.5 0 0 1 .683.183A3.498 3.498 0 0 0 8 11.5a3.498 3.498 0 0 0 3.032-1.75.5.5 0 1 1 .866.5A4.498 4.498 0 0 1 8 12.5a4.498 4.498 0 0 1-3.898-2.25.5.5 0 0 1 .183-.683zM7 6.5C7 7.328 6.552 8 6 8s-1-.672-1-1.5S5.448 5 6 5s1 .672 1 1.5zm4 0c0 .828-.448 1.5-1 1.5s-1-.672-1-1.5S9.448 5 10 5s1 .672 1 1.5z"/>
-								</svg>
-								공감하기
-							</button>
+								<button type="button" class="btn btn-outline-dark symptClick" data-bs-toggle="button">
+									<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-emoji-smile" viewBox="0 0 16 16">
+										<path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+										<path d="M4.285 9.567a.5.5 0 0 1 .683.183A3.498 3.498 0 0 0 8 11.5a3.498 3.498 0 0 0 3.032-1.75.5.5 0 1 1 .866.5A4.498 4.498 0 0 1 8 12.5a4.498 4.498 0 0 1-3.898-2.25.5.5 0 0 1 .183-.683zM7 6.5C7 7.328 6.552 8 6 8s-1-.672-1-1.5S5.448 5 6 5s1 .672 1 1.5zm4 0c0 .828-.448 1.5-1 1.5s-1-.672-1-1.5S9.448 5 10 5s1 .672 1 1.5z"/>
+									</svg>
+									좋아요
+								</button>
 							</c:if>
 							<c:if test="${ !empty loginUser && wishList != null }">
-								<button type="button" class="btn btn-outline-dark active" data-bs-toggle="button" onclick="location.href='${ contextPath }/symptOff.co?bNo=${ coBoard.boardNo }'">
-								<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-emoji-smile" viewBox="0 0 16 16">
-									<path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-									<path d="M4.285 9.567a.5.5 0 0 1 .683.183A3.498 3.498 0 0 0 8 11.5a3.498 3.498 0 0 0 3.032-1.75.5.5 0 1 1 .866.5A4.498 4.498 0 0 1 8 12.5a4.498 4.498 0 0 1-3.898-2.25.5.5 0 0 1 .183-.683zM7 6.5C7 7.328 6.552 8 6 8s-1-.672-1-1.5S5.448 5 6 5s1 .672 1 1.5zm4 0c0 .828-.448 1.5-1 1.5s-1-.672-1-1.5S9.448 5 10 5s1 .672 1 1.5z"/>
-								</svg>
-								공감하기
-							</button>
+								<button type="button" class="btn btn-outline-dark active symptClick" data-bs-toggle="button">
+									<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-emoji-smile" viewBox="0 0 16 16">
+										<path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+										<path d="M4.285 9.567a.5.5 0 0 1 .683.183A3.498 3.498 0 0 0 8 11.5a3.498 3.498 0 0 0 3.032-1.75.5.5 0 1 1 .866.5A4.498 4.498 0 0 1 8 12.5a4.498 4.498 0 0 1-3.898-2.25.5.5 0 0 1 .183-.683zM7 6.5C7 7.328 6.552 8 6 8s-1-.672-1-1.5S5.448 5 6 5s1 .672 1 1.5zm4 0c0 .828-.448 1.5-1 1.5s-1-.672-1-1.5S9.448 5 10 5s1 .672 1 1.5z"/>
+									</svg>
+									좋아요
+								</button>
 							</c:if>
 						</div>
 					</div>
@@ -139,7 +139,7 @@
 						<div class="input-group" style="padding-top: 50px;">
 							<textarea class="form-control" rows="3" id="replyContent" style="resize: none;" placeholder="댓글을 작성해주세요."></textarea>
 							<c:if test="${ empty loginUser }">
-								<button class="btn btn-outline-primary btn-lg loginModal" type="button" style="width: 100px;">등록</button>
+								<button class="btn btn-outline-primary btn-lg" data-bs-toggle="modal" data-bs-target="#modalChoice2" type="button" style="width: 100px;">등록</button>
 							</c:if>
 							<c:if test="${ !empty loginUser }">
 								<button class="btn btn-outline-primary btn-lg" id="replySubmit" type="button" style="width: 100px;">등록</button>
@@ -154,35 +154,37 @@
 					<!-- 댓글 목록 -->
 					<div id="replyList">
 						<!-- 댓글(reply) 출력 -->
-						<div class="px-5">
-							<table class="table">
-								<tr>
-									<td style="text-align: center;" width="40"><img src="${ contextPath }/resources/image/user.png" width="20" height="20"></td>
-									<td class="px-4">닉네임</td>
-									<td class="px-4">2022-12-15</td>
-									<td width="850"></td>
-									<td>
-										<div class="dropdown">
-											<img class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" src="${ contextPath }/resources/image/menu-dots.png" width="20" height="20">
-											<ul class="dropdown-menu" style="text-align: center;">
-												<c:if test="${ loginUser.memberId eq r.memberId }">
-													<li><a class="dropdown-item" href="#">댓글달기</a></li>
-													<li><a class="dropdown-item" href="#">수정</a></li>
-													<li><a class="dropdown-item" href="#">삭제</a></li>
-												</c:if>
-												<c:if test="${ !(loginUser.memberId eq r.memberId) }">
-													<li><a class="dropdown-item" href="#">답글달기</a></li>
-													<li><a class="dropdown-item" href="#">신고</a></li>
-												</c:if>
-											</ul>
-										</div>
-									</td>
-								</tr>
-								<tr style="font-size: 20px;">
-									<td class="px-5 py-3" colspan="5">내용입니다요 내용내용 으아아아아아아내용입니다요 내용내용 으아아아아아아내용입니다요 내용내용 으아아아아아아내용입니다요 내용내용 으아아아아아아내용입니다요 내용내용 으아아아아아아</td>
-								</tr>
-							</table>
-						</div>
+						<c:forEach items="${ coRList }" var="r">
+							<div class="px-5 replyCount">
+								<table class="table">
+									<tr>
+										<td style="text-align: center;" width="40"><img src="${ contextPath }/resources/image/user.png" width="20" height="20"></td>
+										<td class="px-4">${ r.nickName }</td>
+										<td class="px-4">${ r.replyModifyDate }</td>
+										<td width="850"></td>
+										<td>
+											<div class="dropdown">
+												<img class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" src="${ contextPath }/resources/image/menu-dots.png" width="20" height="20">
+												<ul class="dropdown-menu" style="text-align: center;">
+													<c:if test="${ loginUser.memberId eq r.memberId }">
+														<li><a class="dropdown-item" href="#">댓글달기</a></li>
+														<li><a class="dropdown-item" href="#">수정</a></li>
+														<li><a class="dropdown-item" href="#">삭제</a></li>
+													</c:if>
+													<c:if test="${ !(loginUser.memberId eq r.memberId) }">
+														<li><a class="dropdown-item" href="#">답글달기</a></li>
+														<li><a class="dropdown-item" href="#">신고</a></li>
+													</c:if>
+												</ul>
+											</div>
+										</td>
+									</tr>
+									<tr style="font-size: 20px;">
+										<td class="px-5 py-3" colspan="5">${ r.replyContent }</td>
+									</tr>
+								</table>
+							</div>
+						</c:forEach>
 						
 						<!-- 답글(reReply) 출력 -->
 						<div class="px-5" style="padding-bottom: 50px; margin-left: 60px;">
@@ -232,7 +234,7 @@
 								<button class="w-100 btn btn-outline-primary btn-lg" type="button" id="updateForm">수정</button>
 							</div>
 							<div class="col-md-1" style="text-align: center; width: 100px;">
-								<button class="w-100 btn btn-outline-secondary btn-lg" type="button" id="deleteModal">삭제</button>
+								<button class="w-100 btn btn-outline-secondary btn-lg" type="button" data-bs-toggle="modal" data-bs-target="#modalChoice1" >삭제</button>
 							</div>
 						</c:if>
 						<c:if test="${ !(loginUser.memberId eq coBoard.writer) }">
@@ -287,47 +289,109 @@
 	
 	<script>
 		window.onload = () => {
-			const deleteModal = document.getElementById('deleteModal');
-			if(deleteModal != null){
-				deleteModal.addEventListener('click', ()=>{
-					$('#modalChoice1').modal('show');
-				});
-			}
+			// 공감 (좋아요) 구현
+			$(".symptClick").click(function(){
+				console.log("얍");
+				if($(this).attr("class") == "btn btn-outline-dark symptClick"){
+			         $.ajax({
+				            url: '${contextPath}/symptOn.co',
+				            data: {boardNo: ${ coBoard.boardNo }},
+				            type: 'post',
+				            success:(data)=>{
+			   				 console.log(data);
+			   				 $('#symptCount').html(data);
+				            },
+				            error: (data)=>{
+			    				console.log(data);
+			    			}
+				         });
+					
+			         $(this).attr("class","btn btn-outline-dark active symptClick");
+			         
+				}else if($(this).attr("class") == "btn btn-outline-dark active symptClick"){
+			         $.ajax({
+				            url: '${contextPath}/symptOff.co',
+				            data: {boardNo: ${ coBoard.boardNo }},
+				            type: 'post',
+				            success:(data)=>{
+			   				 console.log(data);
+			   				 $('#symptCount').html(data);
+				            },
+				            error: (data)=>{
+			    				console.log(data);
+			    			}
+				         });
+			         
+			         $(this).attr("class","btn btn-outline-dark symptClick");
+				}
+			})
 			
-			const loginModal = document.getElementsByClassName('loginModal');
-			if(loginModal != null){
-				loginModal.addEventListener('click', ()=>{
-					$('#modalChoice2').modal('show');
-				});
-			}
+			// 화면 로딩 시 바로 댓글 갯수 출력
+			$("#replyCount").html($('.replyCount').length);
 			
+			// 댓글 insert
 			document.getElementById('replySubmit').addEventListener('click', ()=>{
 				$.ajax({
 					url: '${contextPath}/insertReply.co',
 					data: {replyContent:document.getElementById('replyContent').value,
-							boardNo:${coBoard.boardNo}, nickName:'${loginUser.memberId}'},
-					success: function(data)=>{
+							boardNo:'${coBoard.boardNo}', memberId:'${loginUser.memberId}'},
+					success: function(data){
 						console.log(data);
 						
-						let listHtml = "";
+						var listHtml = "";
+						var replyCount = data.length;
+						
 						for(const i in data){
-							let replyNo = data[i].replyNo;
-							let replyContent = data[i].replyContent;
-							let replyCreateDate = data[i].replyCreateDate;
-							let replyModifyDate = data[i].replyModifyDate;
-							let replySecret = data[i].replySecret;
-							let replyStatus = data[i].replyStatus;
-							let nickName = data[i].nickName;
-						}
+							listHtml += "<div class='px-5'>";
+							listHtml += "<table class='table'>";
+							listHtml += "<tr>";
+							listHtml += "<td style='text-align: center;' width='40'><img src='${ contextPath }/resources/image/user.png' width='20' height='20'></td>";
+							listHtml += "<td class='px-4'>" + data[i].nickName + "</td>";
+							listHtml += "<td class='px-4'>" + data[i].replyModifyDate + "</td>";
+							listHtml += "<td width='850'></td>";
+							listHtml += "<td>";
+							listHtml += "<div class='dropdown'>";
+							listHtml += "<img class='dropdown-toggle' data-bs-toggle='dropdown' aria-expanded='false' src='${ contextPath }/resources/image/menu-dots.png' width='20' height='20'>";
+							listHtml += "<ul class='dropdown-menu' style='text-align: center;'>";
+							listHtml += "<c:if test='${ loginUser.memberId eq r.memberId }'>";
+							listHtml += "<li><a class='dropdown-item' href='#'>댓글달기</a></li>";
+							listHtml += "<li><a class='dropdown-item' href='#'>수정</a></li>";
+							listHtml += "<li><a class='dropdown-item' href='#'>삭제</a></li>";
+							listHtml += "</c:if>";
+							listHtml += "<c:if test='${ !(loginUser.memberId eq r.memberId) }'>";
+							listHtml += "<li><a class='dropdown-item' href='#'>답글달기</a></li>";
+							listHtml += "<li><a class='dropdown-item' href='#'>신고</a></li>";
+							listHtml += "</c:if>";
+							listHtml += "</ul>";
+							listHtml += "</div>";
+							listHtml += "</td>";
+							listHtml += "</tr>";
+							listHtml += "<tr style='font-size: 20px;'>";
+							listHtml += "<td class='px-5 py-3' colspan='5'>" + data[i].replyContent + "</td>";
+							listHtml += "</tr>";
+							listHtml += "</table>";
+							listHtml += "</div>";
 						}
 						
-						document.getElementById('replyContent').value = '';
+						$("#replyCount").html(replyCount);
+						$("#replyList").html(listHtml);
+						$("#replyContent").val("");
 					},
 					error: (data)=>{
 						console.log(data);
 					}
 				});
 			});
+			
+			// 글 edit 페이지로 넘어가기 (update)
+			const upd = document.getElementById('updateForm');
+			const form = document.getElementById('detailForm');
+			if(upd != null){
+				upd.addEventListener('click', () => {
+					form.action = '${contextPath}/updateForm.co';
+					form.submit();
+				});
+			}
 		}
 	</script>
 </body>
