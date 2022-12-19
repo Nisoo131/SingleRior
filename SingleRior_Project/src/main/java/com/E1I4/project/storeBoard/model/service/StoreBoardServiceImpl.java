@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import com.E1I4.project.common.model.vo.Attachment;
 import com.E1I4.project.common.model.vo.PageInfo;
-import com.E1I4.project.common.model.vo.Product;
 import com.E1I4.project.storeBoard.model.dao.StoreBoardDAO;
 import com.E1I4.project.storeBoard.model.vo.StoreBoard;
 
@@ -28,25 +27,28 @@ public class StoreBoardServiceImpl implements StoreBoardService{
 	}
 
 	@Override
-	public ArrayList<StoreBoard> selectStoreBoardList(PageInfo pi, int i) {
-		return sDAO.selectStoreBoardList(sqlSession, pi, i);
+	public ArrayList<StoreBoard> selectStoreBoardList(PageInfo pi, int subCate) {
+		return sDAO.selectStoreBoardList(sqlSession, pi, subCate);
 	}
 
 	@Override
-	public ArrayList<Attachment> selectAttmList() {
-		return sDAO.selectAttmList(sqlSession);
+	public Attachment selectAttmList(int bNo) {
+		return sDAO.selectAttmList(sqlSession,bNo);
 	}
 
 	@Override
-	public ArrayList<StoreBoard> selectProduct(String bNo) {
-		return sDAO.selectProduct(sqlSession, bNo);
+	public ArrayList<StoreBoard> selectProduct(int productNo) {
+		return sDAO.selectProduct(sqlSession,productNo);
 	}
 
 	@Override
-	public ArrayList<Attachment> selectImg(String bNo) {
-		return sDAO.selectImg(sqlSession, bNo);
+	public ArrayList<Attachment> selectProductAttmList(int productNo) {
+		return sDAO.selectProductAttmList(sqlSession,productNo);
 	}
 
+	
+
+	
 
 
 	

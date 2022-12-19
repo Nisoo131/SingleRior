@@ -23,7 +23,7 @@ public class StoreBoard {
 	private String boardStatus;
 	private String boardWriter;
 	private int boardCount;
-	private int pNo;
+	private int productNo;
 	private int price;
 	private int discount;
 	private String option;
@@ -32,5 +32,7 @@ public class StoreBoard {
 	private String dPayment;
 	private String productStatus; 
 	private int subCateCode;
+	private String subCateName;
 	private int topCateCode;
+	private String topCateName;
 }

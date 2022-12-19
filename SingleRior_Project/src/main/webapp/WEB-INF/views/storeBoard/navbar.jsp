@@ -114,61 +114,61 @@
 	<nav>
 	  <div class="container">
 	    <ul>
-	      <li><a href="#">가구<i class='fa fa-angle-down'></i></a>
+	      <li class='top-menu'><a href="${ contextPath }/categoryList.st?topCate=1">가구<i class='fa fa-angle-down'></i></a>
 	      	<ul>
-	          <li><a href="${ contextPath }/categoryList.st">침대</a></li>
-	          <li><a href="#">테이블</a></li>
-	          <li><a href="#">서랍장</a></li>
-	          <li><a href="#">의자</a></li>
-	          <li><a href="#">옷장</a></li>
-	          <li><a href="#">화장대</a></li>
+	          <li><a href="${ contextPath }/categoryList.st?subCate=101">침대</a></li>
+	          <li><a href="${ contextPath }/categoryList.st?subCate=102">테이블</a></li>
+	          <li><a href="${ contextPath }/categoryList.st?subCate=103">서랍장</a></li>
+	          <li><a href="${ contextPath }/categoryList.st?subCate=104">의자</a></li>
+	          <li><a href="${ contextPath }/categoryList.st?subCate=105">옷장</a></li>
+	          <li><a href="${ contextPath }/categoryList.st?subCate=106">화장대</a></li>
 	        </ul>
 	       </li>
 	 
-	       <li><a href="#">패브릭<i class='fa fa-angle-down'></i></a>
+	       <li class='top-menu'><a href="${ contextPath }/categoryList.st?topCate=2">패브릭<i class='fa fa-angle-down'></i></a>
 	      	<ul>
-	          <li><a href="#">이불</a></li>
-	          <li><a href="#">배개</a></li>
-	          <li><a href="#">커튼/블라인드</a></li>
+	          <li><a href="${ contextPath }/categoryList.st?subCate=201">이불</a></li>
+	          <li><a href="${ contextPath }/categoryList.st?subCate=202">배개</a></li>
+	          <li><a href="${ contextPath }/categoryList.st?subCate=203">커튼/블라인드</a></li>
 	          <li><a href="#">러그</a></li>
 	        </ul>
 	       </li>
-	       <li class='sub-menu'> <a href="#">인테리어소품<i class='fa fa-angle-down'></i></a>
+	       <li class='top-menu'> <a href="${ contextPath }/categoryList.st?topCate=3">인테리어소품<i class='fa fa-angle-down'></i></a>
 	        <ul>
-	          <li><a href="#">식물</a></li>
-	          <li><a href="#">시계</a></li>
-	          <li><a href="#">캔들/디퓨저</a></li>
-	          <li><a href="#">윌데코/장식</a></li>
+	          <li><a href="${ contextPath }/categoryList.st?subCate=301">식물</a></li>
+	          <li><a href="${ contextPath }/categoryList.st?subCate=302">시계</a></li>
+	          <li><a href="${ contextPath }/categoryList.st?subCate=303">캔들/디퓨저</a></li>
+	          <li><a href="${ contextPath }/categoryList.st?subCate=304">윌데코/장식</a></li>
 	        </ul>
 	      </li>
-	        <li class='sub-menu'> <a href="#">주방용품<i class='fa fa-angle-down'></i></a>
+	        <li class='top-menu'> <a href="${ contextPath }/categoryList.st?topCate=4">주방용품<i class='fa fa-angle-down'></i></a>
 	        <ul>
-	          <li><a href="#">냄비/프라이팬</a></li>
-	          <li><a href="#">그릇</a></li>
-	          <li><a href="#">보관용기</a></li>
-	          <li><a href="#">수저/커트러리</a></li>
-	          <li><a href="#">컵/텀블러</a></li>
-	          <li><a href="#">칼/도마</a></li>
+	          <li><a href="${ contextPath }/categoryList.st?subCate=401">냄비/프라이팬</a></li>
+	          <li><a href="${ contextPath }/categoryList.st?subCate=402">그릇</a></li>
+	          <li><a href="${ contextPath }/categoryList.st?subCate=403">보관용기</a></li>
+	          <li><a href="${ contextPath }/categoryList.st?subCate=404">수저/커트러리</a></li>
+	          <li><a href="${ contextPath }/categoryList.st?subCate=405">컵/텀블러</a></li>
+	          <li><a href="${ contextPath }/categoryList.st?subCate=406">칼/도마</a></li>
 	        </ul>
 	      </li>
 	
-	        <li class='sub-menu'><a href="#">가전제품<i class='fa fa-angle-down'></i></a>
+	        <li class='top-menu'><a href="${ contextPath }/categoryList.st?topCate=5">가전제품<i class='fa fa-angle-down'></i></a>
 	        <ul>
-	          <li><a href="#">냉장고</a></li>
-	          <li><a href="#">TV/모니터</a></li>
-	          <li><a href="#">세탁기/건조기</a></li>
-	          <li><a href="#">컴퓨터/노트북/태블릿</a></li>
-	          <li><a href="#">청소기</a></li>
-	          <li><a href="#">계절가전</a></li>
+	          <li><a href="${ contextPath }/categoryList.st?subCate=501">냉장고</a></li>
+	          <li><a href="${ contextPath }/categoryList.st?subCate=502">TV/모니터</a></li>
+	          <li><a href="${ contextPath }/categoryList.st?subCate=503">세탁기/건조기</a></li>
+	          <li><a href="${ contextPath }/categoryList.st?subCate=504">컴퓨터/노트북/태블릿</a></li>
+	          <li><a href="${ contextPath }/categoryList.st?subCate=505">청소기</a></li>
+	          <li><a href="${ contextPath }/categoryList.st?subCate=506">계절가전</a></li>
 	        </ul>
 	      </li>
-	        <li class='sub-menu'> <a href="#">소형가전<i class='fa fa-angle-down'></i></a>
+	        <li class='top-menu'> <a href="${ contextPath }/categoryList.st?topCate=6">소형가전<i class='fa fa-angle-down'></i></a>
 	        <ul>
-	          <li><a href="#">이어폰/헤드셋</a></li>
-	          <li><a href="#">스피커</a></li>
-	          <li><a href="#">마이크</a></li>
-	          <li><a href="#">빔프로젝터</a></li>
-	          <li><a href="#">미용가전</a></li>
+	          <li><a href="${ contextPath }/categoryList.st?subCate=601">이어폰/헤드셋</a></li>
+	          <li><a href="${ contextPath }/categoryList.st?subCate=602">스피커</a></li>
+	          <li><a href="${ contextPath }/categoryList.st?subCate=603">마이크</a></li>
+	          <li><a href="${ contextPath }/categoryList.st?subCate=604">빔프로젝터</a></li>
+	          <li><a href="${ contextPath }/categoryList.st?subCate=605">미용가전</a></li>
 	        </ul>
 	      </li>
 	      </ul>
@@ -184,6 +184,7 @@
 	  },
 	    function() {
 	    $('ul', this).stop().slideUp(200);
+	   
 	  }
 	);
 	</script>
