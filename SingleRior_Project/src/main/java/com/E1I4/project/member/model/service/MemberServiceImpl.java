@@ -17,6 +17,8 @@ import org.springframework.stereotype.Service;
 import com.E1I4.project.common.model.vo.Attachment;
 import com.E1I4.project.common.model.vo.Board;
 import com.E1I4.project.common.model.vo.PageInfo;
+import com.E1I4.project.common.model.vo.Product;
+import com.E1I4.project.common.model.vo.ProductInquiry;
 import com.E1I4.project.common.model.vo.Reply;
 import com.E1I4.project.member.model.dao.MemberDAO;
 import com.E1I4.project.member.model.vo.Member;
@@ -148,6 +150,21 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public Board selectReplyBoardList(HashMap<String, Integer> replyMap) {
 		return  mDAO.selectReplyBoardList(sqlSession,replyMap);
+	}
+
+	@Override
+	public int getMyAskListCount(String memberId) {
+		return mDAO.getMyAskListCount(sqlSession,memberId);
+	}
+
+	@Override
+	public ArrayList<ProductInquiry> selectMyAskList(PageInfo pi, String memberId) {
+		return mDAO.selectMyAskList(sqlSession,memberId,pi);
+	}
+
+	@Override
+	public Attachment getImageProduct(int productNo) {
+		return mDAO.getImageProduct(sqlSession,productNo);
 	}
 
 

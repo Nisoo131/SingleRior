@@ -39,9 +39,9 @@
 	<section>
 		<div class="col mb-3" id="categoryDiv">
 			<select class="form-select form-select-sm" name="category" id="category">
-				<option selected>전체</option>
-				<option >싱글벙글</option>
-				<option>싱글마켓</option>
+				<option <c:if test="${category != '싱글벙글' && category != '씽씽마켓'}">selected</c:if>>전체</option> 
+				<option <c:if test="${category == '싱글벙글'}">selected</c:if>>싱글벙글</option>
+				<option <c:if test="${category == '씽씽마켓'}">selected</c:if>>씽씽마켓</option>
 			</select>
 		</div>
 		<br><br><br>
@@ -79,17 +79,20 @@
 				<ul class="pagination justify-content-center">
 					<li class="page-item"><c:url var="goBack" value="${ loc }">
 							<c:param name="page" value="${ pi.currentPage-1 }" />
+							<c:param name="category" value="${ category }"/>
 						</c:url> <a class="page-link" href="${ goBack }" aria-label="Previous">
 							<span aria-hidden="true">&laquo;</span>
 					</a></li>
 					<c:forEach begin="${ pi.startPage }" end="${ pi.endPage }" var="p">
 						<c:url var="goNum" value="${ loc }">
 							<c:param name="page" value="${ p }" />
+							<c:param name="category" value="${ category }"/>
 						</c:url>
 						<li class="page-item"><a class="page-link" href="${ goNum }">${ p }</a></li>
 					</c:forEach>
 					<li class="page-item"><c:url var="goNext" value="${ loc }">
 							<c:param name="page" value="${ pi.currentPage+1 }" />
+							<c:param name="category" value="${ category }"/>
 						</c:url> <a class="page-link" href="${ goNext }" aria-label="Next"> <span
 							aria-hidden="true">&raquo;</span>
 					</a></li>
@@ -102,7 +105,7 @@
 	</footer>
 	
 	<script>
-window.onload = () =>{
+	window.onload = () =>{
 		const cardDivs = document.getElementsByClassName("card");
 		for(cardDiv of cardDivs){
 			
@@ -121,6 +124,23 @@ window.onload = () =>{
 			});
 		}
 	}
+	
+	let category;
+	const page = '${pi.currentPage}';
+	$(function(){
+		
+		$('select[name=category]').change(function(){
+			
+			category = $('select[name=category]').val();
+// 			console.log(category);
+// 		 	page = '${pi.currentPage}';
+			console.log(page);
+// 			let category = '${ category }';
+			location.href='${contextPath}/selectReplyCategory.me?category=' + category;
+			
+		});
+		
+	});
 	</script>
 </body>
 </html>

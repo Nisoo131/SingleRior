@@ -70,13 +70,13 @@
 	<select id ="findId" resultType="string">
 		select member_id
 		from member
-		where member_name = #{memberName} and email = #{email}
+		where member_name = #{memberName} and email = #{email} and status = 'Y'
 	</select>
 	
 	<select id ="findPwd" resultType="_int">
 		select count(*)
 		from member
-		where member_id = #{memberId} and email = #{email}
+		where member_id = #{memberId} and email = #{email} and status = 'Y'
 	</select>
 	
 	<!--  이메일로 새로운 비밀번호 발급된거 넣어주기 -->
@@ -179,6 +179,7 @@
 			<if test='category == "씽씽마켓"'>
 				and board_type = 3
 			</if>
+			and b_status = 'Y'
 		</if>
 		
 	</select>
@@ -220,36 +221,68 @@
 			<if test='category == "씽씽마켓"'>
 				and board_type = 3
 			</if>
-		
 		</if>
+			and b_status = 'Y'
 	</select>
 	
 	<select id="getLikeCount" resultType="_int">
 		select count(*)
 		from wishlist
-		where board_no = #{boardNo}
+		where board_no = #{boardNo} 
 	</select>
 	
 	<select id="getReplyCount" resultType="_int">
 		select count(*)
 		from reply
-		where board_no = #{boardNo}
+		where board_no = #{boardNo} and reply_status = 'Y'
 	</select>
 	
 	<select id="getMyReplyListCount" resultType="_int">
-		SELECT (SELECT COUNT(*) FROM reply where member_id=#{memberId}) + (SELECT COUNT(*) from re_reply where member_id=#{memberId}) FROM DUAL
+	    SELECT (SELECT COUNT(*) 
+  		 FROM reply
+    	    join board b using (board_no)
+  		  where member_id=#{memberId} and reply_status = 'Y' 
+  		  <if test="category == '싱글벙글'">
+  		  and  b.board_type = 2
+  		  </if>
+  		  <if test="category == '씽씽마켓'">
+  		  and  b.board_type = 3
+  		  </if>
+  		  ) + (SELECT COUNT(*)
+   			 from re_reply
+  			  join board b using (board_no)
+    		where member_id=#{memberId}  and re_reply_status = 'Y'
+    	 <if test="category == '싱글벙글'">
+  		  and  b.board_type = 2
+  		  </if>
+  		  <if test="category == '씽씽마켓'">
+  		  and  b.board_type = 3
+  		  </if>
+    		 ) FROM DUAL
 	</select>
 	
 	<select id="selectReplyList" resultMap="replyResultSet">
 	select reply_no, reply_content,reply_modify_date, member_id, board_no
-	    from reply
+	    from reply r
 	    join board b using(board_no)
-	    where member_id=#{memberId}
-	union 
-	select re_reply_no, re_reply_content,re_reply_modify_date, member_id, board_no
-	    from re_reply
+	    where member_id=#{memberId} and r.reply_status = 'Y'
+	     <if test="category == '싱글벙글'">
+  		  and  b.board_type = 2
+  		  </if>
+  		  <if test="category == '씽씽마켓'">
+  		  and  b.board_type = 3
+  		  </if>
+		union 
+		select re_reply_no, re_reply_content,re_reply_modify_date, member_id, board_no
+	    from re_reply rr
 	    join board b using(board_no)
-	    where member_id=#{memberId}
+	    where member_id=#{memberId} and rr.re_reply_status = 'Y'
+	     <if test="category == '싱글벙글'">
+  		  and  b.board_type = 2
+  		  </if>
+  		  <if test="category == '씽씽마켓'">
+  		  and  b.board_type = 3
+  		  </if>
 	</select>
 	
 	<select id="selectReplyBoardList" resultMap="boardResultSet">
@@ -263,4 +296,35 @@
 		</if>
 		where board_No = #{boardNo}
 	</select>
+	
+	<resultMap type="ProductInquiry" id="productInquiryResultSet">
+		<id column="INQUIRY_NO" property="inquiryNo"/>
+		<result column="INQUIRY_TITLE" property="inquiryTitle"/>
+		<result column="INQUIRY_CONTENT" property="inquiryContent"/>
+		<result column="INQUIRY_DATE" property="inquiryDate"/>
+		<result column="PRODUCT_NO" property="productNo"/>
+		<result column="USER_ID" property="memberId"/>
+		<result column="INQUIRY_STATUS" property="inquiryStatus"/>
+	</resultMap>
+	
+	<select id="getMyAskListCount" resultType="_int">
+		select count(*)
+		from product_inquiry
+		where inquiry_status = 'N' and user_id = #{memberId}
+	</select>
+	
+	<select id="selectMyAskList" resultMap="productInquiryResultSet">
+		select *
+		from product_inquiry
+		where inquiry_status = 'N' and user_id = #{memberId}
+	</select>
+	
+	<select id="getImageProduct" resultMap="attachmentResultSet">
+	select *
+	from img_repository 
+	where img_key = (SELECT TO_CHAR( (select board_no
+                from product
+                where product_no =#{productNo}))FROM DUAL) and img_level =0
+	</select>
+	
 </mapper>

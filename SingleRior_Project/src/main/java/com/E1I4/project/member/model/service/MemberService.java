@@ -6,6 +6,8 @@ import java.util.HashMap;
 import com.E1I4.project.common.model.vo.Attachment;
 import com.E1I4.project.common.model.vo.Board;
 import com.E1I4.project.common.model.vo.PageInfo;
+import com.E1I4.project.common.model.vo.Product;
+import com.E1I4.project.common.model.vo.ProductInquiry;
 import com.E1I4.project.common.model.vo.Reply;
 import com.E1I4.project.member.model.vo.Member;
 
@@ -56,6 +58,12 @@ public interface MemberService {
 	ArrayList<Reply> selectReplyList(PageInfo pi, HashMap<String, String> map);
 
 	Board selectReplyBoardList(HashMap<String, Integer> replyMap);
+
+	int getMyAskListCount(String memberId);
+
+	ArrayList<ProductInquiry> selectMyAskList(PageInfo pi, String memberId);
+
+	Attachment getImageProduct(int productNo);
 
 
 
