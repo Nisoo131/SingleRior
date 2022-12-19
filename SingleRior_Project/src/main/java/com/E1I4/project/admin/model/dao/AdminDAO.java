@@ -41,4 +41,12 @@ public class AdminDAO {
 		return (ArrayList)sqlSession.selectList("adminMapper.selectAttmList");
 	}
 
+	public ProductList selectProductDetail(SqlSessionTemplate sqlSession, int productNo) {
+		return sqlSession.selectOne("adminMapper.selectProductDetail",productNo);
+	}
+
+	public ArrayList<Attachment> selectAttmListDetail(SqlSessionTemplate sqlSession, int bId) {
+		return (ArrayList)sqlSession.selectList("adminMapper.selectAttmListDetail",bId);
+	}
+
 }

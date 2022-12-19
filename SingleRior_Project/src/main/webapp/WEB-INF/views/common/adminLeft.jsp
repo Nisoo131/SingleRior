@@ -135,7 +135,7 @@
                     
                             
                     <div class="sb-sidenav-footer">
-                        <div class="small">사용자: 홍길동 님</div>
+                        <div class="small">사용자: ${loginUser.memberName } 님</div>
                         SingleRior
                     </div>
                 </nav>

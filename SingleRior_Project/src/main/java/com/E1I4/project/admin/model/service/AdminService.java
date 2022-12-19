@@ -24,4 +24,8 @@ public interface AdminService {
 
 	ArrayList<Attachment> selectAttmList();
 
+	ProductList selectProductDetail(int productNo);
+
+	ArrayList<Attachment> selectAttmListDetail(int bId);
+
 }

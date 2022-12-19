@@ -66,6 +66,7 @@
                                             <th>상태</th>
                                             <th>등록일</th>
                                             <th>수정일</th>
+                                            <th>조회수</th>
                                             <th>상태 변경</th>
                                         </tr>
                                     </thead>
@@ -79,6 +80,7 @@
                                             <th>상태</th>
                                             <th>등록일</th>
                                             <th>수정일</th>
+                                            <th>조회수</th>
                                             <th>상태 변경</th>
                                             
                                         </tr>
@@ -86,16 +88,18 @@
                                     <tbody>
                                   
                                     <c:forEach var="s" items="${ sList }">
-                                        <tr>
+                                        <tr class="trs">
                                             <td>${s.productNo }</td>
                                             <td>${ s.boardTitle }</td>
-                                            <td>${ s.productPrice}</td>
+                                            <td>${ s.productPrice}원</td>
                                             <td>${ s.topCateName}</td>
                                             <td>${ s.subCateName}</td>
                                             <td><c:if test="${ s.boardStatus eq 'Y'}">판매중</c:if><c:if test="${ s.boardStatus eq 'N'}">판매 중단</c:if></td>
                                             <td>${ s.createDate}</td>
                                             <td>${ s.modifyDate }</td>
-                                            <td><button style="display:inline-block;" type="button" class="btn btn-primary">수정</button>&nbsp;<button style="display:inline-block;" type="button" class="btn btn-danger">삭제</button></td>
+                                            <td>${ s.boardCount }</td>
+                                            <td><button style="display:inline-block;" type="button"  class="btn btn-primary">수정</button>&nbsp;
+                                            <button style="display:inline-block;" type="button" class="btn btn-danger">판매중단</button></td>
                                         </tr>
                                         </c:forEach>
                                     </tbody>
@@ -114,6 +118,19 @@
                 </footer>
             </div>
         </div>
+        
+        <script>
+        $(function(){
+        
+        	
+        	$(document).on('click','.btn-primary',function(){
+        		const productNo=$(this).parents('tr').children().eq(0).text();
+       			location.href='${contextPath}/updateProduct.adm?productNo='+productNo;
+        		
+        	});
+        })
+        
+        </script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
         <script src='${ pageContext.servletContext.contextPath }/resources/js/scripts.js'></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
