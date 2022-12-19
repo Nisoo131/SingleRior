@@ -27,48 +27,54 @@ public class StoreBoardController {
 			return "storeList";
 		}
 	
-	// 리스트 
+	// subCate에 따른 리스트 가져오기 
 	@RequestMapping("categoryList.st")
-	public String storeList(@RequestParam(value="page", required=false) Integer page, Model model) {
+	public String storeList(@RequestParam(value="page", required=false) Integer page, 
+			                @RequestParam("subCate") int subCate, Model model) {
 			int currentPage = 1;
 			if(page != null) {
-				currentPage = page;
+				currentPage = page; 
 			}
-			//board type 스토어 1인 것만 가져오기
-			int listCount = sService.getStoreListCount(1);
+	
+			int listCount = sService.getStoreListCount(1); //board type 스토어 1인 것만 가져오기
+	
+			PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 12); //boardLimit: 카드 12개
 			
-			//boardLimit: 카드 12개
-			PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 12);
-			ArrayList<StoreBoard> sList = sService.selectStoreBoardList(pi, 1); // board_type:1(스토어)
-			ArrayList<Attachment> aList = sService.selectAttmList();
-			System.out.println();
+			ArrayList<StoreBoard> sList = sService.selectStoreBoardList(pi, subCate);
+			
+			ArrayList<Attachment> aList = new ArrayList<Attachment>();
+		    
+			for(int i=0; i<sList.size(); i++) {
+				int bNo = sList.get(i).getBoardNo();
+				Attachment a = sService.selectAttmList(bNo);
+//				System.out.println(a);
+				aList.add(a);
+				
+			};
+			//System.out.println(aList);
+//			System.out.println(sList);
 			if(sList != null) {
 				model.addAttribute("pi", pi);
 				model.addAttribute("sList", sList);
 				model.addAttribute("aList", aList);
-			
+				model.addAttribute("subCate", subCate);
 				
 				return "categoryList";
 			} else {
 				throw new BoardException("게시글 조회 실패");
 			}
-		}
+	}
    
 	// 상품 상세보기
 	@RequestMapping("productDetail.st")
-	public String productDetail(@RequestParam("bNo") int bNo, Model model) {
+	public String productDetail(@RequestParam("productNo") int productNo,  Model model) {
 		
-		String strBNo = Integer.toString(bNo);
+		//System.out.println(productNo);
+		ArrayList<StoreBoard> pList = sService.selectProduct(productNo);
+		ArrayList<Attachment> aList = sService.selectProductAttmList(productNo);
 		
-		ArrayList<StoreBoard> pList = sService.selectProduct(strBNo);
-		ArrayList<Attachment> list = sService.selectImg(strBNo);
-		
-//		System.out.println(pList);
-//		System.out.println(list);
-		
-		model.addAttribute("pList", pList);
-		model.addAttribute("list", list);
-		
+		System.out.println(pList);
+		model.addAttribute("pList",pList);
 		return "productDetail";
 	}
 	

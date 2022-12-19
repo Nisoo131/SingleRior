@@ -10,7 +10,7 @@
 		<result column="B_STATUS" property="boardStatus"/>
 		<result column="BOARD_WRITER" property="boardWriter"/>
 		<result column="BOARD_COUNT" property="boardCount"/>
-		<result column="PRODUCT_NO" property="pNo"/>
+		<result column="PRODUCT_NO" property="productNo"/>
 		<result column="PRODUCT_PRICE" property="price"/>
 		<result column="PRODUCT_DISCOUNT" property="discount"/>
 		<result column="PRODUCT_OPTION" property="option"/>
@@ -19,7 +19,9 @@
 		<result column="delivery_payment" property="dPayment"/>
 		<result column="PRODUCT_STATUS" property="productStatus"/>
 		<result column="PRO_SUBCATE_CODE" property="subCateCode"/>
+		<result column="PRO_SUBCATE_NAME" property="subCateName"/>
 		<result column="PRO_TOPCATE_CODE" property="topCateCode"/>
+		<result column="PRO_TOPCATE_NAME" property="topCateName"/>
 	</resultMap>
 	
 	<resultMap type="Member" id="MemberResultSet">
@@ -59,32 +61,27 @@
 		     join product using (board_no)
 		     join product_sub_Cate using(pro_subcate_code)
 		     join product_top_Cate using(pro_topcate_code) 
-		where b_status = 'Y' and board_type='1' and pro_subcate_code='101'
+		where b_status = 'Y' and board_type='1' and pro_subcate_code=#{subCate}
 		order by board_no desc
    </select>
    
     <select id="selectAttmList" resultMap="attmResultSet">
      select *
 		from img_repository 
-		where img_B_type= '1'
-		      and img_level=0
-		      and img_status='Y'
+		where img_B_type= '1' and img_level=0 and img_status='Y' and img_key = #{bNo}
 	    order by img_key desc
    </select>
-   
+
+
    <select id="selectProduct" resultMap="StoreBoardResultSet">
-	   	select *
-		from product
-	     	 join board using (board_no)
-	    where board_no=#{bNo}
+ SELECT *
+FROM PRODUCT p
+     JOIN BOARD USING(BOARD_NO)
+     JOIN IMG_REPOSITORY on(IMG_KEY = (SELECT TO_CHAR(( SELECT BOARD_NO FROM PRODUCT WHERE PRODUCT_NO = #{productNo})) FROM DUAL))
+     where p.product_no = #{productNo}
    </select>
-   
-   <select id="selectImg" resultMap="attmResultSet">
-		select *
-		from IMG_REPOSITORY
-		where IMG_KEY = #{bNo} and IMG_STATUS = 'Y'
-	</select>
  
+    
 
 
 </mapper>

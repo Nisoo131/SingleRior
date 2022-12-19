@@ -53,11 +53,11 @@
 				<jsp:include page="../storeBoard/navbar.jsp"/>
 			</div>
 		</header>
-	   <c:forEach items="${ pList }" var="p">
-
+    	
+     ${ pList }aList[status.index].imgRename
 		<div class="category">
-			<h5><b> 전체 > 가구 > 침대</b></h5>
-			<h2><b> 침대 </b></h2> 
+			<h5><b> 전체 > ${pList[status.index].} > ${ pList[0].subCateName }</b></h5>
+			<h2><b> ${ pList[0].subCateName } </b></h2> 
 			<br>
 		</div>
 		
@@ -68,9 +68,10 @@
 	 	 		<img src="resources/uploadFiles/${ list[0].imgRename }" width="100%" height="100%">
 			</c:if>
 	 	 </div>
-	 	</div>
-		 	
-	<fmt:formatNumber type="number" maxFractionDigits="3" value="${p.price}" var="commaPrice" />
+	 	</div> 
+	
+	
+	<fmt:formatNumber type="number" maxFractionDigits="3" value="${ p.price }" var="commaPrice" />
 	<c:set var="discountPrice" value="${ s.price-(s.price*s.discount/100)}"/>
 	<fmt:formatNumber type="number" maxFractionDigits="3" value="${ p.price-(p.price*p.discount/100)}" var="totalPrice" />
 	  <div class="col px-md-5">
@@ -104,9 +105,8 @@
 			  </div>
 	  		</div>
 	  	</div>
-	  	</c:forEach>
-	 
 	  
+	
 	<!--상세정보 네비바 -->
 	 <div class="row mb-1"> 
 	  </div>
@@ -288,6 +288,8 @@
 		    </div>
 		  </div>
 		</div>
+		</div>
+		</main>
 
 
     <footer>
