@@ -51,9 +51,9 @@
 						<h1 style="align-self: center;">싱글벙글</h1>
 						<div class="col-12">
 							<select class="form-select form-select-sm" name="commuType" aria-label=".form-select-sm example" style="width: 120px; margin-bottom: 15px; text-align: center;">
-								<option value="1">생활팁</option>
-								<option value="2">후기</option>
-								<option value="3">자유</option>
+								<option value="1" <c:if test="${ coBoard.commuType == 1 }">selected</c:if>>생활팁</option>
+								<option value="2" <c:if test="${ coBoard.commuType == 2 }">selected</c:if>>후기</option>
+								<option value="3" <c:if test="${ coBoard.commuType == 3 }">selected</c:if>>자유</option>
 							</select>
 						
 							<label for="boardTitle" class="form-label">TITLE</label>
@@ -77,7 +77,7 @@
 										${ a.imgOriginalName }
 									</a>
 									<button type="button" class="btn btn-outline-dark btn-sm deleteAttm" id="delete-${ a.imgRename }/${a.level}">
-										삭제 OFF
+										 삭제 X
 									</button>
 									<input type="hidden" name="deleteAttm">
 								</h5>
@@ -87,7 +87,7 @@
 						
 						<div id="fileArea">
 							<div class="mb-3">
-								<button type="button" class="btn " id="addFile"><img src="https://cdn-icons-png.flaticon.com/512/4148/4148851.png" style="width: 40px; height: 40px;"></button>
+								<button type="button" class="btn" id="addFile"><img src="https://cdn-icons-png.flaticon.com/512/4148/4148851.png" style="width: 40px; height: 40px;"></button>
 								<input type="file" class="form-control" name="file" style="margin-top: 15px;">
 							</div>
 						</div>
@@ -128,34 +128,16 @@
 				if(nextHidden.value == ''){ // 삭제 버튼을 누르지 않았다면(삭제 OFF)
 					this.style.background = 'black';
 					this.style.color = 'white';
-					this.innerText = '삭제 ON';
+					this.innerText = '삭제 O';
 					nextHidden.value = this.id.split("-")[1];
 				} else { // 삭제 버튼이 눌린 상태라면(삭제 ON)
 					this.style.background = 'none';
 					this.style.color = 'black';
-					this.innerText = '삭제 OFF';
+					this.innerText = '삭제 X';
 					nextHidden.removeAttribute('value');
 				}
 			});
 		}
-		
-		const form = document.getElementById('attmForm');
-		document.getElementById('submitAttm').addEventListener('click', ()=>{
-			const files = document.getElementsByName('file');
-			let isEmpty = true;
-			for(const f of files){
-				if(f.value != ''){
-					isEmpty = false;
-				}
-			}
-			
-			let isAllRemove = true;
-			for(const btn of delBtns){
-				if(btn.innerText == '삭제 OFF'){
-					isAllRemove = false;
-				}
-			}
-		});
 	</script>
 </body>
 </html>

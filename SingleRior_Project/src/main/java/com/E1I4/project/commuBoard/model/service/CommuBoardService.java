@@ -14,34 +14,63 @@ public interface CommuBoardService {
 	
 	int getCommuListCount(HashMap<String, Object> map);
 	
+	// 싱글벙글 커뮤니티 list select
 	ArrayList<CommuBoard> selectCommuAllList(PageInfo pi, HashMap<String, Object> map);
 	
+	// 댓글 count 불러오기
+	ArrayList<CommuBoard> replyCount(HashMap<String, Object> map);
+	
+	
+	/* 게시글 등록 (insert) */
 	int insertCommuBoard(CommuBoard coBoard);
 
 	int insertAttm(HashMap<String, Object> map);
-
+	
+	
+	/* 게시글 상세보기 */
+	// 게시글 select
 	CommuBoard selectCommuBoard(int bNo, boolean yn);
-
+	
+	// 첨부파일 불러오기
 	ArrayList<Attachment> selectAttmBoard(String bNo);
-
-	ArrayList<Reply> selectReply(int bNo);
-
-	ArrayList<ReReply> selectReReply(int bNo);
-
-	int insertReply(Reply r);
-
+	
+	
+	/* 공감 (sympt) */
+	// 공감하기 (on)
 	int symptOn(WishList wl, int bNo);
-
+	
+	// 공감 count 불러오기
 	WishList selectSymptOn(WishList wl);
-
+	
+	// 공감하기 (off)
 	int symptOff(WishList wl, int bNo);
-
-	ArrayList<CommuBoard> replyCount(HashMap<String, Object> map);
-
+	
+	
+	/* 댓글 */
+	// 댓글 list select
+	ArrayList<Reply> selectReply(int bNo);
+	
+	// 댓글 등록 (insert)
+	int insertReply(Reply r);
+	
+	// 대댓글 불러오기
+	ArrayList<ReReply> selectReReply(int bNo);
+	
+	
+	/* 게시글 수정 (update) */
+	// 첨부파일 삭제
 	int deleteAttm(ArrayList<String> delRename);
-
+	
+	// 내용 수정
 	int updateCommuBoard(CommuBoard coBoard);
+	
+	// 첨부파일 level 변경
+	void updateAttmLevel(String strBNo);
+	
+	
+	/* 게시글 삭제 (delete) */
+	int deleteCommuBoard(int bNo);
 
-	void updateAttmLevel(int boardNo);
+	int updateAttmStatus(String strBNo);
 
 }

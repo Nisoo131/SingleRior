@@ -88,7 +88,8 @@ public class CommuBoardController {
 		}
 	}
 	
-	// 커뮤니티 글 작성 페이지
+	/* 게시글 등록 (insert) */
+	// 글 작성 페이지 이동
 	@RequestMapping("writeCommuBoard.co")
 	public String writeCommuBoard() {
 		return "commuBoardWrite";
@@ -193,109 +194,7 @@ public class CommuBoardController {
 		}
 	}
 	
-	@RequestMapping("updateForm.co")
-	public String updateForm(@RequestParam("boardNo") int bNo, @RequestParam("page") int page, Model model) {
-		CommuBoard coBoard = cService.selectCommuBoard(bNo, false);
-		
-		String strBNo = Integer.toString(bNo);
-		ArrayList<Attachment> list = cService.selectAttmBoard(strBNo);
-		
-		model.addAttribute("coBoard", coBoard);
-		model.addAttribute("list", list);
-		model.addAttribute("page", page);
-		return "commuBoardEdit";
-	}
-	
-	// 커뮤니티 글 수정
-	@RequestMapping("updateCommuBoard.co")
-	public String updateCommuBoard(@ModelAttribute CommuBoard coBoard, @RequestParam("page") int page, @RequestParam("deleteAttm") String[] deleteAttm, @RequestParam("file") ArrayList<MultipartFile> files, HttpServletRequest request, Model model) {
-		System.out.println(coBoard);
-		System.out.println(Arrays.toString(deleteAttm));
-		System.out.println(files);
-		
-		coBoard.setBoardType(2);
-		
-		ArrayList<Attachment> list = new ArrayList<>();
-		for(int i = 0; i < files.size(); i++) {
-			MultipartFile upload = files.get(i);
-			
-			if(!upload.getOriginalFilename().equals("")) {
-				String[] returnArr = saveFile(upload, request);
-				
-				if(returnArr[1] != null) {
-					Attachment a = new Attachment();
-					a.setImgOriginalName(upload.getOriginalFilename());
-					a.setImgRename(returnArr[1]);
-					a.setImgPath(returnArr[0]);
-					
-					list.add(a);
-				}
-			}
-		}
-		
-		// 선택한 파일들 삭제
-		ArrayList<String> delRename = new ArrayList<String>();
-		ArrayList<Integer> delLevel = new ArrayList<Integer>();
-		for(String rename : deleteAttm) {
-			if(!rename.equals("")) {
-				String[] split = rename.split("/");
-				delRename.add(split[0]);
-				delLevel.add(Integer.parseInt(split[1]));
-			}
-		}
-		
-		int deleteAttmResult = 0;
-		boolean existBeforeAttm = true;
-		if(!delRename.isEmpty()) { // 저장했던 첨부파일 중 하나라도 삭제하겠다고 한 경우
-			deleteAttmResult = cService.deleteAttm(delRename);
-			if(deleteAttmResult > 0) {
-				for(String rename : delRename) {
-					deleteFile(rename, request);
-				}
-			}
-			
-			if(delRename.size() == deleteAttm.length) { // 기존 파일을 전부 삭제하겠다고 한 경우
-				existBeforeAttm = false;
-			} else {
-				for(int level : delLevel) {
-					if(level == 0) {
-						cService.updateAttmLevel(coBoard.getBoardNo());
-						break;
-					}
-				}
-			}
-		}
-		
-		for(int i = 0; i < list.size(); i++) {
-			Attachment a = list.get(i);
-			
-			if(existBeforeAttm) {
-				a.setLevel(1);
-			} else {
-				if(i == 0) {
-					a.setLevel(0);
-				} else {
-					a.setLevel(1);
-				}
-			}
-		}
-		
-		int updateBoardResult = cService.updateCommuBoard(coBoard);
-		
-		int updateAttmResult = 0;
-		if(!list.isEmpty()) {
-			HashMap<String, Object> map = new HashMap<String, Object>();
-			map.put("list", list);
-			updateAttmResult = cService.insertAttm(map);
-			
-			return "redirect:selectCommuBoard.co?bNo=" + coBoard.getBoardNo()
-			+ "&writer=" + ((Member)request.getSession().getAttribute("loginUser")).getNickName()
-			+ "&page=" + page;
-		} else {
-			throw new BoardException("게시글 수정에 실패하였습니다.");
-		}
-	}
-	
+	/* 게시글 상세보기 */
 	// 커뮤니티 글 조회
 	@RequestMapping("selectCommuBoard.co")
 	public ModelAndView selectCommuBoard(@RequestParam("bNo") int bNo, @RequestParam("writer") String writer, @RequestParam("page") int page, ModelAndView mv, HttpSession session) {
@@ -341,6 +240,189 @@ public class CommuBoardController {
 		return mv;
 	}
 	
+	// 공감하기 버튼 on (사용자가 공감 버튼을 눌렀을 때)
+	@RequestMapping("symptOn.co")
+	public void symptOn(@RequestParam("boardNo") int bNo, HttpSession session, Model model, HttpServletResponse response) {
+		String id = ((Member)session.getAttribute("loginUser")).getMemberId();
+		
+		WishList wl = new WishList();
+		wl.setBoardNo(bNo);
+		wl.setMemberId(id);
+		
+		int result = cService.symptOn(wl, bNo);
+		
+		response.setContentType("application/json; charset=UTF-8");
+		
+		GsonBuilder gb = new GsonBuilder();
+		Gson gson = gb.create();
+		
+		try {
+			gson.toJson(result, response.getWriter());
+		} catch (JsonIOException | IOException e) {
+			e.printStackTrace();
+		}
+	}
+		
+	// 공감하기 버튼 off (사용자가 공감 버튼을 취소했을 때)
+	@RequestMapping("symptOff.co")
+	public void symptOff(@RequestParam("boardNo") int bNo, HttpSession session, Model model, HttpServletResponse response) {
+		String id = ((Member)session.getAttribute("loginUser")).getMemberId();
+			
+		WishList wl = new WishList();
+		wl.setBoardNo(bNo);
+		wl.setMemberId(id);
+		
+		int result =  cService.symptOff(wl, bNo);
+		
+		response.setContentType("application/json; charset=UTF-8");
+		
+		GsonBuilder gb = new GsonBuilder();
+		Gson gson = gb.create();
+		
+		try {
+			gson.toJson(result, response.getWriter());
+		} catch (JsonIOException | IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/* 게시글 수정 (update) */
+	// 글 수정 페이지 이동
+	@RequestMapping("updateForm.co")
+	public String updateForm(@RequestParam("boardNo") int bNo, @RequestParam("page") int page, Model model) {
+		CommuBoard coBoard = cService.selectCommuBoard(bNo, false);
+		
+		String strBNo = Integer.toString(bNo);
+		ArrayList<Attachment> list = cService.selectAttmBoard(strBNo);
+		
+		model.addAttribute("coBoard", coBoard);
+		model.addAttribute("list", list);
+		model.addAttribute("page", page);
+		return "commuBoardEdit";
+	}
+	
+	// 커뮤니티 글 수정 (update)
+	@RequestMapping("updateCommuBoard.co")
+	public String updateCommuBoard(@ModelAttribute CommuBoard coBoard, @RequestParam("page") int page, @RequestParam(value="deleteAttm", required=false) String[] deleteAttm, @RequestParam("file") ArrayList<MultipartFile> files, HttpServletRequest request, Model model) {
+		int updateBoardResult = cService.updateCommuBoard(coBoard);
+		
+		// 새 파일 저장
+		ArrayList<Attachment> list = new ArrayList<>();
+		for(MultipartFile file : files) {
+			String fileName = file.getOriginalFilename();
+			if(!fileName.equals("")) {
+				String fileType = fileName.substring(fileName.lastIndexOf(".")+1).toLowerCase();
+				if(fileType.equals("png") || fileType.equals("jpg") || fileType.equals("gif") || fileType.equals("jpeg") || fileType.equals("jfif")) {
+					String[] returnArr = saveFile(file, request);
+					
+					if(returnArr[1] != null) {
+						Attachment attm = new Attachment();
+						attm.setImgOriginalName(file.getOriginalFilename());
+						attm.setImgRename(returnArr[1]);
+						attm.setImgPath(returnArr[0]);
+						
+						list.add(attm);
+					}
+				}
+			}
+		}
+		
+		// 선택한 파일들 삭제
+		ArrayList<String> delRename = new ArrayList<>();
+		ArrayList<Integer> delLevel = new ArrayList<>();
+		
+		if(deleteAttm != null) {
+			for (String rename : deleteAttm) {
+				if (!rename.equals("")) {
+					String[] split = rename.split("/");
+					delRename.add(split[0]);
+					delLevel.add(Integer.parseInt(split[1]));
+				}
+			}
+		}
+		
+		int deleteAttmResult = 0;
+		boolean existBeforeAttm = true; // 기존 파일이 남아 있는지 확인
+		
+		if(!delRename.isEmpty()) { // 저장했던 첨부파일 중 하나라도 삭제하겠다고 한 경우
+			deleteAttmResult = cService.deleteAttm(delRename);
+			if(deleteAttmResult > 0) {
+				for(String rename : delRename) {
+					deleteFile(rename, request);
+				}
+			}
+			
+			if(delRename.size() == deleteAttm.length) { // 기존 파일을 전부 삭제하겠다고 한 경우
+				existBeforeAttm = false;
+			} else {
+				for(int level : delLevel) {
+					if(level == 0) {
+						String strBNo = Integer.toString(coBoard.getBoardNo());
+						cService.updateAttmLevel(strBNo);
+						break;
+					}
+				}
+			}
+		}
+		
+		if(deleteAttm == null) {
+			existBeforeAttm = false;
+		}
+		
+		for(int i = 0; i < list.size(); i++) {
+			Attachment a = list.get(i);
+			
+			if(existBeforeAttm) {
+				a.setLevel(1);
+			} else {
+				if(i == 0) {
+					a.setLevel(0);
+				} else {
+					a.setLevel(1);
+				}
+			}
+			a.setBoardType(2);
+		}
+		
+		int updateAttmResult = 0;
+		String strBNo = Integer.toString(coBoard.getBoardNo());
+		
+		if(!list.isEmpty()) {
+			HashMap<String, Object> map = new HashMap<String, Object>();
+			map.put("list", list);
+			map.put("bNo",strBNo);
+			updateAttmResult = cService.insertAttm(map);
+		}
+		
+		if(updateBoardResult + updateAttmResult == 2 + list.size()) {
+			model.addAttribute("bNo", coBoard.getBoardNo());
+			model.addAttribute("writer", ((Member)request.getSession().getAttribute("loginUser")).getNickName());
+			model.addAttribute("page", page);
+			return "redirect:selectCommuBoard.co";
+		} else {
+			for(Attachment a : list) {
+				deleteFile(a.getImgRename(), request);
+			}
+			throw new BoardException("게시글 수정에 실패하였습니다.");
+		}
+	}
+	
+	/* 게시글 삭제 (delete) */
+	@RequestMapping("deleteCommuBoard.co")
+	public String deleteCommuBoard(@RequestParam("boardNo") int bNo) {
+		String strBNo = Integer.toString(bNo);
+		
+		int result = cService.deleteCommuBoard(bNo);
+		result += cService.updateAttmStatus(strBNo);
+		
+		if(result > 0) {
+			return "redirect:commuAllList.co";
+		} else {
+			throw new BoardException("게시글 삭제에 실패하였습니다.");
+		}
+	}
+	
+	/* 댓글 */
 	// 커뮤니티 댓글 등록 (insert)
 	@RequestMapping("insertReply.co")
 	public void insertReply(@ModelAttribute Reply r, HttpServletResponse response) {
@@ -362,42 +444,6 @@ public class CommuBoardController {
 		}
 	}
 	
-	// 공감하기 버튼 on (사용자가 공감 버튼을 눌렀을 때)
-	@RequestMapping("symptOn.co")
-	public String symptOn(@RequestParam("bNo") int bNo, HttpSession session, Model model) {
-		String id = ((Member)session.getAttribute("loginUser")).getMemberId();
-		
-		WishList wl = new WishList();
-		wl.setBoardNo(bNo);
-		wl.setMemberId(id);
-		
-		int result = cService.symptOn(wl, bNo);
-		
-		if(result > 0) {
-			model.addAttribute("bNo", bNo);
-			return "redirect:selectCommuBoard.co";
-		} else {
-			throw new BoardException("공감하기 등록에 실패하였습니다.");
-		}
-	}
 	
-	// 공감하기 버튼 off (사용자가 공감 버튼을 취소했을 때)
-	@RequestMapping("symptOff.co")
-	public String cheerCancle(@RequestParam("bNo") int bNo, HttpSession session, Model model) {
-		String id = ((Member)session.getAttribute("loginUser")).getMemberId();
-		
-		WishList wl = new WishList();
-		wl.setBoardNo(bNo);
-		wl.setMemberId(id);
-		
-		int result =  cService.symptOff(wl, bNo);
-		
-		if(result > 0) {
-			model.addAttribute("bNo", bNo);
-			return "redirect:selectCommuBoard.co";
-		} else {
-			throw new BoardException("공감하기 취소에 실패하였습니다.");
-		}
-	}
 
 }

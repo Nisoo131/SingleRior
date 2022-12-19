@@ -103,7 +103,7 @@
 					<div class="col-md-1" style="text-align: center; padding-top: 30px; padding-left: 50px; width: 170px;">
 						<div class="row g-0 flex-md-row shadow-sm h-md-250 position-relative mt-2 mb-4">
 							<c:if test="${ empty loginUser }">
-								<button type="button" class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#modalChoice2">
+								<button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#loginForm">
 									<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-emoji-smile" viewBox="0 0 16 16">
 										<path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
 										<path d="M4.285 9.567a.5.5 0 0 1 .683.183A3.498 3.498 0 0 0 8 11.5a3.498 3.498 0 0 0 3.032-1.75.5.5 0 1 1 .866.5A4.498 4.498 0 0 1 8 12.5a4.498 4.498 0 0 1-3.898-2.25.5.5 0 0 1 .183-.683zM7 6.5C7 7.328 6.552 8 6 8s-1-.672-1-1.5S5.448 5 6 5s1 .672 1 1.5zm4 0c0 .828-.448 1.5-1 1.5s-1-.672-1-1.5S9.448 5 10 5s1 .672 1 1.5z"/>
@@ -112,7 +112,7 @@
 								</button>
 							</c:if>
 							<c:if test="${ !empty loginUser && wishList == null }">
-								<button type="button" class="btn btn-outline-dark symptClick" data-bs-toggle="button">
+								<button type="button" class="btn btn-outline-danger symptClick">
 									<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-emoji-smile" viewBox="0 0 16 16">
 										<path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
 										<path d="M4.285 9.567a.5.5 0 0 1 .683.183A3.498 3.498 0 0 0 8 11.5a3.498 3.498 0 0 0 3.032-1.75.5.5 0 1 1 .866.5A4.498 4.498 0 0 1 8 12.5a4.498 4.498 0 0 1-3.898-2.25.5.5 0 0 1 .183-.683zM7 6.5C7 7.328 6.552 8 6 8s-1-.672-1-1.5S5.448 5 6 5s1 .672 1 1.5zm4 0c0 .828-.448 1.5-1 1.5s-1-.672-1-1.5S9.448 5 10 5s1 .672 1 1.5z"/>
@@ -121,7 +121,7 @@
 								</button>
 							</c:if>
 							<c:if test="${ !empty loginUser && wishList != null }">
-								<button type="button" class="btn btn-outline-dark active symptClick" data-bs-toggle="button">
+								<button type="button" class="btn btn-outline-danger active symptClick">
 									<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-emoji-smile" viewBox="0 0 16 16">
 										<path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
 										<path d="M4.285 9.567a.5.5 0 0 1 .683.183A3.498 3.498 0 0 0 8 11.5a3.498 3.498 0 0 0 3.032-1.75.5.5 0 1 1 .866.5A4.498 4.498 0 0 1 8 12.5a4.498 4.498 0 0 1-3.898-2.25.5.5 0 0 1 .183-.683zM7 6.5C7 7.328 6.552 8 6 8s-1-.672-1-1.5S5.448 5 6 5s1 .672 1 1.5zm4 0c0 .828-.448 1.5-1 1.5s-1-.672-1-1.5S9.448 5 10 5s1 .672 1 1.5z"/>
@@ -139,7 +139,7 @@
 						<div class="input-group" style="padding-top: 50px;">
 							<textarea class="form-control" rows="3" id="replyContent" style="resize: none;" placeholder="댓글을 작성해주세요."></textarea>
 							<c:if test="${ empty loginUser }">
-								<button class="btn btn-outline-primary btn-lg" data-bs-toggle="modal" data-bs-target="#modalChoice2" type="button" style="width: 100px;">등록</button>
+								<button class="btn btn-outline-primary btn-lg" data-bs-toggle="modal" data-bs-target="#loginForm" type="button" style="width: 100px;">등록</button>
 							</c:if>
 							<c:if test="${ !empty loginUser }">
 								<button class="btn btn-outline-primary btn-lg" id="replySubmit" type="button" style="width: 100px;">등록</button>
@@ -222,10 +222,10 @@
 					<!-- 이동 -->
 					<div class="row px-5 py-4">
 						<div class="col-md-1" style="text-align: center; width: 150px;">
-							<button class="w-100 btn btn-outline-dark btn-lg" type="button" id="preForm">이전글</button>
+							<button class="w-100 btn btn-outline-dark btn-lg" type="button" id="preForm" onclick="location.href='${contextPath}/selectCommuBoard.co?bNo=${ coBoard.boardNo - 1 }&writer=${ coBoard.writer }&page=${ page }'">이전글</button>
 						</div>
 						<div class="col-md-1" style="text-align: center; width: 150px;">
-							<button class="w-100 btn btn-outline-dark btn-lg" type="button" id="nextForm">다음글</button>
+							<button class="w-100 btn btn-outline-dark btn-lg" type="button" id="nextForm" onclick="location.href='${contextPath}/selectCommuBoard.co?bNo=${ coBoard.boardNo + 1 }&writer=${ coBoard.writer }&page=${ page }'">다음글</button>
 						</div>
 						
 						<c:if test="${ loginUser.memberId eq coBoard.writer }">
@@ -234,13 +234,13 @@
 								<button class="w-100 btn btn-outline-primary btn-lg" type="button" id="updateForm">수정</button>
 							</div>
 							<div class="col-md-1" style="text-align: center; width: 100px;">
-								<button class="w-100 btn btn-outline-secondary btn-lg" type="button" data-bs-toggle="modal" data-bs-target="#modalChoice1" >삭제</button>
+								<button class="w-100 btn btn-outline-secondary btn-lg" type="button" data-bs-toggle="modal" data-bs-target="#deleteForm">삭제</button>
 							</div>
 						</c:if>
 						<c:if test="${ !(loginUser.memberId eq coBoard.writer) }">
 							<div class="col-md-10" style="width: 800px;"></div>
 							<div class="col-md-1" style="text-align: center; width: 100px; float: right;">
-								<button class="w-100 btn btn-outline-danger btn-lg" type="button" id="reportForm">신고</button>
+								<button class="w-100 btn btn-outline-danger btn-lg" type="button" data-bs-toggle="modal" data-bs-target="#reportForm">신고</button>
 							</div>
 						</c:if>
 					</div>
@@ -249,7 +249,8 @@
 		</div>
 	</main>
 	
-	<div class="modal fade" tabindex="-1" role="dialog" id="modalChoice1">
+	<!-- 삭제 모달 -->
+	<div class="modal fade" tabindex="-1" role="dialog" id="deleteForm">
 		<div class="modal-dialog" role="document">
 	    	<div class="modal-content rounded-3 shadow">
 	      		<div class="modal-body p-4 text-center">
@@ -266,7 +267,8 @@
 	  	</div>
 	</div>
 	
-	<div class="modal fade" tabindex="-1" role="dialog" id="modalChoice2">
+	<!-- 로그인 모달 -->
+	<div class="modal fade" tabindex="-1" role="dialog" id="loginForm">
 		<div class="modal-dialog" role="document">
 	    	<div class="modal-content rounded-3 shadow">
 	      		<div class="modal-body p-4 text-center">
@@ -283,6 +285,45 @@
 	  	</div>
 	</div>
 	
+	<!-- 신고 모달 -->
+	<div class="modal fade" id="reportForm" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h1 class="modal-title fs-5" id="exampleModalLabel"><img src="https://cdn-icons-png.flaticon.com/512/2689/2689919.png" style="width: 40px; height: 40px;">REPORT</h1>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<h3>신고 사유를 선택해주세요!</h3>
+					작성자 : ${coBoard.nickName }
+					<br>
+					글제목 : ${coBoard.boardTitle }
+					<br><br>
+					<div class="form-check">
+						<input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+						<label class="form-check-label">홍보/도배글이예요</label>
+					</div>
+					<div class="form-check">
+						<input class="form-check-input" type="checkbox" value="">
+						<label class="form-check-label">청소년에게 유해한 내용이예요</label>
+					</div>
+					<div class="form-check">
+						<input class="form-check-input" type="checkbox" value="">
+						<label class="form-check-label">불법이예요</label>
+					</div>
+					<div class="form-check">
+						<input class="form-check-input" type="checkbox" value="">
+						<label class="form-check-label">욕설,혐오,차별적표현이에요</label>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+						<button type="button" class="btn btn-primary">신고하기</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
 	<footer>
 		<jsp:include page="../common/footer.jsp"/>
 	</footer>
@@ -291,38 +332,41 @@
 		window.onload = () => {
 			// 공감 (좋아요) 구현
 			$(".symptClick").click(function(){
-				console.log("얍");
-				if($(this).attr("class") == "btn btn-outline-dark symptClick"){
+				if($(this).attr("class") == "btn btn-outline-danger symptClick"){
 			         $.ajax({
 				            url: '${contextPath}/symptOn.co',
 				            data: {boardNo: ${ coBoard.boardNo }},
 				            type: 'post',
 				            success:(data)=>{
-			   				 console.log(data);
-			   				 $('#symptCount').html(data);
+				            	console.log(data);
+				            	var symptCount = parseInt($('#symptCount').html());
+				            	console.log(symptCount);
+				            	$('#symptCount').html(symptCount + data);
 				            },
 				            error: (data)=>{
 			    				console.log(data);
 			    			}
 				         });
 					
-			         $(this).attr("class","btn btn-outline-dark active symptClick");
+			         $(this).attr("class","btn btn-outline-danger active symptClick");
 			         
-				}else if($(this).attr("class") == "btn btn-outline-dark active symptClick"){
+				} else if($(this).attr("class") == "btn btn-outline-danger active symptClick"){
 			         $.ajax({
 				            url: '${contextPath}/symptOff.co',
 				            data: {boardNo: ${ coBoard.boardNo }},
 				            type: 'post',
 				            success:(data)=>{
-			   				 console.log(data);
-			   				 $('#symptCount').html(data);
+				            	console.log(data);
+				            	var symptCount = parseInt($('#symptCount').html());
+				            	console.log(symptCount);
+				            	$('#symptCount').html(symptCount - data);
 				            },
 				            error: (data)=>{
 			    				console.log(data);
 			    			}
 				         });
 			         
-			         $(this).attr("class","btn btn-outline-dark symptClick");
+			         $(this).attr("class","btn btn-outline-danger symptClick");
 				}
 			})
 			
@@ -392,6 +436,12 @@
 					form.submit();
 				});
 			}
+			
+			// 글 삭제 (delete)
+			document.getElementById("delete").addEventListener('click', ()=>{
+				form.action = '${contextPath}/deleteCommuBoard.co';
+				form.submit();
+			});
 		}
 	</script>
 </body>

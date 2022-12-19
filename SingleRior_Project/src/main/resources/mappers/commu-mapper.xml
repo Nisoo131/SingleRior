@@ -66,6 +66,8 @@
 		where board_type = '2' and b_status = 'Y'
 	</select>
 	
+	
+	<!-- 싱글벙글 커뮤니티 list select -->
 	<select id="selectCommuAllList" parameterType="hashmap" resultMap="CommuBoardResultSet">
 		select *
 		from board b
@@ -78,6 +80,17 @@
 		order by b.board_no desc
 	</select>
 	
+	<!-- 댓글 count 불러오기 -->
+	<select id="replyCount" resultType="_int">
+		SELECT (SELECT count(*)
+				FROM reply r
+				WHERE r.board_no = b.board_no )
+		FROM board b
+		where board_type = '2' and b_status = 'Y'
+	</select>
+	
+	
+	<!-- 게시글 등록 (insert) -->
 	<insert id="insertCommuBoard">
 		insert all
 		into board
@@ -91,11 +104,20 @@
 		insert all
 		<foreach collection="list" item="a">
 			into IMG_REPOSITORY
-			values(SingleRior_aid, #{a.imgOriginalName}, #{a.imgRename}, sysdate, sysdate, default, seq_bId.currval, #{a.imgPath}, #{a.boardType}, #{a.level})
+			values(SingleRior_aid, #{a.imgOriginalName}, #{a.imgRename}, sysdate, sysdate, default,
+			<if test="bNo == null">
+				seq_bId.currval,
+			</if>
+			<if test="bNo != null">
+				#{bNo},
+			</if>
+			#{a.imgPath}, #{a.boardType}, #{a.level})
 		</foreach>
 		select * from dual
 	</insert>
 	
+	<!-- 게시글 상세보기 -->
+	<!-- 게시글 select -->
 	<update id="addCount">
 		update board
 		set board_count = board_count + 1
@@ -116,12 +138,9 @@
 		where IMG_STATUS = 'Y' and IMG_B_TYPE = '2' and img_key = #{bNo}
 	</select>
 	
-	<select id="selectSymptOn" resultMap="wishListResultSet">
-		select *
-		from wishList
-		where MEMBER_ID = #{memberId} and BOARD_NO = #{boardNo}
-	</select>
 	
+	<!-- 공감 (sympt) -->
+	<!-- 공감하기 (on) -->
 	<insert id="symptOn">
 		insert into WISHLIST
 		values(#{memberId}, #{boardNo})
@@ -133,6 +152,14 @@
 		where board_no = #{bNo}
 	</update>
 	
+	<!-- 공감 count 불러오기 -->
+	<select id="selectSymptOn" resultMap="wishListResultSet">
+		select *
+		from wishList
+		where MEMBER_ID = #{memberId} and BOARD_NO = #{boardNo}
+	</select>
+	
+	<!-- 공감하기 (off) -->
 	<delete id="symptOff">
 		delete wishList
 		where board_no=#{boardNo} and member_id=#{memberId}
@@ -144,6 +171,9 @@
 		where board_no = #{bNo}
 	</update>
 	
+	
+	<!-- 댓글 -->
+	<!-- 댓글 list select -->
 	<select id="selectReply" resultMap="replyResultSet">
 		select *
 		from reply r
@@ -152,6 +182,13 @@
 		order by reply_no desc
 	</select>
 	
+	<!-- 댓글 등록 (insert) -->
+	<insert id="insertReply">
+		insert into reply
+		values(seq_rid.nextval, #{replyContent}, sysdate, sysdate, default, default, #{memberId}, #{boardNo})
+	</insert>
+	
+	<!-- 대댓글 불러오기 -->
 	<select id="selectReReply" resultMap="rReplyResultSet">
 		select *
 		from re_reply
@@ -159,19 +196,9 @@
 		order by re_reply_no desc
 	</select>
 	
-	<insert id="insertReply">
-		insert into reply
-		values(seq_rid.nextval, #{replyContent}, sysdate, sysdate, default, default, #{memberId}, #{boardNo})
-	</insert>
 	
-	<select id="replyCount" resultType="_int">
-		SELECT (SELECT count(*)
-				FROM reply r
-				WHERE r.board_no = b.board_no )
-		FROM board b
-		where board_type = '2' and b_status = 'Y'
-	</select>
-	
+	<!-- 게시글 수정 (update) -->
+	<!-- 첨부파일 삭제 -->
 	<delete id="deleteAttm">
 		delete from IMG_REPOSITORY
 		where IMG_SERVER_NAME in
@@ -180,19 +207,42 @@
 		</foreach>
 	</delete>
 	
+	<!-- 내용 수정 -->
+	<update id="commuUpdate">
+		update community
+		set commu_type = #{commuType}
+		where board_no = #{boardNo}
+	</update>
+	<update id="updateCommuBoard">
+		update board
+		set board_title = #{boardTitle}, board_content = #{boardContent}, MODIFY_DATE = sysdate, board_type = #{boardType}
+		where board_no = #{boardNo}
+	</update>
+	
+	<!-- 첨부파일 level 변경 -->
 	<update id="updateAttmLevel">
 		update IMG_REPOSITORY
 		set IMG_LEVEL = 0
 		where IMG_NO = (select min(IMG_NO)
 						from IMG_REPOSITORY
 						     join board on(board_type = IMG_B_TYPE)
-						where IMG_B_TYPE = #{boardNo})
+						where IMG_B_TYPE = #{strBNo})
 	</update>
 	
-	<update id="updateCommuBoard">
+	
+	<!-- 게시글 삭제 (delete) -->
+	<!-- 게시글 상태(status) 'N'으로 변경 -->
+	<update id="deleteCommuBoard">
 		update board
-		set board_title = #{boardTitle}, board_content = #{boardContent}, MODIFY_DATE = sysdate
-		where board_no = #{boardNo}
+		set B_STATUS = 'N'
+		where board_no = #{bNo}
+	</update>
+	
+	<!-- 첨부파일 상태(status) 'N'으로 변경 -->
+	<update id="updateAttmStatus">
+		update IMG_REPOSITORY
+		set IMG_STATUS = 'N'
+		where IMG_KEY = #{strBNo}
 	</update>
 
 </mapper>
