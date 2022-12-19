@@ -10,6 +10,8 @@ import org.springframework.stereotype.Repository;
 import com.E1I4.project.common.model.vo.Attachment;
 import com.E1I4.project.common.model.vo.Board;
 import com.E1I4.project.common.model.vo.PageInfo;
+import com.E1I4.project.common.model.vo.Product;
+import com.E1I4.project.common.model.vo.ProductInquiry;
 import com.E1I4.project.common.model.vo.Reply;
 import com.E1I4.project.member.model.vo.Member;
 
@@ -113,6 +115,20 @@ public class MemberDAO {
 
 	public Board selectReplyBoardList(SqlSessionTemplate sqlSession, HashMap<String, Integer> replyMap) {
 		return (Board) sqlSession.selectOne("memberMapper.selectReplyBoardList", replyMap);
+	}
+
+	public int getMyAskListCount(SqlSessionTemplate sqlSession, String memberId) {
+		return sqlSession.selectOne("memberMapper.getMyAskListCount", memberId);
+	}
+
+	public ArrayList<ProductInquiry> selectMyAskList(SqlSessionTemplate sqlSession, String memberId, PageInfo pi) {
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		return (ArrayList)sqlSession.selectList("memberMapper.selectMyAskList", memberId, rowBounds);
+	}
+
+	public Attachment getImageProduct(SqlSessionTemplate sqlSession, int productNo) {
+		return sqlSession.selectOne("memberMapper.getImageProduct",productNo);
 	}
 
 }

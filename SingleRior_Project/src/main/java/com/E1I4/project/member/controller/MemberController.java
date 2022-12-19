@@ -26,6 +26,8 @@ import com.E1I4.project.common.exception.MemberException;
 import com.E1I4.project.common.model.vo.Attachment;
 import com.E1I4.project.common.model.vo.Board;
 import com.E1I4.project.common.model.vo.PageInfo;
+import com.E1I4.project.common.model.vo.Product;
+import com.E1I4.project.common.model.vo.ProductInquiry;
 import com.E1I4.project.common.model.vo.Reply;
 import com.E1I4.project.member.model.service.KakaoLogin;
 import com.E1I4.project.member.model.service.MailSendService;
@@ -427,11 +429,45 @@ public class MemberController {
 		return "myReviewNDoneList";
 	}
 	@RequestMapping("myAskList.me")
-	public String myAskList() {
+	public String myAskList(HttpSession session,@RequestParam(value="page", required=false) Integer page,Model model) {
+		Member m = (Member)session.getAttribute("loginUser");
+		String memberId = m.getMemberId();
+		
+		int currentPage =1;
+		if(page != null) {
+			currentPage = page;
+		}
+		
+		int listCount = mService.getMyAskListCount(memberId);
+		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 5);
+		
+		ArrayList<ProductInquiry> piList = mService.selectMyAskList(pi, memberId);
+		ArrayList<Attachment> aList = new ArrayList<Attachment>();
+//		System.out.println(listCount);
+//		System.out.println(piList);
+		
+		for(int i = 0; i<piList.size(); i++) {
+			int productNo = piList.get(i).getProductNo();
+			Attachment a = mService.getImageProduct(productNo);
+			
+			aList.add(a);
+		}
+		
+		System.out.println("aList :" +aList);
+		
+		if(piList != null) {
+			model.addAttribute("pi", pi);
+			model.addAttribute("piList", piList);
+			model.addAttribute("aList", aList);
+			
+		}
+		
 		return "myAskList";
 	}
 	@RequestMapping("myAskDoneList.me")
-	public String myAskDoneList() {
+	public String myAskDoneList(HttpSession session) {
+		Member m = (Member)session.getAttribute("loginUser");
+		
 		return "myAskDoneList";
 	}
 	@RequestMapping("myContentList.me")
@@ -471,10 +507,10 @@ public class MemberController {
 		return "myContentList";
 	}
 	
-	@RequestMapping("selectCategory.me")
+	@RequestMapping("selectContentCategory.me")
 	public String selectCategory(@RequestParam(value="page", required=false) Integer page, @RequestParam("category") String category,HttpSession session,
 									Model model) {
-		System.out.println(category);
+//		System.out.println(category);
 		Member m = (Member)session.getAttribute("loginUser");
 		String memberId = m.getMemberId();
 		
@@ -482,7 +518,7 @@ public class MemberController {
 		if(page != null) {
 			currentPage = page;
 		}
-		System.out.println(currentPage);
+//		System.out.println(currentPage);
 		HashMap<String, String> map = new HashMap<String, String>();
 		map.put("memberId", memberId);
 		map.put("category", category);
@@ -547,6 +583,55 @@ public class MemberController {
 			model.addAttribute("pi", pi);
 			model.addAttribute("rList", rList);
 			model.addAttribute("bList", bList);
+		}
+		return "myReplyList";
+	}
+	
+	@RequestMapping("selectReplyCategory.me")
+	public String selectReplyCategory(@RequestParam(value="page", required=false) Integer page,@RequestParam("category") String category,HttpSession session,
+										Model model) {
+//		System.out.println(category);
+		Member m = (Member)session.getAttribute("loginUser");
+		
+		String memberId = m.getMemberId();
+		
+		int currentPage =1;
+		if(page != null) {
+			currentPage = page;
+		}
+		
+		HashMap<String, String> map = new HashMap<String, String>();
+		map.put("memberId", memberId);
+		map.put("category", category);
+		
+		int listCount = mService.getMyReplyListCount(map);
+//		System.out.println("ddd : " + listCount);
+		
+		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 5);
+		
+		ArrayList<Reply> rList = mService.selectReplyList(pi, map);
+		
+		
+//		System.out.println(rList);
+		ArrayList<Board> bList = new ArrayList<Board>();
+		Board b = new Board();
+		HashMap<String, Integer> replyMap = new HashMap<String, Integer>();
+		for(int i = 0; i<rList.size(); i++) {
+			int boardNo = rList.get(i).getBoardNo();
+			
+			replyMap.put("boardNo", boardNo);
+			b = mService.selectReplyBoardList(replyMap);
+//			System.out.println(b);
+			
+			bList.add(b);
+		}
+//		System.out.println(bList);
+		
+		if(rList != null) {
+			model.addAttribute("pi", pi);
+			model.addAttribute("rList", rList);
+			model.addAttribute("bList", bList);
+			model.addAttribute("category", category);
 		}
 		return "myReplyList";
 	}
