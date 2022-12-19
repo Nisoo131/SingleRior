@@ -22,4 +22,6 @@ public class ProductInquiry {
 	private int productNo;
 	private String memberId;
 	private String inquiryStatus;
+	private String adminStatus;
+	private String inquiryAnswer;
 }

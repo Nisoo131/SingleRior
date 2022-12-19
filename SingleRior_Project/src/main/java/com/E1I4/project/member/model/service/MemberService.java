@@ -59,9 +59,9 @@ public interface MemberService {
 
 	Board selectReplyBoardList(HashMap<String, Integer> replyMap);
 
-	int getMyAskListCount(String memberId);
+	int getMyAskListCount(HashMap<String, String> map);
 
-	ArrayList<ProductInquiry> selectMyAskList(PageInfo pi, String memberId);
+	ArrayList<ProductInquiry> selectMyAskList(PageInfo pi, HashMap<String, String> map);
 
 	Attachment getImageProduct(int productNo);
 
