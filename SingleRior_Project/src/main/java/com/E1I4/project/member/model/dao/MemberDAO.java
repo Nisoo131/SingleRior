@@ -131,4 +131,8 @@ public class MemberDAO {
 		return sqlSession.selectOne("memberMapper.getImageProduct",productNo);
 	}
 
+	public Product getDetailProduct(SqlSessionTemplate sqlSession, String boardNo) {
+		return sqlSession.selectOne("memberMapper.getDetailProduct",boardNo);
+	}
+
 }

@@ -443,22 +443,29 @@ public class MemberController {
 		
 		ArrayList<ProductInquiry> piList = mService.selectMyAskList(pi, memberId);
 		ArrayList<Attachment> aList = new ArrayList<Attachment>();
+		ArrayList<Product> pList = new ArrayList<Product>();
 //		System.out.println(listCount);
 //		System.out.println(piList);
 		
 		for(int i = 0; i<piList.size(); i++) {
 			int productNo = piList.get(i).getProductNo();
 			Attachment a = mService.getImageProduct(productNo);
+			String boardNo = a.getImgKey();
+//			System.out.println("QDDF" +boardNo);
+			Product p = mService.getDetailProduct(boardNo);
 			
 			aList.add(a);
+			pList.add(p);
 		}
 		
-		System.out.println("aList :" +aList);
+//		System.out.println("aList :" +aList);
+//		System.out.println("pList :" +pList);
 		
 		if(piList != null) {
 			model.addAttribute("pi", pi);
 			model.addAttribute("piList", piList);
 			model.addAttribute("aList", aList);
+			model.addAttribute("pList", pList);
 			
 		}
 		

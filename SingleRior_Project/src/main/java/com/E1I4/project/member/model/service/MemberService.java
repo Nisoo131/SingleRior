@@ -65,6 +65,8 @@ public interface MemberService {
 
 	Attachment getImageProduct(int productNo);
 
+	Product getDetailProduct(String boardNo);
+
 
 
 }

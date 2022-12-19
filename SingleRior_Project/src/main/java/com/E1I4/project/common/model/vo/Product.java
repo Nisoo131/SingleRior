@@ -19,7 +19,7 @@ public class Product {
 	private int boardNo;
 	private int boardType;
 	private String productName;
-	private String productContent;//상품등록으로 일괄 입력
+	private String productContent; //상품등록으로 일괄 입력
 	private Date createDate;
 	private Date modifyDate;
 	private String noticeStatus;

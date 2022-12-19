@@ -310,13 +310,13 @@
 	<select id="getMyAskListCount" resultType="_int">
 		select count(*)
 		from product_inquiry
-		where inquiry_status = 'N' and user_id = #{memberId}
+		where inquiry_status = 'Y' and user_id = #{memberId} and admin_status = 'N'
 	</select>
 	
 	<select id="selectMyAskList" resultMap="productInquiryResultSet">
 		select *
 		from product_inquiry
-		where inquiry_status = 'N' and user_id = #{memberId}
+		where inquiry_status = 'Y' and user_id = #{memberId} and admin_status = 'N'
 	</select>
 	
 	<select id="getImageProduct" resultMap="attachmentResultSet">
@@ -325,6 +325,27 @@
 	where img_key = (SELECT TO_CHAR( (select board_no
                 from product
                 where product_no =#{productNo}))FROM DUAL) and img_level =0
+	</select>
+	
+	<resultMap type="Product" id="productResultSet">
+		<id column="PRODUCT_NO" property="productNo"/>
+		<result column="PRODUCT_PRICE" property="productPrice"/>
+		<result column="PRODUCT_DISCOUNT" property="productDiscount"/>
+		<result column="PRODUCT_OPTION" property="productOption"/>
+		<result column="MODEL_NAME" property="modelName"/>
+		<result column="BRAND" property="brand"/>
+		<result column="DELIVERY_PAYMENT" property="deliveryPayment"/>
+		<result column="PRODUCT_STATUS" property="productStatus"/>
+		<result column="PRO_SUBCATE_CODE" property="proSubCateCode"/>
+		<result column="BOARD_NO" property="boardNo"/>
+		<result column="BOARD_TITLE" property="productName"/>
+	</resultMap>
+	
+	<select id="getDetailProduct" resultMap="productResultSet">
+	select *
+	from product
+	join board b using (board_no)
+	where board_no = #{boardNo} and b.b_status = 'Y'
 	</select>
 	
 </mapper>

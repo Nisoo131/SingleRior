@@ -20,7 +20,7 @@
 		margin-top:70px;
 		max-width:1500px;
 	}
-	
+	.myAskListDiv{cursor:pointer;}
 </style>
 </head>
 <body>
@@ -37,34 +37,31 @@
 	</nav>
 	<section>
 		<h1 style="text-align:left">나의 문의</h1><br><br>
-		<div class="orderCancelProduct done">
 			<c:if test="${ piList != null }">
 				<c:forEach items="${ piList }" var="pi" varStatus="a">
-					<span>문의일자 : ${pi.inquiryDate}</span>&nbsp;&nbsp;&nbsp;<br>
-					<h4><span class="badge" style="background:#008cd4; color:white; float:right">답변대기</span></h4>
-					<table class="table">
-					    <tr>
-					      <td scope="row" colspan="4">${aList[a.index].imgKey}</td>
-					    </tr>
-					    <tr height="15">
-					    	<td scope="row" width="250" rowspan="3"><img src="${ contextPath }/resources/uploadFiles/${aList[a.index].imgRename}" width="160"></td>
-					    	<td>
-						    	<div>문의 유형 : ${pi.inquiryTitle}</div><br>
-						    	<span>병아리 인형</span><br><br>
-						    	<div>
-									<span>Q. &nbsp;&nbsp;${pi.inquiryContent}</span>
-								</div>
-					    	</td>
-					   	</tr>
-					</table>
-					<br><br>
+					<div class="myAskListDiv">
+						<span>문의일자 : ${pi.inquiryDate}</span>&nbsp;&nbsp;&nbsp;
+						<span class="badge" style="background:#008cd4; color:white; float:right">답변대기</span>
+						<div style="display:none" class="bNo">${aList[a.index].imgKey}</div>
+						<table class="table">
+						    <tr>
+						      <td scope="row" colspan="4"></td>
+						    </tr>
+						    <tr height="15">
+						    	<td scope="row" width="250" rowspan="3"><img src="${ contextPath }/resources/uploadFiles/${aList[a.index].imgRename}" width="160"></td>
+						    	<td>
+							    	<span>${pList[a.index].productName}</span><br><br><br>
+							    	<div>
+								    	<span>문의 유형 : ${pi.inquiryTitle}</span><br>
+										<span>Q. &nbsp;&nbsp;${pi.inquiryContent}</span>
+									</div>
+						    	</td>
+						   	</tr>
+						</table>
+						<br><br>
+					</div><br><br>
 				</c:forEach>
 			</c:if>
-			<c:if test="${ piList == null }">
-				<div class="alert alert-secondary" role="alert">작성하신 문의가 없습니다.</div>
-			</c:if>
-		</div><br><br>
-		
 		<nav aria-label="Standard pagination example">
 				<ul class="pagination justify-content-center">
 					<li class="page-item"><c:url var="goBack" value="${ loc }">
@@ -92,5 +89,23 @@
 	<footer>
 		<jsp:include page="../common/footer.jsp"/>
 	</footer>
+	
+	<script>
+	window.onload = () =>{
+		const cardDivs = document.getElementsByClassName('myAskListDiv');
+		
+		for(cardDiv of cardDivs){
+			cardDiv.addEventListener('click',function(){
+				const bNo = this.childNodes[5].innerText;
+				console.log(bNo);
+				location.href='${contextPath}//productDetail.st?bNo=' + bNo + '&page=' + ${pi.currentPage};
+			});
+		}
+		
+	}
+		
+		
+		
+	</script>
 </body>
 </html>

@@ -167,6 +167,11 @@ public class MemberServiceImpl implements MemberService {
 		return mDAO.getImageProduct(sqlSession,productNo);
 	}
 
+	@Override
+	public Product getDetailProduct(String boardNo) {
+		return mDAO.getDetailProduct(sqlSession,boardNo);
+	}
+
 
 
 
