@@ -6,7 +6,6 @@ import com.E1I4.project.common.model.vo.Attachment;
 import com.E1I4.project.common.model.vo.Product;
 import com.E1I4.project.common.model.vo.ProductList;
 import com.E1I4.project.member.model.vo.Member;
-import com.E1I4.project.storeBoard.model.vo.StoreBoard;
 
 public interface AdminService {
 
@@ -27,5 +26,11 @@ public interface AdminService {
 	ProductList selectProductDetail(int productNo);
 
 	ArrayList<Attachment> selectAttmListDetail(int bId);
+
+	int deleteAttm(ArrayList<String> delRename);
+
+	void updateAttmLevel(int boardNo);
+
+	int updateProduct(Product p);
 
 }

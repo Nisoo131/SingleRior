@@ -142,10 +142,32 @@
 		where img_B_type= '1'
 		      and img_status='Y'
 		      and img_key=#{bId}
-	
-	
-	
 	</select>
+	<delete id="deleteAttm">
+		delete from img_repository
+		where img_server_name in
+		<foreach collection="list" open="(" close=")" separator="," item="item">
+			#{item}
+		</foreach>
+	</delete>
+	<update id="updateAttmLevel">
+		update img_repository
+		set img_level=0
+		where img_no=(select min(img_no)
+						from img_repository
+						where img_key=#{boardNo})
 	
+	</update>
+	<update id="updateProduct">
+		update product
+		set product_price=#{productPrice},product_discount=#{productDiscount},product_option=#{productOption},model_name=#{modelName},brand=#{brand},pro_subcate_code=#{proSubCateCode}
+		where board_no=#{boardNo}
+	
+	</update>
+	<update id="updateBoard">
+		update board
+		set board_title=#{productName},modify_date=sysdate,board_writer=#{boardWriter}
+		where board_no=#{boardNo}
+	</update>
 	
 </mapper>

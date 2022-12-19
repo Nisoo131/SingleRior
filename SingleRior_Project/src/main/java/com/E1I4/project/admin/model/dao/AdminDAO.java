@@ -49,4 +49,21 @@ public class AdminDAO {
 		return (ArrayList)sqlSession.selectList("adminMapper.selectAttmListDetail",bId);
 	}
 
+	public int deleteAttm(SqlSessionTemplate sqlSession, ArrayList<String> delRename) {
+		return sqlSession.delete("adminMapper.deleteAttm",delRename);
+	}
+
+	public void updateAttmLevel(SqlSessionTemplate sqlSession, int boardNo) {
+		sqlSession.update("adminMapper.updateAttmLevel",boardNo);
+	}
+
+	public int updateProduct(SqlSessionTemplate sqlSession, Product p) {
+		int updateProduct= sqlSession.update("adminMapper.updateProduct",p);
+		int updateBoard=sqlSession.update("adminMapper.updateBoard",p);
+		
+		int result=updateProduct+updateBoard;
+		
+		return result;
+	}
+
 }
