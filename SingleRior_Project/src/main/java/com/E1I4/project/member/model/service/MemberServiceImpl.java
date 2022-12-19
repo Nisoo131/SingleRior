@@ -153,13 +153,13 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public int getMyAskListCount(String memberId) {
-		return mDAO.getMyAskListCount(sqlSession,memberId);
+	public int getMyAskListCount(HashMap<String, String> map) {
+		return mDAO.getMyAskListCount(sqlSession,map);
 	}
 
 	@Override
-	public ArrayList<ProductInquiry> selectMyAskList(PageInfo pi, String memberId) {
-		return mDAO.selectMyAskList(sqlSession,memberId,pi);
+	public ArrayList<ProductInquiry> selectMyAskList(PageInfo pi, HashMap<String, String> map) {
+		return mDAO.selectMyAskList(sqlSession,map,pi);
 	}
 
 	@Override

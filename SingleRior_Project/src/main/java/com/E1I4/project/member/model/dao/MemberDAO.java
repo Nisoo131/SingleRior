@@ -117,14 +117,14 @@ public class MemberDAO {
 		return (Board) sqlSession.selectOne("memberMapper.selectReplyBoardList", replyMap);
 	}
 
-	public int getMyAskListCount(SqlSessionTemplate sqlSession, String memberId) {
-		return sqlSession.selectOne("memberMapper.getMyAskListCount", memberId);
+	public int getMyAskListCount(SqlSessionTemplate sqlSession, HashMap<String, String> map) {
+		return sqlSession.selectOne("memberMapper.getMyAskListCount", map);
 	}
 
-	public ArrayList<ProductInquiry> selectMyAskList(SqlSessionTemplate sqlSession, String memberId, PageInfo pi) {
+	public ArrayList<ProductInquiry> selectMyAskList(SqlSessionTemplate sqlSession, HashMap<String, String> map, PageInfo pi) {
 		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
 		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
-		return (ArrayList)sqlSession.selectList("memberMapper.selectMyAskList", memberId, rowBounds);
+		return (ArrayList)sqlSession.selectList("memberMapper.selectMyAskList", map, rowBounds);
 	}
 
 	public Attachment getImageProduct(SqlSessionTemplate sqlSession, int productNo) {

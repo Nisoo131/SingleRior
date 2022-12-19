@@ -52,7 +52,7 @@
 						    	<td>
 							    	<span>${pList[a.index].productName}</span><br><br><br>
 							    	<div>
-								    	<span>문의 유형 : ${pi.inquiryTitle}</span><br>
+								    	<span>문의 유형 : ${pi.inquiryTitle}</span><br><br>
 										<span>Q. &nbsp;&nbsp;${pi.inquiryContent}</span>
 									</div>
 						    	</td>

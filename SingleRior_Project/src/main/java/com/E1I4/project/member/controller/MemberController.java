@@ -438,13 +438,17 @@ public class MemberController {
 			currentPage = page;
 		}
 		
-		int listCount = mService.getMyAskListCount(memberId);
+		String status = "yet";
+		HashMap<String,String> map = new HashMap<String,String>();
+		map.put("memberId", memberId);
+		map.put("status", status);
+		int listCount = mService.getMyAskListCount(map);
 		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 5);
 		
-		ArrayList<ProductInquiry> piList = mService.selectMyAskList(pi, memberId);
+		ArrayList<ProductInquiry> piList = mService.selectMyAskList(pi, map);
 		ArrayList<Attachment> aList = new ArrayList<Attachment>();
 		ArrayList<Product> pList = new ArrayList<Product>();
-//		System.out.println(listCount);
+//		System.out.println("listCount" +listCount);
 //		System.out.println(piList);
 		
 		for(int i = 0; i<piList.size(); i++) {
@@ -472,8 +476,45 @@ public class MemberController {
 		return "myAskList";
 	}
 	@RequestMapping("myAskDoneList.me")
-	public String myAskDoneList(HttpSession session) {
+	public String myAskDoneList(HttpSession session,@RequestParam(value="page", required=false) Integer page,Model model) {
 		Member m = (Member)session.getAttribute("loginUser");
+		String memberId = m.getMemberId();
+		
+		int currentPage =1;
+		if(page != null) {
+			currentPage = page;
+		}
+		
+		String status = "done";
+		HashMap<String,String> map = new HashMap<String,String>();
+		map.put("memberId", memberId);
+		map.put("status", status);
+		int listCount = mService.getMyAskListCount(map);
+		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 5);
+		
+		ArrayList<ProductInquiry> piList = mService.selectMyAskList(pi, map);
+//		System.out.println(piList);
+		ArrayList<Attachment> aList = new ArrayList<Attachment>();
+		ArrayList<Product> pList = new ArrayList<Product>();
+		
+		for(int i = 0; i<piList.size(); i++) {
+			int productNo = piList.get(i).getProductNo();
+			Attachment a = mService.getImageProduct(productNo);
+			String boardNo = a.getImgKey();
+//			System.out.println("QDDF" +boardNo);
+			Product p = mService.getDetailProduct(boardNo);
+			
+			aList.add(a);
+			pList.add(p);
+		}
+		
+		if(piList != null) {
+			model.addAttribute("pi", pi);
+			model.addAttribute("piList", piList);
+			model.addAttribute("aList", aList);
+			model.addAttribute("pList", pList);
+			
+		}
 		
 		return "myAskDoneList";
 	}

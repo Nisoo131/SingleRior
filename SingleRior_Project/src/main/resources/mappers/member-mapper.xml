@@ -305,18 +305,32 @@
 		<result column="PRODUCT_NO" property="productNo"/>
 		<result column="USER_ID" property="memberId"/>
 		<result column="INQUIRY_STATUS" property="inquiryStatus"/>
+		<result column="ADMIN_STATUS" property="adminStatus"/>
+		<result column="INQUIRY_ANSWER" property="inquiryAnswer"/>
 	</resultMap>
 	
 	<select id="getMyAskListCount" resultType="_int">
 		select count(*)
 		from product_inquiry
-		where inquiry_status = 'Y' and user_id = #{memberId} and admin_status = 'N'
+		where inquiry_status = 'Y' and user_id = #{memberId}
+		<if test="status == 'yet'">
+			 and admin_status = 'N'
+		</if>
+		<if test="status == 'done'">
+			 and admin_status = 'Y'
+		</if>
 	</select>
 	
 	<select id="selectMyAskList" resultMap="productInquiryResultSet">
 		select *
 		from product_inquiry
-		where inquiry_status = 'Y' and user_id = #{memberId} and admin_status = 'N'
+		where inquiry_status = 'Y' and user_id = #{memberId}
+		<if test="status == 'yet'">
+			 and admin_status = 'N'
+		</if>
+		<if test="status == 'done'">
+			 and admin_status = 'Y'
+		</if>
 	</select>
 	
 	<select id="getImageProduct" resultMap="attachmentResultSet">

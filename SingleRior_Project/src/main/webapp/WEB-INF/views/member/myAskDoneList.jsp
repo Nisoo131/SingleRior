@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -18,8 +20,10 @@
 		margin-top:70px;
 		max-width:1500px;
 	}
+	.myAskListDiv{cursor:pointer;}
 </style>
 </head>
+<body>
 <body>
 	<header>
 		<jsp:include page="../common/top.jsp"/>
@@ -27,37 +31,81 @@
 	<nav class="navbar navbar-expand-lg" id="navAsk">
 			<div class="collapse navbar-collapse" id="navbarNavAltMarkup">
 				<div class="navbar-nav">
-					<a class="nav-link"onclick="location.href='${contextPath}/myAskList.me'">답변 미완료 문의</a>
-					<a class="nav-link"  aria-current="page" onclick="location.href='${contextPath}/myAskDoneList.me'" style="color:#008cd4">답변 완료 문의</a>
+					<a class="nav-link" aria-current="page" onclick="location.href='${contextPath}/myAskList.me'">답변 미완료 문의</a>
+					<a class="nav-link"onclick="location.href='${contextPath}/myAskDoneList.me'"  style="color:#008cd4">답변 완료 문의</a>
 				</div>
 			</div>
 	</nav>
 	<section>
 		<h1 style="text-align:left">나의 문의</h1><br><br>
-		<div class="orderCancelProduct done">
-			<span>문의일자 : 2022-02-12</span>&nbsp;&nbsp;&nbsp;
-			<h4><span class="badge" style="background:#008cd4; color:white; float:right">답변완료</span></h4>
-			<table class="table">
-			    <tr>
-			      <td scope="row" colspan="4"></td>
-			    </tr>
-			    <tr height="15">
-			    	<td scope="row" width="250" rowspan="3"><img src="${ contextPath }/resources/image/babychicken.png" width="160"></td>
-			    	<td>
-			    	<span>병아리 인형</span><br><br>
-			    	<span>문의 유형 : 배송</span>
-			    	</td>
-			   	</tr>
-			</table>
-			<div>
-			<span>Q. 병아리인형이 노란색이 아니고 핑크색인데 이게 말이 되나요?..굉장히 화가 나네요ㅡㅡ!!</span><br><br>
-			<span>ㄴ</span>
-			<span>A. 병아리 인형이 핑크색일 수도 있지요.. 편견을 버리세요.. 그리고 그냥 배송실수입니다.. 바꿔드림요..ㅅㄱ</span>
-			</div>
-		</div><br><br>
+		<c:if test="${ piList != null }">
+				<c:forEach items="${ piList }" var="pi" varStatus="a">
+					<div class="myAskListDiv">
+						<span>문의일자 : ${pi.inquiryDate}</span>&nbsp;&nbsp;&nbsp;
+						<span class="badge" style="background:#008cd4; color:white; float:right">답변완료</span>
+						<div style="display:none" class="bNo">${aList[a.index].imgKey}</div>
+						<table class="table">
+						    <tr>
+						      <td scope="row" colspan="4"></td>
+						    </tr>
+						    <tr height="15">
+						    	<td scope="row" width="250" rowspan="3"><img src="${ contextPath }/resources/uploadFiles/${aList[a.index].imgRename}" width="160"></td>
+						    	<td>
+							    	<span>${pList[a.index].productName}</span><br><br><br>
+							    	<div>
+								    	<span>문의 유형 : ${pi.inquiryTitle}</span><br><br>
+										<span>Q. &nbsp;&nbsp; ${pi.inquiryContent}</span><br>
+										<span><i class="bi bi-arrow-return-right"></i>&nbsp;</span>
+										<span>A. &nbsp;&nbsp; ${pi.inquiryAnswer}</span>
+									</div>
+						    	</td>
+						   	</tr>
+						</table>
+						<br><br>
+					</div><br><br>
+				</c:forEach>
+			</c:if>
+		<nav aria-label="Standard pagination example">
+				<ul class="pagination justify-content-center">
+					<li class="page-item"><c:url var="goBack" value="${ loc }">
+							<c:param name="page" value="${ pi.currentPage-1 }" />
+							<c:param name="category" value="${ category }"/>
+						</c:url> <a class="page-link" href="${ goBack }" aria-label="Previous">
+							<span aria-hidden="true">&laquo;</span>
+					</a></li>
+					<c:forEach begin="${ pi.startPage }" end="${ pi.endPage }" var="p">
+						<c:url var="goNum" value="${ loc }">
+							<c:param name="page" value="${ p }" />
+							<c:param name="category" value="${ category }"/>
+						</c:url>
+						<li class="page-item"><a class="page-link" href="${ goNum }">${ p }</a></li>
+					</c:forEach>
+					<li class="page-item"><c:url var="goNext" value="${ loc }">
+							<c:param name="page" value="${ pi.currentPage+1 }" />
+							<c:param name="category" value="${ category }"/>
+						</c:url> <a class="page-link" href="${ goNext }" aria-label="Next"> <span
+							aria-hidden="true">&raquo;</span>
+					</a></li>
+				</ul>
+			</nav>
 	</section>
 	<footer>
 		<jsp:include page="../common/footer.jsp"/>
 	</footer>
+	
+	<script>
+	window.onload = () =>{
+		const cardDivs = document.getElementsByClassName('myAskListDiv');
+		
+		for(cardDiv of cardDivs){
+			cardDiv.addEventListener('click',function(){
+				const bNo = this.childNodes[5].innerText;
+				console.log(bNo);
+				location.href='${contextPath}//productDetail.st?bNo=' + bNo + '&page=' + ${pi.currentPage};
+			});
+		}
+		
+	}
+	</script>
 </body>
 </html>
