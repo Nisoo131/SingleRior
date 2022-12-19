@@ -30,11 +30,20 @@ public class CommuBoardServiceImpl implements CommuBoardService{
 		return cDAO.getCommuListCount(sqlSession, map);
 	}
 	
+	// 싱글벙글 커뮤니티 list select
 	@Override
 	public ArrayList<CommuBoard> selectCommuAllList(PageInfo pi, HashMap<String, Object> map) {
 		return cDAO.selectCommuAllList(sqlSession, pi, map);
 	}
 	
+	// 댓글 count 불러오기
+	@Override
+	public ArrayList<CommuBoard> replyCount(HashMap<String, Object> map) {
+		return cDAO.replyCount(sqlSession, map);
+	}
+	
+	
+	/* 게시글 등록 (insert) */
 	@Override
 	public int insertCommuBoard(CommuBoard coBoard) {
 		return cDAO.insertCommuBoard(sqlSession, coBoard);
@@ -44,7 +53,10 @@ public class CommuBoardServiceImpl implements CommuBoardService{
 	public int insertAttm(HashMap<String, Object> map) {
 		return cDAO.insertAttm(sqlSession, map);
 	}
-
+	
+	
+	/* 게시글 상세보기 */
+	// 게시글 select
 	@Override
 	public CommuBoard selectCommuBoard(int bNo, boolean yn) {
 		int result = 0;
@@ -55,62 +67,85 @@ public class CommuBoardServiceImpl implements CommuBoardService{
 		CommuBoard coBoard = cDAO.selectCommuBoard(sqlSession, bNo);
 		return coBoard;
 	}
-
+	
+	// 첨부파일 불러오기
 	@Override
 	public ArrayList<Attachment> selectAttmBoard(String bNo) {
 		return cDAO.selectAttmBoard(sqlSession, bNo);
 	}
-
-	@Override
-	public ArrayList<Reply> selectReply(int bNo) {
-		return cDAO.selectReply(sqlSession, bNo);
-	}
-
-	@Override
-	public ArrayList<ReReply> selectReReply(int bNo) {
-		return cDAO.selectReReply(sqlSession, bNo);
-	}
-
-	@Override
-	public int insertReply(Reply r) {
-		return cDAO.insertReply(sqlSession, r);
-	}
-
+	
+	
+	/* 공감 (sympt) */
+	// 공감하기 (on)
 	@Override
 	public int symptOn(WishList wl, int bNo) {
 		cDAO.addSymptCount(sqlSession, bNo);
 		return cDAO.symptOn(sqlSession, wl);
 	}
-
+	
+	// 공감 count 불러오기
 	@Override
 	public WishList selectSymptOn(WishList wl) {
 		return cDAO.selectSymptOn(sqlSession, wl);
 	}
-
+	
+	// 공감하기 (off)
 	@Override
 	public int symptOff(WishList wl, int bNo) {
 		cDAO.deleteSymptCount(sqlSession, bNo);
 		return cDAO.symptOff(sqlSession, wl);
 	}
-
+	
+	
+	/* 댓글 */
+	// 댓글 list select
 	@Override
-	public ArrayList<CommuBoard> replyCount(HashMap<String, Object> map) {
-		return cDAO.replyCount(sqlSession, map);
+	public ArrayList<Reply> selectReply(int bNo) {
+		return cDAO.selectReply(sqlSession, bNo);
 	}
-
+	
+	// 댓글 등록 (insert)
+	@Override
+	public int insertReply(Reply r) {
+		return cDAO.insertReply(sqlSession, r);
+	}
+	
+	// 대댓글 불러오기
+	@Override
+	public ArrayList<ReReply> selectReReply(int bNo) {
+		return cDAO.selectReReply(sqlSession, bNo);
+	}
+	
+	
+	/* 게시글 수정 (update) */
+	// 첨부파일 삭제
 	@Override
 	public int deleteAttm(ArrayList<String> delRename) {
 		return cDAO.deleteAttm(sqlSession, delRename);
 	}
-
+	
+	// 내용 수정
 	@Override
 	public int updateCommuBoard(CommuBoard coBoard) {
 		return cDAO.updateCommuBoard(sqlSession, coBoard);
 	}
+	
+	// 첨부파일 level 변경
+	@Override
+	public void updateAttmLevel(String strBNo) {
+		cDAO.updateAttmLevel(sqlSession, strBNo);
+	}
+	
+	
+	/* 게시글 삭제 (delete) */
+	@Override
+	public int deleteCommuBoard(int bNo) {
+		return cDAO.deleteCommuBoard(sqlSession, bNo);
+	}
 
 	@Override
-	public void updateAttmLevel(int boardNo) {
-		cDAO.updateAttmLevel(sqlSession, boardNo);
+	public int updateAttmStatus(String strBNo) {
+		return cDAO.updateAttmStatus(sqlSession, strBNo);
 	}
 
 }
