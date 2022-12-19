@@ -123,11 +123,9 @@
         $(function(){
         
         	
-        	$(document).on('mouseover','.trs',function(){
-        		const productNo=this.childNodes[0].innerText;
-        		$('.btn-primary').on('click',function(){
-        			location.href='${contextPath}/updateProduct.adm?productNo='+productNo;
-        		});
+        	$(document).on('click','.btn-primary',function(){
+        		const productNo=$(this).parents('tr').children().eq(0).text();
+       			location.href='${contextPath}/updateProduct.adm?productNo='+productNo;
         		
         	});
         })

@@ -118,15 +118,34 @@
    
    <select id="selectProductList" resultMap="ProductListResultSet">
    
-    select b.board_no,b.board_type,b.board_title,b.create_date,b.modify_date,b.b_status,b.board_writer,b.board_count,p.product_no,p.product_price,p.product_discount,p.product_option,p.model_name,p.brand,p.delivery_payment,p.product_status,ps.pro_subcate_code,ps.pro_subcate_name,pt.pro_topcate_code,pt.pro_topcate_name
-	from board b
-	    join product p on (b.board_no=p.board_no)
-	    join product_sub_cate ps on(p.pro_subcate_code=ps.pro_subcate_code)
-	    join product_top_cate pt on(ps.pro_topcate_code=pt.pro_topcate_code)
-	where board_type=#{i}
-   order by p.product_no
+	    select b.board_no,b.board_type,b.board_title,b.create_date,b.modify_date,b.b_status,b.board_writer,b.board_count,p.product_no,p.product_price,p.product_discount,p.product_option,p.model_name,p.brand,p.delivery_payment,p.product_status,ps.pro_subcate_code,ps.pro_subcate_name,pt.pro_topcate_code,pt.pro_topcate_name
+		from board b
+		    join product p on (b.board_no=p.board_no)
+		    join product_sub_cate ps on(p.pro_subcate_code=ps.pro_subcate_code)
+		    join product_top_cate pt on(ps.pro_topcate_code=pt.pro_topcate_code)
+		where board_type=#{i}
+	    order by p.product_no
    
    </select>
+	<select id="selectProductDetail" resultMap="ProductListResultSet">
+	
+		select b.board_no,b.board_type,b.board_title,b.create_date,b.modify_date,b.b_status,b.board_writer,b.board_count,p.product_no,p.product_price,p.product_discount,p.product_option,p.model_name,p.brand,p.delivery_payment,p.product_status,ps.pro_subcate_code,ps.pro_subcate_name,pt.pro_topcate_code,pt.pro_topcate_name
+		from board b
+		    join product p on (b.board_no=p.board_no)
+		    join product_sub_cate ps on(p.pro_subcate_code=ps.pro_subcate_code)
+		    join product_top_cate pt on(ps.pro_topcate_code=pt.pro_topcate_code)
+		where product_no=#{productNo}
+	</select>
+	<select id="selectAttmListDetail" resultMap="attachmentResultSet">
+	    select *
+		from img_repository 
+		where img_B_type= '1'
+		      and img_status='Y'
+		      and img_key=#{bId}
+	
+	
+	
+	</select>
 	
 	
 </mapper>

@@ -57,4 +57,14 @@ public class AdminServiceImpl implements AdminService {
 		return aDAO.selectAttmList(sqlSession);
 	}
 
+	@Override
+	public ProductList selectProductDetail(int productNo) {
+		return aDAO.selectProductDetail(sqlSession,productNo);
+	}
+
+	@Override
+	public ArrayList<Attachment> selectAttmListDetail(int bId) {
+		return aDAO.selectAttmListDetail(sqlSession,bId);
+	}
+
 }

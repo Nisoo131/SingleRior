@@ -39,6 +39,7 @@ public class AdminController {
 	private BCryptPasswordEncoder bcrypt;
 	
 	
+	
 	@RequestMapping("index.adm")
 	public String adminView() {
 		return"index";
@@ -47,6 +48,29 @@ public class AdminController {
 	public String insertProduct() {
 		return "insertProduct";
 	}
+	
+	@RequestMapping("updateAdmin.adm")
+	public String updateAdmin(@RequestParam("memberId") String memberId,Model model) {
+		Member member=aService.selectMember(memberId);
+		model.addAttribute("m",member);
+		
+		return "updateAdmin";
+	}
+	@RequestMapping("editAdmin.adm")
+	public String editAdmin(@RequestParam("memberId") String memberId,Model model,@ModelAttribute Member m) {
+		
+		int result=0;
+		
+		if(!m.getMemberPwd().equals("")) {
+			String encPwd = bcrypt.encode(m.getMemberPwd());
+			m.setMemberPwd(encPwd);
+			result=aService.editMember(m);
+		}else {
+			result=aService.editMember(m);
+		}
+		return"redirect:index.adm";
+	}
+	
 	
 	//회원정보관리
 	@RequestMapping("manageUser.adm")
@@ -75,8 +99,6 @@ public class AdminController {
 	}
 	@RequestMapping("editMember.adm")
 	public String editMember(Model model, @RequestParam("memberId") String memberId,@ModelAttribute Member m) {
-		System.out.println(m);
-		System.out.println(memberId);
 		
 		int result=0;
 		
@@ -321,7 +343,26 @@ public class AdminController {
 			throw new AdminException("상품정보 조회 실패");
 		}
 	}
-	
+	@RequestMapping("updateProduct.adm")
+	public String updateProduct(@RequestParam("productNo") int productNo,Model model) {
+		ProductList p=aService.selectProductDetail(productNo);
+		ArrayList<String> list= new ArrayList<>();
+		int bId=p.getBoardNo();
+		
+		ArrayList<Attachment> aList= aService.selectAttmListDetail(bId);
+		
+		String[] option =p.getOption().split(",");
+		for(int i =0;i<option.length;i++) {
+			list.add(option[i]);
+		}
+//		System.out.println(bId);
+//		System.out.println(aList);
+		
+		model.addAttribute("p", p);
+		model.addAttribute("list",list);
+		model.addAttribute("aList",aList);
+		return "updateProduct";
+	}
 	@RequestMapping("orderList.adm")
 	public String orderList() {
 		return "orderList";
