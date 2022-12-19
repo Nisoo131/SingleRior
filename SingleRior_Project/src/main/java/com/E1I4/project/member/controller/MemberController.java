@@ -62,6 +62,7 @@ public class MemberController {
 //		System.out.println(bcrypt.encode(m.getMemberPwd()));  // 암호화 비밀번호
 		if(bcrypt.matches(m.getMemberPwd(), loginUser.getMemberPwd())) {
 			session.setAttribute("loginUser", loginUser);
+//			model.addAttribute("loginUser",loginUser);
 //			 System.out.println("로그인성공");
 			 return "redirect:/";
 		} else {

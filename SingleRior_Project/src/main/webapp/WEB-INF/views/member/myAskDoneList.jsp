@@ -61,8 +61,8 @@
 						    	</td>
 						   	</tr>
 						</table>
-						<br><br>
-					</div><br><br>
+					</div>
+					<br><br>
 				</c:forEach>
 			</c:if>
 		<nav aria-label="Standard pagination example">

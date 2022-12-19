@@ -7,23 +7,10 @@
 <title>Insert title here</title>
 <style>
 
- li a:hover { font-weight : bold; color:#008cd4;} 
-input[type=checkbox] {
+ .nav-link:hover { font-weight : bold; color:#008cd4;} 
 
--ms-transform: scale(2); /* IE */
-
--moz-transform: scale(2); /* FF */
-
--webkit-transform: scale(2); /* Safari and Chrome */
-
--o-transform: scale(2); /* Opera */
-
-padding: 10px;
-
-}
 	#navReview{
 		margin:auto;
-		margin-top:70px;
 		max-width:470px;
 		font-size:30px;
 		cursor:pointer;
@@ -44,29 +31,10 @@ padding: 10px;
 		<div class="container-fluid">
 			<div class="collapse navbar-collapse" id="navbarNavAltMarkup">
 				<div class="navbar-nav">
-					<ul class="nav justify-content-center">
-						<li class="nav-item"><a style="color: black;"
-							class="nav-link active" aria-current="page" href="#"><img
-								style="width: 40px; height: 40px;"
-								src="https://cdn-icons-png.flaticon.com/512/4803/4803672.png"><br>&nbsp;&nbsp;전체</a>
-						</li>
-
-						<li class="nav-item"><a style="color: black;"
-							class="nav-link active" aria-current="page" href="#"><img
-								style="width: 40px; height: 40px;"
-								src="https://cdn-icons-png.flaticon.com/512/4803/4803788.png"><br>스토어</a>
-						</li>
-						<li class="nav-item"><a style="color: black;"
-							class="nav-link active" aria-current="page" href="#">&nbsp;<img
-								style="width: 40px; height: 40px;"
-								src="https://cdn-icons-png.flaticon.com/512/4803/4803585.png"><br>싱글벙글
-						</a></li>
-						<li class="nav-item"><a style="color: black;"
-							class="nav-link active" aria-current="page" href="#">&nbsp;<img
-								style="width: 40px; height: 40px;"
-								src="https://cdn-icons-png.flaticon.com/512/4803/4803729.png"><br>씽씽마켓
-						</a></li>
-					</ul>
+					<span class="nav-link active" aria-current="page" style="color:#008cd4">전체</span> 
+					<span class="nav-link">스토어</span>
+					<span class="nav-link">싱글벙글</span>
+					<span class="nav-link">씽씽마켓</span>
 				</div>
 			</div>
 		</div>

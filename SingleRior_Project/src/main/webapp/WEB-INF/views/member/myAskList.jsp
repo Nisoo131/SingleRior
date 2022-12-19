@@ -58,7 +58,6 @@
 						    	</td>
 						   	</tr>
 						</table>
-						<br><br>
 					</div><br><br>
 				</c:forEach>
 			</c:if>
