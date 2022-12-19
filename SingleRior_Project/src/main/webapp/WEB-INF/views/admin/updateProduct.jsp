@@ -135,22 +135,25 @@
 									<tr>
 										<td style="text-align:right;">게시된 사진 :&nbsp;&nbsp;  </td>
 										<td colspan="2"><a href="${contextPath }/resources/uploadFiles/${a.imgRename}" download='${a.imgOriginalName}'>${a.imgOriginalName}</a></td>
-										<td><button type="button" class="btn btn-outline-dark btn-sm deleteAttm" id="delete-${a.imgRename}/${a.level}">사진 삭제</button><input type="hidden" name="deleteAttm"> </td>
+										<td><button type="button" class="btn btn-outline-dark btn-sm deleteAttm" id="delete-${a.imgRename}/${a.level}">사진삭제</button><input type="hidden" name="deleteAttm"> </td>
 									</tr>	
 									</c:forEach>
 									<tr>
-									<td></td>
-									<td><input class="btn btn-primary" type="button" value="사진 추가" onclick="addAttm(this)" style="width:500px;" ></td>
-									<td></td>
+									<td style="text-align:right;">상품 사진 추가:&nbsp;&nbsp;</td>
+									<td colspan='2'><input type='file' name='file' style='width:500px;' ></td>
+									<td><input class="btn btn-primary" type="button" value="사진 추가" onclick="addAttm(this)" ></td>
 									</tr>
 									
 								</table>
 							</fieldset>
-								
+								<div id="hiddenElement">
+									<input type="hidden" name="boardNo" value="${p.boardNo }">
+								</div>
 								<div class="btn">
 									<button type="submit" class="btn btn-success" id="editProduct">상품 수정</button>&nbsp;&nbsp;&nbsp;&nbsp;
 									<button type="reset" class="btn btn-danger">초기화</button>
 								</div>	
+								
 						</form>
                     </div>
                     
@@ -212,7 +215,7 @@
         //사진 추가
 	        function addAttm(obj){
 	        	var insertTr='';
-	        	insertTr+="<tr><td style='text-align:right;'>추가된 사진:</td><td colspan='2'><input type='file' name='file' style='width:500px;' ></td><td><input class='btn btn-danger' type='button' value='삭제' onclick='deleteKey(this)'></td></tr>"	;
+	        	insertTr+="<tr><td style='text-align:right;'></td><td colspan='2'><input type='file' name='file' style='width:500px;' ></td><td><input class='btn btn-danger' type='button' value='삭제' onclick='deleteKey(this)'></td></tr>"	;
 	        	$('#pTable').append(insertTr)
 	        }
         </script>
@@ -279,19 +282,19 @@
 				if(nextHidden.value==''){//삭제 버튼을 누르지 않았다면(삭제 off)
 					this.style.background='black';
 					this.style.color='white';
-					this.innerText='삭제 취소';
+					this.innerText='삭제취소';
 					nextHidden.value=this.id.split("-")[1];
 				
 				}else{//삭제 버튼을 눌렀다면 (삭제 on)
 					this.style.background='none';
 					this.style.color='black';
-					this.innerText='사진 삭제';
+					this.innerText='사진삭제';
 					nextHidden.removeAttribute('value');
 				}
 			});
 		}
         
-        const form = document.getElementById('productUpdateForm');
+          const form = document.getElementById('productUpdateForm');
         	document.getElementById('editProduct').addEventListener('click',function(e){
         	const files=document.getElementsByName('file');
         	
@@ -304,23 +307,20 @@
         	}
         	let isAllRemove=true;
         	
-        	for(const btn od delBtns){
-        		if(btn.innterText=='삭제off'){
+        	for(const btn of delBtns){
+        		if(btn.innerText=='사진삭제'){
         			isAllRemove=false;
         		}
         	}
-        	if(isEmpty&& isAllRemove){
+        	if(isEmpty &&isAllRemove){
         		alert("사진 데이터가 없습니다. 확인 부탁드립니다.")
         		e.preventDefault();
         	}else{
         		form.submit;
-        	}
+	        }
+        }); 
+
         	
-        	
-        	});
-        
-        
-        
         </script>
         
         

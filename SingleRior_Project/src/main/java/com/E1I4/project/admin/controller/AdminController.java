@@ -4,6 +4,7 @@ import java.io.File;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -130,7 +131,78 @@ public class AdminController {
 			}
 		}
 	}
+	//카테고리 코드 변환
 	
+	public int subTop(String subCategory) {
+		
+		
+		switch(subCategory) {
+		case "침대" : 
+			return 101;
+		case "테이블" : 
+			return 102;
+		case "서랍장" : 
+			return 103;
+		case "의자" : 
+			return 104;
+		case "옷장" : 
+			return 105;
+		case "화장대" : 
+			return 106;
+		case "이불" : 
+			return 201;
+		case "배게" : 
+			return 202;
+		case "커튼/블라인드" : 
+			return 203;
+		case "러그" : 
+			return 204;
+		case "식물" : 
+			return 301;
+		case "시계" : 
+			return 302;
+		case "캔들/디퓨저" : 
+			return 303;
+		case "윌데코/장식" : 
+			return 304;
+		case "냄비/프라이팬" : 
+			return 401;
+		case "그릇" : 
+			return 402;
+		case "보관용기" : 
+			return 403;
+		case "수저/커트러리" : 
+			return 404;
+		case "컵/텀블러" : 
+			return 405;
+		case "칼/도마" : 
+			return 406;
+		case "냉장고" : 
+			return 501;
+		case "TV/모니터" : 
+			return 502;
+		case "세탁기/건조대" : 
+			return 503;
+		case "컴퓨터/노트북/태블릿" : 
+			return 504;
+		case "청소기" : 
+			return 505;
+		case "계절가전" : 
+			return 506;
+		case "이어폰/헤드셋" : 
+			return 601;
+		case "스피커" : 
+			return 602;
+		case "마이크" : 
+			return 603;
+		case "빔프로젝터" : 
+			return 604;
+		case "미용가전" : 
+			return 605;
+		default:
+			return 0;
+		}
+	}
 	
 	// 상품등록
 	@RequestMapping("enrollProduct.adm")
@@ -140,102 +212,10 @@ public class AdminController {
 		p.setBoardWriter(id);
 		p.setProductContent("상품등록");
 		
+		int subCate=subTop(subCategory);
+		p.setProSubCateCode(subCate);
 		
-		switch(subCategory) {
-		case "침대" : 
-			p.setProSubCateCode(101);
-			break;
-		case "테이블" : 
-			p.setProSubCateCode(102);
-			break;
-		case "서랍장" : 
-			p.setProSubCateCode(103);
-			break;
-		case "의자" : 
-			p.setProSubCateCode(104);
-			break;
-		case "옷장" : 
-			p.setProSubCateCode(105);
-			break;
-		case "화장대" : 
-			p.setProSubCateCode(106);
-			break;
-		case "이불" : 
-			p.setProSubCateCode(201);
-			break;
-		case "배게" : 
-			p.setProSubCateCode(202);
-			break;
-		case "커튼/블라인드" : 
-			p.setProSubCateCode(203);
-			break;
-		case "러그" : 
-			p.setProSubCateCode(204);
-			break;
-		case "식물" : 
-			p.setProSubCateCode(301);
-			break;
-		case "시계" : 
-			p.setProSubCateCode(302);
-			break;
-		case "캔들/디퓨저" : 
-			p.setProSubCateCode(303);
-			break;
-		case "윌데코/장식" : 
-			p.setProSubCateCode(304);
-			break;
-		case "냄비/프라이팬" : 
-			p.setProSubCateCode(401);
-			break;
-		case "그릇" : 
-			p.setProSubCateCode(402);
-			break;
-		case "보관용기" : 
-			p.setProSubCateCode(403);
-			break;
-		case "수저/커트러리" : 
-			p.setProSubCateCode(404);
-			break;
-		case "컵/텀블러" : 
-			p.setProSubCateCode(405);
-			break;
-		case "칼/도마" : 
-			p.setProSubCateCode(406);
-			break;
-		case "냉장고" : 
-			p.setProSubCateCode(501);
-			break;
-		case "TV/모니터" : 
-			p.setProSubCateCode(502);
-			break;
-		case "세탁기/건조대" : 
-			p.setProSubCateCode(503);
-			break;
-		case "컴퓨터/노트북/태블릿" : 
-			p.setProSubCateCode(504);
-			break;
-		case "청소기" : 
-			p.setProSubCateCode(505);
-			break;
-		case "계절가전" : 
-			p.setProSubCateCode(506);
-			break;
-		case "이어폰/헤드셋" : 
-			p.setProSubCateCode(601);
-			break;
-		case "스피커" : 
-			p.setProSubCateCode(602);
-			break;
-		case "마이크" : 
-			p.setProSubCateCode(603);
-			break;
-		case "빔프로젝터" : 
-			p.setProSubCateCode(604);
-			break;
-		case "미용가전" : 
-			p.setProSubCateCode(605);
-			break;
-		}
+		
 		ArrayList<Attachment> list = new ArrayList<Attachment>();
 		//ArrayList안에 파일들을 넣는다.!! 
 		
@@ -363,6 +343,112 @@ public class AdminController {
 		model.addAttribute("aList",aList);
 		return "updateProduct";
 	}
+	@RequestMapping("editProduct.adm")
+	public String editProduct(@ModelAttribute Product p, @RequestParam(value="deleteAttm",required=false) String[] deleteAttm,
+			@RequestParam("file") ArrayList<MultipartFile> files,@RequestParam("subCategory") String subCategory,HttpServletRequest request,Model model) {
+		System.out.println(p);
+		System.out.println(Arrays.toString(deleteAttm));
+		System.out.println(files);
+		System.out.println(subCategory);
+		
+		int subCate=subTop(subCategory);
+		p.setProSubCateCode(subCate);
+		
+		String id=((Member)request.getSession().getAttribute("loginUser")).getMemberId();
+		p.setBoardWriter(id);
+		p.setBoardType(1);
+		
+//		1. 새파일이 있다!!! 
+		
+		ArrayList<Attachment> list = new ArrayList<>();//update시 user가 기존 파일 말고 새로운 파일을 업로드 하려 할때 위 list에 담는다.
+		
+		for(int i=0;i<files.size();i++) { //file이 존재하면 upload에 담을 것이다.
+			MultipartFile upload=files.get(i);
+			
+			if(!upload.getOriginalFilename().equals("")) {//업로드 파일의 오리지날 이름이 공란이 아니라면
+				String[] returnArr=saveFile(upload,request);//String배열 안에 저장 save메소드는 우리가 정의 했을 때 만들었다
+				//우리가 만든 메소드인 savefile의 반환값은 retuenArr[0]은 저장경로를 저장해두었고 returnArr[1]에는 리네임한 파일 이름을 집어 넣었다.
+			
+			if(returnArr[1]!=null) {
+				Attachment a = new Attachment();
+				
+				a.setImgOriginalName(upload.getOriginalFilename());
+				a.setImgRename(returnArr[1]);
+				a.setImgPath(returnArr[0]);
+				a.setBoardType(1);
+				list.add(a);
+				}
+			}
+		}
+//		2.선택한 파일 삭제 
+		ArrayList<String> delRename = new ArrayList<>();//내가 삭제하겠다라고 체크한 첨부파일들 리네임 리스트에 담는다.
+		ArrayList<Integer> delLevel = new ArrayList<>();//내가 삭제하겠다라고 체크한 첨부파일들의 레벨(섬네일인지 아닌지)정보를 담는다.
+		for(String rename: deleteAttm) {//현재 deleteAttm은 view에서 가져온 String[]의 객체 배열이다. String 객체배열 안에 있는 String 값들을 rename 넣어준다.
+			if(!rename.equals("")) {
+				String[] split = rename.split("/");// 슬래시 앞에 있는 것은 renameName이고 뒤에 있는 것은 섬네일 유무이다.
+				delRename.add(split[0]);
+				delLevel.add(Integer.parseInt(split[1]));
+				
+			}
+		}
+		
+		int deleteAttmResult=0;
+		boolean existBeforeAttm=true;
+		
+		if(!delRename.isEmpty()) {//저장 하였던 첨부파일 중 하나라도 삭제하겠다라고 한 경우
+			deleteAttmResult=aService.deleteAttm(delRename);// 현재 DB에서는 Rename을 삭제 했지만 컴퓨터ㅔ 저장된 upload파일은 삭제하지 않았다.
+			System.out.println(deleteAttmResult);
+			if(deleteAttmResult>0) {//DB에 delete문을 실헹 하고 나온 값이 존재한다면
+				for(String rename:delRename){//delRename안에 있는 스트링 값을 rename에 담고
+					deleteFile(rename,request);//우리가 만든 delelteFile메소드에 접근하여 upload파일 안에 있는 파일들을 지원준다.
+				}
+			}
+			
+			if(delRename.size()==deleteAttm.length) {//숫자가 같지 않을 경우 부분삭제하거나 삭제파일이 없는경우이고 현재는 전체를 삭제하는 경우이다.
+				existBeforeAttm=false;//
+				
+				
+			}else {
+				for(int level:delLevel) {
+					if(level==0) {
+						aService.updateAttmLevel(p.getBoardNo());
+						break;
+					}
+				}
+			}	
+		}
+//		새로 들어온 파일을 파일에는 저장하였지만 DB에는 저장하지 않았다.
+		for(int i=0;i<list.size();i++) {
+			Attachment a =list.get(i);
+			
+			String bId=Integer.toString(p.getBoardNo());
+			a.setImgKey(bId);
+		
+			if(existBeforeAttm) {//이전에 넣었던 첨부파일이 존재한다
+				a.setLevel(1);//새로 집어 넣은 파일은 레벨을 1로 넣는다.
+			}else {
+				if(i==0) {
+					a.setLevel(0);
+				}else {
+					a.setLevel(1);
+				}
+			}
+		}
+		System.out.println(p);
+		int updateProductResult=aService.updateProduct(p);
+		int updateAttmResult=0;
+		
+		if(!list.isEmpty()) {
+			updateAttmResult=aService.insertAttm(list);
+		}
+		
+		if(updateProductResult+updateAttmResult>1) {
+			return "redirect:manageProduct.adm";
+		}else {
+			throw new AdminException("상품 정보 수정 실패");
+		}
+	}
+	
 	@RequestMapping("orderList.adm")
 	public String orderList() {
 		return "orderList";
