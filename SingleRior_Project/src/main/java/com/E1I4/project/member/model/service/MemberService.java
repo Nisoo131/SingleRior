@@ -74,6 +74,8 @@ public interface MemberService {
 
 	String getImgWishList(HashMap<String, String> map);
 
+	int deleteWishList(WishList wl);
+
 
 
 }

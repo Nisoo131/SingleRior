@@ -452,6 +452,27 @@ public class MemberController {
 		
 		return "wishList";
 	}
+	
+	@RequestMapping("deleteWishList.me")
+	public String deleteWishList(@RequestParam(value="boardNo", required=false) int boardNo,HttpSession session,@RequestParam(value="category", required=false) String category,Model model) {
+		Member m = (Member)session.getAttribute("loginUser");
+		String memberId = m.getMemberId();
+		
+//		System.out.println(boardNo);
+		WishList wl = new WishList();
+		wl.setMemberId(memberId);
+		wl.setBoardNo(boardNo);
+		
+		int result = mService.deleteWishList(wl);
+		
+		if(result > 0) {
+			model.addAttribute("category", category);
+			return "redirect:wishList.me";
+		}else {
+			return null;
+		}
+		
+	}
 	@RequestMapping("orderList.me")
 	public String searchOrder() {
 		return "orderList";
