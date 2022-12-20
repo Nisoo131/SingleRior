@@ -26,7 +26,7 @@
 	</header>
 	
 	<!-- 대분류/소분류 구분 -->
-    ${ sList }<br><br> 
+    <%-- ${ sList }<br><br>  --%>
 	<%--  ${ aList }   --%> 
 	<div class="front">
 		<h5><b> 전체 >  ${ sList[0].topCateName} > ${ sList[0].subCateName }  </b></h5>
