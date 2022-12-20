@@ -9,6 +9,7 @@ import com.E1I4.project.common.model.vo.PageInfo;
 import com.E1I4.project.common.model.vo.Product;
 import com.E1I4.project.common.model.vo.ProductInquiry;
 import com.E1I4.project.common.model.vo.Reply;
+import com.E1I4.project.common.model.vo.WishList;
 import com.E1I4.project.member.model.vo.Member;
 
 public interface MemberService {
@@ -66,6 +67,12 @@ public interface MemberService {
 	Attachment getImageProduct(int productNo);
 
 	Product getDetailProduct(String boardNo);
+
+	int getWishListCount(HashMap<String, String> map);
+
+	ArrayList<WishList> selectWishList(PageInfo pi, HashMap<String, String> map);
+
+	String getImgWishList(HashMap<String, String> map);
 
 
 

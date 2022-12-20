@@ -20,6 +20,7 @@ import com.E1I4.project.common.model.vo.PageInfo;
 import com.E1I4.project.common.model.vo.Product;
 import com.E1I4.project.common.model.vo.ProductInquiry;
 import com.E1I4.project.common.model.vo.Reply;
+import com.E1I4.project.common.model.vo.WishList;
 import com.E1I4.project.member.model.dao.MemberDAO;
 import com.E1I4.project.member.model.vo.Member;
 import com.google.gson.JsonElement;
@@ -170,6 +171,21 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public Product getDetailProduct(String boardNo) {
 		return mDAO.getDetailProduct(sqlSession,boardNo);
+	}
+
+	@Override
+	public int getWishListCount(HashMap<String, String> map) {
+		return mDAO.getWishListCount(sqlSession,map);
+	}
+
+	@Override
+	public ArrayList<WishList> selectWishList(PageInfo pi, HashMap<String, String> map) {
+		return mDAO.selectWishList(sqlSession,map,pi);
+	}
+
+	@Override
+	public String getImgWishList(HashMap<String, String> map) {
+		return mDAO.getImgWishList(sqlSession,map);
 	}
 
 

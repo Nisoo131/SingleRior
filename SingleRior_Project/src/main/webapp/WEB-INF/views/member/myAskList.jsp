@@ -97,13 +97,11 @@
 			cardDiv.addEventListener('click',function(){
 				const bNo = this.childNodes[5].innerText;
 				console.log(bNo);
-				location.href='${contextPath}//productDetail.st?bNo=' + bNo + '&page=' + ${pi.currentPage};
+				location.href='${contextPath}/productDetail.st?productNo=' + bNo + '&page=' + ${pi.currentPage};
 			});
 		}
 		
 	}
-		
-		
 		
 	</script>
 </body>
