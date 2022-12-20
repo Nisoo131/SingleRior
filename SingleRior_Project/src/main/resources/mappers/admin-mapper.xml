@@ -81,7 +81,7 @@
 		insert all
 		<foreach collection="list" item="a">
 			into IMG_REPOSITORY
-			values(SingleRior_aid, #{a.imgOriginalName}, #{a.imgRename}, sysdate, sysdate, default, seq_bId.currval, #{a.imgPath}, #{a.boardType}, #{a.level})
+			values(SingleRior_aid, #{a.imgOriginalName}, #{a.imgRename}, sysdate, sysdate, default, <if test='a.imgKey==null'>seq_bId.currval,</if><if test="a.imgKey!=null">#{a.imgKey},</if> #{a.imgPath}, #{a.boardType}, #{a.level})
 		</foreach>
 		select * from dual
 	</insert>
@@ -155,7 +155,7 @@
 		set img_level=0
 		where img_no=(select min(img_no)
 						from img_repository
-						where img_key=#{boardNo})
+						where img_key=#{bId})
 	
 	</update>
 	<update id="updateProduct">
@@ -169,5 +169,15 @@
 		set board_title=#{productName},modify_date=sysdate,board_writer=#{boardWriter}
 		where board_no=#{boardNo}
 	</update>
+	
+	<update id="deleteProduct">
+	
+		update product
+		set product_status='N'
+		where product_no=#{productNo}
+	
+	</update>
+	
+	
 	
 </mapper>

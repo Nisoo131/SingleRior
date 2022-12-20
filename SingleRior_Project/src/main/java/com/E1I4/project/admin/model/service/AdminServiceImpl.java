@@ -73,13 +73,18 @@ public class AdminServiceImpl implements AdminService {
 	}
 
 	@Override
-	public void updateAttmLevel(int boardNo) {
-		aDAO.updateAttmLevel(sqlSession,boardNo);
+	public void updateAttmLevel(String bId) {
+		aDAO.updateAttmLevel(sqlSession,bId);
 	}
 
 	@Override
 	public int updateProduct(Product p) {
 		return aDAO.updateProduct(sqlSession,p);
+	}
+
+	@Override
+	public int deleteProduct(int productNo) {
+		return aDAO.deleteProduct(sqlSession,productNo);
 	}
 
 }

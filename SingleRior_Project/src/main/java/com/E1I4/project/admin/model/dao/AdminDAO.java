@@ -53,8 +53,8 @@ public class AdminDAO {
 		return sqlSession.delete("adminMapper.deleteAttm",delRename);
 	}
 
-	public void updateAttmLevel(SqlSessionTemplate sqlSession, int boardNo) {
-		sqlSession.update("adminMapper.updateAttmLevel",boardNo);
+	public void updateAttmLevel(SqlSessionTemplate sqlSession, String bId) {
+		sqlSession.update("adminMapper.updateAttmLevel",bId);
 	}
 
 	public int updateProduct(SqlSessionTemplate sqlSession, Product p) {
@@ -64,6 +64,11 @@ public class AdminDAO {
 		int result=updateProduct+updateBoard;
 		
 		return result;
+	}
+
+	public int deleteProduct(SqlSessionTemplate sqlSession, int productNo) {
+		
+		return sqlSession.update("adminMapper.deleteProduct",productNo);
 	}
 
 }

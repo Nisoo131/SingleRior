@@ -114,7 +114,7 @@
 									</tr>				
 									<tr>
 										<td style="text-align:right;">상품 옵션 :&nbsp;&nbsp;  </td>
-										<td colspan="2"><input type="text" style="width:500px;" placeholder="옵션 설명" name="productOption"></td>
+										<td colspan="2"></td>
 										<td><input class="btn btn-secondary" id="addOption" type="button" value="추가"></td>
 									</tr>
 									<c:forEach items="${list}" var="i" >
