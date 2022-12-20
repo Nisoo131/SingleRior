@@ -82,7 +82,6 @@
                     <img src="${ pageContext.servletContext.contextPath }/resources/image/SingleRior_logo.png" style="width:250px; height:100px;">
                     <br>
                     <h1>공지사항 리스트</h1>
-                    
                     <br>
                     
                     
@@ -99,70 +98,20 @@
                   <tr class="fs-5">
                      <th width="100px">카테고리</th>
                      <th>글 제목</th>
+                     <th>작성자</th>
                      <th width="130px">작성일</th>
                       </tr>
                    </thead>
-                  <tbody>
+                  <tbody class="tbody">
+                      
+                      <c:forEach items="${list}" var="list">
                       <tr>
-                     <th>[공지]></th>
-                     <th>이곳은 모두가 함께 사용하는 공간입니다. 타인에게 매너를 지켜주세요.</th>
-                     <th>2022-12-06</th>
+	                     <td>${list.noticeCategory}<input type="hidden" value="${list.boardNo}"></td>
+	                     <td>${list.boardTitle }</td>
+	                     <td>${list.boardWriter }<input type="hidden" value="${list.boardWriter}"></td>
+	                     <td>${list.modifyDate }</td>
                       </tr>
-                      <tr>
-                     <th>[공지]</th>
-                     <th>글 작성 시 개인정보 유출에 주의 바랍니다.</th>
-                     <th>2022-12-06</th>
-                      </tr>
-                      <tr>
-                     <td>[생활팁]</td>
-                     <td>여러분 과탄산소다가 여기저기 쓸 곳 많은 거 알고계시나요...?</td>
-                     <td>2022-12-06</td>
-                      </tr>
-                      <tr>
-                     <td>[자유]</td>
-                     <td>배가 너무 아픈데 주변에 약국이 다 문을 닫았어요..ㅜㅜ</td>
-                     <td>2022-12-06</td>
-                      </tr>
-                      <tr>
-                     <td>[후기]</td>
-                     <td>이번에 가습기 하나 장만했는디 가성비 좋네여!!!</td>
-                     <td>2022-12-06</td>
-                      </tr>
-                      <tr>
-                     <td>[자유]</td>
-                     <td>오늘 롯데월드 갔다왔는데 사람 너무 많았음;;;;;;</td>
-                     <td>2022-12-06</td>
-                      </tr>
-                      <tr>
-                     <td>[후기]</td>
-                     <td>XX 매트리스 내돈내산 후기....^^</td>
-                     <td>2022-12-06</td>
-                      </tr>
-                      <tr>
-                     <td>[생활팁]</td>
-                     <td>자취 꿀팁!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!</td>
-                     <td>2022-12-06</td>
-                      </tr>
-                      <tr>
-                     <td>[자유]</td>
-                     <td>WW 침대 프레임이랑 XX 매트리스 호환되나요? 아시는 분?</td>
-                     <td>2022-12-06</td>
-                      </tr>
-                      <tr>
-                     <td>[생활팁]</td>
-                     <td>다이소 압축봉 장만하셔요!!!!! 이걸로 수납공간 확보 완료!!!!!</td>
-                     <td>2022-12-06</td>
-                      </tr>
-                      <tr>
-                     <td>[자유]</td>
-                     <td>하 집 가고 싶다......^^</td>
-                     <td>2022-12-06</td>
-                      </tr>
-                      <tr>
-                     <td>[자유]</td>
-                     <td>자꾸 하수구에서 냄새가 올라오는데 어케 해야하나요?</td>
-                     <td>2022-12-06</td>
-                      </tr>
+                      </c:forEach>
                    </tbody>
               </table>
              </div>
@@ -207,14 +156,15 @@
          
          <script>
          	window.onload=()=>{
-         		const tbody=document.querySelector('tbody');
-         		const tds = tbody.querySelectorAll('td');
-         		
-         		for(const td of tds){
-         			td.addEventListener('click',function(){
-         			const trTds=this.parentElement.querySelectorAll('td');
-					const boardId=trTds[0].innerText;
-         			location.href='${contextPath}/selectboard.bo??bId='+boardId;
+         		const tbody=document.querySelector('.tbody');
+         		const trs = tbody.querySelectorAll('tr');
+         	
+         		console.log(trs)
+         		for(const tr of trs){
+         			tr.addEventListener('click',function(){
+         			const bNo=this.querySelectorAll('input')[0].value;
+         			const boardWriter=this.querySelectorAll('input')[0].value;
+         			location.href='${contextPath}/detailNotice.adm?bNo='+bNo+'&page='+${pi.currentPage}+'&boardWriter='+boardWriter;
          			});
          		}
          		
@@ -224,12 +174,5 @@
          
          
          </script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
-        <script src='${ pageContext.servletContext.contextPath }/resources/js/scripts.js'></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
-        <script src="${ pageContext.servletContext.contextPath }/resources/assets/demo/chart-area-demo.js"></script>
-        <script src="${ pageContext.servletContext.contextPath }/resources/assets/demo/chart-bar-demo.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
-        <script src="${ pageContext.servletContext.contextPath }/resources/js/datatables-simple-demo.js"></script>
     </body>
 </html>

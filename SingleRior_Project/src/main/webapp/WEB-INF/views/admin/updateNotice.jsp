@@ -70,7 +70,7 @@ input {
 				<img
 					src="${ pageContext.servletContext.contextPath }/resources/image/SingleRior_logo.png"
 					style="width: 250px; height: 100px;"> <br>
-				<h1>공지사항 작성</h1>
+				<h1>공지사항 수정</h1>
 
 
 			</div>
@@ -78,34 +78,37 @@ input {
 			<div class="container">
 				<div>
 					<form class="needs-validation"
-						action="${ contextPath }/enrollNotice.adm" method="POST">
+						action="${ contextPath }/editNotice.adm" method="POST">
 						<div class="row g-3">
 
 							<div class="col-12">
 								<select class="form-select form-select-sm" name="noticeCategory"
 									aria-label=".form-select-sm example"
 									style="width: 120px; margin-bottom: 15px; text-align: center;">
-									<option>전체</option>
-									<option>씽씽마켓</option>
-									<option>싱글벙글</option>
+									<option <c:if test="${n.noticeCategory eq '전체'}">selected</c:if>>전체</option>
+									<option <c:if test="${n.noticeCategory eq '씽씽마켓'}">selected</c:if>>씽씽마켓</option>
+									<option <c:if test="${n.noticeCategory eq '싱글벙글'}">selected</c:if>>싱글벙글</option>
 								</select> <label for="boardTitle" class="form-label">TITLE</label> <input
 									type="text" class="form-control" id="boardTitle"
-									name="boardTitle">
+									name="boardTitle" value="${n.boardTitle}" >
+									<input type="hidden" value="${n.boardNo}" name="boardNo">
+									<input type="hidden" value="${page}" name="page">
+									
 							</div>
 
 							<div class="col-12">
 								<label for="boardContent" class="form-label">CONTENT</label>
 								<div class="input-group">
 									<textarea class="form-control" rows="10" name="boardContent"
-										style="resize: none;"></textarea>
+										style="resize: none;">${n.boardContent}</textarea>
 								</div>
 							</div>
 
 
 
 							<div id="btn">
-							<button type="submit" class="btn btn-primary">등록하기</button> &nbsp;&nbsp;&nbsp;&nbsp;
-							<button type="button" class="btn btn-success"  onclick="javascript:history.back();">목록으로</button>
+							<button type="submit" class="btn btn-primary">수정완료</button> &nbsp;&nbsp;&nbsp;&nbsp;
+							<button type="button" class="btn btn-success"  onclick="location.href='${contextPath}/manageNotice.adm'">목록으로</button>
 							
 							</div>
 						</div>
@@ -122,7 +125,6 @@ input {
 			</div>
 		</footer>
 	</div>
-	
 	
 	
 	

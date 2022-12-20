@@ -3,6 +3,8 @@ package com.E1I4.project.admin.model.service;
 import java.util.ArrayList;
 
 import com.E1I4.project.common.model.vo.Attachment;
+import com.E1I4.project.common.model.vo.Notice;
+import com.E1I4.project.common.model.vo.PageInfo;
 import com.E1I4.project.common.model.vo.Product;
 import com.E1I4.project.common.model.vo.ProductList;
 import com.E1I4.project.member.model.vo.Member;
@@ -34,5 +36,21 @@ public interface AdminService {
 	int updateProduct(Product p);
 
 	int deleteProduct(int productNo);
+
+	int getListCount(int i);
+
+	int enrollNotice(Notice n);
+
+	ArrayList<Notice> selectNoticeList(PageInfo pi, int i);
+
+	Notice detailNotice(int bNo, boolean yn);
+
+	int editeNotice(Notice n);
+
+	int deleteNotice(int bNo);
+
+
+
+
 
 }
