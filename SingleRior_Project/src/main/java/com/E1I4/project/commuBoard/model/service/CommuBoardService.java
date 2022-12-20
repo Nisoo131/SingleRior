@@ -53,6 +53,9 @@ public interface CommuBoardService {
 	// 댓글 등록 (insert)
 	int insertReply(Reply r);
 	
+	// 댓글 삭제 (delete)
+	int deleteReply(int rNo);
+	
 	// 대댓글 불러오기
 	ArrayList<ReReply> selectReReply(int bNo);
 	

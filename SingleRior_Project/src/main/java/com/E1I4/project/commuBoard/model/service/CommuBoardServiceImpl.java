@@ -110,6 +110,12 @@ public class CommuBoardServiceImpl implements CommuBoardService{
 		return cDAO.insertReply(sqlSession, r);
 	}
 	
+	// 댓글 삭제 (delete)
+	@Override
+	public int deleteReply(int rNo) {
+		return cDAO.deleteReply(sqlSession, rNo);
+	}
+	
 	// 대댓글 불러오기
 	@Override
 	public ArrayList<ReReply> selectReReply(int bNo) {

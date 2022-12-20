@@ -32,7 +32,7 @@
 		<div>
 			<jsp:include page="../common/top.jsp"/>
 		</div>
-		
+	</header>
 		<div class="py-1 border-bottom fs-5" style="background-color: #008cd4; text-align: center;">
 			<ul class="nav me-auto justify-content-center">
 		        <li class="nav-item"><a href="${ contextPath }/commuAllList.co?commuType=1" class="nav-link px-5 mx-2" style="color: white;">생활팁</a></li>
@@ -40,7 +40,6 @@
 		        <li class="nav-item"><a href="${ contextPath }/commuAllList.co?commuType=3" class="nav-link px-5 mx-2" style="color: white;">자유</a></li>
 		    </ul>
 		</div>
-	</header>
 	
 	<main>
   		<div class="container">
