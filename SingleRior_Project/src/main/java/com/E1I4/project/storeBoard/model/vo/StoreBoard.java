@@ -17,21 +17,22 @@ public class StoreBoard {
 	// boardType:1
 	// board에서 content(=상품등록), writer(=관리자) 제외, 
 	// product model_name, brand 
-	private int boardNo;            // BOARD
+	private int boardNo;             // BOARD
 	private int boardType;
 	private String boardTitle;
 	private Date createDate;
 	private String boardStatus;
 	private String boardWriter;
 	private int boardCount;
-	private int productNo;           // PRODUCT
+	private int productNo;            // PRODUCT
 	private int price;
 	private int discount;
 	private String option;
 	private String modelName; 
 	private String brand;
 	private String dPayment;
-	private String productStatus; 
+	private String productStatus;
+	private int wishListCount;
 	private int subCateCode;            // CATEGORY
 	private String subCateName;
 	private int topCateCode;
