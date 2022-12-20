@@ -330,7 +330,8 @@ public class AdminController {
 		int bId=p.getBoardNo();
 		
 		ArrayList<Attachment> aList= aService.selectAttmListDetail(bId);
-		
+		//String  옵션1, 옵션2, 옵션3,옵션4
+		//String[]
 		String[] option =p.getOption().split(",");
 		for(int i =0;i<option.length;i++) {
 			list.add(option[i]);
@@ -346,10 +347,6 @@ public class AdminController {
 	@RequestMapping("editProduct.adm")
 	public String editProduct(@ModelAttribute Product p, @RequestParam(value="deleteAttm",required=false) String[] deleteAttm,
 			@RequestParam("file") ArrayList<MultipartFile> files,@RequestParam("subCategory") String subCategory,HttpServletRequest request,Model model) {
-		System.out.println(p);
-		System.out.println(Arrays.toString(deleteAttm));
-		System.out.println(files);
-		System.out.println(subCategory);
 		
 		int subCate=subTop(subCategory);
 		p.setProSubCateCode(subCate);
@@ -411,7 +408,10 @@ public class AdminController {
 			}else {
 				for(int level:delLevel) {
 					if(level==0) {
-						aService.updateAttmLevel(p.getBoardNo());
+						
+						String bId=Integer.toString(p.getBoardNo());
+						
+						aService.updateAttmLevel(bId);
 						break;
 					}
 				}
@@ -447,6 +447,18 @@ public class AdminController {
 		}else {
 			throw new AdminException("상품 정보 수정 실패");
 		}
+	}
+	@RequestMapping("deleteProduct.adm")
+	public String deleteProduct(@RequestParam("productNo") int productNo) {
+		 
+		int result =aService.deleteProduct(productNo);
+		
+		if(result>0) {
+			return "redirect:manageProduct.adm";
+		}else {
+			throw new AdminException("상품정보 수정실패");
+		}
+		 
 	}
 	
 	@RequestMapping("orderList.adm")

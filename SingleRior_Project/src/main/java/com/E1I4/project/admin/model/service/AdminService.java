@@ -29,8 +29,10 @@ public interface AdminService {
 
 	int deleteAttm(ArrayList<String> delRename);
 
-	void updateAttmLevel(int boardNo);
+	void updateAttmLevel(String bId );
 
 	int updateProduct(Product p);
+
+	int deleteProduct(int productNo);
 
 }

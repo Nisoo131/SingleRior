@@ -94,7 +94,7 @@
                                             <td>${ s.productPrice}원</td>
                                             <td>${ s.topCateName}</td>
                                             <td>${ s.subCateName}</td>
-                                            <td><c:if test="${ s.boardStatus eq 'Y'}">판매중</c:if><c:if test="${ s.boardStatus eq 'N'}">판매 중단</c:if></td>
+                                            <td><c:if test="${ s.productStatus eq 'Y'}">판매중</c:if><c:if test="${ s.productStatus eq 'N'}">판매 중단</c:if></td>
                                             <td>${ s.createDate}</td>
                                             <td>${ s.modifyDate }</td>
                                             <td>${ s.boardCount }</td>
@@ -126,10 +126,22 @@
         	$(document).on('click','.btn-primary',function(){
         		const productNo=$(this).parents('tr').children().eq(0).text();
        			location.href='${contextPath}/updateProduct.adm?productNo='+productNo;
-        		
         	});
+        	$(document).on("click",'.btn-danger',function(){
+        		const productNo=$(this).parents('tr').children().eq(0).text();
+        		if(window.confirm("상품을 판매 중단 처리 하시겠습니까?")){
+        			//판매 중단
+        			location.href='${contextPath}/deleteProduct.adm?productNo='+productNo;
+        			alert('상품판매 중단처리 하였습니다')
+        		}else{
+        			alert('상품판매 중단을 취소합니다.');
+        		}
+        		
+        		
+        		
+        	})
         })
-        
+ 		       
         </script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
         <script src='${ pageContext.servletContext.contextPath }/resources/js/scripts.js'></script>
