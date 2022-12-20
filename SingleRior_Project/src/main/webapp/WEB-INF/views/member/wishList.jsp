@@ -25,8 +25,7 @@
 	
 	}
 	.cardDiv{display:inline}
-	.wishListDivs{cursor:pointer};
-	
+ 	.wishListDivs{cursor:pointer;}; 
 </style>
 </head>
 <body>
@@ -54,7 +53,7 @@
 				<c:forEach items="${ wlList }" var="wl">
 						<div class="col">
 							<input type="checkbox" style="display:none" class="checkbox" value="${ wl.boardNo }" name="checkbox">
-							<div class="wishListDivs card shadow-sm">
+							<div class="wishListDivs card shadow-sm" <c:if test="${ wl.boardType == 1 || wl.boardType == 3}">style="height:23rem;"</c:if><c:if test="${ wl.boardType == 2}">style="height:10rem;"</c:if>>
 							<c:if test="${ wl.boardType == 1 || wl.boardType == 3}">
 								<c:if test="${ empty wl.imgRename }">
 									<img class="bd-placeholder-img card-img-top" width="100%" height="225" src="${ contextPath }/resources/image/noimg.jpg">
