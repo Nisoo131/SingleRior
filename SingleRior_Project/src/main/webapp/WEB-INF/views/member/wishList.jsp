@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -16,12 +18,15 @@
 		cursor:pointer;
 	}
 	
-	section{
+	section,.not{
 		margin:auto;
 		margin-top:70px;
 		max-width:1500px;
 	
 	}
+	.cardDiv{display:inline}
+	.wishListDivs{cursor:pointer};
+	
 </style>
 </head>
 <body>
@@ -30,11 +35,10 @@
 	<nav class="navbar navbar-expand-lg" id="navReview">
 		<div class="container-fluid">
 			<div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-				<div class="navbar-nav">
-					<span class="nav-link active" aria-current="page" style="color:#008cd4">전체</span> 
-					<span class="nav-link">스토어</span>
-					<span class="nav-link">싱글벙글</span>
-					<span class="nav-link">씽씽마켓</span>
+				<div class="navbar-nav categoryDiv">
+					<span class="categorys nav-link" id="store" <c:if test="${category == '스토어' }">style="color:#008cd4" </c:if>>스토어</span>
+					<span class="categorys nav-link" id="market" <c:if test="${category == '씽씽마켓' }">style="color:#008cd4" </c:if>>씽씽마켓</span>
+					<span class="categorys nav-link" id="community" <c:if test="${category == '싱글벙글' }">style="color:#008cd4" </c:if>>싱글벙글</span>
 				</div>
 			</div>
 		</div>
@@ -44,49 +48,125 @@
 	  		<button id="deleteBtn" class="btn btn-primary me-md-2" type="button">삭제</button>
 		</div>
 		
-		<div class="row row-cols-1 row-cols-md-4 g-4" style="margin-left: 150px; margin-right: 150px; ">
-			<div class="col">
-				<div class="card shadow-sm">
-				<div style="padding-top: 10px; padding-left: 10px;" id="checkDiv">
-				</div>
-				<img class="bd-placeholder-img card-img-top" width="100%" height="225"  src="https://ifh.cc/g/yX3tCA.png">
-					<div class="card-body">
-						<p class="card-text">제목</p>
-						<div class="d-flex justify-content-between align-items-center">
-							<p class="card-text" style="width: 280px;">가격</p>
-							<div class="btn-group">
+		<div class="wishListDiv row row-cols-1 row-cols-md-4 g-4" style="margin-left: 150px; margin-right: 150px; ">
+			<c:if test="${ !empty wlList}">
+				<c:forEach items="${ wlList }" var="wl">
+						<div class="wishListDivs col">
+							<div class="card shadow-sm">
+							<div style="padding-top: 10px; padding-left: 10px;" id="checkDiv">
 							</div>
-							<small class="text-muted"></small>
+							<c:if test="${ wl.boardType == 1 || wl.boardType == 3}">
+								<c:if test="${ empty wl.imgRename }">
+									<img class="bd-placeholder-img card-img-top" width="100%" height="225" src="${ contextPath }/resources/image/noimg.jpg">
+								</c:if>
+								<c:if test="${ !empty wl.imgRename }">
+									<img class="bd-placeholder-img card-img-top" width="100%" height="225" src="${ contextPath }/resources/uploadFiles/${wl.imgRename }">
+								</c:if>
+							</c:if>
+							<c:if test="${ wl.boardType == 2}">
+								<c:if test="${ empty wl.imgRename }">
+									<img class="bd-placeholder-img card-img-top" width="100%" height="225" src="${ contextPath }/resources/image/noimg.jpg" style="display:none">
+								</c:if>
+								<c:if test="${ !empty wl.imgRename }">
+									<img class="bd-placeholder-img card-img-top" width="100%" height="225" src="${ contextPath }/resources/uploadFiles/${wl.imgRename }" style="display:none">
+								</c:if>
+							</c:if>
+								<div class="card-body">
+									<p class="card-text">
+										<c:if test="${ wl.boardType == 1}">
+											<p class="category">스토어</p>
+										</c:if>
+										<c:if test="${ wl.boardType == 2}">
+											<p class="category">싱글벙글</p>
+										</c:if>
+										<c:if test="${ wl.boardType == 3}">
+											<p class="category">씽씽마켓</p>
+										</c:if>									
+									</p>
+									<div class="d-flex justify-content-between align-items-center">
+										<p class="card-text" style="width: 280px;">${ wl.boardTitle }</p>
+										<input type="hidden" value="${ wl.boardType }" class="cate">
+										<input type="hidden" value="${ wl.boardNo }" class="boardNo">
+										<small class="text-muted"></small>
+									</div>
+								</div>
+							</div>
 						</div>
-					</div>
-				</div>
-			</div>
-	
+					<br><br>
+				</c:forEach>
+			</c:if>
 		</div>
+			<c:if test="${ empty wlList}">
+				<div class="not">
+					<div class="alert alert-secondary" role="alert">아직 작성하신 게시글이 없습니다.</div>
+				</div>
+			</c:if>
+		<br><br><br>
+		<nav aria-label="Standard pagination example">
+				<ul class="pagination justify-content-center">
+					<li class="page-item"><c:url var="goBack" value="${ loc }">
+							<c:param name="page" value="${ pi.currentPage-1 }" />
+							<c:param name="category" value="${ category }"/>
+						</c:url> <a class="page-link" href="${ goBack }" aria-label="Previous">
+							<span aria-hidden="true">&laquo;</span>
+					</a></li>
+					<c:forEach begin="${ pi.startPage }" end="${ pi.endPage }" var="p">
+						<c:url var="goNum" value="${ loc }">
+							<c:param name="page" value="${ p }" />
+							<c:param name="category" value="${ category }"/>
+						</c:url>
+						<li class="page-item"><a class="page-link" href="${ goNum }">${ p }</a></li>
+					</c:forEach>
+					<li class="page-item"><c:url var="goNext" value="${ loc }">
+							<c:param name="page" value="${ pi.currentPage+1 }" />
+							<c:param name="category" value="${ category }"/>
+						</c:url> <a class="page-link" href="${ goNext }" aria-label="Next"> <span
+							aria-hidden="true">&raquo;</span>
+					</a></li>
+				</ul>
+			</nav>
 	</section>
 	<footer>
 		<jsp:include page="../common/footer.jsp" />
 	</footer>
 	
 	<script>
-	window.onload=()=>{
-		document.getElementById('deleteBtn').addEventListener('click',()=>{
-			const checkDiv = document.getElementById('checkDiv');
-			const deleteBtn = document.getElementById('deleteBtn');
-			if(checkDiv.innerHTML==''){
-				checkDiv.innerHTML = '<input type="checkbox" style="float: left;">';
-				deleteBtn.innerHTML = '취소';
-			}else{
-				checkDiv.innerHTML = '';
-				deleteBtn.innerHTML = '삭제';
-			}
-			
-		});
+
+	window.onload = () => {
+		const categorys = document.getElementsByClassName('categorys');
+// 		console.log(categorys);
+		
+		for(cate of categorys){
+		 	cate.addEventListener('click',function(){
+// 		 		console.log(this.innerText);
+		 		const category = this.innerText;
+		 		location.href='${contextPath}/wishList.me?category=' + category;
+		 	})
+		}
+		
+		
+		
+		const divs = document.getElementsByClassName("wishListDivs");
+// 		console.log(divs);
+		
+		for (div of divs){
+			div.addEventListener('click', function(){
+				const writer = '${loginUser.nickName}';
+				const boardNo = this.childNodes[1].childNodes[5].childNodes[6].childNodes[5].value;
+				const category = this.childNodes[1].childNodes[5].childNodes[6].childNodes[3].value;
+
+				if(category == 1){
+					location.href='${contextPath}/productDetail.st?productNo=' + boardNo + '&page=' + ${pi.currentPage};
+				}else if(category == 2){
+					location.href='${contextPath}/selectCommuBoard.co?bNo=' + boardNo + '&writer=' + writer + '&page=' + ${pi.currentPage};
+				}else{
+					location.href='${contextPath}/marketBoardDetail.ma?bNo=' + boardNo  +'&boardWriter=' + writer + '&page=' + ${pi.currentPage};
+				}
+				
+			})
+		}
 		
 	}
-	
-	
-
 	
 	
 	</script>

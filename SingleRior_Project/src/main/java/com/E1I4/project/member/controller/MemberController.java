@@ -29,6 +29,7 @@ import com.E1I4.project.common.model.vo.PageInfo;
 import com.E1I4.project.common.model.vo.Product;
 import com.E1I4.project.common.model.vo.ProductInquiry;
 import com.E1I4.project.common.model.vo.Reply;
+import com.E1I4.project.common.model.vo.WishList;
 import com.E1I4.project.member.model.service.KakaoLogin;
 import com.E1I4.project.member.model.service.MailSendService;
 import com.E1I4.project.member.model.service.MemberService;
@@ -405,8 +406,50 @@ public class MemberController {
 	public String serviceCenter() {
 		return "serviceCenter";
 	}
+	
 	@RequestMapping("wishList.me")
-	public String wishList() {
+	public String wishList(@RequestParam(value="page", required=false) Integer page,@RequestParam(value="category", required=false) String category,
+										HttpSession session, Model model) {
+		
+		Member m = (Member)session.getAttribute("loginUser");
+		String memberId = m.getMemberId();
+		
+		if(category==null) {
+			category = "스토어";
+		}
+		
+//		System.out.println(category);
+		int currentPage =1;
+		if(page != null) {
+			currentPage = page;
+		}
+		
+		HashMap<String,String> map = new HashMap<String,String>();
+		map.put("memberId", memberId);
+		map.put("category", category);
+		
+		int listCount = mService.getWishListCount(map);
+		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 8);
+		ArrayList<WishList> wlList = mService.selectWishList(pi,map);
+
+		
+		for(int i =0; i<wlList.size(); i++) {
+			int boardNum = wlList.get(i).getBoardNo();
+			String imgKey = Integer.toString(boardNum);
+			
+			map.put("imgKey", imgKey);
+			String imgRename = mService.getImgWishList(map);
+			wlList.get(i).setImgRename(imgRename);
+		}
+		
+//		System.out.println("wishList : "+wlList);
+		if(wlList != null) {
+			model.addAttribute("wlList", wlList);
+			model.addAttribute("pi",pi);
+			model.addAttribute("category", category);
+		}
+		
+		
 		return "wishList";
 	}
 	@RequestMapping("orderList.me")
@@ -450,17 +493,19 @@ public class MemberController {
 		ArrayList<Attachment> aList = new ArrayList<Attachment>();
 		ArrayList<Product> pList = new ArrayList<Product>();
 //		System.out.println("listCount" +listCount);
-//		System.out.println(piList);
+		System.out.println(piList);
 		
 		for(int i = 0; i<piList.size(); i++) {
 			int productNo = piList.get(i).getProductNo();
 			Attachment a = mService.getImageProduct(productNo);
-			String boardNo = a.getImgKey();
-//			System.out.println("QDDF" +boardNo);
-			Product p = mService.getDetailProduct(boardNo);
+			System.out.println(a);
+			if(a != null ) {
+				String boardNo = a.getImgKey();
+				Product p = mService.getDetailProduct(boardNo);
+				aList.add(a);
+				pList.add(p);
+			}
 			
-			aList.add(a);
-			pList.add(p);
 		}
 		
 //		System.out.println("aList :" +aList);

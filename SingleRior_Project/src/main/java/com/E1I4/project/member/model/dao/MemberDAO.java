@@ -13,6 +13,7 @@ import com.E1I4.project.common.model.vo.PageInfo;
 import com.E1I4.project.common.model.vo.Product;
 import com.E1I4.project.common.model.vo.ProductInquiry;
 import com.E1I4.project.common.model.vo.Reply;
+import com.E1I4.project.common.model.vo.WishList;
 import com.E1I4.project.member.model.vo.Member;
 
 @Repository("mDAO")
@@ -133,6 +134,20 @@ public class MemberDAO {
 
 	public Product getDetailProduct(SqlSessionTemplate sqlSession, String boardNo) {
 		return sqlSession.selectOne("memberMapper.getDetailProduct",boardNo);
+	}
+
+	public int getWishListCount(SqlSessionTemplate sqlSession, HashMap<String, String> map) {
+		return sqlSession.selectOne("memberMapper.getWishListCount", map);
+	}
+
+	public ArrayList<WishList> selectWishList(SqlSessionTemplate sqlSession, HashMap<String, String> map, PageInfo pi) {
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		return (ArrayList)sqlSession.selectList("memberMapper.selectWishList", map, rowBounds);
+	}
+
+	public String getImgWishList(SqlSessionTemplate sqlSession, HashMap<String, String> map) {
+		return sqlSession.selectOne("memberMapper.getImgWishList",map);
 	}
 
 }

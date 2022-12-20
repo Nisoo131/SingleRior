@@ -15,4 +15,7 @@ import lombok.ToString;
 public class WishList {
 	private int boardNo;
 	private String memberId;
+	private int boardType;
+	private String boardTitle;
+	private String imgRename;
 }

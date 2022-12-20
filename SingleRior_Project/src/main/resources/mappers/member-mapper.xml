@@ -362,4 +362,66 @@
 	where board_no = #{boardNo} and b.b_status = 'Y'
 	</select>
 	
+	
+	<select id="getWishListCount" resultType="_int">
+		select count(*)
+		from wishlist
+		where member_id = #{memberId}
+		<if test="category != null">
+			<if test="category == '스토어'">
+				and board_no in (select board_no
+				from board
+				where board_type = 1)
+			</if>
+			<if test="category == '싱글벙글'">
+				and board_no in (select board_no
+				from board
+				where board_type = 2)
+			</if>
+			<if test="category == '씽씽마켓'">
+				and board_no in (select board_no
+				from board
+				where board_type = 3)
+			</if>
+		</if>
+	</select>
+	
+	
+	<resultMap type="WishList" id="wishListResultSet">
+		<result column="MEMBER_ID" property="memberId"/>
+		<result column="BOARD_NO" property="boardNo"/>
+		<result column="BOARD_TYPE" property="boardType"/>
+		<result column="BOARD_TITLE" property="boardTitle"/>
+		<result column="IMG_SERVER_NAME" property="imgRename"/>
+	</resultMap>
+	
+	<select id="selectWishList" resultMap="wishListResultSet">
+		select *
+		from wishlist
+		join board b using(board_no)
+		where member_id = #{memberId} 
+		<if test="category != null">
+			<if test="category == '스토어'">
+				and board_no in (select board_no
+				from board
+				where board_type = 1)
+			</if>
+			<if test="category == '싱글벙글'">
+				and board_no in (select board_no
+				from board
+				where board_type = 2)
+			</if>
+			<if test="category == '씽씽마켓'">
+				and board_no in (select board_no
+				from board
+				where board_type = 3)
+			</if>
+		</if>
+	</select>
+	
+	<select id="getImgWishList" resultType="string">
+		select img_server_name
+		from img_repository
+		where img_key = #{imgKey} and img_level = 0
+	</select>
 </mapper>
