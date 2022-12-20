@@ -77,7 +77,7 @@
 		<if test="commuType > 0">
 			and c.commu_type = #{commuType}
 		</if>
-		order by b.board_no desc
+		order by b.create_date desc
 	</select>
 	
 	<!-- 댓글 count 불러오기 -->
@@ -185,8 +185,15 @@
 	<!-- 댓글 등록 (insert) -->
 	<insert id="insertReply">
 		insert into reply
-		values(seq_rid.nextval, #{replyContent}, sysdate, sysdate, default, default, #{memberId}, #{boardNo})
+		values(seq_rid.nextval, #{replyContent}, sysdate, sysdate, #{replySecret}, default, #{memberId}, #{boardNo})
 	</insert>
+	
+	<!-- 댓글 삭제 (delete) -->
+	<update id="deleteReply">
+		update REPLY
+		set REPLY_STATUS = 'N'
+		where REPLY_NO = #{rNo}
+	</update>
 	
 	<!-- 대댓글 불러오기 -->
 	<select id="selectReReply" resultMap="rReplyResultSet">

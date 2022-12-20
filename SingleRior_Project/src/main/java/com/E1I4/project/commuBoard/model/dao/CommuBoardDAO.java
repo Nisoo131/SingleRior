@@ -96,6 +96,11 @@ public class CommuBoardDAO {
 		return sqlSession.insert("commuMapper.insertReply", r);
 	}
 	
+	// 댓글 삭제 (delete)
+	public int deleteReply(SqlSessionTemplate sqlSession, int rNo) {
+		return sqlSession.update("commuMapper.deleteReply", rNo);
+	}
+	
 	// 대댓글 불러오기
 	public ArrayList<ReReply> selectReReply(SqlSessionTemplate sqlSession, int bNo) {
 		return (ArrayList)sqlSession.selectList("commuMapper.selectReReply", bNo);
@@ -129,4 +134,5 @@ public class CommuBoardDAO {
 	public int updateAttmStatus(SqlSessionTemplate sqlSession, String strBNo) {
 		return sqlSession.update("commuMapper.updateAttmStatus", strBNo);
 	}
+
 }

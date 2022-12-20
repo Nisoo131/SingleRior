@@ -286,6 +286,48 @@ public class CommuBoardController {
 		}
 	}
 	
+	
+	/* 댓글 */
+	// 커뮤니티 댓글 등록 (insert)
+	@RequestMapping("insertReply.co")
+	public void insertReply(@ModelAttribute Reply r, HttpServletResponse response) {
+		int result = cService.insertReply(r);
+		
+		ArrayList<Reply> list = cService.selectReply(r.getBoardNo());
+		
+//		System.out.println(r);
+//		System.out.println(list);
+		
+		response.setContentType("application/json; charset=UTF-8");
+		GsonBuilder gb = new GsonBuilder();
+		GsonBuilder gb2 = gb.setDateFormat("yyyy-MM-dd");
+		Gson gson = gb2.create();
+		try {
+			gson.toJson(list, response.getWriter());
+		} catch (JsonIOException | IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	// 커뮤니티 댓글 삭제 (delete)
+	@RequestMapping("deleteReply.co")
+	public void deleteReply(@RequestParam("replyNo") int rNo, @RequestParam("boardNo") int bNo, @ModelAttribute Reply r, Model model, HttpServletResponse response) {
+		int result = cService.deleteReply(rNo);
+		
+		ArrayList<Reply> list = cService.selectReply(r.getBoardNo());
+		
+		response.setContentType("application/json; charset=UTF-8");
+		GsonBuilder gb = new GsonBuilder();
+		GsonBuilder gb2 = gb.setDateFormat("yyyy-MM-dd");
+		Gson gson = gb2.create();
+		try {
+			gson.toJson(list, response.getWriter());
+		} catch (JsonIOException | IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	
 	/* 게시글 수정 (update) */
 	// 글 수정 페이지 이동
 	@RequestMapping("updateForm.co")
@@ -422,27 +464,7 @@ public class CommuBoardController {
 		}
 	}
 	
-	/* 댓글 */
-	// 커뮤니티 댓글 등록 (insert)
-	@RequestMapping("insertReply.co")
-	public void insertReply(@ModelAttribute Reply r, HttpServletResponse response) {
-		int result = cService.insertReply(r);
-		
-		ArrayList<Reply> list = cService.selectReply(r.getBoardNo());
-		
-		System.out.println(r);
-		System.out.println(list);
-		
-		response.setContentType("application/json; charset=UTF-8");
-		GsonBuilder gb = new GsonBuilder();
-		GsonBuilder gb2 = gb.setDateFormat("yyyy-MM-dd");
-		Gson gson = gb2.create();
-		try {
-			gson.toJson(list, response.getWriter());
-		} catch (JsonIOException | IOException e) {
-			e.printStackTrace();
-		}
-	}
+	
 	
 	
 

@@ -26,7 +26,7 @@
 		<div>
 			<jsp:include page="../common/top.jsp"/>
 		</div>
-		
+	</header>
 		<div class="py-1 border-bottom fs-5" style="background-color: #008cd4; text-align: center;">
 			<ul class="nav me-auto justify-content-center">
 		        <li class="nav-item"><a href="${ contextPath }/commuAllList.co?commuType=1" class="nav-link px-5 mx-2" style="color: white;">생활팁</a></li>
@@ -34,7 +34,6 @@
 		        <li class="nav-item"><a href="${ contextPath }/commuAllList.co?commuType=3" class="nav-link px-5 mx-2" style="color: white;">자유</a></li>
 		    </ul>
 		</div>
-	</header>
 	
 	<main>
 		<div class="container">
@@ -43,7 +42,7 @@
 					<div class="col py-2 d-flex flex-column position-static">
 						<table>
 							<tr>
-								<td><a href="javascript:history.back();" class="nav-link link-dark"><img src="https://www.flaticon.com/svg/vstatic/svg/3916/3916912.svg?token=exp=1670460369~hmac=675d0b7c5b02f035ed8a059ae5814294" width="15" height="15"> 목록 보기</a></td>
+								<td><a href="${ contextPath }/commuAllList.co" class="nav-link link-dark"><img src="https://www.flaticon.com/svg/vstatic/svg/3916/3916912.svg?token=exp=1670460369~hmac=675d0b7c5b02f035ed8a059ae5814294" width="15" height="15"> 목록 보기</a></td>
 							</tr>
 						</table>
 					</div>
@@ -97,7 +96,7 @@
 						</c:if>
 					</c:forEach>
 						
-					<div class="p-5" style="font-size: 20px; height: 600px;">
+					<div class="p-5" style="font-size: 20px;">
 						<span>${ coBoard.boardContent }</span>
 					</div>
 					<div class="col-md-1" style="text-align: center; padding-top: 30px; padding-left: 50px; width: 170px;">
@@ -146,8 +145,9 @@
 							</c:if>
 						</div>
 						<div class="justify-content-center" style="padding-bottom: 50px; padding-right: 100px; color: #A9A9A9; text-align: right; font-size: 20px;">
-							<span>0 / 600</span>
-							<img class="m-3" src="${ contextPath }/resources/image/unlock.png" width="20" height="20">
+							<span style="padding-right: 30px;">0 / 600</span>
+							<label for="replySecret">비밀댓글</label>
+							<input type="checkbox" id="replySecret" value="N">
 						</div>
 					</div>
 					
@@ -167,20 +167,24 @@
 												<img class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" src="${ contextPath }/resources/image/menu-dots.png" width="20" height="20">
 												<ul class="dropdown-menu" style="text-align: center;">
 													<c:if test="${ loginUser.memberId eq r.memberId }">
-														<li><a class="dropdown-item" href="#">댓글달기</a></li>
-														<li><a class="dropdown-item" href="#">수정</a></li>
-														<li><a class="dropdown-item" href="#">삭제</a></li>
+														<li><a class="dropdown-item reReplyBtn">답글달기</a></li>
+														<li><a class="dropdown-item replyUpdate">수정</a></li>
+														<li><a class="dropdown-item replyDelete">삭제</a><input type="hidden" id="replyNo" value="${ r.replyNo }"></li>
 													</c:if>
 													<c:if test="${ !(loginUser.memberId eq r.memberId) }">
-														<li><a class="dropdown-item" href="#">답글달기</a></li>
-														<li><a class="dropdown-item" href="#">신고</a></li>
+														<li><a class="dropdown-item reReplyBtn">답글달기</a></li>
+														<li><a class="dropdown-item replyReport">신고</a></li>
 													</c:if>
 												</ul>
 											</div>
 										</td>
 									</tr>
 									<tr style="font-size: 20px;">
-										<td class="px-5 py-3" colspan="5">${ r.replyContent }</td>
+										<td class="px-5 py-3" colspan="5">
+											<div class="input-group replyContentArea">
+												<textarea id="replyContent" style="width: 1000px; border: none; resize: none;" readonly>${ r.replyContent }</textarea>
+											</div>
+										</td>
 									</tr>
 								</table>
 							</div>
@@ -240,7 +244,7 @@
 						<c:if test="${ !(loginUser.memberId eq coBoard.writer) }">
 							<div class="col-md-10" style="width: 800px;"></div>
 							<div class="col-md-1" style="text-align: center; width: 100px; float: right;">
-								<button class="w-100 btn btn-outline-danger btn-lg" type="button" data-bs-toggle="modal" data-bs-target="#reportForm">신고</button>
+								<button class="w-100 btn btn-outline-danger btn-lg" type="button" data-bs-toggle="modal" data-bs-target="#boardReport">신고</button>
 							</div>
 						</c:if>
 					</div>
@@ -285,8 +289,8 @@
 	  	</div>
 	</div>
 	
-	<!-- 신고 모달 -->
-	<div class="modal fade" id="reportForm" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<!-- 글 신고 모달 -->
+	<div class="modal fade" id="boardReport" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -295,9 +299,48 @@
 				</div>
 				<div class="modal-body">
 					<h3>신고 사유를 선택해주세요!</h3>
-					작성자 : ${coBoard.nickName }
+					작성자 : ${ coBoard.nickName }
 					<br>
-					글제목 : ${coBoard.boardTitle }
+					글제목 : ${ coBoard.boardTitle }
+					<br><br>
+					<div class="form-check">
+						<input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+						<label class="form-check-label">홍보/도배글이예요</label>
+					</div>
+					<div class="form-check">
+						<input class="form-check-input" type="checkbox" value="">
+						<label class="form-check-label">청소년에게 유해한 내용이예요</label>
+					</div>
+					<div class="form-check">
+						<input class="form-check-input" type="checkbox" value="">
+						<label class="form-check-label">불법이예요</label>
+					</div>
+					<div class="form-check">
+						<input class="form-check-input" type="checkbox" value="">
+						<label class="form-check-label">욕설,혐오,차별적표현이에요</label>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+						<button type="button" class="btn btn-primary">신고하기</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<!-- 댓글 신고 모달 -->
+	<div class="modal fade" id="replyReport" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h1 class="modal-title fs-5" id="exampleModalLabel"><img src="https://cdn-icons-png.flaticon.com/512/2689/2689919.png" style="width: 40px; height: 40px;">REPORT</h1>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<h3>신고 사유를 선택해주세요!</h3>
+					작성자 : ${ r.nickName }
+					<br>
+					댓글 내용 : ${ r.replyContent }
 					<br><br>
 					<div class="form-check">
 						<input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
@@ -375,9 +418,14 @@
 			
 			// 댓글 insert
 			document.getElementById('replySubmit').addEventListener('click', ()=>{
+				if(document.getElementById('replySecret').checked){
+					document.getElementById('replySecret').value = 'Y';
+				}
+				
 				$.ajax({
 					url: '${contextPath}/insertReply.co',
 					data: {replyContent:document.getElementById('replyContent').value,
+							replySecret:document.getElementById('replySecret').value,
 							boardNo:'${coBoard.boardNo}', memberId:'${loginUser.memberId}'},
 					success: function(data){
 						console.log(data);
@@ -386,7 +434,7 @@
 						var replyCount = data.length;
 						
 						for(const i in data){
-							listHtml += "<div class='px-5'>";
+							listHtml += "<div class='px-5 replyCount'>";
 							listHtml += "<table class='table'>";
 							listHtml += "<tr>";
 							listHtml += "<td style='text-align: center;' width='40'><img src='${ contextPath }/resources/image/user.png' width='20' height='20'></td>";
@@ -396,22 +444,29 @@
 							listHtml += "<td>";
 							listHtml += "<div class='dropdown'>";
 							listHtml += "<img class='dropdown-toggle' data-bs-toggle='dropdown' aria-expanded='false' src='${ contextPath }/resources/image/menu-dots.png' width='20' height='20'>";
-							listHtml += "<ul class='dropdown-menu' style='text-align: center;'>";
-							listHtml += "<c:if test='${ loginUser.memberId eq r.memberId }'>";
-							listHtml += "<li><a class='dropdown-item' href='#'>댓글달기</a></li>";
-							listHtml += "<li><a class='dropdown-item' href='#'>수정</a></li>";
-							listHtml += "<li><a class='dropdown-item' href='#'>삭제</a></li>";
-							listHtml += "</c:if>";
-							listHtml += "<c:if test='${ !(loginUser.memberId eq r.memberId) }'>";
-							listHtml += "<li><a class='dropdown-item' href='#'>답글달기</a></li>";
-							listHtml += "<li><a class='dropdown-item' href='#'>신고</a></li>";
-							listHtml += "</c:if>";
-							listHtml += "</ul>";
+							if(${loginUser ne null}){
+								if(${ loginUser.memberId eq r.memberId }){
+									listHtml += "<ul class='dropdown-menu' style='text-align: center;'>";
+									listHtml += "<li><a class='dropdown-item reReplyBtn'>댓글달기</a></li>";
+									listHtml += "<li><a class='dropdown-item replyUpdate'>수정</a></li>";
+									listHtml += "<li><a class='dropdown-item replyDelete'>삭제</a><input type='hidden' id='replyNo' value='" + data[i].replyNo + "''></li>";
+									listHtml += "</ul>";
+								} else {
+									listHtml += "<ul class='dropdown-menu' style='text-align: center;'>";
+									listHtml += "<li><a class='dropdown-item reReplyBtn'>답글달기</a></li>";
+									listHtml += "<li><a class='dropdown-item replyReport'>신고</a><input type='hidden' id='replyNo' value='" + data[i].replyNo + "''></li>";
+									listHtml += "</ul>";
+								}
+							}
 							listHtml += "</div>";
 							listHtml += "</td>";
 							listHtml += "</tr>";
 							listHtml += "<tr style='font-size: 20px;'>";
-							listHtml += "<td class='px-5 py-3' colspan='5'>" + data[i].replyContent + "</td>";
+							listHtml += "<td class='px-5 py-3' colspan='5'>";
+							listHtml += "<div class='input-group replyContentArea'>";
+							listHtml += "<textarea id='replyContent' style='width: 1000px; border: none; resize: none;' readonly>" + data[i].replyContent + "</textarea>";
+							listHtml += "</div>";
+							listHtml += "</td>";
 							listHtml += "</tr>";
 							listHtml += "</table>";
 							listHtml += "</div>";
@@ -420,6 +475,8 @@
 						$("#replyCount").html(replyCount);
 						$("#replyList").html(listHtml);
 						$("#replyContent").val("");
+						$("#replySecret").prop("checked", false);
+						document.getElementById('replySecret').value = 'N';
 					},
 					error: (data)=>{
 						console.log(data);
@@ -442,6 +499,71 @@
 				form.action = '${contextPath}/deleteCommuBoard.co';
 				form.submit();
 			});
+			
+			// 댓글 삭제 (delete)
+			const replyDelete = document.getElementsByClassName('replyDelete');
+			for(const d of replyDelete){
+				console.log(d.nextElementSibling);
+				d.addEventListener('click', function() {
+					console.log(d.nextElementSibling.value);
+					$.ajax({
+						url: '${contextPath}/deleteReply.co',
+						data: {replyNo:d.nextElementSibling.value,
+								boardNo:'${coBoard.boardNo}', memberId:'${loginUser.memberId}'},
+						success: function(data){
+							console.log(data);
+							
+							var listHtml = "";
+							var replyCount = data.length;
+							
+							for(const i in data){
+								listHtml += "<div class='px-5 replyCount'>";
+								listHtml += "<table class='table'>";
+								listHtml += "<tr>";
+								listHtml += "<td style='text-align: center;' width='40'><img src='${ contextPath }/resources/image/user.png' width='20' height='20'></td>";
+								listHtml += "<td class='px-4'>" + data[i].nickName + "</td>";
+								listHtml += "<td class='px-4'>" + data[i].replyModifyDate + "</td>";
+								listHtml += "<td width='850'></td>";
+								listHtml += "<td>";
+								listHtml += "<div class='dropdown'>";
+								listHtml += "<img class='dropdown-toggle' data-bs-toggle='dropdown' aria-expanded='false' src='${ contextPath }/resources/image/menu-dots.png' width='20' height='20'>";
+								if(${loginUser ne null}){
+									if(${ loginUser.memberId eq r.memberId }){
+										listHtml += "<ul class='dropdown-menu' style='text-align: center;'>";
+										listHtml += "<li><a class='dropdown-item reReplyBtn'>댓글달기</a></li>";
+										listHtml += "<li><a class='dropdown-item replyUpdate'>수정</a></li>";
+										listHtml += "<li><a class='dropdown-item replyDelete'>삭제</a><input type='hidden' id='replyNo' value='" + data[i].replyNo + "''></li>";
+										listHtml += "</ul>";
+									} else {
+										listHtml += "<ul class='dropdown-menu' style='text-align: center;'>";
+										listHtml += "<li><a class='dropdown-item reReplyBtn'>답글달기</a></li>";
+										listHtml += "<li><a class='dropdown-item replyReport'>신고</a><input type='hidden' id='replyNo' value='" + data[i].replyNo + "''></li>";
+										listHtml += "</ul>";
+									}
+								}
+								listHtml += "</div>";
+								listHtml += "</td>";
+								listHtml += "</tr>";
+								listHtml += "<tr style='font-size: 20px;'>";
+								listHtml += "<td class='px-5 py-3' colspan='5'>";
+								listHtml += "<div class='input-group replyContentArea'>";
+								listHtml += "<textarea id='replyContent' style='width: 1000px; border: none; resize: none;' readonly>" + data[i].replyContent + "</textarea>";
+								listHtml += "</div>";
+								listHtml += "</td>";
+								listHtml += "</tr>";
+								listHtml += "</table>";
+								listHtml += "</div>";
+							}
+							
+							$("#replyCount").html(replyCount);
+							$("#replyList").html(listHtml);
+						},
+						error: (data)=>{
+							console.log(data);
+						}
+					});
+				});
+			}
 		}
 	</script>
 </body>
