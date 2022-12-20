@@ -1,7 +1,6 @@
 package com.E1I4.project.storeBoard.model.service;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.E1I4.project.common.model.vo.Attachment;
 import com.E1I4.project.common.model.vo.PageInfo;
-import com.E1I4.project.common.model.vo.Product;
+import com.E1I4.project.common.model.vo.WishList;
 import com.E1I4.project.storeBoard.model.dao.StoreBoardDAO;
 import com.E1I4.project.storeBoard.model.vo.StoreBoard;
 
@@ -43,10 +42,23 @@ public class StoreBoardServiceImpl implements StoreBoardService{
 	}
 
 	@Override
-	public Product selectOptionList(int productNo) {
-		return sDAO.selectOptionList(sqlSession,productNo);
+	public WishList wishListSelect(WishList wl) {
+		return sDAO.wishListSelect(sqlSession,wl);
 	}
 
+	@Override
+	public int wishListOn(WishList wl, int bNo) {
+		return sDAO.wishListOn(sqlSession,wl);
+	}
+
+	@Override
+	public int wishListOff(WishList wl, int bNo) {
+		return sDAO.wishListOff(sqlSession, wl);
+	}
+
+	
+	
+	
 	
 
 	

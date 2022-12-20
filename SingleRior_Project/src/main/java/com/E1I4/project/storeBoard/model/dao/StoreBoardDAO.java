@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import com.E1I4.project.common.model.vo.Attachment;
 import com.E1I4.project.common.model.vo.PageInfo;
 import com.E1I4.project.common.model.vo.Product;
+import com.E1I4.project.common.model.vo.WishList;
 import com.E1I4.project.storeBoard.model.vo.StoreBoard;
 
 @Repository("sDAO")
@@ -35,9 +36,26 @@ public class StoreBoardDAO {
 		return (ArrayList)sqlSession.selectList("storeMapper.selectProduct", productNo);
 	}
 
-	public Product selectOptionList(SqlSessionTemplate sqlSession, int productNo) {
-		return sqlSession.selectOne("storeMapper.selectOptionList",productNo);
+	public WishList wishListSelect(SqlSessionTemplate sqlSession, WishList wl) {
+		return sqlSession.selectOne("storeMapper.wishListSelect", wl);
 	}
+
+	// 찜하기 ON
+	public int wishListOn(SqlSessionTemplate sqlSession, WishList wl) {
+		return sqlSession.insert("storeMapper.wishListOn", wl);
+	}
+	
+	// 찜하기 COUNT
+	public WishList selectWishCount(SqlSessionTemplate sqlSession, WishList wl) {
+		return sqlSession.selectOne("storeMapper.selectwishListOn", wl);
+	}
+
+	// 찜하기 OFF
+	public int wishListOff(SqlSessionTemplate sqlSession, WishList wl) {
+		return sqlSession.delete("storeMapper.wishListOff", wl);
+	}
+
+
 
 	
 

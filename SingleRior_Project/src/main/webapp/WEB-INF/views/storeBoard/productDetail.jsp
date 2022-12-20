@@ -7,7 +7,6 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
 <title>Insert title here</title>
 <script src="http://code.jquery.com/jquery-1.12.4.min.js"></script> 
@@ -22,6 +21,7 @@
 	.inquiry{font-size:30px}
 	#inquiryBtn{size: 100px; background-color:#008cd4;}
 	.star{text-align:center; display:table; width:300px; height:100px; margin:0 auto;}
+	.wishList {float:right;}
 		
       .nav-scroller {
         position: relative;
@@ -76,7 +76,25 @@
 	<fmt:formatNumber type="number" maxFractionDigits="3" value="${ pList[0].price-(pList[0].price*pList[0].discount/100)}" var="totalPrice" />
 	  <div class="col px-md-5">
 	  	<div class="p-3 border bg-light">
-		  <h5>${ pList[0].brand }</h5>
+	  		<table>
+	  			<tr>
+	  				<td style="font-size:25px;">${ pList[0].brand }</td>
+	  				<td width="320px"></td>
+	  				<td>
+		  				 <c:if test="${ empty loginUser }">
+							<button type="button" class="btn btn-outline-danger wishListBtn" onclick="location.href='${contextPath}/loginView.me'">찜하기♥
+						</button>
+						</c:if>
+						<c:if test="${ !empty loginUser && wishList == null }">
+							<button type="button" class="btn btn-outline-danger wishListBtn" id="wishListOn">찜하기♥</button>
+						</c:if>
+						<c:if test="${ !empty loginUser && wishList != null }">
+							<button type="button" class="btn btn-outline-danger active wishListBtn" id="wishListOff">찜하기♥</button>
+						</c:if>
+	  				</td>
+	  				<td style="color:red; font:12px;" id="wishListCount">(개수)</td>
+	  			</tr>
+	  		</table>　　　　　　　　　
 		  <h2>${ pLiST[0].boardTitle }</h2>
 		  <p><s>${ commaPrice } 원</s></p>
 		  <h1><span>${ pList[0].discount }%</span>　<span style="color:#008cd4;">${ totalPrice } 원</span></h1>
@@ -84,17 +102,16 @@
 		  <p>구매리뷰 (개수)</p>
 		  <p>배송비 2,500원</p>
 		  <hr>
-		 	<p>옵션선택</p>
-		 	${ list }
+		  <label for ="options">옵션선택</label>
 	           	 <select class="form-select" aria-label="Default select example">
-					<option selected>상품 옵션을 선택해주세요.</option>
-					  <option value="1">${ fn:split( pList[0].option, ',')[0] }</option>
-	                  <option value="2">${ fn:split( pList[0].option, ',')[1] }</option>
-	                  <option value="3">${ fn:split( pList[0].option, ',')[2] }</option>
-	                  <option value="4">${ fn:split( pList[0].option, ',')[3] }</option>
+					<option selected>상품 옵션을 선택해주세요</option>
+					  <option value="2">${ fn:split( pList[0].option, ',')[0] }</option>
+	                  <option value="3">${ fn:split( pList[0].option, ',')[1] }</option>
+	                  <option value="4">${ fn:split( pList[0].option, ',')[2] }</option>
+	                  <option value="5">${ fn:split( pList[0].option, ',')[3] }</option>
 	                  <option value="5">${ fn:split( pList[0].option, ',')[4] }</option>
 				 </select>
-				<br><br>
+			  <br><br>
 			  <h2>총 1개　${ totalPrice}원</h2>
 			  <div class="btn-group">
 				  <button type="button" class="wishlist" style="width:200px;height:50px;font-size:20px;"> 장바구니 </button>
@@ -102,8 +119,6 @@
 			  </div>
 	  		</div>
 	  	</div>
-	  
-	
 	<!--상세정보 네비바 -->
 	 <div class="row mb-1"> 
 	  </div>
@@ -138,9 +153,9 @@
 	   <!-- 상품 설명 이미지 -->
 	      <article class="blog-post" id="productInfo">
 	        <h2 class="blog-post-title mb-1">상품정보</h2>
-	        <p class="blog-post-meta"></p>
+	        <p class="blog-post-meta"></p>	        	      
 			   <img src="resources/uploadFiles/${ pList[1].imgServerName }" width="100%" height="100%">
-			      
+			   <img src="resources/uploadFiles/${ pList[1].imgServerName }" width="100%" height="100%">			  
 	   	 </article>
 	   	 
 	   	 <div id="review">
@@ -226,29 +241,16 @@
 	    <div class="col-md-4">
 	      <div class="position-sticky" style="top: 15rem;">
 	       
-	
 	        <div class="p-4">
-	          <h4>옵션선택</h4>
-	      
+	           <label for ="options">옵션선택</label>
 	           	 <select class="form-select" aria-label="Default select example">
-	           	 
-						  <option selected> ${ pList[0].option } </option>
-						  <option value="1">01.MS(멀티싱글)</option>
-						  <option value="2">02.SS(슈퍼싱글)</option>
-						  <option value="3">03.Q(퀸)</option>
-					
+					<option selected>상품 옵션을 선택해주세요</option>
+					  <option value="2">${ fn:split( pList[0].option, ',')[0] }</option>
+	                  <option value="3">${ fn:split( pList[0].option, ',')[1] }</option>
+	                  <option value="4">${ fn:split( pList[0].option, ',')[2] }</option>
+	                  <option value="5">${ fn:split( pList[0].option, ',')[3] }</option>
+	                  <option value="5">${ fn:split( pList[0].option, ',')[4] }</option>
 				 </select>
-	             <select class="form-select" aria-label="Default select example">
-						  <option selected>색상</option>
-						  <option value="1">WHITE</option>
-						  <option value="2">BLACK</option>
-						  <option value="3">GRAY</option>
-				</select>
-				<select class="form-select" aria-label="Default select example">
-						  <option selected>[추가옵션]</option>
-						  <option value="1">정리끈1[SET]    4000원</option>
-				</select>
-
 	            <hr>        
 	            <br><br><br><br><br><br>
 	          	<h4>총 1개 29,900원</h4>
@@ -266,7 +268,7 @@
 		  <div class="modal-dialog">
 		    <div class="modal-content">
 		      <div class="modal-header">
-		        <h5 class="modal-title">문의하기<img src="" ></h5>
+		        <h5 class="modal-title">문의하기</h5>
 		        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 		      </div>
 		      <div class="modal-body">
@@ -292,19 +294,56 @@
 		</div>
 
 		</main>
-		
-		
-
 
     <footer>
 		<jsp:include page="../common/footer.jsp"/>
 	</footer>
-	
 
-<script>                                	
-	document.getElementById('#inquiryBtn2').addEventListener('click', ()=>{
-		$('#inquiryModal').modal('show');
-	});
+</body>
+<script>    
+    window.onload =()=>{
+    	// 찜하기
+    	$(".wishListBtn").click(function(){
+				if($(this).attr("class") == "btn btn-outline-danger wishListBtn"){
+			         $.ajax({
+				            url: '${contextPath}/wishListOn.st',
+				            data: {boardNo: ${ pList[0].boardNo }},
+				            type: 'post',
+				            success:(data)=>{
+				            	console.log(data);
+				            	var wishListCount = parseInt($('#wishListCount').html());
+				            	console.log(wishListCount);
+				            	$('#wishListCount').html(wishListCount + data);
+				            },
+				            error: (data)=>{
+			    				console.log(data);
+			    			}
+				         });
+					
+			         $(this).attr("class","btn btn-outline-danger active wishListBtn");
+			         
+				} else if($(this).attr("class") == "btn btn-outline-danger active wishListBtn"){
+			         $.ajax({
+				            url: '${contextPath}/wishListOff.st',
+				            data: {boardNo: ${ pList[0].boardNo }},
+				            type: 'post',
+				            success:(data)=>{
+				            	console.log(data);
+				            	var wishListCount = parseInt($('#wishListCount').html());
+				            	console.log(wishListCount);
+				            	$('#wishListCount').html(wishListCount - data);
+				            },
+				            error: (data)=>{
+			    				console.log(data);
+			    			}
+				         });
+			         
+			         $(this).attr("class","btn btn-outline-danger wishListBtn");
+				}
+			})
+    	
+    }
+   
 	
 	// 문의하기 모달창 글자수 제한
 	$(function(){
@@ -335,9 +374,7 @@
 		});
 	
 	
-	const opt = document.getElementsByTagName('option').querySelectorAll;
-	 
+	
 	
 </script>
-</body>
 </html>

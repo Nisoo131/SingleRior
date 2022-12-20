@@ -1,6 +1,10 @@
 package com.E1I4.project.storeBoard.controller;
 
+import java.io.IOException;
 import java.util.ArrayList;
+
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,8 +17,13 @@ import com.E1I4.project.common.exception.BoardException;
 import com.E1I4.project.common.model.vo.Attachment;
 import com.E1I4.project.common.model.vo.PageInfo;
 import com.E1I4.project.common.model.vo.Product;
+import com.E1I4.project.common.model.vo.WishList;
+import com.E1I4.project.member.model.vo.Member;
 import com.E1I4.project.storeBoard.model.service.StoreBoardService;
 import com.E1I4.project.storeBoard.model.vo.StoreBoard;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonIOException;
 
 @Controller
 public class StoreBoardController {
@@ -68,28 +77,74 @@ public class StoreBoardController {
    
 	// 상품 상세보기
 	@RequestMapping("productDetail.st")
-	public String productDetail(@RequestParam("productNo") int productNo,  Model model) {
-		
-		//System.out.println(productNo);
-		
+	public String productDetail(@RequestParam("productNo") int productNo, HttpSession session, Model model) {
+		Member loginUser = (Member)session.getAttribute("loginUser");
+
 		ArrayList<StoreBoard> pList = sService.selectProduct(productNo);
-	
-		//상품 옵션 list
-		ArrayList<String> list = new ArrayList<>();
-		Product p = sService.selectOptionList(productNo);	
-		String[] option = p.getProductOption().split(",");
-		System.out.println(option);
 		
-		for(int i=0; i<option.length; i++) {
-			list.add(option[i]);
+		WishList wl = new WishList();
+		WishList wishList = null;
+		
+		if(loginUser != null) {
+			wishList = sService.wishListSelect(wl);
 		}
-	    System.out.println(list);
 	    
-		model.addAttribute("pList", pList);
-		model.addAttribute("list", list);
-		return "productDetail";
+		if(pList!= null) {
+			model.addAttribute("pList", pList);
+			
+			return "productDetail";
+		} else {
+			throw new BoardException("게시글 조회 실패.");
+		}
 	}
 	
+	// 상품 찜하기
+	@RequestMapping("wishListOn.st")
+	public void wishListOn(@RequestParam("boardNo") int bNo, HttpSession session, Model model, HttpServletResponse response) {
+		String id = ((Member)session.getAttribute("loginUser")).getMemberId();
+		
+		//System.out.println(bNo);
+		WishList wl = new WishList();
+		wl.setBoardNo(bNo);
+		wl.setMemberId(id);
+		
+		int result = sService.wishListOn(wl, bNo);
+		
+		response.setContentType("application/json; charset=UTF-8");
+		
+		GsonBuilder gb = new GsonBuilder();
+		Gson gson = gb.create();
+		
+		try {
+			gson.toJson(result, response.getWriter());
+		} catch (JsonIOException | IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	// 찜하기 취소
+	@RequestMapping("wishListOff.st")
+	public void wishListOff(@RequestParam("boardNo") int bNo, HttpSession session, Model model, HttpServletResponse response) {
+		String id = ((Member)session.getAttribute("loginUser")).getMemberId();
+			
+		WishList wl = new WishList();
+		wl.setBoardNo(bNo);
+		wl.setMemberId(id);
+	
+	    int result = sService.wishListOff(wl, bNo);
+		
+		response.setContentType("application/json; charset=UTF-8");
+		
+		GsonBuilder gb = new GsonBuilder();
+		Gson gson = gb.create();
+		
+		try {
+			gson.toJson(result, response.getWriter());
+		} catch (JsonIOException | IOException e) {
+			e.printStackTrace();
+		}
+	}
+
 	// 결제
 	@RequestMapping("payment.st")
 	public String payment() {
