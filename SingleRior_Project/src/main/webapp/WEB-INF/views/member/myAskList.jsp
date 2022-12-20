@@ -42,7 +42,7 @@
 					<div class="myAskListDiv">
 						<span>문의일자 : ${pi.inquiryDate}</span>&nbsp;&nbsp;&nbsp;
 						<span class="badge" style="background:#008cd4; color:white; float:right">답변대기</span>
-						<div style="display:none" class="bNo">${aList[a.index].imgKey}</div>
+						<div style="display:none" class="bNo">${pList[a.index].productNo}</div>
 						<table class="table">
 						    <tr>
 						      <td scope="row" colspan="4"></td>
@@ -51,6 +51,7 @@
 						    	<td scope="row" width="250" rowspan="3"><img src="${ contextPath }/resources/uploadFiles/${aList[a.index].imgRename}" width="160"></td>
 						    	<td>
 							    	<span>${pList[a.index].productName}</span><br><br><br>
+							    	<br><br><br>
 							    	<div>
 								    	<span>문의 유형 : ${pi.inquiryTitle}</span><br><br>
 										<span>Q. &nbsp;&nbsp;${pi.inquiryContent}</span>

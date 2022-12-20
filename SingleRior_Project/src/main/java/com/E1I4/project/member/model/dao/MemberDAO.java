@@ -150,4 +150,8 @@ public class MemberDAO {
 		return sqlSession.selectOne("memberMapper.getImgWishList",map);
 	}
 
+	public int deleteWishList(SqlSessionTemplate sqlSession, WishList wl) {
+		return sqlSession.delete("memberMapper.deleteWishList",wl);
+	}
+
 }

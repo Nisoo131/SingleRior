@@ -188,6 +188,11 @@ public class MemberServiceImpl implements MemberService {
 		return mDAO.getImgWishList(sqlSession,map);
 	}
 
+	@Override
+	public int deleteWishList(WishList wl) {
+		return mDAO.deleteWishList(sqlSession,wl);
+	}
+
 
 
 

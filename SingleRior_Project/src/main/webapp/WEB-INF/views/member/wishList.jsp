@@ -9,11 +9,11 @@
 <title>Insert title here</title>
 <style>
 
- .nav-link:hover { font-weight : bold; color:#008cd4;} 
+ .nav-link:hover {font-weight : bold; color:#008cd4;} 
 
 	#navReview{
 		margin:auto;
-		max-width:470px;
+		max-width:400px;
 		font-size:30px;
 		cursor:pointer;
 	}
@@ -45,16 +45,16 @@
 	</nav>
 	<section>
 		<div class="d-grid gap-2 d-md-flex justify-content-md-end" style="padding-top: 60px;  padding-bottom60px; padding-right: 150px;">
-	  		<button id="deleteBtn" class="btn btn-primary me-md-2" type="button">삭제</button>
-		</div>
+	  		<button id="deleteBtn" class="btn btn-primary me-md-2" type="button">선택</button>
+	  		<button id="deleteCancel" class="btn btn-primary me-md-2" type="button" style="display:none">취소</button>
+		</div><br><br>
 		
 		<div class="wishListDiv row row-cols-1 row-cols-md-4 g-4" style="margin-left: 150px; margin-right: 150px; ">
 			<c:if test="${ !empty wlList}">
 				<c:forEach items="${ wlList }" var="wl">
-						<div class="wishListDivs col">
-							<div class="card shadow-sm">
-							<div style="padding-top: 10px; padding-left: 10px;" id="checkDiv">
-							</div>
+						<div class="col">
+							<input type="checkbox" style="display:none" class="checkbox" value="${ wl.boardNo }" name="checkbox">
+							<div class="wishListDivs card shadow-sm">
 							<c:if test="${ wl.boardType == 1 || wl.boardType == 3}">
 								<c:if test="${ empty wl.imgRename }">
 									<img class="bd-placeholder-img card-img-top" width="100%" height="225" src="${ contextPath }/resources/image/noimg.jpg">
@@ -84,10 +84,13 @@
 										</c:if>									
 									</p>
 									<div class="d-flex justify-content-between align-items-center">
-										<p class="card-text" style="width: 280px;">${ wl.boardTitle }</p>
+										<p class="card-text">${ wl.boardTitle }</p>
 										<input type="hidden" value="${ wl.boardType }" class="cate">
 										<input type="hidden" value="${ wl.boardNo }" class="boardNo">
-										<small class="text-muted"></small>
+										<input type="hidden" value="${ wl.productNo }" class="productNo">
+										<c:if test="${ wl.boardType == 1}">
+											<p class="text-muted">${ wl.productPrice }원</p>
+										</c:if>
 									</div>
 								</div>
 							</div>
@@ -152,21 +155,69 @@
 		for (div of divs){
 			div.addEventListener('click', function(){
 				const writer = '${loginUser.nickName}';
-				const boardNo = this.childNodes[1].childNodes[5].childNodes[6].childNodes[5].value;
-				const category = this.childNodes[1].childNodes[5].childNodes[6].childNodes[3].value;
+				const boardNo = this.childNodes[3].childNodes[6].childNodes[5].value;
+				const category = this.childNodes[3].childNodes[6].childNodes[3].value;
+				const productNo = this.childNodes[3].childNodes[6].childNodes[7].value;
+// 				console.log(productNo);
 
 				if(category == 1){
-					location.href='${contextPath}/productDetail.st?productNo=' + boardNo + '&page=' + ${pi.currentPage};
+					location.href='${contextPath}/productDetail.st?productNo=' + productNo + '&page=' + ${pi.currentPage};
 				}else if(category == 2){
 					location.href='${contextPath}/selectCommuBoard.co?bNo=' + boardNo + '&writer=' + writer + '&page=' + ${pi.currentPage};
 				}else{
 					location.href='${contextPath}/marketBoardDetail.ma?bNo=' + boardNo  +'&boardWriter=' + writer + '&page=' + ${pi.currentPage};
 				}
-				
 			})
 		}
-		
 	}
+	
+
+	$(function(){
+		$('#deleteBtn').on('click',function(){
+			$('.checkbox').css('display', 'block');
+			$("#deleteCancel").css('display','block');
+			$('#deleteBtn').text("삭제");
+			$('#deleteBtn').attr("id","deleteSubmit");
+			
+			$('.checkbox').change(function(){
+				if($(this).is(":checked")){
+					const div = this.parentNode.childNodes[3];
+					console.log(div);
+					div.style.backgroundColor='#CCCCCC';
+				}else{
+					const div = this.parentNode.childNodes[3];
+// 					console.log(div);
+					div.style.backgroundColor="";
+				}
+			})
+			
+			$('#deleteCancel').on('click',function(){
+				$("#deleteCancel").css('display','none');
+				$('.checkbox').css('display', 'none');
+				$('#deleteSubmit').text("선택");
+				$('#deleteSubmit').attr("id","deleteBtn");
+				$(".checkbox").prop('checked',false);
+				$('.wishListDivs').css("background","");
+			});
+			
+			
+			$('#deleteSubmit').on('click',function(){
+				const checkBoxs = $('.checkbox');
+				for(var i=0; i<checkBoxs.length; i++){
+					if(checkBoxs[i].checked ==true){
+						const boardNo = checkBoxs[i].value;
+						console.log(boardNo);
+						const category = '${category}';
+						location.href='${contextPath}/deleteWishList.me?boardNo=' + boardNo + '&category=' + category;
+					}
+				} 
+			});
+			
+		})
+		
+
+		
+	})
 	
 	
 	</script>

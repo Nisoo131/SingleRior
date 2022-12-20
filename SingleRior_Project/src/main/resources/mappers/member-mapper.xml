@@ -393,12 +393,17 @@
 		<result column="BOARD_TYPE" property="boardType"/>
 		<result column="BOARD_TITLE" property="boardTitle"/>
 		<result column="IMG_SERVER_NAME" property="imgRename"/>
+		<result column="product_no" property="productNo"/>
+		<result column="product_price" property="productPrice"/>
 	</resultMap>
 	
 	<select id="selectWishList" resultMap="wishListResultSet">
 		select *
 		from wishlist
 		join board b using(board_no)
+		<if test="category == '스토어'">
+			join product p using(board_no)
+		</if>
 		where member_id = #{memberId} 
 		<if test="category != null">
 			<if test="category == '스토어'">
@@ -424,4 +429,9 @@
 		from img_repository
 		where img_key = #{imgKey} and img_level = 0
 	</select>
+	
+	<delete id="deleteWishList">
+		delete from wishlist
+		where member_id = #{memberId} and board_no =#{boardNo}
+	</delete>
 </mapper>

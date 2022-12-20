@@ -18,4 +18,6 @@ public class WishList {
 	private int boardType;
 	private String boardTitle;
 	private String imgRename;
+	private int productNo;
+	private int productPrice;
 }
