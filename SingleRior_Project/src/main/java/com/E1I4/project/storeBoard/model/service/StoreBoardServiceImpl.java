@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.E1I4.project.common.model.vo.Attachment;
 import com.E1I4.project.common.model.vo.PageInfo;
+import com.E1I4.project.common.model.vo.Product;
 import com.E1I4.project.storeBoard.model.dao.StoreBoardDAO;
 import com.E1I4.project.storeBoard.model.vo.StoreBoard;
 
@@ -42,8 +43,8 @@ public class StoreBoardServiceImpl implements StoreBoardService{
 	}
 
 	@Override
-	public ArrayList<Attachment> selectProductAttmList(int productNo) {
-		return sDAO.selectProductAttmList(sqlSession,productNo);
+	public Product selectOptionList(int productNo) {
+		return sDAO.selectOptionList(sqlSession,productNo);
 	}
 
 	

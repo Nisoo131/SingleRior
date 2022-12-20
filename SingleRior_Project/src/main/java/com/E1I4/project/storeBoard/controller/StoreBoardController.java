@@ -12,6 +12,7 @@ import com.E1I4.project.common.Pagination;
 import com.E1I4.project.common.exception.BoardException;
 import com.E1I4.project.common.model.vo.Attachment;
 import com.E1I4.project.common.model.vo.PageInfo;
+import com.E1I4.project.common.model.vo.Product;
 import com.E1I4.project.storeBoard.model.service.StoreBoardService;
 import com.E1I4.project.storeBoard.model.vo.StoreBoard;
 
@@ -70,11 +71,22 @@ public class StoreBoardController {
 	public String productDetail(@RequestParam("productNo") int productNo,  Model model) {
 		
 		//System.out.println(productNo);
-		ArrayList<StoreBoard> pList = sService.selectProduct(productNo);
-		ArrayList<Attachment> aList = sService.selectProductAttmList(productNo);
 		
-		System.out.println(pList);
-		model.addAttribute("pList",pList);
+		ArrayList<StoreBoard> pList = sService.selectProduct(productNo);
+	
+		//상품 옵션 list
+		ArrayList<String> list = new ArrayList<>();
+		Product p = sService.selectOptionList(productNo);	
+		String[] option = p.getProductOption().split(",");
+		System.out.println(option);
+		
+		for(int i=0; i<option.length; i++) {
+			list.add(option[i]);
+		}
+	    System.out.println(list);
+	    
+		model.addAttribute("pList", pList);
+		model.addAttribute("list", list);
 		return "productDetail";
 	}
 	

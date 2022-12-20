@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import com.E1I4.project.common.model.vo.Attachment;
 import com.E1I4.project.common.model.vo.PageInfo;
+import com.E1I4.project.common.model.vo.Product;
 import com.E1I4.project.storeBoard.model.vo.StoreBoard;
 
 @Repository("sDAO")
@@ -34,10 +35,11 @@ public class StoreBoardDAO {
 		return (ArrayList)sqlSession.selectList("storeMapper.selectProduct", productNo);
 	}
 
-	public ArrayList<Attachment> selectProductAttmList(SqlSessionTemplate sqlSession, int productNo) {
-		return (ArrayList)sqlSession.selectList("storeMapper.selectProductAttmList", productNo);
+	public Product selectOptionList(SqlSessionTemplate sqlSession, int productNo) {
+		return sqlSession.selectOne("storeMapper.selectOptionList",productNo);
 	}
 
+	
 
 
 	
