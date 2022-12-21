@@ -156,7 +156,7 @@
 						<!-- 댓글(reply) 출력 -->
 						<c:forEach items="${ coRList }" var="r">
 							<div class="px-5 replyCount">
-								<table class="table">
+								<table class="table" id="replyUpdateArea">
 									<tr>
 										<td style="text-align: center;" width="40"><img src="${ contextPath }/resources/image/user.png" width="20" height="20"></td>
 										<td class="px-4">${ r.nickName }</td>
@@ -182,7 +182,7 @@
 									<tr style="font-size: 20px;">
 										<td class="px-5 py-3" colspan="5">
 											<div class="input-group replyContentArea">
-												<textarea id="replyContent" style="width: 1000px; border: none; resize: none;" readonly>${ r.replyContent }</textarea>
+												<textarea id="replyContentArea" style="width: 100%; border: none; resize: none;" readonly>${ r.replyContent }</textarea>
 											</div>
 										</td>
 									</tr>
@@ -376,40 +376,39 @@
 			// 공감 (좋아요) 구현
 			$(".symptClick").click(function(){
 				if($(this).attr("class") == "btn btn-outline-danger symptClick"){
-			         $.ajax({
-				            url: '${contextPath}/symptOn.co',
-				            data: {boardNo: ${ coBoard.boardNo }},
-				            type: 'post',
-				            success:(data)=>{
-				            	console.log(data);
-				            	var symptCount = parseInt($('#symptCount').html());
-				            	console.log(symptCount);
-				            	$('#symptCount').html(symptCount + data);
-				            },
-				            error: (data)=>{
-			    				console.log(data);
-			    			}
-				         });
+					$.ajax({
+						url: '${contextPath}/symptOn.co',
+						data: {boardNo: ${ coBoard.boardNo }},
+						type: 'post',
+						success:(data)=>{
+							console.log(data);
+							var symptCount = parseInt($('#symptCount').html());
+							console.log(symptCount);
+							$('#symptCount').html(symptCount + data);
+						},
+						error: (data)=>{
+							console.log(data);
+						}
+					});
 					
-			         $(this).attr("class","btn btn-outline-danger active symptClick");
-			         
+					$(this).attr("class","btn btn-outline-danger active symptClick");
 				} else if($(this).attr("class") == "btn btn-outline-danger active symptClick"){
-			         $.ajax({
-				            url: '${contextPath}/symptOff.co',
-				            data: {boardNo: ${ coBoard.boardNo }},
-				            type: 'post',
-				            success:(data)=>{
-				            	console.log(data);
-				            	var symptCount = parseInt($('#symptCount').html());
-				            	console.log(symptCount);
-				            	$('#symptCount').html(symptCount - data);
-				            },
-				            error: (data)=>{
-			    				console.log(data);
-			    			}
-				         });
-			         
-			         $(this).attr("class","btn btn-outline-danger symptClick");
+					$.ajax({
+						url: '${contextPath}/symptOff.co',
+						data: {boardNo: ${ coBoard.boardNo }},
+						type: 'post',
+						success:(data)=>{
+							console.log(data);
+							var symptCount = parseInt($('#symptCount').html());
+							console.log(symptCount);
+							$('#symptCount').html(symptCount - data);
+						},
+						error: (data)=>{
+							console.log(data);
+						}
+					});
+					
+					$(this).attr("class","btn btn-outline-danger symptClick");
 				}
 			})
 			
@@ -484,21 +483,92 @@
 				});
 			});
 			
-			// 글 edit 페이지로 넘어가기 (update)
-			const upd = document.getElementById('updateForm');
-			const form = document.getElementById('detailForm');
-			if(upd != null){
-				upd.addEventListener('click', () => {
-					form.action = '${contextPath}/updateForm.co';
-					form.submit();
-				});
-			}
+			// 댓글 수정 (update)
+			const replyUpdate = document.getElementsByClassName('replyUpdate');
 			
-			// 글 삭제 (delete)
-			document.getElementById("delete").addEventListener('click', ()=>{
-				form.action = '${contextPath}/deleteCommuBoard.co';
-				form.submit();
-			});
+			for(const u of replyUpdate){
+				u.addEventListener('click', function () {
+					const textArea = this.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.querySelector('textarea');
+					textArea.setAttribute("style","width: 100%; resize: none;");
+					textArea.setAttribute("id","replyUpdateContent");
+					textArea.removeAttribute('readonly');
+					textArea.parentNode.innerHTML += '<button type="button" class="btn btn-outline-primary btn-lg" id="replyUpdateSubmit" style="width: 100px;">등록</button>비밀댓글<input type="checkbox" id="replyUpdateSecret" value="N">';
+					textArea.focus();
+					$(this).remove();
+					
+					document.getElementById('replyUpdateSubmit').addEventListener('click', ()=>{
+						if(document.getElementById('replyUpdateSecret').checked){
+							document.getElementById('replyUpdateSecret').value = 'Y';
+						}
+						
+						console.log($('#replyUpdateContent').val());
+						console.log($(this).text());
+						
+						/* $.ajax({
+							url: '${contextPath}/updateReply.co',
+							data: {replyUpdateContent:$('#replyUpdateContent').val(),
+									replySecret:document.getElementById('replyUpdateSecret').value,
+									replyNo:'${coBoard.boardNo}', memberId:'${loginUser.memberId}'},
+							success: function(data){
+								console.log(data);
+								
+								var listHtml = "";
+								var replyCount = data.length;
+								
+								for(const i in data){
+									listHtml += "<div class='px-5 replyCount'>";
+									listHtml += "<table class='table'>";
+									listHtml += "<tr>";
+									listHtml += "<td style='text-align: center;' width='40'><img src='${ contextPath }/resources/image/user.png' width='20' height='20'></td>";
+									listHtml += "<td class='px-4'>" + data[i].nickName + "</td>";
+									listHtml += "<td class='px-4'>" + data[i].replyModifyDate + "</td>";
+									listHtml += "<td width='850'></td>";
+									listHtml += "<td>";
+									listHtml += "<div class='dropdown'>";
+									listHtml += "<img class='dropdown-toggle' data-bs-toggle='dropdown' aria-expanded='false' src='${ contextPath }/resources/image/menu-dots.png' width='20' height='20'>";
+									if(${loginUser ne null}){
+										if(${ loginUser.memberId eq r.memberId }){
+											listHtml += "<ul class='dropdown-menu' style='text-align: center;'>";
+											listHtml += "<li><a class='dropdown-item reReplyBtn'>댓글달기</a></li>";
+											listHtml += "<li><a class='dropdown-item replyUpdate'>수정</a></li>";
+											listHtml += "<li><a class='dropdown-item replyDelete'>삭제</a><input type='hidden' id='replyNo' value='" + data[i].replyNo + "''></li>";
+											listHtml += "</ul>";
+										} else {
+											listHtml += "<ul class='dropdown-menu' style='text-align: center;'>";
+											listHtml += "<li><a class='dropdown-item reReplyBtn'>답글달기</a></li>";
+											listHtml += "<li><a class='dropdown-item replyReport'>신고</a><input type='hidden' id='replyNo' value='" + data[i].replyNo + "''></li>";
+											listHtml += "</ul>";
+										}
+									}
+									listHtml += "</div>";
+									listHtml += "</td>";
+									listHtml += "</tr>";
+									listHtml += "<tr style='font-size: 20px;'>";
+									listHtml += "<td class='px-5 py-3' colspan='5'>";
+									listHtml += "<div class='input-group replyContentArea'>";
+									listHtml += "<textarea id='replyContent' style='width: 1000px; border: none; resize: none;' readonly>" + data[i].replyContent + "</textarea>";
+									listHtml += "</div>";
+									listHtml += "</td>";
+									listHtml += "</tr>";
+									listHtml += "</table>";
+									listHtml += "</div>";
+								}
+								
+								$("#replyCount").html(replyCount);
+								$("#replyList").html(listHtml);
+								$("#replyContent").val("");
+								$("#replySecret").prop("checked", false);
+								document.getElementById('replySecret').value = 'N';
+							},
+							error: (data)=>{
+								console.log(data);
+							}
+						}); */
+					});
+				});
+				
+				
+			}
 			
 			// 댓글 삭제 (delete)
 			const replyDelete = document.getElementsByClassName('replyDelete');
@@ -564,6 +634,24 @@
 					});
 				});
 			}
+			
+			// 글 edit 페이지로 넘어가기 (update)
+			const upd = document.getElementById('updateForm');
+			const form = document.getElementById('detailForm');
+			if(upd != null){
+				upd.addEventListener('click', () => {
+					form.action = '${contextPath}/updateForm.co';
+					form.submit();
+				});
+			}
+			
+			// 글 삭제 (delete)
+			document.getElementById("delete").addEventListener('click', ()=>{
+				form.action = '${contextPath}/deleteCommuBoard.co';
+				form.submit();
+			});
+			
+			
 		}
 	</script>
 </body>
