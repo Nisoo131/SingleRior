@@ -12,8 +12,10 @@ import com.E1I4.project.common.model.vo.Attachment;
 import com.E1I4.project.common.model.vo.PageInfo;
 import com.E1I4.project.common.model.vo.ReReply;
 import com.E1I4.project.common.model.vo.Reply;
+import com.E1I4.project.common.model.vo.Report;
 import com.E1I4.project.common.model.vo.WishList;
 import com.E1I4.project.marketBoard.model.vo.MarketBoard;
+import com.E1I4.project.member.model.vo.Member;
 
 @Repository("mkDAO")
 public class MarketBoardDAO {
@@ -118,9 +120,43 @@ public class MarketBoardDAO {
 		return sqlSession.update("marketMapper.replyDelete", rNo);
 	}
 
-	public int replyUpdate(SqlSessionTemplate sqlSession, Reply reply) {
-		return sqlSession.update("marketMapper.replyUpdate", reply);
+	public int replyUpdate(SqlSessionTemplate sqlSession, HashMap<String, Object> map) {
+		return sqlSession.update("marketMapper.replyUpdate", map);
 	}
+
+	public int replyCount(SqlSessionTemplate sqlSession, int bNo) {
+		return sqlSession.update("marketMapper.replyCount", bNo);
+	}
+
+	public int replyCancleCount(SqlSessionTemplate sqlSession, String bNo) {
+		return sqlSession.update("marketMapper.replyCancleCount", bNo);
+	}
+
+	public int likeCount(SqlSessionTemplate sqlSession, int bNo) {
+		return sqlSession.update("marketMapper.likeCount", bNo);
+	}
+
+	public int likeCancleCount(SqlSessionTemplate sqlSession, int bNo) {
+		return sqlSession.update("marketMapper.likeCancleCount", bNo);
+	}
+
+	public int marketReport(SqlSessionTemplate sqlSession, Report report) {
+		return sqlSession.update("marketMapper.marketReport", report);
+	}
+
+	public Report reportSelect(SqlSessionTemplate sqlSession, HashMap<String, Object> map) {
+		return sqlSession.selectOne("marketMapper.reportSelect", map);
+	}
+
+	public Member memberSelect(SqlSessionTemplate sqlSession, String boardWriter) {
+		return sqlSession.selectOne("marketMapper.memberSelect", boardWriter);
+	}
+
+	public Attachment memImageSelect(SqlSessionTemplate sqlSession, String boardWriter) {
+		return sqlSession.selectOne("marketMapper.memImageSelect", boardWriter);
+	}
+
+	
 
 	
 

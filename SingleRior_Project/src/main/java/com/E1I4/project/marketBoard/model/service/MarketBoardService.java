@@ -7,8 +7,10 @@ import com.E1I4.project.common.model.vo.Attachment;
 import com.E1I4.project.common.model.vo.PageInfo;
 import com.E1I4.project.common.model.vo.ReReply;
 import com.E1I4.project.common.model.vo.Reply;
+import com.E1I4.project.common.model.vo.Report;
 import com.E1I4.project.common.model.vo.WishList;
 import com.E1I4.project.marketBoard.model.vo.MarketBoard;
+import com.E1I4.project.member.model.vo.Member;
 
 public interface MarketBoardService {
 
@@ -56,7 +58,24 @@ public interface MarketBoardService {
 
 	int replyDelete(int rNo);
 
-	int replyUpdate(Reply reply);
+	int replyUpdate(HashMap<String, Object> map);
+
+	int replyCount(int bNo);
+
+	int replyCancleCount(String bNo);
+
+	int likeCount(int bNo);
+
+	int likeCancleCount(int bNo);
+
+	int marketReport(Report report);
+
+	Report reportSelect(HashMap<String, Object> map);
+
+	Member memberSelect(String boardWriter);
+
+	Attachment memImageSelect(String boardWriter);
+
 
 	
 
