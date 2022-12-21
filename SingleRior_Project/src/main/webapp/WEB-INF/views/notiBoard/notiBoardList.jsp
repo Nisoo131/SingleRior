@@ -6,6 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script src="${ contextPath }/resources/js/jquery-3.6.1.min.js"></script>
 <style>
 	@font-face {
 	    font-family: 'BMJUA';
@@ -26,6 +27,7 @@
 		font-size: 30px;
 		line-height: 28px;
 	}
+	td:hover{cursor: pointer;}
 </style>
 </head>
 <body>
@@ -50,57 +52,20 @@
 							<th width="130px">작성일</th>
 		          		</tr>
 		          	</thead>
-	         		<tbody>
-	          			<tr>
-							<td>[싱글벙글]</td>
-							<td><a href="${ contextPath }/selectNotiBoard.no">이곳은 모두가 함께 사용하는 공간입니다. 타인에게 매너를 지켜주세요.</a></td>
-							<td>2022-12-06</td>
-	          			</tr>
-	          			<tr>
-							<td>[싱글벙글]</td>
-							<td>글 작성 시 개인정보 유출에 주의 바랍니다.</td>
-							<td>2022-12-06</td>
-	          			</tr>
-	          			<tr>
-							<td></td>
-							<td>이곳은 모두가 함께 사용하는 공간입니다. 타인에게 매너를 지켜주세요.</td>
-							<td>2022-12-06</td>
-	          			</tr>
-	          			<tr>
-							<td></td>
-							<td>글 작성 시 개인정보 유출에 주의 바랍니다.</td>
-							<td>2022-12-06</td>
-	          			</tr>
-	          			<tr>
-							<td>[씽씽마켓]</td>
-							<td>이곳은 모두가 함께 사용하는 공간입니다. 타인에게 매너를 지켜주세요.</td>
-							<td>2022-12-06</td>
-	          			</tr>
-	          			<tr>
-							<td>[씽씽마켓]</td>
-							<td>글 작성 시 개인정보 유출에 주의 바랍니다.</td>
-							<td>2022-12-06</td>
-	          			</tr>
-	          			<tr>
-							<td>[싱글벙글]</td>
-							<td>이곳은 모두가 함께 사용하는 공간입니다. 타인에게 매너를 지켜주세요.</td>
-							<td>2022-12-06</td>
-	          			</tr>
-	          			<tr>
-							<td>[싱글벙글]</td>
-							<td>글 작성 시 개인정보 유출에 주의 바랍니다.</td>
-							<td>2022-12-06</td>
-	          			</tr>
-	          			<tr>
-							<td></td>
-							<td>이곳은 모두가 함께 사용하는 공간입니다. 타인에게 매너를 지켜주세요.</td>
-							<td>2022-12-06</td>
-	          			</tr>
-	          			<tr>
-							<td></td>
-							<td>글 작성 시 개인정보 유출에 주의 바랍니다.</td>
-							<td>2022-12-06</td>
-	          			</tr>
+	         		<tbody class="tbody">
+	         			<c:forEach items="${ list }" var="b">
+	         				<tr>
+								<td>
+									<c:if test="${ b.noticeCategory eq '전체' }">전체</c:if>
+									<c:if test="${ b.noticeCategory eq '싱글벙글' }">싱글벙글</c:if>
+									<c:if test="${ b.noticeCategory eq '씽씽마켓' }">씽씽마켓</c:if>
+									<input type="hidden" value="${ b.boardNo }">
+									<input type="hidden" value="${ b.nickName }">
+								</td>
+								<td>${ b.boardTitle }</td>
+								<td>${ b.createDate }</td>
+		          			</tr>
+	         			</c:forEach>
 	          		</tbody>
 	        	</table>
 	       	</div>
@@ -138,5 +103,20 @@
 	<footer>
 		<jsp:include page="../common/footer.jsp"/>
 	</footer>
+	
+	<script>
+		window.onload = () => {
+			const tbody = document.querySelector('.tbody');
+			console.log(tbody);
+			const trs = tbody.querySelectorAll('tr');
+			for(const tr of trs){
+				tr.addEventListener('click', function(){
+					const bNo = this.querySelectorAll('input')[0].value;
+					const writer = this.querySelectorAll('input')[1].value;
+					location.href='${contextPath}/selectNotiBoard.no?bNo=' + bNo + '&writer=' + writer + '&page=' + ${pi.currentPage};
+				});
+			}
+		}
+	</script>
 </body>
 </html>

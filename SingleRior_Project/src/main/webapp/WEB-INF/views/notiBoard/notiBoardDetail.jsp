@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -32,7 +33,7 @@
 					<div class="col py-2 d-flex flex-column position-static">
 						<table>
 							<tr>
-								<td><a href="javascript:history.back();" class="nav-link link-dark"><img src="https://www.flaticon.com/svg/vstatic/svg/3916/3916912.svg?token=exp=1670460369~hmac=675d0b7c5b02f035ed8a059ae5814294" width="15" height="15"> 목록 보기</a></td>
+								<td><a href="${ contextPath }/notiAllList.no" class="nav-link link-dark"><img src="https://www.flaticon.com/svg/vstatic/svg/3916/3916912.svg?token=exp=1670460369~hmac=675d0b7c5b02f035ed8a059ae5814294" width="15" height="15"> 목록 보기</a></td>
 							</tr>
 						</table>
 					</div>
@@ -41,27 +42,32 @@
 			<div class="col-12 border rounded overflow-hidden">
 				<!-- 헤더 -->
 				<div style="font-size: 20px; padding-top: 30px; padding-left: 50px;">
-					<span>싱글벙글</span>
+					<span>
+						<c:if test="${ notiBoard.noticeCategory eq '전체' }">전체</c:if>
+						<c:if test="${ notiBoard.noticeCategory eq '싱글벙글' }">싱글벙글</c:if>
+						<c:if test="${ notiBoard.noticeCategory eq '씽씽마켓' }">씽씽마켓</c:if>
+						<input type="hidden" value="${ notiBoard.boardNo }" name="boardNo">
+						<input type="hidden" value="${ notiBoard.nickName }" name="writer">
+						<input type="hidden" value="${ page }" name="page">
+					</span>
 				</div>
 				<table>
 					<tr>
-						<td class="fs-3 px-5 py-3" width="1100">이곳은 모두가 함께 사용하는 공간입니다. 타인에게 매너를 지켜주세요.</td>
+						<td class="fs-3 px-5 py-3" width="1100">${ notiBoard.boardTitle }</td>
 					</tr>
 				</table>
 				<table>
 					<tr>
 						<td class="px-5" width="150">관리자</td>
-						<td width="180">22.12.08 &nbsp;&nbsp;&nbsp; 09:00</td>
-						<td width="40">조회</td>
-						<td>0</td>
+						<td width="180">${ notiBoard.createDate }</td>
 					</tr>
 				</table>
 				
 				<div style="border-bottom: 1px solid #DCDCDC; padding-top: 10px;"></div>
 				
 				<!-- 본문 -->
-				<div class="p-5" style="font-size: 20px; height: 600px;">
-					<span>매너를 지키는 당신은 정말 아름다운 사람입니다.....^^</span>
+				<div class="p-5" style="font-size: 20px;">
+					<span>${ notiBoard.boardContent }</span>
 				</div>
 				
 				<div style="border-bottom: 1px solid #DCDCDC; padding-top: 10px;"></div>
@@ -69,10 +75,10 @@
 				<!-- 이동 -->
 				<div class="row px-5 py-4 justify-content-center">
 					<div class="col-md-1" style="text-align: center; width: 150px;">
-						<button class="w-100 btn btn-outline-dark btn-lg" type="button" id="preForm">이전글</button>
+						<button class="w-100 btn btn-outline-dark btn-lg" type="button" id="preForm" onclick="location.href='${contextPath}/selectNotiBoard.no?bNo=${ notiBoard.boardNo - 1 }&writer=${ notiBoard.nickName }&page=${ page }'">이전글</button>
 					</div>
 					<div class="col-md-1" style="text-align: center; width: 150px;">
-						<button class="w-100 btn btn-outline-dark btn-lg" type="button" id="nextForm">다음글</button>
+						<button class="w-100 btn btn-outline-dark btn-lg" type="button" id="nextForm" onclick="location.href='${contextPath}/selectNotiBoard.no?bNo=${ notiBoard.boardNo + 1 }&writer=${ notiBoard.nickName }&page=${ page }'">다음글</button>
 					</div>
 				</div>
 			</div>
