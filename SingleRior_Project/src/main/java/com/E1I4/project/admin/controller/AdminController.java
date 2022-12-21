@@ -438,7 +438,6 @@ public class AdminController {
 				}
 			}
 		}
-		System.out.println(p);
 		int updateProductResult=aService.updateProduct(p);
 		int updateAttmResult=0;
 		
@@ -514,7 +513,6 @@ public class AdminController {
 		String id=((Member)session.getAttribute("loginUser")).getMemberId();		
 		n.setBoardWriter(id);
 		n.setBoardType(4);
-		System.out.println(n);
 		
 		int result=aService.enrollNotice(n);
 		
@@ -539,7 +537,6 @@ public class AdminController {
 	public String editNotice(@ModelAttribute Notice n, @RequestParam("page") int page, Model model,HttpSession session ) {
 		
 		n.setBoardType(4);
-		System.out.println(n);
 		int result=aService.editeNotice(n);
 		
 		if(result>1) {
@@ -573,7 +570,6 @@ public class AdminController {
 		PageInfo pi=Pagination.getPageInfo(currentPage, listCount, 10);
 		ArrayList<Qna> list =aService.selectQNAList(pi,5);
 		
-		System.out.println(list);
 		
 		model.addAttribute("list",list);
 		model.addAttribute("pi",pi);
@@ -591,7 +587,6 @@ public class AdminController {
 		String id=((Member)session.getAttribute("loginUser")).getMemberId();
 		q.setBoardWriter(id);
 		q.setBoardType(5);
-		System.out.println(q);
 		
 		int result=aService.enrollQNA(q);
 		if(result>0) {
@@ -602,8 +597,54 @@ public class AdminController {
 			throw new AdminException("QNA 입력 실패");
 		}
 	}
+	@RequestMapping("detailQNA.adm")
+	public ModelAndView detailQNA(@RequestParam("bNo") int bNo,@RequestParam("page") int page,@RequestParam("boardWriter") String boardWriter,HttpSession session,ModelAndView mv ) {
+		
+			Qna q=aService.selectQNADetail(bNo);
+			
+			if(q!=null) {
+				mv.addObject("q",q);
+				mv.addObject("page",page);
+				mv.setViewName("detailQNA");
+				return mv;
+			}else {
+				throw new AdminException("QnA 상세보기 실패");
+			}
+		}
 	
-	
+	@RequestMapping("updateQNA.adm")
+	public String updateQNA(@RequestParam("boardNo") int boardNo,@RequestParam("page") int page,Model model) {
+			
+		Qna q = aService.selectQNADetail(boardNo);
+		
+		model.addAttribute("q",q);
+		model.addAttribute("page",page);
+
+		return "updateQNA";
+	}
+	@RequestMapping("editQNA.adm")
+	public String editQNA(@ModelAttribute Qna q,@RequestParam("page") int page, Model model) {
+		
+		q.setBoardType(5);
+		int result = aService.editQNA(q);
+		
+		if(result>1) {
+			model.addAttribute("bNo",q.getBoardNo());
+			model.addAttribute("page",page);
+			return "redirect:manageQNA.adm";
+		}else {
+			throw new AdminException("Q&A 게시글 수정 오류");
+		}
+	}
+	@RequestMapping("deleteQNA.adm")
+	public String deleteQNA(@RequestParam("boardNo") int bNo) {
+		int result=aService.deleteQNA(bNo);
+		if(result>0) {
+			return "redirect:manageQNA.adm";
+		}else {
+			throw new AdminException("Q&A 삭제 실패");
+		}
+	}
 	
 	@RequestMapping("orderList.adm")
 	public String orderList() {

@@ -280,5 +280,39 @@
 		order by board_no desc
 	
 	</select>
+	<select id="selectQNA" resultMap="qnaResultSet">
+		select * 
+			from board
+			join qna using(board_no)
+		where b_status='Y' and board_no=#{bNo}
+		
+	
+	</select>
+	
+	<update id="boardQNAEdit">
+	
+		update Board
+		set board_title=#{boardTitle}, board_content=#{boardContent}, modify_date=sysdate
+		where board_no=#{boardNo}
+		
+		
+	</update>
+	
+	<update id="QNAEdit">
+	
+		update QNA
+		set qna_category=#{qnaCategory}
+		where board_no=#{boardNo}
+	
+	</update>
+	
+	<update id="deleteQNA">
+		update board
+		set b_status='N'
+		where board_no=#{bNo}
+	
+	
+	</update>
+	
 	
 </mapper>

@@ -163,7 +163,7 @@
          		for(const tr of trs){
          			tr.addEventListener('click',function(){
          			const bNo=this.querySelectorAll('input')[0].value;
-         			const boardWriter=this.querySelectorAll('input')[0].value;
+         			const boardWriter=this.querySelectorAll('input')[1].value;
          			location.href='${contextPath}/detailNotice.adm?bNo='+bNo+'&page='+${pi.currentPage}+'&boardWriter='+boardWriter;
          			});
          		}
