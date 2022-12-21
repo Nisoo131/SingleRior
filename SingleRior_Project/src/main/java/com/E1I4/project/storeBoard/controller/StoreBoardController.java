@@ -11,15 +11,16 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.E1I4.project.common.Pagination;
 import com.E1I4.project.common.exception.BoardException;
 import com.E1I4.project.common.model.vo.Attachment;
 import com.E1I4.project.common.model.vo.PageInfo;
-import com.E1I4.project.common.model.vo.Product;
 import com.E1I4.project.common.model.vo.WishList;
 import com.E1I4.project.member.model.vo.Member;
 import com.E1I4.project.storeBoard.model.service.StoreBoardService;
+import com.E1I4.project.storeBoard.model.vo.Cart;
 import com.E1I4.project.storeBoard.model.vo.StoreBoard;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -80,8 +81,10 @@ public class StoreBoardController {
 	public String productDetail(@RequestParam("productNo") int productNo, HttpSession session, Model model) {
 		Member loginUser = (Member)session.getAttribute("loginUser");
 
+		// 상품, 보드, 카테고리, 이미지
 		ArrayList<StoreBoard> pList = sService.selectProduct(productNo);
-		
+	    
+		// 찜하기
 		WishList wl = new WishList();
 		WishList wishList = null;
 		
@@ -144,7 +147,28 @@ public class StoreBoardController {
 			e.printStackTrace();
 		}
 	}
-
+	// 장바구니
+	@RequestMapping("cart.st")
+	public String InsertCart(@RequestParam("memberId") String memberId, @RequestParam("productNo") int productNo,
+			                @RequestParam("productCount") int productCount, ModelAndView mv) {
+		
+		
+		
+		Cart cart = new Cart();
+		cart.setProductNo(productNo);
+		cart.setQuantity(productCount);
+		cart.setUserId(memberId);
+		
+		int result = sService.insertCart(cart);
+		
+	    // result가 0이 아니면 마이페이지-장바구니 
+		if(result != 0) {
+			return "redirect:";
+		} else {
+			throw new BoardException("장바구니 추가 실패");
+		}
+	}
+	
 	// 결제
 	@RequestMapping("payment.st")
 	public String payment() {
