@@ -45,7 +45,7 @@
 	<section>
 		<div class="d-grid gap-2 d-md-flex justify-content-md-end" style="padding-top: 60px;  padding-bottom60px; padding-right: 150px;">
 	  		<button id="deleteBtn" class="btn btn-primary me-md-2" type="button">선택</button>
-	  		<button id="deleteCancel" class="btn btn-primary me-md-2" type="button" style="display:none">취소</button>
+	  		<button id="deleteCancel" class="btn-close" type="button" style="display:none"></button>
 		</div><br><br>
 		
 		<div class="wishListDiv row row-cols-1 row-cols-md-4 g-4" style="margin-left: 150px; margin-right: 150px; ">
@@ -213,9 +213,6 @@
 			});
 			
 		})
-		
-
-		
 	})
 	
 	

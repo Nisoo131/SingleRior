@@ -403,7 +403,21 @@ public class MemberController {
 		return "myCart";
 	}
 	@RequestMapping("serviceCenter.me")
-	public String serviceCenter() {
+	public String serviceCenter(@RequestParam(value="category", required=false) String category,Model model) {
+		
+		HashMap<String,String> map = new HashMap<String,String>();
+		if(category == null) {
+			category = "전체";
+		}
+		
+		map.put("category", category);
+		ArrayList<Board> bList = mService.selectQna(category);
+//		System.out.println(bList);
+		
+		if(bList != null) {
+			model.addAttribute("bList", bList);
+			model.addAttribute("category", category);
+		}
 		return "serviceCenter";
 	}
 	
