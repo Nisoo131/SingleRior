@@ -11,9 +11,11 @@ import com.E1I4.project.common.model.vo.Attachment;
 import com.E1I4.project.common.model.vo.PageInfo;
 import com.E1I4.project.common.model.vo.ReReply;
 import com.E1I4.project.common.model.vo.Reply;
+import com.E1I4.project.common.model.vo.Report;
 import com.E1I4.project.common.model.vo.WishList;
 import com.E1I4.project.marketBoard.model.dao.MarketBoardDAO;
 import com.E1I4.project.marketBoard.model.vo.MarketBoard;
+import com.E1I4.project.member.model.vo.Member;
 
 
 
@@ -142,8 +144,48 @@ public class MarketBoardServiceImpl implements MarketBoardService{
 	}
 
 	@Override
-	public int replyUpdate(Reply reply) {
-		return mkDAO.replyUpdate(sqlSession, reply);
+	public int replyUpdate(HashMap<String, Object> map) {
+		return mkDAO.replyUpdate(sqlSession, map);
+	}
+
+	@Override
+	public int replyCount(int bNo) {
+		return mkDAO.replyCount(sqlSession, bNo);
+	}
+
+	@Override
+	public int replyCancleCount(String bNo) {
+		return mkDAO.replyCancleCount(sqlSession, bNo);
+	}
+
+	@Override
+	public int likeCount(int bNo) {
+		return mkDAO.likeCount(sqlSession, bNo);
+	}
+
+	@Override
+	public int likeCancleCount(int bNo) {
+		return mkDAO.likeCancleCount(sqlSession, bNo);
+	}
+
+	@Override
+	public int marketReport(Report report) {
+		return mkDAO.marketReport(sqlSession, report);
+	}
+
+	@Override
+	public Report reportSelect(HashMap<String, Object> map) {
+		return mkDAO.reportSelect(sqlSession, map);
+	}
+
+	@Override
+	public Member memberSelect(String boardWriter) {
+		return mkDAO.memberSelect(sqlSession, boardWriter);
+	}
+
+	@Override
+	public Attachment memImageSelect(String boardWriter) {
+		return mkDAO.memImageSelect(sqlSession, boardWriter);
 	}
 
 	

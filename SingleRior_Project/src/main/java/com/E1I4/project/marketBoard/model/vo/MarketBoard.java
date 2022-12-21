@@ -25,10 +25,11 @@ public class MarketBoard {
 	private String writer;
 	private String nickName;
 	private int count;
-	private int like;
+	private int likeCount;
 	private String marketPrice;
 	private int marketType;
 	private int marketArray;
+	private int	replyCount;
 	
 	
 	//boardType 3 market

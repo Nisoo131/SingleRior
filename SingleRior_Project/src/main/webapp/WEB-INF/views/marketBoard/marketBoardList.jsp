@@ -72,14 +72,17 @@ li a:hover {
 										</c:if>
 									</c:forEach>
 									<div class="card-body"  style="padding:15px;">
+									
 									<span style="float: right; font-size: 13px;" class="card-text">${ tb.nickName }</span>
 										<p class="card-text">${tb.boardTitle }</p>
+										<input  id="bNo" type="hidden" value="${ tb.boardNo }">
+										<input  id="writer" type="hidden" value="${ tb.writer}">
 										<input type="hidden" value="${ tb.boardNo }">
 										<div class="d-flex justify-content-between align-items-center">
 											<p class="card-text" style="width: 280px;">${tb.marketPrice }원</p>
 											<div class="btn-group">
-												<img src="https://cdn-icons-png.flaticon.com/512/2589/2589197.png"style="width: 30px; height: 30px;">2<img src="https://cdn-icons-png.flaticon.com/512/2589/2589054.png" style="width: 30px; height: 30px; display: none;">
-										  &nbsp;<img src="https://cdn-icons-png.flaticon.com/512/7789/7789458.png" style="width: 30px; height: 30px;">4
+												<img src="https://cdn-icons-png.flaticon.com/512/2589/2589197.png"style="width: 30px; height: 30px;">${tb.likeCount }<img src="https://cdn-icons-png.flaticon.com/512/2589/2589054.png" style="width: 30px; height: 30px; display: none;">
+										  &nbsp;<img src="https://cdn-icons-png.flaticon.com/512/7789/7789458.png" style="width: 30px; height: 30px;">${tb.replyCount }
 											</div>
 											<small class="text-muted"></small>
 										</div>
@@ -115,12 +118,14 @@ li a:hover {
 									<div class="card-body"  style="padding:15px;">
 									<span style="float: right; font-size: 13px;" class="card-text">${ tb.nickName }</span>
 										<p class="card-text">${tb.boardTitle }</p>
+										<input id="bNo" type="hidden" value="${ tb.boardNo }">
+										<input id="writer" type="hidden" value="${ tb.writer}">
 										<input type="hidden" value="${ tb.boardNo }">
 										<div class="d-flex justify-content-between align-items-center">
-											<p class="card-text" style="width: 280px;">${tb.marketPrice }원</p>
+											<p class="card-text" style="width: 280px;">${ tb.marketPrice }원</p>
 											<div class="btn-group">
-												<img src="https://cdn-icons-png.flaticon.com/512/2589/2589197.png"style="width: 30px; height: 30px;">2<img src="https://cdn-icons-png.flaticon.com/512/2589/2589054.png" style="width: 30px; height: 30px; display: none;">
-										  &nbsp;<img src="https://cdn-icons-png.flaticon.com/512/7789/7789458.png" style="width: 30px; height: 30px;">4
+												<img src="https://cdn-icons-png.flaticon.com/512/2589/2589197.png"style="width: 30px; height: 30px;">${tb.likeCount }<img src="https://cdn-icons-png.flaticon.com/512/2589/2589054.png" style="width: 30px; height: 30px; display: none;">
+										  &nbsp;<img src="https://cdn-icons-png.flaticon.com/512/7789/7789458.png" style="width: 30px; height: 30px;">${tb.replyCount }
 											</div>
 											<small class="text-muted"></small>
 										</div>
@@ -147,35 +152,53 @@ li a:hover {
 <!-- 두번쨰 슬라이드 끝-->
 	<br>
 	<br>
-	<!-- 글작성 버튼 -->
-	<div style="padding-left: 170px;">
-	<button type="button" class="btn btn-outline-secondary" style="width: 100px;" onclick="location.href='${contextPath}/marketBoardWrite.ma'">글쓰기</button>
-	</div>
-	<br>
 	
 	<!-- 정렬 -->
-	<div class="col-md-2" style="width: 350px; float: right;">
-    	<div class="row g-0 border rounded overflow-hidden flex-md-row shadow-sm h-md-250 position-relative mt-2 mb-4">
-       		<div class="col py-2 d-flex flex-column position-static px-3">
-         		<table class="">
-             		<tr style="text-align: center;">
-                 		<td width="70px;">
-                   			<a style="color: white;" class="nav-link active" href="marketBoardList.ma?marketArray=1&marketType=${marketType}"><img src="https://cdn-icons.flaticon.com/svg/3917/3917749.svg?token=exp=1670486670~hmac=84a197fe65626dbb13e5a5c6963c214d" style="margin-right: 5px;" width="16" height="16">조회수 많은 순</a>
-             			</td>
-              			<td width="120px;">
-             				<a style="color: white;" class="nav-link active" href="marketBoardList.ma?marketArray=2&marketType=${marketType}"><img src="https://cdn-icons.flaticon.com/svg/3917/3917749.svg?token=exp=1670486670~hmac=84a197fe65626dbb13e5a5c6963c214d" style="margin-right: 5px;" width="16" height="16">좋아요 많은 순</a>
-          				</td>
-              			<td>
-               				<a style="color: white;" class="nav-link active" href="marketBoardList.ma?marketArray=3&marketType=${marketType}"><img src="https://cdn-icons.flaticon.com/svg/3917/3917749.svg?token=exp=1670486670~hmac=84a197fe65626dbb13e5a5c6963c214d" style="margin-right: 5px;" width="16" height="16">댓글 많은 순</a>
-                		</td>
-            		</tr>
-           		</table>
-       		</div>
-     	</div>
-     </div>
-
+  		<div class="row row-cols-1 row-cols-md-5 g-4" style="margin-left: 350px; margin-right: 350px;">
+  			<div class="row px-1">
+			  	<div class="col-md-2" style="width: 380px;">
+			  		<div class="row border rounded overflow-hidden flex-md-row shadow-sm  position-relative mt-2 mb-5">
+			  			<div class="col py-2 d-flex flex-column position-static px-3">
+			  				<table>
+			  					<tr style="text-align: center; height: 35px;">
+			  						<td id="list1" width="80px;">
+			  							<a class="nav-link active" href="marketBoardList.ma?marketArray=0&marketType=${marketType}">
+				  							<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-check-lg me-1" viewBox="0 0 16 16">
+				  								<path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022Z"/>
+				  							</svg>최신순
+			  							</a>
+			  						</td>
+			  						<td id="list2" width="120px;">
+			  							<a class="nav-link active" href="marketBoardList.ma?marketArray=1&marketType=${marketType}">
+				  							<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-check-lg me-1" viewBox="0 0 16 16">
+				  								<path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022Z"/>
+				  							</svg>좋아요 많은 순
+			  							</a>
+			  						</td>
+			  						<td id="list3">
+			  							<a class="nav-link active" href="marketBoardList.ma?marketArray=2&marketType=${marketType}">
+				  							<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-check-lg me-1" viewBox="0 0 16 16">
+				  								<path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022Z"/>
+				  							</svg>댓글 많은 순
+			  							</a>
+			  						</td>
+			  					</tr>
+			  				</table>
+			  				
+			  			</div>
+			  		</div>
+			  		<c:if test="${ !empty loginUser }">
+						<button type="button" class="btn btn-outline-secondary" style="width: 100px;" onclick="location.href='${contextPath}/marketBoardWrite.ma'">글쓰기</button>
+			  		</c:if>
+			  	</div>
+			</div>
+  		</div>
+  		
+<br>
+<br>
+<br>
 <!-- 글 리스트 -->	
-	<div class="row row-cols-1 row-cols-md-5 g-4" style="margin: 150px;">
+	<div class="row row-cols-1 row-cols-md-5 g-4" style="margin-left: 350px; margin-right: 350px;">
 		<c:forEach items="${ mkBList }" var="mkB">
 		 <c:set var="marketType" value="${mkB.marketType }"/>
 		<div class="col px-4">
@@ -193,13 +216,13 @@ li a:hover {
 				<div class="card-body" style="padding:15px;">
 				<span style="float: right; font-size: 13px;" class="card-text">${ mkB.nickName }</span>
 					<p class="card-text" style="font-size: 18px;">${ mkB.boardTitle }</p>
-					<input type="hidden" value="${ mkB.boardNo }">
+					<input id="bNo" type="hidden" value="${ mkB.boardNo }">
+					<input id="writer" type="hidden" value="${ mkB.writer}">
 					<div class="d-flex justify-content-between align-items-center">
 						<p class="card-text" style="width: 280px;">${ mkB.marketPrice }원</p>
 						<div class="btn-group">
-							<img src="https://cdn-icons-png.flaticon.com/512/2589/2589197.png" style="width: 30px; height: 30px;">2&nbsp;&nbsp;
-							<img src="https://cdn-icons-png.flaticon.com/512/2589/2589054.png" style="width: 30px; height: 30px; display: none;">&nbsp;
-							<img src="https://cdn-icons-png.flaticon.com/512/7789/7789458.png" style="width: 30px; height: 30px;">4
+							<img src="https://cdn-icons-png.flaticon.com/512/2589/2589197.png" style="width: 30px; height: 30px;">${mkB.likeCount}&nbsp;&nbsp;
+							<img src="https://cdn-icons-png.flaticon.com/512/7789/7789458.png" style="width: 30px; height: 30px;">${mkB.replyCount}
 						</div>
 					</div>
 				</div>
@@ -229,7 +252,34 @@ li a:hover {
 					</a></li>
 					</c:if>
 				</ul>
-	
+				        	
+				        	
+	        
+	 <div class="py-4">
+	 			<form role="search" action="${ contextPath }/marketBoardList.ma">
+	        	<table class="mx-auto">
+		        	<tr>
+		        		<td>
+				        	<select name="searchType" class="form-select form-select-sm" aria-label=".form-select-sm example" style="width: 120px; text-align: center;">
+				        		<option>--------</option>
+				        		<option value="1">제목</option>
+				        		<option value="2">내용</option>
+				        		<option value="3">작성자</option>
+				        	</select>
+		        		</td>
+		        		<td >
+				        	<div class="d-flex">
+				        		<input class="form-control me-2" style="width: 300px;" type="search" placeholder="Search" name="marketSearch" aria-label="Search">
+				        		<input type="hidden" name="page" value="${ pi.currentPage }">
+	        					<input type="hidden" name="marketType" value="${mkBoard.marketType }">
+	        					<input type="hidden" name="marketArray" value="${mkBoard.marketArray}">
+				        		<button class="btn btn-outline-primary" type="submit">검색</button>
+				        	</div>
+				        </td>
+				    </tr>
+		        </table>
+		        </form>
+	    </div>
 	
 	<footer>
 		<jsp:include page="../common/footer.jsp" />
@@ -248,17 +298,18 @@ li a:hover {
 				location.href='${contextPath}/marketBoardLike.ma?bNo=' + bNo;
 			});
 			card.addEventListener('click', function() {
-				const bNo = this.querySelector('input[type="hidden"]').value;
-				const boardWriter = this.querySelector('span').innerText;
+				const bNo = this.querySelector('#bNo').value;
+				const boardWriter = this.querySelector('#writer').value;
 				location.href='${contextPath}/marketBoardDetail.ma?bNo=' + bNo +'&boardWriter=' + boardWriter;
 			});
 		}
+		
 		//두번째 슬라이드 상세페이지
-		const seCcards = document.getElementsByClassName('carouselCardSec');
-		for(const card of seCcards){
+		const secCards = document.getElementsByClassName('carouselCardSec');
+		for(const card of secCards){
 			card.addEventListener('click', function() {
-				const bNo = this.querySelector('input[type="hidden"]').value;
-				const boardWriter = this.querySelector('span').innerText;
+				const bNo = this.querySelector('#bNo').value;
+				const boardWriter = this.querySelector('#writer').value;
 				location.href='${contextPath}/marketBoardDetail.ma?bNo=' + bNo  +'&boardWriter=' + boardWriter;
 			});
 		}
@@ -266,8 +317,8 @@ li a:hover {
 		const cards = document.getElementsByClassName('cards');
 		for(const card of cards){
 			card.addEventListener('click', function() {
-				const bNo = this.querySelector('input[type="hidden"]').value;
-				const boardWriter = this.querySelector('span').innerText;
+				const bNo = this.querySelector('#bNo').value;
+				const boardWriter = this.querySelector('#writer').value;
 				location.href='${contextPath}/marketBoardDetail.ma?bNo=' + bNo +'&boardWriter=' + boardWriter;
 			});
 		}

@@ -25,9 +25,11 @@ import com.E1I4.project.common.model.vo.Attachment;
 import com.E1I4.project.common.model.vo.PageInfo;
 import com.E1I4.project.common.model.vo.ReReply;
 import com.E1I4.project.common.model.vo.Reply;
+import com.E1I4.project.common.model.vo.Report;
 import com.E1I4.project.common.model.vo.WishList;
 import com.E1I4.project.marketBoard.model.service.MarketBoardService;
 import com.E1I4.project.marketBoard.model.vo.MarketBoard;
+import com.E1I4.project.member.model.service.MemberService;
 import com.E1I4.project.member.model.vo.Member;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -41,14 +43,18 @@ public class MarketBoardController {
 	@Autowired
 	private MarketBoardService mkService;
 	
+	@Autowired
+	private MemberService mService;
+	
 	//글리스트
 	@RequestMapping("marketBoardList.ma")
 	public String marketBoardList(@RequestParam(value="page", required=false) Integer page, Model model, @RequestParam(value="marketType", required=false) Integer mkType,
-			   @RequestParam(value="search", required=false) String search, @RequestParam(value="array", required=false) Integer mkArray) {
+			   @RequestParam(value="marketSearch", required=false) String search, @RequestParam(value="searchType", required=false) Integer sType, @RequestParam(value="marketArray", required=false) Integer mkArray) {
 		
 		//boardType 3 market
 		//marketType 같이사요 1, 팝니다2, 삽니다3
-		//marketArray 조회수1, 좋아요수2, 댓글수3
+		//marketArray 조회수1, 댓글2, 
+		//searchType 1제목, 2내용, 3글쓴이
 		
 		int marketType = 0;
 		if(mkType != null ) {
@@ -60,17 +66,27 @@ public class MarketBoardController {
 			marketArray = mkArray;
 		}
 		
+		String marketSearch = null;
+		int searchType= 0;
+		if(search != null && sType!=null) {
+			marketSearch = search;
+			searchType = sType;
+		}
+		
 		
 		int currentPage = 1;
 		if(page != null && page > 1) {
 			currentPage = page;
 		}
 		
+		
+		
+		
 		HashMap<String, Object> map = new HashMap<>();
 		map.put("marketType", marketType);
 		map.put("marketArray", marketArray);
-		map.put("search", search);
-		
+		map.put("marketSearch", marketSearch);
+		map.put("searchType", searchType);
 		
 		int listCount = mkService.getMkListCount(map);
 		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 9);
@@ -78,10 +94,7 @@ public class MarketBoardController {
 		ArrayList<Attachment> mkAList = mkService.attmListSelect();
 		
 		ArrayList<MarketBoard> topBList = mkService.marketTopList(marketType);
-		ArrayList<Attachment> topAList = mkService.topAttmListSelect(marketType);
-		
-		
-		
+		ArrayList<Attachment> topAList = mkService.topAttmListSelect(marketType);		
 		
 		
 		if(mkBList != null) {
@@ -227,22 +240,44 @@ public class MarketBoardController {
 				wl.setMemberId (loginUser.getMemberId());
 				wishList = mkService.wishListSelect(wl);
 			}
+			String id = " ";
+			if(loginUser !=null) {
+				 id = loginUser.getMemberId();
+			}
 			
+			
+			HashMap<String, Object> map = new HashMap<String, Object>();
+			map.put("id", id);
+			map.put("bNo",bNo);
+			Report reportSelect =  mkService.reportSelect(map);
 			
 			MarketBoard mkBoard = mkService.marketBoardSelect(bNo, yn);
 			ArrayList<Attachment> mkAList = mkService.selectAttm(strBNo);
 			ArrayList<Reply> mkRList = mkService.replySelect(bNo);
 			ArrayList<ReReply> mkRRList = mkService.reReplySelect(bNo);
 			
+			Member m = new Member();
+			m.setMemberId(boardWriter);
+			m = mService.login(m);
 			
+			String memberId = boardWriter;
+			System.out.println(memberId); 
+			Attachment profileAttm = mService.selectProfile(memberId);
 			
+			System.out.println(boardWriter);
+			System.out.println(m);
+			System.out.println(profileAttm);
 			
 			if(mkBoard != null) {
+				
 				model.addAttribute("mkBoard", mkBoard);
 				model.addAttribute("mkAList", mkAList);
 				model.addAttribute("wishList", wishList);
 				model.addAttribute("mkRList", mkRList);
 				model.addAttribute("mkRRList", mkRRList);
+				model.addAttribute("reportSelect", reportSelect);
+				model.addAttribute("profile", m);
+				model.addAttribute("profileAttm", profileAttm);
 				
 				return "marketBoardDetail";
 			
@@ -256,8 +291,11 @@ public class MarketBoardController {
 		@RequestMapping("replyInsert.ma")
 		public void replyInsert(@ModelAttribute Reply reply, HttpServletResponse response ) {
 			int result = mkService.replyInsert(reply);
+			int bNo = reply.getBoardNo();
+			int result1 = mkService.replyCount(bNo);
+			
 			ArrayList<Reply> rList = mkService.replySelect(reply.getBoardNo());
-
+			
 			response.setContentType("application/json; charset=UTF-8");
 			
 			GsonBuilder gb = new GsonBuilder();
@@ -277,7 +315,7 @@ public class MarketBoardController {
 		@RequestMapping("replyDelete.ma")
 		public String replyDelete(@RequestParam("rNo") int rNo, @RequestParam("bNo") String bNo, Model model) {
 			int result = mkService.replyDelete(rNo);
-			
+			int result1 = mkService.replyCancleCount(bNo);
 			if(result > 0) {
 				model.addAttribute("bNo", bNo);
 				return "redirect:marketBoardDetail.ma";
@@ -286,10 +324,17 @@ public class MarketBoardController {
 			}
 
 		}
+		
 		//댓글 수정
 		@RequestMapping("replyUpdate.ma")
 		public void replyUpdate(@ModelAttribute Reply reply, HttpServletResponse response ) {
-			int result = mkService.replyUpdate(reply);
+			HashMap<String, Object> map = new HashMap<String, Object>();
+			map.put("content", reply.getReplyContent());
+			map.put("rNo",reply.getReplyNo());
+			map.put("secret", reply.getReplySecret());
+			
+			System.out.println(reply);
+			int result = mkService.replyUpdate(map);
 			ArrayList<Reply> rList = mkService.replySelect(reply.getBoardNo());
 			response.setContentType("application/json; charset=UTF-8");
 			
@@ -305,8 +350,6 @@ public class MarketBoardController {
 
 		
 		}
-		
-		
 		
 		
 		//대댓글 insert
@@ -339,6 +382,7 @@ public class MarketBoardController {
 			wl.setMemberId (id);
 			
 			int result = mkService.marketLike(wl);
+			int result1 = mkService.likeCount(bNo);
 			
 			response.setContentType("application/json; charset=UTF-8");
 			
@@ -355,166 +399,193 @@ public class MarketBoardController {
 		}
 		
 		// 좋아요취소
-			@RequestMapping("marketLikeCancle.ma")
-			public  void marketBoardLikeCancle(@RequestParam("boardNo") int bNo, HttpSession session, Model model, HttpServletResponse response) {
-				String id = ((Member)session.getAttribute("loginUser")).getMemberId();
-				WishList wl = new WishList();
+		@RequestMapping("marketLikeCancle.ma")
+		public  void marketBoardLikeCancle(@RequestParam("boardNo") int bNo, HttpSession session, Model model, HttpServletResponse response) {
+			String id = ((Member)session.getAttribute("loginUser")).getMemberId();
+			WishList wl = new WishList();
+			
+			wl.setBoardNo(bNo);
+			wl.setMemberId (id);
 				
-				wl.setBoardNo(bNo);
-				wl.setMemberId (id);
+			int result =  mkService.marketLikeCancle(wl);
+			int result1 = mkService.likeCancleCount(bNo);
+			
+			response.setContentType("application/json; charset=UTF-8");
 				
-				int result =  mkService.marketLikeCancle(wl);
-				
-				response.setContentType("application/json; charset=UTF-8");
-				
-				GsonBuilder gb = new GsonBuilder();
-				Gson gson = gb.create();
+			GsonBuilder gb = new GsonBuilder();
+			Gson gson = gb.create();
 
-				try {
-					gson.toJson(result, response.getWriter());
-				} catch (JsonIOException | IOException e) {
-					e.printStackTrace();
-				}
+			try {
+				gson.toJson(result, response.getWriter());
+			} catch (JsonIOException | IOException e) {
+				e.printStackTrace();
 			}
+		}
 
-			//게시글 수정페이지
-			@RequestMapping("mkBoardUpdateView.ma")
-			public String mkBoardUpdateView(@RequestParam("bNo") int bNo, Model model) {
-				String strBNo = Integer.toString(bNo);
-				MarketBoard mkBoard= mkService.marketBoardSelect(bNo, false);
-				ArrayList<Attachment> mkAList = mkService.selectAttm(strBNo);
-				
-				if(mkBoard != null) {
-					model.addAttribute("mkBoard", mkBoard);
-					model.addAttribute("mkAList", mkAList);
-					return "marketBoardEdit";
-				} else {
-					throw new BoardException("게시글 조회 실패.");
-				}
+		//게시글 수정페이지
+		@RequestMapping("mkBoardUpdateView.ma")
+		public String mkBoardUpdateView(@RequestParam("bNo") int bNo, Model model) {
+			String strBNo = Integer.toString(bNo);
+			MarketBoard mkBoard= mkService.marketBoardSelect(bNo, false);
+			ArrayList<Attachment> mkAList = mkService.selectAttm(strBNo);
+			
+			if(mkBoard != null) {
+				model.addAttribute("mkBoard", mkBoard);
+				model.addAttribute("mkAList", mkAList);
+				return "marketBoardEdit";
+			} else {
+				throw new BoardException("게시글 조회 실패.");
 			}
+		}
 			
 			
-			// 게시글 수정
-			@RequestMapping("marketBoardUpdate.ma")
-			public String updateVolBoard(@ModelAttribute MarketBoard mkBoard, @RequestParam(value="deleteAttm", required = false) String[] deleteAttm, 
-										 @RequestParam("file") ArrayList<MultipartFile> files, HttpServletRequest request, Model model) {
-				int boardResult = mkService.marketboardUpdate(mkBoard);
-				// 새파일 저장
-				ArrayList<Attachment> list = new ArrayList<>();
-				for(MultipartFile file : files) {
-					String fileName = file.getOriginalFilename();
-					if(!fileName.equals("")) {
-						String fileType = fileName.substring(fileName.lastIndexOf(".")+1).toLowerCase();
-						if(fileType.equals("png") || fileType.equals("jpg") || fileType.equals("gif") || fileType.equals("jpeg")) {
-							String[] returnArr = saveFile(file, request);
+		// 게시글 수정
+		@RequestMapping("marketBoardUpdate.ma")
+		public String updateVolBoard(@ModelAttribute MarketBoard mkBoard, @RequestParam(value="deleteAttm", required = false) String[] deleteAttm, 
+									 @RequestParam("file") ArrayList<MultipartFile> files, HttpServletRequest request, Model model) {
+			int boardResult = mkService.marketboardUpdate(mkBoard);
+			// 새파일 저장
+			ArrayList<Attachment> list = new ArrayList<>();
+			for(MultipartFile file : files) {
+				String fileName = file.getOriginalFilename();
+				if(!fileName.equals("")) {
+					String fileType = fileName.substring(fileName.lastIndexOf(".")+1).toLowerCase();
+					if(fileType.equals("png") || fileType.equals("jpg") || fileType.equals("gif") || fileType.equals("jpeg")) {
+						String[] returnArr = saveFile(file, request);
+					
+						if(returnArr[1] != null) {
+							Attachment attm = new Attachment();
+							attm.setImgOriginalName(file.getOriginalFilename());
+							attm.setImgRename(returnArr[1]);
+							attm.setImgPath(returnArr[0]);
 							
-							if(returnArr[1] != null) {
-								Attachment attm = new Attachment();
-								attm.setImgOriginalName(file.getOriginalFilename());
-								attm.setImgRename(returnArr[1]);
-								attm.setImgPath(returnArr[0]);
-								
-								list.add(attm);
-							}
+							list.add(attm);
 						}
 					}
 				}
+			}
+			
+			// 선택한 파일들 삭제
+			ArrayList<String> delRename = new ArrayList<>();
+			ArrayList<Integer> delLevel = new ArrayList<>();
 				
-				// 선택한 파일들 삭제
-				ArrayList<String> delRename = new ArrayList<>();
-				ArrayList<Integer> delLevel = new ArrayList<>();
-				
-				if(deleteAttm != null) {
-					for (String rename : deleteAttm) {
-						if (!rename.equals("")) {
-							String[] split = rename.split("/");
-							delRename.add(split[0]);
-							delLevel.add(Integer.parseInt(split[1]));
-						}
+			if(deleteAttm != null) {
+				for (String rename : deleteAttm) {
+					if (!rename.equals("")) {
+						String[] split = rename.split("/");
+						delRename.add(split[0]);
+						delLevel.add(Integer.parseInt(split[1]));
 					}
 				}
+			}
 				
-				int deleteAttmResult = 0;
-				boolean existBeforeAttm = true;  // 기존 파일이 남아 있는지 확인
+			int deleteAttmResult = 0;
+			boolean existBeforeAttm = true;  // 기존 파일이 남아 있는지 확인
 				
-				if(!delRename.isEmpty()) {
-					deleteAttmResult = mkService.deleteAttm(delRename);
-					if(deleteAttmResult > 0) {
-						for(String rename : delRename) {
-							deleteFile(rename, request);
-						}
+			if(!delRename.isEmpty()) {
+				deleteAttmResult = mkService.deleteAttm(delRename);
+				if(deleteAttmResult > 0) {
+					for(String rename : delRename) {
+						deleteFile(rename, request);
 					}
+				}
 					
-					if(delRename.size() == deleteAttm.length) { // 기존 파일을 전부 삭제하겠다고 한 경우
-						existBeforeAttm = false;
-					} else {
-						for(int level : delLevel) {
-							if(level == 0) {
-								String strBNo = Integer.toString(mkBoard.getBoardNo());
-								mkService.AttmLevelUpdate(strBNo);
-								break;
-							}
-						}
-					}
-				}
-				
-				if(deleteAttm == null) {
+				if(delRename.size() == deleteAttm.length) { // 기존 파일을 전부 삭제하겠다고 한 경우
 					existBeforeAttm = false;
-				}
-				
-				for(int i = 0; i < list.size(); i++) {
-					Attachment a = list.get(i);
-					
-					if(existBeforeAttm) {
-						a.setLevel(1);
-					} else {
-						if(i == 0) {
-							a.setLevel(0);
-						} else {
-							a.setLevel(1);
+				} else {
+					for(int level : delLevel) {
+						if(level == 0) {
+							String strBNo = Integer.toString(mkBoard.getBoardNo());
+							mkService.AttmLevelUpdate(strBNo);
+							break;
 						}
 					}
-					a.setImgKey("3");
+				}
 				}
 				
-				int attmResult = 0;
-				String strBNo = Integer.toString( mkBoard.getBoardNo());
+			if(deleteAttm == null) {
+				existBeforeAttm = false;
+			}
 				
-				if(!list.isEmpty()) {
-					HashMap<String, Object> map = new HashMap<String, Object>();
-					map.put("list", list);
-					map.put("bNo",strBNo);
+			for(int i = 0; i < list.size(); i++) {
+				Attachment a = list.get(i);
 					
-					attmResult = mkService.insertAttm(map);
-				}
-				
-				if(boardResult + attmResult == 2+list.size()) {
-					model.addAttribute("bNo", mkBoard.getBoardNo());
-					model.addAttribute("boardWriter", mkBoard.getWriter());
-					return "redirect:marketBoardDetail.ma";
+				if(existBeforeAttm) {
+					a.setLevel(1);
 				} else {
-					for(Attachment a : list) {
-						deleteFile(a.getImgRename(), request);
+					if(i == 0) {
+						a.setLevel(0);
+					} else {
+						a.setLevel(1);
 					}
-					throw new BoardException("게시글 수정 실패");
 				}
+					a.setBoardType(3);
+				}
+				
+			int attmResult = 0;
+			String strBNo = Integer.toString( mkBoard.getBoardNo());
+				
+			if(!list.isEmpty()) {
+				HashMap<String, Object> map = new HashMap<String, Object>();
+				map.put("list", list);
+				map.put("bNo",strBNo);
+				
+				attmResult = mkService.insertAttm(map);
 			}
 			
-			
-			
-			//게시글 삭제
-			@RequestMapping("marketBoardDelete.ma")
-			public String marketBoardDelete(@RequestParam("bNo") int bNo) {
-				String strBNo = Integer.toString(bNo);
-				int result = mkService.marketBoardDelete(bNo);
-				result += mkService.updateAttmStatus(strBNo);
-				
-				
-				if(result > 0) {
-						return "redirect:marketBoardList.ma";
-				} else {
-					throw new BoardException("봉사 게시글 삭제 실패");
+			if(boardResult + attmResult == 2+list.size()) {
+				model.addAttribute("bNo", mkBoard.getBoardNo());
+				model.addAttribute("boardWriter", mkBoard.getWriter());
+				return "redirect:marketBoardDetail.ma";
+			} else {
+				for(Attachment a : list) {
+					deleteFile(a.getImgRename(), request);
 				}
+				throw new BoardException("게시글 수정 실패");
 			}
+		}
+			
+			
+			
+		//게시글 삭제
+		@RequestMapping("marketBoardDelete.ma")
+		public String marketBoardDelete(@RequestParam("bNo") int bNo) {
+			String strBNo = Integer.toString(bNo);
+			int result = mkService.marketBoardDelete(bNo);
+			result += mkService.updateAttmStatus(strBNo);
+				
+				
+			if(result > 0) {
+					return "redirect:marketBoardList.ma";
+			} else {
+				throw new BoardException("게시글 삭제 실패");
+			}
+		}
+		
+		//신고하기
+		@RequestMapping("marketReport.ma")
+		public String marketReport(@RequestParam("boardNo") int bNo,HttpSession session, @ModelAttribute Report report, Model model) {
+			String id = ((Member)session.getAttribute("loginUser")).getMemberId();
+			report.setMemberId(id);
+			
+			HashMap<String, Object> map = new HashMap<String, Object>();
+			map.put("id", id);
+			map.put("bNo",bNo);
+			
+			
+			Report reportSelect =  mkService.reportSelect(map);
+			int result = mkService.marketReport(report);
+			if(result>0) {
+				model.addAttribute("bNo", bNo);
+				model.addAttribute("reportSelect", reportSelect);
+				return "redirect:marketBoardDetail.ma";
+			}else {
+				throw new BoardException("신고 실패");
+			}
+			
+
+		}
+			
+			
 	
 }

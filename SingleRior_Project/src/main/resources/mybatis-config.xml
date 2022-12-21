@@ -19,8 +19,7 @@
 		<typeAlias type="com.E1I4.project.common.model.vo.ReReply" alias="ReReply"/>
 		<typeAlias type="com.E1I4.project.common.model.vo.ProductList" alias="ProductList"/>
 		<typeAlias type="com.E1I4.project.common.model.vo.Board" alias="Board"/>
-
-
+		<typeAlias type="com.E1I4.project.common.model.vo.Report" alias="Report"/>
 	</typeAliases>
 
 	<mappers>

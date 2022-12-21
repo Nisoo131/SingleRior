@@ -16,6 +16,8 @@
 		<result column="BOARD_COUNT" property="count"/>
 		<result column="PRICE" property="marketPrice"/>
 		<result column="MARKET_TYPE" property="marketType"/>
+		<result column="LIKE_COUNT" property="likeCount"/>
+		<result column="REPLY_COUNT" property="replyCount"/>
 	</resultMap>
 	
 	<resultMap type="Attachment" id="attachmentResultSet">
@@ -78,7 +80,30 @@
 		<if test="marketType > 0">
 			and m.MARKET_TYPE = #{marketType}
 		</if>
-		order by b.BOARD_NO desc
+		
+		<if test="marketSearch != null and searchType!=0">
+			<if test=" searchType==1">
+			and (BOARD_TITLE LIKE '%'||#{marketSearch}||'%')
+			</if>
+			<if test=" searchType==2">
+			and (BOARD_CONTENT LIKE '%'||#{marketSearch}||'%')
+			</if>
+			<if test=" searchType==3">
+			and (BOARD_WRITER LIKE '%'||#{marketSearch}||'%')
+			</if>
+		</if>
+		
+		<if test="marketArray == 1">
+			order by m.LIKE_COUNT desc
+		</if>
+		
+		<if test="marketArray == 2">
+			order by m.REPLY_COUNT desc
+		</if>
+		
+		<if test="marketArray == 0 ">
+			order by b.BOARD_NO desc
+		</if>
 	</select>
 		
 	<select id="attmListSelect" resultMap = "attachmentResultSet">
@@ -169,7 +194,7 @@
 		<result column="NICKNAME" property="nickName"/>
 	</resultMap>
 	
-		<resultMap type="ReReply" id="reReplyResultSet">
+	<resultMap type="ReReply" id="reReplyResultSet">
 		<id column="RE_REPLY_NO" property="reReplyNo"/>
 		<result column="RE_REPLY_CONTENT" property="reReplyContent"/>
 		<result column="RE_REPLY_CREATE_DATE" property="reReplyCreateDate"/>
@@ -258,8 +283,53 @@
 	
 	<update id="replyUpdate">
 		update REPLY
-		set REPLY_CONTENT = ${replyContent},REPLY_MODIFY_DATE = sysdate, RE_SECRET = ${replySecret}
-		where REPLY_NO = #{replyNo}
+		set REPLY_CONTENT = #{content},REPLY_MODIFY_DATE = sysdate, RE_SECRET = #{secret}
+		where REPLY_NO = #{rNo}
 	</update>
+	
+	<update id="likeCount">
+		update MARKET
+		set LIKE_COUNT = LIKE_COUNT + 1
+		where board_no = #{bNo}
+	</update>
+	
+	<update id="replyCount">
+		update MARKET
+		set REPLY_COUNT = REPLY_COUNT + 1
+		where board_no = #{bNo}
+	</update>
+	
+	<update id="likeCancleCount">
+		update MARKET
+		set LIKE_COUNT = LIKE_COUNT - 1
+		where board_no = #{bNo}
+	</update>
+	
+	<update id="replyCancleCount">
+		update MARKET
+		set REPLY_COUNT = REPLY_COUNT - 1
+		where board_no = #{bNo}
+	</update>
+	
+	<resultMap type="Report" id="reportResultSet">
+		<id column="REPORT_NO" property="reportNo"/>
+		<result column="BOARD_NO" property="boardNo"/>
+		<result column="REPORT_TYPE" property="reportType"/>
+		<result column="REPORT_CATE" property="reportCate"/>
+		<result column="USER_ID" property="memberId"/>
+		<result column="CREATE_DATE" property="createDtae"/>
+	</resultMap>
+	
+	<insert id="marketReport">
+		insert into REPORT
+		values(SEQ_RPID.nextval, #{reportType}, #{boardNo},#{reportCate},sysdate, #{memberId})
+	</insert>
+	
+	<select id="reportSelect" resultMap="reportResultSet"> 
+		select *
+		from report
+		where BOARD_NO=#{bNo} and MEMBER_ID=#{id}
+	</select>
+	
 	
 </mapper>
