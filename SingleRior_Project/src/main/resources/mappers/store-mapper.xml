@@ -112,5 +112,12 @@
    		delete wishList
 		where board_no=#{boardNo} and member_id=#{memberId}
    </delete>
+   
+   <insert id="insertCart">
+   	    insert into cart
+		values (SEQ_CNO.NEXTVAL, #{quantity}, default, #{memberId}, #{productNo})
+   
+   </insert>
+
 
 </mapper>
