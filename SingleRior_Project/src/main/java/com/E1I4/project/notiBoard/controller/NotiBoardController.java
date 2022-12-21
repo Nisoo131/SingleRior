@@ -27,7 +27,7 @@ public class NotiBoardController {
 	@RequestMapping("notiAllList.no")
 	public String selectNotiAllList(@RequestParam(value="page", required=false) Integer page, Model model,
 			@RequestParam(value="noticeCategory", required=false) String notiCate) {
-		// 싱글벙글 카테고리 -> 1: 전체, 2: 싱글벙글, 3: 씽씽마켓
+		// 공지사항 카테고리 -> 1: 전체, 2: 싱글벙글, 3: 씽씽마켓
 		String noticeCategory = "";
 		if(notiCate != null) {
 			noticeCategory = notiCate;
