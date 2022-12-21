@@ -27,6 +27,7 @@ import com.E1I4.project.common.model.vo.Notice;
 import com.E1I4.project.common.model.vo.PageInfo;
 import com.E1I4.project.common.model.vo.Product;
 import com.E1I4.project.common.model.vo.ProductList;
+import com.E1I4.project.common.model.vo.Qna;
 import com.E1I4.project.member.model.service.MemberService;
 import com.E1I4.project.member.model.vo.Member;
 @Controller
@@ -502,7 +503,6 @@ public class AdminController {
 		
 		model.addAttribute("list",list);
 		model.addAttribute("pi",pi);
-		System.out.println(list);
 		return "manageNotice";
 	}
 	@RequestMapping("insertNotice.adm")
@@ -563,7 +563,48 @@ public class AdminController {
 			throw new AdminException("공지사항 삭제 실패");
 		}
 	}
+	@RequestMapping("manageQNA.adm")
+	public String managerQNA(@RequestParam(value="page", required=false)Integer page,Model model) {
 
+		int currentPage=1; if(page!=null) { currentPage=page; }
+		 
+		int listCount=aService.getListCount(5);
+		 
+		PageInfo pi=Pagination.getPageInfo(currentPage, listCount, 10);
+		ArrayList<Qna> list =aService.selectQNAList(pi,5);
+		
+		System.out.println(list);
+		
+		model.addAttribute("list",list);
+		model.addAttribute("pi",pi);
+		return "manageQNA";
+		
+	}
+	
+	@RequestMapping("insertQNA.adm")
+	public String insertQNA() {
+		return "insertQNA";
+	}
+	@RequestMapping("enrollQNA.adm")
+	public String enrollQNA(@ModelAttribute Qna q,HttpSession session, Model model ) {
+		
+		String id=((Member)session.getAttribute("loginUser")).getMemberId();
+		q.setBoardWriter(id);
+		q.setBoardType(5);
+		System.out.println(q);
+		
+		int result=aService.enrollQNA(q);
+		if(result>0) {
+			model.addAttribute("q",q);
+			
+			return "redirect:manageQNA.adm";
+		}else {
+			throw new AdminException("QNA 입력 실패");
+		}
+	}
+	
+	
+	
 	@RequestMapping("orderList.adm")
 	public String orderList() {
 		return "orderList";
@@ -578,15 +619,7 @@ public class AdminController {
 		return "statProduct";
 	}
 	
-	@RequestMapping("manageQNA.adm")
-	public String managerQNA() {
-		return "manageQNA";
-	}
 	
-	@RequestMapping("insertQNA.adm")
-	public String insertQNA() {
-		return "insertQNA";
-	}
 	@RequestMapping("manageReport.adm")
 	public String manageReport() {
 		return "manageReport";

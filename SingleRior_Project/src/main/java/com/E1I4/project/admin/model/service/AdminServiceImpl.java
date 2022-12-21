@@ -13,6 +13,7 @@ import com.E1I4.project.common.model.vo.Notice;
 import com.E1I4.project.common.model.vo.PageInfo;
 import com.E1I4.project.common.model.vo.Product;
 import com.E1I4.project.common.model.vo.ProductList;
+import com.E1I4.project.common.model.vo.Qna;
 import com.E1I4.project.member.model.vo.Member;
 import com.E1I4.project.storeBoard.model.vo.StoreBoard;
 
@@ -123,6 +124,16 @@ public class AdminServiceImpl implements AdminService {
 	@Override
 	public int deleteNotice(int bNo) {
 		return aDAO.deleteNotice(sqlSession,bNo);
+	}
+
+	@Override
+	public int enrollQNA(Qna q) {
+		return aDAO.enrollQNA(sqlSession,q);
+	}
+
+	@Override
+	public ArrayList<Qna> selectQNAList(PageInfo pi, int i) {
+		return aDAO.selectQNAList(sqlSession,pi,i);
 	}
 
 

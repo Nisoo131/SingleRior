@@ -78,11 +78,22 @@ input {
 			<div class="container">
 				<div>
 					<form class="needs-validation"
-						action="${ contextPath }/commuBoardInsert.co" method="POST"
-						enctype="multipart/form-data" id="attmForm">
+						action="${ contextPath }/enrollQNA.adm" method="POST">
 						<div class="row g-3">
 
 							<div class="col-12">
+							<select class="form-select form-select-sm" name="qnaCategory"
+									aria-label=".form-select-sm example"
+									style="width: 120px; margin-bottom: 15px; text-align: center;">
+									<option>주문/결제</option>
+									<option>배송관련</option>
+									<option>취소/환불</option>
+									<option>반품/교환</option>
+									<option>증빙서류발급</option>
+									<option>로그인/회원정보</option>
+									<option>서비스/기타</option>
+									
+								</select> 
 								<label for="boardTitle" class="form-label">TITLE</label> <input
 									type="text" class="form-control" id="boardTitle"
 									name="boardTitle">
@@ -99,7 +110,7 @@ input {
 
 
 							<div id="btn">
-							<button type="button" class="btn btn-primary">등록하기</button> &nbsp;&nbsp;&nbsp;&nbsp;
+							<button type="submit" class="btn btn-primary">등록하기</button> &nbsp;&nbsp;&nbsp;&nbsp;
 							<button type="button" class="btn btn-success"  onclick="javascript:history.back();">목록으로</button>
 							
 							</div>
@@ -117,21 +128,5 @@ input {
 			</div>
 		</footer>
 	</div>
-	<script
-		src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
-		crossorigin="anonymous"></script>
-	<script
-		src='${ pageContext.servletContext.contextPath }/resources/js/scripts.js'></script>
-	<script
-		src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"
-		crossorigin="anonymous"></script>
-	<script
-		src="${ pageContext.servletContext.contextPath }/resources/assets/demo/chart-area-demo.js"></script>
-	<script
-		src="${ pageContext.servletContext.contextPath }/resources/assets/demo/chart-bar-demo.js"></script>
-	<script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest"
-		crossorigin="anonymous"></script>
-	<script
-		src="${ pageContext.servletContext.contextPath }/resources/js/datatables-simple-demo.js"></script>
 </body>
 </html>

@@ -7,6 +7,7 @@ import com.E1I4.project.common.model.vo.Notice;
 import com.E1I4.project.common.model.vo.PageInfo;
 import com.E1I4.project.common.model.vo.Product;
 import com.E1I4.project.common.model.vo.ProductList;
+import com.E1I4.project.common.model.vo.Qna;
 import com.E1I4.project.member.model.vo.Member;
 
 public interface AdminService {
@@ -48,6 +49,10 @@ public interface AdminService {
 	int editeNotice(Notice n);
 
 	int deleteNotice(int bNo);
+
+	int enrollQNA(Qna q);
+
+	ArrayList<Qna> selectQNAList(PageInfo pi, int i);
 
 
 

@@ -11,6 +11,7 @@ import com.E1I4.project.common.model.vo.Notice;
 import com.E1I4.project.common.model.vo.PageInfo;
 import com.E1I4.project.common.model.vo.Product;
 import com.E1I4.project.common.model.vo.ProductList;
+import com.E1I4.project.common.model.vo.Qna;
 import com.E1I4.project.member.model.vo.Member;
 @Repository("aDAO")
 public class AdminDAO {
@@ -106,6 +107,19 @@ public class AdminDAO {
 
 	public int deleteNotice(SqlSessionTemplate sqlSession, int bNo) {
 		return sqlSession.update("adminMapper.deleteNotice",bNo);
+	}
+
+	public int enrollQNA(SqlSessionTemplate sqlSession, Qna q) {
+		return sqlSession.insert("adminMapper.enrollQNA",q);
+	}
+
+	public ArrayList<Qna> selectQNAList(SqlSessionTemplate sqlSession, PageInfo pi, int i) {
+		int offset=(pi.getCurrentPage()-1)*pi.getBoardLimit();
+		RowBounds rowBounds=new RowBounds(offset,pi.getBoardLimit());
+		
+		ArrayList<Qna> list=(ArrayList)sqlSession.selectList("adminMapper.selectQNAList",i,rowBounds);
+		
+		return list;
 	}
 
 
