@@ -71,6 +71,34 @@
 		<result column="PRO_TOPCATE_CODE" property="topCateCode"/>
 		<result column="PRO_TOPCATE_NAME" property="topCateName"/>
 	</resultMap>
+	<resultMap type="Notice" id="noticeResultSet">
+		<id property="boardNo" column="BOARD_NO"/>
+		<result property="boardType" column="BOARD_TYPE"/>
+		<result property="boardTitle" column="BOARD_TITLE"/>
+		<result property="boardContent" column="BOARD_CONTENT"/>
+		<result property="createDate" column="CREATE_DATE"/>
+		<result property="modifyDate" column="MODIFY_DATE"/>
+		<result property="noticeStatus" column="NOTICE_STATUS"/>
+		<result property="status" column="B_STATUS"/>
+		<result property="boardWriter" column="BOARD_WRITER"/>
+		<result property="count" column="BOARD_COUNT"/>
+		<result property="noticeCategory" column="NOTICE_CATEGORY"/>
+	</resultMap>
+	<resultMap type="Qna" id="qnaResultSet">
+		<id property="boardNo" column="BOARD_NO"/>
+		<result property="boardType" column="BOARD_TYPE"/>
+		<result property="boardTitle" column="BOARD_TITLE"/>
+		<result property="boardContent" column="BOARD_CONTENT"/>
+		<result property="createDate" column="CREATE_DATE"/>
+		<result property="modifyDate" column="MODIFY_DATE"/>
+		<result property="noticeStatus" column="NOTICE_STATUS"/>
+		<result property="status" column="B_STATUS"/>
+		<result property="boardWriter" column="BOARD_WRITER"/>
+		<result property="count" column="BOARD_COUNT"/>
+		<result property="qnaCategory" column="QNA_CATEGORY"/>
+	</resultMap>
+
+
 	<insert id="insertProduct">
 		insert all
 			into board values(seq_bid.nextval,1,#{productName},#{productContent},sysdate,sysdate,default,default,#{boardWriter},default)
@@ -177,7 +205,80 @@
 		where product_no=#{productNo}
 	
 	</update>
+	<insert id="enrollNotice">
+		insert all
+			into Board values(seq_bid.nextval,#{boardType},#{boardTitle},#{boardContent},sysdate,sysdate,default,default,#{boardWriter},default)
+			into Notice values(seq_bid.currval,#{noticeCategory})
+		select *from dual
+	</insert>
+	<select id="listCount" resultType="_int">
+		select count(*)
+		from board
+		where board_type=#{i}
 	
 	
+	</select>
+	
+	
+	<select id="selectNoticeList" resultMap="noticeResultSet">
+	
+		select * 
+			from board
+		    join notice using(board_no)
+		where b_status='Y'
+		order by board_no desc
+	
+	</select>
+	<update id="addCount">
+		update board
+		set board_count=board_count+1
+		where board_no=#{bNo}
+	
+	</update>
+	<select id="selectNotice" resultMap="noticeResultSet">
+		select * 
+		from board
+		    join notice using(board_no)
+		where board_no=#{bNo} 
+	
+	
+	</select>
+	<update id="editBoardNotice">
+	
+		update Board
+		set board_title=#{boardTitle}, board_content=#{boardContent}, modify_date=sysdate
+		where board_no=#{boardNo}
+	
+	</update>
+	<update id="editNotice">
+	
+		update notice
+		set notice_category=#{noticeCategory}
+		where board_no=#{boardNo}
+	
+	</update>
+	
+	<update id="deleteNotice">
+		update board
+		set b_status='N'
+		where board_no=#{bNo}
+	
+	</update>
+	<insert id="enrollQNA">
+		insert all
+			into Board values(seq_bid.nextval,#{boardType},#{boardTitle},#{boardContent},sysdate,sysdate,default,default,#{boardWriter},default)
+			into QNA values(seq_bid.currval,#{qnaCategory})
+		select *from dual
+	</insert>
+	
+	<select id="selectQNAList" resultMap="qnaResultSet">
+	
+		select * 
+			from board
+		    join qna using(board_no)
+		where b_status='Y'
+		order by board_no desc
+	
+	</select>
 	
 </mapper>

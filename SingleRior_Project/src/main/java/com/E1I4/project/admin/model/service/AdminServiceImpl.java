@@ -5,11 +5,15 @@ import java.util.ArrayList;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.E1I4.project.admin.model.dao.AdminDAO;
 import com.E1I4.project.common.model.vo.Attachment;
+import com.E1I4.project.common.model.vo.Notice;
+import com.E1I4.project.common.model.vo.PageInfo;
 import com.E1I4.project.common.model.vo.Product;
 import com.E1I4.project.common.model.vo.ProductList;
+import com.E1I4.project.common.model.vo.Qna;
 import com.E1I4.project.member.model.vo.Member;
 import com.E1I4.project.storeBoard.model.vo.StoreBoard;
 
@@ -86,5 +90,54 @@ public class AdminServiceImpl implements AdminService {
 	public int deleteProduct(int productNo) {
 		return aDAO.deleteProduct(sqlSession,productNo);
 	}
+
+	@Override
+	public int getListCount(int i) {
+		return aDAO.getListCount(sqlSession,i);
+	}
+
+	@Override
+	public int enrollNotice(Notice n) {
+		return aDAO.enrollNotice(sqlSession,n);
+	}
+
+	@Override
+	public ArrayList<Notice> selectNoticeList(PageInfo pi, int i) {
+		return aDAO.selectNoticeList(sqlSession,pi,i);
+	}
+	@Transactional
+	@Override
+	public Notice detailNotice(int bNo, boolean yn) {
+		int result=0;
+		if(yn) {
+			result=aDAO.addCount(sqlSession,bNo);
+		}
+		Notice n = aDAO.selectNotice(sqlSession,bNo);
+		return n;
+	}
+
+	@Override
+	public int editeNotice(Notice n) {
+		return aDAO.editNotice(sqlSession,n);
+	}
+
+	@Override
+	public int deleteNotice(int bNo) {
+		return aDAO.deleteNotice(sqlSession,bNo);
+	}
+
+	@Override
+	public int enrollQNA(Qna q) {
+		return aDAO.enrollQNA(sqlSession,q);
+	}
+
+	@Override
+	public ArrayList<Qna> selectQNAList(PageInfo pi, int i) {
+		return aDAO.selectQNAList(sqlSession,pi,i);
+	}
+
+
+
+
 
 }

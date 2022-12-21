@@ -100,60 +100,21 @@
                   <tr class="fs-5">
                   	 <th>카테고리</th>
                      <th>글 제목</th>
+                     <th>작성자</th>
                      <th width="130px">작성일</th>
                       </tr>
                    </thead>
                   <tbody>
+                      
+                      <c:forEach items="${list }" var="list">
+                      
                       <tr>
-                      <td>Q&A</td>
-                     <td>여러분 과탄산소다가 여기저기 쓸 곳 많은 거 알고계시나요...?</td>
-                     <td>2022-12-06</td>
+                     <td>${list.qnaCategory}</td>
+                     <td>${list.boardTitle }</td>
+                     <td>${list.boardWriter }</td>
+                     <td>${list.createDate }</td>
                       </tr>
-                      <tr>
-                      <td>Q&A</td>
-                     <td>배가 너무 아픈데 주변에 약국이 다 문을 닫았어요..ㅜㅜ</td>
-                     <td>2022-12-06</td>
-                      </tr>
-                      <tr>
-                      <td>Q&A</td>
-                     <td>이번에 가습기 하나 장만했는디 가성비 좋네여!!!</td>
-                     <td>2022-12-06</td>
-                      </tr>
-                      <tr>
-                      <td>Q&A</td>
-                     <td>오늘 롯데월드 갔다왔는데 사람 너무 많았음;;;;;;</td>
-                     <td>2022-12-06</td>
-                      </tr>
-                      <tr>
-                      <td>Q&A</td>
-                     <td>XX 매트리스 내돈내산 후기....^^</td>
-                     <td>2022-12-06</td>
-                      </tr>
-                      <tr>
-                      <td>Q&A</td>
-                     <td>자취 꿀팁!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!</td>
-                     <td>2022-12-06</td>
-                      </tr>
-                      <tr>
-                      <td>Q&A</td>
-                     <td>WW 침대 프레임이랑 XX 매트리스 호환되나요? 아시는 분?</td>
-                     <td>2022-12-06</td>
-                      </tr>
-                      <tr>
-                      <td>Q&A</td>
-                     <td>다이소 압축봉 장만하셔요!!!!! 이걸로 수납공간 확보 완료!!!!!</td>
-                     <td>2022-12-06</td>
-                      </tr>
-                      <tr>
-                      <td>Q&A</td>
-                     <td>하 집 가고 싶다......^^</td>
-                     <td>2022-12-06</td>
-                      </tr>
-                      <tr>
-                      <td>Q&A</td>
-                     <td>자꾸 하수구에서 냄새가 올라오는데 어케 해야하나요?</td>
-                     <td>2022-12-06</td>
-                      </tr>
+                      </c:forEach>
                    </tbody>
               </table>
              </div>

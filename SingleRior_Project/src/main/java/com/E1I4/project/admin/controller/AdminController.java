@@ -4,7 +4,6 @@ import java.io.File;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -17,13 +16,18 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.E1I4.project.admin.model.service.AdminService;
+import com.E1I4.project.common.Pagination;
 import com.E1I4.project.common.exception.AdminException;
 import com.E1I4.project.common.exception.ProductException;
 import com.E1I4.project.common.model.vo.Attachment;
+import com.E1I4.project.common.model.vo.Notice;
+import com.E1I4.project.common.model.vo.PageInfo;
 import com.E1I4.project.common.model.vo.Product;
 import com.E1I4.project.common.model.vo.ProductList;
+import com.E1I4.project.common.model.vo.Qna;
 import com.E1I4.project.member.model.service.MemberService;
 import com.E1I4.project.member.model.vo.Member;
 @Controller
@@ -451,15 +455,155 @@ public class AdminController {
 	@RequestMapping("deleteProduct.adm")
 	public String deleteProduct(@RequestParam("productNo") int productNo) {
 		 
-		int result =aService.deleteProduct(productNo);
+		int result=aService.deleteProduct(productNo);
 		
 		if(result>0) {
 			return "redirect:manageProduct.adm";
 		}else {
 			throw new AdminException("상품정보 수정실패");
 		}
-		 
 	}
+	@RequestMapping("detailNotice.adm")
+	public ModelAndView detailNotice(@RequestParam("bNo") int bNo,@RequestParam("page") int page,@RequestParam("boardWriter") String boardWriter,HttpSession session,ModelAndView mv) {
+		Member m =((Member)session.getAttribute("loginUser"));
+		String login=null;
+		
+		if(m!=null) {
+			login=m.getMemberId();
+		}
+		
+		boolean yn=false;
+		if(!boardWriter.equals(login)) {
+			yn=true;
+		}
+		Notice n= aService.detailNotice(bNo,yn);
+		
+		if(n!=null){
+			mv.addObject("n",n);
+			mv.addObject("page",page);
+			mv.setViewName("detailNotice");
+			return mv;
+		}else {
+			throw new AdminException("공지사항 상세보기 실패");
+		}
+		
+		
+	}
+	
+	
+	@RequestMapping("manageNotice.adm")
+	public String managerNotice(@RequestParam(value="page", required=false)Integer page,Model model) {
+		
+		int currentPage=1; if(page!=null) { currentPage=page; }
+		 
+		int listCount=aService.getListCount(4);
+		 
+		PageInfo pi=Pagination.getPageInfo(currentPage, listCount, 10);
+		ArrayList<Notice> list =aService.selectNoticeList(pi,4);
+		
+		model.addAttribute("list",list);
+		model.addAttribute("pi",pi);
+		return "manageNotice";
+	}
+	@RequestMapping("insertNotice.adm")
+	public String insertNotice(){
+		return "insertNotice";
+	}
+	@RequestMapping("enrollNotice.adm")
+	public String enrollNotice(HttpSession session, @ModelAttribute Notice n,Model model){
+		String id=((Member)session.getAttribute("loginUser")).getMemberId();		
+		n.setBoardWriter(id);
+		n.setBoardType(4);
+		System.out.println(n);
+		
+		int result=aService.enrollNotice(n);
+		
+		if(result>0) {
+			model.addAttribute("n",n);
+			
+			return "redirect:manageNotice.adm";
+		}else {
+			throw new AdminException("공지사항 입력 실패");
+		}
+	}
+	@RequestMapping("updateNotice.adm")
+	public String updateNotice(@RequestParam("boardNo") int boardNo,@RequestParam("page") int page,Model model) {
+		Notice n = aService.detailNotice(boardNo, false);
+		
+		model.addAttribute("n",n);
+		model.addAttribute("page",page);
+
+		return "updateNotice";
+	}
+	@RequestMapping("editNotice.adm")
+	public String editNotice(@ModelAttribute Notice n, @RequestParam("page") int page, Model model,HttpSession session ) {
+		
+		n.setBoardType(4);
+		System.out.println(n);
+		int result=aService.editeNotice(n);
+		
+		if(result>1) {
+	
+			model.addAttribute("bNo",n.getBoardNo());
+			model.addAttribute("writer",((Member)session.getAttribute("loginUser")).getMemberId());
+			model.addAttribute("page",page);
+			return "redirect:manageNotice.adm";
+		}else {
+			throw new AdminException("공지사항 수정실패");
+			
+		}
+		
+	}
+	@RequestMapping("deleteNotice.adm")
+	public String deleteNotice(@RequestParam("boardNo") int bNo) {
+		int result=aService.deleteNotice(bNo);
+		if(result>0) {
+			return "redirect:manageNotice.adm";
+		}else {
+			throw new AdminException("공지사항 삭제 실패");
+		}
+	}
+	@RequestMapping("manageQNA.adm")
+	public String managerQNA(@RequestParam(value="page", required=false)Integer page,Model model) {
+
+		int currentPage=1; if(page!=null) { currentPage=page; }
+		 
+		int listCount=aService.getListCount(5);
+		 
+		PageInfo pi=Pagination.getPageInfo(currentPage, listCount, 10);
+		ArrayList<Qna> list =aService.selectQNAList(pi,5);
+		
+		System.out.println(list);
+		
+		model.addAttribute("list",list);
+		model.addAttribute("pi",pi);
+		return "manageQNA";
+		
+	}
+	
+	@RequestMapping("insertQNA.adm")
+	public String insertQNA() {
+		return "insertQNA";
+	}
+	@RequestMapping("enrollQNA.adm")
+	public String enrollQNA(@ModelAttribute Qna q,HttpSession session, Model model ) {
+		
+		String id=((Member)session.getAttribute("loginUser")).getMemberId();
+		q.setBoardWriter(id);
+		q.setBoardType(5);
+		System.out.println(q);
+		
+		int result=aService.enrollQNA(q);
+		if(result>0) {
+			model.addAttribute("q",q);
+			
+			return "redirect:manageQNA.adm";
+		}else {
+			throw new AdminException("QNA 입력 실패");
+		}
+	}
+	
+	
 	
 	@RequestMapping("orderList.adm")
 	public String orderList() {
@@ -474,22 +618,8 @@ public class AdminController {
 	public String statProduct() {
 		return "statProduct";
 	}
-	@RequestMapping("manageNotice.adm")
-	public String managerNotice() {
-		return "manageNotice";
-	}
-	@RequestMapping("manageQNA.adm")
-	public String managerQNA() {
-		return "manageQNA";
-	}
-	@RequestMapping("insertNotice.adm")
-	public String insertNotice() {
-		return "insertNotice";
-	}
-	@RequestMapping("insertQNA.adm")
-	public String insertQNA() {
-		return "insertQNA";
-	}
+	
+	
 	@RequestMapping("manageReport.adm")
 	public String manageReport() {
 		return "manageReport";

@@ -20,6 +20,8 @@
 		<typeAlias type="com.E1I4.project.common.model.vo.ProductList" alias="ProductList"/>
 		<typeAlias type="com.E1I4.project.common.model.vo.Board" alias="Board"/>
 		<typeAlias type="com.E1I4.project.common.model.vo.ProductInquiry" alias="ProductInquiry"/>
+		<typeAlias type="com.E1I4.project.common.model.vo.Notice" alias="Notice"/>
+		<typeAlias type="com.E1I4.project.common.model.vo.Qna" alias="Qna"/>
 	</typeAliases>
 
 	<mappers>
