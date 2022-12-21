@@ -193,6 +193,11 @@ public class MemberServiceImpl implements MemberService {
 		return mDAO.deleteWishList(sqlSession,wl);
 	}
 
+	@Override
+	public ArrayList<Board> selectQna(String category) {
+		return mDAO.selectQna(sqlSession,category);
+	}
+
 
 
 

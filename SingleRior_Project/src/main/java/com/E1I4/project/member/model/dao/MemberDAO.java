@@ -154,4 +154,8 @@ public class MemberDAO {
 		return sqlSession.delete("memberMapper.deleteWishList",wl);
 	}
 
+	public ArrayList<Board> selectQna(SqlSessionTemplate sqlSession, String category) {
+		return (ArrayList)sqlSession.selectList("memberMapper.selectQna",category);
+	}
+
 }

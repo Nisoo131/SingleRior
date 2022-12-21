@@ -195,6 +195,7 @@
 		<result column="B_STATUS" property="status"/>
 		<result column="BOARD_WRITER" property="writer"/>
 		<result column="BOARD_COUNT" property="count"/>
+		<result column="QNA_CATEGORY" property="qnaCategory"/>
 	</resultMap>
 	
 	<resultMap type="Reply" id="replyResultSet">
@@ -434,4 +435,32 @@
 		delete from wishlist
 		where member_id = #{memberId} and board_no =#{boardNo}
 	</delete>
+	
+	<select id="selectQna" resultMap="boardResultSet">
+		select *
+		from board
+		join QNA using(board_no)
+		where board_type = 5 
+		<if test="category == '주문/결제'">
+			and QNA_category = '주문/결제'
+		</if>
+		<if test="category == '배송관련'">
+			and QNA_category = '배송관련'
+		</if>
+		<if test="category == '취소/환불'">
+			and QNA_category = '취소/환불'
+		</if>
+		<if test="category == '반품/교환'">
+			and QNA_category = '반품/교환'
+		</if>
+			<if test="category == '증빙서류발급'">
+			and QNA_category = '증빙서류발급'
+		</if>
+		<if test="category == '로그인/회원정보'">
+			and QNA_category = '배송관련'
+		</if>
+		<if test="category == '서비스/기타'">
+			and QNA_category = '서비스/기타'
+		</if>
+	</select>
 </mapper>

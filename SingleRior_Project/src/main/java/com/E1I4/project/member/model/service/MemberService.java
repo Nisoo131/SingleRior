@@ -76,6 +76,8 @@ public interface MemberService {
 
 	int deleteWishList(WishList wl);
 
+	ArrayList<Board> selectQna(String category);
+
 
 
 }
