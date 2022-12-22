@@ -7,6 +7,7 @@ import com.E1I4.project.common.model.vo.Attachment;
 import com.E1I4.project.common.model.vo.PageInfo;
 import com.E1I4.project.common.model.vo.ReReply;
 import com.E1I4.project.common.model.vo.Reply;
+import com.E1I4.project.common.model.vo.Report;
 import com.E1I4.project.common.model.vo.WishList;
 import com.E1I4.project.commuBoard.model.vo.CommuBoard;
 
@@ -77,5 +78,12 @@ public interface CommuBoardService {
 	int deleteCommuBoard(int bNo);
 
 	int updateAttmStatus(String strBNo);
+	
+	
+	/* 게시글 신고 (report) */
+	int commuReport(Report report);
+	
+	// 신고여부 확인
+	Report selectReport(HashMap<String, Object> map);
 
 }
