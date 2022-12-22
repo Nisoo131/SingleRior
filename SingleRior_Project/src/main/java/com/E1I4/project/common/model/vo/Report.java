@@ -20,5 +20,5 @@ public class Report {
 	private String reportType;
 	private String reportCate;
 	private String memberId;
-	private Date createDtae;
+	private Date createDate;
 }

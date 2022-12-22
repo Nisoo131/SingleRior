@@ -11,6 +11,7 @@ import com.E1I4.project.common.model.vo.Attachment;
 import com.E1I4.project.common.model.vo.PageInfo;
 import com.E1I4.project.common.model.vo.ReReply;
 import com.E1I4.project.common.model.vo.Reply;
+import com.E1I4.project.common.model.vo.Report;
 import com.E1I4.project.common.model.vo.WishList;
 import com.E1I4.project.commuBoard.model.dao.CommuBoardDAO;
 import com.E1I4.project.commuBoard.model.vo.CommuBoard;
@@ -158,6 +159,19 @@ public class CommuBoardServiceImpl implements CommuBoardService{
 	@Override
 	public int updateAttmStatus(String strBNo) {
 		return cDAO.updateAttmStatus(sqlSession, strBNo);
+	}
+	
+	
+	/* 게시글 신고 (report) */
+	@Override
+	public int commuReport(Report report) {
+		return cDAO.commuReport(sqlSession, report);
+	}
+	
+	// 신고여부 확인
+	@Override
+	public Report selectReport(HashMap<String, Object> map) {
+		return cDAO.selectReport(sqlSession, map);
 	}
 
 }

@@ -12,7 +12,6 @@
 		<result column="NOTICE_STATUS" property="noticeStatus"/>
 		<result column="B_STATUS" property="status"/>
 		<result column="BOARD_WRITER" property="writer"/>
-		<result column="NICKNAME" property="nickName"/>
 		<result column="BOARD_COUNT" property="count"/>
 		<result column="SYMPT_COUNT" property="symptCount"/>
 		<result column="COMMU_TYPE" property="commuType"/>
@@ -60,6 +59,15 @@
 	<resultMap type="WishList" id="wishListResultSet">
 		<id property="boardNo" column="BOARD_NO"/>
 		<id property="memberId" column="MEMBER_ID"/>
+	</resultMap>
+	
+	<resultMap type="Report" id="reportResultSet">
+		<id column="REPORT_NO" property="reportNo"/>
+		<result column="BOARD_NO" property="boardNo"/>
+		<result column="REPORT_TYPE" property="reportType"/>
+		<result column="REPORT_CATE" property="reportCate"/>
+		<result column="MEMBER_ID" property="memberId"/>
+		<result column="CREATE_DATE" property="createDate"/>
 	</resultMap>
 	
 	<select id="getCommuListCount" resultType="_int">
@@ -284,5 +292,19 @@
 		set IMG_STATUS = 'N'
 		where IMG_KEY = #{strBNo}
 	</update>
+	
+	
+	<!-- 게시글 신고 (report) -->
+	<insert id="commuReport">
+		insert into REPORT
+		values(SEQ_RPID.nextval, #{reportType}, #{boardNo}, #{reportCate}, sysdate, #{memberId})
+	</insert>
+	
+	<!-- 신고여부 확인 -->
+	<select id="selectReport" resultMap="reportResultSet"> 
+		select *
+		from report
+		where BOARD_NO=#{bNo} and MEMBER_ID=#{id}
+	</select>
 
 </mapper>

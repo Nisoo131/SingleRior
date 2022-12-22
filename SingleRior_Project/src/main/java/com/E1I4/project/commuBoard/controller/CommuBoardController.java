@@ -27,6 +27,7 @@ import com.E1I4.project.common.model.vo.Attachment;
 import com.E1I4.project.common.model.vo.PageInfo;
 import com.E1I4.project.common.model.vo.ReReply;
 import com.E1I4.project.common.model.vo.Reply;
+import com.E1I4.project.common.model.vo.Report;
 import com.E1I4.project.common.model.vo.WishList;
 import com.E1I4.project.commuBoard.model.service.CommuBoardService;
 import com.E1I4.project.commuBoard.model.vo.CommuBoard;
@@ -203,7 +204,7 @@ public class CommuBoardController {
 	/* 게시글 상세보기 */
 	// 커뮤니티 글 조회
 	@RequestMapping("selectCommuBoard.co")
-	public ModelAndView selectCommuBoard(@RequestParam("bNo") int bNo, @RequestParam("writer") String writer, @RequestParam("page") int page, ModelAndView mv, HttpSession session) {
+	public ModelAndView selectCommuBoard(@RequestParam("bNo") int bNo, @RequestParam("writer") String writer, ModelAndView mv, HttpSession session) {
 		Member m = (Member)session.getAttribute("loginUser");
 		
 		WishList wl = new WishList();
@@ -218,12 +219,23 @@ public class CommuBoardController {
 			wishList = cService.selectSymptOn(wl);
 		}
 		
+		String id = " ";
+		if(m !=null) {
+			 id = m.getMemberId();
+		}
+		
 		boolean yn = false;
 		if(!writer.equals(login)) {
 			yn = true;
 		}
 		
 		String strBNo = Integer.toString(bNo);
+		
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("id", id);
+		map.put("bNo", bNo);
+		
+		Report selectReport = cService.selectReport(map);
 		
 		CommuBoard coBoard = cService.selectCommuBoard(bNo, yn);
 		ArrayList<Attachment> list = cService.selectAttmBoard(strBNo);
@@ -236,8 +248,8 @@ public class CommuBoardController {
 			mv.addObject("coRList", coRList);
 			mv.addObject("coRRList", coRRList);
 			mv.addObject("wishList", wishList);
-			mv.addObject("page", page);
 			mv.addObject("list", list);
+			mv.addObject("selectReport", selectReport);
 			mv.setViewName("commuBoardDetail");
 		} else {
 			throw new BoardException("게시글 상세보기에 실패하였습니다.");
@@ -474,7 +486,30 @@ public class CommuBoardController {
 	}
 	
 	
+	/* 게시글 신고 (report) */
+	@RequestMapping("commuReport.co")
+	public String commuReport(@RequestParam("boardNo") int bNo, @ModelAttribute Report report, HttpSession session, Model model) {
+		String id = ((Member)session.getAttribute("loginUser")).getMemberId();
+		String writer = ((Member)session.getAttribute("loginUser")).getNickName();
+		
+		report.setMemberId(id);
 	
-	
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("id", id);
+		map.put("bNo", bNo);
+		
+		int result = cService.commuReport(report);
+		
+		Report selectReport = cService.selectReport(map);
+		System.out.println(selectReport);
+		if(result > 0) {
+			model.addAttribute("bNo", bNo);
+			model.addAttribute("selectReport", selectReport);
+			model.addAttribute("writer", writer);
+			return "redirect:selectCommuBoard.co";
+		} else {
+			throw new BoardException("게시글 신고에 실패하였습니다.");
+		}
+	}
 
 }

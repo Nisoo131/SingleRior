@@ -11,6 +11,7 @@ import com.E1I4.project.common.model.vo.Attachment;
 import com.E1I4.project.common.model.vo.PageInfo;
 import com.E1I4.project.common.model.vo.ReReply;
 import com.E1I4.project.common.model.vo.Reply;
+import com.E1I4.project.common.model.vo.Report;
 import com.E1I4.project.common.model.vo.WishList;
 import com.E1I4.project.commuBoard.model.vo.CommuBoard;
 
@@ -138,6 +139,17 @@ public class CommuBoardDAO {
 
 	public int updateAttmStatus(SqlSessionTemplate sqlSession, String strBNo) {
 		return sqlSession.update("commuMapper.updateAttmStatus", strBNo);
+	}
+	
+	
+	/* 게시글 신고 (report) */
+	public int commuReport(SqlSessionTemplate sqlSession, Report report) {
+		return sqlSession.insert("commuMapper.commuReport", report);
+	}
+	
+	// 신고여부 확인
+	public Report selectReport(SqlSessionTemplate sqlSession, HashMap<String, Object> map) {
+		return sqlSession.selectOne("commuMapper.selectReport", map);
 	}
 
 }

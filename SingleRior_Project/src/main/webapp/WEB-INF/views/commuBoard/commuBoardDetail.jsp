@@ -241,10 +241,16 @@
 								<button class="w-100 btn btn-outline-secondary btn-lg" type="button" data-bs-toggle="modal" data-bs-target="#deleteForm">삭제</button>
 							</div>
 						</c:if>
-						<c:if test="${ !(loginUser.memberId eq coBoard.writer) }">
+						<c:if test="${ !(loginUser.memberId eq coBoard.writer) && !empty loginUser }">
 							<div class="col-md-10" style="width: 800px;"></div>
 							<div class="col-md-1" style="text-align: center; width: 100px; float: right;">
-								<button class="w-100 btn btn-outline-danger btn-lg" type="button" data-bs-toggle="modal" data-bs-target="#boardReport">신고</button>
+								<button class="w-100 btn btn-outline-danger btn-lg" id="reportBtn" type="button">신고</button>
+							</div>
+						</c:if>
+						<c:if test="${ empty loginUser }">
+							<div class="col-md-10" style="width: 800px;"></div>
+							<div class="col-md-1" style="text-align: center; width: 100px; float: right;">
+								<button class="w-100 btn btn-outline-danger btn-lg" type="button" data-bs-toggle="modal" data-bs-target="#loginForm">신고</button>
 							</div>
 						</c:if>
 					</div>
@@ -303,26 +309,30 @@
 					<br>
 					글제목 : ${ coBoard.boardTitle }
 					<br><br>
-					<div class="form-check">
-						<input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-						<label class="form-check-label">홍보/도배글이예요</label>
-					</div>
-					<div class="form-check">
-						<input class="form-check-input" type="checkbox" value="">
-						<label class="form-check-label">청소년에게 유해한 내용이예요</label>
-					</div>
-					<div class="form-check">
-						<input class="form-check-input" type="checkbox" value="">
-						<label class="form-check-label">불법이예요</label>
-					</div>
-					<div class="form-check">
-						<input class="form-check-input" type="checkbox" value="">
-						<label class="form-check-label">욕설,혐오,차별적표현이에요</label>
-					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
-						<button type="button" class="btn btn-primary">신고하기</button>
-					</div>
+					<form action="${ contextPath }/commuReport.co">
+						<div class="form-check">
+							<input name="reportType" class="form-check-input" type="checkbox" value="홍보도배">
+							<input type="hidden" name="boardNo" value="${ coBoard.boardNo }">
+							<input type="hidden" name="reportCate" value="B">
+							<label class="form-check-label">홍보/도배글이에요</label>
+						</div>
+						<div class="form-check">
+							<input name="reportType" class="form-check-input" type="checkbox" value="유해내용">
+							<label class="form-check-label">청소년에게 유해한 내용이에요</label>
+						</div>
+						<div class="form-check">
+							<input name="reportType" class="form-check-input" type="checkbox" value="불법">
+							<label class="form-check-label">불법이에요</label>
+						</div>
+						<div class="form-check">
+							<input name="reportType" class="form-check-input" type="checkbox" value="욕설혐오차별">
+							<label class="form-check-label">욕설,혐오,차별적표현이에요</label>
+						</div>
+						<div class="modal-footer">
+							<button class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+							<button class="btn btn-primary">신고하기</button>
+						</div>
+					</form>
 				</div>
 			</div>
 		</div>
@@ -343,7 +353,7 @@
 					댓글 내용 : ${ r.replyContent }
 					<br><br>
 					<div class="form-check">
-						<input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+						<input class="form-check-input" type="checkbox" value="">
 						<label class="form-check-label">홍보/도배글이예요</label>
 					</div>
 					<div class="form-check">
@@ -651,6 +661,15 @@
 				form.submit();
 			});
 			
+			// 신고 여부 확인
+			document.getElementById("reportBtn").addEventListener('click', ()=>{
+				console.log("ㅎㅇㅎㅇ");
+				if( !(${selectReport} eq null) ){
+					alert("이미 신고하셨습니다.");
+				}else{
+					$('#boardReport').modal('show');	
+				}
+			});
 			
 		}
 	</script>
