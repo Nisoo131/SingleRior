@@ -47,7 +47,7 @@ public class StoreBoardDAO {
 		return sqlSession.insert("storeMapper.wishListOn", wl);
 	}
 	
-	// 찜하기 COUNT
+	
 	public WishList selectWishCount(SqlSessionTemplate sqlSession, WishList wl) {
 		return sqlSession.selectOne("storeMapper.selectwishListOn", wl);
 	}
@@ -56,10 +56,17 @@ public class StoreBoardDAO {
 	public int wishListOff(SqlSessionTemplate sqlSession, WishList wl) {
 		return sqlSession.delete("storeMapper.wishListOff", wl);
 	}
+	
+	// 찜하기 COUNT
+	public int wishListCount(SqlSessionTemplate sqlSession, WishList wl) {
+		return sqlSession.selectOne("storeMapper.wishListCount", wl);
+	}
+
 
 	public int insertCart(SqlSessionTemplate sqlSession, Cart cart) {
 		return sqlSession.insert("storeMapper.insertCart", cart);
 	}
+
 
 	
 
