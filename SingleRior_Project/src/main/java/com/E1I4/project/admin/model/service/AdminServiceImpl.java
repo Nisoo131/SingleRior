@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.E1I4.project.admin.model.dao.AdminDAO;
 import com.E1I4.project.common.model.vo.Attachment;
+import com.E1I4.project.common.model.vo.Board;
 import com.E1I4.project.common.model.vo.Notice;
 import com.E1I4.project.common.model.vo.PageInfo;
 import com.E1I4.project.common.model.vo.Product;
@@ -57,8 +58,8 @@ public class AdminServiceImpl implements AdminService {
 	}
 
 	@Override
-	public ArrayList<Attachment> selectAttmList() {
-		return aDAO.selectAttmList(sqlSession);
+	public ArrayList<Attachment> selectAttmList(int i) {
+		return aDAO.selectAttmList(sqlSession,i);
 	}
 
 	@Override
@@ -149,6 +150,41 @@ public class AdminServiceImpl implements AdminService {
 	@Override
 	public int deleteQNA(int bNo) {
 		return aDAO.deleteQNA(sqlSession,bNo);
+	}
+
+	@Override
+	public int insertBannerBoard(Board b) {
+		return aDAO.insertBannerBoard(sqlSession,b);
+	}
+
+	@Override
+	public ArrayList<Board> selectBanner(int i) {
+		return aDAO.selectBannerBoard(sqlSession,i);
+	}
+
+	@Override
+	public ArrayList<Attachment> selectBannerAttm(int i) {
+		return aDAO.selectBannerAttm(sqlSession, i);
+	}
+
+	@Override
+	public Board selectBannerDetail(int boardNo) {
+		return aDAO.selectBannerDetail(sqlSession,boardNo);
+	}
+
+	@Override
+	public ArrayList<Attachment> selectBannerAttmList(String bId) {
+		return aDAO.selectBannerAttmList(sqlSession,bId);
+	}
+
+	@Override
+	public int deleteBannerBoard(int boardNo) {
+		return aDAO.deleteBannerBoard(sqlSession,boardNo);
+	}
+
+	@Override
+	public int deleteBannerAttm(String imgKey) {
+		return aDAO.deleteBannerAttm(sqlSession,imgKey);
 	}
 
 

@@ -26,7 +26,7 @@
 				font-family: 'BMJUA';
 			}
 			
-			#pInsert{
+			#bTable{
 			
 				display: flex;
 				flex-direction: column;
@@ -57,6 +57,22 @@
 				
 			
 			}
+			#banner{
+				display: flex;
+				flex-direction: column;
+				justify-content: center;
+				align-items: center;
+			}
+			
+			#bannerDetail{
+				display: flex;
+				flex-direction: column;
+				justify-content: center;
+				align-items: center;
+			}
+			
+			
+			
 </style>
     </head>
     <body>
@@ -73,32 +89,33 @@
                     <h1>현재 등록된 배너</h1>
                     </div>
                     <div id="pInsert">
-                   		<form action="${contextPath}/enrollBanner.adm" method="post" enctype="multipart/form-data">
+                   		<form  method="post" enctype="multipart/form-data" id="detailForm">
                    			<table id="bTable">
                    				<tr>
                    					<td><h3>배너 제목 : </h3></td>
-                   					<td><input type="text" name="boardTitle" style="width:450px;" required></td>
+                   					<td><input type="text" name="boardTitle" style="width:450px;" value="${b.boardTitle}" readonly>
+                   						<input type="hidden" name="boardNo" value="${b.boardNo }">
+                   					</td>
                    				</tr>
                    				<tr>
                    					<td><h3>배너 상세 내용 : </h3></td>
-									<td><input type="text" name="boardContent" style="width:450px;" required></td>
+									<td><input type="text" name="boardContent" style="width:450px;" value="${b.boardContent}" readonly></td>
                    				</tr>
-                   				
-                   				<tr>
-                   					<td><h3>배너 사진 : </h3></td>
-                   					<td><input type="file" class="form-control form-control-lg" name="file" required></td>
-                   				</tr>
-                   				<tr>
-                   					<td><h3>배너 상세 사진 : </h3></td>
-                   					<td><input type="file" class="form-control form-control-lg" name="file" required></td>
-                   				</tr>
-                   			
-                   			
                    			</table>
-                   			
+                   			<br><br>
+							<div id="banner">
+							<h3>가로형 배너</h3><br>	
+							<img >
+								<img src="${contextPath}/resources/uploadFiles/${list[0].imgRename}" style="width: 80%;">
+							</div> 
+							<br><br>
+							<div id="bannerDetail">
+							<h3>기획전 이미지</h3><br>
+								<img src="${contextPath}/resources/uploadFiles/${list[1].imgRename}" style="width: 80%;">
+							</div>                  			
                    		<div id="bannerBtn">
-							<button type="submit" class="btn btn-primary">완료</button>&nbsp;&nbsp;&nbsp;
-							<button type="button"  class="btn btn-warning" onclick="javascript:history.back();">목록으로</button>
+							<button type="button"  class="btn btn-warning" onclick="javascript:history.back();">목록으로</button>&nbsp;&nbsp;&nbsp;
+							<button type="button"  class="btn btn-danger" type="button" id="deleteModal" >배너 삭제</button>
 						</div>
                    		
                    		</form>
@@ -116,10 +133,39 @@
                         </div>
                     </div>
                 </footer>
+                <div class="modal fade" tabindex="-1" role="dialog" id="modalChoice">
+					<div class="modal-dialog" role="document">
+						<div class="modal-content rounded-3 shadow">
+							<div class="modal-body p-4 text-center">
+								<h3 class="mb-0">정말로 삭제하시겠습니까?</h3>
+								<p class="mb-0">삭제 후 게시글은 되돌릴 수 없습니다.</p>
+							</div>
+							<div class="modal-footer flex-nowrap p-0">
+								<button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0 border-end" id="delete">
+									<strong>네</strong>
+								</button>
+								<button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0" data-bs-dismiss="modal">아니오</button>
+							</div>
+						</div>
+					</div>
+				</div>
             </div>
-        
-        
-        
+        	
+        	<script>
+        	window.onload=()=>{
+        		const form=document.getElementById('detailForm');
+        		console.log(form);
+        		
+        		document.getElementById('deleteModal').addEventListener('click', ()=>{
+    				$('#modalChoice').modal('show');	
+    			});
+        		
+        		document.getElementById("delete").addEventListener('click',function(){
+        			form.action='${contextPath}/deleteBanner.adm';
+        			form.submit();
+        		});
+        	}
+        	</script>
 		        
         
         

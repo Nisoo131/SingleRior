@@ -3,6 +3,7 @@ package com.E1I4.project.admin.model.service;
 import java.util.ArrayList;
 
 import com.E1I4.project.common.model.vo.Attachment;
+import com.E1I4.project.common.model.vo.Board;
 import com.E1I4.project.common.model.vo.Notice;
 import com.E1I4.project.common.model.vo.PageInfo;
 import com.E1I4.project.common.model.vo.Product;
@@ -24,7 +25,7 @@ public interface AdminService {
 
 	ArrayList<ProductList> selectProductList(int i);
 
-	ArrayList<Attachment> selectAttmList();
+	ArrayList<Attachment> selectAttmList(int i);
 
 	ProductList selectProductDetail(int productNo);
 
@@ -59,6 +60,20 @@ public interface AdminService {
 	int editQNA(Qna q);
 
 	int deleteQNA(int bNo);
+
+	int insertBannerBoard(Board b);
+
+	ArrayList<Board> selectBanner(int i);
+
+	ArrayList<Attachment> selectBannerAttm(int i);
+
+	Board selectBannerDetail(int boardNo);
+
+	ArrayList<Attachment> selectBannerAttmList(String bId);
+
+	int deleteBannerBoard(int boardNo);
+
+	int deleteBannerAttm(String imgKey);
 
 
 

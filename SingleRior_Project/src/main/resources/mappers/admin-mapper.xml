@@ -97,7 +97,20 @@
 		<result property="count" column="BOARD_COUNT"/>
 		<result property="qnaCategory" column="QNA_CATEGORY"/>
 	</resultMap>
-
+	<resultMap type="Board" id="boardResultSet">
+		<id column="BOARD_NO" property="boardNo"/>
+		<result column="BOARD_TYPE" property="boardType"/>
+		<result column="BOARD_TITLE" property="boardTitle"/>
+		<result column="BOARD_CONTENT" property="boardContent"/>
+		<result column="CREATE_DATE" property="createDate"/>
+		<result column="MODIFY_DATE" property="modifyDate"/>
+		<result column="NOTICE_STATUS" property="noticeStatus"/>
+		<result column="B_STATUS" property="status"/>
+		<result column="BOARD_WRITER" property="writer"/>
+		<result column="BOARD_COUNT" property="count"/>
+		<result column="QNA_CATEGORY" property="qnaCategory"/>
+	</resultMap>
+	
 
 	<insert id="insertProduct">
 		insert all
@@ -138,7 +151,7 @@
     <select id="selectAttmList" resultMap="attachmentResultSet">
      select *
 		from img_repository 
-		where img_B_type= '1'
+		where img_B_type= #{i}
 		      and img_level=0
 		      and img_status='Y'
 	    order by img_key desc
@@ -215,10 +228,7 @@
 		select count(*)
 		from board
 		where board_type=#{i}
-	
-	
 	</select>
-	
 	
 	<select id="selectNoticeList" resultMap="noticeResultSet">
 	
@@ -241,28 +251,21 @@
 		    join notice using(board_no)
 		where board_no=#{bNo} 
 	
-	
 	</select>
 	<update id="editBoardNotice">
-	
 		update Board
 		set board_title=#{boardTitle}, board_content=#{boardContent}, modify_date=sysdate
 		where board_no=#{boardNo}
-	
 	</update>
 	<update id="editNotice">
-	
 		update notice
 		set notice_category=#{noticeCategory}
 		where board_no=#{boardNo}
-	
 	</update>
-	
 	<update id="deleteNotice">
 		update board
 		set b_status='N'
 		where board_no=#{bNo}
-	
 	</update>
 	<insert id="enrollQNA">
 		insert all
@@ -285,19 +288,14 @@
 			from board
 			join qna using(board_no)
 		where b_status='Y' and board_no=#{bNo}
-		
 	
 	</select>
-	
 	<update id="boardQNAEdit">
 	
 		update Board
 		set board_title=#{boardTitle}, board_content=#{boardContent}, modify_date=sysdate
 		where board_no=#{boardNo}
-		
-		
 	</update>
-	
 	<update id="QNAEdit">
 	
 		update QNA
@@ -305,14 +303,51 @@
 		where board_no=#{boardNo}
 	
 	</update>
-	
 	<update id="deleteQNA">
 		update board
 		set b_status='N'
 		where board_no=#{bNo}
-	
-	
 	</update>
+	<insert id="insertBannerBoard">
+		insert into board
+		values(seq_bid.nextval,#{boardType},#{boardTitle},#{boardContent},sysdate,sysdate,default,default,#{writer},default)
+	</insert>		
+	<select id="selectBannerBoard" resultMap="boardResultSet">
+		select *
+		from board
+		where board_type=#{i} and b_status='Y'
+		order by board_no desc
+	</select>
+	<select id="selectBannerAttm" resultMap="attachmentResultSet">
+	 select *
+		from img_repository 
+		where img_B_type= #{i}
+		      and img_level=0
+		      and img_status='Y'
+	    order by img_key desc
 	
+	</select>
+	<select id="selectBannerDetail" resultMap="boardResultSet">
+	
+		select *
+		from board
+		where board_no=#{boardNo}
+	</select>
+	<select id="selectBannerAttmList" resultMap="attachmentResultSet">
+		select * 
+		from img_repository
+		where img_key=#{bId} and img_status='Y' 
+	</select>
+	
+	<update id="deleteBannerBoard">
+	update board
+	set b_status='N'
+	where board_no=#{boardNo}
+	</update>
+	<update id="deleteBannerAttm">
+	update img_repository
+	set img_status='N'
+	where img_key=#{imgKey}
+	</update>	
 	
 </mapper>

@@ -319,7 +319,7 @@ public class AdminController {
 	public String manageProduct(Model model) {
 
 		ArrayList<ProductList> sList=aService.selectProductList(1);
-		ArrayList<Attachment> aList=aService.selectAttmList();
+		ArrayList<Attachment> aList=aService.selectAttmList(1);
 		
 		if(sList!=null) {
 			model.addAttribute("sList",sList);
@@ -652,51 +652,89 @@ public class AdminController {
 	}
 	
 	@RequestMapping("enrollBanner.adm")
-	public String enrollBanner(@RequestParam("file") ArrayList<MultipartFile> files, HttpServletRequest request){
-		
-		Board b =new Board();
-		
+	public String enrollBanner(@ModelAttribute Board b,@RequestParam("file") ArrayList<MultipartFile> files, HttpServletRequest request){
+
 		String id =((Member)request.getSession().getAttribute("loginUser")).getMemberId();
 		b.setWriter(id);
 		b.setBoardType(6);
-		System.out.println(files);
-		System.out.println(b);
 		
 		ArrayList<Attachment> list = new ArrayList<>();
 		
-		for(int i=0;i<files.size();i++) {
-			MultipartFile upload =files.get(i);
-			
-			if(!upload.getOriginalFilename().equals("")) {
-				String[] returnArr= saveFile(upload,request);
-				
-				if(returnArr[1]!=null) {
-					Attachment a = new Attachment();
-					
-					a.setImgOriginalName(upload.getOriginalFilename());
-					a.setImgRename(returnArr[1]);
-					a.setImgPath(returnArr[0]);
-					list.add(a);
-				}
-			}
-			
-		}
-		//배너는 썸네일 필요없음
 		
-		b.setBoardType(6);
-		for(int i=0;i<list.size();i++) {
-			Attachment a =list.get(i);
-			a.setLevel(2);//배너는 레벨을 2로 놓는다.
-		}
-		System.out.println(b);
-		System.out.println(list);
+		  for(int i=0;i<files.size();i++) { MultipartFile upload =files.get(i);
+		  
+		  if(!upload.getOriginalFilename().equals("")) { 
+			  String[] returnArr=saveFile(upload,request);
+		  
+		  if(returnArr[1]!=null) { Attachment a = new Attachment();
+		  
+		  a.setImgOriginalName(upload.getOriginalFilename());
+		  a.setImgRename(returnArr[1]); 
+		  a.setImgPath(returnArr[0]);
+		  a.setBoardType(6);
+		  list.add(a); 
+		  } }
+		  
+		  }
+	
 		
+		 for(int i=0;i<list.size();i++) { Attachment a =list.get(i);
+		  
+		 if(i==0) { a.setLevel(0); }else { a.setLevel(1); } }
+		 b.setBoardType(6);
+		 
+		 
+		int result1=aService.insertBannerBoard(b);
+		int result2=aService.insertAttm(list);
 		
 		/*
-		 * int result1=aService.insertBoard(b); int result2=aService.insertAttm(list);
-		 */
-		return null;
+		 * System.out.println(b); // boardType=6 이것만 담김.... System.out.println(list);
+		 */	
+		
+		if(result1+result2>1) {
+			return"redirect:manageBanner.adm"; 
+		}else {
+			throw new AdminException("배너 이미지 추가 오류");
+		}
 	}
+	@RequestMapping("manageBanner.adm")
+	public String managerBanner(Model model) {
+		ArrayList<Board> bList=aService.selectBanner(6);
+		ArrayList<Attachment> aList=aService.selectBannerAttm(6);	
+		
+		model.addAttribute("bList",bList);
+		model.addAttribute("aList",aList);
+
+		return "manageBanner";
+	}
+	@RequestMapping("detailBanner.adm")
+	public String detailBanner(@RequestParam("boardNo") int boardNo,Model model) {
+		Board b = aService.selectBannerDetail(boardNo);
+		String bId=Integer.toString(b.getBoardNo());
+		
+		ArrayList<Attachment> list=aService.selectBannerAttmList(bId);
+		
+		model.addAttribute("b",b);
+		model.addAttribute("list",list);
+		
+		return "detailBanner";
+	}
+	@RequestMapping("deleteBanner.adm")
+	public String delete(@ModelAttribute Board b) {
+		int boardNo=b.getBoardNo();
+		String imgKey=Integer.toString(b.getBoardNo());
+			
+		int result1=aService.deleteBannerBoard(boardNo);
+		int result2=aService.deleteBannerAttm(imgKey);
+		int result=result1+result2;
+		
+		if(result>1) {
+			return "redirect:manageBanner.adm";
+		}else {
+			throw new AdminException("배너 삭제 실패");
+		}
+	}
+	
 	
 	
 	@RequestMapping("orderList.adm")
@@ -718,10 +756,7 @@ public class AdminController {
 	public String manageReport() {
 		return "manageReport";
 	}
-	@RequestMapping("manageBanner.adm")
-	public String managerBanner() {
-		return "manageBanner";
-	}
+	
 	
 	@RequestMapping("updateBanner.adm")
 	public String updateBanner() {

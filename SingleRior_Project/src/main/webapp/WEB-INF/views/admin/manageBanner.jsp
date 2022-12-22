@@ -53,8 +53,12 @@
 				flex-direction: row;
 				justify-content: center;
 				align-items: center;
-				
-			
+			}
+			.bannerImg{
+				display: flex;
+				flex-direction: column;
+				justify-content: center;
+				align-items: center;
 			}
 </style>
     </head>
@@ -72,18 +76,24 @@
                     <h1>등록된 배너 리스트</h1>
                     </div>
                     <div id="pInsert">
-						<div >
-							<img src="https://i.pinimg.com/originals/26/63/5b/26635bf988317b546ce1ef99f79d4f91.jpg" style="width: 100%; height: 300px;">
-							<br><br>
-							<img src="https://m.ramerit.co.kr/web/upload/NNEditor/20220812/16dcbcc9d1f3b3dfe0bf82969055c86a.jpg" style="width: 100%; height: 300px;">
-							<br><br>
-							<img src="https://openimage.interpark.com/milti/displayclassBanner/001812/01/20220715090841.jpg" style="width: 100%; height: 300px;">
+						<c:forEach items="${bList}" var="b">
+						
+						<div class="bannerImg" >
+							<c:forEach items="${aList}" var="a">	
+							<c:if test="${a.imgKey eq b.boardNo }">
+								<img src="${contextPath}/resources/uploadFiles/${a.imgRename}" style="width: 80%; height: 200px;">
+								<input type="hidden" value="${b.boardNo }">
+							</c:if>
+							</c:forEach>
+							 
 						</div>
+						
+						<br>
+						</c:forEach>
                     
                     </div>
                     	<div id="bannerBtn">
 							<button type="button" class="btn btn-primary" onclick='location.href="${contextPath}/insertBanner.adm"'>배너 추가</button>&nbsp;&nbsp;&nbsp;
-							<button type="button" class="btn btn-secondary" onclick="location.href='${contextPath}/updateBanner.adm'">배너 수정</button>&nbsp;&nbsp;&nbsp;
 						</div>
                 </main>
 <!-------------------------------------------------------- 내용 ----------------------------------------------------------------------- -->                
@@ -95,7 +105,19 @@
                     </div>
                 </footer>
             </div>
-        
+        	<script>
+        		window.onload=()=>{
+        			const divs = document.getElementsByClassName('bannerImg');
+        			for(div of divs){
+        				div.addEventListener('click',function(){
+        					const input = this.querySelector('input');
+        					
+        					const boardNo=input.value;
+        					location.href="${contextPath}/detailBanner.adm?boardNo="+boardNo;
+        				});
+        			}
+        		}
+        	</script>
         
         
         

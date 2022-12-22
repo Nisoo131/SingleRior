@@ -7,6 +7,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.E1I4.project.common.model.vo.Attachment;
+import com.E1I4.project.common.model.vo.Board;
 import com.E1I4.project.common.model.vo.Notice;
 import com.E1I4.project.common.model.vo.PageInfo;
 import com.E1I4.project.common.model.vo.Product;
@@ -40,8 +41,8 @@ public class AdminDAO {
 		return (ArrayList)sqlSession.selectList("adminMapper.selectProductList",i);
 	}
 
-	public ArrayList<Attachment> selectAttmList(SqlSessionTemplate sqlSession) {
-		return (ArrayList)sqlSession.selectList("adminMapper.selectAttmList");
+	public ArrayList<Attachment> selectAttmList(SqlSessionTemplate sqlSession,int i) {
+		return (ArrayList)sqlSession.selectList("adminMapper.selectAttmList",i);
 	}
 
 	public ProductList selectProductDetail(SqlSessionTemplate sqlSession, int productNo) {
@@ -138,5 +139,33 @@ public class AdminDAO {
 		return sqlSession.update("adminMapper.deleteQNA",bNo);
 	}
 
+	public int insertBannerBoard(SqlSessionTemplate sqlSession, Board b) {
+		return sqlSession.insert("adminMapper.insertBannerBoard",b);
+	}
+
+	public ArrayList<Board> selectBannerBoard(SqlSessionTemplate sqlSession, int i) {
+		return (ArrayList)sqlSession.selectList("adminMapper.selectBannerBoard",i);
+	}
+
+	public ArrayList<Attachment> selectBannerAttm(SqlSessionTemplate sqlSession, int i) {
+		return (ArrayList)sqlSession.selectList("adminMapper.selectBannerAttm",i);
+	}
+
+	public Board selectBannerDetail(SqlSessionTemplate sqlSession, int boardNo) {
+		return sqlSession.selectOne("adminMapper.selectBannerDetail",boardNo);
+	}
+
+	public ArrayList<Attachment> selectBannerAttmList(SqlSessionTemplate sqlSession,String bId) {
+		return(ArrayList)sqlSession.selectList("adminMapper.selectBannerAttmList",bId);
+	}
+
+	public int deleteBannerBoard(SqlSessionTemplate sqlSession, int boardNo) {
+		return sqlSession.update("adminMapper.deleteBannerBoard",boardNo);
+	}
+
+	public int deleteBannerAttm(SqlSessionTemplate sqlSession, String imgKey) {
+		return sqlSession.update("adminMapper.deleteBannerAttm",imgKey);
+	}
+	
 
 }
