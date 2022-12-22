@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import com.E1I4.project.common.model.vo.Attachment;
 import com.E1I4.project.common.model.vo.Board;
+import com.E1I4.project.common.model.vo.Cart;
 import com.E1I4.project.common.model.vo.PageInfo;
 import com.E1I4.project.common.model.vo.Product;
 import com.E1I4.project.common.model.vo.ProductInquiry;
@@ -196,6 +197,21 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public ArrayList<Board> selectQna(String category) {
 		return mDAO.selectQna(sqlSession,category);
+	}
+
+	@Override
+	public int getCartListCount(String memberId) {
+		return mDAO.getCartListCount(sqlSession,memberId);
+	}
+
+	@Override
+	public ArrayList<Cart> selectCartList(PageInfo pi, String memberId) {
+		return mDAO.selectCartList(sqlSession,memberId,pi);
+	}
+
+	@Override
+	public String selectCartImg(int productNo) {
+		return  mDAO.selectCartImg(sqlSession,productNo);
 	}
 
 

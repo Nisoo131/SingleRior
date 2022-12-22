@@ -5,6 +5,7 @@ import java.util.HashMap;
 
 import com.E1I4.project.common.model.vo.Attachment;
 import com.E1I4.project.common.model.vo.Board;
+import com.E1I4.project.common.model.vo.Cart;
 import com.E1I4.project.common.model.vo.PageInfo;
 import com.E1I4.project.common.model.vo.Product;
 import com.E1I4.project.common.model.vo.ProductInquiry;
@@ -77,6 +78,12 @@ public interface MemberService {
 	int deleteWishList(WishList wl);
 
 	ArrayList<Board> selectQna(String category);
+
+	int getCartListCount(String memberId);
+
+	ArrayList<Cart> selectCartList(PageInfo pi, String memberId);
+
+	String selectCartImg(int productNo);
 
 
 

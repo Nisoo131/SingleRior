@@ -23,6 +23,7 @@
 		<typeAlias type="com.E1I4.project.common.model.vo.Notice" alias="Notice"/>
 		<typeAlias type="com.E1I4.project.common.model.vo.Qna" alias="Qna"/>
 		<typeAlias type="com.E1I4.project.common.model.vo.Report" alias="Report"/>
+		<typeAlias type="com.E1I4.project.common.model.vo.Cart" alias="Cart"/>
 
 	</typeAliases>
 

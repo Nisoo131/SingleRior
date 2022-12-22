@@ -25,6 +25,7 @@ import com.E1I4.project.common.Pagination;
 import com.E1I4.project.common.exception.MemberException;
 import com.E1I4.project.common.model.vo.Attachment;
 import com.E1I4.project.common.model.vo.Board;
+import com.E1I4.project.common.model.vo.Cart;
 import com.E1I4.project.common.model.vo.PageInfo;
 import com.E1I4.project.common.model.vo.Product;
 import com.E1I4.project.common.model.vo.ProductInquiry;
@@ -444,8 +445,41 @@ public class MemberController {
 	}
 	
 	@RequestMapping("myCart.me")
-	public String myCart() {
+	public String myCart(HttpSession session,@RequestParam(value="page", required=false) Integer page,Model model) {
+		Member m = (Member)session.getAttribute("loginUser");
+		
+		String memberId = m.getMemberId();
+		
+//		System.out.println(category);
+		int currentPage =1;
+		if(page != null) {
+			currentPage = page;
+		}
+		
+		int listCount = mService.getCartListCount(memberId);
+		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 5);
+		ArrayList<Cart> cartList = mService.selectCartList(pi,memberId);
+		for(int i = 0; i<cartList.size(); i++) {
+			int productNo = cartList.get(i).getProductNo();
+			String imgRename = mService.selectCartImg(productNo);
+			
+			cartList.get(i).setImgRename(imgRename);
+			double oriPrice = cartList.get(i).getProductPrice(); // 250,000
+			double discount = cartList.get(i).getProductDiscount(); //20 / 100 -> 0.2 -> 1-0.2 = 0.8 			
+			
+			double dc = (discount/100);
+			double price = oriPrice * (1-dc);
+			cartList.get(i).setLastPrice((int)price);
+			
+		}
+//		System.out.println(cartList);
+		
+		if(cartList != null) {
+			model.addAttribute("cartList", cartList);
+			model.addAttribute("pi", pi);
+		}
 		return "myCart";
+		
 	}
 	@RequestMapping("serviceCenter.me")
 	public String serviceCenter(@RequestParam(value="category", required=false) String category,Model model) {
@@ -573,7 +607,7 @@ public class MemberController {
 		ArrayList<Attachment> aList = new ArrayList<Attachment>();
 		ArrayList<Product> pList = new ArrayList<Product>();
 //		System.out.println("listCount" +listCount);
-		System.out.println(piList);
+//		System.out.println(piList);
 		
 		for(int i = 0; i<piList.size(); i++) {
 			int productNo = piList.get(i).getProductNo();

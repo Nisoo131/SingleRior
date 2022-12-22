@@ -38,7 +38,7 @@
 	</nav>
 	<section>
 		<h1 style="text-align:left">나의 문의</h1><br><br>
-		<c:if test="${ piList != null }">
+		<c:if test="${ !empty piList }">
 				<c:forEach items="${ piList }" var="pi" varStatus="a">
 					<div class="myAskListDiv">
 						<span>문의일자 : ${pi.inquiryDate}</span>&nbsp;&nbsp;&nbsp;
@@ -64,6 +64,11 @@
 					</div>
 					<br><br>
 				</c:forEach>
+			</c:if>
+			<c:if test="${ empty piList }">
+				<div class="alert alert-secondary" role="alert">
+	  				문의가 없습니다.
+				</div>
 			</c:if>
 		<nav aria-label="Standard pagination example">
 				<ul class="pagination justify-content-center">
