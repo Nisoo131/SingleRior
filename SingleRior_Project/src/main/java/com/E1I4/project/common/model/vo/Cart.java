@@ -15,6 +15,14 @@ public class Cart {
 	private int cartNo;
 	private int quantity;
 	private String payStatus;
-	private String memberId;
+	private String memeberId;
 	private int productNo;
+	private String productOption;
+	private String productOptions;
+	private double productPrice;
+	private double productDiscount;
+	private int lastPrice;
+	private String brand;
+	private String imgRename;
+	private String boardTitle;
 }

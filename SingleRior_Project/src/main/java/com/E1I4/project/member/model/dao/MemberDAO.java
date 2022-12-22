@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import com.E1I4.project.common.model.vo.Attachment;
 import com.E1I4.project.common.model.vo.Board;
+import com.E1I4.project.common.model.vo.Cart;
 import com.E1I4.project.common.model.vo.PageInfo;
 import com.E1I4.project.common.model.vo.Product;
 import com.E1I4.project.common.model.vo.ProductInquiry;
@@ -156,6 +157,20 @@ public class MemberDAO {
 
 	public ArrayList<Board> selectQna(SqlSessionTemplate sqlSession, String category) {
 		return (ArrayList)sqlSession.selectList("memberMapper.selectQna",category);
+	}
+
+	public int getCartListCount(SqlSessionTemplate sqlSession, String memberId) {
+		return sqlSession.selectOne("memberMapper.getCartListCount", memberId);
+	}
+
+	public ArrayList<Cart> selectCartList(SqlSessionTemplate sqlSession, String memberId,PageInfo pi) {
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		return (ArrayList)sqlSession.selectList("memberMapper.selectCartList",memberId,rowBounds);
+	}
+
+	public String selectCartImg(SqlSessionTemplate sqlSession, int productNo) {
+		return sqlSession.selectOne("memberMapper.selectCartImg", productNo);
 	}
 
 }

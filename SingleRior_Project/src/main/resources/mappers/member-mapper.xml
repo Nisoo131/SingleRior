@@ -463,4 +463,42 @@
 			and QNA_category = '서비스/기타'
 		</if>
 	</select>
+	
+	<select id="getCartListCount" resultType="_int">
+		select count(*)
+		from cart
+		where member_id = #{memberId}
+	</select>
+	
+	<resultMap type="Cart" id="cartResultSet">
+		<id column="CART_NO" property="cartNo"/>
+		<result column="QUANTITY" property="quantity"/>
+		<result column="PAY_STATUS" property="payStatus"/>
+		<result column="PRODUCT_NO" property="productNo"/>
+		<result column="MEMBER_ID" property="memeberId"/>
+		<result column="PRODUCT_OPTION" property="productOption"/>
+		<result column="PRODUCT_OPTION_1" property="productOptions"/>
+		<result column="PRODUCT_PRICE" property="productPrice"/>
+		<result column="PRODUCT_DISCOUNT" property="productDiscount"/>
+		<result column="BRAND" property="brand"/>
+		<result column="IMG_SERVER_NAME" property="imgRename"/>
+		<result column="BOARD_TITLE" property="boardTitle"/>
+	</resultMap>
+	
+	<select id="selectCartList" resultMap="cartResultSet">
+		SELECT *
+		FROM CART C
+ 		   jOIN PRODUCT USING(PRODUCT_NO)
+  			join board using (board_no)
+			WHERE C.MEMBER_ID = #{memberId} and c.pay_status = 'N'
+	</select>
+	
+	<select id="selectCartImg" resultType="string">
+		select img_server_name
+		from img_repository
+		where img_key = (SELECT TO_CHAR( (select board_no
+                from product
+                where product_no = #{productNo}))FROM DUAL) 
+            and img_level =0
+	</select>
 </mapper>

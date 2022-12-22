@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -35,86 +36,40 @@
 	</header>
 	<section>
 		<h1 style="text-align:left">장바구니</h1><br><br>
-			<input type='checkbox' name='selectall' value='selectall'/>&nbsp;&nbsp;<h4 style="display:inline-block">전체선택</h4>
+			<input type='checkbox' id='selectAll' value='selectall'/>&nbsp;&nbsp;<h4 style="display:inline-block" onclick="">전체선택</h4>
 			<button id= "deleteItem" type="button" class="btn btn-light btn-sm" style="background:#008cd4; color:white">삭제</button>
 		<div id="cart">
 			<form>
-				<table class="table">
-				    <tr>
-				      <td scope="row" colspan="4"><input class="form-check-input" type="checkbox" value="" id="flexCheckDefault"></td>
-				    </tr>
-				    <tr height="15">
-				    	<td scope="row" width="250" rowspan="2" class="bottomNone"><img src="${ contextPath }/resources/image/babychicken.png" width="160"></td>
-				     	<td>상품
-				      	</td>
-				      	<td>옵션/수량	      
-				      	</td>
-				      	<td>상품 금액
-				      	</td>
-				   	</tr>
-				   	<tr>
-				     	<td class="bottomNone">
-				      		<div>병아리 인형</div>
-				      	</td>
-				      	<td class="bottomNone">
-							<div>색상 : 노란색</div>
-							<div>수량 : 2개</div>		      
-				      	</td>
-				      	<td class="bottomNone">
-				      		<div>12500원</div>
-				      	</td>
-				   	</tr>
-				</table>
-				<table class="table">
-				    <tr>
-				      <td scope="row" colspan="4"><input class="form-check-input" type="checkbox" value="" id="flexCheckDefault"></td>
-				    </tr>
-				    <tr height="15">
-				    	<td scope="row" width="250" rowspan="2"><img src="${ contextPath }/resources/image/babychicken.png" width="160"></td>
-				     	<td>상품
-				      	</td>
-				      	<td>옵션	      
-				      	</td>
-				      	<td>상품 금액
-				      	</td>
-				   	</tr>
-				   	<tr>
-				     	<td>
-				      		<div>병아리 인형</div>
-				      	</td>
-				      	<td>
-							<div>색상 : 노란색</div>		      
-				      	</td>
-				      	<td>
-				      		<div>12500원</div>
-				      	</td>
-				   	</tr>
-				</table>
-				<table class="table">
-				    <tr>
-				      <td scope="row" colspan="4"><input class="form-check-input" type="checkbox" value="" id="flexCheckDefault"></td>
-				    </tr>
-				    <tr height="15">
-				    	<td scope="row" width="250" rowspan="2"><img src="${ contextPath }/resources/image/babychicken.png" width="160"></td>
-				     	<td>상품
-				      	</td>
-				      	<td>옵션	      
-				      	</td>
-				      	<td>상품 금액
-				      	</td>
-				   	</tr>
-				   	<tr>
-				     	<td>
-				      		<div>병아리 인형</div>
-				      	</td>
-				      	<td>
-							<div>색상 : 노란색</div>		      
-				      	</td>
-				      	<td>
-				      		<div>12500원</div>
-				      	</td>
-				   	</tr>
-				</table>
+				<c:if test="${ !empty cartList  }">
+					<c:forEach items="${cartList }" var="cr">
+						<table class="table">
+						    <tr>
+						      <td scope="row" colspan="4"><input class="checkbox form-check-input" type="checkbox" id="flexCheckDefault"></td>
+						    </tr>
+						    <tr height="15">
+						    	<td scope="row" width="250" rowspan="2" class="bottomNone"><img src="${ contextPath }/resources/uploadFiles/${cr.imgRename }" width="160"></td>
+						     	<td>상품
+						      	</td>
+						      	<td>옵션/수량	      
+						      	</td>
+						      	<td>상품 금액
+						      	</td>
+						   	</tr>
+						   	<tr>
+						     	<td class="bottomNone">
+						      		<div>${cr.boardTitle }</div>
+						      	</td>
+						      	<td class="bottomNone">
+									<div>옵션 : ${cr.productOption }</div>
+									<div>수량 : ${cr.quantity }개</div>		      
+						      	</td>
+						      	<td class="bottomNone">
+						      		<div>${cr.lastPrice }원</div>
+						      	</td>
+						   	</tr>
+						</table>
+					</c:forEach>
+				</c:if>
 			</form>
 		</div>
 		<div id="pay">
@@ -143,6 +98,26 @@
 	
 	<script>
 	
+	$(function(){
+		var tables = $('.table');
+		console.log(tables)
+		
+		$('#selectAll').change(function(){
+			if($("#selectAll").prop("checked")){
+				$('.checkbox').prop("checked",true);
+			}else {
+				$('.checkbox').prop("checked",false);
+			}
+		})
+		$('.checkbox').change(function(){
+			if(!$(this).prop("checked")){
+				$('#selectAll').prop("checked",false);
+			}else if($('.checkbox').prop("checked")){
+				$('#selectAll').prop("checked",true);
+			}
+		});
+	
+	})
 	
 	
 	</script>
