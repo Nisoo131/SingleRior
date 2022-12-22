@@ -64,12 +64,13 @@
 				</a>
 			</div><br>
 			<div>
-				<a href="#;"><img src="${ contextPath }/resources/image/naver_login.png" alt="네이버계정 로그인" style="width:300px; height:50px;"></a>
+				<a  id="naverIdLogin_loginButton" href="https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=csSoyGLeoDJrrYsbQ_Vt&state=singlerior&redirect_uri=http://localhost:8088/SingleRior/naverLogin.me" ><img src="${ contextPath }/resources/image/naver_login.png" alt="네이버계정 로그인" style="width:300px; height:50px;"></a>
 			</div>
 	</main>
 	
 	
 	<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+	<script src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.2.js" charset="utf-8"></script>
 	<script>
 		window.Kakao.init('f6d3ec046c3e92308e683b2ee8e4cee7');
 		
@@ -90,5 +91,30 @@
 		  		}
 		    })
 		  }
+		  
+		  
+		 //네이버 로그인
+// 		 var naverLogin = new naver.LoginWithNaverId({
+			
+// 			 clientId : "csSoyGLeoDJrrYsbQ_Vt",
+// 			 callbackUrl : "http://localhost:8088/SingleRior/naverLogin.me",
+// 			 isPopup:false,
+// 		 	 callbackHandle : true
+// 		 });
+		 
+// 		 naverLogin.init();
+		 
+// 		 window.addEventListener('load',function(){
+// 			 naverLogin.getLoginStatus(function(status){
+// 				 if(status){
+// 					 const email = naverLogin.user.getEmail();
+// 					 const memberName = naverLogin.user.getName();
+// 					 const nickName = naverLogin.user.getNickname();
+// 					 const phone = naverLogin.user.getMobile();
+// 				 }
+// 			 })
+// 		 })
+		 
+		 
 	</script>
 </html>

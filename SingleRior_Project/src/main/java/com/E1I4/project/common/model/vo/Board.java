@@ -23,7 +23,6 @@ public class Board {
 	private String noticeStatus;
 	private String status;
 	private String writer;
-	private String boardDetailType;
 	private int count;
 	private int likeCount;
 	private int replyCount;
