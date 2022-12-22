@@ -17,10 +17,6 @@ public interface CommuBoardService {
 	// 싱글벙글 커뮤니티 list select
 	ArrayList<CommuBoard> selectCommuAllList(PageInfo pi, HashMap<String, Object> map);
 	
-	// 댓글 count 불러오기
-	ArrayList<CommuBoard> replyCount(HashMap<String, Object> map);
-	
-	
 	/* 게시글 등록 (insert) */
 	int insertCommuBoard(CommuBoard coBoard);
 
@@ -53,8 +49,14 @@ public interface CommuBoardService {
 	// 댓글 등록 (insert)
 	int insertReply(Reply r);
 	
+	// 댓글 count up
+	int replyCountUp(int bNo);
+	
 	// 댓글 삭제 (delete)
 	int deleteReply(int rNo);
+	
+	// 댓글 count down
+	int replyCountDown(int bNo);
 	
 	// 대댓글 불러오기
 	ArrayList<ReReply> selectReReply(int bNo);

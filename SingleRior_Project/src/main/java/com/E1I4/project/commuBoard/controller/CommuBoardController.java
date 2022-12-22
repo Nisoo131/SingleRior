@@ -44,7 +44,8 @@ public class CommuBoardController {
 	// 커뮤니티 전체 글 목록
 	@RequestMapping("commuAllList.co")
 	public String selectCommuAllList(@RequestParam(value="page", required=false) Integer page, Model model,
-			@RequestParam(value="commuArray", required=false) Integer coArray, @RequestParam(value="commuType", required=false) Integer coType) {
+			@RequestParam(value="commuArray", required=false) Integer coArray, @RequestParam(value="commuType", required=false) Integer coType,
+			@RequestParam(value="commuSearch", required=false) String search, @RequestParam(value="searchType", required=false) Integer sType) {
 		// 싱글벙글 카테고리 -> 1: 생활팁, 2: 후기, 3: 자유
 		int commuType = 0;
 		if(coType != null) {
@@ -57,6 +58,14 @@ public class CommuBoardController {
 			commuArray = coArray;
 		}
 		
+		// searchType -> 1: 제목, 2: 내용, 3: 작성자
+		String commuSearch = null;
+		int searchType= 0;
+		if(search != null && sType!=null) {
+			commuSearch = search;
+			searchType = sType;
+		}
+		
 		int currentPage = 1;
 		if(page != null && page > 1) {
 			currentPage = page;
@@ -65,23 +74,20 @@ public class CommuBoardController {
 		HashMap<String, Object> map = new HashMap<>();
 		map.put("commuType", commuType);
 		map.put("commuArray", commuArray);
+		map.put("commuSearch", commuSearch);
+		map.put("searchType", searchType);
 		
 		int listCount = cService.getCommuListCount(map);
 		
 		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 10);
 		
 		ArrayList<CommuBoard> list = cService.selectCommuAllList(pi, map);
-		ArrayList<CommuBoard> rList = cService.replyCount(map);
-		
-		System.out.println(rList);
-		
-		for(int i = 0; i < rList.size(); i++ ) {
-			System.out.println(rList.get(i));
-		}
 		
 		if(list != null) {
 			model.addAttribute("pi", pi);
 			model.addAttribute("list", list);
+			model.addAttribute("commuArray", commuArray);
+			model.addAttribute("commuType", commuType);
 			return "commuBoardList";
 		} else {
 			throw new BoardException("게시글 목록 조회에 실패하였습니다.");
@@ -292,6 +298,8 @@ public class CommuBoardController {
 	@RequestMapping("insertReply.co")
 	public void insertReply(@ModelAttribute Reply r, HttpServletResponse response) {
 		int result = cService.insertReply(r);
+		int bNo = r.getBoardNo();
+		int result1 = cService.replyCountUp(bNo);
 		
 		ArrayList<Reply> list = cService.selectReply(r.getBoardNo());
 		
@@ -313,6 +321,7 @@ public class CommuBoardController {
 	@RequestMapping("deleteReply.co")
 	public void deleteReply(@RequestParam("replyNo") int rNo, @RequestParam("boardNo") int bNo, @ModelAttribute Reply r, Model model, HttpServletResponse response) {
 		int result = cService.deleteReply(rNo);
+		int result1 = cService.replyCountDown(bNo);
 		
 		ArrayList<Reply> list = cService.selectReply(r.getBoardNo());
 		
