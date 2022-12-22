@@ -47,22 +47,27 @@
 							<label for="id" class="form-label">아이디</label>
 							<input type="text" class="form-control" id="memberId" name="memberId" readonly value="${loginUser.memberId }">
 						</div>
-						<div class="col-12">
-							<label for="pwd" class="form-label">현재 비밀번호</label>
-							<input type="password" class="form-control" id="memberPwd" name="memberPwd" required>
-							<span id="pwdCheckMsg"></span>
-						</div>
-						<div class="col-12">
-							<label for="pwdConfirm" class="form-label">새로운 비밀번호</label>
-							<input type="password" class="form-control" id="newPwd" name="newPwd">
-							<span id="newPwdCheckMsg"></span>
-						</div>
-						<div class="col-12">
-							<label for="pwdConfirm" class="form-label">새로운 비밀번호 확인</label>
-							<input type="password" class="form-control" id="newPwdConrfirm">
-							<span id="newPwdConfirmMsg"></span>
-						</div>
-						
+						<c:if test="${ (loginUser.memberId).indexOf('kakao*') == -1 and (loginUser.memberId).indexOf('naver*') == -1}">
+							<div class="col-12">
+								<label for="pwd" class="form-label">현재 비밀번호</label>
+								<input type="password" class="form-control" id="memberPwd" name="memberPwd" required>
+								<span id="pwdCheckMsg"></span>
+							</div>
+							<div class="col-12">
+								<label for="pwdConfirm" class="form-label">새로운 비밀번호</label>
+								<input type="password" class="form-control" id="newPwd" name="newPwd">
+								<span id="newPwdCheckMsg"></span>
+							</div>
+							<div class="col-12">
+								<label for="pwdConfirm" class="form-label">새로운 비밀번호 확인</label>
+								<input type="password" class="form-control" id="newPwdConrfirm">
+								<span id="newPwdConfirmMsg"></span>
+							</div>
+						</c:if>
+						<c:if test="${ (loginUser.memberId).indexOf('kakao*') != -1 or (loginUser.memberId).indexOf('naver*') != -1}">
+								<input type="hidden" class="form-control" name="memberPwd">
+								<input type="hidden" class="form-control" name="newPwd">
+						</c:if>
 						<div class="col-12">
 							<label for="name" class="form-label">이름</label>
 							<input type="text" class="form-control" id="memberName" name="memberName" readonly value="${loginUser.memberName }">
@@ -115,14 +120,14 @@
 				</div>
 				<div class="modal-body">
 					<p>정말로 탈퇴하시겠습니까?<br>탈퇴 후 계정은 복구할 수 없습니다.</p>
-					<c:if test="${ (loginUser.memberId).indexOf('kakao*') == -1}">
+					<c:if test="${ (loginUser.memberId).indexOf('kakao*') == -1 and (loginUser.memberId).indexOf('naver*') == -1}">
 						<div class="mb-3">
 							  <label for="exampleFormControlInput1" class="form-label">비밀번호를 입력해주세요.</label>
 							  <input type="password" class="form-control" id="deleteMemberPwd">
 							  <span id="deletePwdCheckMsg"></span>
 						</div>
 					</c:if>
-					<c:if test="${ (loginUser.memberId).indexOf('kakao*') != -1}">
+					<c:if test="${ (loginUser.memberId).indexOf('kakao*') != -1 and (loginUser.memberId).indexOf('naver*') != -1}">
 						<div class="mb-3">
 							  <input type="hidden" class="form-control" id="deleteMemberPwd" value="${loginUser.memberPwd}">
 						</div>

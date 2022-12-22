@@ -72,24 +72,30 @@
                     <h1>현재 등록된 배너</h1>
                     </div>
                     <div id="pInsert">
-						<div >
-								<button type="button" class="w-25 btn btn-outline-success" id="addFile">+배너 추가</button>
-						<div id="fileArea">
-							<div class="mb-3">
-							 <input type="file" class="form-control form-control-lg" name="file">
-							</div>
+						<button type="button" class="btn btn-outline-success" id="addFile" style="width:575px; height:50px;" onclick="addAttm(this)" >+배너 추가</button><br>
+                   		<form action="${contextPath}/enrollBanner.adm" method="post" enctype="multipart/form-data">
+                   			<table id="bTable">
+                   				<tr>
+                   					<td><h3>배너 사진 : </h3></td>
+                   					<td><input type="file" class="form-control form-control-lg" name="file" required></td>
+                   					<td> </td>
+                   				</tr>
+                   			
+                   			
+                   			
+                   			</table>
+                   			
+                   		<div id="bannerBtn">
+							<button type="submit" class="btn btn-primary">완료</button>&nbsp;&nbsp;&nbsp;
+							<button type="button"  class="btn btn-warning" onclick="javascript:history.back();">목록으로</button>
 						</div>
-
-
-						</div>
-                    
+                   		
+                   		</form>
+                   
                     </div>
                     	
                     	
-                    	<div id="bannerBtn">
-							<button type="button" class="btn btn-primary">완료</button>&nbsp;&nbsp;&nbsp;
-							<button type="reset"  class="btn btn-danger">초기화</button>
-						</div>
+                    	
                 </main>
 <!-------------------------------------------------------- 내용 ----------------------------------------------------------------------- -->                
                 <footer class="py-4 bg-light mt-auto">
@@ -102,16 +108,15 @@
             </div>
         <script>    
             
-        window.onload=()=>{
-			const fileArea=document.querySelector('#fileArea');
-			document.getElementById('addFile').addEventListener('click',()=>{
-				const newDiv = document.createElement('div');
-				newDiv.classList.add('mb-3');
-				newDiv.innerHTML='<input type="file" class="form-control form-control-lg" name="file">';
-				
-				fileArea.append(newDiv);
-			});
-		}
+        function addAttm(obj){
+        	var insertTr='';
+        	insertTr+="<tr><td style='text-align:right;'></td><td colspan='2'><input type='file' class='form-control form-control-lg' name='file'></td><td><input class='btn btn-danger' type='button' value='삭제' onclick='deleteKey(this)'></td></tr>"	;
+        	$('#bTable').append(insertTr)
+        }
+        function deleteKey(obj){
+        	var div = $(obj).parent().parent();
+        	div.remove();
+        	}
         	
         </script>
         

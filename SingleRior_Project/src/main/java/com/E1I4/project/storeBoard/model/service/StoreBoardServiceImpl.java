@@ -9,7 +9,9 @@ import org.springframework.stereotype.Service;
 import com.E1I4.project.common.model.vo.Attachment;
 import com.E1I4.project.common.model.vo.PageInfo;
 import com.E1I4.project.common.model.vo.WishList;
+import com.E1I4.project.member.model.vo.Member;
 import com.E1I4.project.storeBoard.model.dao.StoreBoardDAO;
+import com.E1I4.project.storeBoard.model.vo.Cart;
 import com.E1I4.project.storeBoard.model.vo.StoreBoard;
 
 @Service("sService")
@@ -55,6 +57,17 @@ public class StoreBoardServiceImpl implements StoreBoardService{
 	public int wishListOff(WishList wl, int bNo) {
 		return sDAO.wishListOff(sqlSession, wl);
 	}
+
+	@Override
+	public int insertCart(Cart cart) {
+		return sDAO.insertCart(sqlSession, cart);
+	}
+
+	
+
+	
+
+
 
 	
 	

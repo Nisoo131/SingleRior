@@ -136,6 +136,21 @@ public class AdminServiceImpl implements AdminService {
 		return aDAO.selectQNAList(sqlSession,pi,i);
 	}
 
+	@Override
+	public Qna selectQNADetail(int bNo) {
+		return aDAO.selectQNADetail(sqlSession,bNo);
+	}
+
+	@Override
+	public int editQNA(Qna q) {
+		return aDAO.editQNA(sqlSession,q);
+	}
+
+	@Override
+	public int deleteQNA(int bNo) {
+		return aDAO.deleteQNA(sqlSession,bNo);
+	}
+
 
 
 

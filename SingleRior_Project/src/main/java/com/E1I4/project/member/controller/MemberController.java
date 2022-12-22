@@ -33,6 +33,7 @@ import com.E1I4.project.common.model.vo.WishList;
 import com.E1I4.project.member.model.service.KakaoLogin;
 import com.E1I4.project.member.model.service.MailSendService;
 import com.E1I4.project.member.model.service.MemberService;
+import com.E1I4.project.member.model.service.NaverLogin;
 import com.E1I4.project.member.model.vo.Member;
 
 @Controller
@@ -44,6 +45,8 @@ public class MemberController {
 	private MailSendService mss;
 	@Autowired
 	private KakaoLogin kl;
+	@Autowired
+	private NaverLogin nl;
 	
 	@Autowired
 	private BCryptPasswordEncoder bcrypt;
@@ -121,7 +124,48 @@ public class MemberController {
 		
 	}
 	
-	
+	// 네이버 로그인
+	@RequestMapping("naverLogin.me")
+	public String naverLogin(@RequestParam(value = "code", required = false) String code,@ModelAttribute Member m, HttpSession session) {
+//		System.out.println(code);
+		
+		String accessToken = nl.getAccessToken(code);
+		
+		HashMap<String, Object> userInfo = nl.getUserInfo(accessToken);
+		
+		String memberId = (String)userInfo.get("memberId");
+		String nickname = (String)userInfo.get("nickname");
+		String email = (String)userInfo.get("email");
+		String phone = (String)userInfo.get("phone");
+		String memberName = (String)userInfo.get("memberName");
+		
+		int count = mService.checkId("naver*" + memberId);
+		
+		Member loginUser = null;
+		if(count == 1) {
+			m.setMemberId("naver*" +memberId);
+			loginUser = mService.login(m);
+		}else {
+			m.setMemberId("naver*" +memberId);
+			String encPwd = bcrypt.encode(memberId);
+			m.setMemberPwd(encPwd);
+			m.setNickName(nickname);
+			m.setEmail(email);
+			m.setMemberName(memberName);
+			m.setPhone(phone);
+			
+			int result = mService.insertMember(m);
+			if(result>0) {
+				m.setMemberId("naver*"+memberId);
+				loginUser = mService.login(m);
+				session.setAttribute("loginUser", loginUser);
+				return "redirect:/";
+			}
+		}
+		
+		session.setAttribute("loginUser", loginUser);
+		return "redirect:/";
+	}
 	// 로그아웃
 	@RequestMapping("logout.me")
 	public String logout(HttpSession session) {
@@ -279,11 +323,11 @@ public class MemberController {
 	// 회원 정보 수정
 	@RequestMapping("updateMember.me")
 	public String updateMember(HttpServletRequest reqeust, @ModelAttribute Member m, @RequestParam(value="newPwd", required=false) String newPwd,
-								HttpSession session, Model model , @RequestParam(value="file", required=false) MultipartFile file, HttpServletRequest request) {
-		
+								HttpSession session, Model model , @RequestParam(value="file", required=false) MultipartFile file,
+								HttpServletRequest request) {
 		
 		int count = mService.getProfilePhotoCount(m.getMemberId());
-		
+		System.out.println("new:"+newPwd);
 		Attachment a = null;
 		boolean check = false;
 			MultipartFile upload = file;
@@ -311,13 +355,14 @@ public class MemberController {
 //			System.out.println("들어왔나 : " + a);
 
 		//회원 정보 수정
+			
 		if(!newPwd.trim().equals("")) {
 			String encPwd = bcrypt.encode(newPwd);
 			m.setMemberPwd(encPwd);
 //			System.out.println("새비번있음: ");
 		}else {
 			m.setMemberPwd(null);
-//			System.out.println("새비번ㄴㄴ음: " + m);
+			System.out.println("새비번ㄴㄴ음: " + m);
 		}
 		
 
@@ -381,7 +426,7 @@ public class MemberController {
 	// 회원탈퇴
 	@RequestMapping("deleteMember.me")
 	public String deleteMember(@RequestParam("memberId") String memberId) {
-		if(!memberId.contains("kakao*")) {
+		if(!memberId.contains("kakao*") && !memberId.contains("naver*")) {
 			int result = mService.deleteMember(memberId);
 			if(result>0) {
 				return "redirect:logout.me";

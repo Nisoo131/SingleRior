@@ -23,6 +23,7 @@ import com.E1I4.project.common.Pagination;
 import com.E1I4.project.common.exception.AdminException;
 import com.E1I4.project.common.exception.ProductException;
 import com.E1I4.project.common.model.vo.Attachment;
+import com.E1I4.project.common.model.vo.Board;
 import com.E1I4.project.common.model.vo.Notice;
 import com.E1I4.project.common.model.vo.PageInfo;
 import com.E1I4.project.common.model.vo.Product;
@@ -438,7 +439,6 @@ public class AdminController {
 				}
 			}
 		}
-		System.out.println(p);
 		int updateProductResult=aService.updateProduct(p);
 		int updateAttmResult=0;
 		
@@ -514,7 +514,6 @@ public class AdminController {
 		String id=((Member)session.getAttribute("loginUser")).getMemberId();		
 		n.setBoardWriter(id);
 		n.setBoardType(4);
-		System.out.println(n);
 		
 		int result=aService.enrollNotice(n);
 		
@@ -539,7 +538,6 @@ public class AdminController {
 	public String editNotice(@ModelAttribute Notice n, @RequestParam("page") int page, Model model,HttpSession session ) {
 		
 		n.setBoardType(4);
-		System.out.println(n);
 		int result=aService.editeNotice(n);
 		
 		if(result>1) {
@@ -573,7 +571,6 @@ public class AdminController {
 		PageInfo pi=Pagination.getPageInfo(currentPage, listCount, 10);
 		ArrayList<Qna> list =aService.selectQNAList(pi,5);
 		
-		System.out.println(list);
 		
 		model.addAttribute("list",list);
 		model.addAttribute("pi",pi);
@@ -591,7 +588,6 @@ public class AdminController {
 		String id=((Member)session.getAttribute("loginUser")).getMemberId();
 		q.setBoardWriter(id);
 		q.setBoardType(5);
-		System.out.println(q);
 		
 		int result=aService.enrollQNA(q);
 		if(result>0) {
@@ -602,7 +598,105 @@ public class AdminController {
 			throw new AdminException("QNA 입력 실패");
 		}
 	}
+	@RequestMapping("detailQNA.adm")
+	public ModelAndView detailQNA(@RequestParam("bNo") int bNo,@RequestParam("page") int page,@RequestParam("boardWriter") String boardWriter,HttpSession session,ModelAndView mv ) {
+		
+			Qna q=aService.selectQNADetail(bNo);
+			
+			if(q!=null) {
+				mv.addObject("q",q);
+				mv.addObject("page",page);
+				mv.setViewName("detailQNA");
+				return mv;
+			}else {
+				throw new AdminException("QnA 상세보기 실패");
+			}
+		}
 	
+	@RequestMapping("updateQNA.adm")
+	public String updateQNA(@RequestParam("boardNo") int boardNo,@RequestParam("page") int page,Model model) {
+			
+		Qna q = aService.selectQNADetail(boardNo);
+		
+		model.addAttribute("q",q);
+		model.addAttribute("page",page);
+
+		return "updateQNA";
+	}
+	@RequestMapping("editQNA.adm")
+	public String editQNA(@ModelAttribute Qna q,@RequestParam("page") int page, Model model) {
+		
+		q.setBoardType(5);
+		int result = aService.editQNA(q);
+		
+		if(result>1) {
+			model.addAttribute("bNo",q.getBoardNo());
+			model.addAttribute("page",page);
+			return "redirect:manageQNA.adm";
+		}else {
+			throw new AdminException("Q&A 게시글 수정 오류");
+		}
+	}
+	@RequestMapping("deleteQNA.adm")
+	public String deleteQNA(@RequestParam("boardNo") int bNo) {
+		int result=aService.deleteQNA(bNo);
+		if(result>0) {
+			return "redirect:manageQNA.adm";
+		}else {
+			throw new AdminException("Q&A 삭제 실패");
+		}
+	}
+	@RequestMapping("insertBanner.adm")
+	public String insertBanner() {
+		return "insertBanner";
+	}
+	
+	@RequestMapping("enrollBanner.adm")
+	public String enrollBanner(@RequestParam("file") ArrayList<MultipartFile> files, HttpServletRequest request){
+		
+		Board b =new Board();
+		
+		String id =((Member)request.getSession().getAttribute("loginUser")).getMemberId();
+		b.setWriter(id);
+		b.setBoardType(6);
+		System.out.println(files);
+		System.out.println(b);
+		
+		ArrayList<Attachment> list = new ArrayList<>();
+		
+		for(int i=0;i<files.size();i++) {
+			MultipartFile upload =files.get(i);
+			
+			if(!upload.getOriginalFilename().equals("")) {
+				String[] returnArr= saveFile(upload,request);
+				
+				if(returnArr[1]!=null) {
+					Attachment a = new Attachment();
+					
+					a.setImgOriginalName(upload.getOriginalFilename());
+					a.setImgRename(returnArr[1]);
+					a.setImgPath(returnArr[0]);
+					list.add(a);
+				}
+			}
+			
+		}
+		//배너는 썸네일 필요없음
+		
+		b.setBoardType(6);
+		for(int i=0;i<list.size();i++) {
+			Attachment a =list.get(i);
+			a.setLevel(2);//배너는 레벨을 2로 놓는다.
+		}
+		System.out.println(b);
+		System.out.println(list);
+		
+		
+		/*
+		 * int result1=aService.insertBoard(b); int result2=aService.insertAttm(list);
+		 */
+		return null;
+	}
 	
 	
 	@RequestMapping("orderList.adm")
@@ -628,10 +722,7 @@ public class AdminController {
 	public String managerBanner() {
 		return "manageBanner";
 	}
-	@RequestMapping("insertBanner.adm")
-	public String insertBanner() {
-		return "insertBanner";
-	}
+	
 	@RequestMapping("updateBanner.adm")
 	public String updateBanner() {
 		return "updateBanner";

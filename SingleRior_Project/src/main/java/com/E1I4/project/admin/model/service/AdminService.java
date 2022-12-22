@@ -54,6 +54,12 @@ public interface AdminService {
 
 	ArrayList<Qna> selectQNAList(PageInfo pi, int i);
 
+	Qna selectQNADetail(int bNo);
+
+	int editQNA(Qna q);
+
+	int deleteQNA(int bNo);
+
 
 
 

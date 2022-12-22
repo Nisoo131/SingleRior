@@ -122,5 +122,21 @@ public class AdminDAO {
 		return list;
 	}
 
+	public Qna selectQNADetail(SqlSessionTemplate sqlSession, int bNo) {
+		return sqlSession.selectOne("adminMapper.selectQNA",bNo);
+	}
+
+	public int editQNA(SqlSessionTemplate sqlSession, Qna q) {
+		int boardEdit=sqlSession.update("adminMapper.boardQNAEdit",q);
+		int QNAEdit=sqlSession.update("adminMapper.QNAEdit",q);
+		
+		int result=boardEdit+QNAEdit;
+		return result;
+	}
+
+	public int deleteQNA(SqlSessionTemplate sqlSession, int bNo) {
+		return sqlSession.update("adminMapper.deleteQNA",bNo);
+	}
+
 
 }

@@ -11,6 +11,8 @@ import com.E1I4.project.common.model.vo.Attachment;
 import com.E1I4.project.common.model.vo.PageInfo;
 import com.E1I4.project.common.model.vo.Product;
 import com.E1I4.project.common.model.vo.WishList;
+import com.E1I4.project.member.model.vo.Member;
+import com.E1I4.project.storeBoard.model.vo.Cart;
 import com.E1I4.project.storeBoard.model.vo.StoreBoard;
 
 @Repository("sDAO")
@@ -54,6 +56,13 @@ public class StoreBoardDAO {
 	public int wishListOff(SqlSessionTemplate sqlSession, WishList wl) {
 		return sqlSession.delete("storeMapper.wishListOff", wl);
 	}
+
+	public int insertCart(SqlSessionTemplate sqlSession, Cart cart) {
+		return sqlSession.insert("storeMapper.insertCart", cart);
+	}
+
+	
+
 
 
 

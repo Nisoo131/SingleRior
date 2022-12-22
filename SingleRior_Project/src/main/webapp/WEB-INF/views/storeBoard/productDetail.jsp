@@ -22,6 +22,24 @@
 	#inquiryBtn{size: 100px; background-color:#008cd4;}
 	.star{text-align:center; display:table; width:300px; height:100px; margin:0 auto;}
 	.wishList {float:right;}
+	.button_qty {
+	  line-height: 50px;
+	  text-align: center;
+	  background: white;
+	  border-radius: 12px;
+	}
+		.outer-div {
+	  width : 300px;
+	  height : 300px;
+	  background-color : blue;
+	}
+	
+	.opsResult {
+	  width : 100px;
+	  height : 100px;
+	  background-color: lightgray;
+	  margin: auto;
+	}
 		
       .nav-scroller {
         position: relative;
@@ -59,7 +77,7 @@
 			<h2><b> ${ pList[0].subCateName } </b></h2> 
 			<br>
 		</div>
-		${ pList } 
+		<%-- ${ pList }  --%>
 		<%-- ${ pList[0] }<br>
 		${ pList[1] } --%>
 	<main class="container">
@@ -79,7 +97,7 @@
 	  		<table>
 	  			<tr>
 	  				<td style="font-size:25px;">${ pList[0].brand }</td>
-	  				<td width="320px"></td>
+	  				<td width="250px"></td>
 	  				<td>
 		  				 <c:if test="${ empty loginUser }">
 							<button type="button" class="btn btn-outline-danger wishListBtn" onclick="location.href='${contextPath}/loginView.me'">찜하기♥
@@ -102,23 +120,40 @@
 		  <p>구매리뷰 (개수)</p>
 		  <p>배송비 2,500원</p>
 		  <hr>
-		  <label for ="options">옵션선택</label>
-	           	 <select class="form-select" aria-label="Default select example">
+			 <label for ="options">옵션선택</label>
+	           	 <select  id="changeOpiton" onChange="selectChange(this.value);" class="form-select" aria-label="Default select example">
 					<option selected>상품 옵션을 선택해주세요</option>
-					  <option value="2">${ fn:split( pList[0].option, ',')[0] }</option>
-	                  <option value="3">${ fn:split( pList[0].option, ',')[1] }</option>
-	                  <option value="4">${ fn:split( pList[0].option, ',')[2] }</option>
-	                  <option value="5">${ fn:split( pList[0].option, ',')[3] }</option>
-	                  <option value="5">${ fn:split( pList[0].option, ',')[4] }</option>
+					 <c:forEach items="${ fn:split( pList[0].option, ',') }" var="p">
+					  <option class="option">${ p }</option>
+					</c:forEach>
 				 </select>
+				 <br>
+				 <div class="opsResult" style="border:1px solid black; width:450px; height:100px;">
+				  	<input type="text" id="inputOption"><br>
+				  	<span class="count-wrap _count">
+						    <button type="button" class="minus_btn" style="height:35px;">-</button>
+						   	 <input type="text" class="quantity_input" value="1" style="width:70px;height:30px"/>
+						    <button type="button" class="plus_btn" style="height:35px;">+</button>
+					</span>
+				    ${ totalPrice } 원
+			
+				 </div>
 			  <br><br>
+			
+			  <br>
 			  <h2>총 1개　${ totalPrice}원</h2>
 			  <div class="btn-group">
-				  <button type="button" class="wishlist" style="width:200px;height:50px;font-size:20px;"> 장바구니 </button>
+			  	<c:if test="${ empty loginUser }">
+				  <button type="button" class="cart" style="width:200px;height:50px;font-size:20px;" onclick="location.href='${contextPath}/loginView.me'"> 장바구니 </button>
+				</c:if>
+				<c:if test="${ !empty loginUser }">
+				  <button type="button" class="cart" style="width:200px;height:50px;font-size:20px;"> 장바구니 </button>
+				</c:if>  
 				  <button type="button" class="payment"  style="width:200px;height:50px;font-size:20px;" onclick="location.href='${ contextPath }/payment.st'">결제하기</button>
 			  </div>
 	  		</div>
 	  	</div>
+	  	
 	<!--상세정보 네비바 -->
 	 <div class="row mb-1"> 
 	  </div>
@@ -242,18 +277,19 @@
 	      <div class="position-sticky" style="top: 15rem;">
 	       
 	        <div class="p-4">
-	           <label for ="options">옵션선택</label>
-	           	 <select class="form-select" aria-label="Default select example">
+	            <label for ="options">옵션선택</label>
+	           	 <select id="form-select" aria-label="Default select example" onchange="changeOption()">
 					<option selected>상품 옵션을 선택해주세요</option>
-					  <option value="2">${ fn:split( pList[0].option, ',')[0] }</option>
-	                  <option value="3">${ fn:split( pList[0].option, ',')[1] }</option>
-	                  <option value="4">${ fn:split( pList[0].option, ',')[2] }</option>
-	                  <option value="5">${ fn:split( pList[0].option, ',')[3] }</option>
-	                  <option value="5">${ fn:split( pList[0].option, ',')[4] }</option>
+					 <c:forEach items="${ fn:split( pList[0].option, ',') }" var="p">
+					  <option class="option">${ p }</option>
+					</c:forEach>
 				 </select>
-	            <hr>        
+	            <hr>     
 	            <br><br><br><br><br><br>
-	          	<h4>총 1개 29,900원</h4>
+	            <div style="width:200px;height:100px;">
+	            
+	            </div>
+	          	 <h2>총 1개　${ totalPrice}원</h2>
 				  <div class="btn-group">
 					  <button type="button" class="wishlist" style="width:200px;height:50px;font-size:20px;">장바구니</button>
 					  <button type="button" class="payment" style="width:200px;height:50px;font-size:20px;" onclick="location.href='${ contextPath }/payment.st'">결제하기</button>
@@ -301,6 +337,51 @@
 
 </body>
 <script>    
+	// 제품 수량 버튼 조작
+	let quantity = $('.quantity_input').val();
+    $('.plus_btn').on('click', function(){
+    	$('.quantity_input').val(++quantity);
+    });
+    $('.minus_btn').on('click',function(){
+    	if(quantity > 1){
+    		$('.quantity_input').val(--quantity);
+    	}
+    });
+    
+    // option 선택시 값 담기
+    const selectChange = function(value){
+		//console.log("값 변경: " + value);
+		$('#inputOption').val(value);
+	
+	}
+    
+   
+    // 장바구니 추가
+    $('.cart').on('click', function(e){
+       const productCount = $('.quantity_input').val();
+//        console.log(form);
+ 
+       $.ajax({
+    	   url: '${ contextPath }/cart.st',
+    	   type : 'post',
+    	   data : {memberId:'${loginUser.memberId}',productNo:'${ pList[0].productNo}', productCount:productCount},
+    	   success : function(result){
+    		        cartAlert(result);
+    	   }
+       })
+    });
+    
+	function cartAlert(result){
+		if(result == '0'){
+			alert("장바구니에 상품이 추가 되지 않았습니다.");
+		} else if(result == '1'){
+			alert("장바구니에 추가되었습니다.");
+		} else if(result == '2'){
+			alert("장바구니에 이미 추가되어 있습니다.");
+		}
+	}
+    
+
     window.onload =()=>{
     	// 찜하기
     	$(".wishListBtn").click(function(){
@@ -341,10 +422,9 @@
 			         $(this).attr("class","btn btn-outline-danger wishListBtn");
 				}
 			})
-    	
     }
+    
    
-	
 	// 문의하기 모달창 글자수 제한
 	$(function(){
 			$('#textarea').keyup(function(e){
@@ -373,7 +453,9 @@
 			});	
 		});
 	
-	
+	const option = '${pList[0].option}';
+	console.log(option);
+	option.split(',');
 	
 	
 </script>
