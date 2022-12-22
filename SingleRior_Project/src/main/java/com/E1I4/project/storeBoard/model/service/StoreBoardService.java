@@ -25,8 +25,12 @@ public interface StoreBoardService {
 	int wishListOn(WishList wl, int bNo); // 찜하기on
 
 	int wishListOff(WishList wl, int bNo); // 찜하기 off
+	
+	int wishListCount(WishList wl);
 
 	int insertCart(Cart cart);
+
+	
 
 
 

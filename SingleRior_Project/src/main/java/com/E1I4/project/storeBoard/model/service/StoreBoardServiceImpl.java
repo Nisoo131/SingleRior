@@ -59,9 +59,15 @@ public class StoreBoardServiceImpl implements StoreBoardService{
 	}
 
 	@Override
+	public int wishListCount(WishList wl) {
+		return sDAO.wishListCount(sqlSession, wl);
+	}
+
+	@Override
 	public int insertCart(Cart cart) {
 		return sDAO.insertCart(sqlSession, cart);
 	}
+
 
 	
 

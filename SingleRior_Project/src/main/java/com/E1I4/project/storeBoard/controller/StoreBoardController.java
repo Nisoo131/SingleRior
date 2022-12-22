@@ -81,19 +81,24 @@ public class StoreBoardController {
 	public String productDetail(@RequestParam("productNo") int productNo, HttpSession session, Model model) {
 		Member loginUser = (Member)session.getAttribute("loginUser");
 
-		// 상품, 보드, 카테고리, 이미지
+
 		ArrayList<StoreBoard> pList = sService.selectProduct(productNo);
 	    
 		// 찜하기
 		WishList wl = new WishList();
-		WishList wishList = null;
-		
+		int result = 0;
 		if(loginUser != null) {
-			wishList = sService.wishListSelect(wl);
+			// 찜하기 전체 개수
+//			wishList = sService.wishListSelect(wl);
+			
+			wl.setProductNo(productNo);
+			wl.setMemberId(loginUser.getMemberId());
+		
+			result = sService.wishListCount(wl);
 		}
-	    
 		if(pList!= null) {
 			model.addAttribute("pList", pList);
+			model.addAttribute("count", result);
 			
 			return "productDetail";
 		} else {
@@ -106,7 +111,7 @@ public class StoreBoardController {
 	public void wishListOn(@RequestParam("boardNo") int bNo, HttpSession session, Model model, HttpServletResponse response) {
 		String id = ((Member)session.getAttribute("loginUser")).getMemberId();
 		
-		//System.out.println(bNo);
+		
 		WishList wl = new WishList();
 		wl.setBoardNo(bNo);
 		wl.setMemberId(id);
@@ -147,23 +152,25 @@ public class StoreBoardController {
 			e.printStackTrace();
 		}
 	}
+	
 	// 장바구니
 	@RequestMapping("cart.st")
 	public String InsertCart(@RequestParam("memberId") String memberId, @RequestParam("productNo") int productNo,
-			                @RequestParam("productCount") int productCount, ModelAndView mv) {
-		
-		
+			                @RequestParam("quantity") int quantity, @RequestParam("option") String option, ModelAndView mv) {
 		
 		Cart cart = new Cart();
 		cart.setProductNo(productNo);
-		cart.setQuantity(productCount);
-		cart.setUserId(memberId);
+		cart.setQuantity(quantity);
+		cart.setMemberId(memberId);
+		cart.setOption(option);
 		
 		int result = sService.insertCart(cart);
 		
 	    // result가 0이 아니면 마이페이지-장바구니 
 		if(result != 0) {
-			return "redirect:";
+			mv.addObject("cart",cart);
+			return "productDetail";
+			
 		} else {
 			throw new BoardException("장바구니 추가 실패");
 		}

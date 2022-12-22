@@ -14,11 +14,12 @@ import lombok.ToString;
 @Setter
 @ToString
 public class Cart {
-	// cart
+	// 장바구니
 	private int cartNo;
 	private int quantity;
 	private String payStatus;
-	private String userId;
+	private String memberId;
 	private int productNo;
+	private String option;
 
 }

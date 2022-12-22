@@ -98,7 +98,7 @@
 	</resultMap>
  
    <insert id="wishListOn">
-    INSERT INTO WISHLIST
+        INSERT INTO WISHLIST
 		VALUES(#{memberId}, #{boardNo})
    </insert>
    
@@ -108,6 +108,14 @@
 		where MEMBER_ID = #{memberId} and BOARD_NO = #{boardNo}
    </select>
    
+   <select id="wishListCount" resultType="_int">
+    select count(*)
+	from wishlist
+	where member_id = #{memberId} and board_no = (select board_no
+	from product
+	where product_no = #{productNo})
+   </select>
+   
    <delete id="wishListOff">
    		delete wishList
 		where board_no=#{boardNo} and member_id=#{memberId}
@@ -115,8 +123,7 @@
    
    <insert id="insertCart">
    	    insert into cart
-		values (SEQ_CNO.NEXTVAL, #{quantity}, default, #{memberId}, #{productNo})
-   
+		values (SEQ_CNO.NEXTVAL, #{quantity}, default, #{memberId}, #{productNo}, #{option})
    </insert>
 
 
