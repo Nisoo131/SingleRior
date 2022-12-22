@@ -65,9 +65,9 @@
 						<tr>
 							<td class="fs-3 px-5 py-3" width="1100">${ mkBoard.boardTitle }</td>
 							<td width="20"><img src="https://cdn-icons.flaticon.com/svg/3916/3916586.svg?token=exp=1670462433~hmac=154ca1ce619f5c92644b4e20378081cd" width="20" height="20"></td>
-							<td class="fs-5" style="text-align: center;" width="60">${ mkBoard.likeCount }</td>
+							<td class="fs-5" style="text-align: center;" width="60" id="likeCount">${ mkBoard.likeCount }</td>
 							<td width="20"><img src="https://cdn-icons.flaticon.com/svg/3916/3916603.svg?token=exp=1670462662~hmac=f05590d1f51351a3e5542f67adfcb754" width="20" height="20"></td>
-							<td class="fs-5" style="text-align: center;" width="60">${ mkBoard.replyCount }</td>
+							<td class="fs-5" style="text-align: center;" width="60" id="replyCount" >${ mkBoard.replyCount }</td>
 						</tr>
 					</table>
 					<span class="px-5" width="200">${ mkBoard.createDate }</span>
@@ -172,7 +172,7 @@
 							<table class="table replyTable ">
 								<tr>
 									<td style="text-align: center;" width="40"><img src="https://cdn-icons.flaticon.com/svg/3917/3917711.svg?token=exp=1670467359~hmac=b45251c2afca4a6751ba3fed9124eb31" width="20" height="20"></td>
-									<td width="150px; class="px-4">${r.nickName}</td>
+									<td width="150px; class="px-4" class="reNickName">${r.nickName}</td>
 									<td width="150px; class="px-4">${r.replyModifyDate}</td>
 									<td width="850px;"></td>
 									<td>
@@ -180,13 +180,13 @@
 											<img class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" src="https://cdn-icons.flaticon.com/svg/3917/3917158.svg?token=exp=1670467948~hmac=2f18f7118b556af438bb1d4438649f4a" width="20" height="20">
 											<ul class="dropdown-menu" style="text-align: center;">
 												<c:if test="${ loginUser.memberId eq r.memberId }">
-													<li><a class="dropdown-item reReplyBtn">답글달기</a></li>
+													<li class="reReplyBtn"><a class="dropdown-item">답글달기</a></li>
 													<li class="updateReBtn"><a class="dropdown-item">수정</a></li>
 													<li class="deleteReBtn"><a class="dropdown-item ">삭제</a><input type="hidden" class="replyNo" value="${ r.replyNo }"></li>
 												</c:if>
 												<c:if test="${ !(loginUser.memberId eq r.memberId) }">
 													<li><a class="dropdown-item" >답글달기</a></li>
-													<li><a class="dropdown-item" >신고</a></li>
+													<li class="reReportBtn"><a class="dropdown-item" ><input type="hidden" class="replyNo" value="${ r.replyNo }">신고</a></li>
 												</c:if>
 											</ul>
 										</div>
@@ -201,8 +201,34 @@
 									</td>
 								</tr>
 							</table>
-							</c:forEach>
+							
+						<!-- 대댓글창 -->
+						<c:if test="${!empty loginUser }">
+							<table class="addChildCommentTable commentTable table table-borderless p-5" style="display:none;">
+		                    	<tr>
+		                        	<td width="1em">
+		                           		<i class="bi bi-arrow-return-right" style="font-size:1em">
+		                       		</td>
+		                        	<td >
+		                           		<input type="hidden" name="boardId" value="${mkBoard.boardNo}">     
+		                           		<input type="hidden" name="commentCId" value="${r.replyNo}">
+		                           		<div class="input-group" >
+		                           			<textarea  style="width: 1000px; border: none; resize: none;"></textarea>
+											<button class="btn btn-outline-primary btn-lg" id="reReplySubmit" type="button" style="width: 100px;">등록</button>
+										</div>
+		                        	</td>
+		                     	</tr>
+		                 	</table>
+		                 </c:if>
+						</c:forEach>
+						
+							
 						</div>
+					
+						
+						
+						
+						
 						
 						
 						<!-- 대댓글 -->
@@ -292,8 +318,8 @@
 	    </div>
 	  </div>
 	</div>
-	<!-- 신고모달 -->
 	
+	<!-- 신고모달 -->
 	<div class="modal fade" id="reportModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 	  <div class="modal-dialog">
 	    <div class="modal-content">
@@ -303,15 +329,15 @@
 	      </div>
 	      <div class="modal-body">
 	       <h3>신고 사유를 선택해주세요!</h3>
-	       작성자 : ${mkBoard.nickName }
+	       <span id="reportNickName">작성자 : ${mkBoard.nickName }</span>
 	       <br>
-	       글제목 : ${mkBoard.boardTitle }
+	       <span id="reportContent">글제목 : ${mkBoard.boardTitle }</span>
 	       <br> <br>
 			 <form action="${ contextPath }/marketReport.ma">
 			 <div class="form-check">
 			  <input  name="reportType" class="form-check-input" type="checkbox" value="홍보도배" id="flexCheckDefault">
-			  <input type="hidden" name="boardNo" value="${mkBoard.boardNo }">
-			  <input type="hidden" name="reportCate" value="B">
+			  <input type="hidden" id="boardNo" name="boardNo" value="${mkBoard.boardNo }">
+			  <input type="hidden" id="reportCate" name="reportCate" value="B">
 			  <label class="form-check-label" >
 			    홍보/도배글이예요
 			  </label>
@@ -358,9 +384,10 @@
 	                        type: 'post',
 	                        success:(data)=>{
 	                           console.log(data);
-	                           var symptCount = parseInt($('#symptCount').html());
+	                           var symptCount = parseInt($('#likeCount').html());
 	                           console.log(symptCount);
-	                           $('#symptCount').html(symptCount + data);
+	                           $('#likeCount').html(symptCount + data);
+	                           
 	                        },
 	                        error: (data)=>{
 	                         console.log(data);
@@ -376,9 +403,10 @@
 	                        type: 'post',
 	                        success:(data)=>{
 	                           console.log(data);
-	                           var symptCount = parseInt($('#symptCount').html());
+	                           var symptCount = parseInt($('#likeCount').html());
 	                           console.log(symptCount);
-	                           $('#symptCount').html(symptCount - data);
+	                           $('#likeCount').html(symptCount - data);
+	                         
 	                        },
 	                        error: (data)=>{
 	                         console.log(data);
@@ -419,7 +447,7 @@
 							memberId: '${loginUser.memberId}',
 							nickName: '${loginUser.nickName}'},
 					success: (data) => {
-						
+						var replyCount = data.length;
 						document.getElementById('replyDiv').innerHTML = '';
 						document.getElementById('replyContent').value='';
 						for(const r of data){
@@ -435,12 +463,12 @@
 							str +=	'<ul class="dropdown-menu" style="text-align: center;">';
 							
 							if('${ loginUser.memberId}'== r.memberId){	
-								str +=	'<li><a class="dropdown-item reReplyBtn">답글달기</a></li>';
+								str +=	'<li class="reReplyBtn"><a class="dropdown-item ">답글달기</a></li>';
 								str +=	'<li class="updateReBtn"><a class="dropdown-item">수정</a></li>';
 								str +=	'<li class="deleteReBtn"><a class="dropdown-item ">삭제</a><input type="hidden" class="replyNo" value="'+ r.replyNo +'"></li>';
 							}else{										
 								str +=	'<li><a class="dropdown-item" >답글달기</a></li>';
-								str +=	'<li><a class="dropdown-item" >신고</a></li>';
+								str +=	'<li class="reportBtn" ><a class="dropdown-item" >신고</a></li>';
 							}
 								str +=	'</ul>';
 								str +=	'</div>';
@@ -457,6 +485,7 @@
 								str +=	'</table>';
 							
 								document.getElementById('replyDiv').innerHTML += str;
+								$("#replyCount").html(replyCount);
 						}
 					},
 					error: (data) => {
@@ -489,6 +518,8 @@
 					data: {rNo:this.parentNode.querySelector('input[type="hidden"]').value, bNo:${mkBoard.boardNo}},
 					success: (data) => {
 						this.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.remove();
+						var replyCount = data.length;
+						$("#replyCount").html(replyCount);
 					},
 					error: (data) => {
 						console.log(data);
@@ -500,13 +531,18 @@
 		$(document).on('click', '.updateReBtn', function(){
 			console.log("수정");
 			const textArea = this.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.querySelector('textarea');
+			console.log("DDD" +textArea.value);
+			textArea.value = textArea.value;
 			textArea.removeAttribute('readOnly');
 			textArea.focus();
 			textArea.parentNode.innerHTML += '<button type="button" class="btn btn-outline-primary btn-lg reUpdateSubmit" style="width: 100px;">등록</button><span>비밀댓글&nbsp;&nbsp;<input type="checkbox" class="replyUpateSecret" value="N"></span>';
 			
 			const btn = this.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.querySelector('button');
-			console.log(btn);
-			$(this).remove();
+			const $upBtn = $(this);
+			let rContent = null;
+			$upBtn.css('display', 'none');
+			
+			
 			btn.addEventListener('click', function () {
 				if(this.parentNode.querySelector('input[type="checkbox"]').checked){
 					this.parentNode.querySelector('input[type="checkbox"]').value = 'Y';
@@ -521,29 +557,38 @@
 					data: {replyNo:replyNo,replyContent:replyContent,replySecret:replySecret,boardNo:${mkBoard.boardNo}},
 					type: 'post',
 					success:(data)=>{
-						console.log(1234);
 						
-						const btnCreate = this.parentNode.parentNode.parentNode.parentNode.querySelector('.deleteReBtn');
-						$(btnCreate).prepend('<li class="updateReBtn"><a class="dropdown-item">수정</a></li>');
+						
+// 						const btnCreate = this.parentNode.parentNode.parentNode.parentNode.querySelector('.deleteReBtn');
+// 						$(btnCreate).prepend('<li class="updateReBtn"><a class="dropdown-item">수정</a></li>');
+						$upBtn.css('display', 'block');
 
 						this.parentNode.querySelector('span').remove();
+						console.log("전"+this.parentNode.querySelector('textarea').value);
 						this.parentNode.querySelector('textarea').value = data.replyContent;
+						console.log(this.parentNode.querySelector('textarea').value);
 						this.parentNode.querySelector('textarea').readOnly=true;
 						this.parentNode.querySelector('button').remove();
 						
+					
 					},
 					error: (data)=>{
 						console.log(data);
 					}
 				});
 			});
+			
+			
 		});
 		
 		
-		$(document).on('click', ".reReplyBtn", function(){
-			this.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.append();
-			
-			
+		
+		$(document).on('click', ".reReportBtn", function(){
+			$("#reportContent").text("댓글내용 : " + this.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.querySelector('textarea').value);
+			$("#reportNickName").text("작성자 : " + this.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.querySelector('.reNickName').innerText);
+			$("boardNo").val(this.parentNode.querySelector('.replyNo').value);
+			$("#reportCate").val('R');
+			$('#reportModal').modal('show');	
 			
 		});
 		
