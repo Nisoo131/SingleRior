@@ -42,7 +42,7 @@
 	</header>
 		<div class="py-1 border-bottom fs-5" style="background-color: #008cd4; text-align: center;">
 			<ul class="nav me-auto justify-content-center">
-		        <li class="nav-item"><a href="${ contextPath }/commuAllList.co?commuType=1" class="nav-link px-5 mx-2" style="color: white;">생활팁</a></li>
+		        <li class="nav-item"><a href="${ contextPath }/commuAllList.co?commuType=1" aria-current="page" class="nav-link px-5 mx-2" style="color: white;">생활팁</a></li>
 		        <li class="nav-item"><a href="${ contextPath }/commuAllList.co?commuType=2" class="nav-link px-5 mx-2" style="color: white;">후기</a></li>
 		        <li class="nav-item"><a href="${ contextPath }/commuAllList.co?commuType=3" class="nav-link px-5 mx-2" style="color: white;">자유</a></li>
 		    </ul>
@@ -50,13 +50,20 @@
 	
 	<main>
   		<div class="container d-flex flex-wrap css-title" style="padding-left: 50px; padding-top: 100px;">
-  			<c:if test="${ commuType == 1 }">
-  				바보
-  			</c:if>
-  			<span class="category px-4">전체 게시글</span>
+  			<span class="category px-4">
+  				<c:if test="${ commuType == 0 }">전체 게시글</c:if>
+  				<c:if test="${ commuType == 1 }">생활팁 게시글</c:if>
+  				<c:if test="${ commuType == 2 }">후기 게시글</c:if>
+  				<c:if test="${ commuType == 3 }">자유 게시글</c:if>
+  			</span>
   		</div>
   		<div class="container d-flex flex-wrap" style="padding-left: 50px; padding-bottom: 40px; font-size: 20px;">
-  			<span class="categoryContent px-4">커뮤니티에 게시된 전체 게시글 입니다.</span>
+  			<span class="px-4">
+  				<c:if test="${ commuType == 0 }">커뮤니티에 게시된 전체 게시글 입니다.</c:if>
+  				<c:if test="${ commuType == 1 }">생활 꿀팁과 관련된 게시글입니다.</c:if>
+  				<c:if test="${ commuType == 2 }">제품 후기에 관한 게시글입니다.</c:if>
+  				<c:if test="${ commuType == 3 }">주제 제한 없이 자유롭게 작성한 게시글입니다.</c:if>
+  			</span>
   		</div>
   		
   		<div class="container px-5">
@@ -144,50 +151,57 @@
 	       	<!-- 페이징 -->
 	       	<nav aria-label="Standard pagination example">
 	        	<ul class="pagination justify-content-center">
-		            <li class="page-item">
-		            	<c:url var="goBack" value="${ loc }">
-							<c:param name="page" value="${ pi.currentPage-1 }"/>
-						</c:url>
-		            	<a class="page-link" href="${ goBack }" aria-label="Previous">
-		            		<span aria-hidden="true">&laquo;</span>
-		              	</a>
-		            </li>
+	        		<c:if test="${ pi.currentPage > 1 }">
+			            <li class="page-item">
+			            	<c:url var="goBack" value="${ loc }">
+								<c:param name="page" value="${ pi.currentPage-1 }"/>
+							</c:url>
+			            	<a class="page-link" href="${ goBack }" aria-label="Previous">
+			            		<span aria-hidden="true">&laquo;</span>
+			              	</a>
+			            </li>
+		            </c:if>
 		            <c:forEach begin="${ pi.startPage }" end="${ pi.endPage }" var="p">
 		            	<c:url var="goNum" value="${ loc }">
 							<c:param name="page" value="${ p }"/>
 						</c:url>
 						<li class="page-item"><a class="page-link" href="${ goNum }">${ p }</a></li>
 		            </c:forEach>
-		            <li class="page-item">
-		            	<c:url var="goNext" value="${ loc }">
-							<c:param name="page" value="${ pi.currentPage+1 }"/>
-						</c:url>
-						<a class="page-link" href="${ goNext }" aria-label="Next">
-		            		<span aria-hidden="true">&raquo;</span>
-		            	</a>
-		            </li>
+		            <c:if test="${ pi.currentPage < pi.maxPage }">
+			            <li class="page-item">
+			            	<c:url var="goNext" value="${ loc }">
+								<c:param name="page" value="${ pi.currentPage + 1 }"/>
+							</c:url>
+							<a class="page-link" href="${ goNext }" aria-label="Next">
+			            		<span aria-hidden="true">&raquo;</span>
+			            	</a>
+			            </li>
+		            </c:if>
 		    	</ul>
 	        </nav>
 	        
 	        <div class="py-4">
-	        	<table class="mx-auto">
-		        	<tr>
-		        		<td>
-				        	<select class="form-select form-select-sm" aria-label=".form-select-sm example" style="width: 120px; text-align: center;">
-				        		<option>--------</option>
-				        		<option>제목</option>
-				        		<option>내용</option>
-				        		<option>작성자</option>
-				        	</select>
-		        		</td>
-		        		<td>
-				        	<form class="d-flex" role="search">
-				        		<input class="form-control me-2" style="width: 300px;" type="search" placeholder="Search" aria-label="Search">
-				        		<button class="btn btn-outline-primary" type="submit">검색</button>
-				        	</form>
-				        </td>
-				    </tr>
-		        </table>
+	        	<form role="search" action="${ contextPath }/commuAllList.co">
+		        	<table class="mx-auto">
+			        	<tr>
+			        		<td>
+					        	<select name="searchType" class="form-select form-select-sm" aria-label=".form-select-sm example" style="width: 120px; text-align: center;" required>
+					        		<option value="0">--------</option>
+					        		<option value="1">제목</option>
+					        		<option value="2">내용</option>
+					        		<option value="3">작성자</option>
+					        	</select>
+			        		</td>
+			        		<td>
+			        			<div class="d-flex">
+			        				<input name="commuSearch" class="form-control me-1" style="width: 300px;" type="search" placeholder="Search" aria-label="Search">
+			        				<input class="commuArray" type="hidden" name="commuArray" value="${ commuArray }">
+						        	<button class="btn btn-outline-primary" type="submit">검색</button>
+			        			</div>
+					        </td>
+					    </tr>
+			        </table>
+		        </form>
 	        </div>
 		</div>
 	</main>
@@ -215,8 +229,22 @@
 	
 	<script>
 		$(function(){
-			$('#list1').addClass('list-click');
+
+			
 			$('.category').text('전체 게시글');
+
+			console.log(document.querySelector('.commuArray').value);
+			var commuArray = document.querySelector('.commuArray').value;
+			
+			if(commuArray == 0 || commuArray == 1){
+				$('#list1').addClass('list-click');
+			} else if(commuArray == 2){
+				$('#list2').addClass('list-click');
+			} else if(commuArray == 3) {
+				$('#list3').addClass('list-click');
+			}
+			
+
 			$('#list1').click(function(){
 				$(this).toggleClass('list-click');
 				$('#list2').removeClass('list-click');

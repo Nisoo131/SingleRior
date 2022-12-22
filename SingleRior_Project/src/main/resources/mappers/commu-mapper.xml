@@ -12,9 +12,11 @@
 		<result column="NOTICE_STATUS" property="noticeStatus"/>
 		<result column="B_STATUS" property="status"/>
 		<result column="BOARD_WRITER" property="writer"/>
+		<result column="NICKNAME" property="nickName"/>
 		<result column="BOARD_COUNT" property="count"/>
 		<result column="SYMPT_COUNT" property="symptCount"/>
 		<result column="COMMU_TYPE" property="commuType"/>
+		<result column="REPLY_COUNT" property="replyCount"/>
 	</resultMap>
 	
 	<resultMap type="Attachment" id="attachmentResultSet">
@@ -77,16 +79,33 @@
 		<if test="commuType > 0">
 			and c.commu_type = #{commuType}
 		</if>
-		order by b.create_date desc
-	</select>
-	
-	<!-- 댓글 count 불러오기 -->
-	<select id="replyCount" resultType="_int">
-		SELECT (SELECT count(*)
-				FROM reply r
-				WHERE r.board_no = b.board_no )
-		FROM board b
-		where board_type = '2' and b_status = 'Y'
+		
+		<!-- 검색 (Search) -->
+		<if test="commuSearch != null and searchType != 0">
+			<if test="searchType == 1">
+			and (BOARD_TITLE LIKE '%'||#{commuSearch}||'%')
+			</if>
+			<if test="searchType == 2">
+			and (BOARD_CONTENT LIKE '%'||#{commuSearch}||'%')
+			</if>
+			<if test="searchType == 3">
+			and (nickName LIKE '%'||#{commuSearch}||'%')
+			</if>
+		</if>
+		
+		<!-- 리스트 정렬 -->
+		<if test="commuArray == 0 ">
+			order by b.create_date desc
+		</if>
+		<if test="commuArray == 1">
+			order by b.create_date desc
+		</if>
+		<if test="commuArray == 2">
+			order by c.sympt_count desc
+		</if>
+		<if test="commuArray == 3 ">
+			order by c.reply_count desc
+		</if>
 	</select>
 	
 	
@@ -188,11 +207,25 @@
 		values(seq_rid.nextval, #{replyContent}, sysdate, sysdate, #{replySecret}, default, #{memberId}, #{boardNo})
 	</insert>
 	
+	<!-- 댓글 count up -->
+	<update id="replyCountUp">
+		update community
+		set reply_count = reply_count + 1
+		where board_no = #{bNo}
+	</update>
+	
 	<!-- 댓글 삭제 (delete) -->
 	<update id="deleteReply">
 		update REPLY
 		set REPLY_STATUS = 'N'
 		where REPLY_NO = #{rNo}
+	</update>
+	
+	<!-- 댓글 count down -->
+	<update id="replyCountDown">
+		update community
+		set reply_count = reply_count - 1
+		where board_no = #{bNo}
 	</update>
 	
 	<!-- 대댓글 불러오기 -->

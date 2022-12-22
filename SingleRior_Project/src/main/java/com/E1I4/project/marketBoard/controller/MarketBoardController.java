@@ -293,17 +293,15 @@ public class MarketBoardController {
 			int result = mkService.replyInsert(reply);
 			int bNo = reply.getBoardNo();
 			int result1 = mkService.replyCount(bNo);
-			
-			ArrayList<Reply> rList = mkService.replySelect(reply.getBoardNo());
-			
+			int replyNo = reply.getReplyNo();
+			ArrayList<Reply> r= mkService.replySelect(bNo);
 			response.setContentType("application/json; charset=UTF-8");
-			
 			GsonBuilder gb = new GsonBuilder();
 			GsonBuilder gb2 =  gb.setDateFormat("yyyy-MM-dd");
 			Gson gson = gb2.create();
 			
 			try {
-				gson.toJson(rList, response.getWriter());
+				gson.toJson(r, response.getWriter());
 			} catch (JsonIOException | IOException e) {
 				e.printStackTrace();
 			}
@@ -313,16 +311,19 @@ public class MarketBoardController {
 		
 		// 댓글 삭제
 		@RequestMapping("replyDelete.ma")
-		public String replyDelete(@RequestParam("rNo") int rNo, @RequestParam("bNo") String bNo, Model model) {
+		public void replyDelete(@RequestParam("rNo") int rNo, @RequestParam("bNo") int bNo, Model model,HttpServletResponse response) {
 			int result = mkService.replyDelete(rNo);
 			int result1 = mkService.replyCancleCount(bNo);
-			if(result > 0) {
-				model.addAttribute("bNo", bNo);
-				return "redirect:marketBoardDetail.ma";
-			} else {
-				throw new BoardException("댓글 삭제 실패");
+			response.setContentType("application/json; charset=UTF-8");
+			
+			GsonBuilder gb = new GsonBuilder();
+			Gson gson = gb.create();
+			
+			try {
+				gson.toJson(result, response.getWriter());
+			} catch (JsonIOException | IOException e) {
+				e.printStackTrace();
 			}
-
 		}
 		
 		//댓글 수정
@@ -333,9 +334,10 @@ public class MarketBoardController {
 			map.put("rNo",reply.getReplyNo());
 			map.put("secret", reply.getReplySecret());
 			
-			System.out.println(reply);
 			int result = mkService.replyUpdate(map);
-			ArrayList<Reply> rList = mkService.replySelect(reply.getBoardNo());
+			int replyNo = reply.getReplyNo();
+			System.out.println("댓글넘버 :"+replyNo);
+			Reply r= mkService.replyOneSelect(replyNo);
 			response.setContentType("application/json; charset=UTF-8");
 			
 			GsonBuilder gb = new GsonBuilder();
@@ -343,7 +345,7 @@ public class MarketBoardController {
 			Gson gson = gb2.create();
 
 			try {
-				gson.toJson(rList, response.getWriter());
+				gson.toJson(r, response.getWriter());
 			} catch (JsonIOException | IOException e) {
 				e.printStackTrace();
 			}

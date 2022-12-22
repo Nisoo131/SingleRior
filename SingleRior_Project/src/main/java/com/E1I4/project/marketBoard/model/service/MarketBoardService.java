@@ -62,7 +62,7 @@ public interface MarketBoardService {
 
 	int replyCount(int bNo);
 
-	int replyCancleCount(String bNo);
+	int replyCancleCount(int bNo);
 
 	int likeCount(int bNo);
 
@@ -75,6 +75,8 @@ public interface MarketBoardService {
 	Member memberSelect(String boardWriter);
 
 	Attachment memImageSelect(String boardWriter);
+
+	Reply replyOneSelect(int replyNo);
 
 
 	

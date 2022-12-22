@@ -128,7 +128,7 @@ public class MarketBoardDAO {
 		return sqlSession.update("marketMapper.replyCount", bNo);
 	}
 
-	public int replyCancleCount(SqlSessionTemplate sqlSession, String bNo) {
+	public int replyCancleCount(SqlSessionTemplate sqlSession, int bNo) {
 		return sqlSession.update("marketMapper.replyCancleCount", bNo);
 	}
 
@@ -154,6 +154,10 @@ public class MarketBoardDAO {
 
 	public Attachment memImageSelect(SqlSessionTemplate sqlSession, String boardWriter) {
 		return sqlSession.selectOne("marketMapper.memImageSelect", boardWriter);
+	}
+
+	public Reply replyOneSelect(SqlSessionTemplate sqlSession, int replyNo) {
+		return sqlSession.selectOne("marketMapper.replyOneSelect", replyNo);
 	}
 
 	

@@ -200,7 +200,7 @@ li a:hover {
 <!-- 글 리스트 -->	
 	<div class="row row-cols-1 row-cols-md-5 g-4" style="margin-left: 350px; margin-right: 350px;">
 		<c:forEach items="${ mkBList }" var="mkB">
-		 <c:set var="marketType" value="${mkB.marketType }"/>
+	
 		<div class="col px-4">
 			<div class="cards shadow-sm">
 			<c:forEach items="${ mkAList }" var="mkA">

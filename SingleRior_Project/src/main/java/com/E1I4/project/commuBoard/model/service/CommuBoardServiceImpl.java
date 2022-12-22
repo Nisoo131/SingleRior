@@ -36,12 +36,6 @@ public class CommuBoardServiceImpl implements CommuBoardService{
 		return cDAO.selectCommuAllList(sqlSession, pi, map);
 	}
 	
-	// 댓글 count 불러오기
-	@Override
-	public ArrayList<CommuBoard> replyCount(HashMap<String, Object> map) {
-		return cDAO.replyCount(sqlSession, map);
-	}
-	
 	
 	/* 게시글 등록 (insert) */
 	@Override
@@ -110,10 +104,22 @@ public class CommuBoardServiceImpl implements CommuBoardService{
 		return cDAO.insertReply(sqlSession, r);
 	}
 	
+	// 댓글 count up
+	@Override
+	public int replyCountUp(int bNo) {
+		return cDAO.replyCountUp(sqlSession, bNo);
+	}
+	
 	// 댓글 삭제 (delete)
 	@Override
 	public int deleteReply(int rNo) {
 		return cDAO.deleteReply(sqlSession, rNo);
+	}
+	
+	// 댓글 count down
+	@Override
+	public int replyCountDown(int bNo) {
+		return cDAO.replyCountDown(sqlSession, bNo);
 	}
 	
 	// 대댓글 불러오기
