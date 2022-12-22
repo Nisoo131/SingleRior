@@ -104,14 +104,14 @@
                      <th width="130px">작성일</th>
                       </tr>
                    </thead>
-                  <tbody>
+                  <tbody class="tbody">
                       
                       <c:forEach items="${list }" var="list">
                       
                       <tr>
-                     <td>${list.qnaCategory}</td>
+                     <td>${list.qnaCategory}<input type="hidden" value="${list.boardNo}"></td>
                      <td>${list.boardTitle }</td>
-                     <td>${list.boardWriter }</td>
+                     <td>${list.boardWriter}<input type="hidden" value="${list.boardWriter}"></td>
                      <td>${list.createDate }</td>
                       </tr>
                       </c:forEach>
@@ -158,22 +158,21 @@
             </div>
          
          <script>
-         	window.onload=()=>{
-         		const tbody=document.querySelector('tbody');
-         		const tds = tbody.querySelectorAll('td');
-         		
-         		for(const td of tds){
-         			td.addEventListener('click',function(){
-         			const trTds=this.parentElement.querySelectorAll('td');
-					const boardId=trTds[0].innerText;
-         			location.href='${contextPath}/selectboard.bo??bId='+boardId;
-         			});
-         		}
-         		
-         		
-         		
-         	}
-         
+     	window.onload=()=>{
+     		const tbody=document.querySelector('.tbody');
+     		const trs = tbody.querySelectorAll('tr');
+     	
+     		for(const tr of trs){
+     			tr.addEventListener('click',function(){
+     			const bNo=this.querySelectorAll('input')[0].value;
+     			const boardWriter=this.querySelectorAll('input')[1].value;
+     			location.href='${contextPath}/detailQNA.adm?bNo='+bNo+'&page='+${pi.currentPage}+'&boardWriter='+boardWriter;
+     			});
+     		}
+     		
+     		
+     		
+     	}
          
          </script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
