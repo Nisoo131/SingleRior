@@ -328,7 +328,7 @@
 	<select id="reportSelect" resultMap="reportResultSet"> 
 		select *
 		from report
-		where BOARD_NO=#{bNo} and MEMBER_ID=#{id}
+		where BOARD_NO=#{bNo} and MEMBER_ID=#{id} and REPORT_CATE=#{cate}
 	</select>
 	
 	<select id="replyOneSelect" resultMap="replyResultSet"> 

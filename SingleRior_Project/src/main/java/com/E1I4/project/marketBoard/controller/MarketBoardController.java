@@ -314,13 +314,14 @@ public class MarketBoardController {
 		public void replyDelete(@RequestParam("rNo") int rNo, @RequestParam("bNo") int bNo, Model model,HttpServletResponse response) {
 			int result = mkService.replyDelete(rNo);
 			int result1 = mkService.replyCancleCount(bNo);
+			ArrayList<Reply> r= mkService.replySelect(bNo);
 			response.setContentType("application/json; charset=UTF-8");
 			
 			GsonBuilder gb = new GsonBuilder();
 			Gson gson = gb.create();
 			
 			try {
-				gson.toJson(result, response.getWriter());
+				gson.toJson(r, response.getWriter());
 			} catch (JsonIOException | IOException e) {
 				e.printStackTrace();
 			}
@@ -385,7 +386,8 @@ public class MarketBoardController {
 			
 			int result = mkService.marketLike(wl);
 			int result1 = mkService.likeCount(bNo);
-			
+			System.out.println("좋아요:"+result1);
+			System.out.println("좋아요:"+result);
 			response.setContentType("application/json; charset=UTF-8");
 			
 			GsonBuilder gb = new GsonBuilder();
@@ -411,7 +413,8 @@ public class MarketBoardController {
 				
 			int result =  mkService.marketLikeCancle(wl);
 			int result1 = mkService.likeCancleCount(bNo);
-			
+			System.out.println("좋아요취소:"+result1);
+			System.out.println("좋아요취소:"+result);
 			response.setContentType("application/json; charset=UTF-8");
 				
 			GsonBuilder gb = new GsonBuilder();
@@ -569,14 +572,16 @@ public class MarketBoardController {
 		public String marketReport(@RequestParam("boardNo") int bNo,HttpSession session, @ModelAttribute Report report, Model model) {
 			String id = ((Member)session.getAttribute("loginUser")).getMemberId();
 			report.setMemberId(id);
-			
+			System.out.println(report);
 			HashMap<String, Object> map = new HashMap<String, Object>();
 			map.put("id", id);
 			map.put("bNo",bNo);
-			
-			
+			map.put("cate", report.getReportCate());
+				
 			Report reportSelect =  mkService.reportSelect(map);
+		
 			int result = mkService.marketReport(report);
+			
 			if(result>0) {
 				model.addAttribute("bNo", bNo);
 				model.addAttribute("reportSelect", reportSelect);
