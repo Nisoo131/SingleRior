@@ -154,7 +154,7 @@ public class MarketBoardServiceImpl implements MarketBoardService{
 	}
 
 	@Override
-	public int replyCancleCount(String bNo) {
+	public int replyCancleCount(int bNo) {
 		return mkDAO.replyCancleCount(sqlSession, bNo);
 	}
 
@@ -186,6 +186,11 @@ public class MarketBoardServiceImpl implements MarketBoardService{
 	@Override
 	public Attachment memImageSelect(String boardWriter) {
 		return mkDAO.memImageSelect(sqlSession, boardWriter);
+	}
+
+	@Override
+	public Reply replyOneSelect(int replyNo) {
+		return mkDAO.replyOneSelect(sqlSession, replyNo);
 	}
 
 	

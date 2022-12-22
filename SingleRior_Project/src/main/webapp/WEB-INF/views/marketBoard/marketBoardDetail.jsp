@@ -206,8 +206,11 @@
 						
 						
 						<!-- 대댓글 -->
+						
+						<c:forEach items="${mkRRList}" var="rr">
+						<c:forEach items="${mkRList}" var="r">
+						<c:if test="${rr.replyNo==r.replyNo }"></c:if>
 						<div class="px-5" style="padding-bottom: 50px; margin-left: 60px;" id="reReplyDiv">
-							<c:forEach items="${mkRRList}" var="rr">
 							<table class="table">
 								<tr>
 									<td style="text-align: center;" width="40"><img src="https://cdn-icons-png.flaticon.com/512/9058/9058850.png" width="20" height="20">
@@ -234,10 +237,10 @@
 									<td class="px-5 py-3" colspan="6">${rr.reReplyContent}</td>
 								</tr>
 							</table>
-							</c:forEach>
+						
 						</div>
-					
-					
+						</c:forEach>
+						</c:forEach>
 					<div style="border-bottom: 1px solid #DCDCDC; padding-top: 10px;"></div>
 					
 					<!-- 이동 -->
@@ -387,12 +390,12 @@
 	         });
 			
 		
-				
+			//삭제모달
 			document.getElementById('deleteBtn').addEventListener('click', ()=>{
 				$('#deleteModal').modal('show');	
 			});
 			
-			//신고 
+			//신고확인
 			document.getElementById('reportBtn').addEventListener('click', ()=>{
 				if(${reportSelect!=null} ){
 					alert("이미 신고하셨습니다.");
@@ -402,13 +405,12 @@
 				
 			});
 			
-			
+			//댓글입력
 			document.getElementById('replySubmit').addEventListener('click', ()=> {
 				
 				if(document.getElementById('replySecret').checked){
 					document.getElementById('replySecret').value = 'Y';
 				}
-				
 				$.ajax({
 					url: '${contextPath}/replyInsert.ma',
 					data: {replyContent:document.getElementById('replyContent').value,
@@ -417,48 +419,44 @@
 							memberId: '${loginUser.memberId}',
 							nickName: '${loginUser.nickName}'},
 					success: (data) => {
-						document.getElementById('replyContent').value = '';
-						const reDiv = document.getElementById('replyDiv');
-						reDiv.innerHTML = '';
 						
+						document.getElementById('replyDiv').innerHTML = '';
+						document.getElementById('replyContent').value='';
 						for(const r of data){
+							let str = '<table class="table replyTable ">';
+							str +=	'<tr>';
+							str +=	'<td style="text-align: center;" width="40"><img src="https://cdn-icons.flaticon.com/svg/3917/3917711.svg?token=exp=1670467359~hmac=b45251c2afca4a6751ba3fed9124eb31" width="20" height="20"></td>';
+							str +=	'<td width="150px; class="px-4">'+ r.nickName + '</td>';
+							str +=	'<td width="150px; class="px-4">'+ r.replyModifyDate + '</td>';
+							str +=	'<td width="850px;"></td>';
+							str +=	'<td>';
+							str +=	'<div class="dropdown">';
+							str +=	'<img class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" src="https://cdn-icons.flaticon.com/svg/3917/3917158.svg?token=exp=1670467948~hmac=2f18f7118b556af438bb1d4438649f4a" width="20" height="20">';
+							str +=	'<ul class="dropdown-menu" style="text-align: center;">';
 							
-							for(const r of data){
-								let str = '<table class="table replyTable ">';
-								str +=	'<tr>';
-								str +=	'<td style="text-align: center;" width="40"><img src="https://cdn-icons.flaticon.com/svg/3917/3917711.svg?token=exp=1670467359~hmac=b45251c2afca4a6751ba3fed9124eb31" width="20" height="20"></td>';
-								str +=	'<td width="150px; class="px-4">'+ r.nickName + '</td>';
-								str +=	'<td width="150px; class="px-4">'+ r.replyModifyDate + '</td>';
-								str +=	'<td width="850px;"></td>';
-								str +=	'<td>';
-								str +=	'<div class="dropdown">';
-								str +=	'<img class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" src="https://cdn-icons.flaticon.com/svg/3917/3917158.svg?token=exp=1670467948~hmac=2f18f7118b556af438bb1d4438649f4a" width="20" height="20">';
-								str +=	'<ul class="dropdown-menu" style="text-align: center;">';
-								
-								if('${ loginUser.memberId}'== r.memberId){	
-									str +=	'<li><a class="dropdown-item reReplyBtn">답글달기</a></li>';
-									str +=	'<li class="updateReBtn"><a class="dropdown-item">수정</a></li>';
-									str +=	'<li class="deleteReBtn"><a class="dropdown-item ">삭제</a><input type="hidden" class="replyNo" value="'+ r.replyNo +'"></li>';
-								}else{										
-									str +=	'<li><a class="dropdown-item" >답글달기</a></li>';
-									str +=	'<li><a class="dropdown-item" >신고</a></li>';
-								}
-									str +=	'</ul>';
-									str +=	'</div>';
-									str +=	'</td>';
-									str +=	'</tr>';
-									str +=	'<tr style="font-size: 20px;">';
-									str +=	'<td class="px-5 py-3 " colspan="5">';
-									str +=	'<div class="input-group replyContentArea" >';
-									str +=	'<textarea readonly style="width: 1000px; border: none; resize: none;">'+ r.replyContent + '</textarea>';
-									str +=	'<input type="hidden"  value="'+ r.replyNo + '">';
-									str +=	'</div>';
-									str +=	'</td>';
-									str +=	'</tr>';
-									str +=	'</table>';
-								
-									reDiv.innerHTML += str;
-							}	
+							if('${ loginUser.memberId}'== r.memberId){	
+								str +=	'<li><a class="dropdown-item reReplyBtn">답글달기</a></li>';
+								str +=	'<li class="updateReBtn"><a class="dropdown-item">수정</a></li>';
+								str +=	'<li class="deleteReBtn"><a class="dropdown-item ">삭제</a><input type="hidden" class="replyNo" value="'+ r.replyNo +'"></li>';
+							}else{										
+								str +=	'<li><a class="dropdown-item" >답글달기</a></li>';
+								str +=	'<li><a class="dropdown-item" >신고</a></li>';
+							}
+								str +=	'</ul>';
+								str +=	'</div>';
+								str +=	'</td>';
+								str +=	'</tr>';
+								str +=	'<tr style="font-size: 20px;">';
+								str +=	'<td class="px-5 py-3 " colspan="5">';
+								str +=	'<div class="input-group replyContentArea" >';
+								str +=	'<textarea readonly style="width: 1000px; border: none; resize: none;">'+ r.replyContent + '</textarea>';
+								str +=	'<input type="hidden"  value="'+ r.replyNo + '">';
+								str +=	'</div>';
+								str +=	'</td>';
+								str +=	'</tr>';
+								str +=	'</table>';
+							
+								document.getElementById('replyDiv').innerHTML += str;
 						}
 					},
 					error: (data) => {
@@ -467,13 +465,8 @@
 				});
 			});
 			
-			const deleteReply = document.getElementsByClassName('deleteReBtn');
-			for(const d of deleteReply){
-				d.addEventListener('click', function() {
-					location.href = '${contextPath}/replyDelete.ma?rNo=' + d.nextElementSibling.value + '&bNo=' + ${mkBoard.boardNo};
-				});
-			}
-			
+	
+			//비밀댓글
 			$(document).on('click', "input[type='checkbox']", function(){
 			    if(this.checked) {
 			        const checkboxes = $("input[type='checkbox']");
@@ -485,89 +478,75 @@
 			        this.checked = false;
 			    }
 			});
-			
-			const updateReply = document.getElementsByClassName('updateReBtn');
-			for(const u of updateReply){
-				u.addEventListener('click', function () {
-					alert("외않되.....");
-					const textArea = this.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.querySelector('textarea');
-					textArea.removeAttribute('readOnly');
-					textArea.focus();
-					textArea.parentNode.innerHTML += '<button type="button" class="btn btn-outline-primary btn-lg reUpdateSubmit" style="width: 100px;">등록</button>비밀댓글&nbsp;&nbsp;<input type="checkbox" id="replyUpateSecret" value="N">';
-						const btn = this.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.querySelector('button');
-						btn.addEventListener('click', function () {
-					    	
-							if(this.parentNode.querySelector('input[type="checkbox"]').checked){
-								this.parentNode.querySelector('input[type="checkbox"]').value = 'Y';
-							}
-							
-							const replyNo =  this.parentNode.querySelector('input[type="hidden"]').value;
-							const replySecret = this.parentNode.querySelector('input[type="checkbox"]').value;
-							const replyContent = this.parentNode.querySelector('textarea').value;
-							$.ajax({
-			                     url: '${contextPath}/replyUpdate.ma',
-			                     data: {replyNo:replyNo,replyContent:replyContent,replySecret:replySecret,boardNo:${mkBoard.boardNo}},
-			                     type: 'post',
-			                     success:(data)=>{
-			                     	console.log(data);
-			                     	
-			                     	document.getElementById('replyContent').value = '';
-									const reDiv = document.getElementById('replyDiv');
-									reDiv.innerHTML = '';
-			                     	
-									for(const r of data){
-										let str = '<table class="table replyTable ">';
-										str +=	'<tr>';
-										str +=	'<td style="text-align: center;" width="40"><img src="https://cdn-icons.flaticon.com/svg/3917/3917711.svg?token=exp=1670467359~hmac=b45251c2afca4a6751ba3fed9124eb31" width="20" height="20"></td>';
-										str +=	'<td width="150px; class="px-4">'+ r.nickName + '</td>';
-										str +=	'<td width="150px; class="px-4">'+ r.replyModifyDate + '</td>';
-										str +=	'<td width="850px;"></td>';
-										str +=	'<td>';
-										str +=	'<div class="dropdown">';
-										str +=	'<img class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" src="https://cdn-icons.flaticon.com/svg/3917/3917158.svg?token=exp=1670467948~hmac=2f18f7118b556af438bb1d4438649f4a" width="20" height="20">';
-										str +=	'<ul class="dropdown-menu" style="text-align: center;">';
-										
-										if('${ loginUser.memberId}'== r.memberId){	
-											str +=	'<li><a class="dropdown-item reReplyBtn">답글달기</a></li>';
-											str +=	'<li class="updateReBtn"><a class="dropdown-item">수정</a></li>';
-											str +=	'<li class="deleteReBtn"><a class="dropdown-item ">삭제</a><input type="hidden" class="replyNo" value="'+ r.replyNo +'"></li>';
-										}else{										
-											str +=	'<li><a class="dropdown-item" >답글달기</a></li>';
-											str +=	'<li><a class="dropdown-item" >신고</a></li>';
-										}
-											str +=	'</ul>';
-											str +=	'</div>';
-											str +=	'</td>';
-											str +=	'</tr>';
-											str +=	'<tr style="font-size: 20px;">';
-											str +=	'<td class="px-5 py-3 " colspan="5">';
-											str +=	'<div class="input-group replyContentArea" >';
-											str +=	'<textarea readonly style="width: 1000px; border: none; resize: none;">'+ r.replyContent + '</textarea>';
-											str +=	'<input type="hidden"  value="'+ r.replyNo + '">';
-											str +=	'</div>';
-											str +=	'</td>';
-											str +=	'</tr>';
-											str +=	'</table>';
-										
-											reDiv.innerHTML += str;
-									}
-			                     },
-			                     error: (data)=>{
-			                     	console.log(data);
-			                     }
-			            	});								
-					});
-					$(this).remove();
-				});
-			}
-			
-			
-			
-			
-			
-			
 		}
+		
+		
+		//댓글삭제
+		$(document).on('click', '.deleteReBtn', function(){
+			console.log("삭제");
+				$.ajax({
+					url: '${contextPath}/replyDelete.ma',
+					data: {rNo:this.parentNode.querySelector('input[type="hidden"]').value, bNo:${mkBoard.boardNo}},
+					success: (data) => {
+						this.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.remove();
+					},
+					error: (data) => {
+						console.log(data);
+					}
+				});
+		});
 			
+		//댓글수정
+		$(document).on('click', '.updateReBtn', function(){
+			console.log("수정");
+			const textArea = this.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.querySelector('textarea');
+			textArea.removeAttribute('readOnly');
+			textArea.focus();
+			textArea.parentNode.innerHTML += '<button type="button" class="btn btn-outline-primary btn-lg reUpdateSubmit" style="width: 100px;">등록</button><span>비밀댓글&nbsp;&nbsp;<input type="checkbox" class="replyUpateSecret" value="N"></span>';
+			
+			const btn = this.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.querySelector('button');
+			console.log(btn);
+			$(this).remove();
+			btn.addEventListener('click', function () {
+				if(this.parentNode.querySelector('input[type="checkbox"]').checked){
+					this.parentNode.querySelector('input[type="checkbox"]').value = 'Y';
+				}
+				
+				const replyNo =  this.parentNode.querySelector('input[type="hidden"]').value;
+				const replySecret = this.parentNode.querySelector('input[type="checkbox"]').value;
+				const replyContent = this.parentNode.querySelector('textarea').value;
+				
+				$.ajax({
+					url: '${contextPath}/replyUpdate.ma',
+					data: {replyNo:replyNo,replyContent:replyContent,replySecret:replySecret,boardNo:${mkBoard.boardNo}},
+					type: 'post',
+					success:(data)=>{
+						console.log(1234);
+						
+						const btnCreate = this.parentNode.parentNode.parentNode.parentNode.querySelector('.deleteReBtn');
+						$(btnCreate).prepend('<li class="updateReBtn"><a class="dropdown-item">수정</a></li>');
+
+						this.parentNode.querySelector('span').remove();
+						this.parentNode.querySelector('textarea').value = data.replyContent;
+						this.parentNode.querySelector('textarea').readOnly=true;
+						this.parentNode.querySelector('button').remove();
+						
+					},
+					error: (data)=>{
+						console.log(data);
+					}
+				});
+			});
+		});
+		
+		
+		$(document).on('click', ".reReplyBtn", function(){
+			this.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.append();
+			
+			
+			
+		});
+		
 			
 	</script>
 	

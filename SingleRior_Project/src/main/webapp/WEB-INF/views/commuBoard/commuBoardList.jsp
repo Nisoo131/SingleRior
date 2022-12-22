@@ -215,7 +215,7 @@
 	
 	<script>
 		$(function(){
-			$('#list1').addClass('list-click');
+			
 			$('.category').text('전체 게시글');
 			$('#list1').click(function(){
 				$(this).toggleClass('list-click');

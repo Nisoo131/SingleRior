@@ -331,5 +331,11 @@
 		where BOARD_NO=#{bNo} and MEMBER_ID=#{id}
 	</select>
 	
+	<select id="replyOneSelect" resultMap="replyResultSet"> 
+		select *
+		from reply
+		where REPLY_NO=#{replyNo} and REPLY_STATUS='Y'
+	</select>
+	
 	
 </mapper>
