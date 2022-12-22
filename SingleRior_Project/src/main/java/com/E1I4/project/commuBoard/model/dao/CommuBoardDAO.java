@@ -29,11 +29,6 @@ public class CommuBoardDAO {
 		return (ArrayList)sqlSession.selectList("commuMapper.selectCommuAllList", map, rowBounds);
 	}
 	
-	// 댓글 count 불러오기
-	public ArrayList<CommuBoard> replyCount(SqlSessionTemplate sqlSession, HashMap<String, Object> map) {
-		return (ArrayList)sqlSession.selectList("commuMapper.replyCount", map);
-	}	
-	
 	
 	/* 게시글 등록 (insert) */
 	public int insertCommuBoard(SqlSessionTemplate sqlSession, CommuBoard coBoard) {
@@ -96,9 +91,19 @@ public class CommuBoardDAO {
 		return sqlSession.insert("commuMapper.insertReply", r);
 	}
 	
+	// 댓글 count up
+	public int replyCountUp(SqlSessionTemplate sqlSession, int bNo) {
+		return sqlSession.update("commuMapper.replyCountUp", bNo);
+	}
+	
 	// 댓글 삭제 (delete)
 	public int deleteReply(SqlSessionTemplate sqlSession, int rNo) {
 		return sqlSession.update("commuMapper.deleteReply", rNo);
+	}
+	
+	// 댓글 count down
+	public int replyCountDown(SqlSessionTemplate sqlSession, int bNo) {
+		return sqlSession.update("commuMapper.replyCountDown", bNo);
 	}
 	
 	// 대댓글 불러오기
