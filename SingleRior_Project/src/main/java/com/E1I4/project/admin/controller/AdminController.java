@@ -23,6 +23,7 @@ import com.E1I4.project.common.Pagination;
 import com.E1I4.project.common.exception.AdminException;
 import com.E1I4.project.common.exception.ProductException;
 import com.E1I4.project.common.model.vo.Attachment;
+import com.E1I4.project.common.model.vo.Board;
 import com.E1I4.project.common.model.vo.Notice;
 import com.E1I4.project.common.model.vo.PageInfo;
 import com.E1I4.project.common.model.vo.Product;
@@ -645,6 +646,58 @@ public class AdminController {
 			throw new AdminException("Q&A 삭제 실패");
 		}
 	}
+	@RequestMapping("insertBanner.adm")
+	public String insertBanner() {
+		return "insertBanner";
+	}
+	
+	@RequestMapping("enrollBanner.adm")
+	public String enrollBanner(@RequestParam("file") ArrayList<MultipartFile> files, HttpServletRequest request){
+		
+		Board b =new Board();
+		
+		String id =((Member)request.getSession().getAttribute("loginUser")).getMemberId();
+		b.setWriter(id);
+		b.setBoardType(6);
+		System.out.println(files);
+		System.out.println(b);
+		
+		ArrayList<Attachment> list = new ArrayList<>();
+		
+		for(int i=0;i<files.size();i++) {
+			MultipartFile upload =files.get(i);
+			
+			if(!upload.getOriginalFilename().equals("")) {
+				String[] returnArr= saveFile(upload,request);
+				
+				if(returnArr[1]!=null) {
+					Attachment a = new Attachment();
+					
+					a.setImgOriginalName(upload.getOriginalFilename());
+					a.setImgRename(returnArr[1]);
+					a.setImgPath(returnArr[0]);
+					list.add(a);
+				}
+			}
+			
+		}
+		//배너는 썸네일 필요없음
+		
+		b.setBoardType(6);
+		for(int i=0;i<list.size();i++) {
+			Attachment a =list.get(i);
+			a.setLevel(2);//배너는 레벨을 2로 놓는다.
+		}
+		System.out.println(b);
+		System.out.println(list);
+		
+		
+		/*
+		 * int result1=aService.insertBoard(b); int result2=aService.insertAttm(list);
+		 */
+		return null;
+	}
+	
 	
 	@RequestMapping("orderList.adm")
 	public String orderList() {
@@ -669,10 +722,7 @@ public class AdminController {
 	public String managerBanner() {
 		return "manageBanner";
 	}
-	@RequestMapping("insertBanner.adm")
-	public String insertBanner() {
-		return "insertBanner";
-	}
+	
 	@RequestMapping("updateBanner.adm")
 	public String updateBanner() {
 		return "updateBanner";
