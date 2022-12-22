@@ -91,7 +91,11 @@ public class AdminServiceImpl implements AdminService {
 	public int deleteProduct(int productNo) {
 		return aDAO.deleteProduct(sqlSession,productNo);
 	}
-
+	@Override
+	public int successProduct(int productNo) {
+		return aDAO.successProduct(sqlSession,productNo);
+	}
+	
 	@Override
 	public int getListCount(int i) {
 		return aDAO.getListCount(sqlSession,i);
@@ -186,6 +190,8 @@ public class AdminServiceImpl implements AdminService {
 	public int deleteBannerAttm(String imgKey) {
 		return aDAO.deleteBannerAttm(sqlSession,imgKey);
 	}
+
+	
 
 
 

@@ -218,6 +218,14 @@
 		where product_no=#{productNo}
 	
 	</update>
+	<update id="successProduct">
+	
+		update product
+		set product_status='Y'
+		where product_no=#{productNo}
+	
+	</update>
+	
 	<insert id="enrollNotice">
 		insert all
 			into Board values(seq_bid.nextval,#{boardType},#{boardTitle},#{boardContent},sysdate,sysdate,default,default,#{boardWriter},default)

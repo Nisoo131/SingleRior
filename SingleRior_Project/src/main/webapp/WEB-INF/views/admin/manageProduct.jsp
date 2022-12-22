@@ -99,7 +99,9 @@
                                             <td>${ s.modifyDate }</td>
                                             <td>${ s.boardCount }</td>
                                             <td><button style="display:inline-block;" type="button"  class="btn btn-primary">수정</button>&nbsp;
-                                            <button style="display:inline-block;" type="button" class="btn btn-danger">판매중단</button></td>
+                                            <c:if test="${s.productStatus eq 'Y' }"><button style="display:inline-block;" type="button" class="btn btn-danger">판매중단</button></c:if>
+                                            <c:if test="${s.productStatus eq 'N' }"><button style="display:inline-block;" type="button" class="btn btn-success">판매실시</button></c:if>
+                                            </td>
                                         </tr>
                                         </c:forEach>
                                     </tbody>
@@ -136,10 +138,18 @@
         		}else{
         			alert('상품판매 중단을 취소합니다.');
         		}
-        		
-        		
-        		
-        	})
+        	});
+        	$(document).on("click",'.btn-success',function(){
+        		const productNo=$(this).parents('tr').children().eq(0).text();
+        		if(window.confirm("상품을 판매 처리 하시겠습니까?")){
+        			//판매 실시
+        			location.href='${contextPath}/successProduct.adm?productNo='+productNo;
+        			alert('상품판매 처리 하였습니다')
+        		}else{
+        			alert('상품판매를 취소합니다.');
+        		}
+        	});
+        	
         })
  		       
         </script>

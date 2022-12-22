@@ -73,6 +73,12 @@ public class AdminDAO {
 		return sqlSession.update("adminMapper.deleteProduct",productNo);
 	}
 
+
+	public int successProduct(SqlSessionTemplate sqlSession, int productNo) {
+		return sqlSession.update("adminMapper.successProduct",productNo);
+	}
+	
+	
 	public int getListCount(SqlSessionTemplate sqlSession, int i) {
 		return sqlSession.selectOne("adminMapper.listCount",i);
 	}
@@ -166,6 +172,6 @@ public class AdminDAO {
 	public int deleteBannerAttm(SqlSessionTemplate sqlSession, String imgKey) {
 		return sqlSession.update("adminMapper.deleteBannerAttm",imgKey);
 	}
-	
+
 
 }

@@ -463,6 +463,19 @@ public class AdminController {
 			throw new AdminException("상품정보 수정실패");
 		}
 	}
+	@RequestMapping("successProduct.adm")
+	public String successProduct(@RequestParam("productNo") int productNo) {
+		int result=aService.successProduct(productNo);
+
+		if(result>0) {
+			return "redirect:manageProduct.adm";
+		}else {
+			throw new AdminException("상품정보 수정 실패");
+		}
+		
+	}
+	
+	
 	@RequestMapping("detailNotice.adm")
 	public ModelAndView detailNotice(@RequestParam("bNo") int bNo,@RequestParam("page") int page,@RequestParam("boardWriter") String boardWriter,HttpSession session,ModelAndView mv) {
 		Member m =((Member)session.getAttribute("loginUser"));
@@ -734,6 +747,12 @@ public class AdminController {
 			throw new AdminException("배너 삭제 실패");
 		}
 	}
+
+	@RequestMapping("manageReport.adm")
+	public String manageReport(Model model) {
+		return "manageReport";
+	}
+	
 	
 	
 	
@@ -752,10 +771,7 @@ public class AdminController {
 	}
 	
 	
-	@RequestMapping("manageReport.adm")
-	public String manageReport() {
-		return "manageReport";
-	}
+	
 	
 	
 	@RequestMapping("updateBanner.adm")

@@ -48,18 +48,18 @@
             <div id="layoutSidenav_content">
                 <main>
                      <div class="container-fluid px-4">
-                        <h1 class="mt-4">싱글리어 등록된 상품 목록</h1>
+                        <h1 class="mt-4">신고 게시글 목록</h1>
                         <div class="card mb-4">
                             <div class="card-header">
                                 <i class="fas fa-table me-1"></i>
-                                상품 정보
+                                신고 목록
                             </div>
                             <div class="card-body">
                                 <table id="datatablesSimple">
                                     <thead>
                                         <tr>
                                             <th>신고번호</th>
-                                            <th>게시글 카테고리</th>
+                                            <th>게시글 종류</th>
                                             <th>신고 카테고리 </th>
                                             <th>신고 사유</th>
                                             <th>신고 일시</th>
@@ -70,7 +70,7 @@
                                     <tfoot>
                                         <tr>
                                           	<th>신고번호</th>
-                                            <th>게시글 카테고리</th>
+                                            <th>게시글 종류</th>
                                             <th>신고 카테고리 </th>
                                             <th>신고 사유</th>
                                             <th>신고 일시</th>
@@ -82,7 +82,7 @@
                                     <tbody>
                                         <tr>
                                             <td>001</td>
-                                            <td>싱글벙글</td>
+                                            <td>게시판</td>
                                             <td>욕설/비방</td>
                                             <td>게시글에 욕설이 있습니다.</td>
                                             <td>2022.12.13</td>
@@ -91,7 +91,7 @@
                                         </tr>
 										<tr>
                                             <td>002</td>
-                                            <td>씽씽마켓</td>
+                                            <td>댓글</td>
                                             <td>욕설/비방</td>
                                             <td>게시글에 욕설이 있습니다.</td>
                                             <td>2022.12.13</td>
@@ -100,7 +100,7 @@
                                         </tr>
                                         <tr>
                                             <td>003</td>
-                                            <td>상품 리뷰</td>
+                                            <td>대댓글</td>
                                             <td>욕설/비방</td>
                                             <td>게시글에 욕설이 있습니다.</td>
                                             <td>2022.12.13</td>
@@ -109,7 +109,7 @@
                                         </tr>
                                         <tr>
                                             <td>004</td>
-                                            <td>싱글벙글</td>
+                                            <td>게시판</td>
                                             <td>허위광고</td>
                                             <td>허위광고에 속아 돈을 날렸습니다.</td>
                                             <td>2022.12.13</td>
@@ -117,8 +117,8 @@
                                             <td><button style="display:inline-block;" type="button" class="btn btn-primary">보기</button>&nbsp;<button style="display:inline-block;" type="button" class="btn btn-danger">삭제</button></td>
                                         </tr>
                                         <tr>
-                                            <td>001</td>
-                                            <td>싱글벙글</td>
+                                            <td>005</td>
+                                            <td>게시글</td>
                                             <td>욕설/비방</td>
                                             <td>게시글에 욕설이 있습니다.</td>
                                             <td>2022.12.13</td>

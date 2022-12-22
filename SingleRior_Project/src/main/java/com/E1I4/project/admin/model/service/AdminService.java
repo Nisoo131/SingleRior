@@ -75,6 +75,8 @@ public interface AdminService {
 
 	int deleteBannerAttm(String imgKey);
 
+	int successProduct(int productNo);
+
 
 
 
