@@ -16,6 +16,12 @@
         <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
         
         <style>
+        	#btnGroup{
+        		display: flex;
+				flex-direction: row;
+				justify-content: center;
+				align-items: center;
+        	}
         	@font-face {
 				font-family: 'BMJUA';
 				src:
@@ -49,6 +55,20 @@
                 <main>
                      <div class="container-fluid px-4">
                         <h1 class="mt-4">신고 게시글 목록</h1>
+                        <div id="btnGroup" class="btn-group" role="group" aria-label="Basic radio toggle button group">
+								<input type="radio" class="btn-check" name="btnradio"
+									id="btnradio1" autocomplete="off" checked> <label
+									class="btn btn-outline-primary" for="btnradio1">게시글 신고목록</label>
+
+								<input type="radio" class="btn-check" name="btnradio"
+									id="btnradio2" autocomplete="off"> <label
+									class="btn btn-outline-primary" for="btnradio2">댓글 신고 목록</label>
+
+								<input type="radio" class="btn-check" name="btnradio"
+									id="btnradio3" autocomplete="off"> <label
+									class="btn btn-outline-primary" for="btnradio3">대댓글 신고 목록</label>
+							</div>
+							<br><br>
                         <div class="card mb-4">
                             <div class="card-header">
                                 <i class="fas fa-table me-1"></i>
@@ -56,7 +76,8 @@
                             </div>
                             <div class="card-body">
                                 <table id="datatablesSimple">
-                                    <thead>
+							
+							<thead>
                                         <tr>
                                             <th>신고번호</th>
                                             <th>게시글 종류</th>
@@ -80,52 +101,18 @@
                                         </tr>
                                     </tfoot>
                                     <tbody>
+                                       
+                                       <c:forEach items="${rList}" var="r">
                                         <tr>
-                                            <td>001</td>
-                                            <td>게시판</td>
-                                            <td>욕설/비방</td>
-                                            <td>게시글에 욕설이 있습니다.</td>
-                                            <td>2022.12.13</td>
-                                            <td>user01</td>
-                                            <td><button style="display:inline-block;" type="button" class="btn btn-primary">보기</button>&nbsp;<button style="display:inline-block;" type="button" class="btn btn-danger">삭제</button></td>
+                                            <td>${r.reportNo }</td>
+                                            <td><c:if test="${r.boardType eq 2}">싱글벙글</c:if><c:if test="${r.boardType eq 3}">씽씽마켓</c:if></td>
+                                            <td>${r.reportType }</td>
+                                            <td>${r.boardTitle }</td>
+                                            <td>${r.createDate }</td>
+                                            <td>${r.memberId }</td>
+                                            <td><button style="display:inline-block;" type="button" class="btn btn-primary">신고글 보기</button>&nbsp;<button style="display:inline-block;" type="button" class="btn btn-warning">신고글 취소</button>&nbsp;<button style="display:inline-block;" type="button" class="btn btn-danger">신고글 삭제</button></td>
                                         </tr>
-										<tr>
-                                            <td>002</td>
-                                            <td>댓글</td>
-                                            <td>욕설/비방</td>
-                                            <td>게시글에 욕설이 있습니다.</td>
-                                            <td>2022.12.13</td>
-                                            <td>user01</td>
-                                            <td><button style="display:inline-block;" type="button" class="btn btn-primary">보기</button>&nbsp;<button style="display:inline-block;" type="button" class="btn btn-danger">삭제</button></td>
-                                        </tr>
-                                        <tr>
-                                            <td>003</td>
-                                            <td>대댓글</td>
-                                            <td>욕설/비방</td>
-                                            <td>게시글에 욕설이 있습니다.</td>
-                                            <td>2022.12.13</td>
-                                            <td>user01</td>
-                                            <td><button style="display:inline-block;" type="button" class="btn btn-primary">보기</button>&nbsp;<button style="display:inline-block;" type="button" class="btn btn-danger">삭제</button></td>
-                                        </tr>
-                                        <tr>
-                                            <td>004</td>
-                                            <td>게시판</td>
-                                            <td>허위광고</td>
-                                            <td>허위광고에 속아 돈을 날렸습니다.</td>
-                                            <td>2022.12.13</td>
-                                            <td>user01</td>
-                                            <td><button style="display:inline-block;" type="button" class="btn btn-primary">보기</button>&nbsp;<button style="display:inline-block;" type="button" class="btn btn-danger">삭제</button></td>
-                                        </tr>
-                                        <tr>
-                                            <td>005</td>
-                                            <td>게시글</td>
-                                            <td>욕설/비방</td>
-                                            <td>게시글에 욕설이 있습니다.</td>
-                                            <td>2022.12.13</td>
-                                            <td>user01</td>
-                                            <td><button style="display:inline-block;" type="button" class="btn btn-primary">보기</button>&nbsp;<button style="display:inline-block;" type="button" class="btn btn-danger">삭제</button></td>
-                                        </tr>
-                                                                                
+                                       </c:forEach>                                         
                                         
                                     </tbody>
                                 </table>

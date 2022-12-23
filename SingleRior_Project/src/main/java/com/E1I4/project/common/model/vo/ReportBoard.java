@@ -1,6 +1,5 @@
 package com.E1I4.project.common.model.vo;
 
-
 import java.sql.Date;
 
 import lombok.AllArgsConstructor;
@@ -15,12 +14,16 @@ import lombok.ToString;
 @Setter
 @ToString
 
-public class Report {
-	
+
+public class ReportBoard {
+
 	private int reportNo;
-	private int boardNo;
+	private int contentNo;
 	private String reportType;
 	private String reportCate;
 	private String memberId;
 	private Date createDate;
+	private String boardTitle;
+	private String boardContent;
+	
 }

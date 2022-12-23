@@ -24,6 +24,7 @@
 		<typeAlias type="com.E1I4.project.common.model.vo.Qna" alias="Qna"/>
 		<typeAlias type="com.E1I4.project.common.model.vo.Report" alias="Report"/>
 		<typeAlias type="com.E1I4.project.common.model.vo.Cart" alias="Cart"/>
+		<typeAlias type="com.E1I4.project.common.model.vo.ReportBoard" alias="ReportBoard"/>
 
 	</typeAliases>
 

@@ -110,7 +110,18 @@
 		<result column="BOARD_COUNT" property="count"/>
 		<result column="QNA_CATEGORY" property="qnaCategory"/>
 	</resultMap>
-	
+	<resultMap type="ReportBoard" id="reportBoardResultSet">
+		<id column="REPORT_NO" property="reportNo"/>
+		<result column="CONTENT_NO" property="contentNo"/>
+		<result column="REPORT_TYPE" property="reportType"/>
+		<result column="REPORT_CATE" property="reportCate"/>
+		<result column="BOARD_TYPE" property="boardType"/>
+		<result column="MEMBER_ID" property="memberId"/>
+		<result column="CREATE_DATE" property="createDate"/>
+		<result column="BOARD_TITLE" property="boardTitle"/>
+		<result column="BOARD_CONTENT" property="boardContent"/>
+		<result column="REPLY_CONTENT" property="replyContent"/>
+	</resultMap>
 
 	<insert id="insertProduct">
 		insert all
@@ -353,9 +364,15 @@
 	where board_no=#{boardNo}
 	</update>
 	<update id="deleteBannerAttm">
-	update img_repository
-	set img_status='N'
-	where img_key=#{imgKey}
+		update img_repository
+		set img_status='N'
+		where img_key=#{imgKey}
 	</update>	
+	
+	
+	
+	
+	
+	
 	
 </mapper>

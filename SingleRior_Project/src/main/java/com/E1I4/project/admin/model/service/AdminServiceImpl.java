@@ -15,8 +15,8 @@ import com.E1I4.project.common.model.vo.PageInfo;
 import com.E1I4.project.common.model.vo.Product;
 import com.E1I4.project.common.model.vo.ProductList;
 import com.E1I4.project.common.model.vo.Qna;
+import com.E1I4.project.common.model.vo.Report;
 import com.E1I4.project.member.model.vo.Member;
-import com.E1I4.project.storeBoard.model.vo.StoreBoard;
 
 @Service("aService")
 public class AdminServiceImpl implements AdminService {
@@ -189,6 +189,11 @@ public class AdminServiceImpl implements AdminService {
 	@Override
 	public int deleteBannerAttm(String imgKey) {
 		return aDAO.deleteBannerAttm(sqlSession,imgKey);
+	}
+
+	@Override
+	public ArrayList<Report> selectReportList() {
+		return aDAO.selectReportList(sqlSession);
 	}
 
 	

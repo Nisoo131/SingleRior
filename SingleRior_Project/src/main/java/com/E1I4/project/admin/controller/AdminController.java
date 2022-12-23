@@ -29,6 +29,8 @@ import com.E1I4.project.common.model.vo.PageInfo;
 import com.E1I4.project.common.model.vo.Product;
 import com.E1I4.project.common.model.vo.ProductList;
 import com.E1I4.project.common.model.vo.Qna;
+import com.E1I4.project.common.model.vo.Reply;
+import com.E1I4.project.common.model.vo.Report;
 import com.E1I4.project.member.model.service.MemberService;
 import com.E1I4.project.member.model.vo.Member;
 @Controller
@@ -750,7 +752,9 @@ public class AdminController {
 
 	@RequestMapping("manageReport.adm")
 	public String manageReport(Model model) {
-		
+		ArrayList<Report> rList = aService.selectReportList();
+		System.out.println(rList);
+		model.addAttribute("rList",rList);
 		
 		return "manageReport";
 	}
