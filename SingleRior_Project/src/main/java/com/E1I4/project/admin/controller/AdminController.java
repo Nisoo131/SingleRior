@@ -750,6 +750,8 @@ public class AdminController {
 
 	@RequestMapping("manageReport.adm")
 	public String manageReport(Model model) {
+		
+		
 		return "manageReport";
 	}
 	
