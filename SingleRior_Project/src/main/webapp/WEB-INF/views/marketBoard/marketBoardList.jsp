@@ -208,8 +208,8 @@ li a:hover {
 				<c:if test="${ mkA.imgOriginalName != '' }">
 					<img src="resources/uploadFiles/${ mkA.imgRename }" class="card-img-top" height="225">
 				</c:if>		
-				<c:if test="${ mkA.imgOriginalName == '' }">
-				<img class="bd-placeholder-img card-img-top" width="100%" height="225"  src="https://ifh.cc/g/yX3tCA.png">
+				<c:if test="${ mkA.imgOriginalName == ' '}">
+				<img class="bd-placeholder-img card-img-top" width="100%" height="225"  src="resources/uploadFiles/SingleRior_logo.png" >
 				</c:if>
 			</c:if>
 			</c:forEach>
