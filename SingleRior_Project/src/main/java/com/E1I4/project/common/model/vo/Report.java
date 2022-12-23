@@ -16,7 +16,7 @@ import lombok.ToString;
 @ToString
 public class Report {
 	private int reportNo;
-	private int boardNo;
+	private int contentNo;
 	private String reportType;
 	private String reportCate;
 	private String memberId;

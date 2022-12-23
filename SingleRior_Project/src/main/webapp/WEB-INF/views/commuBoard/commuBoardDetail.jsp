@@ -159,7 +159,7 @@
 								<table class="table" id="replyUpdateArea">
 									<tr>
 										<td style="text-align: center;" width="40"><img src="${ contextPath }/resources/image/user.png" width="20" height="20"></td>
-										<td class="px-4">${ r.nickName }</td>
+										<td class="px-4 reNickName">${ r.nickName }</td>
 										<td class="px-4">${ r.replyModifyDate }</td>
 										<td width="850"></td>
 										<td>
@@ -167,13 +167,17 @@
 												<img class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" src="${ contextPath }/resources/image/menu-dots.png" width="20" height="20">
 												<ul class="dropdown-menu" style="text-align: center;">
 													<c:if test="${ loginUser.memberId eq r.memberId }">
-														<li><a class="dropdown-item reReplyBtn">답글달기</a></li>
-														<li><a class="dropdown-item replyUpdate">수정</a></li>
-														<li><a class="dropdown-item replyDelete">삭제</a><input type="hidden" id="replyNo" value="${ r.replyNo }"></li>
+														<li class="reReplyBtn"><a class="dropdown-item">답글달기</a></li>
+														<li class="replyUpdate"><a class="dropdown-item">수정</a></li>
+														<li class="replyDelete"><a class="dropdown-item">삭제</a><input type="hidden" class="" value="${ r.replyNo }"></li>
 													</c:if>
-													<c:if test="${ !(loginUser.memberId eq r.memberId) }">
-														<li><a class="dropdown-item reReplyBtn">답글달기</a></li>
-														<li><a class="dropdown-item replyReport">신고</a></li>
+													<c:if test="${ !(loginUser.memberId eq r.memberId) && !empty loginUser }">
+														<li class="reReplyBtn"><a class="dropdown-item">답글달기</a></li>
+														<li class="replyReport"><a class="dropdown-item"><input type="hidden" class="replyNo" value="${ r.replyNo }">신고</a></li>
+													</c:if>
+													<c:if test="${ empty loginUser }">
+														<li><a class="dropdown-item reReplyBtn" data-bs-toggle="modal" data-bs-target="#loginForm">답글달기</a></li>
+														<li><a class="dropdown-item replyReport" data-bs-toggle="modal" data-bs-target="#loginForm">신고</a></li>
 													</c:if>
 												</ul>
 											</div>
@@ -181,8 +185,9 @@
 									</tr>
 									<tr style="font-size: 20px;">
 										<td class="px-5 py-3" colspan="5">
-											<div class="input-group replyContentArea">
-												<textarea id="replyContentArea" style="width: 100%; border: none; resize: none;" readonly>${ r.replyContent }</textarea>
+											<div class="input-group">
+												<textarea style="width: 100%; border: none; resize: none;" readonly>${ r.replyContent }</textarea>
+												<input type="hidden" value="${ r.replyNo }">
 											</div>
 										</td>
 									</tr>
@@ -295,8 +300,8 @@
 	  	</div>
 	</div>
 	
-	<!-- 글 신고 모달 -->
-	<div class="modal fade" id="boardReport" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<!-- 신고 모달 (default: B) -->
+	<div class="modal fade" id="reportModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -305,15 +310,15 @@
 				</div>
 				<div class="modal-body">
 					<h3>신고 사유를 선택해주세요!</h3>
-					작성자 : ${ coBoard.nickName }
+					<span id="reportNickName">작성자 : ${ coBoard.nickName } </span>
 					<br>
-					글제목 : ${ coBoard.boardTitle }
+					<span id="reportContent">글제목 : ${ coBoard.boardTitle } </span>
 					<br><br>
 					<form action="${ contextPath }/commuReport.co">
 						<div class="form-check">
 							<input name="reportType" class="form-check-input" type="checkbox" value="홍보도배">
-							<input type="hidden" name="boardNo" value="${ coBoard.boardNo }">
-							<input type="hidden" name="reportCate" value="B">
+							<input type="hidden" id="contentNo" name="contentNo" value="${ coBoard.boardNo }">
+							<input type="hidden" id="reportCate" name="reportCate" value="B">
 							<label class="form-check-label">홍보/도배글이에요</label>
 						</div>
 						<div class="form-check">
@@ -329,49 +334,11 @@
 							<label class="form-check-label">욕설,혐오,차별적표현이에요</label>
 						</div>
 						<div class="modal-footer">
-							<button class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+							<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
 							<button class="btn btn-primary">신고하기</button>
+							<input type="hidden" name="boardNo" value="${ coBoard.boardNo }">
 						</div>
 					</form>
-				</div>
-			</div>
-		</div>
-	</div>
-	
-	<!-- 댓글 신고 모달 -->
-	<div class="modal fade" id="replyReport" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h1 class="modal-title fs-5" id="exampleModalLabel"><img src="https://cdn-icons-png.flaticon.com/512/2689/2689919.png" style="width: 40px; height: 40px;">REPORT</h1>
-					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-				</div>
-				<div class="modal-body">
-					<h3>신고 사유를 선택해주세요!</h3>
-					작성자 : ${ r.nickName }
-					<br>
-					댓글 내용 : ${ r.replyContent }
-					<br><br>
-					<div class="form-check">
-						<input class="form-check-input" type="checkbox" value="">
-						<label class="form-check-label">홍보/도배글이예요</label>
-					</div>
-					<div class="form-check">
-						<input class="form-check-input" type="checkbox" value="">
-						<label class="form-check-label">청소년에게 유해한 내용이예요</label>
-					</div>
-					<div class="form-check">
-						<input class="form-check-input" type="checkbox" value="">
-						<label class="form-check-label">불법이예요</label>
-					</div>
-					<div class="form-check">
-						<input class="form-check-input" type="checkbox" value="">
-						<label class="form-check-label">욕설,혐오,차별적표현이에요</label>
-					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
-						<button type="button" class="btn btn-primary">신고하기</button>
-					</div>
 				</div>
 			</div>
 		</div>
@@ -661,14 +628,22 @@
 				form.submit();
 			});
 			
-			// 신고 여부 확인
+			// 글 신고 여부 확인 + 신고 모달 출력
 			document.getElementById("reportBtn").addEventListener('click', ()=>{
-				console.log("ㅎㅇㅎㅇ");
-				if( !(${selectReport} eq null) ){
+				if( ${selectReport != null} ){
 					alert("이미 신고하셨습니다.");
 				}else{
-					$('#boardReport').modal('show');	
+					$('#reportModal').modal('show');	
 				}
+			});
+			
+			// 댓글 신고 시 댓글 신고 여부 확인 + 신고 모달 내용 변경 (R)
+			$(document).on('click', ".replyReport", function(){
+				$("#reportContent").text("댓글내용 : " + this.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.querySelector('textarea').value);
+				$("#reportNickName").text("작성자 : " + this.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.querySelector('.reNickName').innerText);
+				$("#contentNo").val(this.parentNode.querySelector('.replyNo').value);
+				$("#reportCate").val('R');
+				$('#reportModal').modal('show');	
 			});
 			
 		}

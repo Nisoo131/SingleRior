@@ -16,6 +16,7 @@
 		<result column="SYMPT_COUNT" property="symptCount"/>
 		<result column="COMMU_TYPE" property="commuType"/>
 		<result column="REPLY_COUNT" property="replyCount"/>
+		<result column="REPORT_STATUS" property="reportStatus"/>
 	</resultMap>
 	
 	<resultMap type="Attachment" id="attachmentResultSet">
@@ -63,11 +64,12 @@
 	
 	<resultMap type="Report" id="reportResultSet">
 		<id column="REPORT_NO" property="reportNo"/>
-		<result column="BOARD_NO" property="boardNo"/>
+		<result column="CONTENT_NO" property="contentNo"/>
 		<result column="REPORT_TYPE" property="reportType"/>
 		<result column="REPORT_CATE" property="reportCate"/>
 		<result column="MEMBER_ID" property="memberId"/>
 		<result column="CREATE_DATE" property="createDate"/>
+		<result column="BOARD_NO" property="boardNo"/>
 	</resultMap>
 	
 	<select id="getCommuListCount" resultType="_int">
@@ -121,9 +123,9 @@
 	<insert id="insertCommuBoard">
 		insert all
 		into board
-		values(SEQ_BID.nextval, #{boardType}, #{boardTitle}, #{boardContent}, sysdate, sysdate, default, default, #{writer}, default)
+		values(SEQ_BID.nextval, #{boardType}, #{boardTitle}, #{boardContent}, sysdate, sysdate, default, default, #{writer}, default, default)
 		into community
-		values(SEQ_BID.currval, #{symptCount}, #{commuType})
+		values(SEQ_BID.currval, #{symptCount}, #{commuType}, default)
 		select * from dual
 	</insert>
 	
@@ -212,7 +214,7 @@
 	<!-- 댓글 등록 (insert) -->
 	<insert id="insertReply">
 		insert into reply
-		values(seq_rid.nextval, #{replyContent}, sysdate, sysdate, #{replySecret}, default, #{memberId}, #{boardNo})
+		values(seq_rid.nextval, #{replyContent}, sysdate, sysdate, #{replySecret}, default, #{memberId}, #{boardNo}, default)
 	</insert>
 	
 	<!-- 댓글 count up -->
@@ -297,14 +299,14 @@
 	<!-- 게시글 신고 (report) -->
 	<insert id="commuReport">
 		insert into REPORT
-		values(SEQ_RPID.nextval, #{reportType}, #{boardNo}, #{reportCate}, sysdate, #{memberId})
+		values(SEQ_RPID.nextval, #{reportType}, #{contentNo}, #{reportCate}, sysdate, #{memberId})
 	</insert>
 	
 	<!-- 신고여부 확인 -->
 	<select id="selectReport" resultMap="reportResultSet"> 
 		select *
 		from report
-		where BOARD_NO=#{bNo} and MEMBER_ID=#{id}
+		where CONTENT_NO=#{cNo} and MEMBER_ID=#{id} and REPORT_CATE=#{cate}
 	</select>
 
 </mapper>

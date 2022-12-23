@@ -29,4 +29,5 @@ public class CommuBoard {
 	private int commuType;
 	private int commuArray;
 	private int replyCount;
+	private String reportStatus;
 }
