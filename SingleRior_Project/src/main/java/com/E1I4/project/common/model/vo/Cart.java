@@ -25,4 +25,5 @@ public class Cart {
 	private String brand;
 	private String imgRename;
 	private String boardTitle;
+	private int boardNo;
 }

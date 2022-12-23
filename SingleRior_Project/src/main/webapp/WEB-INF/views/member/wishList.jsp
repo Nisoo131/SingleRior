@@ -182,11 +182,13 @@
 				if($(this).is(":checked")){
 					const div = this.parentNode.childNodes[3];
 					console.log(div);
-					div.style.backgroundColor='#CCCCCC';
+					div.style.backgroundColor='#C0C0C0';
+					div.style.opacity = '0.8';
 				}else{
 					const div = this.parentNode.childNodes[3];
 // 					console.log(div);
 					div.style.backgroundColor="";
+					div.style.opacity="1";
 				}
 			})
 			
