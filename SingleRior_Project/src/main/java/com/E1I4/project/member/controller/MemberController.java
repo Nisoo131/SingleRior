@@ -469,7 +469,10 @@ public class MemberController {
 			
 			double dc = (discount/100);
 			double price = oriPrice * (1-dc);
-			cartList.get(i).setLastPrice((int)price);
+			int q = cartList.get(i).getQuantity();
+			System.out.println(q);
+			int p = (int)price*q;
+			cartList.get(i).setLastPrice(p);
 			
 		}
 //		System.out.println(cartList);
@@ -481,6 +484,15 @@ public class MemberController {
 		return "myCart";
 		
 	}
+	
+	@RequestMapping("deleteCart.me")
+	public String deleteCart(@RequestParam(value="cartNo", required=false) String cartNo) {
+//		System.out.println(cartNo);
+		
+		int result = mService.deleteCart(cartNo);
+			return "redirect:myCart.me";
+	}
+	
 	@RequestMapping("serviceCenter.me")
 	public String serviceCenter(@RequestParam(value="category", required=false) String category,Model model) {
 		

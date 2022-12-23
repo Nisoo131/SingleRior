@@ -304,7 +304,7 @@
 		<result column="INQUIRY_CONTENT" property="inquiryContent"/>
 		<result column="INQUIRY_DATE" property="inquiryDate"/>
 		<result column="PRODUCT_NO" property="productNo"/>
-		<result column="USER_ID" property="memberId"/>
+		<result column="MEMBER_ID" property="memberId"/>
 		<result column="INQUIRY_STATUS" property="inquiryStatus"/>
 		<result column="ADMIN_STATUS" property="adminStatus"/>
 		<result column="INQUIRY_ANSWER" property="inquiryAnswer"/>
@@ -313,7 +313,7 @@
 	<select id="getMyAskListCount" resultType="_int">
 		select count(*)
 		from product_inquiry
-		where inquiry_status = 'Y' and user_id = #{memberId}
+		where inquiry_status = 'Y' and member_id = #{memberId}
 		<if test="status == 'yet'">
 			 and admin_status = 'N'
 		</if>
@@ -325,7 +325,7 @@
 	<select id="selectMyAskList" resultMap="productInquiryResultSet">
 		select *
 		from product_inquiry
-		where inquiry_status = 'Y' and user_id = #{memberId}
+		where inquiry_status = 'Y' and member_id = #{memberId}
 		<if test="status == 'yet'">
 			 and admin_status = 'N'
 		</if>
@@ -483,6 +483,7 @@
 		<result column="BRAND" property="brand"/>
 		<result column="IMG_SERVER_NAME" property="imgRename"/>
 		<result column="BOARD_TITLE" property="boardTitle"/>
+		<result column="BOARD_NO" property="boardNo"/>
 	</resultMap>
 	
 	<select id="selectCartList" resultMap="cartResultSet">
@@ -501,4 +502,9 @@
                 where product_no = #{productNo}))FROM DUAL) 
             and img_level =0
 	</select>
+	
+	<delete id="deleteCart">
+		delete from cart
+		where cart_no = #{cartNo}
+	</delete>
 </mapper>

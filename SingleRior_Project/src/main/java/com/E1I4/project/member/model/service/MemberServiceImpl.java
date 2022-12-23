@@ -214,6 +214,11 @@ public class MemberServiceImpl implements MemberService {
 		return  mDAO.selectCartImg(sqlSession,productNo);
 	}
 
+	@Override
+	public int deleteCart(String cartNo) {
+		return mDAO.deleteCart(sqlSession,cartNo);
+	}
+
 
 
 

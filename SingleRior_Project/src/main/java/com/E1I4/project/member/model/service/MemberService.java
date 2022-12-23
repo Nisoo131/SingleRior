@@ -85,6 +85,8 @@ public interface MemberService {
 
 	String selectCartImg(int productNo);
 
+	int deleteCart(String cartNo);
+
 
 
 }

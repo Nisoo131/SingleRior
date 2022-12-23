@@ -173,4 +173,8 @@ public class MemberDAO {
 		return sqlSession.selectOne("memberMapper.selectCartImg", productNo);
 	}
 
+	public int deleteCart(SqlSessionTemplate sqlSession, String cartNo) {
+		return sqlSession.delete("memberMapper.deleteCart", cartNo);
+	}
+
 }
