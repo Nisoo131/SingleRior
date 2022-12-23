@@ -531,15 +531,15 @@
 		$(document).on('click', '.updateReBtn', function(){
 			console.log("수정");
 			const textArea = this.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.querySelector('textarea');
-			console.log("DDD" +textArea.value);
-			textArea.value = textArea.value;
+			
+			
 			textArea.removeAttribute('readOnly');
 			textArea.focus();
 			textArea.parentNode.innerHTML += '<button type="button" class="btn btn-outline-primary btn-lg reUpdateSubmit" style="width: 100px;">등록</button><span>비밀댓글&nbsp;&nbsp;<input type="checkbox" class="replyUpateSecret" value="N"></span>';
 			
 			const btn = this.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.querySelector('button');
 			const $upBtn = $(this);
-			let rContent = null;
+			
 			$upBtn.css('display', 'none');
 			
 			
@@ -559,14 +559,10 @@
 					success:(data)=>{
 						
 						
-// 						const btnCreate = this.parentNode.parentNode.parentNode.parentNode.querySelector('.deleteReBtn');
-// 						$(btnCreate).prepend('<li class="updateReBtn"><a class="dropdown-item">수정</a></li>');
 						$upBtn.css('display', 'block');
 
 						this.parentNode.querySelector('span').remove();
-						console.log("전"+this.parentNode.querySelector('textarea').value);
 						this.parentNode.querySelector('textarea').value = data.replyContent;
-						console.log(this.parentNode.querySelector('textarea').value);
 						this.parentNode.querySelector('textarea').readOnly=true;
 						this.parentNode.querySelector('button').remove();
 						

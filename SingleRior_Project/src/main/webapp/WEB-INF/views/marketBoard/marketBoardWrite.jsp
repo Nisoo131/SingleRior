@@ -65,9 +65,10 @@
 						</div>
 						
 						<div id="fileArea">
-							<div class="mb-3">
-								<button type="button" class="btn" id="addFile"> <img src="https://cdn-icons-png.flaticon.com/512/4148/4148851.png" style="width: 40px; height: 40px;"> </button>
-								<input type="file" class="form-control" name="file"><button type="button" class="btn btn-outline-dark">삭제</button>
+						<button type="button" class="btn" id="addFile"><img src="https://cdn-icons-png.flaticon.com/512/4148/4148851.png" style="width: 40px; height: 40px;"> </button>
+							<div class="mb-3 input-group">
+								<input type="file" class="form-control" name="file">
+								<button type="button" class="btn btn-outline-dark deleteFile" >삭제</button>
 							</div>
 						</div>
 						<br><br><br><br><br>
@@ -92,7 +93,7 @@
 			document.getElementById('addFile').addEventListener('click',()=>{
 				const newDiv = document.createElement('div');
 				newDiv.classList.add('mb-3');
-				newDiv.innerHTML = '<input type="file" class="form-control" name="file">';
+				newDiv.innerHTML = '<div class="mb-3 input-group"><input type="file" class="form-control" name="file"><button type="button" class="btn btn-outline-dark deleteFile" >삭제</button></div>';
 				
 				fileArea.append(newDiv);
 			});
@@ -103,7 +104,11 @@
 			
 		}
 		
-		
+		$(document).on('click', '.deleteFile', function(){
+				
+					$(this).parent().remove();
+				
+			});
 		
 	</script>
 </body>
