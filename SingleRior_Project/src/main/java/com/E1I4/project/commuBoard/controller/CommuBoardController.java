@@ -488,7 +488,7 @@ public class CommuBoardController {
 	
 	/* 게시글 신고 (report) */
 	@RequestMapping("commuReport.co")
-	public String commuReport(@RequestParam("boardNo") int bNo, @ModelAttribute Report report, HttpSession session, Model model) {
+	public String commuReport(@RequestParam("boardNo") int bNo,@RequestParam("contentNo") int cNo, @ModelAttribute Report report, HttpSession session, Model model) {
 		String id = ((Member)session.getAttribute("loginUser")).getMemberId();
 		String writer = ((Member)session.getAttribute("loginUser")).getNickName();
 		
@@ -496,13 +496,15 @@ public class CommuBoardController {
 	
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("id", id);
-		map.put("bNo", bNo);
+		map.put("cNo", cNo);
+		map.put("cate", report.getReportCate());
 		
 		int result = cService.commuReport(report);
 		
 		Report selectReport = cService.selectReport(map);
-		System.out.println(selectReport);
+		
 		if(result > 0) {
+			model.addAttribute("id", id);
 			model.addAttribute("bNo", bNo);
 			model.addAttribute("selectReport", selectReport);
 			model.addAttribute("writer", writer);
