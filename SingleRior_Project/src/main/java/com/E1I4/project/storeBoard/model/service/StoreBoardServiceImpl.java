@@ -1,6 +1,7 @@
 package com.E1I4.project.storeBoard.model.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.E1I4.project.common.model.vo.Attachment;
 import com.E1I4.project.common.model.vo.PageInfo;
+import com.E1I4.project.common.model.vo.ProductInquiry;
 import com.E1I4.project.common.model.vo.WishList;
 import com.E1I4.project.member.model.vo.Member;
 import com.E1I4.project.storeBoard.model.dao.StoreBoardDAO;
@@ -44,13 +46,13 @@ public class StoreBoardServiceImpl implements StoreBoardService{
 	}
 
 	@Override
-	public WishList wishListSelect(WishList wl) {
-		return sDAO.wishListSelect(sqlSession,wl);
+	public int wishListSelect(int bNo) {
+		return sDAO.wishListSelect(sqlSession, bNo);
 	}
 
 	@Override
-	public int wishListOn(WishList wl, int bNo) {
-		return sDAO.wishListOn(sqlSession,wl);
+	public int wishListOn(WishList wl) {
+		return sDAO.wishListOn(sqlSession, wl);
 	}
 
 	@Override
@@ -67,6 +69,18 @@ public class StoreBoardServiceImpl implements StoreBoardService{
 	public int insertCart(Cart cart) {
 		return sDAO.insertCart(sqlSession, cart);
 	}
+
+	@Override
+	public int insertInquiry(ProductInquiry productInquiry) {
+		return sDAO.insertInquiry(sqlSession, productInquiry);
+	}
+
+	@Override
+	public int InquiryCount(ProductInquiry pi) {
+		return sDAO.InquiryCount(sqlSession, pi);
+	}
+
+	
 
 
 	

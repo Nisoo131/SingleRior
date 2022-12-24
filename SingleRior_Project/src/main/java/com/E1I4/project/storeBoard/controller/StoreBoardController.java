@@ -2,13 +2,16 @@ package com.E1I4.project.storeBoard.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.ibatis.reflection.SystemMetaObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
@@ -17,6 +20,7 @@ import com.E1I4.project.common.Pagination;
 import com.E1I4.project.common.exception.BoardException;
 import com.E1I4.project.common.model.vo.Attachment;
 import com.E1I4.project.common.model.vo.PageInfo;
+import com.E1I4.project.common.model.vo.ProductInquiry;
 import com.E1I4.project.common.model.vo.WishList;
 import com.E1I4.project.member.model.vo.Member;
 import com.E1I4.project.storeBoard.model.service.StoreBoardService;
@@ -58,12 +62,11 @@ public class StoreBoardController {
 			for(int i=0; i<sList.size(); i++) {
 				int bNo = sList.get(i).getBoardNo();
 				Attachment a = sService.selectAttmList(bNo);
-//				System.out.println(a);
+
 				aList.add(a);
 				
 			};
-			//System.out.println(aList);
-//			System.out.println(sList);
+
 			if(sList != null) {
 				model.addAttribute("pi", pi);
 				model.addAttribute("sList", sList);
@@ -71,9 +74,11 @@ public class StoreBoardController {
 				model.addAttribute("subCate", subCate);
 				
 				return "categoryList";
+				
 			} else {
 				throw new BoardException("게시글 조회 실패");
 			}
+			
 	}
    
 	// 상품 상세보기
@@ -81,29 +86,38 @@ public class StoreBoardController {
 	public String productDetail(@RequestParam("productNo") int productNo, HttpSession session, Model model) {
 		Member loginUser = (Member)session.getAttribute("loginUser");
 
-
 		ArrayList<StoreBoard> pList = sService.selectProduct(productNo);
 	    
-		// 찜하기
+		
 		WishList wl = new WishList();
-		int result = 0;
+		ProductInquiry pi = new ProductInquiry();
+		pi.setMemberId(loginUser.getMemberId());
+		pi.setProductNo(productNo);
+		//System.out.println(pi);
+		
+		int result1 = 0;
+		int result2 = 0;
 		if(loginUser != null) {
-			// 찜하기 전체 개수
-//			wishList = sService.wishListSelect(wl);
 			
 			wl.setProductNo(productNo);
 			wl.setMemberId(loginUser.getMemberId());
-		
-			result = sService.wishListCount(wl);
+	        	
+			result1 = sService.wishListCount(wl);
+			result2 = sService.InquiryCount(pi);
+			
+			//System.out.println(result2);
 		}
+		
 		if(pList!= null) {
 			model.addAttribute("pList", pList);
-			model.addAttribute("count", result);
+			model.addAttribute("count", result1);
+			model.addAttribute("piCount", result2);
 			
 			return "productDetail";
 		} else {
 			throw new BoardException("게시글 조회 실패.");
 		}
+
 	}
 	
 	// 상품 찜하기
@@ -111,12 +125,16 @@ public class StoreBoardController {
 	public void wishListOn(@RequestParam("boardNo") int bNo, HttpSession session, Model model, HttpServletResponse response) {
 		String id = ((Member)session.getAttribute("loginUser")).getMemberId();
 		
+	    //System.out.println(id); - ok
+	    //System.out.println(bNo); - ok
 		
 		WishList wl = new WishList();
 		wl.setBoardNo(bNo);
 		wl.setMemberId(id);
 		
-		int result = sService.wishListOn(wl, bNo);
+		int result = sService.wishListOn(wl);
+		int countResult = sService.wishListSelect(bNo);
+		//System.out.println(countResult);
 		
 		response.setContentType("application/json; charset=UTF-8");
 		
@@ -134,12 +152,18 @@ public class StoreBoardController {
 	@RequestMapping("wishListOff.st")
 	public void wishListOff(@RequestParam("boardNo") int bNo, HttpSession session, Model model, HttpServletResponse response) {
 		String id = ((Member)session.getAttribute("loginUser")).getMemberId();
-			
+		
+		System.out.println(id);
+		
 		WishList wl = new WishList();
 		wl.setBoardNo(bNo);
 		wl.setMemberId(id);
+		
+		System.out.println(wl);
 	
 	    int result = sService.wishListOff(wl, bNo);
+	    
+	    System.out.println(result);
 		
 		response.setContentType("application/json; charset=UTF-8");
 		
@@ -174,6 +198,23 @@ public class StoreBoardController {
 		} else {
 			throw new BoardException("장바구니 추가 실패");
 		}
+	}
+	
+	// 상품 문의하기
+	@RequestMapping("productInquiry.st")
+	public String productInquiry(@RequestParam("productNo") int productNo, HttpSession session, @ModelAttribute ProductInquiry productInquiry, 
+			ModelAndView mv ) {
+		
+		
+	   String id = ((Member)session.getAttribute("loginUser")).getMemberId();
+	   productInquiry.setMemberId(id);
+	   
+	   System.out.println(productInquiry);
+	   
+	   int result = sService.insertInquiry(productInquiry);
+	  
+	   return "redirect:productDetail";
+	
 	}
 	
 	// 결제

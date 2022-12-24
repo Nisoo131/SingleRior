@@ -89,7 +89,7 @@
 	     JOIN IMG_REPOSITORY on(IMG_KEY = (SELECT TO_CHAR(( SELECT BOARD_NO FROM PRODUCT WHERE PRODUCT_NO = #{productNo})) FROM DUAL))
 	     JOIN PRODUCT_SUB_CATE using(pro_subcate_code)
          JOIN PRODUCT_TOP_CATE using(pro_topcate_code)
-	 where p.product_no = #{productNo} 
+	 where p.product_no = #{productNo} and p.product_status = '
    </select>
    
    <resultMap type="WishList" id="wishListResultSet">
@@ -112,8 +112,8 @@
     select count(*)
 	from wishlist
 	where member_id = #{memberId} and board_no = (select board_no
-	from product
-	where product_no = #{productNo})
+													from product
+													where product_no = #{productNo})
    </select>
    
    <delete id="wishListOff">
@@ -125,6 +125,19 @@
    	    insert into cart
 		values (SEQ_CNO.NEXTVAL, #{quantity}, default, #{memberId}, #{productNo}, #{option})
    </insert>
+   
+   <!-- 문의하기 -->
+
+   <insert id="insertInquiry">
+    	insert into product_inquiry
+    	values(SEQ_PROIID.nextval, #{inquiryTitle}, #{inquiryContent}, sysdate, #{productNo}, #{memberId}, default, default, 'N')
+   </insert> 
+   
+   <select id="InquiryCount" resultType="_int">
+        select count(*)
+		from product_inquiry
+	    where member_id = #{memberId} and product_no = #{productNo}
+   </select> 
 
 
 </mapper>

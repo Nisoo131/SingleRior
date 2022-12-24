@@ -1,6 +1,7 @@
 package com.E1I4.project.storeBoard.model.dao;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.session.RowBounds;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import com.E1I4.project.common.model.vo.Attachment;
 import com.E1I4.project.common.model.vo.PageInfo;
 import com.E1I4.project.common.model.vo.Product;
+import com.E1I4.project.common.model.vo.ProductInquiry;
 import com.E1I4.project.common.model.vo.WishList;
 import com.E1I4.project.member.model.vo.Member;
 import com.E1I4.project.storeBoard.model.vo.Cart;
@@ -38,8 +40,8 @@ public class StoreBoardDAO {
 		return (ArrayList)sqlSession.selectList("storeMapper.selectProduct", productNo);
 	}
 
-	public WishList wishListSelect(SqlSessionTemplate sqlSession, WishList wl) {
-		return sqlSession.selectOne("storeMapper.wishListSelect", wl);
+	public int wishListSelect(SqlSessionTemplate sqlSession, int bNo) {
+		return sqlSession.selectOne("storeMapper.wishListSelect", bNo);
 	}
 
 	// 찜하기 ON
@@ -62,9 +64,16 @@ public class StoreBoardDAO {
 		return sqlSession.selectOne("storeMapper.wishListCount", wl);
 	}
 
-
 	public int insertCart(SqlSessionTemplate sqlSession, Cart cart) {
 		return sqlSession.insert("storeMapper.insertCart", cart);
+	}
+
+	public int insertInquiry(SqlSessionTemplate sqlSession, ProductInquiry productInquiry) {
+		return sqlSession.insert("storeMapper.insertInquiry", productInquiry );
+	}
+
+	public int InquiryCount(SqlSessionTemplate sqlSession, ProductInquiry pi) {
+		return sqlSession.selectOne("storeMapper.InquiryCount", pi);
 	}
 
 
