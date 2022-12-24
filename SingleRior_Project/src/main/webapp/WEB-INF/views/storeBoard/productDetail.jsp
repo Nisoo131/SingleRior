@@ -79,9 +79,9 @@
 			<br>
 		</div>
 		 <%-- ${ pList }   --%>
-		<%--  ${ pList[0] }<br><br>
-		 ${ pList[1] }
-		 ${ pList[2] } --%>
+		<%--  ${ pList[0] }<br><br> --%>
+	<%-- 	 ${ pList[1] }
+		 ${ pList[2] }  --%>
 	<main class="container">
 	   <div class="row mx-md-n5">
 	 	 <div class="col px-md-5"><div class="p-3 border bg-light">
@@ -112,7 +112,7 @@
 							<button type="button" class="btn btn-outline-danger active wishListBtn" id="wishListOff">찜하기♥</button>
 						</c:if>
 	  				</td>
-	  				<td style="color:red; font:12px;" id="wishListCount">(개수)</td>
+	  				<td style="color:red; font:12px;" id="wishListCount"></td>
 	  			</tr>
 	  		</table>　　　　　　　　　
 		  <h2>${ pLiST[0].boardTitle }</h2>
@@ -217,13 +217,18 @@
 		        	<table>
 		        		<tr>
 		        			<td class="inquiry">문의</td>
+		        		
 		        			<td colspan="3" width="650px"></td>
-		        			<c:if test="${ empty loginUser }">
+		        			<c:if test="${ empty loginUser  }">
 							  	<td><button type="button" class="btn btn-primary" id="inquiryBtn1" onclick="location.href='${contextPath}/loginView.me'" >문의하기</button></td>
 						  	</c:if>
-						  	<c:if test="${ !empty loginUser }">
+						  	<c:if test="${ !empty loginUser and piCount == 0  }">
 							  	<td><button type="button" class="btn btn-primary" id="inquiryBtn2" data-bs-toggle="modal" data-bs-target="#inquiryModal">문의하기</button></td>
 						  	</c:if>	
+						  		<c:if test="${ !empty loginUser and piCount == 1 }">
+							  	<td><button type="button" class="btn btn-primary" id="inquiryUpdate" data-bs-toggle="modal" data-bs-target="#updateModal">수정</button></td>
+							  	<td><button type="button" class="btn btn-primary" id="inquiryDelete" data-bs-toggle="modal" data-bs-target="#deleteModal">삭제</button></td>
+						  	</c:if>
 		        		</tr>
 		        	</table>
 	        	</form>
@@ -313,36 +318,104 @@
 	    </div>
 	  </div>
 
-		<!--문의하기 모달창 -->
-		<div class="modal" tabindex="-1" id="inquiryModal">
-		  <div class="modal-dialog">
-		    <div class="modal-content">
-		      <div class="modal-header">
-		        <h5 class="modal-title">문의하기</h5>
-		        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-		      </div>
+	<!--문의하기 모달창 -->
+	<div class="modal" tabindex="-1" id="inquiryModal">
+	  <div class="modal-dialog">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <h5 class="modal-title">문의하기</h5>
+	        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+	      </div>
+	      <form action="${ contextPath }/productInquiry.st" method="post">
+	       <input type="hidden" name="productNo" value="${ pList[0].productNo }">
 		      <div class="modal-body">
 		        <p>문의유형</p>
-		        	<select class="form-select" aria-label="Default select example" id="inquiry_ops">
-						  <option value="1">상품</option>
-						  <option value="2">배송</option>
-						  <option value="3">반품</option>
-						  <option value="4">교환</option>
-						  <option value="5">환불</option>
-						  <option value="6">기타</option>
-					  </select>
-				  <br>
-				  <p>문의내용 <span id="counter">0</span>/300</p>
-				  <textarea cols="50" rows="3" id="textarea"></textarea>
+		        	<select class="form-select" aria-label="Default select example" name="inquiryTitle" id="inquiry_ops">
+						  <option value="상품">상품</option>
+						  <option value="배송">배송</option>
+						  <option value="반품">반품</option>
+						  <option value="교환">교환</option>
+						  <option value="환불">환불</option>
+						  <option value="기타">기타</option>
+					</select>
+				 	<br>
+				<p>문의내용 <span id="counter">0</span>/300</p>
+				<textarea cols="50" rows="3" id="textarea" name="inquiryContent"></textarea>
 		      </div>
-			      <div class="modal-footer">
-			        <button type="submit" class="btn btn-primary" id="inquiry_modal" onclick="location.href='${ contextPath }/myAskList.me'">완료</button>
-			      </div>
-		    	</div>
-		  	</div>
-		</div>
+			  <div class="modal-footer">
+			  	<button type="submit" class="btn btn-primary" id="inquiry_modal" >완료</button>
+			  </div>
+		   </form>
+	      </div>
+	  	</div>
 	</div>
-	</main>
+	
+	<!-- 수정하기 모달창 -->
+	<div class="modal" tabindex="-1" id="updateModal">
+	  <div class="modal-dialog">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <h5 class="modal-title">수정하기</h5>
+	        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+	      </div>
+	      <form action="${ contextPath }/productInquiry.st" method="post">
+	       <input type="hidden" name="productNo" value="${ pList[0].productNo }">
+		      <div class="modal-body">
+		        <p>문의유형</p>
+		        	<select class="form-select" aria-label="Default select example" name="inquiryTitle" id="inquiry_ops">
+						  <option value="상품">상품</option>
+						  <option value="배송">배송</option>
+						  <option value="반품">반품</option>
+						  <option value="교환">교환</option>
+						  <option value="환불">환불</option>
+						  <option value="기타">기타</option>
+					</select>
+				 	<br>
+				<p>문의내용 <span id="counter">0</span>/300</p>
+				<textarea cols="50" rows="3" id="textarea" name="inquiryContent"></textarea>
+		      </div>
+			  <div class="modal-footer">
+			  	<button type="submit" class="btn btn-primary" id="inquiry_modal" >완료</button>
+			  </div>
+		   </form>
+	      </div>
+	  	</div>
+	</div>
+	
+	<!--삭제하기 모달창 -->
+	<div class="modal" tabindex="-1" id="deleteModal">
+	  <div class="modal-dialog">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <h5 class="modal-title">삭제하기</h5>
+	        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+	      </div>
+	      <form action="${ contextPath }/productInquiry.st" method="post">
+	       <input type="hidden" name="productNo" value="${ pList[0].productNo }">
+		      <div class="modal-body">
+		        <p>문의유형</p>
+		        	<select class="form-select" aria-label="Default select example" name="inquiryTitle" id="inquiry_ops">
+						  <option value="상품">상품</option>
+						  <option value="배송">배송</option>
+						  <option value="반품">반품</option>
+						  <option value="교환">교환</option>
+						  <option value="환불">환불</option>
+						  <option value="기타">기타</option>
+					</select>
+				 	<br>
+				<p>문의내용 <span id="counter">0</span>/300</p>
+				<textarea cols="50" rows="3" id="textarea" name="inquiryContent"></textarea>
+		      </div>
+			  <div class="modal-footer">
+			  	<button type="submit" class="btn btn-primary" id="inquiry_modal" >완료</button>
+			  </div>
+		   </form>
+	      </div>
+	  	</div>
+	</div>
+	
+</div>
+</main>
 
     <footer>
 		<jsp:include page="../common/footer.jsp"/>
@@ -414,9 +487,8 @@
        }) 
     });
     
-
+    // 찜하기
     window.onload =()=>{
-    	// 찜하기
     	$(".wishListBtn").click(function(){
 				if($(this).attr("class") == "btn btn-outline-danger wishListBtn"){
 			         $.ajax({
@@ -475,6 +547,7 @@
 			});
 	});
 	
+	// 문의내용
 	document.getElementById('inquiry_modal').addEventListener('click',()=>{
 		  $(document).ready(function(){
 		    	const optionChoice = $('#inquiry_ops option:selected').text();
@@ -484,9 +557,30 @@
 			});	
 		});
 	
-	const option = '${pList[0].option}';
-	console.log(option);
-	option.split(',');
+	// 수정모달
+	document.getElementById('updateModal').addEventListener('click',()=>{
+		  $(document).ready(function(){
+		    	const optionChoice = $('#inquiry_ops option:selected').text();
+		    	const textarea = $('textarea').val();
+		    	console.log(optionChoice);
+		    	console.log(textarea);	    
+			});	
+		});
+	
+	// 삭제모달
+	document.getElementById('deleteModal').addEventListener('click',()=>{
+		  $(document).ready(function(){
+		    	const optionChoice = $('#inquiry_ops option:selected').text();
+		    	const textarea = $('textarea').val();
+		    	console.log(optionChoice);
+		    	console.log(textarea);	    
+			});	
+		});
+	
+	
+	
+	
+
 	
 	
 </script>

@@ -6,6 +6,7 @@ import java.util.HashMap;
 
 import com.E1I4.project.common.model.vo.Attachment;
 import com.E1I4.project.common.model.vo.PageInfo;
+import com.E1I4.project.common.model.vo.ProductInquiry;
 import com.E1I4.project.common.model.vo.WishList;
 import com.E1I4.project.storeBoard.model.vo.Cart;
 import com.E1I4.project.storeBoard.model.vo.StoreBoard;
@@ -20,15 +21,19 @@ public interface StoreBoardService {
 
 	ArrayList<StoreBoard> selectProduct(int productNo);
 
-	WishList wishListSelect(WishList wl);
+	int wishListSelect(int bNo);
 
-	int wishListOn(WishList wl, int bNo); // 찜하기on
+	int wishListOn(WishList wl); // 찜하기on
 
 	int wishListOff(WishList wl, int bNo); // 찜하기 off
 	
 	int wishListCount(WishList wl);
 
 	int insertCart(Cart cart);
+
+	int insertInquiry(ProductInquiry productInquiry); // 상품문의
+
+	int InquiryCount(ProductInquiry pi);
 
 	
 
