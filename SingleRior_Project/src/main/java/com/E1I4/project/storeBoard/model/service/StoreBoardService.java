@@ -35,6 +35,8 @@ public interface StoreBoardService {
 
 	int InquiryCount(ProductInquiry pi);
 
+	ArrayList<ProductInquiry> selectInquiryList(int productNo); // 문의list
+
 	
 
 

@@ -89,7 +89,7 @@
 	     JOIN IMG_REPOSITORY on(IMG_KEY = (SELECT TO_CHAR(( SELECT BOARD_NO FROM PRODUCT WHERE PRODUCT_NO = #{productNo})) FROM DUAL))
 	     JOIN PRODUCT_SUB_CATE using(pro_subcate_code)
          JOIN PRODUCT_TOP_CATE using(pro_topcate_code)
-	 where p.product_no = #{productNo} and p.product_status = '
+	 where p.product_no = #{productNo} and p.product_status = 'Y'
    </select>
    
    <resultMap type="WishList" id="wishListResultSet">
@@ -130,7 +130,7 @@
 
    <insert id="insertInquiry">
     	insert into product_inquiry
-    	values(SEQ_PROIID.nextval, #{inquiryTitle}, #{inquiryContent}, sysdate, #{productNo}, #{memberId}, default, default, 'N')
+    	values(SEQ_PROIID.nextval, #{inquiryTitle}, #{inquiryContent}, sysdate, #{productNo}, #{memberId}, default, default, null)
    </insert> 
    
    <select id="InquiryCount" resultType="_int">
@@ -139,5 +139,24 @@
 	    where member_id = #{memberId} and product_no = #{productNo}
    </select> 
 
+   <select id="selectInquiryList" resultMap="ProductInquiryResultSet">
+      select *
+	  from product_inquiry
+      where product_no = #{productNo}
+   </select>
+   
+   <resultMap type="ProductInquiry" id="ProductInquiryResultSet">
+		<id column="INQUIRY_NO" property="inquiryNo"/>
+		<result column="INQUIRY_TITLE" property="inquiryTitle"/>
+		<result column="INQUIRY_CONTENT" property="inquiryContent"/>
+		<result column="INQUIRY_DATE" property="inquiryDate"/>
+		<result column="PRODUCT_NO" property="productNo"/>
+		<result column="MEMBER_ID" property="memberId"/>
+		<result column="INQUIRY_STATUS" property="inquiryStatus"/>
+		<result column="ADMIN_STATUS" property="adminStatus"/>
+		<result column="INQUIRY_ANSWER" property="inquiryAnswer"/>
+	</resultMap>
+   
+   
 
 </mapper>

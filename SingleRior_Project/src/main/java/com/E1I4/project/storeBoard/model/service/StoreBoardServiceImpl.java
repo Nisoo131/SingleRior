@@ -80,6 +80,11 @@ public class StoreBoardServiceImpl implements StoreBoardService{
 		return sDAO.InquiryCount(sqlSession, pi);
 	}
 
+	@Override
+	public ArrayList<ProductInquiry> selectInquiryList(int productNo) {
+		return sDAO.selectInquiryList(sqlSession, productNo);
+	}
+
 	
 
 

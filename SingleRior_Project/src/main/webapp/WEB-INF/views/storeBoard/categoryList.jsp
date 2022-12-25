@@ -34,8 +34,8 @@
 		
 		<div id="selectOption" dir="rtl">
 			<select style="width:100px; height:30px;">
-			  <option selected>인기순</option>
-			  <option value="1">최신순</option>
+			  <option selected>인기 판매순</option>
+			  <option value="1">신상품순</option>
 			  <option value="2">낮은 가격순</option>
 			  <option value="3">높은 가격순</option>
 			</select>
@@ -118,7 +118,7 @@
     		div.addEventListener('click', function(){
     			const productNo = this.querySelectorAll('input')[0].value;
     			 console.log(productNo); 
-    			 location.href='${contextPath}/productDetail.st?productNo=' + productNo + '&page=' + ${pi.currentPage};
+    			 location.href='${contextPath}/productDetail.st?productNo=' + productNo; /* + '&page=' + ${pi.currentPage} */
     		});
     	}
     }

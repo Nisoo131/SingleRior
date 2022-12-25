@@ -2,12 +2,10 @@ package com.E1I4.project.storeBoard.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.ibatis.reflection.SystemMetaObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -87,20 +85,29 @@ public class StoreBoardController {
 		Member loginUser = (Member)session.getAttribute("loginUser");
 
 		ArrayList<StoreBoard> pList = sService.selectProduct(productNo);
-	    
+		ArrayList<ProductInquiry> iList = sService.selectInquiryList(productNo);
+		if(iList != null) {
+		   model.addAttribute("iList", iList);
+		} else {
+			throw new BoardException("문의하기 조회 실패.");
+		}
 		
+		//System.out.println(productNo);
+		System.out.println(iList);
+	    
 		WishList wl = new WishList();
 		ProductInquiry pi = new ProductInquiry();
-		pi.setMemberId(loginUser.getMemberId());
-		pi.setProductNo(productNo);
-		//System.out.println(pi);
-		
+	
 		int result1 = 0;
 		int result2 = 0;
+		
 		if(loginUser != null) {
 			
 			wl.setProductNo(productNo);
 			wl.setMemberId(loginUser.getMemberId());
+			
+			pi.setMemberId(loginUser.getMemberId());
+			pi.setProductNo(productNo);
 	        	
 			result1 = sService.wishListCount(wl);
 			result2 = sService.InquiryCount(pi);
@@ -117,6 +124,8 @@ public class StoreBoardController {
 		} else {
 			throw new BoardException("게시글 조회 실패.");
 		}
+		
+		
 
 	}
 	
@@ -203,17 +212,21 @@ public class StoreBoardController {
 	// 상품 문의하기
 	@RequestMapping("productInquiry.st")
 	public String productInquiry(@RequestParam("productNo") int productNo, HttpSession session, @ModelAttribute ProductInquiry productInquiry, 
-			ModelAndView mv ) {
+			Model model) {
 		
 		
 	   String id = ((Member)session.getAttribute("loginUser")).getMemberId();
 	   productInquiry.setMemberId(id);
 	   
-	   System.out.println(productInquiry);
-	   
 	   int result = sService.insertInquiry(productInquiry);
-	  
-	   return "redirect:productDetail";
+	   
+	 
+	   if(result >0) {
+		   model.addAttribute("productNo", productNo);
+	   }
+	   return "redirect:productDetail.st";
+	   
+	   
 	
 	}
 	

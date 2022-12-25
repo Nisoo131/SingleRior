@@ -76,6 +76,10 @@ public class StoreBoardDAO {
 		return sqlSession.selectOne("storeMapper.InquiryCount", pi);
 	}
 
+	public ArrayList<ProductInquiry> selectInquiryList(SqlSessionTemplate sqlSession, int productNo) {
+		return (ArrayList)sqlSession.selectList("storeMapper.selectInquiryList", productNo);
+	}
+
 
 	
 

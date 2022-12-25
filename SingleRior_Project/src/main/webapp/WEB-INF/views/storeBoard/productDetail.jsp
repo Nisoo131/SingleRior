@@ -222,24 +222,34 @@
 		        			<c:if test="${ empty loginUser  }">
 							  	<td><button type="button" class="btn btn-primary" id="inquiryBtn1" onclick="location.href='${contextPath}/loginView.me'" >문의하기</button></td>
 						  	</c:if>
-						  	<c:if test="${ !empty loginUser and piCount == 0  }">
+						  	<c:if test="${ !empty loginUser }">
 							  	<td><button type="button" class="btn btn-primary" id="inquiryBtn2" data-bs-toggle="modal" data-bs-target="#inquiryModal">문의하기</button></td>
-						  	</c:if>	
-						  		<c:if test="${ !empty loginUser and piCount == 1 }">
+						  	</c:if>
+						  	
+						  	<%-- <c:if test="${ !empty loginUser and piCount == 1 }">
 							  	<td><button type="button" class="btn btn-primary" id="inquiryUpdate" data-bs-toggle="modal" data-bs-target="#updateModal">수정</button></td>
 							  	<td><button type="button" class="btn btn-primary" id="inquiryDelete" data-bs-toggle="modal" data-bs-target="#deleteModal">삭제</button></td>
-						  	</c:if>
+						  	</c:if> --%>
 		        		</tr>
 		        	</table>
 	        	</form>
 	 		</div>
+	 		${ iList }
+	 		<c:forEach items="${ iList }" var="i">
 	 		<div style="border:black solid 1px; width:600px; padding:10px 10px; border-radius:10px;" id="delivery">
-		        <p class="blog-post-meta">배송 | <span style="color:#008cd4;">답변완료</span></p>
-				<p>강건강 | 2022-12-12</p>
-				<p><img src="https://cdn-icons-png.flaticon.com/512/8371/8371275.png" width="20px" height="20px"> 언제 배송되나요?</p>
-				<p><img src="https://cdn-icons-png.flaticon.com/512/25/25628.png" width="20px" height="20px"> 고객님 늦어서 죄송합니다. 오늘 발송예정입니다.</p>
+		        <p class="blog-post-meta">${i.inquiryTitle} | 
+			        <c:if test="${ i.inquiryAnswer == 'null' }">
+			        	<span style="color:#008cd4;">답변대기</span>
+			        </c:if>
+			        <c:if test="${ i.inquiryAnswer != 'null' }">
+			        	<span style="color:#008cd4;">답변완료</span>
+			        </c:if>
+			        </p>
+				<p>강건강 | ${i.inquiryDate}</p>
+				<p><img src="https://cdn-icons-png.flaticon.com/512/8371/8371275.png" width="20px" height="20px"> ${ i.inquiryContent }</p>
+				<p><img src="https://cdn-icons-png.flaticon.com/512/25/25628.png" width="20px" height="20px"> ${ i.inquiryAnswer }</p>
 	    	</div>
-	    	<p> 페이징처리</p>
+	    	</c:forEach>
 	    	</article>
 	    	<hr>
 	    	
@@ -342,69 +352,8 @@
 				<p>문의내용 <span id="counter">0</span>/300</p>
 				<textarea cols="50" rows="3" id="textarea" name="inquiryContent"></textarea>
 		      </div>
-			  <div class="modal-footer">
-			  	<button type="submit" class="btn btn-primary" id="inquiry_modal" >완료</button>
-			  </div>
-		   </form>
-	      </div>
-	  	</div>
-	</div>
-	
-	<!-- 수정하기 모달창 -->
-	<div class="modal" tabindex="-1" id="updateModal">
-	  <div class="modal-dialog">
-	    <div class="modal-content">
-	      <div class="modal-header">
-	        <h5 class="modal-title">수정하기</h5>
-	        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-	      </div>
-	      <form action="${ contextPath }/productInquiry.st" method="post">
-	       <input type="hidden" name="productNo" value="${ pList[0].productNo }">
-		      <div class="modal-body">
-		        <p>문의유형</p>
-		        	<select class="form-select" aria-label="Default select example" name="inquiryTitle" id="inquiry_ops">
-						  <option value="상품">상품</option>
-						  <option value="배송">배송</option>
-						  <option value="반품">반품</option>
-						  <option value="교환">교환</option>
-						  <option value="환불">환불</option>
-						  <option value="기타">기타</option>
-					</select>
-				 	<br>
-				<p>문의내용 <span id="counter">0</span>/300</p>
-				<textarea cols="50" rows="3" id="textarea" name="inquiryContent"></textarea>
-		      </div>
-			  <div class="modal-footer">
-			  	<button type="submit" class="btn btn-primary" id="inquiry_modal" >완료</button>
-			  </div>
-		   </form>
-	      </div>
-	  	</div>
-	</div>
-	
-	<!--삭제하기 모달창 -->
-	<div class="modal" tabindex="-1" id="deleteModal">
-	  <div class="modal-dialog">
-	    <div class="modal-content">
-	      <div class="modal-header">
-	        <h5 class="modal-title">삭제하기</h5>
-	        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-	      </div>
-	      <form action="${ contextPath }/productInquiry.st" method="post">
-	       <input type="hidden" name="productNo" value="${ pList[0].productNo }">
-		      <div class="modal-body">
-		        <p>문의유형</p>
-		        	<select class="form-select" aria-label="Default select example" name="inquiryTitle" id="inquiry_ops">
-						  <option value="상품">상품</option>
-						  <option value="배송">배송</option>
-						  <option value="반품">반품</option>
-						  <option value="교환">교환</option>
-						  <option value="환불">환불</option>
-						  <option value="기타">기타</option>
-					</select>
-				 	<br>
-				<p>문의내용 <span id="counter">0</span>/300</p>
-				<textarea cols="50" rows="3" id="textarea" name="inquiryContent"></textarea>
+		      <div style="color:#008cd4;">
+		      　문의 답변은 ‘My Page> 나의 문의' 또는 ‘상품 상세페이지’에서 확인 가능합니다.
 		      </div>
 			  <div class="modal-footer">
 			  	<button type="submit" class="btn btn-primary" id="inquiry_modal" >완료</button>
@@ -438,7 +387,6 @@
      const selectChange = function(value){
 			$('#inputOption').val(value);	
 	}
-    
 	
  	// 제품 수량 & 금액 버튼 조작
  	 let quantity = $('.quantity_input').val();
@@ -556,27 +504,7 @@
 		    	console.log(textarea);	    
 			});	
 		});
-	
-	// 수정모달
-	document.getElementById('updateModal').addEventListener('click',()=>{
-		  $(document).ready(function(){
-		    	const optionChoice = $('#inquiry_ops option:selected').text();
-		    	const textarea = $('textarea').val();
-		    	console.log(optionChoice);
-		    	console.log(textarea);	    
-			});	
-		});
-	
-	// 삭제모달
-	document.getElementById('deleteModal').addEventListener('click',()=>{
-		  $(document).ready(function(){
-		    	const optionChoice = $('#inquiry_ops option:selected').text();
-		    	const textarea = $('textarea').val();
-		    	console.log(optionChoice);
-		    	console.log(textarea);	    
-			});	
-		});
-	
+
 	
 	
 	
