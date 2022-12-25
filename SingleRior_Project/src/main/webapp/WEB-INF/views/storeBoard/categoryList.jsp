@@ -26,7 +26,7 @@
 	</header>
 	
 	<!-- 대분류/소분류 구분 -->
-    <%-- ${ sList }<br><br>  --%>
+    <%-- ${ sList }  --%>
 	<%--  ${ aList }   --%> 
 	<div class="front">
 		<h5><b> 전체 >  ${ sList[0].topCateName} > ${ sList[0].subCateName }  </b></h5>
@@ -34,7 +34,7 @@
 		
 		<div id="selectOption" dir="rtl">
 			<select style="width:100px; height:30px;">
-			  <option selected>인기 판매순</option>
+			  <option selected>판매순</option>
 			  <option value="1">신상품순</option>
 			  <option value="2">낮은 가격순</option>
 			  <option value="3">높은 가격순</option>
@@ -42,7 +42,7 @@
 		</div>
 		<br>
 	
-	<!-- 상품카드 12개 & 페이징 -->
+	<!-- 상품카드 12개 -->
 	<div class="album py-5 bg-light">
 		<div class="container">		
 		 <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-4">
@@ -61,7 +61,7 @@
 			         <div class="card-body">
 			          <h6 class="card-title">${ s.brand } </h6>
 			          <h5 class="card-text">${ s.boardTitle }</h5>
-			          <span><s>${ commaPrice }</s>원 ${ s.boardNo }</span><br>
+			          <span><s>${ commaPrice }</s>원</span><br>
 			          <span style="width:20px">${ s.discount }%</span><span>　</span><span style="color:#008cd4; font-size: 25px;">${ totalPrice } 원</span><br>
 			          <span>★4.9</span>			          
 			          <input type="hidden" value="${ s.productNo }" name="productNo">

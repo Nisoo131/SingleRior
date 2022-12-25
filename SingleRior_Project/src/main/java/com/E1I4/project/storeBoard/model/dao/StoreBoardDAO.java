@@ -40,10 +40,6 @@ public class StoreBoardDAO {
 		return (ArrayList)sqlSession.selectList("storeMapper.selectProduct", productNo);
 	}
 
-	public int wishListSelect(SqlSessionTemplate sqlSession, int bNo) {
-		return sqlSession.selectOne("storeMapper.wishListSelect", bNo);
-	}
-
 	// 찜하기 ON
 	public int wishListOn(SqlSessionTemplate sqlSession, WishList wl) {
 		return sqlSession.insert("storeMapper.wishListOn", wl);

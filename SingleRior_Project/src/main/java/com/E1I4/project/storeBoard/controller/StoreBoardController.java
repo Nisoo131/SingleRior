@@ -40,7 +40,7 @@ public class StoreBoardController {
 			return "storeList";
 		}
 	
-	// subCate에 따른 리스트 가져오기 
+	// subCate 리스트 
 	@RequestMapping("categoryList.st")
 	public String storeList(@RequestParam(value="page", required=false) Integer page, 
 			                @RequestParam("subCate") int subCate, Model model) {
@@ -70,12 +70,8 @@ public class StoreBoardController {
 				model.addAttribute("sList", sList);
 				model.addAttribute("aList", aList);
 				model.addAttribute("subCate", subCate);
-				
-				return "categoryList";
-				
-			} else {
-				throw new BoardException("게시글 조회 실패");
-			}
+					
+			} return "categoryList"; // dead code 발생
 			
 	}
    
@@ -86,14 +82,12 @@ public class StoreBoardController {
 
 		ArrayList<StoreBoard> pList = sService.selectProduct(productNo);
 		ArrayList<ProductInquiry> iList = sService.selectInquiryList(productNo);
+		
 		if(iList != null) {
 		   model.addAttribute("iList", iList);
 		} else {
 			throw new BoardException("문의하기 조회 실패.");
 		}
-		
-		//System.out.println(productNo);
-		System.out.println(iList);
 	    
 		WishList wl = new WishList();
 		ProductInquiry pi = new ProductInquiry();
@@ -111,8 +105,6 @@ public class StoreBoardController {
 	        	
 			result1 = sService.wishListCount(wl);
 			result2 = sService.InquiryCount(pi);
-			
-			//System.out.println(result2);
 		}
 		
 		if(pList!= null) {
@@ -121,11 +113,10 @@ public class StoreBoardController {
 			model.addAttribute("piCount", result2);
 			
 			return "productDetail";
+			
 		} else {
-			throw new BoardException("게시글 조회 실패.");
+			throw new BoardException("제품 상세 조회 실패.");
 		}
-		
-		
 
 	}
 	
@@ -134,16 +125,11 @@ public class StoreBoardController {
 	public void wishListOn(@RequestParam("boardNo") int bNo, HttpSession session, Model model, HttpServletResponse response) {
 		String id = ((Member)session.getAttribute("loginUser")).getMemberId();
 		
-	    //System.out.println(id); - ok
-	    //System.out.println(bNo); - ok
-		
 		WishList wl = new WishList();
 		wl.setBoardNo(bNo);
 		wl.setMemberId(id);
 		
 		int result = sService.wishListOn(wl);
-		int countResult = sService.wishListSelect(bNo);
-		//System.out.println(countResult);
 		
 		response.setContentType("application/json; charset=UTF-8");
 		
@@ -162,18 +148,12 @@ public class StoreBoardController {
 	public void wishListOff(@RequestParam("boardNo") int bNo, HttpSession session, Model model, HttpServletResponse response) {
 		String id = ((Member)session.getAttribute("loginUser")).getMemberId();
 		
-		System.out.println(id);
-		
 		WishList wl = new WishList();
 		wl.setBoardNo(bNo);
 		wl.setMemberId(id);
-		
-		System.out.println(wl);
 	
-	    int result = sService.wishListOff(wl, bNo);
-	    
-	    System.out.println(result);
-		
+	    int result = sService.wishListOff(wl);
+	
 		response.setContentType("application/json; charset=UTF-8");
 		
 		GsonBuilder gb = new GsonBuilder();
@@ -199,7 +179,6 @@ public class StoreBoardController {
 		
 		int result = sService.insertCart(cart);
 		
-	    // result가 0이 아니면 마이페이지-장바구니 
 		if(result != 0) {
 			mv.addObject("cart",cart);
 			return "productDetail";
@@ -225,7 +204,6 @@ public class StoreBoardController {
 		   model.addAttribute("productNo", productNo);
 	   }
 	   return "redirect:productDetail.st";
-	   
 	   
 	
 	}

@@ -21,21 +21,19 @@ public interface StoreBoardService {
 
 	ArrayList<StoreBoard> selectProduct(int productNo);
 
-	int wishListSelect(int bNo);
+	int wishListOn(WishList wl);
 
-	int wishListOn(WishList wl); // 찜하기on
-
-	int wishListOff(WishList wl, int bNo); // 찜하기 off
+	int wishListOff(WishList wl);
 	
 	int wishListCount(WishList wl);
 
 	int insertCart(Cart cart);
 
-	int insertInquiry(ProductInquiry productInquiry); // 상품문의
+	int insertInquiry(ProductInquiry productInquiry); 
 
 	int InquiryCount(ProductInquiry pi);
 
-	ArrayList<ProductInquiry> selectInquiryList(int productNo); // 문의list
+	ArrayList<ProductInquiry> selectInquiryList(int productNo);
 
 	
 

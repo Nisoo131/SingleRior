@@ -140,34 +140,46 @@
 					</span>
 				    <fmt:parseNumber var="i" type="number" value="${ totalPrice }"/>
 				   
-				    <span id="finalPrice"></span>원
+				    <!-- <span id="finalPrice"></span>원 -->
 	             </div>
 			  <br><br>
 			
 			  <br>
-			  <h2>총 <span id="changedQty"></span>개　<span id="finalPrice2"> 원</span></h2>
+			  <h2>총 <span id="changedQty"></span>개　<span id="finalPrice2"></span>원</h2>
 			  <div class="btn-group">
 			  	<c:if test="${ empty loginUser }">
 				  <button type="button" class="cart" style="width:200px;height:50px;font-size:20px;" onclick="location.href='${contextPath}/loginView.me'"> 장바구니 </button>
 				</c:if>
 				<c:if test="${ !empty loginUser }">
 				  <button type="button" class="cart" style="width:200px;height:50px;font-size:20px;"> 장바구니 </button>
-				</c:if>  
+				</c:if>
+				<c:if test="${ empty loginUser }">	
+				  <button type="button" class="payment"  style="width:200px;height:50px;font-size:20px;" onclick="location.href='${contextPath}/loginView.me'">결제하기</button>
+			    </c:if> 
+			    <c:if test="${ !empty loginUser }">	
 				  <button type="button" class="payment"  style="width:200px;height:50px;font-size:20px;" onclick="location.href='${ contextPath }/payment.st'">결제하기</button>
+			    </c:if>
 			  </div>
 	  		</div>
 	  	</div>
 	  	
+	<!-- 바로결제 주문서 -->
+	<form action="" method="get">
+		<input type="hidden" name="" value="">
+		<input type="hidden" name="" value="">
+		<input type="hidden" name="" value="">
+	</form>
+	  	
 	<!--상세정보 네비바 -->
-	 <div class="row mb-1"> 
-	  </div>
+	 <div class="row mb-1">
+	 </div>
 	  <div class="row g-5">
 	    <div class="col-md-8">
 	      <h3 class="pb-4 mb-4 border-bottom">
 	        <nav class="navbar navbar-expand-lg bg-light">
 			  <div class="container-fluid">
 			    <a class="navbar-brand" href="#productInfo">상품정보</a>
-				    <button class="navbar-toggler" type="	button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+				    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
 				      <span class="navbar-toggler-icon"></span>
 				    </button>
 			    
@@ -234,18 +246,18 @@
 		        	</table>
 	        	</form>
 	 		</div>
-	 		${ iList }
+	 		<%--  ${ iList } --%>
 	 		<c:forEach items="${ iList }" var="i">
 	 		<div style="border:black solid 1px; width:600px; padding:10px 10px; border-radius:10px;" id="delivery">
 		        <p class="blog-post-meta">${i.inquiryTitle} | 
-			        <c:if test="${ i.inquiryAnswer == 'null' }">
+			        <c:if test="${ i.inquiryAnswer == null }">
 			        	<span style="color:#008cd4;">답변대기</span>
 			        </c:if>
-			        <c:if test="${ i.inquiryAnswer != 'null' }">
+			        <c:if test="${ i.inquiryAnswer != null }">
 			        	<span style="color:#008cd4;">답변완료</span>
 			        </c:if>
 			        </p>
-				<p>강건강 | ${i.inquiryDate}</p>
+				<p> ${i.memberId} | ${i.inquiryDate}</p>
 				<p><img src="https://cdn-icons-png.flaticon.com/512/8371/8371275.png" width="20px" height="20px"> ${ i.inquiryContent }</p>
 				<p><img src="https://cdn-icons-png.flaticon.com/512/25/25628.png" width="20px" height="20px"> ${ i.inquiryAnswer }</p>
 	    	</div>
@@ -265,7 +277,11 @@
 				</tr>
 				<tr>
 					<td>배송비</td>
-					<td>무료배송</td>
+					<td>2,500원</td>
+				</tr>
+				<tr>
+					<td></td>
+					<td>50,000원 이상 주문시 무료배송</td>
 				</tr>
 				<tr>
 					<td>배송 불가 지역</td>
@@ -277,11 +293,11 @@
 			<table>
 				<tr>
 					<td width="150px">반품배송비</td>
-					<td>80,000원</td>
+					<td>50,000원</td>
 				</tr>
 				<tr>
 					<td>교환배송비</td>
-					<td>180,000원</td>
+					<td>100,000원</td>
 				</tr>
 				<tr>
 					<td>보내실 곳</td>
@@ -294,7 +310,6 @@
 	    <!-- 스크롤 옵션바 -->
 	    <div class="col-md-4">
 	      <div class="position-sticky" style="top: 15rem;">
-	       
 	        <div class="p-4">
 	          <label for ="options">옵션선택</label>
 	           	 <select id="changeOpiton" class="form-select" onChange="selectChange(this.value);" aria-label="Default select example">
@@ -304,8 +319,8 @@
 					</c:forEach>
 				 </select>
 				 <br>
-				 <div class="opsResultDiv" style="border:1px solid black; width:450px; height:100px;">
-				  	<input type="text" id="inputOption"><br>
+				<!--  <div class="opsResultDiv1" style="border:1px solid black; width:450px; height:100px;"> -->
+				<!--   	<input type="text" id="inputOption"><br> -->
 				  	<span class="count-wrap _count">
 						    <button type="button" class="minus_btn" style="height:35px;">-</button>
 						   	 <input type="text" class="quantity_input" value="1" style="width:70px;height:30px" id="qty"/>
@@ -313,12 +328,12 @@
 					</span>
 				    <fmt:parseNumber var="i" type="number" value="${ totalPrice }"/>
 				   
-				    <span id="finalPrice"></span>원
+				    <!-- <span id="finalPrice"></span>원 -->
 	             </div>
 			  <br><br>
 			
 			  <br>
-			  <h2>총 <span id="changedQty"></span>개　<span id="finalPrice2"> 원</span></h2>
+			  <h2>총 <span id="changedQty1"></span>개　<span id="finalPrice3"> </span>원</h2>
 				  <div class="btn-group">
 					  <button type="button" class="wishlist" style="width:200px;height:50px;font-size:20px;">장바구니</button>
 					  <button type="button" class="payment" style="width:200px;height:50px;font-size:20px;" onclick="location.href='${ contextPath }/payment.st'">결제하기</button>
@@ -353,7 +368,7 @@
 				<textarea cols="50" rows="3" id="textarea" name="inquiryContent"></textarea>
 		      </div>
 		      <div style="color:#008cd4;">
-		      　문의 답변은 ‘My Page> 나의 문의' 또는 ‘상품 상세페이지’에서 확인 가능합니다.
+		      　문의 답변은 ‘My Page> 나의 문의' 또는 ‘상품 상세페이지’에서 확인 가능합니다.<br>
 		      </div>
 			  <div class="modal-footer">
 			  	<button type="submit" class="btn btn-primary" id="inquiry_modal" >완료</button>
@@ -361,9 +376,7 @@
 		   </form>
 	      </div>
 	  	</div>
-	</div>
-	
-</div>
+	</div>	
 </main>
 
     <footer>
@@ -394,20 +407,24 @@
      	$('.quantity_input').val(++quantity);
 	     	var qtyPlus = $('.quantity_input').val();
 	     	$('#changedQty').text(qtyPlus);
+	     	$('#changedQty1').text(qtyPlus);
 	   		//console.log(qtyPlus);
 	     	var finalPrice = (qtyPlus * ${ i }).toLocaleString();;
 	     	$('#finalPrice').text(finalPrice);
 	     	$('#finalPrice2').text(finalPrice);
+	     	$('#finalPrice3').text(finalPrice);
      });
      $('.minus_btn').on('click',function(){
     	 if(quantity > 1){
     		 $('.quantity_input').val(--quantity);
     	      	const qtyMius = $('.quantity_input').val();
     	      	$('#changedQty').text(qtyMius);
+    	      	$('#changedQty1').text(qtyMius);
     	      	//console.log(qtyMius);
     	      	var finalPrice = (qtyMius * ${i}).toLocaleString();;	      	
     	     	$('#finalPrice').text(finalPrice);
     	     	$('#finalPrice2').text(finalPrice);
+    	     	$('#finalPrice3').text(finalPrice);
     	 }
       });
 
@@ -416,8 +433,6 @@
     $('.cart').on('click', function(e){
        const quantity = $('.quantity_input').val();
        const option = $('.option').val();
-      /*  console.log(quantity);
-       console.log(options); */
 
        $.ajax({
     	   url: '${ contextPath }/cart.st',
@@ -446,8 +461,8 @@
 				            success:(data)=>{
 				            	console.log(data);
 				            	var wishListCount = parseInt($('#wishListCount').html());
-				            	console.log(wishListCount);
-				            	$('#wishListCount').html(wishListCount + data);
+				            	alert("'My Page'에서 찜상품을 확인해주세요");
+				          
 				            },
 				            error: (data)=>{
 			    				console.log(data);
@@ -463,8 +478,7 @@
 				            type: 'post',
 				            success:(data)=>{
 				            	console.log(data);
-				            	var wishListCount = parseInt($('#wishListCount').html());
-				            	$('#wishListCount').html(wishListCount - data);
+				            	alert("찜상품에서 삭제되었습니다.");
 				            },
 				            error: (data)=>{
 			    				console.log(data);
@@ -476,7 +490,7 @@
 			})
     }
     
-	// 문의하기 모달창 글자수 제한
+	// 문의하기 글자수 제한
 	$(function(){
 			$('#textarea').keyup(function(e){
 				const input = $(this).val();
@@ -494,22 +508,6 @@
 				$(this).val(piece);
 			});
 	});
-	
-	// 문의내용
-	document.getElementById('inquiry_modal').addEventListener('click',()=>{
-		  $(document).ready(function(){
-		    	const optionChoice = $('#inquiry_ops option:selected').text();
-		    	const textarea = $('textarea').val();
-		    	console.log(optionChoice);
-		    	console.log(textarea);	    
-			});	
-		});
 
-	
-	
-	
-
-	
-	
 </script>
 </html>

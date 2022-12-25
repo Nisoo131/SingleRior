@@ -93,8 +93,13 @@
    </select>
    
    <resultMap type="WishList" id="wishListResultSet">
-		<id property="boardNo" column="BOARD_NO"/>
-		<id property="memberId" column="MEMBER_ID"/>
+	   <id column="BOARD_NO" property="boardNo"/>
+	   <result column="MEMBER_ID" property="memberId"/>
+	   <result column="BOARD_TYPE" property="boardType"/>
+	   <result column="BOARD_TITLE" property="boardTitle"/>
+	   <result column="IMG_SERVER_NAME" property="imgRename"/>
+	   <result column="PRODUCT_NO" property="productNo"/>
+	   <result column="PRODUCT_PRICE" property="productPrice"/>
 	</resultMap>
  
    <insert id="wishListOn">
@@ -102,15 +107,10 @@
 		VALUES(#{memberId}, #{boardNo})
    </insert>
    
-    <select id="wishListSelect" resultMap="wishListResultSet">
-  		select *
-		from wishList
-		where MEMBER_ID = #{memberId} and BOARD_NO = #{boardNo}
-   </select>
-   
+   <!-- 찜하기 -->
    <select id="wishListCount" resultType="_int">
     select count(*)
-	from wishlist
+	from wishList
 	where member_id = #{memberId} and board_no = (select board_no
 													from product
 													where product_no = #{productNo})
@@ -121,13 +121,15 @@
 		where board_no=#{boardNo} and member_id=#{memberId}
    </delete>
    
+   <!-- 장바구니 -->
    <insert id="insertCart">
    	    insert into cart
 		values (SEQ_CNO.NEXTVAL, #{quantity}, default, #{memberId}, #{productNo}, #{option})
    </insert>
    
+   
+   
    <!-- 문의하기 -->
-
    <insert id="insertInquiry">
     	insert into product_inquiry
     	values(SEQ_PROIID.nextval, #{inquiryTitle}, #{inquiryContent}, sysdate, #{productNo}, #{memberId}, default, default, null)
