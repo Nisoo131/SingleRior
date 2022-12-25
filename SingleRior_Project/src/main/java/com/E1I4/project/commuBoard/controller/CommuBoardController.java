@@ -204,7 +204,7 @@ public class CommuBoardController {
 	/* 게시글 상세보기 */
 	// 커뮤니티 글 조회
 	@RequestMapping("selectCommuBoard.co")
-	public ModelAndView selectCommuBoard(@RequestParam("bNo") int bNo, @RequestParam("writer") String writer, ModelAndView mv, HttpSession session) {
+	public ModelAndView selectCommuBoard(@RequestParam("bNo") int bNo,@RequestParam("writer") String writer, ModelAndView mv, HttpSession session) {
 		Member m = (Member)session.getAttribute("loginUser");
 		
 		WishList wl = new WishList();
@@ -231,12 +231,6 @@ public class CommuBoardController {
 		
 		String strBNo = Integer.toString(bNo);
 		
-		HashMap<String, Object> map = new HashMap<String, Object>();
-		map.put("id", id);
-		map.put("bNo", bNo);
-		
-		Report selectReport = cService.selectReport(map);
-		
 		CommuBoard coBoard = cService.selectCommuBoard(bNo, yn);
 		ArrayList<Attachment> list = cService.selectAttmBoard(strBNo);
 		
@@ -249,7 +243,6 @@ public class CommuBoardController {
 			mv.addObject("coRRList", coRRList);
 			mv.addObject("wishList", wishList);
 			mv.addObject("list", list);
-			mv.addObject("selectReport", selectReport);
 			mv.setViewName("commuBoardDetail");
 		} else {
 			throw new BoardException("게시글 상세보기에 실패하였습니다.");
@@ -324,6 +317,31 @@ public class CommuBoardController {
 		Gson gson = gb2.create();
 		try {
 			gson.toJson(list, response.getWriter());
+		} catch (JsonIOException | IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	// 커뮤니티 댓글 수정 (update)
+	@RequestMapping("updateReply.co")
+	public void updateReply(@ModelAttribute Reply reply, HttpServletResponse response) {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("content", reply.getReplyContent());
+		map.put("rNo",reply.getReplyNo());
+		map.put("secret", reply.getReplySecret());
+		
+		int result = cService.updateReply(map);
+		
+		int replyNo = reply.getReplyNo();
+		
+		Reply r = cService.replyOneSelect(replyNo);
+		
+		response.setContentType("application/json; charset=UTF-8");
+		GsonBuilder gb = new GsonBuilder();
+		GsonBuilder gb2 =  gb.setDateFormat("yyyy-MM-dd");
+		Gson gson = gb2.create();
+		try {
+			gson.toJson(r, response.getWriter());
 		} catch (JsonIOException | IOException e) {
 			e.printStackTrace();
 		}
@@ -486,27 +504,23 @@ public class CommuBoardController {
 	}
 	
 	
-	/* 게시글 신고 (report) */
+	/* 신고 (report) */
 	@RequestMapping("commuReport.co")
-	public String commuReport(@RequestParam("boardNo") int bNo,@RequestParam("contentNo") int cNo, @ModelAttribute Report report, HttpSession session, Model model) {
+	public String commuReport(@RequestParam("boardNo") int bNo, @RequestParam("contentNo") int cNo, @ModelAttribute Report report, HttpSession session, Model model) {
 		String id = ((Member)session.getAttribute("loginUser")).getMemberId();
 		String writer = ((Member)session.getAttribute("loginUser")).getNickName();
 		
 		report.setMemberId(id);
 	
 		HashMap<String, Object> map = new HashMap<String, Object>();
-		map.put("id", id);
 		map.put("cNo", cNo);
 		map.put("cate", report.getReportCate());
 		
-		int result = cService.commuReport(report);
-		
-		Report selectReport = cService.selectReport(map);
+		int result = cService.commuReport(report, map);
 		
 		if(result > 0) {
 			model.addAttribute("id", id);
 			model.addAttribute("bNo", bNo);
-			model.addAttribute("selectReport", selectReport);
 			model.addAttribute("writer", writer);
 			return "redirect:selectCommuBoard.co";
 		} else {

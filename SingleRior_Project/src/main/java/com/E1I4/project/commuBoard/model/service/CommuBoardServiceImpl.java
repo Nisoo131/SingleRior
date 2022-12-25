@@ -111,6 +111,17 @@ public class CommuBoardServiceImpl implements CommuBoardService{
 		return cDAO.replyCountUp(sqlSession, bNo);
 	}
 	
+	// 댓글 수정 (update)
+	@Override
+	public int updateReply(HashMap<String, Object> map) {
+		return cDAO.updateReply(sqlSession, map);
+	}
+	
+	@Override
+	public Reply replyOneSelect(int replyNo) {
+		return cDAO.replyOneSelect(sqlSession, replyNo);
+	}
+	
 	// 댓글 삭제 (delete)
 	@Override
 	public int deleteReply(int rNo) {
@@ -164,7 +175,9 @@ public class CommuBoardServiceImpl implements CommuBoardService{
 	
 	/* 게시글 신고 (report) */
 	@Override
-	public int commuReport(Report report) {
+	public int commuReport(Report report, HashMap<String, Object> map) {
+		// reportStatus 변경
+		cDAO.updateReportStatus(sqlSession, map);
 		return cDAO.commuReport(sqlSession, report);
 	}
 	

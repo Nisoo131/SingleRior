@@ -53,6 +53,11 @@ public interface CommuBoardService {
 	// 댓글 count up
 	int replyCountUp(int bNo);
 	
+	// 댓글 수정 (update)
+	int updateReply(HashMap<String, Object> map);
+	
+	Reply replyOneSelect(int replyNo);
+	
 	// 댓글 삭제 (delete)
 	int deleteReply(int rNo);
 	
@@ -81,7 +86,7 @@ public interface CommuBoardService {
 	
 	
 	/* 게시글 신고 (report) */
-	int commuReport(Report report);
+	int commuReport(Report report, HashMap<String, Object> map);
 	
 	// 신고여부 확인
 	Report selectReport(HashMap<String, Object> map);
