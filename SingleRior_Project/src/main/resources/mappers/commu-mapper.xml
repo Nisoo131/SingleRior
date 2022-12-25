@@ -42,6 +42,7 @@
 		<result column="REPLY_STATUS" property="replyStatus"/>
 		<result column="BOARD_NO" property="boardNo"/>
 		<result column="NICKNAME" property="nickName"/>
+		<result column="REPORT_STATUS" property="reportStatus"/>
 	</resultMap>
 	
 	<resultMap type="ReReply" id="rReplyResultSet">
@@ -55,6 +56,7 @@
 		<result column="MEMBER_ID" property="memberId"/>
 		<result column="BOARD_NO" property="boardNo"/>
 		<result column="NICKNAME" property="nickName"/>
+		<result column="REPORT_STATUS" property="reportStatus"/>
 	</resultMap>
 	
 	<resultMap type="WishList" id="wishListResultSet">
@@ -224,6 +226,19 @@
 		where board_no = #{bNo}
 	</update>
 	
+	<!-- 댓글 수정 (update) -->
+	<update id="updateReply">
+		update reply
+		set REPLY_CONTENT = #{content}, REPLY_MODIFY_DATE = sysdate, RE_SECRET = #{secret}
+		where REPLY_NO = #{rNo}
+	</update>
+	
+	<select id="replyOneSelect" resultMap="replyResultSet"> 
+		select *
+		from reply
+		where REPLY_NO = #{replyNo} and REPLY_STATUS = 'Y'
+	</select>
+	
 	<!-- 댓글 삭제 (delete) -->
 	<update id="deleteReply">
 		update REPLY
@@ -301,6 +316,25 @@
 		insert into REPORT
 		values(SEQ_RPID.nextval, #{reportType}, #{contentNo}, #{reportCate}, sysdate, #{memberId})
 	</insert>
+	
+	<!-- reportStatus 변경 -->
+	<update id="updateReportStatus">
+		<if test='cate.equals("B")'>
+			update Board
+			set REPORT_STATUS = 'Y'
+			where board_no = #{cNo}
+		</if>
+		<if test='cate.equals("R")'>
+			update Reply
+			set REPORT_STATUS = 'Y'
+			where REPLY_NO = #{cNo}
+		</if>
+		<if test='cate.equals("RR")'>
+			update Re_Reply
+			set REPORT_STATUS = 'Y'
+			where RE_REPLY_NO = #{cNo}
+		</if>
+	</update>
 	
 	<!-- 신고여부 확인 -->
 	<select id="selectReport" resultMap="reportResultSet"> 

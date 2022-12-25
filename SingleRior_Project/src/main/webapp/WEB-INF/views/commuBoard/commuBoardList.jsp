@@ -229,11 +229,6 @@
 	
 	<script>
 		$(function(){
-
-			
-			$('.category').text('전체 게시글');
-
-			console.log(document.querySelector('.commuArray').value);
 			var commuArray = document.querySelector('.commuArray').value;
 			
 			if(commuArray == 0 || commuArray == 1){

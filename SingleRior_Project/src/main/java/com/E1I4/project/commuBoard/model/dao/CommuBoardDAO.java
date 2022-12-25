@@ -97,6 +97,15 @@ public class CommuBoardDAO {
 		return sqlSession.update("commuMapper.replyCountUp", bNo);
 	}
 	
+	// 댓글 수정 (update)
+	public int updateReply(SqlSessionTemplate sqlSession, HashMap<String, Object> map) {
+		return sqlSession.update("commuMapper.updateReply", map);
+	}
+	
+	public Reply replyOneSelect(SqlSessionTemplate sqlSession, int replyNo) {
+		return sqlSession.selectOne("commuMapper.replyOneSelect", replyNo);
+	}
+	
 	// 댓글 삭제 (delete)
 	public int deleteReply(SqlSessionTemplate sqlSession, int rNo) {
 		return sqlSession.update("commuMapper.deleteReply", rNo);
@@ -145,6 +154,11 @@ public class CommuBoardDAO {
 	/* 게시글 신고 (report) */
 	public int commuReport(SqlSessionTemplate sqlSession, Report report) {
 		return sqlSession.insert("commuMapper.commuReport", report);
+	}
+	
+	// reportStatus 변경
+	public void updateReportStatus(SqlSessionTemplate sqlSession, HashMap<String, Object> map) {
+		sqlSession.update("commuMapper.updateReportStatus", map);
 	}
 	
 	// 신고여부 확인
