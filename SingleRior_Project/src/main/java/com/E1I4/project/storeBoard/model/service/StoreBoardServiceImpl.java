@@ -46,17 +46,12 @@ public class StoreBoardServiceImpl implements StoreBoardService{
 	}
 
 	@Override
-	public int wishListSelect(int bNo) {
-		return sDAO.wishListSelect(sqlSession, bNo);
-	}
-
-	@Override
 	public int wishListOn(WishList wl) {
 		return sDAO.wishListOn(sqlSession, wl);
 	}
 
 	@Override
-	public int wishListOff(WishList wl, int bNo) {
+	public int wishListOff(WishList wl) {
 		return sDAO.wishListOff(sqlSession, wl);
 	}
 
