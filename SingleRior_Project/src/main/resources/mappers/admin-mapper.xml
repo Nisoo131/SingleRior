@@ -13,6 +13,7 @@
 		<result column="b_status" property="boardStatus"/>
 		<result column="board_writer" property="boardWriter"/>
 		<result column="board_count" property="boardCount"/>
+		<result column="REPORT_STATUS" property="reportStatus"/>
 		<result column="product_no" property="productNo"/>
 		<result column="product_price" property="productPrice"/>
 		<result column="product_discount" property="productDiscount"/>
@@ -82,6 +83,7 @@
 		<result property="status" column="B_STATUS"/>
 		<result property="boardWriter" column="BOARD_WRITER"/>
 		<result property="count" column="BOARD_COUNT"/>
+		<result property="reportStatus" column="REPORT_STATUS"/>
 		<result property="noticeCategory" column="NOTICE_CATEGORY"/>
 	</resultMap>
 	<resultMap type="Qna" id="qnaResultSet">
@@ -95,6 +97,7 @@
 		<result property="status" column="B_STATUS"/>
 		<result property="boardWriter" column="BOARD_WRITER"/>
 		<result property="count" column="BOARD_COUNT"/>
+		<result property="reportStatus" column="REPORT_STATUS"/>
 		<result property="qnaCategory" column="QNA_CATEGORY"/>
 	</resultMap>
 	<resultMap type="Board" id="boardResultSet">
@@ -110,11 +113,35 @@
 		<result column="BOARD_COUNT" property="count"/>
 		<result column="QNA_CATEGORY" property="qnaCategory"/>
 	</resultMap>
-	
+	<resultMap type="ReportBoard" id="reportBoardResultSet">
+		<id column="REPORT_NO" property="reportNo"/>
+		<result column="CONTENT_NO" property="contentNo"/>
+		<result column="REPORT_TYPE" property="reportType"/>
+		<result column="REPORT_CATE" property="reportCate"/>
+		<result column="BOARD_TYPE" property="boardType"/>
+		<result column="MEMBER_ID" property="memberId"/>
+		<result column="CREATE_DATE" property="createDate"/>
+		<result column="BOARD_TITLE" property="boardTitle"/>
+		<result column="BOARD_CONTENT" property="boardContent"/>
+		<result column="REPORT_STATUS" property="reportStatus"/>
+	</resultMap>
+
+	<resultMap type="ReportReply" id="reportReplyResultSet">
+		<id column="REPORT_NO" property="reportNo"/>
+		<result column="CONTENT_NO" property="contentNo"/>
+		<result column="REPORT_TYPE" property="reportType"/>
+		<result column="REPORT_CATE" property="reportCate"/>
+		<result column="BOARD_TYPE" property="boardType"/>
+		<result column="MEMBER_ID" property="memberId"/>
+		<result column="CREATE_DATE" property="createDate"/>
+		<result column="BOARD_TITLE" property="boardTitle"/>
+		<result column="REPLY_CONTENT" property="replyContent"/>
+		<result column="REPORT_STATUS" property="reportStatus"/>
+	</resultMap>
 
 	<insert id="insertProduct">
 		insert all
-			into board values(seq_bid.nextval,1,#{productName},#{productContent},sysdate,sysdate,default,default,#{boardWriter},default)
+			into board values(seq_bid.nextval,1,#{productName},#{productContent},sysdate,sysdate,default,default,#{boardWriter},default,default)
 			into product values(seq_pid.nextval,#{productPrice},#{productDiscount},#{productOption},#{modelName},#{brand},null,default,#{proSubCateCode},seq_bid.currval)
 		select *from dual
 	</insert>
@@ -228,7 +255,7 @@
 	
 	<insert id="enrollNotice">
 		insert all
-			into Board values(seq_bid.nextval,#{boardType},#{boardTitle},#{boardContent},sysdate,sysdate,default,default,#{boardWriter},default)
+			into Board values(seq_bid.nextval,#{boardType},#{boardTitle},#{boardContent},sysdate,sysdate,default,default,#{boardWriter},default,default)
 			into Notice values(seq_bid.currval,#{noticeCategory})
 		select *from dual
 	</insert>
@@ -277,7 +304,7 @@
 	</update>
 	<insert id="enrollQNA">
 		insert all
-			into Board values(seq_bid.nextval,#{boardType},#{boardTitle},#{boardContent},sysdate,sysdate,default,default,#{boardWriter},default)
+			into Board values(seq_bid.nextval,#{boardType},#{boardTitle},#{boardContent},sysdate,sysdate,default,default,#{boardWriter},default,default)
 			into QNA values(seq_bid.currval,#{qnaCategory})
 		select *from dual
 	</insert>
@@ -318,7 +345,7 @@
 	</update>
 	<insert id="insertBannerBoard">
 		insert into board
-		values(seq_bid.nextval,#{boardType},#{boardTitle},#{boardContent},sysdate,sysdate,default,default,#{writer},default)
+		values(seq_bid.nextval,#{boardType},#{boardTitle},#{boardContent},sysdate,sysdate,default,default,#{writer},default,default)
 	</insert>		
 	<select id="selectBannerBoard" resultMap="boardResultSet">
 		select *
@@ -353,9 +380,72 @@
 	where board_no=#{boardNo}
 	</update>
 	<update id="deleteBannerAttm">
-	update img_repository
-	set img_status='N'
-	where img_key=#{imgKey}
+		update img_repository
+		set img_status='N'
+		where img_key=#{imgKey}
 	</update>	
+	
+	<select id="selectReportList" resultMap="reportBoardResultSet">
+		select *
+		from report
+			join board on(report.content_no=board.board_no)
+		where report_cate='B'
+	
+	</select>
+
+	<update id="statusBoard">
+		update board
+		set b_status='N'
+		where board_no=(select board_no
+						from board
+						join report on(board.board_no=report.content_no)
+						where report_no=#{rNo} and report_cate='B')
+	</update>
+	
+	<delete id="reportBoard">
+		
+		delete from report
+		where report_no=${rNo}
+	
+	</delete>	
+	<update id="cancelStatusBoard">
+		update board
+		set report_status='N'
+		where board_no=(select board_no
+						from board
+						join report on(board.board_no=report.content_no)
+						where report_no=#{rNo} and report_cate='B')
+	</update>
+	
+	<select id="selectReportReplyList" resultMap="reportReplyResultSet">
+		select report.report_no,report.report_type,report.content_no,report.report_cate,board.board_type,report.create_date,report.member_id,board.board_title,reply.reply_content,reply.report_status
+		from report
+    		join reply on (report.content_no=reply.reply_no)
+    		join board on (reply.board_no=board.board_no)
+		where report_cate='R'
+	</select>
+	<update id="statusReply">
+		update reply
+		set reply_status='N'
+		where reply_no=(select reply_no
+						from reply
+						join report on(reply.reply_no=report.content_no)
+						where report_no=#{rNo} and report_cate='R')	
+	</update>
+	<delete id="reportReply">
+		delete from report
+		where report_no=#{rNo}
+	</delete>
+	<update id="cancelStatusReply">
+		update reply
+		set report_status='N'
+		where reply_no=(select reply_no
+						from reply
+						join report on(reply.reply_no=report.report_no)
+						where report_no=#{rNo} and report_cate='R')
+	</update>
+	
+	
+	
 	
 </mapper>

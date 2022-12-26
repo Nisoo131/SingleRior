@@ -15,8 +15,8 @@ import com.E1I4.project.common.model.vo.PageInfo;
 import com.E1I4.project.common.model.vo.Product;
 import com.E1I4.project.common.model.vo.ProductList;
 import com.E1I4.project.common.model.vo.Qna;
+import com.E1I4.project.common.model.vo.Report;
 import com.E1I4.project.member.model.vo.Member;
-import com.E1I4.project.storeBoard.model.vo.StoreBoard;
 
 @Service("aService")
 public class AdminServiceImpl implements AdminService {
@@ -189,6 +189,46 @@ public class AdminServiceImpl implements AdminService {
 	@Override
 	public int deleteBannerAttm(String imgKey) {
 		return aDAO.deleteBannerAttm(sqlSession,imgKey);
+	}
+
+	@Override
+	public ArrayList<Report> selectReportList() {
+		return aDAO.selectReportList(sqlSession);
+	}
+
+	@Override
+	public int reportBoard(int rNo) {
+		return aDAO.reportBoard(sqlSession,rNo);
+	}
+
+	@Override
+	public int statusBoard(int rNo) {
+		return aDAO.statusBoard(sqlSession,rNo);
+	}
+
+	@Override
+	public int cancelStatusBoard(int rNo) {
+		return aDAO.cancelStatusBoard(sqlSession,rNo);
+	}
+
+	@Override
+	public ArrayList<Report> selectReporReplytList() {
+		return aDAO.selectReportReplyList(sqlSession);
+	}
+
+	@Override
+	public int statusReply(int rNo) {
+		return aDAO.statusReply(sqlSession,rNo);
+	}
+
+	@Override
+	public int reportTableReply(int rNo) {
+		return aDAO.reportTabledReply(sqlSession,rNo);
+	}
+
+	@Override
+	public int cancelStatusReply(int rNo) {
+		return aDAO.cancelStatusReply(sqlSession,rNo);
 	}
 
 	

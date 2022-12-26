@@ -8,24 +8,24 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
 @ToString
 
-public class Notice {
+
+public class ReportReply {
 	
-	private int boardNo;
-	private int boardType;
-	private String boardTitle;
-	private String boardContent;
+	private int reportNo;
+	private String reportType;
+	private int contentNo;
+	private String reportCate;
+	private String boardType;
+	private String memberId;
 	private Date createDate;
-	private Date modifyDate;
-	private String noticeStatus;
-	private String status;
-	private String boardWriter;
-	private int count;
+	private String boardTitle;
+	private String replyContent ;
 	private String reportStatus;
-	private String noticeCategory;
+	
 }

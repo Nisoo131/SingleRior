@@ -123,7 +123,7 @@
 										        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 										      </div>
 										      <div class="modal-body">
-										        ${r.boardContent}
+										        ${r.replyContent}
 										      </div>
 										      <div class="modal-footer">
 										        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -141,11 +141,11 @@
 										        
 										      </div>
 										      <div class="modal-body">
-										        게시글을 신고처리 하시겟습니까?
+										        댓글을 신고처리 하시겟습니까?
 										      </div>
 										      <div class="modal-footer">
 										        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
-										      	<button type="button" class="btn btn-danger" id="deleteReportBoard">게시글 삭제</button>
+										      	<button type="button" class="btn btn-danger" id="deleteReportBoard">댓글 삭제</button>
 										        <button type="button" class="btn btn-primary" id="cancelReport">신고 취소</button>
 										      </div>
 										    </div>
@@ -184,12 +184,12 @@
 			 		const reportNo=$(this).parents('tr').children().eq(0).text();
 						document.getElementById('deleteReportBoard').addEventListener('click',function(){
 							alert("신고처리가 완료되었습니다.");
-							location.href="${contextPath}/reportBoard.adm?reportNo="+reportNo;
+							location.href="${contextPath}/reportReply.adm?reportNo="+reportNo;
 			
 						});
 						document.getElementById('cancelReport').addEventListener('click',function(){
 							alert("신고처리를 취소하셨습니다.");
-							location.href="${contextPath}/cancelReport.adm?reportNo="+reportNo;
+							location.href="${contextPath}/cancelReportReply.adm?reportNo="+reportNo;
 						});
 				 	});
 				 

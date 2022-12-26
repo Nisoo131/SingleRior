@@ -29,6 +29,8 @@ import com.E1I4.project.common.model.vo.PageInfo;
 import com.E1I4.project.common.model.vo.Product;
 import com.E1I4.project.common.model.vo.ProductList;
 import com.E1I4.project.common.model.vo.Qna;
+import com.E1I4.project.common.model.vo.Reply;
+import com.E1I4.project.common.model.vo.Report;
 import com.E1I4.project.member.model.service.MemberService;
 import com.E1I4.project.member.model.vo.Member;
 @Controller
@@ -750,14 +752,74 @@ public class AdminController {
 
 	@RequestMapping("manageReport.adm")
 	public String manageReport(Model model) {
-		
-		
+		ArrayList<Report> rList = aService.selectReportList();
+		model.addAttribute("rList",rList);
 		return "manageReport";
 	}
+	//신고 대상 글 처리
+	@RequestMapping("reportBoard.adm")
+	public String reportBoard(@RequestParam("reportNo") int rNo) {
+		
+		int statusBoard=aService.statusBoard(rNo);//신고 대상 글은 b_status를 N으로 놓는다.
+		int reportBoard=aService.reportBoard(rNo);//신고 처리 이후 report테이블 내용 삭제
+		int result = statusBoard+reportBoard;
+		
+		if(result>1) {
+			return "redirect:manageReport.adm";
+		}else {
+			throw new AdminException("신고 처리 요청 실패");
+		}
+	}
+	//신고글 확인 후 신고 취소 처리
+	@RequestMapping("cancelReport.adm")
+	public String cancelReport(@RequestParam("reportNo") int rNo) {
+		
+		int cancelStatusBoard=aService.cancelStatusBoard(rNo);// 신고대상 글이 아니니까 신고 상태 바꿔준다.
+		int reportBoard=aService.reportBoard(rNo);//신고 처리 이후 report테이블 내용 삭제
+		int result = cancelStatusBoard+reportBoard;
+		
+		if(result>1) {
+			return "redirect:manageReport.adm";
+		}else {
+			throw new AdminException("신고 취소 요청 실패");
+		}
+	}
 	
+	@RequestMapping("manageReportReply.adm")
+	public String manageReportReply(Model model) {
+		ArrayList<Report> rList = aService.selectReporReplytList();
+		model.addAttribute("rList",rList);
+		return "manageReportReply";
+	}
 	
+	//신고 대상 글 처리
+		@RequestMapping("reportReply.adm")
+		public String reportReply(@RequestParam("reportNo") int rNo) {
+			
+			int statusReply=aService.statusReply(rNo);//신고 대상 글은 b_status를 N으로 놓는다.
+			int reportReply=aService.reportTableReply(rNo);//신고 처리 이후 report테이블 내용 삭제
+			int result = statusReply+reportReply;
+			
+			if(result>1) {
+				return "redirect:manageReportReply.adm";
+			}else {
+				throw new AdminException("신고 처리 요청 실패");
+			}
+		}
 	
-	
+		@RequestMapping("cancelReportReply.adm")
+		public String cancelReportReply(@RequestParam("reportNo") int rNo) {
+			
+			int cancelStatusReply=aService.cancelStatusReply(rNo);// 신고대상 글이 아니니까 신고 상태 바꿔준다.
+			int reportReply=aService.reportTableReply(rNo);//신고 처리 이후 report테이블 내용 삭제
+			int result = cancelStatusReply+reportReply;
+			
+			if(result>1) {
+				return "redirect:manageReportReply.adm";
+			}else {
+				throw new AdminException("신고 취소 요청 실패");
+			}
+		}
 	@RequestMapping("orderList.adm")
 	public String orderList() {
 		return "orderList";

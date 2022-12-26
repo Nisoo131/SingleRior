@@ -24,5 +24,6 @@ public class Qna {
 	private String status;
 	private String boardWriter;
 	private int count;
+	private String reportStatus;
 	private String qnaCategory;
 }

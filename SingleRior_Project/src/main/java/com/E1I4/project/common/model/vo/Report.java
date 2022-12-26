@@ -14,7 +14,9 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
+
 public class Report {
+	
 	private int reportNo;
 	private int contentNo;
 	private String reportType;
