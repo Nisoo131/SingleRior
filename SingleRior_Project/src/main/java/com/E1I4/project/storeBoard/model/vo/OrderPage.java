@@ -1,6 +1,6 @@
 package com.E1I4.project.storeBoard.model.vo;
 
-import java.sql.Date;
+import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -13,13 +13,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class Cart {
-	// 장바구니
-	private int cartNo;
-	private int quantity;
-	private String payStatus;
-	private String memberId;
-	private int productNo;
-	private String option;
-
+public class OrderPage {
+	
+ private List<OrderItem> orderList;
 }

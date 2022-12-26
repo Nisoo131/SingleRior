@@ -11,11 +11,11 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class Order {
+public class OrderItem {
 	// view에서 전달 받을 값
  private int productNo;
- private int productCount;
- private String memberId;
+ private String productQty;
+ private String finalPrice;
  
    // DB에서 꺼내올 값
  private String boardTitle;
@@ -27,4 +27,7 @@ public class Order {
  private int totalPrice;
  private int point;
  
+ 
+ 
+  
 }
