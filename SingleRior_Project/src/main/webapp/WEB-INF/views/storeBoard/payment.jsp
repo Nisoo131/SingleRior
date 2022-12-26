@@ -15,12 +15,10 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
 <style>
    .front{margin: 30px 180px;} 
-	td{width:100px;}
 	.price{text-align: right;} 
 	#totalPrice{font-family: #008cd4 bold;} 
     .ordersheet{width:250px;}
-	.space{width:450px;}
-	.space2{width:100px;}
+	.space{width:100px;}
 	.method{margin-left:auto; margin-right:auto;}
 	 button{background-color:#008cd4;
 	  		 width: 290px;
@@ -94,30 +92,38 @@
 			        </select>
 			       </div>
 			       <br><br>
-			       
-			       <h5 class="blog-post-title mb-1">▶상품 정보</h5>
-			       <table class="table">   
-				   <tr height="15">
-				    	<td scope="row" width="250" rowspan="2" class="bottomNone"><img src="${ contextPath }/resources/uploadFiles/${cr.imgRename }" width="100"></td>
-				     	<td width="350">상품</td>
-				      	<td width="350">옵션/수량</td>
-				      	<td width="250">상품 금액</td>
-				      	<td style="display:none" class="productNo">${cr.productNo }</td>
-				   	</tr>
-				   	<tr>
-				     	<td class="bottomNone">
-				      		<div> 상품명</div>
-				      	</td>
-				      	<td class="bottomNone">
-							<div>옵션 : 옵션내용</div>
-							<div>수량 : 1개</div>		      
-				      	</td>
-				      	<td class="bottomNone">
-				      		<div><span class="price"><fmt:formatNumber value="" pattern="#,###"/></span>원</div>
-				      	</td>
-				   	</tr>
-				</table>
-			       
+			      
+			  <%-- ${ orderList } --%>
+			        
+				   <h5 class="blog-post-title mb-1">▶상품 정보</h5>
+				   <hr>
+				   <c:if test="${ !empty orderList }">
+				       <table class="table">   
+					   <tr height="15">
+					    	<td scope="row" width="250" rowspan="2" class="bottomNone"><img src="${ contextPath }/resources/uploadFiles/${orderList.imgRename }"1 width="100"></td>
+					     	<td width="350">상품</td>
+					      	<td width="350">옵션/수량</td>
+					      	<td width="250">총 상품 금액</td>
+					      	<td style="display:none" class="productNo"></td>
+					   	</tr>
+					   	<tr>
+					     	<td class="bottomNone">
+					      		<div>${ orderList.boardTitle }</div>
+					      	</td>
+					      	<td class="bottomNone">
+								<div>옵션 : ${ orderList.productOption } </div>
+								<div>수량 : ${ orderList.productQty }</div>		      
+					      	</td>
+					      	<td class="bottomNone">
+				
+					      	<fmt:formatNumber type="number" maxFractionDigits="3" value="${ orderList.finalPrice * orderList.productQty }" var="totalPrice" />
+					      		<div><span class="price" style="color:red;">${ totalPrice } 원</span>
+					      	    </div>
+					      	</td>
+					   	</tr>
+					</table>
+					</c:if>
+
 			     
 				   <br><br>
 				   <h5 class="blog-post-title mb-1">▶결제 수단</h5>
@@ -127,16 +133,16 @@
 					  	<table class="method">
 					  		<tr>
 					  			<td> <div class="col"><img src="https://cdn-icons-png.flaticon.com/512/3991/3991999.png" style="width:100px;height:100px;"></div></td>
-					  			<td></td>
+					  			<td class="space"></td>
 					  			<td> <div class="col"><img src="https://cdn-icons-png.flaticon.com/512/4614/4614153.png" style="width:100px;height:100px;"></div></td>
-					  			<td></td>
+					  			<td class="space"></td>
 					  			<td> <div class="col"><img src="https://cdn-icons-png.flaticon.com/512/506/506137.png" style="width:100px;height:100px;"></div></td>
 					  		</tr>
 					  		<tr>
 					  			<td>카카오페이</td>
-					  			<td></td>
+					  			<td class="space"></td>
 					  			<td>카드결제</td>
-					  			<td></td>
+					  			<td class="space"></td>
 					  			<td>토스<td>
 					  		</tr>
 					  	</table>
@@ -154,19 +160,17 @@
 	         		<h3>결제금액</h3>
 	         		 <table>
 				   		<tr>
-					   		<td>총 상품 금액</td>
-					   		<td class="space2"></td>
-					   		<td class="price">29,000원</td>
+					   		<td width="200px">총 상품 금액</td>
+					   		<td class="Price" id="changedPrice">${ totalPrice }원</td>
 					   	</tr>
 					   	<tr>
-					   		<td>배송비</td>
-					   		<td class="space2"></td>
-					   		<td class="price">0원</td>
+					   		<td width="200px" >배송비</td>
+					   		<td class="Price" id="deliveryPrice">0원</td>
 					   	</tr>
 					   </table>
 		         	</form>
 		         <hr>
-		         <h4>최종 결제 금액　<span style="color:#008cd4;">29,900 원</span></h4>
+		         <h4>최종 결제 금액　<span style="color:#008cd4;" id="finalPrice" ></span></h4>
 		         <hr>
 		         <form>
 			         <input type="checkbox" required> 아래 내용에 모두 동의합니다.(필수)<br>
@@ -188,16 +192,35 @@
 	
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
-window.onload = function(){
-    document.getElementById("address_kakao").addEventListener("click", function(){ //주소입력칸을 클릭하면 카카오 주소 발생
-        new daum.Postcode({
-            oncomplete: function(data) { //선택시 입력값 세팅
-                document.getElementById("address_kakao").value = data.address; // 주소 넣기
-                document.querySelector("input[name=address_detail]").focus(); // 상세입력 포커싱
-            }
-        }).open();
-    });
-}
+	window.onload = function(){
+	    document.getElementById("address_kakao").addEventListener("click", function(){ //주소입력칸을 클릭하면 카카오 주소 발생
+	        new daum.Postcode({
+	            oncomplete: function(data) { //선택시 입력값 세팅
+	                document.getElementById("address_kakao").value = data.address; // 주소 넣기
+	                document.querySelector("input[name=address_detail]").focus(); // 상세입력 포커싱
+	            }
+	        }).open();
+	    });
+	    // 최종 금액 계산하기
+	    const price1 = $("#changedPrice").text();
+	    const price2 = price1.replace(",", "");
+	    const totalPrice = parseInt(price2); 
+	    //console.log(typeof totalPrice);
+	    
+	    if(totalPrice > 50000){
+	    	var deliveryFee = 0;
+	    	 $('#deliveryPrice').text(deliveryFee.toLocaleString()+"원");
+	    } else{ 
+	    	var deliveryFee = 2500;
+	    	 $('#deliveryPrice').text(deliveryFee.toLocaleString()+"원");
+	    }
+	    finalPrice = deliveryFee + totalPrice
+	  /*   console.log(finalPrice); */
+	    $('#finalPrice').text(finalPrice.toLocaleString()+"원"); 
+
+	}
+
+   
 	
 </script>
 </body>
