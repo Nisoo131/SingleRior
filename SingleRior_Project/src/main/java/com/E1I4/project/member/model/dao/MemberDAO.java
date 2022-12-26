@@ -179,18 +179,29 @@ public class MemberDAO {
 		return sqlSession.delete("memberMapper.deleteCart", cartNo);
 	}
 
-	public int getOrderListCount(SqlSessionTemplate sqlSession, String memberId) {
-		return sqlSession.selectOne("memberMapper.getOrderListCount", memberId);
+	public int getOrderListCount(SqlSessionTemplate sqlSession, HashMap<String, String> map) {
+		return sqlSession.selectOne("memberMapper.getOrderListCount", map);
 	}
 
-	public ArrayList<OrderItem> selectReviewNDoneList(SqlSessionTemplate sqlSession, PageInfo pi, String memberId) {
+	public ArrayList<OrderItem> selectReviewNDoneList(SqlSessionTemplate sqlSession, PageInfo pi, HashMap<String, String> map) {
 		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
 		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
-		return (ArrayList)sqlSession.selectList("memberMapper.selectReviewNDoneList", memberId,rowBounds);
+		return (ArrayList)sqlSession.selectList("memberMapper.selectReviewNDoneList", map,rowBounds);
 	}
 
-	public String getImgOrder(SqlSessionTemplate sqlSession, String boardNo) {
-		return sqlSession.selectOne("memberMapper.getImgOrder", boardNo);
+	public String getImgOrder(SqlSessionTemplate sqlSession, HashMap<String, String> map) {
+		return sqlSession.selectOne("memberMapper.getImgOrder", map);
 	}
+
+	public Review getMyReviewList(SqlSessionTemplate sqlSession, int orderNo) {
+		return sqlSession.selectOne("memberMapper.getMyReviewList", orderNo);
+	}
+
+	public String getImgReview(SqlSessionTemplate sqlSession, String reviewNoStr) {
+		return sqlSession.selectOne("memberMapper.getImgReview", reviewNoStr);
+	}
+
+
+
 
 }

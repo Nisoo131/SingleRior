@@ -222,19 +222,31 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public int getOrderListCount(String memberId) {
-		return mDAO.getOrderListCount(sqlSession,memberId);
+	public int getOrderListCount(HashMap<String, String> map) {
+		return mDAO.getOrderListCount(sqlSession,map);
 	}
 
 	@Override
-	public ArrayList<OrderItem> selectReviewNDoneList(PageInfo pi, String memberId) {
-		return mDAO.selectReviewNDoneList(sqlSession,pi,memberId);
+	public ArrayList<OrderItem> selectReviewNDoneList(PageInfo pi, HashMap<String, String> map) {
+		return mDAO.selectReviewNDoneList(sqlSession,pi,map);
 	}
 
 	@Override
-	public String getImgOrder(String boardNo) {
-		return mDAO.getImgOrder(sqlSession,boardNo);
+	public String getImgOrder(HashMap<String, String> map) {
+		return mDAO.getImgOrder(sqlSession,map);
 	}
+
+	@Override
+	public Review getMyReviewList(int orderNo) {
+		return mDAO.getMyReviewList(sqlSession,orderNo);
+	}
+
+	@Override
+	public String getImgReview(String reviewNoStr) {
+		return  mDAO.getImgReview(sqlSession,reviewNoStr);
+	}
+
+
 
 
 

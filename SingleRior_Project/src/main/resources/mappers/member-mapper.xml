@@ -511,7 +511,7 @@
 	<select id="getOrderListCount" resultType="_int">
 		select count(*)
 		from order_product op
-		where op.member_id = #{memberId} and op.status = '구매확정'
+		where op.member_id = #{memberId} and op.status = #{status}
 	</select>
 	
 	<select id="selectReviewNDoneList" resultMap="orderResultSet">
@@ -519,7 +519,7 @@
 		from order_product op
 		join product using(product_no)
 		join board using using(board_no)
-		where member_id =#{memberId} and status='구매확정'
+		where member_id =#{memberId} and status= #{status}
 	</select>
 	
 	<select id="getImgOrder" resultType="string">
@@ -540,6 +540,7 @@
 		<result column="board_title" property="productName"/>
 		<result column="PRODUCT_QUANTITY" property="productQuantity"/>
 		<result column="PRODUCT_OPTION" property="productOption"/>
+		<result column="REVIEW_RATING" property="reviewRating"/>
 	</resultMap>
 	
 	<resultMap type="OrderItem" id="orderResultSet">
@@ -558,4 +559,14 @@
 		<result column="PRODUCT_OPTION" property="productOption"/>
 		<result column="board_title" property="boardTitle"/>
 	</resultMap>
+	
+	<select id="getMyReviewList" resultMap="reviewResultSet">
+		select * from product_review where order_no = #{orderNo}
+	</select>
+	
+	<select id="getImgReview" resultType="string">
+		select *
+		from img_repository
+		where img_key = #{reviewNoStr} and img_level = 0
+	</select>
 </mapper>

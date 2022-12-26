@@ -593,7 +593,55 @@ public class MemberController {
 		return "orderCancelList";
 	}
 	@RequestMapping("myReviewDoneList.me")
-	public String myReviewList() {
+	public String myReviewList(HttpSession session,@RequestParam(value="page", required=false) Integer page,Model model) {
+		Member m = (Member)session.getAttribute("loginUser");
+		
+		String memberId = m.getMemberId();
+		
+		int currentPage =1;
+		if(page != null) {
+			currentPage = page;
+		}
+		
+		HashMap<String,String> map = new HashMap<String,String>();
+		String status = "리뷰작성";
+		map.put("memberId", memberId);
+		map.put("status", status);
+		int listCount = mService.getOrderListCount(map);
+		
+		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 5);
+		
+		ArrayList<OrderItem> orList = mService.selectReviewNDoneList(pi,map);
+		ArrayList<Review> rList = new ArrayList<Review>();
+		
+		
+		for (int i = 0; i<orList.size(); i++) {
+			String boardNo = Integer.toString(orList.get(i).getBoardNo());
+			map.put("boardNo", boardNo);
+			String img = mService.getImgOrder(map);
+			orList.get(i).setImgRename(img);
+
+			int orderNo = orList.get(i).getOrderNo();
+			Review r = mService.getMyReviewList(orderNo);
+			
+			int reviewNo = r.getReviewNo();
+			String reviewNoStr = "review" + Integer.toString(reviewNo);
+			String rImg = mService.getImgReview(reviewNoStr);
+			
+			r.setImgRename(rImg);
+			
+			rList.add(r);
+			
+		}
+		
+//		System.out.println("rList : "+rList);
+		
+//		System.out.println("dd" +orList);
+		if(orList != null) {
+			model.addAttribute("orList", orList);
+			model.addAttribute("rList", rList);
+			model.addAttribute("pi", pi);
+		}
 		return "myReviewDoneList";
 	}
 	@RequestMapping("myReviewNDoneList.me")
@@ -607,22 +655,28 @@ public class MemberController {
 			currentPage = page;
 		}
 		
-		int listCount = mService.getOrderListCount(memberId);
+		HashMap<String,String> map = new HashMap<String,String>();
+		String status = "구매확정";
+		map.put("memberId", memberId);
+		map.put("status", status);
+		
+		int listCount = mService.getOrderListCount(map);
 		
 		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 5);
 		
-		ArrayList<OrderItem> orList = mService.selectReviewNDoneList(pi,memberId);
+		ArrayList<OrderItem> orList = mService.selectReviewNDoneList(pi,map);
 		
 		for (int i = 0; i<orList.size(); i++) {
 			String boardNo = Integer.toString(orList.get(i).getBoardNo());
-			
-			String img = mService.getImgOrder(boardNo);
+			map.put("boardNo", boardNo);
+			String img = mService.getImgOrder(map);
 			
 			orList.get(i).setImgRename(img);
 		}
 //		System.out.println("dd" +orList);
 		if(orList != null) {
 			model.addAttribute("orList", orList);
+			model.addAttribute("pi", pi);
 		}
 		
 		return "myReviewNDoneList";
