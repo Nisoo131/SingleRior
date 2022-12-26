@@ -89,11 +89,16 @@ public interface MemberService {
 
 	int deleteCart(String cartNo);
 
-	int getOrderListCount(String memberId);
+	int getOrderListCount(HashMap<String, String> map);
 
-	ArrayList<OrderItem> selectReviewNDoneList(PageInfo pi, String memberId);
+	ArrayList<OrderItem> selectReviewNDoneList(PageInfo pi, HashMap<String, String> map);
 
-	String getImgOrder(String boardNo);
+	String getImgOrder(HashMap<String, String> map);
+
+	Review getMyReviewList(int orderNo);
+
+	String getImgReview(String reviewNoStr);
+
 
 
 

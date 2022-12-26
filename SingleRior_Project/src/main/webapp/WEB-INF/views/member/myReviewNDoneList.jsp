@@ -86,6 +86,11 @@
 				</div>
 			</c:forEach>
 		</c:if>
+		<c:if test="${ empty orList  }">
+			<div class="alert alert-secondary" role="alert">
+  				작성하실 리뷰가 없습니다.
+			</div>
+		</c:if>
 		
 		<nav aria-label="Standard pagination example">
 				<ul class="pagination justify-content-center">

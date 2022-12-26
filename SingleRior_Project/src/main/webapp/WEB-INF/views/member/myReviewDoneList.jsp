@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -24,7 +27,8 @@
 		word-break:break-all;
 	}
 	tr{font-size:20px;}
- 	.reviewContent div{margin:auto; display:inline-block; width:355px; text-align:center; font-size:20px;} 
+ 	.reviewContent div{margin:auto; display:inline-block; width:355px; text-align:center; font-size:20px;}
+ 	img:hover{cursor:pointer};
 
 </style>
 </head>
@@ -43,46 +47,71 @@
 		</div>
 	</nav>
 	<section>
-		<div class="orderCancelProduct done">
-			<span>주문번호 : 000-1111-123456</span>&nbsp;&nbsp;&nbsp;
-			<span>주문일자 : 2022-02-12</span>&nbsp;&nbsp;&nbsp;
-			<table class="table">
-			    <tr>
-			      <td scope="row" colspan="4"></td>
-			    </tr>
-			    <tr height="15">
-			    	<td scope="row" width="250" rowspan="2" class="trReview">
-			    		<img src="${ contextPath }/resources/image/babychicken.png" width="160">
-			    	</td>
-			     	<td>상품</td>
-			      	<td>옵션</td>
-			      	<td>상품 금액</td>
-			   	</tr>
-			   	<tr>
-			     	<td height='100'>
-			      		<div>병아리 인형</div>
-			      	</td>
-			      	<td>
-						<div>색상 : 노란색</div>		      
-			      	</td>
-			      	<td>
-			      		<div>12500원</div>
-			      	</td>
-			   	</tr>
-			</table>
-			<div class="reviewContent">
-				<div>별점 ★★★★★</div>
-				<div>구매후기 :  <span>병아리가 졸라 귀엽다..</span></div> 
- 			    <div><img src="${ contextPath }/resources/image/babychicken.png" width="100"></div>
- 			    <div>
- 			    	<button type="button" class="btn btn-light" style="background:#008cd4; color:white;" data-bs-toggle="modal" data-bs-target="#updateReviewModal">수정</button>
- 			    	<button type="button" class="btn btn-light" style="background:#008cd4; color:white;" data-bs-toggle="modal" data-bs-target="#deleteReviewModal">삭제</button>
- 			    </div>
+		<c:if test="${ !empty orList }">
+			<c:forEach items="${ orList }" var="o" varStatus="r">
+				<div class="orderCancelProduct done">
+					<span>주문번호 : ${ o.orderNo }</span>&nbsp;&nbsp;&nbsp;
+					<span>주문일자 : ${ o.orderDate }</span>&nbsp;&nbsp;&nbsp;
+					<table class="table">
+					    <tr>
+					      <td scope="row" colspan="4"></td>
+					    </tr>
+					    <tr height="15">
+					    	<td scope="row" width="250" rowspan="2" class="trReview">
+					    		<img src="${ contextPath }/resources/uploadFiles/${o.imgRename}" width="160" class="img">
+					    		<input type="hidden" name="productNo" value="${o.productNo}">
+					    	</td>
+					     	<td width="400">상품</td>
+					      	<td>옵션</td>
+					      	<td>상품 금액</td>
+					   	</tr>
+					   	<tr>
+					     	<td height='100'>
+					      		<div>${o.boardTitle}</div>
+					      	</td>
+					      	<td>
+								<div>${o.productOption}</div>		      
+					      	</td>
+					      	<td>
+					      		<div><fmt:formatNumber value="${o.totalPrice}" pattern="#,###"/>원</div>
+					      	</td>
+					   	</tr>
+					</table>
+					<div class="reviewContent">
+						<div>별점 : 
+							<c:if test="${rList[r.index].reviewRating == 0}">☆☆☆☆☆</c:if>
+<%-- 							<c:if test="${rList[r.index].reviewRating == 0.5}">☆☆☆☆☆</c:if> --%>
+							<c:if test="${rList[r.index].reviewRating == 1}">★☆☆☆☆</c:if>
+<%-- 							<c:if test="${rList[r.index].reviewRating == 1.5}">★☆☆☆☆</c:if> --%>
+							<c:if test="${rList[r.index].reviewRating == 2}">★★☆☆☆</c:if>
+<%-- 							<c:if test="${rList[r.index].reviewRating == 2.5}">★★☆☆☆</c:if> --%>
+							<c:if test="${rList[r.index].reviewRating == 3}">★★★☆☆</c:if>
+<%-- 							<c:if test="${rList[r.index].reviewRating == 3.5}">★★★☆☆</c:if> --%>
+							<c:if test="${rList[r.index].reviewRating == 4}">★★★★☆</c:if>
+<%-- 							<c:if test="${rList[r.index].reviewRating == 4.5}">★★★★☆</c:if> --%>
+							<c:if test="${rList[r.index].reviewRating == 5}">★★★★★</c:if>
+						</div>
+						<div>구매후기 :  <span>${rList[r.index].reviewContent}</span></div> 
+		 			    <div>
+		 			    	<c:if test="${ !empty rList[r.index].imgRename}">
+			 			   		<img  src="${ contextPath }/resources/uploadFiles/${rList[r.index].imgRename}" width="100">
+		 			    	</c:if>
+		 			    </div>
+		 			    <div>
+		 			    	<button type="button" class="btn btn-light" style="background:#008cd4; color:white;" data-bs-toggle="modal" data-bs-target="#updateReviewModal">수정</button>
+		 			    	<button type="button" class="btn btn-light" style="background:#008cd4; color:white;" data-bs-toggle="modal" data-bs-target="#deleteReviewModal">삭제</button>
+		 			    </div>
+					</div>
+					<hr>
+					<br><br><br><br>
+				</div>
+			</c:forEach>
+		</c:if>
+		<c:if test="${ empty orList }">
+			<div class="alert alert-secondary" role="alert">
+  				작성하신 리뷰가 없습니다.
 			</div>
-			<hr>
-			<br><br><br><br>
-		</div>
-		
+		</c:if>
 		
 	
 			
@@ -138,6 +167,19 @@
 		<jsp:include page="../common/footer.jsp"/>
 	</footer>
 	
-	
+		<script>
+	window.onload = () =>{
+		var imgs = document.getElementsByClassName("img");
+		console.log(imgs);
+		for(img of imgs){
+			img.addEventListener('click',function(){
+				const productNo= this.parentNode.childNodes[3].value;
+				console.log(productNo);
+				
+				location.href='${contextPath}/productDetail.st?productNo=' + productNo;
+			})
+		}
+	}	
+	</script>
 </body>
 </html>
