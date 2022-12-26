@@ -29,6 +29,7 @@
 		<typeAlias type="com.E1I4.project.storeBoard.model.vo.Order" alias="Order"/>
 		<typeAlias type="com.E1I4.project.common.model.vo.ReportBoard" alias="ReportBoard"/>
 		<typeAlias type="com.E1I4.project.common.model.vo.ReportReply" alias="ReportReply"/>
+		<typeAlias type="com.E1I4.project.storeBoard.model.vo.OrderItem" alias="OrderItem"/>
 
 	</typeAliases>
 

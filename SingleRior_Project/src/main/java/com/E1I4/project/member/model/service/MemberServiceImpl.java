@@ -25,7 +25,7 @@ import com.E1I4.project.common.model.vo.Review;
 import com.E1I4.project.common.model.vo.WishList;
 import com.E1I4.project.member.model.dao.MemberDAO;
 import com.E1I4.project.member.model.vo.Member;
-import com.E1I4.project.storeBoard.model.vo.Order;
+import com.E1I4.project.storeBoard.model.vo.OrderItem;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -227,7 +227,7 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public ArrayList<Order> selectReviewNDoneList(PageInfo pi, String memberId) {
+	public ArrayList<OrderItem> selectReviewNDoneList(PageInfo pi, String memberId) {
 		return mDAO.selectReviewNDoneList(sqlSession,pi,memberId);
 	}
 

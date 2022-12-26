@@ -18,6 +18,7 @@ public class OrderItem {
  private int productNo;
  private String productQty;
  private String finalPrice;
+ private String memberId;
  
    // DB에서 꺼내올 값
  private String boardTitle;
