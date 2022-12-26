@@ -159,6 +159,7 @@
 		<result column="INQUIRY_ANSWER" property="inquiryAnswer"/>
 	</resultMap>
    
+ 
    
 
 </mapper>

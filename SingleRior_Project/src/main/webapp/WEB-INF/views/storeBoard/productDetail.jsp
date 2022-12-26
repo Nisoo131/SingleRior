@@ -115,7 +115,7 @@
 	  				<td style="color:red; font:12px;" id="wishListCount"></td>
 	  			</tr>
 	  		</table>　　　　　　　　　
-		  <h2>${ pLiST[0].boardTitle }</h2>
+		  <h2>${ pList[0].boardTitle }</h2>
 		  <p><s>${ commaPrice } 원</s></p>
 		  <h1><span>${ pList[0].discount }%</span>　<span style="color:#008cd4;">${ totalPrice } 원</span></h1>
 		  <br><br>
@@ -164,10 +164,13 @@
 	  	</div>
 	  	
 	<!-- 바로결제 주문시 전달 데이터-->
-	<form action="${ contextPath }/payment.st" method="get" class="order_form">
-		<input type="hidden" name="orderList[0].productNo" value="${ pList[0].productNo }">
-		<input type="hidden" name="orderList[0].productQty" value="">
-		<input type="hidden" name="orderList[0].finalPrice" value="${ totalPrice }">
+	<form action="${ contextPath }/payment.st" method="post" class="order_form">
+		<input type="hidden" name="productNo" value="${ pList[0].productNo }">
+		<input type="hidden" name="productQty" value="">
+		<input type="hidden" name="finalPrice" value="${ pList[0].price-(pList[0].price*pList[0].discount/100)}">
+		<input type="hidden" name="productOption" value="">
+		<input type="hidden" name="boardTitle" value="${ pList[0].boardTitle }">
+		<input type="hidden" name="imgRename" value="${ pList[0].imgServerName }">
 	</form>
 	  	
 	<!--상세정보 네비바 -->
@@ -261,6 +264,7 @@
 				<p><img src="https://cdn-icons-png.flaticon.com/512/8371/8371275.png" width="20px" height="20px"> ${ i.inquiryContent }</p>
 				<p><img src="https://cdn-icons-png.flaticon.com/512/25/25628.png" width="20px" height="20px"> ${ i.inquiryAnswer }</p>
 	    	</div>
+	    	<br>
 	    	</c:forEach>
 	    	</article>
 	    	<hr>
@@ -409,7 +413,7 @@
 	     	$('#changedQty').text(qtyPlus);
 	     	$('#changedQty1').text(qtyPlus);
 	   		//console.log(qtyPlus);
-	     	var finalPrice = (qtyPlus * ${ i }).toLocaleString();;
+	     	var finalPrice = (qtyPlus * ${ i }).toLocaleString();
 	     	$('#finalPrice').text(finalPrice);
 	     	$('#finalPrice2').text(finalPrice);
 	     	$('#finalPrice3').text(finalPrice);
@@ -509,13 +513,15 @@
 			});
 	});
 	
-    // 바로구매시 수량 확정하기
+    // 바로구매시 수량, 옵션 확정하기
 	$('.payment').on('click', function(){
 		let productQty = $('.quantity_input').val();
-	/* 	console.log(productQty); */
- 		let changedqty = $('.order_form').find("input[name='orders[0].productQty']").val(productQty);
- 		console.log(changedqty);
-/* 		$('.order_form').submit();  */
+	    let productOps = $('.option:selected').val();
+	 	/* console.log(productQty);  
+	 	console.log(productOps); */
+ 		$('.order_form').find("input[name='productQty']").val(productQty);
+ 		$('.order_form').find("input[name='productOption']").val(productOps);	 	
+    	$('.order_form').submit();   
 	}); 
 
 </script>

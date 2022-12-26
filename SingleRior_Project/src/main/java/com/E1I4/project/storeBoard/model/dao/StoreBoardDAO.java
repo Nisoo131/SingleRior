@@ -1,6 +1,7 @@
 package com.E1I4.project.storeBoard.model.dao;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -11,6 +12,7 @@ import com.E1I4.project.common.model.vo.Cart;
 import com.E1I4.project.common.model.vo.PageInfo;
 import com.E1I4.project.common.model.vo.ProductInquiry;
 import com.E1I4.project.common.model.vo.WishList;
+import com.E1I4.project.storeBoard.model.vo.OrderItem;
 import com.E1I4.project.storeBoard.model.vo.StoreBoard;
 
 @Repository("sDAO")
@@ -71,6 +73,8 @@ public class StoreBoardDAO {
 	public ArrayList<ProductInquiry> selectInquiryList(SqlSessionTemplate sqlSession, int productNo) {
 		return (ArrayList)sqlSession.selectList("storeMapper.selectInquiryList", productNo);
 	}
+
+	
 
 
 	

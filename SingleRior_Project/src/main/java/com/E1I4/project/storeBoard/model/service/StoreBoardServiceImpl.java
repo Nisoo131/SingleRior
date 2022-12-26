@@ -1,6 +1,7 @@
 package com.E1I4.project.storeBoard.model.service;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import com.E1I4.project.common.model.vo.PageInfo;
 import com.E1I4.project.common.model.vo.ProductInquiry;
 import com.E1I4.project.common.model.vo.WishList;
 import com.E1I4.project.storeBoard.model.dao.StoreBoardDAO;
+import com.E1I4.project.storeBoard.model.vo.OrderItem;
 import com.E1I4.project.storeBoard.model.vo.StoreBoard;
 
 @Service("sService")
@@ -77,6 +79,8 @@ public class StoreBoardServiceImpl implements StoreBoardService{
 	public ArrayList<ProductInquiry> selectInquiryList(int productNo) {
 		return sDAO.selectInquiryList(sqlSession, productNo);
 	}
+
+
 
 	
 

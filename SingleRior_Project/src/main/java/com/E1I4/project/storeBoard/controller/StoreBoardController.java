@@ -23,7 +23,7 @@ import com.E1I4.project.common.model.vo.ProductInquiry;
 import com.E1I4.project.common.model.vo.WishList;
 import com.E1I4.project.member.model.vo.Member;
 import com.E1I4.project.storeBoard.model.service.StoreBoardService;
-import com.E1I4.project.storeBoard.model.vo.OrderPage;
+import com.E1I4.project.storeBoard.model.vo.OrderItem;
 import com.E1I4.project.storeBoard.model.vo.StoreBoard;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -208,17 +208,21 @@ public class StoreBoardController {
 	
 	}
 	
-	// 결제
+	// 주문서
 	@RequestMapping("payment.st")
-	public void payment(HttpSession session, OrderPage orderList, Model model ) {
+	public String payment(HttpSession session, OrderItem orderList, Model model ) {
 		String id = ((Member)session.getAttribute("loginUser")).getMemberId();
 		
-		System.out.println("memberId : " + id);
-		System.out.println ("orders : " + orderList.getOrderList());
-	    		
+		//System.out.println("memberId : " + id);
+		//System.out.println ("orders : " + orderList);
+
+	 
+		if(orderList != null) {
+			model.addAttribute("orderList", orderList);
+			System.out.println(orderList);
+		}
+		return "payment";
 		
-		/* return "payment"; */
+	  
 	}
-	
-	
 }
