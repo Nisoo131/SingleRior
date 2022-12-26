@@ -196,6 +196,41 @@ public class AdminServiceImpl implements AdminService {
 		return aDAO.selectReportList(sqlSession);
 	}
 
+	@Override
+	public int reportBoard(int rNo) {
+		return aDAO.reportBoard(sqlSession,rNo);
+	}
+
+	@Override
+	public int statusBoard(int rNo) {
+		return aDAO.statusBoard(sqlSession,rNo);
+	}
+
+	@Override
+	public int cancelStatusBoard(int rNo) {
+		return aDAO.cancelStatusBoard(sqlSession,rNo);
+	}
+
+	@Override
+	public ArrayList<Report> selectReporReplytList() {
+		return aDAO.selectReportReplyList(sqlSession);
+	}
+
+	@Override
+	public int statusReply(int rNo) {
+		return aDAO.statusReply(sqlSession,rNo);
+	}
+
+	@Override
+	public int reportTableReply(int rNo) {
+		return aDAO.reportTabledReply(sqlSession,rNo);
+	}
+
+	@Override
+	public int cancelStatusReply(int rNo) {
+		return aDAO.cancelStatusReply(sqlSession,rNo);
+	}
+
 	
 
 

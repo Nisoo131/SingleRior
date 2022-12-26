@@ -26,6 +26,7 @@ public class Product {
 	private String boardStatus;
 	private String boardWriter;
 	private int boardCount;
+	private String reportStatus;
 	private int productNo;
 	private int productPrice;
 	private int productDiscount;

@@ -21,9 +21,11 @@ public class ReportBoard {
 	private int contentNo;
 	private String reportType;
 	private String reportCate;
+	private String boardType;
 	private String memberId;
 	private Date createDate;
 	private String boardTitle;
 	private String boardContent;
+	private String reportStatus;
 	
 }

@@ -80,7 +80,19 @@ public interface AdminService {
 
 	ArrayList<Report> selectReportList();
 
+	int statusBoard(int rNo);
 
+	int reportBoard(int rNo);
+
+	int cancelStatusBoard(int rNo);
+
+	ArrayList<Report> selectReporReplytList();
+
+	int statusReply(int rNo);
+
+	int reportTableReply(int rNo);
+
+	int cancelStatusReply(int rNo);
 
 
 
