@@ -1,14 +1,12 @@
 package com.E1I4.project.storeBoard.model.service;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-
 
 import com.E1I4.project.common.model.vo.Attachment;
+import com.E1I4.project.common.model.vo.Cart;
 import com.E1I4.project.common.model.vo.PageInfo;
 import com.E1I4.project.common.model.vo.ProductInquiry;
 import com.E1I4.project.common.model.vo.WishList;
-import com.E1I4.project.storeBoard.model.vo.Cart;
 import com.E1I4.project.storeBoard.model.vo.StoreBoard;
 
 public interface StoreBoardService {

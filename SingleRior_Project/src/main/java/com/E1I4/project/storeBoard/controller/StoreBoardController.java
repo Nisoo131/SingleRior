@@ -17,12 +17,13 @@ import org.springframework.web.servlet.ModelAndView;
 import com.E1I4.project.common.Pagination;
 import com.E1I4.project.common.exception.BoardException;
 import com.E1I4.project.common.model.vo.Attachment;
+import com.E1I4.project.common.model.vo.Cart;
 import com.E1I4.project.common.model.vo.PageInfo;
 import com.E1I4.project.common.model.vo.ProductInquiry;
 import com.E1I4.project.common.model.vo.WishList;
 import com.E1I4.project.member.model.vo.Member;
 import com.E1I4.project.storeBoard.model.service.StoreBoardService;
-import com.E1I4.project.storeBoard.model.vo.Cart;
+import com.E1I4.project.storeBoard.model.vo.OrderPage;
 import com.E1I4.project.storeBoard.model.vo.StoreBoard;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -174,8 +175,8 @@ public class StoreBoardController {
 		Cart cart = new Cart();
 		cart.setProductNo(productNo);
 		cart.setQuantity(quantity);
-		cart.setMemberId(memberId);
-		cart.setOption(option);
+		cart.setMemeberId(memberId);
+		cart.setProductOption(option);
 		
 		int result = sService.insertCart(cart);
 		
@@ -204,14 +205,19 @@ public class StoreBoardController {
 		   model.addAttribute("productNo", productNo);
 	   }
 	   return "redirect:productDetail.st";
-	   
 	
 	}
 	
 	// 결제
 	@RequestMapping("payment.st")
-	public String payment() {
-		return "payment";
+	public void payment(HttpSession session, OrderPage orderList, Model model ) {
+		String id = ((Member)session.getAttribute("loginUser")).getMemberId();
+		
+		System.out.println("memberId : " + id);
+		System.out.println ("orders : " + orderList.getOrderList());
+	    		
+		
+		/* return "payment"; */
 	}
 	
 	

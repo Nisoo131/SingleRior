@@ -135,7 +135,7 @@
 				  	<input type="text" id="inputOption"><br>
 				  	<span class="count-wrap _count">
 						    <button type="button" class="minus_btn" style="height:35px;">-</button>
-						   	 <input type="text" class="quantity_input" value="1" style="width:70px;height:30px" id="qty"/>
+						   	 <input type="text" class="quantity_input" value="0" style="width:70px;height:30px" id="qty"/>
 						    <button type="button" class="plus_btn" style="height:35px;">+</button>
 					</span>
 				    <fmt:parseNumber var="i" type="number" value="${ totalPrice }"/>
@@ -157,17 +157,17 @@
 				  <button type="button" class="payment"  style="width:200px;height:50px;font-size:20px;" onclick="location.href='${contextPath}/loginView.me'">결제하기</button>
 			    </c:if> 
 			    <c:if test="${ !empty loginUser }">	
-				  <button type="button" class="payment"  style="width:200px;height:50px;font-size:20px;" onclick="location.href='${ contextPath }/payment.st'">결제하기</button>
+				  <button type="button" class="payment"  style="width:200px;height:50px;font-size:20px;" <%-- onclick="location.href='${ contextPath }/payment.st'" --%>>결제하기</button>
 			    </c:if>
 			  </div>
 	  		</div>
 	  	</div>
 	  	
-	<!-- 바로결제 주문서 -->
-	<form action="" method="get">
-		<input type="hidden" name="" value="">
-		<input type="hidden" name="" value="">
-		<input type="hidden" name="" value="">
+	<!-- 바로결제 주문시 전달 데이터-->
+	<form action="${ contextPath }/payment.st" method="get" class="order_form">
+		<input type="hidden" name="orderList[0].productNo" value="${ pList[0].productNo }">
+		<input type="hidden" name="orderList[0].productQty" value="">
+		<input type="hidden" name="orderList[0].finalPrice" value="${ totalPrice }">
 	</form>
 	  	
 	<!--상세정보 네비바 -->
@@ -323,7 +323,7 @@
 				<!--   	<input type="text" id="inputOption"><br> -->
 				  	<span class="count-wrap _count">
 						    <button type="button" class="minus_btn" style="height:35px;">-</button>
-						   	 <input type="text" class="quantity_input" value="1" style="width:70px;height:30px" id="qty"/>
+						   	 <input type="text" class="quantity_input" value="0" style="width:70px;height:30px" id="qty"/>
 						    <button type="button" class="plus_btn" style="height:35px;">+</button>
 					</span>
 				    <fmt:parseNumber var="i" type="number" value="${ totalPrice }"/>
@@ -508,6 +508,15 @@
 				$(this).val(piece);
 			});
 	});
+	
+    // 바로구매시 수량 확정하기
+	$('.payment').on('click', function(){
+		let productQty = $('.quantity_input').val();
+	/* 	console.log(productQty); */
+ 		let changedqty = $('.order_form').find("input[name='orders[0].productQty']").val(productQty);
+ 		console.log(changedqty);
+/* 		$('.order_form').submit();  */
+	}); 
 
 </script>
 </html>
