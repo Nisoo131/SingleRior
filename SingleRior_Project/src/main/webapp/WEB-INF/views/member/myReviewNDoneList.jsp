@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -25,7 +28,7 @@
 	}
 	tr{font-size:20px;}
   	.reviewContent div{margin:auto; text-align:center; font-size:20px;}  
-
+	img:hover{cursor:pointer;}
 </style>
 </head>
 <body>
@@ -43,43 +46,71 @@
 		</div>
 	</nav>
 	<section>
-		<div class="orderCancelProduct done">
-			<span>주문번호 : 000-1111-123456</span>&nbsp;&nbsp;&nbsp;
-			<span>주문일자 : 2022-02-12</span>&nbsp;&nbsp;&nbsp;
-			<button type="button" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#orderRatingModal" style="background:#008cd4; color:white; float:right">리뷰작성</button>
-			<table class="table">
-			    <tr>
-			      <td scope="row" colspan="4"></td>
-			    </tr>
-			    <tr height="15">
-			    	<td scope="row" width="250" rowspan="2" class="trReview">
-			    		<img src="${ contextPath }/resources/image/babychicken.png" width="160">
-			    	</td>
-			     	<td>상품</td>
-			      	<td>옵션</td>
-			      	<td>상품 금액</td>
-			   	</tr>
-			   	<tr>
-			     	<td height='100'>
-			      		<div>병아리 인형</div>
-			      	</td>
-			      	<td>
-						<div>색상 : 노란색</div>		      
-			      	</td>
-			      	<td>
-			      		<div>12500원</div>
-			      	</td>
-			   	</tr>
-			</table>
-			<div class="reviewContent">
-				<div>아직 리뷰를 작성하시 않으셨습니다.</div>
-				<div>이 제품의 리뷰를 남겨주세요.</div>
-			</div>
-			<hr>
-			<br><br><br><br>
-		</div>
+		<c:if test="${ !empty orList  }">
+			<c:forEach items="${orList }" var="o">
+				<div class="orderCancelProduct done">
+					<span>주문번호 : ${ o.orderNo }</span>&nbsp;&nbsp;&nbsp;
+					<span>주문일자 : ${ o.orderDate }</span>&nbsp;&nbsp;&nbsp;
+					<button type="button" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#orderRatingModal" style="background:#008cd4; color:white; float:right">리뷰작성</button>
+					<table class="table">
+					    <tr>
+					      <td scope="row" colspan="4"></td>
+					    </tr>
+					    <tr height="15">
+					    	<td scope="row" width="150" rowspan="2" class="trReview">
+					    		<img class='img' src="${ contextPath }/resources/uploadFiles/${o.imgRename}" width="160">
+					    		<input type="hidden" name="productNo" value="${o.productNo}">
+					    	</td>
+					     	<td width="200">상품</td>
+					      	<td width="200">옵션</td>
+					      	<td width="200">상품 금액</td>
+					   	</tr>
+					   	<tr>
+					     	<td height='100'>
+					      		<div>${o.boardTitle}</div>
+					      	</td>
+					      	<td>
+								<div>${o.productOption}</div>		      
+					      	</td>
+					      	<td>
+					      		<div><fmt:formatNumber value="${o.totalPrice}" pattern="#,###"/>원</div>
+					      	</td>
+					   	</tr>
+					</table>
+					<div class="reviewContent">
+						<div>아직 리뷰를 작성하시 않으셨습니다.</div>
+						<div>이 제품의 리뷰를 남겨주세요.</div>
+					</div>
+					<hr>
+					<br><br><br><br>
+				</div>
+			</c:forEach>
+		</c:if>
 		
-		
+		<nav aria-label="Standard pagination example">
+				<ul class="pagination justify-content-center">
+					<li class="page-item"><c:url var="goBack" value="${ loc }">
+							<c:param name="page" value="${ pi.currentPage-1 }" />
+							<c:param name="category" value="${ category }"/>
+						</c:url> <a class="page-link" href="${ goBack }" aria-label="Previous">
+							<span aria-hidden="true">&laquo;</span>
+					</a></li>
+					<c:forEach begin="${ pi.startPage }" end="${ pi.endPage }" var="p">
+						<c:url var="goNum" value="${ loc }">
+							<c:param name="page" value="${ p }" />
+							<c:param name="category" value="${ category }"/>
+						</c:url>
+						<li class="page-item"><a class="page-link" href="${ goNum }">${ p }</a></li>
+					</c:forEach>
+					<li class="page-item"><c:url var="goNext" value="${ loc }">
+							<c:param name="page" value="${ pi.currentPage+1 }" />
+							<c:param name="category" value="${ category }"/>
+						</c:url> <a class="page-link" href="${ goNext }" aria-label="Next"> <span
+							aria-hidden="true">&raquo;</span>
+					</a></li>
+				</ul>
+			</nav>
+			
 	<!-- 리뷰 작성 모달창 -->
 	<div class="modal fade" id="orderRatingModal" tabindex="-1"
 				aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -107,13 +138,25 @@
 					</div>
 				</div>
 			</div>
-	
-	
-	
 	</section>
 	<footer>
 		<jsp:include page="../common/footer.jsp"/>
 	</footer>
+	
+	<script>
+	window.onload = () =>{
+		var imgs = document.getElementsByClassName("img");
+// 		console.log(imgs);
+		for(img of imgs){
+			img.addEventListener('click',function(){
+				const productNo= this.parentNode.childNodes[3].value;
+				console.log(productNo);
+				
+				location.href='${contextPath}/productDetail.st?productNo=' + productNo;
+			})
+		}
+	}	
+	</script>
 	
 	
 </body>

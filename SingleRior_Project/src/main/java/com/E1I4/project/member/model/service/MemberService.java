@@ -10,8 +10,10 @@ import com.E1I4.project.common.model.vo.PageInfo;
 import com.E1I4.project.common.model.vo.Product;
 import com.E1I4.project.common.model.vo.ProductInquiry;
 import com.E1I4.project.common.model.vo.Reply;
+import com.E1I4.project.common.model.vo.Review;
 import com.E1I4.project.common.model.vo.WishList;
 import com.E1I4.project.member.model.vo.Member;
+import com.E1I4.project.storeBoard.model.vo.Order;
 
 public interface MemberService {
 
@@ -86,6 +88,12 @@ public interface MemberService {
 	String selectCartImg(int productNo);
 
 	int deleteCart(String cartNo);
+
+	int getOrderListCount(String memberId);
+
+	ArrayList<Order> selectReviewNDoneList(PageInfo pi, String memberId);
+
+	String getImgOrder(String boardNo);
 
 
 

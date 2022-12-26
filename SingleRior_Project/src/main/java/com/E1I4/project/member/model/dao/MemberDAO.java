@@ -14,8 +14,10 @@ import com.E1I4.project.common.model.vo.PageInfo;
 import com.E1I4.project.common.model.vo.Product;
 import com.E1I4.project.common.model.vo.ProductInquiry;
 import com.E1I4.project.common.model.vo.Reply;
+import com.E1I4.project.common.model.vo.Review;
 import com.E1I4.project.common.model.vo.WishList;
 import com.E1I4.project.member.model.vo.Member;
+import com.E1I4.project.storeBoard.model.vo.Order;
 
 @Repository("mDAO")
 public class MemberDAO {
@@ -175,6 +177,20 @@ public class MemberDAO {
 
 	public int deleteCart(SqlSessionTemplate sqlSession, String cartNo) {
 		return sqlSession.delete("memberMapper.deleteCart", cartNo);
+	}
+
+	public int getOrderListCount(SqlSessionTemplate sqlSession, String memberId) {
+		return sqlSession.selectOne("memberMapper.getOrderListCount", memberId);
+	}
+
+	public ArrayList<Order> selectReviewNDoneList(SqlSessionTemplate sqlSession, PageInfo pi, String memberId) {
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		return (ArrayList)sqlSession.selectList("memberMapper.selectReviewNDoneList", memberId,rowBounds);
+	}
+
+	public String getImgOrder(SqlSessionTemplate sqlSession, String boardNo) {
+		return sqlSession.selectOne("memberMapper.getImgOrder", boardNo);
 	}
 
 }

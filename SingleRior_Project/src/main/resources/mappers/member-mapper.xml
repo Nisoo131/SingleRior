@@ -507,4 +507,55 @@
 		delete from cart
 		where cart_no = #{cartNo}
 	</delete>
+	
+	<select id="getOrderListCount" resultType="_int">
+		select count(*)
+		from order_product op
+		where op.member_id = #{memberId} and op.status = '구매확정'
+	</select>
+	
+	<select id="selectReviewNDoneList" resultMap="orderResultSet">
+		select *
+		from order_product op
+		join product using(product_no)
+		join board using using(board_no)
+		where member_id =#{memberId} and status='구매확정'
+	</select>
+	
+	<select id="getImgOrder" resultType="string">
+	select img_server_name
+	from img_repository
+	where img_key = #{boardNo} and img_level = 0
+	</select>
+	
+	<resultMap type="Review" id="reviewResultSet">
+		<id column="REVIEW_NO" property="reviewNo"/>
+		<result column="REVIEW_CONTENT" property="reviewContent"/>
+		<result column="REVIEW_DATE" property="reviewDate"/>
+		<result column="PRODUCT_NO" property="productNo"/>
+		<result column="MEMBER_ID" property="memberId"/>
+		<result column="BOARD_NO" property="boardNo"/>
+		<result column="ORDER_NO" property="orderNo"/>
+		<result column="IMG_SERVER_NAME" property="imgRename"/>
+		<result column="board_title" property="productName"/>
+		<result column="PRODUCT_QUANTITY" property="productQuantity"/>
+		<result column="PRODUCT_OPTION" property="productOption"/>
+	</resultMap>
+	
+	<resultMap type="Order" id="orderResultSet">
+		<id column="ORDER_NO" property="orderNo"/>
+		<result column="DELIVERY_MESSAGE" property="deliveryMessage"/>
+		<result column="RECIPIENT" property="recipient"/>
+		<result column="ADDRESS" property="address"/>
+		<result column="PHONE" property="phone"/>
+		<result column="ORDER_DATE" property="orderDate"/>
+		<result column="MEMBER_ID" property="memberId"/>
+		<result column="PRODUCT_NO" property="productNo"/>
+		<result column="board_NO" property="boardNo"/>
+		<result column="STATUS" property="status"/>
+		<result column="PRODUCT_QUANTITY" property="productQuantity"/>
+		<result column="PRODUCT_FINALPRICE" property="totalPrice"/>
+		<result column="PRODUCT_OPTION" property="productOption"/>
+		<result column="board_title" property="boardTitle"/>
+	</resultMap>
 </mapper>

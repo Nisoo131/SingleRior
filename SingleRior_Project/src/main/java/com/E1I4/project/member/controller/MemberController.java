@@ -30,12 +30,14 @@ import com.E1I4.project.common.model.vo.PageInfo;
 import com.E1I4.project.common.model.vo.Product;
 import com.E1I4.project.common.model.vo.ProductInquiry;
 import com.E1I4.project.common.model.vo.Reply;
+import com.E1I4.project.common.model.vo.Review;
 import com.E1I4.project.common.model.vo.WishList;
 import com.E1I4.project.member.model.service.KakaoLogin;
 import com.E1I4.project.member.model.service.MailSendService;
 import com.E1I4.project.member.model.service.MemberService;
 import com.E1I4.project.member.model.service.NaverLogin;
 import com.E1I4.project.member.model.vo.Member;
+import com.E1I4.project.storeBoard.model.vo.Order;
 
 @Controller
 public class MemberController {
@@ -595,7 +597,34 @@ public class MemberController {
 		return "myReviewDoneList";
 	}
 	@RequestMapping("myReviewNDoneList.me")
-	public String myReviewNDoneList() {
+	public String myReviewNDoneList(HttpSession session,@RequestParam(value="page", required=false) Integer page,Model model) {
+		Member m = (Member)session.getAttribute("loginUser");
+		
+		String memberId = m.getMemberId();
+		
+		int currentPage =1;
+		if(page != null) {
+			currentPage = page;
+		}
+		
+		int listCount = mService.getOrderListCount(memberId);
+		
+		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 5);
+		
+		ArrayList<Order> orList = mService.selectReviewNDoneList(pi,memberId);
+		
+		for (int i = 0; i<orList.size(); i++) {
+			String boardNo = Integer.toString(orList.get(i).getBoardNo());
+			
+			String img = mService.getImgOrder(boardNo);
+			
+			orList.get(i).setImgRename(img);
+		}
+//		System.out.println("dd" +orList);
+		if(orList != null) {
+			model.addAttribute("orList", orList);
+		}
+		
 		return "myReviewNDoneList";
 	}
 	@RequestMapping("myAskList.me")

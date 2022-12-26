@@ -1,5 +1,7 @@
 package com.E1I4.project.storeBoard.model.vo;
 
+import java.sql.Date;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -26,5 +28,17 @@ public class Order {
  private int salePrice;
  private int totalPrice;
  private int point;
+ 
+ private int orderNo;
+ private int boardNo;
+ private String deliveryMessage;
+ private String recipient;
+ private String address;
+ private String phone;
+ private Date orderDate;
+ private int productQuantity;
+ private String status;
+ private String productOption;
+ private String imgRename;
  
 }
