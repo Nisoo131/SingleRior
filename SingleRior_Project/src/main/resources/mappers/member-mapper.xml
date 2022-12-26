@@ -542,7 +542,7 @@
 		<result column="PRODUCT_OPTION" property="productOption"/>
 	</resultMap>
 	
-	<resultMap type="Order" id="orderResultSet">
+	<resultMap type="OrderItem" id="orderResultSet">
 		<id column="ORDER_NO" property="orderNo"/>
 		<result column="DELIVERY_MESSAGE" property="deliveryMessage"/>
 		<result column="RECIPIENT" property="recipient"/>
