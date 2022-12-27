@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -21,8 +24,8 @@
 		font-size:35px;
 		text-align:center;
 	}
-	#orderStatus a{display:inline-block; padding:20px; text-decoration:none; color:black;}
-	#orderStatus a:hover{font-weight:bold;}
+	.a{display:inline-block; padding:20px; text-decoration:none; color:black; cursor:pointer;}
+	.a:hover{font-weight:bold;}
 	.orderStatusCount{color:#008cd4;}
 	.orderDetail{
 		margin:auto; 
@@ -56,74 +59,97 @@
 	</header>
 	<section>
 		<div id="orderStatus">
-			<a href="#"><div class="orderStatusTitle">입금대기</div><div class="orderStatusCount">0</div></a>
-			<span>></span>
-			<a href="#"><div class="orderStatusTitle">결제완료</div><div class="orderStatusCount">0</div></a>
-			<span>></span>
-			<a href="#"><div class="orderStatusTitle">배송준비</div><div class="orderStatusCount">0</div></a>
-			<span>></span>
-			<a href="#"><div class="orderStatusTitle">배송중</div><div class="orderStatusCount">0</div></a>
-			<span>></span>
-			<a href="#"><div class="orderStatusTitle">배송완료</div><div class="orderStatusCount">0</div></a>
-			<span>></span>
-			<a href="#"><div class="orderStatusTitle">구매확정</div><div class="orderStatusCount">0</div></a>
+				<div class="a"><div class="orderStatusTitle">입금대기</div><div class="orderStatusCount">0</div></div>
+				<span>></span>
+				<div class="a"><div class="orderStatusTitle">결제완료</div><div class="orderStatusCount">0</div></div>
+				<span>></span>
+				<div class="a"><div class="orderStatusTitle">배송준비</div><div class="orderStatusCount">0</div></div>
+				<span>></span>
+				<div class="a"><div class="orderStatusTitle">배송중</div><div class="orderStatusCount">0</div></div>
+				<span>></span>
+				<div class="a"><div class="orderStatusTitle">배송완료</div><div class="orderStatusCount">0</div></div>
+				<span>></span>
+				<div class="a"><div class="orderStatusTitle">구매확정</div><div class="orderStatusCount">0</div></div>
 		</div>
 		<br><br>
 		<hr width="1300px;" style="margin:auto"><br><br>
 		<div id="selectDate" class="btn-group">
 		  <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">기간</button>
 		  <ul class="dropdown-menu">
+		    <li><a class="dropdown-item" href="#">전체</a></li>
 		    <li><a class="dropdown-item" href="#">1개월</a></li>
 		    <li><a class="dropdown-item" href="#">3개월</a></li>
 		    <li><a class="dropdown-item" href="#">1년</a></li>
-		    <li><a class="dropdown-item" href="#">전체</a></li>
 		  </ul>
 		</div>
-		<div class="orderDetail">
-			<span>주문번호 : 000-1111-123456</span>&nbsp;&nbsp;&nbsp;
-			<span>주문일자 : 2022-02-12</span>
-			<span class="orderProductDetail">상세보기</span><br><br>
-			<div>
-				<span class="badge text-bg-light" style="font-size:1em">입금대기</span><br>
-			</div>
-			<table>
-				<tr>
-					<td rowspan="2" width="200px;"><img src="${ contextPath }/resources/image/babychicken.png" width="160"></td>
-					<td  height="50px;" width="450">다우니</td>
-					<td rowspan="2" width="50px;"><div class="line"></div></td>
-					<td colspan="2">옵션</td>
-				</tr>
-				<tr>
-					<td>초고농축 어쩌구</td>
-					<td colspan="2">가격</td>
-				</tr>
-			</table>
-			<button type="button" class="btn btn-light orderCancel" data-bs-toggle="modal" data-bs-target="#orderCancelModal">
-			  주문취소
-			</button>	
-		</div>
-		<div class="orderDetail">
-			<span>주문번호 : 000-1111-123456</span>&nbsp;&nbsp;&nbsp;
-			<span>주문일자 : 2022-02-12</span>
-			<span class="orderProductDetail">상세보기</span><br><br>
-			<div>
-				<span class="badge text-bg-light" style="font-size:1em">배송완료</span><br>
-			</div>
-			<table>
-				<tr>
-					<td rowspan="2" width="200px;"><img src="${ contextPath }/resources/image/babychicken.png" width="160"></td>
-					<td  height="50px;" width="450">다우니</td>
-					<td rowspan="2" width="50px;"><div class="line"></div></td>
-					<td colspan="2">옵션</td>
-				</tr>
-				<tr>
-					<td>초고농축 어쩌구</td>
-					<td colspan="2">가격</td>
-				</tr>
-			</table>
-			<button type="button" class="btn btn-light orderCancel" data-bs-toggle="modal" data-bs-target="#orderReviewModal">리뷰작성</button>
-			<button type="button" class="btn btn-light orderCancel" data-bs-toggle="modal" data-bs-target="#orderCommitModal">구매확정</button>
-		</div>
+			<c:if test="${ !empty oiList }">
+				<c:forEach items="${ oiList }" var="oi">
+					<div class="orderDetail">
+						<span>주문번호 : ${ oi.orderDate }-${oi.orderNo }</span>&nbsp;&nbsp;&nbsp;
+						<span>주문일자 : ${ oi.orderDate }</span>
+						<span class="orderProductDetail">상세보기</span><br><br>
+						<div>
+							<span class="badge text-bg-light" style="font-size:1em">${ oi.status }</span><br>
+						</div>
+						<table>
+							<tr>
+								<td rowspan="2" width="200px;"><img src="${ contextPath }/resources/uploadFiles/${oi.imgRename }" width="160"></td>
+								<td  height="50px;" width="450">${oi.boardTitle }</td>
+								<td rowspan="2" width="50px;"><div class="line"></div></td>
+								<td colspan="2">가격</td>
+							</tr>
+							<tr>
+								<td>${oi.productOption }</td>
+								<td><fmt:formatNumber value="${oi.totalPrice }" pattern="#,###"/>원</td>
+							</tr>
+						</table>
+						<c:if test="${ oi.status == '입금대기' or oi.status == '결제완료' or oi.status == '배송준비'}">
+							<button type="button" class="btn btn-light orderCancel" data-bs-toggle="modal" data-bs-target="#orderCancelModal">
+							  주문취소
+							</button>	
+						</c:if>
+						<c:if test="${ oi.status == '배송중'}">
+							<button type="button" class="btn btn-light orderCancel" data-bs-toggle="modal" data-bs-target="">
+							  운송장확인
+							</button>	
+						</c:if>
+						<c:if test="${ oi.status == '배송완료'}">
+							<button type="button" class="btn btn-light orderCancel" data-bs-toggle="modal" data-bs-target="#orderCommitModal">
+							  구매확정
+							</button>	
+						</c:if>
+						<c:if test="${ oi.status == '구매확정'}">
+							<button type="button" class="btn btn-light orderCancel" data-bs-toggle="modal" data-bs-target="#orderReviewModal">
+							  리뷰작성
+							</button>	
+						</c:if>
+					</div>
+				</c:forEach>
+			</c:if>
+			<br><br>
+				<nav aria-label="Standard pagination example">
+				<ul class="pagination justify-content-center">
+					<li class="page-item"><c:url var="goBack" value="${ loc }">
+							<c:param name="page" value="${ pi.currentPage-1 }" />
+							<c:param name="category" value="${ category }"/>
+						</c:url> <a class="page-link" href="${ goBack }" aria-label="Previous">
+							<span aria-hidden="true">&laquo;</span>
+					</a></li>
+					<c:forEach begin="${ pi.startPage }" end="${ pi.endPage }" var="p">
+						<c:url var="goNum" value="${ loc }">
+							<c:param name="page" value="${ p }" />
+							<c:param name="category" value="${ category }"/>
+						</c:url>
+						<li class="page-item"><a class="page-link" href="${ goNum }">${ p }</a></li>
+					</c:forEach>
+					<li class="page-item"><c:url var="goNext" value="${ loc }">
+							<c:param name="page" value="${ pi.currentPage+1 }" />
+							<c:param name="category" value="${ category }"/>
+						</c:url> <a class="page-link" href="${ goNext }" aria-label="Next"> <span
+							aria-hidden="true">&raquo;</span>
+					</a></li>
+				</ul>
+			</nav>
 	</section>
 	<footer>
 		<jsp:include page="../common/footer.jsp"/>
@@ -210,13 +236,29 @@
 					</div>
 				</div>
 			</div>
+			
+
 	<script>
 		const orderProductDetail = document.getElementsByClassName("orderProductDetail");
-		console.log(orderProductDetail);
+// 		console.log(orderProductDetail);
 		orderProductDetail[0].addEventListener('click',function(){
 			location.href='${contextPath}/orderProductDetail.me';
 		});
+		
 	
+		window.onload = () =>{
+			var orderStatusCounts = document.getElementsByClassName("orderStatusCount");
+			var arr = ${countStatus};
+			var count = 0;
+			
+			for(orderStatusCount of orderStatusCounts){
+				orderStatusCount.innerText = arr[count];
+				count++;
+			}
+			
+			
+			
+		}
 	</script>
 </body>
 </html>

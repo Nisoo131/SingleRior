@@ -222,7 +222,6 @@ public class StoreBoardController {
 			System.out.println(orderList);
 		}
 		return "payment";
-		
-	  
 	}
+	
 }

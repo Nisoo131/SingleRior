@@ -26,7 +26,7 @@ public class OrderItem {
  private int discount;
  
   // 만들어야 할 값
- private int salePrice;
+ private int salePrice; // 할인 적용된 가격
  private int totalPrice;
  private int point;
  

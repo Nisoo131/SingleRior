@@ -246,6 +246,10 @@ public class MemberServiceImpl implements MemberService {
 		return  mDAO.getImgReview(sqlSession,reviewNoStr);
 	}
 
+	@Override
+	public int orderStatusCount(HashMap<String, String> map) {
+		return mDAO.orderStatusCount(sqlSession,map);
+	}
 
 
 

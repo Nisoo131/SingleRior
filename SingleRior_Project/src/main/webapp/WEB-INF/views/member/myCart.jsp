@@ -43,13 +43,12 @@
 				<input type='checkbox' id='selectAll' value='selectall'/>&nbsp;&nbsp;<h4 style="display:inline-block" onclick="">전체선택</h4>
 				<button id= "deleteSubmit" type="button" class="btn btn-light btn-sm" style="background:#008cd4; color:white">삭제</button>
 			</c:if>
-		<div id="cart">
-			<form>
-				<c:if test="${ !empty cartList  }">
-					<c:forEach items="${cartList }" var="cr">
+			<c:if test="${ !empty cartList  }">
+				<c:forEach items="${cartList }" var="cr">
+					<div id="cart">
 						<table class="table">
 						    <tr>
-						      <td scope="row" colspan="4"><input class="checkbox form-check-input" type="checkbox" id="flexCheckDefault" value="${cr.cartNo }"></td>
+						      <td scope="row" colspan="4"><input class="checkbox form-check-input" type="checkbox" value="${cr.cartNo }"></td>
 						    </tr>
 						    <tr height="15">
 						    	<td scope="row" width="250" rowspan="2" class="bottomNone"><img class="img" src="${ contextPath }/resources/uploadFiles/${cr.imgRename }" width="160"></td>
@@ -71,36 +70,41 @@
 						      	</td>
 						   	</tr>
 						</table>
-					</c:forEach>
-				</c:if>
-			</form>
+						<input type="hidden" value="${cr.productNo }" name="productNo" class="productNo">
+						<input type="hidden" value="${cr.quantity }" name="productQuantity" class="productQuantity">
+						<input type="hidden" value="${cr.lastPrice }" name="salePrice" class="salePrice">
+						<input type="hidden" value="${cr.productOption }" name="productOption" class="productOption">
+						<input type="hidden" value="${cr.boardTitle }" name="boardTitle" class="boardTitle">
+						<input type="hidden" value="${cr.imgRename }" name="imgRename" class="imgRename">
+					</div>
+				</c:forEach>
+			</c:if>
 			<c:if test="${ empty cartList  }">
 				<div class="alert alert-secondary" role="alert" style="margin:30px;">
  					장바구니에 담긴 상품이 없습니다!
 				</div>
 			</c:if>
-		</div>
-		<c:if test="${ !empty cartList  }">
-			<div id="pay">
-				<table>
-					<tr>
-						<td width="300px;" >선택상품금액<br>
-							<div id="sItems">0원</div>
-						</td>
-						<td width="200px;">+
-						</td>
-						<td width="300px;">배송비
-							<div id="delivery">0원</div>
-						</td>
-						<td width="300px;">총 주문금액</td>
-						<td style="font-size:40px; color:#008cd4" id="allItemPrice">0원</td>
-					</tr>
-				</table>
-			</div>
-			<div class="d-grid gap-2">
-				  <button class="btn" type="button" style="background:#008cd4; color:white">구매하기</button>
-			</div>
-		</c:if>
+			<c:if test="${ !empty cartList  }">
+				<div id="pay">
+					<table>
+						<tr>
+							<td width="300px;" >선택상품금액<br>
+								<div id="sItems">0원</div>
+							</td>
+							<td width="200px;">+
+							</td>
+							<td width="300px;">배송비
+								<div id="delivery">0원</div>
+							</td>
+							<td width="300px;">총 주문금액</td>
+							<td style="font-size:40px; color:#008cd4" id="allItemPrice">0원</td>
+						</tr>
+					</table>
+				</div>
+				<div class="d-grid gap-2">
+					  <button class="order_btn btn" type="button" style="background:#008cd4; color:white" id="order_btn">구매하기</button>
+				</div>
+			</c:if>
 	</section>
 	<footer>
 		<jsp:include page="../common/footer.jsp"/>
@@ -119,6 +123,42 @@
 				location.href='${contextPath}/productDetail.st?productNo=' + productNo + '&page=' + ${pi.currentPage};
 			})
 		}
+		
+		
+		var orderBtn = document.getElementById("order_btn");
+// 		console.log(orderBtn);
+		var OrderItems;
+		orderBtn.addEventListener('click',function(){
+			var checkboxs = document.getElementsByClassName("checkbox");
+// 			console.log(checkboxs);
+			for(var i=0; i<checkboxs.length; i++){
+			var forms;
+				
+				if(checkboxs[i].checked ==true){
+					var productNo = checkboxs[i].parentNode.parentNode.parentNode.parentNode.parentNode.childNodes[3].value;
+					var productQuantity = checkboxs[i].parentNode.parentNode.parentNode.parentNode.parentNode.childNodes[5].value;
+					var salePrice = checkboxs[i].parentNode.parentNode.parentNode.parentNode.parentNode.childNodes[7].value;
+					var productOption = checkboxs[i].parentNode.parentNode.parentNode.parentNode.parentNode.childNodes[9].value;
+					var boardTitle = checkboxs[i].parentNode.parentNode.parentNode.parentNode.parentNode.childNodes[11].value;
+					var imgRename = checkboxs[i].parentNode.parentNode.parentNode.parentNode.parentNode.childNodes[13].value;
+					var cartNo = checkboxs[i].value;
+					
+					OrderItems = {
+						productNo :	productNo,
+						productQuantity : productQuantity,
+						salePrice : salePrice,
+						productOption : productOption,
+						boardTitle : boardTitle,
+						imgRename : imgRename,
+						cartNo : cartNo
+					};
+					console.log(OrderItems);
+				}
+			}
+// 				location.href='${contextPath}/payment.st?OrderItem=' + OrderItem;
+		});
+		
+		
 	}	
 	
 	$(function(){
@@ -236,6 +276,7 @@
 				}
 			} 
 		});
+		
 		
 	})
 	

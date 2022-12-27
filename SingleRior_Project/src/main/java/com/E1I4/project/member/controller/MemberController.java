@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
@@ -472,7 +473,7 @@ public class MemberController {
 			double dc = (discount/100);
 			double price = oriPrice * (1-dc);
 			int q = cartList.get(i).getQuantity();
-			System.out.println(q);
+//			System.out.println(q);
 			int p = (int)price*q;
 			cartList.get(i).setLastPrice(p);
 			
@@ -581,7 +582,57 @@ public class MemberController {
 		
 	}
 	@RequestMapping("orderList.me")
-	public String searchOrder() {
+	public String orderList(HttpSession session,@RequestParam(value="status", required=false) String status,
+							@RequestParam(value="page", required=false) Integer page,Model model) {
+		Member m = (Member)session.getAttribute("loginUser");
+		String memberId = m.getMemberId();
+		
+		int currentPage =1;
+		if(page != null) {
+			currentPage = page;
+		}
+		
+		HashMap<String,String> map = new HashMap<String,String>();
+		map.put("memberId", memberId);
+		if(status == null) {
+			status = "전체";
+		}
+		map.put("status", status);
+		int listCount = mService.getOrderListCount(map);
+		
+		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 5);
+		
+		ArrayList<OrderItem> oiList = mService.selectReviewNDoneList(pi,map);
+		for(int i = 0; i<oiList.size(); i++) {
+			String boardNo = Integer.toString(oiList.get(i).getBoardNo());
+			map.put("boardNo", boardNo);
+			String img = mService.getImgOrder(map);
+			oiList.get(i).setImgRename(img);
+		}
+		
+		
+//		System.out.println(oiList);
+		
+		// 배송상태 카운트
+		String[] orderStatus = {"입금대기","결제완료","배송준비","배송중","배송완료","구매확정"};
+		int[] result = new int[6];
+		
+		for(int i = 0; i<orderStatus.length; i++) {
+			
+			String orStatus = orderStatus[i];
+			map.put("orStatus", orStatus);
+			int osResult = mService.orderStatusCount(map);
+			result[i] = osResult;
+//			System.out.println("result: "+result[i]);
+		}
+			String countStatus = Arrays.toString(result);
+		
+		
+		if(oiList != null) {
+			model.addAttribute("oiList", oiList);
+			model.addAttribute("countStatus", countStatus);
+			model.addAttribute("pi", pi);
+		}
 		return "orderList";
 	}
 	@RequestMapping("orderProductDetail.me")
@@ -607,8 +658,9 @@ public class MemberController {
 		String status = "리뷰작성";
 		map.put("memberId", memberId);
 		map.put("status", status);
-		int listCount = mService.getOrderListCount(map);
 		
+		int listCount = mService.getOrderListCount(map);
+
 		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 5);
 		
 		ArrayList<OrderItem> orList = mService.selectReviewNDoneList(pi,map);
@@ -661,7 +713,6 @@ public class MemberController {
 		map.put("status", status);
 		
 		int listCount = mService.getOrderListCount(map);
-		
 		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 5);
 		
 		ArrayList<OrderItem> orList = mService.selectReviewNDoneList(pi,map);
