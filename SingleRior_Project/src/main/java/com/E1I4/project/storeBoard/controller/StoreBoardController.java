@@ -208,7 +208,7 @@ public class StoreBoardController {
 	
 	}
 	
-	// 주문서
+	// 옵션 선택 후 바로 결제하기
 	@RequestMapping("payment.st")
 	public String payment(HttpSession session, OrderItem orderList, Model model ) {
 		String id = ((Member)session.getAttribute("loginUser")).getMemberId();
@@ -216,11 +216,26 @@ public class StoreBoardController {
 		//System.out.println("memberId : " + id);
 		//System.out.println ("orders : " + orderList);
 
-	 
+        Member m = new Member();
+        Member member = null;
+        member = sService.getUserInfo(id);
+        
 		if(orderList != null) {
 			model.addAttribute("orderList", orderList);
-			System.out.println(orderList);
+			model.addAttribute("member", member);
+			// System.out.println(member); 
+			return "payment";
+		} else {
+			throw new BoardException("주문 기본정보 불러오기 실패");
 		}
+
+		
+	}
+	// 결제하기 버튼을 눌러서 새로 url하고 orderList를 다시 받아서 새로 맵핑시키기
+	// 주문자 정보 입력
+	@RequestMapping("orderSheet.st")
+	public String orderSheet(HttpSession session, OrderItem orderList, Model model) {
+		
 		return "payment";
 	}
 	

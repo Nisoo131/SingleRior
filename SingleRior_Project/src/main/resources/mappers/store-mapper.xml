@@ -159,6 +159,11 @@
 		<result column="INQUIRY_ANSWER" property="inquiryAnswer"/>
 	</resultMap>
    
+   <select id="getUserInfo" resultMap="MemberResultSet">
+    select *
+	from member
+	where member_id = #{id}
+   </select>
  
    
 

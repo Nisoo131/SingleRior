@@ -8,6 +8,7 @@ import com.E1I4.project.common.model.vo.Cart;
 import com.E1I4.project.common.model.vo.PageInfo;
 import com.E1I4.project.common.model.vo.ProductInquiry;
 import com.E1I4.project.common.model.vo.WishList;
+import com.E1I4.project.member.model.vo.Member;
 import com.E1I4.project.storeBoard.model.vo.OrderItem;
 import com.E1I4.project.storeBoard.model.vo.StoreBoard;
 
@@ -34,6 +35,8 @@ public interface StoreBoardService {
 	int InquiryCount(ProductInquiry pi);
 
 	ArrayList<ProductInquiry> selectInquiryList(int productNo);
+
+	Member getUserInfo(String id);
 
 
 

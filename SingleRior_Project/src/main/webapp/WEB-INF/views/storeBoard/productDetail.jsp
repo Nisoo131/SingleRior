@@ -14,7 +14,6 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
 
     <style>
-	button {font-size: 20px; padding: 10px 10px; border-radius: 15px;}
 	.category{padding:20px 200px 20px 200px;}
 	.wishlist {color: #008cd4;}
 	.payment{background-color:#008cd4; color:white; }
@@ -36,10 +35,10 @@
 	}
 	
 	.opsResultDiv {
-	  width : 100px;
-	  height : 100px;
-	  background-color: lightgray;
+	  width : 330px;
+	  height : 50px;
 	  margin: auto;
+
 	}
 		
       .nav-scroller {
@@ -79,8 +78,8 @@
 			<br>
 		</div>
 		 <%-- ${ pList }   --%>
-		<%--  ${ pList[0] }<br><br> --%>
-	<%-- 	 ${ pList[1] }
+		 <%--  ${ pList[0] }<br><br> --%>
+	     <%-- 	 ${ pList[1] }
 		 ${ pList[2] }  --%>
 	<main class="container">
 	   <div class="row mx-md-n5">
@@ -130,19 +129,25 @@
 					</c:forEach>
 				 </select>
 				 <br>
-				 <div class="opsResultDiv" style="border:1px solid black; width:450px; height:100px;">
-				 <br>
-				  	<input type="text" id="inputOption"><br>
-				  	<span class="count-wrap _count">
-						    <button type="button" class="minus_btn" style="height:35px;">-</button>
-						   	 <input type="text" class="quantity_input" value="0" style="width:70px;height:30px" id="qty"/>
-						    <button type="button" class="plus_btn" style="height:35px;">+</button>
-					</span>
+	<!--  옵션창  -->		
+				 <div class="opsResultDiv">
+				 <table>
+				 	<tr>
+				 		<td><input type="text" id="inputOption"></td>
+				 		<td width="10px"></td>
+				 		<td>
+				 		 	<span class="count-wrap _count">
+							    <button type="button" class="minus_btn" >-</button>
+							   	 <input type="text" class="quantity_input" value="0" id="qty" readonly style="width:50px;"/>
+							    <button type="button" class="plus_btn" >+</button>
+							</span>
+				 		</td>
+				 	</tr>
+				 </table>
+				
 				    <fmt:parseNumber var="i" type="number" value="${ totalPrice }"/>
 				   
-				    <!-- <span id="finalPrice"></span>원 -->
 	             </div>
-			  <br><br>
 			
 			  <br>
 			  <h2>총 <span id="changedQty"></span>개　<span id="finalPrice2"></span>원</h2>
@@ -432,7 +437,6 @@
     	 }
       });
 
- 
    // 장바구니 추가
     $('.cart').on('click', function(e){
        const quantity = $('.quantity_input').val();

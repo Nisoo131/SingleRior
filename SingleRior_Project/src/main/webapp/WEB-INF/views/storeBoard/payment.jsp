@@ -7,15 +7,18 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- <meta name="viewport" content="width=device-width, initial-scale=1"> -->
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
 <title>Insert title here</title>
 <script src="http://code.jquery.com/jquery-1.12.4.min.js"></script> 
+<script type="text/javascript" src="https://service.iamport.kr/js/iamport.payment-1.1.5.js"></script>
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script src="https://service.iamport.kr/js/iamport.payment-1.1.5.js"></script>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
 <style>
    .front{margin: 30px 180px;} 
-	.price{text-align: right;} 
+	.Price{text-align: right;} 
 	#totalPrice{font-family: #008cd4 bold;} 
     .ordersheet{width:250px;}
 	.space{width:100px;}
@@ -60,30 +63,32 @@
 	        <nav class="navbar navbar-expand-lg "></nav>
 		        <h2 class="blog-post-title mb-1 #008cd4">주문서</h2>
 		        <br>
-				 <form>
-			     	<div class="blog-post">
+			     <div class="blog-post">
 			        <h5 class="blog-post-title mb-1">▶배송지 정보</h5>
 			        <hr>
+			        <form action="${ contextPath }/ordersheet.st">
 			          <table>
-			       	<tr>
-			       		<td>수령인</td>
-			       		<td><input type="text" class="ordersheet" placeholder="받으시는 분 성함을 입력해주세요" required></td>			       		
-			       	</tr>
-			       	<tr>
-			       		<td>휴대전화</td>
-			       		<td><input type="text" class="ordersheet" placeholder="받으시는 분 휴대전화를 입력해주세요" required></td>
-			       	</tr>
-			       	<tr>
-			       		<td>주소</td>
-			       		<td><input type="text" class="ordersheet" placeholder="배송지를 입력해주세요" name="address" id="address_kakao" readonly></td>
-			       	</tr>
-			       	<tr>
-			       		<td>상세주소</td>
-			       		<td><input type="text" class="ordersheet" placeholder="배송지 상세주소를 입력해주세요" name="address_detail" id="address_kakao" required></td>
-			       	</tr>
-			       </table>
+					       	<tr>
+					       		<td>수령인</td>
+					       		<td><input type="text" class="ordersheet" name="recipient" placeholder="받으시는 분 성함을 입력해주세요" required ></td>			       		
+					       	</tr>
+					       	<tr>
+					       		<td>휴대전화</td>
+					       		<td><input type="text" class="ordersheet" name="phone" placeholder="받으시는 분 휴대전화를 입력해주세요" required></td>
+					       	</tr>
+					       	<tr>
+					       		<td>주소</td>
+					       		<td><input type="text" class="ordersheet" name="address" placeholder="배송지를 입력해주세요" name="address" id="address_kakao" readonly></td>
+					       	</tr>
+					       	<tr>
+					       		<td>상세주소</td>
+					       		<td><input type="text" class="ordersheet" name="address_detail" placeholder="배송지 상세주소를 입력해주세요" id="address_kakao" required></td>
+					       	</tr>
+			        	</table>
+			       	</form>
+			       	
 			        <br>
-			        <select style="width:500px;height:25px">
+			        <select style="width:500px; height:25px;" onchange="this.form.submit()">
 			        	<option>배송시 요청사항을 선택해주세요</option>
 			        	<option>배송전에 미리 연락주세요</option>
 			        	<option>부재시 문앞에 놓아주세요</option>
@@ -91,9 +96,29 @@
 			        	<option>부재시 전화나 문자 부탁드려요</option>
 			        </select>
 			       </div>
+			 
+			       <br><br>
+			       <h5 class="blog-post-title mb-1">▶주문자 정보</h5>
+			       <hr>
+			       <table>
+			       	<tr>
+			       		<td>이름</td>
+			       		<td><input type="text" class="ordersheet" value="${ member.memberName }"></td>			       		
+			       	</tr>
+			       	<tr>
+			       		<td>이메일</td>
+			       		<td><input type="email" class="ordersheet" value="${ member.email }"></td>
+			       	</tr>
+			       	<tr>
+			       		<td>휴대전화</td>
+			       		<td><input type="text" class="ordersheet" value="${ member.phone }"></td>
+			       	</tr>
+			       </table>
 			       <br><br>
 			      
 			  <%-- ${ orderList } --%>
+			  <%-- ${ member } --%>
+			  <!-- 주문정보 보내기 -->
 			        
 				   <h5 class="blog-post-title mb-1">▶상품 정보</h5>
 				   <hr>
@@ -123,7 +148,6 @@
 					   	</tr>
 					</table>
 					</c:if>
-
 			     
 				   <br><br>
 				   <h5 class="blog-post-title mb-1">▶결제 수단</h5>
@@ -136,19 +160,18 @@
 					  			<td class="space"></td>
 					  			<td> <div class="col"><img src="https://cdn-icons-png.flaticon.com/512/4614/4614153.png" style="width:100px;height:100px;"></div></td>
 					  			<td class="space"></td>
-					  			<td> <div class="col"><img src="https://cdn-icons-png.flaticon.com/512/506/506137.png" style="width:100px;height:100px;"></div></td>
+					  			<td> <div class="col"><img src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2Fdathdj%2FbtqCpPA7Ejb%2FjLbp8B6QOqMTxQ6RmqdGL0%2Fimg.jpg" style="width:100px;height:100px;"></div></td>
 					  		</tr>
 					  		<tr>
 					  			<td>카카오페이</td>
 					  			<td class="space"></td>
 					  			<td>카드결제</td>
 					  			<td class="space"></td>
-					  			<td>토스<td>
+					  			<td>네이버페이<td>
 					  		</tr>
 					  	</table>
 					  </div>
 					</div>
-			      </form>
 	            </div>
 	     
 	    <!-- 스크롤 옵션바 -->
@@ -176,8 +199,9 @@
 			         <input type="checkbox" required> 아래 내용에 모두 동의합니다.(필수)<br>
 			         <input type="checkbox" required> 개인정보 수집 이용 및 제 3자 제공 동의 (필수)
 			         <br>
-			         <button type="submit">결제하기</button>
+			         <button type="button" class="order_btn" id="check_module">결제하기</button>
 		         </form>
+		         
 		         </div>
 		         </div>
 			   </div>	
@@ -190,7 +214,8 @@
 		<jsp:include page="../common/footer.jsp"/>
 	</footer>
 	
-<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+
+
 <script>
 	window.onload = function(){
 	    document.getElementById("address_kakao").addEventListener("click", function(){ //주소입력칸을 클릭하면 카카오 주소 발생
@@ -201,6 +226,7 @@
 	            }
 	        }).open();
 	    });
+	    
 	    // 최종 금액 계산하기
 	    const price1 = $("#changedPrice").text();
 	    const price2 = price1.replace(",", "");
@@ -208,20 +234,49 @@
 	    //console.log(typeof totalPrice);
 	    
 	    if(totalPrice > 50000){
-	    	var deliveryFee = 0;
+	    	var deliveryFee = 0;	 
 	    	 $('#deliveryPrice').text(deliveryFee.toLocaleString()+"원");
-	    } else{ 
+	    } else { 
 	    	var deliveryFee = 2500;
 	    	 $('#deliveryPrice').text(deliveryFee.toLocaleString()+"원");
 	    }
-	    finalPrice = deliveryFee + totalPrice
-	  /*   console.log(finalPrice); */
-	    $('#finalPrice').text(finalPrice.toLocaleString()+"원"); 
+		  finalPrice = deliveryFee + totalPrice
+	      // console.log(finalPrice); 
+	      $('#finalPrice').text(finalPrice.toLocaleString()+"원");
+	    }
 
-	}
+	 </script>
+	 <script>
+	// 아임포트 API 결제하기
+	    $("#check_module").click(function () {
+	    	  var IMP = window.IMP; // 생략가능
+	    	  IMP.init('imp24668238'); 	// <-- 싱글리어 식별코드 삽입
+       
+        IMP.request_pay({
+        	   pg: "html5_inicis",
+               pay_method: "card",
+               merchant_uid: 'SingleRior_'+new Date().getTime(),
+               name: "${ orderList.boardTitle }",
+               amount: finalPrice,
+               buyer_email: "${ member.email }",
+               buyer_name: "${ member.memberName }",
+               buyer_tel: "${ member.phone }",
+               buyer_addr: "",
+               buyer_postcode: ""
+        }, function (rsp) {
+            console.log(rsp);
+            if (rsp.success) {
+                var msg = '결제가 완료되었습니다.';
+                alert(msg);
+            } else {
+                var msg = '결제에 실패하였습니다.';
+                alert(msg);
+            }
 
-   
-	
+        });
+    });
+
+
 </script>
 </body>
 </html>
