@@ -23,6 +23,7 @@ import com.E1I4.project.common.model.vo.ProductInquiry;
 import com.E1I4.project.common.model.vo.WishList;
 import com.E1I4.project.member.model.vo.Member;
 import com.E1I4.project.storeBoard.model.service.StoreBoardService;
+import com.E1I4.project.storeBoard.model.vo.OrderItem;
 import com.E1I4.project.storeBoard.model.vo.OrderPage;
 import com.E1I4.project.storeBoard.model.vo.StoreBoard;
 import com.google.gson.Gson;
@@ -210,11 +211,11 @@ public class StoreBoardController {
 	
 	// 결제
 	@RequestMapping("payment.st")
-	public void payment(HttpSession session, OrderPage orderList, Model model ) {
+	public void payment(HttpSession session, OrderItem orderItem, Model model ) {
 		String id = ((Member)session.getAttribute("loginUser")).getMemberId();
 		
 		System.out.println("memberId : " + id);
-		System.out.println ("orders : " + orderList.getOrderList());
+		System.out.println ("orders : " + orderItem);
 	    		
 		
 		/* return "payment"; */

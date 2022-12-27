@@ -99,6 +99,8 @@ public interface MemberService {
 
 	String getImgReview(String reviewNoStr);
 
+	int orderStatusCount(HashMap<String, String> map);
+
 
 
 

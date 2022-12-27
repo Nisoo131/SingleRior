@@ -201,6 +201,12 @@ public class MemberDAO {
 		return sqlSession.selectOne("memberMapper.getImgReview", reviewNoStr);
 	}
 
+	public int orderStatusCount(SqlSessionTemplate sqlSession, HashMap<String, String> map) {
+		return sqlSession.selectOne("memberMapper.orderStatusCount", map);
+	}
+
+
+
 
 
 
