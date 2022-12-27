@@ -27,4 +27,5 @@ public class Board {
 	private int likeCount;
 	private int replyCount;
 	private String qnaCategory;
+	private String reportStatus;
 }

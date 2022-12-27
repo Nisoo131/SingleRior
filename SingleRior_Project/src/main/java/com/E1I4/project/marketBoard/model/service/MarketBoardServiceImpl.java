@@ -154,8 +154,8 @@ public class MarketBoardServiceImpl implements MarketBoardService{
 	}
 
 	@Override
-	public int replyCancleCount(int bNo) {
-		return mkDAO.replyCancleCount(sqlSession, bNo);
+	public int replyCancelCount(int bNo) {
+		return mkDAO.replyCancelCount(sqlSession, bNo);
 	}
 
 	@Override
@@ -189,8 +189,8 @@ public class MarketBoardServiceImpl implements MarketBoardService{
 	}
 
 	@Override
-	public Reply replyOneSelect(int replyNo) {
-		return mkDAO.replyOneSelect(sqlSession, replyNo);
+	public int updateReportStatus(HashMap<String, Object> map) {
+		return mkDAO.updateReportStatus(sqlSession, map);
 	}
 
 	

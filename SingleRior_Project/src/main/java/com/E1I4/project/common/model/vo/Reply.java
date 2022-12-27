@@ -23,6 +23,6 @@ public class Reply {
 	private String memberId;
 	private int boardNo;
 	private String nickName;
-//	private String boardTitle;
+	private String reportStatus;
 //	private int boardType;
 }

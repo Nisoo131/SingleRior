@@ -249,7 +249,9 @@ public class MarketBoardController {
 			HashMap<String, Object> map = new HashMap<String, Object>();
 			map.put("id", id);
 			map.put("bNo",bNo);
+			
 			Report reportSelect =  mkService.reportSelect(map);
+			System.out.println(reportSelect);
 			
 			MarketBoard mkBoard = mkService.marketBoardSelect(bNo, yn);
 			ArrayList<Attachment> mkAList = mkService.selectAttm(strBNo);
@@ -313,7 +315,7 @@ public class MarketBoardController {
 		@RequestMapping("replyDelete.ma")
 		public void replyDelete(@RequestParam("rNo") int rNo, @RequestParam("bNo") int bNo, Model model,HttpServletResponse response) {
 			int result = mkService.replyDelete(rNo);
-			int result1 = mkService.replyCancleCount(bNo);
+			int result1 = mkService.replyCancelCount(bNo);
 			ArrayList<Reply> r= mkService.replySelect(bNo);
 			response.setContentType("application/json; charset=UTF-8");
 			
@@ -334,11 +336,14 @@ public class MarketBoardController {
 			map.put("content", reply.getReplyContent());
 			map.put("rNo",reply.getReplyNo());
 			map.put("secret", reply.getReplySecret());
+			System.out.println(reply.getBoardNo());
 			
 			int result = mkService.replyUpdate(map);
+			ArrayList<Reply> r = mkService.replySelect(reply.getBoardNo());
+			
 			int replyNo = reply.getReplyNo();
 			System.out.println("댓글넘버 :"+replyNo);
-			Reply r= mkService.replyOneSelect(replyNo);
+			
 			response.setContentType("application/json; charset=UTF-8");
 			
 			GsonBuilder gb = new GsonBuilder();
@@ -357,17 +362,19 @@ public class MarketBoardController {
 		
 		//대댓글 insert
 		@RequestMapping("reReplyInsert.ma")
-		public void reReplyInsert(@ModelAttribute ReReply reReply, HttpServletResponse response ) {
+		public void reReplyInsert(@ModelAttribute ReReply reReply, HttpServletResponse response, HttpSession session ) {
+			String id = ((Member)session.getAttribute("loginUser")).getMemberId();
+			System.out.println(reReply);
+			reReply.setMemberId(id);
 			int result = mkService.reReplyInsert(reReply);
-			ArrayList<Reply> rList = mkService.replySelect(reReply.getBoardNo());
 			response.setContentType("application/json; charset=UTF-8");
-			
+			ArrayList<ReReply> mkRRList= mkService.reReplySelect(reReply.getBoardNo());
 			GsonBuilder gb = new GsonBuilder();
 			GsonBuilder gb2 =  gb.setDateFormat("yyyy-MM-dd");
 			Gson gson = gb2.create();
 
 			try {
-				gson.toJson(rList, response.getWriter());
+				gson.toJson(mkRRList, response.getWriter());
 			} catch (JsonIOException | IOException e) {
 				e.printStackTrace();
 			}
@@ -569,21 +576,22 @@ public class MarketBoardController {
 		
 		//신고하기
 		@RequestMapping("marketReport.ma")
-		public String marketReport(@RequestParam("boardNo") int bNo,HttpSession session, @ModelAttribute Report report, Model model) {
+		public String marketReport(HttpSession session, @ModelAttribute Report report, Model model) {
 			String id = ((Member)session.getAttribute("loginUser")).getMemberId();
 			report.setMemberId(id);
 			System.out.println(report);
 			HashMap<String, Object> map = new HashMap<String, Object>();
 			map.put("id", id);
-			map.put("bNo",bNo);
+			map.put("cNo",report.getContentNo());
 			map.put("cate", report.getReportCate());
-				
+			
 			Report reportSelect =  mkService.reportSelect(map);
-		
-			int result = mkService.marketReport(report);
+			int result = mkService.updateReportStatus(map);
+			int result1 = mkService.marketReport(report);
+			System.out.println(reportSelect);
 			
 			if(result>0) {
-				model.addAttribute("bNo", bNo);
+				model.addAttribute("bNo", report.getBoardNo());
 				model.addAttribute("reportSelect", reportSelect);
 				return "redirect:marketBoardDetail.ma";
 			}else {
