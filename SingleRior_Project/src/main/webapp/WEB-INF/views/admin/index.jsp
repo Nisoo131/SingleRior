@@ -107,7 +107,7 @@
                                 <div class="card bg-danger text-white mb-4">
                                     <div class="card-body">신고글 현황</div>
                                     <div class="card-footer d-flex align-items-center justify-content-between">
-                                        <a class="small text-white stretched-link" href="#">바로 가기</a>
+                                        <a class="small text-white stretched-link" href="${contextPath}/manageReport.adm">바로 가기</a>
                                         <div class="small text-white"><i class="fas fa-angle-right"></i></div>
                                     </div>
                                 </div>

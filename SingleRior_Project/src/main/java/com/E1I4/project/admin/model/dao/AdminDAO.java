@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import com.E1I4.project.common.model.vo.Attachment;
 import com.E1I4.project.common.model.vo.Board;
+import com.E1I4.project.common.model.vo.InquiryAdmin;
 import com.E1I4.project.common.model.vo.Notice;
 import com.E1I4.project.common.model.vo.PageInfo;
 import com.E1I4.project.common.model.vo.Product;
@@ -204,6 +205,22 @@ public class AdminDAO {
 
 	public int cancelStatusReply(SqlSessionTemplate sqlSession, int rNo) {
 		return sqlSession.update("adminMapper.cancelStatusReply",rNo);
+	}
+
+	public ArrayList<InquiryAdmin> manageInquiry(SqlSessionTemplate sqlSession) {
+		return (ArrayList)sqlSession.selectList("adminMapper.manageInquiry");
+	}
+
+	public int inquiryAnswer(SqlSessionTemplate sqlSession, InquiryAdmin i) {
+		return sqlSession.update("adminMapper.inquiryAnswer",i);
+	}
+
+	public ArrayList<InquiryAdmin> inquiryQue(SqlSessionTemplate sqlSession) {
+		return (ArrayList)sqlSession.selectList("adminMapper.inquiryQue");
+	}
+
+	public ArrayList<InquiryAdmin> inuiryAns(SqlSessionTemplate sqlSession) {
+		return (ArrayList)sqlSession.selectList("adminMapper.inquiryAns");
 	}
 
 	

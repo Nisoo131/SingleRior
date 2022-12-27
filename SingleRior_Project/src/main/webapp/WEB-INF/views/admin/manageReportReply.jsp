@@ -72,7 +72,7 @@
                         <div class="card mb-4">
                             <div class="card-header">
                                 <i class="fas fa-table me-1"></i>
-                                신고 목록
+                                댓글 신고 목록
                             </div>
                             <div class="card-body">
                                 <table id="datatablesSimple">
@@ -80,6 +80,7 @@
 							<thead>
                                         <tr>
                                             <th>신고번호</th>
+                                            <th>게시글번호</th>
                                             <th>게시글 종류</th>
                                             <th>신고 카테고리 </th>
                                             <th>신고글 제목</th>
@@ -91,6 +92,7 @@
                                     <tfoot>
                                         <tr>
                                           	<th>신고번호</th>
+                                          	<th>게시글번호</th>
                                             <th>게시글 종류</th>
                                             <th>신고 카테고리 </th>
                                             <th>신고글 제목</th>
@@ -104,9 +106,8 @@
                                        
                                        <c:forEach items="${rList}" var="r">
                                         <tr>
-                                            <td>${r.reportNo}
-                                            	<input type="hidden"  name="contentNo" value="${r.contentNo}">
-                                            </td>
+                                            <td>${r.reportNo}</td>
+                                            <td>${r.boardNo}</td>
                                             <td><c:if test="${r.boardType eq 2}">싱글벙글</c:if><c:if test="${r.boardType eq 3}">씽씽마켓</c:if></td>
                                             <td>${r.reportType }</td>
                                             <td>${r.boardTitle }</td>
@@ -182,9 +183,14 @@
 			 $(function(){
 				 $(document).on('click','.btn-danger',function(){
 			 		const reportNo=$(this).parents('tr').children().eq(0).text();
+			 		const boardNo=$(this).parents('tr').children().eq(1).text();
+			 		const boardType=$(this).parents('tr').children().eq(2).text();
+			 		
+
+			 		console.log(boardNo);
 						document.getElementById('deleteReportBoard').addEventListener('click',function(){
 							alert("신고처리가 완료되었습니다.");
-							location.href="${contextPath}/reportReply.adm?reportNo="+reportNo;
+							location.href="${contextPath}/reportReply.adm?reportNo="+reportNo+"&boardNo="+boardNo+"&boardType="+boardType;
 			
 						});
 						document.getElementById('cancelReport').addEventListener('click',function(){

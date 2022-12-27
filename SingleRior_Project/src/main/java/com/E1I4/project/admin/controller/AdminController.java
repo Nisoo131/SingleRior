@@ -24,13 +24,15 @@ import com.E1I4.project.common.exception.AdminException;
 import com.E1I4.project.common.exception.ProductException;
 import com.E1I4.project.common.model.vo.Attachment;
 import com.E1I4.project.common.model.vo.Board;
+import com.E1I4.project.common.model.vo.InquiryAdmin;
 import com.E1I4.project.common.model.vo.Notice;
 import com.E1I4.project.common.model.vo.PageInfo;
 import com.E1I4.project.common.model.vo.Product;
 import com.E1I4.project.common.model.vo.ProductList;
 import com.E1I4.project.common.model.vo.Qna;
-import com.E1I4.project.common.model.vo.Reply;
 import com.E1I4.project.common.model.vo.Report;
+import com.E1I4.project.commuBoard.model.service.CommuBoardService;
+import com.E1I4.project.marketBoard.model.service.MarketBoardService;
 import com.E1I4.project.member.model.service.MemberService;
 import com.E1I4.project.member.model.vo.Member;
 @Controller
@@ -43,6 +45,12 @@ public class AdminController {
 	@Autowired
 	private AdminService aService;
 	
+	@Autowired
+	private MarketBoardService mkService;
+	
+	
+	@Autowired
+	private CommuBoardService cService;
 	@Autowired
 	private BCryptPasswordEncoder bcrypt;
 	
@@ -793,33 +801,82 @@ public class AdminController {
 	}
 	
 	//신고 대상 글 처리
-		@RequestMapping("reportReply.adm")
-		public String reportReply(@RequestParam("reportNo") int rNo) {
-			
-			int statusReply=aService.statusReply(rNo);//신고 대상 글은 b_status를 N으로 놓는다.
-			int reportReply=aService.reportTableReply(rNo);//신고 처리 이후 report테이블 내용 삭제
-			int result = statusReply+reportReply;
-			
-			if(result>1) {
-				return "redirect:manageReportReply.adm";
-			}else {
-				throw new AdminException("신고 처리 요청 실패");
-			}
+	@RequestMapping("reportReply.adm")
+	public String reportReply(@RequestParam("reportNo") int rNo,@RequestParam("boardType") String boardType,@RequestParam("boardNo") int bNo) {
+		
+		
+		
+		if(boardType.equals("씽씽마켓")) {
+			int count=mkService.replyCancleCount(bNo);
+		}else if(boardType.equals("싱글벙글")) {
+			int count=cService.replyCountDown(bNo);
 		}
+		
+		
+		int statusReply=aService.statusReply(rNo);//신고 대상 글은 b_status를 N으로 놓는다.
+		int reportReply=aService.reportTableReply(rNo);//신고 처리 이후 report테이블 내용 삭제
+		int result = statusReply+reportReply;
+		
+		if(result>1) {
+			return "redirect:manageReportReply.adm";
+		}else {
+			throw new AdminException("신고 처리 요청 실패");
+		}
+	}
+
+	@RequestMapping("cancelReportReply.adm")
+	public String cancelReportReply(@RequestParam("reportNo") int rNo) {
+		
+		int cancelStatusReply=aService.cancelStatusReply(rNo);// 신고대상 글이 아니니까 신고 상태 바꿔준다.
+		int reportReply=aService.reportTableReply(rNo);//신고 처리 이후 report테이블 내용 삭제
+		int result = cancelStatusReply+reportReply;
+		
+		if(result>1) {
+			return "redirect:manageReportReply.adm";
+		}else {
+			throw new AdminException("신고 취소 요청 실패");
+		}
+	}
+	@RequestMapping("manageInquiry.adm")
+	public String manageInquiry(Model model) {
+		ArrayList<InquiryAdmin> list=aService.manageInquiry(); 
+		
+		
+		model.addAttribute("list",list);
+		
+		
+		return "manageInquiry";
+	}
+	@RequestMapping("inquiryAnswer.adm")
+	public String inquiryAnswer(@ModelAttribute InquiryAdmin i) {
+		int result=aService.inquiryAnswer(i);
+		if(result>0) {
+			return"redirect:manageInquiry.adm";
+		}else {
+			throw new AdminException("문의 답변 글 작성 실패");
+		}
+	}
+	@RequestMapping("manageInquiryQue.adm")
+	public String inquiryQue(Model model) {
+		ArrayList<InquiryAdmin> list=aService.inquiryQue();
+		model.addAttribute("list",list);
+		
+		return "manageInquiryQue";
+	}
+	@RequestMapping("manageInquiryAns.adm")
+	public String manageInquiryAns(Model model) {
+		ArrayList<InquiryAdmin> list=aService.inquiryAns();
 	
-		@RequestMapping("cancelReportReply.adm")
-		public String cancelReportReply(@RequestParam("reportNo") int rNo) {
-			
-			int cancelStatusReply=aService.cancelStatusReply(rNo);// 신고대상 글이 아니니까 신고 상태 바꿔준다.
-			int reportReply=aService.reportTableReply(rNo);//신고 처리 이후 report테이블 내용 삭제
-			int result = cancelStatusReply+reportReply;
-			
-			if(result>1) {
-				return "redirect:manageReportReply.adm";
-			}else {
-				throw new AdminException("신고 취소 요청 실패");
-			}
-		}
+		model.addAttribute("list",list);
+		return "manageInquiryAns";
+	
+	}
+	
+	
+	
+	
+	
+	
 	@RequestMapping("orderList.adm")
 	public String orderList() {
 		return "orderList";
@@ -834,14 +891,6 @@ public class AdminController {
 		return "statProduct";
 	}
 	
-	
-	
-	
-	
-	@RequestMapping("updateBanner.adm")
-	public String updateBanner() {
-		return "updateBanner";
-	}
 	@RequestMapping("managePoint.adm")
 	public String managePoint() {
 		return "managePoint";

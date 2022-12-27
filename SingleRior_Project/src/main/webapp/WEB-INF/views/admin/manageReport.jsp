@@ -72,7 +72,7 @@
                         <div class="card mb-4">
                             <div class="card-header">
                                 <i class="fas fa-table me-1"></i>
-                                신고 목록
+                                게시글 신고 목록
                             </div>
                             <div class="card-body">
                                 <table id="datatablesSimple">
@@ -199,21 +199,17 @@
         
         </script>
         <script>
-		window.onload=()=>{
-	 		document.getElementById('reportBoard').addEventListener('click',function(){
-	 			location.href='${contextPath}/manageReport.adm';
-	 		})
-	 		document.getElementById('reportReply').addEventListener('click',function(){
-	 			location.href='${contextPath}/manageReportReply.adm';
-	 		})
-	 		document.getElementById('reportReReply').addEventListener('click',function(){
-	 			location.href='${contextPath}/manageReportReReply.adm';
-	 		})
-		}	
- 
- 
-        
-        
+			window.onload=()=>{
+		 		document.getElementById('reportBoard').addEventListener('click',function(){
+		 			location.href='${contextPath}/manageReport.adm';
+		 		})
+		 		document.getElementById('reportReply').addEventListener('click',function(){
+		 			location.href='${contextPath}/manageReportReply.adm';
+		 		})
+		 		document.getElementById('reportReReply').addEventListener('click',function(){
+		 			location.href='${contextPath}/manageReportReReply.adm';
+		 		})
+			}	
         </script>
         
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
