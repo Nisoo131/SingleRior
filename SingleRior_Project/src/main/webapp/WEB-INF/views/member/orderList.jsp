@@ -49,7 +49,7 @@
 	
 	.orderProductDetail{float:right; cursor:pointer;}
 	.orderProductDetail:hover{text-decoration:underline; font-weight:bold;}
-	.orderCancel{float:right}
+	.orderStatusBtn{float:right}
 	
 </style>
 </head>
@@ -59,35 +59,46 @@
 	</header>
 	<section>
 		<div id="orderStatus">
-				<div class="a"><div class="orderStatusTitle">입금대기</div><div class="orderStatusCount">0</div></div>
+				<div class="a"><div class="orderStatusTitle">입금대기</div><div class="orderStatusCount"></div></div>
 				<span>></span>
-				<div class="a"><div class="orderStatusTitle">결제완료</div><div class="orderStatusCount">0</div></div>
+				<div class="a"><div class="orderStatusTitle">결제완료</div><div class="orderStatusCount"></div></div>
 				<span>></span>
-				<div class="a"><div class="orderStatusTitle">배송준비</div><div class="orderStatusCount">0</div></div>
+				<div class="a"><div class="orderStatusTitle">배송준비</div><div class="orderStatusCount"></div></div>
 				<span>></span>
-				<div class="a"><div class="orderStatusTitle">배송중</div><div class="orderStatusCount">0</div></div>
+				<div class="a"><div class="orderStatusTitle">배송중</div><div class="orderStatusCount"></div></div>
 				<span>></span>
-				<div class="a"><div class="orderStatusTitle">배송완료</div><div class="orderStatusCount">0</div></div>
+				<div class="a"><div class="orderStatusTitle">배송완료</div><div class="orderStatusCount"></div></div>
 				<span>></span>
-				<div class="a"><div class="orderStatusTitle">구매확정</div><div class="orderStatusCount">0</div></div>
+				<div class="a"><div class="orderStatusTitle">구매확정</div><div class="orderStatusCount"></div></div>
 		</div>
 		<br><br>
 		<hr width="1300px;" style="margin:auto"><br><br>
 		<div id="selectDate" class="btn-group">
-		  <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">기간</button>
-		  <ul class="dropdown-menu">
-		    <li><a class="dropdown-item" href="#">전체</a></li>
-		    <li><a class="dropdown-item" href="#">1개월</a></li>
-		    <li><a class="dropdown-item" href="#">3개월</a></li>
-		    <li><a class="dropdown-item" href="#">1년</a></li>
-		  </ul>
+		 <div class="col mb-3" id="dateDiv">
+			<select class="form-select form-select-sm" name="date" id="date" >
+				<option <c:if test="${date != '1개월' && date != '3개월' && date != '1년'}">selected</c:if>>전체</option> 
+				<option <c:if test="${date == '1개월'}">selected</c:if>>1개월</option>
+				<option <c:if test="${date == '3개월'}">selected</c:if>>3개월</option>
+				<option <c:if test="${date == '1년'}">selected</c:if>>1년</option>
+			</select>
+		 </div>&nbsp;
+		  <c:if test="${ status != '전체'}">
+			<div>
+				<button type="button" class="btn btn-light" id="cancelStatus" style="height:31px;">
+	 				 ${ status }<i class="bi bi-x-lg"></i>
+				</button>
+			</div>
+		</c:if>
 		</div>
 			<c:if test="${ !empty oiList }">
 				<c:forEach items="${ oiList }" var="oi">
 					<div class="orderDetail">
 						<span>주문번호 : ${ oi.orderDate }-${oi.orderNo }</span>&nbsp;&nbsp;&nbsp;
 						<span>주문일자 : ${ oi.orderDate }</span>
-						<span class="orderProductDetail">상세보기</span><br><br>
+						<form action="${contextPath}/orderProductDetail.me" method="post" class="detailForm">
+							<span class="orderProductDetail">상세보기</span><br><br>
+							<input type="hidden" value="${ oi.orderNo }" name="orderNo">
+						</form>
 						<div>
 							<span class="badge text-bg-light" style="font-size:1em">${ oi.status }</span><br>
 						</div>
@@ -104,52 +115,64 @@
 							</tr>
 						</table>
 						<c:if test="${ oi.status == '입금대기' or oi.status == '결제완료' or oi.status == '배송준비'}">
-							<button type="button" class="btn btn-light orderCancel" data-bs-toggle="modal" data-bs-target="#orderCancelModal">
+							<button type="button" class="orderStatusBtn btn btn-light orderCancel" data-bs-toggle="modal" data-bs-target="#orderCancelModal">
 							  주문취소
-							</button>	
+							</button>
+							<input type="hidden" value="${ oi.orderNo }">	
 						</c:if>
 						<c:if test="${ oi.status == '배송중'}">
-							<button type="button" class="btn btn-light orderCancel" data-bs-toggle="modal" data-bs-target="">
+							<button type="button" class="orderStatusBtn btn btn-light" data-bs-toggle="modal" data-bs-target="">
 							  운송장확인
-							</button>	
+							</button>
+							<input type="hidden" value="${ oi.orderNo }">
 						</c:if>
 						<c:if test="${ oi.status == '배송완료'}">
-							<button type="button" class="btn btn-light orderCancel" data-bs-toggle="modal" data-bs-target="#orderCommitModal">
+							<button type="button" class="orderStatusBtn btn btn-light orderCommit" data-bs-toggle="modal" data-bs-target="#orderCommitModal">
 							  구매확정
-							</button>	
+							</button>
+							<input type="hidden" value="${ oi.orderNo }">
 						</c:if>
 						<c:if test="${ oi.status == '구매확정'}">
-							<button type="button" class="btn btn-light orderCancel" data-bs-toggle="modal" data-bs-target="#orderReviewModal">
+							<button type="button" class="orderStatusBtn btn btn-light orderReview" data-bs-toggle="modal" data-bs-target="#orderReviewModal">
 							  리뷰작성
-							</button>	
+							</button>
+							<input type="hidden" value="${ oi.orderNo }">
 						</c:if>
 					</div>
 				</c:forEach>
 			</c:if>
+			<c:if test="${ empty oiList }">
+				<div class="alert alert-secondary" role="alert">조회 결과가 없습니다.</div>			
+			</c:if>
 			<br><br>
-				<nav aria-label="Standard pagination example">
-				<ul class="pagination justify-content-center">
-					<li class="page-item"><c:url var="goBack" value="${ loc }">
-							<c:param name="page" value="${ pi.currentPage-1 }" />
-							<c:param name="category" value="${ category }"/>
-						</c:url> <a class="page-link" href="${ goBack }" aria-label="Previous">
-							<span aria-hidden="true">&laquo;</span>
-					</a></li>
-					<c:forEach begin="${ pi.startPage }" end="${ pi.endPage }" var="p">
-						<c:url var="goNum" value="${ loc }">
-							<c:param name="page" value="${ p }" />
-							<c:param name="category" value="${ category }"/>
-						</c:url>
-						<li class="page-item"><a class="page-link" href="${ goNum }">${ p }</a></li>
-					</c:forEach>
-					<li class="page-item"><c:url var="goNext" value="${ loc }">
-							<c:param name="page" value="${ pi.currentPage+1 }" />
-							<c:param name="category" value="${ category }"/>
-						</c:url> <a class="page-link" href="${ goNext }" aria-label="Next"> <span
-							aria-hidden="true">&raquo;</span>
-					</a></li>
-				</ul>
-			</nav>
+				<c:if test="${ !empty oiList }">
+					<nav aria-label="Standard pagination example">
+					<ul class="pagination justify-content-center">
+						<li class="page-item"><c:url var="goBack" value="${ loc }">
+								<c:param name="page" value="${ pi.currentPage-1 }" />
+								<c:param name="status" value="${ status }"/>
+								<c:param name="date" value="${ date }"/>
+							</c:url> <a class="page-link" href="${ goBack }" aria-label="Previous">
+								<span aria-hidden="true">&laquo;</span>
+						</a></li>
+						<c:forEach begin="${ pi.startPage }" end="${ pi.endPage }" var="p">
+							<c:url var="goNum" value="${ loc }">
+								<c:param name="page" value="${ p }" />
+								<c:param name="status" value="${ status }"/>
+								<c:param name="date" value="${ date }"/>
+							</c:url>
+							<li class="page-item"><a class="page-link" href="${ goNum }">${ p }</a></li>
+						</c:forEach>
+						<li class="page-item"><c:url var="goNext" value="${ loc }">
+								<c:param name="page" value="${ pi.currentPage+1 }" />
+								<c:param name="status" value="${ status }"/>
+								<c:param name="date" value="${ date }"/>
+							</c:url> <a class="page-link" href="${ goNext }" aria-label="Next"> <span
+								aria-hidden="true">&raquo;</span>
+						</a></li>
+					</ul>
+				</nav>
+			</c:if>
 	</section>
 	<footer>
 		<jsp:include page="../common/footer.jsp"/>
@@ -159,14 +182,17 @@
 	<!-- 주문 취소 모달창 -->
 	<div class="modal" tabindex="-1" id="orderCancelModal">
 		<div class="modal-dialog modal-dialog-centered">
-	    	<div class="modal-content">
-	     		 <div class="modal-header">
-	       		 <h5 class="modal-title">주문을 취소하시겠습니까?</h5>
-	       		 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-	    	  </div>
-	    	  <div class="modal-body">
-	      		  <p>배송중이거나 구매확정일 경우 관리자에 주문취소가 철회될 수 있습니다.</p>
-	      		  <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
+			<form action="${contextPath}/orderCancel.me" method="post">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title">주문을 취소하시겠습니까?</h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal"
+							aria-label="Close"></button>
+					</div>
+					<div class="modal-body">
+						<p>배송중이거나 구매확정일 경우 관리자에 주문취소가 철회될 수 있습니다.</p>
+						<select class="form-select form-select-lg mb-3"
+							aria-label=".form-select-lg example" name="cancelCate">
 							<option selected>취소 이유 선택</option>
 							<option value="단순변심">단순변심</option>
 							<option value="배송지연">배송지연</option>
@@ -178,33 +204,40 @@
 						</select>
 						<div class="mb-3">
 							<textarea class="form-control" id="exampleFormControlTextarea1"
-								rows="3" placeholder="기타를 선택하신 경우 입력해주세요." style="resize:none;"></textarea>
+								rows="3" placeholder="기타를 선택하신 경우 입력해주세요." style="resize: none;" name="cancelReason"></textarea>
 						</div>
-	     	 </div>
-			 <div class="modal-footer">
-				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">창닫기</button>
-				<button type="button" class="btn btn-light" style="background:#008cd4; color:white">주문취소</button>
-	     	 </div>
-	    </div>
-	  </div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary"
+							data-bs-dismiss="modal">창닫기</button>
+						<button type="submit" class="btn btn-light"
+							style="background: #008cd4; color: white">주문취소</button>
+								<input type="hidden" value="" name="orderNo" id="orderCancelNo">
+					</div>
+				</div>
+			</form>
+		</div>
 	</div>
 	
 	<!--  구매 확정 모달 -->
 	<div class="modal" tabindex="-1" id="orderCommitModal">
 		<div class="modal-dialog modal-dialog-centered">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title">구매확정</h5>
-					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			<form action="${contextPath}/orderCommit.me" method="post">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title">구매확정</h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body">
+						<p>구매확정을 하시면 환불/반품이 불가합니다.</p>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">창닫기</button>
+						<button type="submit" class="btn btn-light" style="background:#008cd4; color:white">구매확정</button>
+					<input type="hidden" value="" name="orderNo" id="orderNo">
+					</div>
 				</div>
-				<div class="modal-body">
-					<p>구매확정을 하시면 환불/반품이 불가합니다.</p>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">창닫기</button>
-					<button type="button" class="btn btn-light" style="background:#008cd4; color:white">구매확정</button>
-				</div>
-			</div>
+			</form>
 		</div>
 	</div>
 	
@@ -239,11 +272,17 @@
 			
 
 	<script>
-		const orderProductDetail = document.getElementsByClassName("orderProductDetail");
-// 		console.log(orderProductDetail);
-		orderProductDetail[0].addEventListener('click',function(){
-			location.href='${contextPath}/orderProductDetail.me';
-		});
+		const orderProductDetails = document.getElementsByClassName("orderProductDetail");
+		console.log(orderProductDetails);
+		for(orderProductDetail of orderProductDetails){
+			orderProductDetail.addEventListener('click',function(){
+// 				var orderNo = this.parentNode.childNodes[5].value;
+				var detailForm =  this.parentNode;
+// 				console.log(detailForm);
+				detailForm.submit();
+// 				location.href='${contextPath}/orderProductDetail.me?orderNo=' + orderNo;
+			});
+		}
 		
 	
 		window.onload = () =>{
@@ -256,8 +295,55 @@
 				count++;
 			}
 			
+			var orderStatusTitles = document.getElementsByClassName("orderStatusTitle");
+// 			console.log(orderStatusTitles);
+			
+			for(orderStatusTitle of orderStatusTitles){
+				orderStatusTitle.addEventListener("click",function(){
+					var status = this.innerText;
+					console.log(status);
+					var date = '${ date }';
+					location.href='${contextPath}/orderList.me?date=' + date + '&status=' + status;
+				});
+			}
+
+			$('select[name=date]').change(function(){
+				var date = $('select[name=date]').val();
+	 			console.log(date);
+// 	 		 	page = '${pi.currentPage}';
+// 				console.log(page);
+	 			let status = '${ status }';
+	 			console.log(status);
+				location.href='${contextPath}/orderList.me?date=' + date + '&status=' + status;
+				
+			});
 			
 			
+			var orderCommits = document.getElementsByClassName("orderCommit");
+			
+			for(orderCommit of orderCommits){
+				orderCommit.addEventListener('click',function(){
+					var orderNo = this.parentNode.childNodes[15].value;
+					document.getElementById("orderNo").value = orderNo;
+				});
+			}
+			
+			var orderCancels = document.getElementsByClassName("orderCancel");
+// 			console.log(orderCancels);
+			for(orderCancel of orderCancels){
+				orderCancel.addEventListener("click",function(){
+					var orderNo = this.parentNode.childNodes[15].value;
+					document.getElementById("orderCancelNo").value = orderNo;
+					console.log(document.getElementById("orderCancelNo").value);
+				})
+			}
+			
+			var cancelStatus = document.getElementById("cancelStatus");
+			cancelStatus.addEventListener("click", function(){
+				var status = '전체';
+				var date = '${date}';
+				location.href='${contextPath}/orderList.me?date=' + date+ '&status=' + status;
+			})
 		}
 	</script>
 </body>

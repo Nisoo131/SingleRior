@@ -38,6 +38,7 @@ import com.E1I4.project.member.model.service.MailSendService;
 import com.E1I4.project.member.model.service.MemberService;
 import com.E1I4.project.member.model.service.NaverLogin;
 import com.E1I4.project.member.model.vo.Member;
+import com.E1I4.project.member.model.vo.ProductCancel;
 import com.E1I4.project.storeBoard.model.vo.OrderItem;
 
 @Controller
@@ -217,7 +218,7 @@ public class MemberController {
 	// 회원가입 
 	@RequestMapping("insertMember.me")
 	public String insertMember(@ModelAttribute Member m) {
-		System.out.println(m);
+//		System.out.println(m);
 		
 		String encPwd = bcrypt.encode(m.getMemberPwd());
 		m.setMemberPwd(encPwd);
@@ -583,7 +584,7 @@ public class MemberController {
 	}
 	@RequestMapping("orderList.me")
 	public String orderList(HttpSession session,@RequestParam(value="status", required=false) String status,
-							@RequestParam(value="page", required=false) Integer page,Model model) {
+							@RequestParam(value="page", required=false) Integer page,Model model,@RequestParam(value="date", required=false) String date) {
 		Member m = (Member)session.getAttribute("loginUser");
 		String memberId = m.getMemberId();
 		
@@ -598,6 +599,11 @@ public class MemberController {
 			status = "전체";
 		}
 		map.put("status", status);
+		
+		if(date == null) {
+			date = "전체";
+		}
+		map.put("date", date);
 		int listCount = mService.getOrderListCount(map);
 		
 		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 5);
@@ -628,15 +634,46 @@ public class MemberController {
 			String countStatus = Arrays.toString(result);
 		
 		
-		if(oiList != null) {
 			model.addAttribute("oiList", oiList);
 			model.addAttribute("countStatus", countStatus);
 			model.addAttribute("pi", pi);
-		}
+			model.addAttribute("status", status);
+			model.addAttribute("date", date);
+			
 		return "orderList";
 	}
+	
+	@RequestMapping("orderCommit.me")
+	public String orderCommit(@RequestParam("orderNo") int orderNo) {
+		System.out.println(orderNo);
+		HashMap<String, Integer> map = new HashMap<String, Integer>();
+		map.put("orderNo", orderNo);
+		int status = 1;  // 구매확정 : 1
+		map.put("change", status);
+		int result = mService.orderStatusChange(map);
+		return "redirect:orderList.me";
+	}
+	
+	@RequestMapping("orderCancel.me")
+	public String orderCancel(@ModelAttribute ProductCancel pc) {
+		
+		int result = 0;
+		if(pc != null) {
+			result = mService.orderCancel(pc);
+		}
+		if(result > 0 ) {
+			HashMap<String, Integer> map = new HashMap<String, Integer>();
+			map.put("orderNo", pc.getOrderNo());
+			int status = 2;  // 주문취소 : 2
+			map.put("change", status);
+			int result2 = mService.orderStatusChange(map);
+		}
+		
+		return "redirect:orderList.me";
+	}
 	@RequestMapping("orderProductDetail.me")
-	public String orderProductDetail() {
+	public String orderProductDetail(@RequestParam("orderNo") int orderNo) {
+		System.out.println(orderNo);
 		return "orderProductDetail";
 	}
 	@RequestMapping("orderCancelList.me")

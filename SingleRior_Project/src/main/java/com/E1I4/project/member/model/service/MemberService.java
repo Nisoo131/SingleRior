@@ -13,6 +13,7 @@ import com.E1I4.project.common.model.vo.Reply;
 import com.E1I4.project.common.model.vo.Review;
 import com.E1I4.project.common.model.vo.WishList;
 import com.E1I4.project.member.model.vo.Member;
+import com.E1I4.project.member.model.vo.ProductCancel;
 import com.E1I4.project.storeBoard.model.vo.OrderItem;
 
 public interface MemberService {
@@ -100,6 +101,11 @@ public interface MemberService {
 	String getImgReview(String reviewNoStr);
 
 	int orderStatusCount(HashMap<String, String> map);
+
+	int orderStatusChange(HashMap<String, Integer> map);
+
+	int orderCancel(ProductCancel pc);
+
 
 
 
