@@ -807,7 +807,7 @@ public class AdminController {
 		
 		
 		if(boardType.equals("씽씽마켓")) {
-			int count=mkService.replyCancleCount(bNo);
+			int count=mkService.replyCancelCount(bNo);
 		}else if(boardType.equals("싱글벙글")) {
 			int count=cService.replyCountDown(bNo);
 		}

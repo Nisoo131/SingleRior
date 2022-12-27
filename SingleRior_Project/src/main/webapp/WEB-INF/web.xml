@@ -129,6 +129,22 @@
 		<url-pattern>*.adm</url-pattern>
 	</servlet-mapping>
 	
+	<!-- 메인페이지 -->
+	<servlet>
+		<servlet-name>MainPageServlet</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>/WEB-INF/spring/appServlet/mainPage-context.xml</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>MainPageServlet</servlet-name>
+		<url-pattern>*.main</url-pattern>
+	</servlet-mapping>
+	
 	
 	<!-- 에러 페이지 -->
 	<error-page>

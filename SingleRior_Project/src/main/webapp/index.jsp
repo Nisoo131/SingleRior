@@ -9,6 +9,9 @@
 </head>
 <body>
 	<c:set value="${ pageContext.servletContext.contextPath }" var="contextPath" scope="application"/>
-	<jsp:forward page="WEB-INF/views/home.jsp"></jsp:forward>
+	
+	<script>
+		location.href='${contextPath}/home.do'
+	</script>
 </body>
 </html>

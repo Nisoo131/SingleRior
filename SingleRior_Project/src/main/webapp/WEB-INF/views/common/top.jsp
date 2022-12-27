@@ -75,8 +75,8 @@
 	        	<li class="nav-item"><a href="${contextPath}/notiAllList.no" class="nav-link link-dark px-3">공지사항</a></li>
 	        </ul>
 	        
-	        <form class="col-12 col-lg-auto mb-3 mb-lg-0" role="search">
-	        	<input type="search" class="form-control" placeholder="Search..." aria-label="Search" style="margin-top: 4px;">
+	        <form class="col-12 col-lg-auto mb-3 mb-lg-0" role="search" action="${ contextPath }/mainSearch.main">
+	        	<input type="search" class="form-control" placeholder="Search..." aria-label="Search" style="margin-top: 4px;" name="findKeyword">
 	        </form>
 		</div>
 		

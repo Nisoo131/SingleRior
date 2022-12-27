@@ -257,7 +257,7 @@
 						<c:if test="${ !(loginUser.memberId eq coBoard.writer) && !empty loginUser }">
 							<div class="col-md-10" style="width: 800px;"></div>
 							<div class="col-md-1" style="text-align: center; width: 100px; float: right;">
-								<button class="w-100 btn btn-outline-danger btn-lg" id="reportBtn" type="button">신고</button>
+								<button class="w-100 btn btn-outline-danger btn-lg reportBtn" type="button">신고</button>
 							</div>
 						</c:if>
 						<c:if test="${ empty loginUser }">
@@ -591,7 +591,7 @@
 		
 		// 글 신고 여부 확인 + 신고 모달 출력
 		$(document).on('click', ".reportBtn", function(){
-			if($('#reportStatus').val('Y')){
+			if($('#reportStatus').val() == 'Y'){
 				alert("이미 신고된 게시글 입니다.");
 			} else {
 				$('#reportModal').modal('show');	

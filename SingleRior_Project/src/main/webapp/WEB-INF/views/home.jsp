@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -25,10 +27,10 @@
 		line-height: 28px;
 		margin-top: 20px;
 	}
-	.today-special-price-headerBrand{display: block; font-size: 11px; color: #828c94;}
+	.today-special-price-headerBrand{display: block; font-size: 15px; color: #828c94;}
 	.today-special-price-headerName{
 		margin-top: 5px;
-		font-size: 13px;
+		font-size: 20px;
 		font-weight: 400;
 		line-height: 17px;
 		max-height: 34px;
@@ -52,6 +54,21 @@
 		font-weight: 700;
 	}
 	.css-small-title{margin: 10px; font-size: 20px;}
+	p.boardContent{
+		overflow: hidden;
+		text-overflow: ellipsis;
+		display: -webkit-box;
+		-webkit-line-clamp: 5; 
+		-webkit-box-orient: vertical;
+	}
+	.boardTitle{
+		overflow: hidden;
+		text-overflow: ellipsis;
+		display: -webkit-box;
+		-webkit-line-clamp: 1; 
+		-webkit-box-orient: vertical;
+	}
+	.section *:hover{cursor: pointer;}
 </style>
 </head>
 <body>
@@ -103,95 +120,39 @@
 					<div class="album py-3">
 			  			<div class="container">
 			  				<div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-3 p-2 px-4">
-			  					<div class="col">
-			  						<div class="card shadow-sm">
-			  							<img src="https://image.ohou.se/i/bucketplace-v2-development/uploads/productions/166322024968332260.jpg?gif=1&w=850&h=850&c=c&webp=1" style="width: 100%; height: 225px;">
-				  						<div class="card-body">
-				  							<span class="today-special-price-headerBrand">STORE_NAME</span>
-				  							<span class="today-special-price-headerName">PRODUCT_NAME</span>
-				  							<span class="today-special-price-itemPrice">
-				  								<span class="item-sale">N</span>
-				  								<span class="percentage">% &nbsp;</span>
-				  								<span class="item-price">PRICE 원</span>
-				  							</span>
-				  							<div class="today-special-price-review">
-				  								<svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" style="margin-bottom: 3px;" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
-				  									<path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
-												</svg>
-				  								<span class="item-star-review">4.8</span>
-				  								<span class="item-review-count">리뷰 500</span>
-				  							</div>
+			  					<c:forEach items="${ pdList }" begin="1" end="4" var="p">
+			  						<div class="col section1 section">
+				  						<div class="card shadow-sm">
+				  							<c:forEach items="${ pdAttmList }" var="pa">
+												<c:if test="${ p.boardNo eq pa.imgKey }">
+													<c:if test="${ pa.imgOriginalName != '' }">
+														<img src="resources/uploadFiles/${ pa.imgRename }" style="width: 100%; height: 225px;">
+													</c:if>
+												</c:if>
+											</c:forEach>
+					  						<div class="card-body">
+					  							<span class="today-special-price-headerBrand">${ p.brand }</span>
+					  							<span class="today-special-price-headerName">${ p.boardTitle }</span>
+					  							<span class="today-special-price-itemPrice">
+					  								<span class="item-sale">${ p.discount }</span>
+					  								<span class="percentage">% &nbsp;</span>
+					  								<fmt:formatNumber type="number" maxFractionDigits="3" value="${p.price}" var="commaPrice"/>
+					  								<c:set var="discountPrice" value="${ p.price-(p.price*p.discount/100)}"/>
+													<fmt:formatNumber type="number" maxFractionDigits="3" value="${ p.price-(p.price*p.discount/100)}" var="totalPrice" />
+					  								<span class="item-price">${ totalPrice }</span> 원
+					  								<input type="hidden" class="PNo" value="${ p.productNo }">
+					  							</span>
+					  							<div class="today-special-price-review">
+					  								<svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" style="margin-bottom: 3px;" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
+					  									<path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
+													</svg>
+					  								<span class="item-star-review">4.8</span>
+					  								<span class="item-review-count">리뷰 500</span>
+					  							</div>
+					  						</div>
 				  						</div>
-			  						</div>
-			  					</div>
-			  					
-			  					<div class="col">
-			  						<div class="card shadow-sm">
-			  							<img src="https://image.ohou.se/i/bucketplace-v2-development/uploads/productions/images/166676292964747563.jpg?gif=1&w=850&h=850&c=c&webp=1" style="width: 100%; height: 225px;">
-				  						<div class="card-body">
-				  							<span class="today-special-price-headerBrand">STORE_NAME</span>
-				  							<span class="today-special-price-headerName">PRODUCT_NAME</span>
-				  							<span class="today-special-price-itemPrice">
-				  								<span class="item-sale">N</span>
-				  								<span class="percentage">% &nbsp;</span>
-				  								<span class="item-price">PRICE 원</span>
-				  							</span>
-				  							<div class="today-special-price-review">
-				  								<svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" style="margin-bottom: 3px;" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
-				  									<path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
-												</svg>
-				  								<span class="item-star-review">4.8</span>
-				  								<span class="item-review-count">리뷰 500</span>
-				  							</div>
-				  						</div>
-			  						</div>
-			  					</div>
-			  					
-			  					<div class="col">
-			  						<div class="card shadow-sm">
-			  							<img src="https://image.ohou.se/i/bucketplace-v2-development/uploads/productions/1597126332_101422_1.jpg?gif=1&w=850&h=850&c=c&webp=1" style="width: 100%; height: 225px;">
-				  						<div class="card-body">
-				  							<span class="today-special-price-headerBrand">STORE_NAME</span>
-				  							<span class="today-special-price-headerName">PRODUCT_NAME</span>
-				  							<span class="today-special-price-itemPrice">
-				  								<span class="item-sale">N</span>
-				  								<span class="percentage">% &nbsp;</span>
-				  								<span class="item-price">PRICE 원</span>
-				  							</span>
-				  							<div class="today-special-price-review">
-				  								<svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" style="margin-bottom: 3px;" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
-				  									<path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
-												</svg>
-				  								<span class="item-star-review">4.8</span>
-				  								<span class="item-review-count">리뷰 500</span>
-				  							</div>
-				  						</div>
-			  						</div>
-			  					</div>
-			  					
-			  					<div class="col">
-			  						<div class="card shadow-sm">
-			  							<img src="https://image.ohou.se/i/bucketplace-v2-development/uploads/productions/165388926207842431.jpg?gif=1&w=850&h=850&c=c&webp=1" style="width: 100%; height: 225px;">
-				  						<div class="card-body">
-				  							<span class="today-special-price-headerBrand">STORE_NAME</span>
-				  							<span class="today-special-price-headerName">PRODUCT_NAME</span>
-				  							<span class="today-special-price-itemPrice">
-				  								<span class="item-sale">N</span>
-				  								<span class="percentage">% &nbsp;</span>
-				  								<span class="item-price">PRICE 원</span>
-				  							</span>
-				  							<div class="today-special-price-review">
-				  								<svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" style="margin-bottom: 3px;" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
-				  									<path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
-												</svg>
-				  								<span class="item-star-review">4.8</span>
-				  								<span class="item-review-count">리뷰 500</span>
-				  							</div>
-				  						</div>
-			  						</div>
-			  					</div>
-			  					
-			  					
+				  					</div>
+			  					</c:forEach>
 			  				</div>
 			  			</div>
 			  		</div>
@@ -201,93 +162,39 @@
 					<div class="album py-3">
 			  			<div class="container">
 			  				<div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-3 p-2 px-4">
-			  					<div class="col">
-			  						<div class="card shadow-sm">
-			  							<img src="https://image.ohou.se/i/bucketplace-v2-development/uploads/productions/160437064464898594.jpg?gif=1&w=850&h=850&c=c&webp=1" style="width: 100%; height: 225px;">
-				  						<div class="card-body">
-				  							<span class="today-special-price-headerBrand">STORE_NAME</span>
-				  							<span class="today-special-price-headerName">PRODUCT_NAME</span>
-				  							<span class="today-special-price-itemPrice">
-				  								<span class="item-sale">N</span>
-				  								<span class="percentage">% &nbsp;</span>
-				  								<span class="item-price">PRICE 원</span>
-				  							</span>
-				  							<div class="today-special-price-review">
-				  								<svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" style="margin-bottom: 3px;" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
-				  									<path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
-												</svg>
-				  								<span class="item-star-review">4.8</span>
-				  								<span class="item-review-count">리뷰 500</span>
-				  							</div>
+			  					<c:forEach items="${ pdList }" begin="5" end="8" var="p">
+			  						<div class="col section section2">
+				  						<div class="card shadow-sm">
+				  							<c:forEach items="${ pdAttmList }" var="pa">
+												<c:if test="${ p.boardNo eq pa.imgKey }">
+													<c:if test="${ pa.imgOriginalName != '' }">
+														<img src="resources/uploadFiles/${ pa.imgRename }" style="width: 100%; height: 225px;">
+													</c:if>
+												</c:if>
+											</c:forEach>
+					  						<div class="card-body">
+					  							<span class="today-special-price-headerBrand">${ p.brand }</span>
+					  							<span class="today-special-price-headerName">${ p.boardTitle }</span>
+					  							<span class="today-special-price-itemPrice">
+					  								<span class="item-sale">${ p.discount }</span>
+					  								<span class="percentage">% &nbsp;</span>
+					  								<fmt:formatNumber type="number" maxFractionDigits="3" value="${p.price}" var="commaPrice"/>
+					  								<c:set var="discountPrice" value="${ p.price-(p.price*p.discount/100)}"/>
+													<fmt:formatNumber type="number" maxFractionDigits="3" value="${ p.price-(p.price*p.discount/100)}" var="totalPrice" />
+					  								<span class="item-price">${ totalPrice }</span> 원
+					  								<input type="hidden" class="PNo" value="${ p.productNo }">
+					  							</span>
+					  							<div class="today-special-price-review">
+					  								<svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" style="margin-bottom: 3px;" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
+					  									<path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
+													</svg>
+					  								<span class="item-star-review">4.8</span>
+					  								<span class="item-review-count">리뷰 500</span>
+					  							</div>
+					  						</div>
 				  						</div>
-			  						</div>
-			  					</div>
-			  					
-			  					<div class="col">
-			  						<div class="card shadow-sm">
-			  							<img src="https://image.ohou.se/i/bucketplace-v2-development/uploads/productions/166322596412626914.jpg?gif=1&w=850&h=850&c=c&webp=1" style="width: 100%; height: 225px;">
-				  						<div class="card-body">
-				  							<span class="today-special-price-headerBrand">STORE_NAME</span>
-				  							<span class="today-special-price-headerName">PRODUCT_NAME</span>
-				  							<span class="today-special-price-itemPrice">
-				  								<span class="item-sale">N</span>
-				  								<span class="percentage">% &nbsp;</span>
-				  								<span class="item-price">PRICE 원</span>
-				  							</span>
-				  							<div class="today-special-price-review">
-				  								<svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" style="margin-bottom: 3px;" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
-				  									<path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
-												</svg>
-				  								<span class="item-star-review">4.8</span>
-				  								<span class="item-review-count">리뷰 500</span>
-				  							</div>
-				  						</div>
-			  						</div>
-			  					</div>
-			  					
-			  					<div class="col">
-			  						<div class="card shadow-sm">
-			  							<img src="https://image.ohou.se/i/bucketplace-v2-development/uploads/productions/159410984312758507.jpg?gif=1&w=850&h=850&c=c&webp=1" style="width: 100%; height: 225px;">
-				  						<div class="card-body">
-				  							<span class="today-special-price-headerBrand">STORE_NAME</span>
-				  							<span class="today-special-price-headerName">PRODUCT_NAME</span>
-				  							<span class="today-special-price-itemPrice">
-				  								<span class="item-sale">N</span>
-				  								<span class="percentage">% &nbsp;</span>
-				  								<span class="item-price">PRICE 원</span>
-				  							</span>
-				  							<div class="today-special-price-review">
-				  								<svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" style="margin-bottom: 3px;" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
-				  									<path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
-												</svg>
-				  								<span class="item-star-review">4.8</span>
-				  								<span class="item-review-count">리뷰 500</span>
-				  							</div>
-				  						</div>
-			  						</div>
-			  					</div>
-			  					
-			  					<div class="col">
-			  						<div class="card shadow-sm">
-			  							<img src="https://image.ohou.se/i/bucketplace-v2-development/uploads/productions/165336176691872944.jpg?gif=1&w=850&h=850&c=c&webp=1" style="width: 100%; height: 225px;">
-				  						<div class="card-body">
-				  							<span class="today-special-price-headerBrand">STORE_NAME</span>
-				  							<span class="today-special-price-headerName">PRODUCT_NAME</span>
-				  							<span class="today-special-price-itemPrice">
-				  								<span class="item-sale">N</span>
-				  								<span class="percentage">% &nbsp;</span>
-				  								<span class="item-price">PRICE 원</span>
-				  							</span>
-				  							<div class="today-special-price-review">
-				  								<svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" style="margin-bottom: 3px;" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
-				  									<path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
-												</svg>
-				  								<span class="item-star-review">4.8</span>
-				  								<span class="item-review-count">리뷰 500</span>
-				  							</div>
-				  						</div>
-			  						</div>
-			  					</div>
+				  					</div>
+			  					</c:forEach>
 			  				</div>
 			  			</div>
 			  		</div>
@@ -319,35 +226,28 @@
 					<div class="album">
 			  			<div class="container mt-4 mb-4">
 			  				<div class="row px-4">
-			  					<div class="col-md-6">
-			  						<div class="row g-0 border rounded overflow-hidden flex-md-row shadow-sm h-md-250 position-relative">
-			  							<div class="col p-4 d-flex flex-column position-static">
-			  								<h3 class="mb-0">미니 가습기 판매해요</h3>
-			  								<div class="mt-2 mb-2">
-			  									<span class="ssingssing-itemPrice">20,000원</span>
-			  								</div>
-			  								<p class="card-text mb-auto">사용감 없습니다. 비염 있으신 분들 이거 유용하게 쓰실 듯요.</p>
-			  							</div>
-			  							<div class="col-auto d-none d-lg-block">
-			  								<img src="https://image.ohou.se/i/bucketplace-v2-development/uploads/productions/sub_images/157187790541792168.jpg?gif=1&w=850&h=850&c=c&webp=1" style="width: 100%; height: 250px;">
-			  							</div>
-			  						</div>
-			  					</div>
-			  					
-			  					<div class="col-md-6">
-			  						<div class="row g-0 border rounded overflow-hidden flex-md-row shadow-sm h-md-250 position-relative">
-			  							<div class="col p-4 d-flex flex-column position-static">
-			  								<h3 class="mb-0">1+1으로 산 멀티탭 나누실 분</h3>
-			  								<div class="mt-2 mb-2">
-			  									<span class="ssingssing-itemPrice">9,100원</span>
-			  								</div>
-			  								<p class="card-text mb-auto">18,200원에 2개가 왔는데 저는 하나면 되거든요.. 필요하신분 저랑 나눠가져요</p>
-			  							</div>
-			  							<div class="col-auto d-none d-lg-block">
-			  								<img src="https://image.ohou.se/i/bucketplace-v2-development/uploads/productions/images/163514478998058807.jpg?gif=1&w=850&h=850&c=c&webp=1" style="width: 100%; height: 250px;">
-			  							</div>
-			  						</div>
-			  					</div>
+			  					<c:forEach items="${ marketList }" begin="1" end="2" var="m">
+			  						<div class="col-md-6 section section3">
+				  						<div class="row g-0 border rounded overflow-hidden flex-md-row shadow-sm h-md-250 position-relative">
+				  							<div class="col p-4 d-flex flex-column position-static" style="height: 250px;">
+				  								<h3 class="mb-0 boardTitle">${ m.boardTitle }</h3>
+				  								<div class="mt-2 mb-2">
+				  									<span class="ssingssing-itemPrice">${ m.marketPrice } 원</span>
+				  								</div>
+				  								<p class="card-text mb-auto boardContent" style="overflow: hidden;">${ m.boardContent }</p>
+				  								<input type="hidden" class="marketBNo" value="${ m.boardNo }">
+				  								<input type="hidden" class="marketWriter" value="${ m.nickName }">
+				  							</div>
+				  							<c:forEach items="${ marketAttmList }" var="ma">
+				  								<c:if test="${ m.boardNo eq ma.imgKey }">
+													<c:if test="${ ma.imgOriginalName != '' }">
+														<img src="resources/uploadFiles/${ ma.imgRename }" style="width: 250px; height: 250px;">
+													</c:if>
+												</c:if>
+				  							</c:forEach>
+				  						</div>
+				  					</div>
+			  					</c:forEach>
 			  				</div>
 			  			</div>
 			  		</div>
@@ -357,35 +257,28 @@
 					<div class="album">
 			  			<div class="container mt-4 mb-4">
 			  				<div class="row px-4">
-			  					<div class="col-md-6">
-			  						<div class="row g-0 border rounded overflow-hidden flex-md-row shadow-sm h-md-250 position-relative">
-			  							<div class="col p-4 d-flex flex-column position-static">
-			  								<h3 class="mb-0">미니 가습기 판매해요</h3>
-			  								<div class="mt-2 mb-2">
-			  									<span class="ssingssing-itemPrice">20,000원</span>
-			  								</div>
-			  								<p class="card-text mb-auto">사용감 없습니다</p>
-			  							</div>
-			  							<div class="col-auto d-none d-lg-block">
-			  								<img src="https://image.ohou.se/i/bucketplace-v2-development/uploads/productions/sub_images/157187790541792168.jpg?gif=1&w=850&h=850&c=c&webp=1" style="width: 100%; height: 250px;">
-			  							</div>
-			  						</div>
-			  					</div>
-			  					
-			  					<div class="col-md-6">
-			  						<div class="row g-0 border rounded overflow-hidden flex-md-row shadow-sm h-md-250 position-relative">
-			  							<div class="col p-4 d-flex flex-column position-static">
-			  								<h3 class="mb-0">1+1으로 산 멀티탭 나누실 분</h3>
-			  								<div class="mt-2 mb-2">
-			  									<span class="ssingssing-itemPrice">9,100원</span>
-			  								</div>
-			  								<p class="card-text mb-auto">18,200원에 2개가 왔는데 저는 하나면 되거든요.. 필요하신분 저랑 나눠가져요</p>
-			  							</div>
-			  							<div class="col-auto d-none d-lg-block">
-			  								<img src="https://image.ohou.se/i/bucketplace-v2-development/uploads/productions/images/163514478998058807.jpg?gif=1&w=850&h=850&c=c&webp=1" style="width: 100%; height: 250px;">
-			  							</div>
-			  						</div>
-			  					</div>
+			  					<c:forEach items="${ marketList }" begin="3" end="4" var="m">
+			  						<div class="col-md-6 section section4">
+				  						<div class="row g-0 border rounded overflow-hidden flex-md-row shadow-sm h-md-250 position-relative">
+				  							<div class="col p-4 d-flex flex-column position-static" style="height: 250px;">
+				  								<h3 class="mb-0 boardTitle">${ m.boardTitle }</h3>
+				  								<div class="mt-2 mb-2">
+				  									<span class="ssingssing-itemPrice">${ m.marketPrice } 원</span>
+				  								</div>
+				  								<p class="card-text mb-auto boardContent" style="overflow: hidden;">${ m.boardContent }</p>
+				  								<input type="hidden" class="marketBNo" value="${ m.boardNo }">
+				  								<input type="hidden" class="marketWriter" value="${ m.nickName }">
+				  							</div>
+				  							<c:forEach items="${ marketAttmList }" var="ma">
+				  								<c:if test="${ m.boardNo eq ma.imgKey }">
+													<c:if test="${ ma.imgOriginalName != '' }">
+														<img src="resources/uploadFiles/${ ma.imgRename }" style="width: 250px; height: 250px;">
+													</c:if>
+												</c:if>
+				  							</c:forEach>
+				  						</div>
+				  					</div>
+			  					</c:forEach>
 			  				</div>
 			  			</div>
 			  		</div>
@@ -413,34 +306,26 @@
   		
   		<div class="container">
   			<div class="row px-4 mt-4">
-			  	<div class="col-md-6">
-			  		<span class="css-small-title">- HOT 인기글</span>
-			  		<div class="row g-0 border rounded overflow-hidden flex-md-row shadow-sm h-md-250 position-relative mt-2 mb-4">
-			  			<div class="col-auto d-none d-lg-block">
-			  				<img src="https://recipe1.ezmember.co.kr/cache/recipe/2019/04/01/f8b3042c80a214dd7cc60fa2027cdc9d1.jpg" style="width: 250px; height: 250px;">
-			  			</div>
-			  			<div class="col p-4 d-flex flex-column position-static">
-			  				<h4 class="mb-0">오일파스타 요리법!</h4>
-			  				<div class="mb-1 text-muted">Nov 11</div>
-			  				<p class="card-text mb-auto">혼자 만들어 드실 때 적당한 양조절 팁도 있어요 :)</p>
-			  			</div>
-			  		</div>
-			  	</div>
-			  	
-			  	
-			  	<div class="col-md-6">
-			  		<span class="css-small-title"></span>
-			  		<div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative mt-2 mb-4">
-			  			<div class="col-auto d-none d-lg-block">
-			  				<img src="https://image.ohou.se/i/bucketplace-v2-development/uploads/productions/166536749705064483.jpg?gif=1&w=850&h=850&c=c&webp=1" style="width: 250px; height: 250px;">
+  				<c:forEach items="${ commuList }" begin="1" end="2" var="c">
+  					<div class="col-md-6 section5 section">
+				  		<div class="row g-0 border rounded overflow-hidden flex-md-row shadow-sm h-md-250 position-relative mt-2 mb-4">
+				  			<c:forEach items="${ commuAttmList }" var="ca">
+								<c:if test="${ c.boardNo eq ca.imgKey }">
+									<c:if test="${ ca.imgOriginalName != '' }">
+										<img src="resources/uploadFiles/${ ca.imgRename }" style="width: 250px; height: 250px;">
+									</c:if>
+								</c:if>
+							</c:forEach>
+				  			<div class="col p-4 d-flex flex-column position-static" style="height: 250px;">
+				  				<h4 class="mb-1 boardTitle">${ c.boardTitle }</h4>
+				  				<div class="mb-1 text-muted">${ c.createDate }</div>
+				  				<input type="hidden" class="commuBNo" id="commuBNo" value="${ c.boardNo }">
+				  				<input type="hidden" class="commuWriter" value="${ c.nickName }">
+				  				<p class="card-text mb-auto boardContent" style="overflow: hidden;">${ c.boardContent }</p>
+				  			</div>
 				  		</div>
-			  			<div class="col p-4 d-flex flex-column position-static">
-			  				<h4 class="mb-0">여러분 과탄산소다가 여기저기 쓸 곳 많은 거 알고계시나요...?</h4>
-			  				<div class="mb-1 text-muted">Nov 11</div>
-			  				<p class="card-text mb-auto">제가 유용하게 사용한 방법들 알려드립니다!!</p>
-			  			</div>
-			  		</div>
-			  	</div>
+				  	</div>
+  				</c:forEach>
 			</div>
   		</div>
 	</main>
@@ -448,5 +333,52 @@
 	<footer>
 		<jsp:include page="common/footer.jsp"/>
 	</footer>
+	
+	<script>
+		window.onload = () => {
+			const st1 = document.getElementsByClassName('section1');
+			for(const div of st1){
+				div.addEventListener('click', function(){
+					const productNo = this.querySelector('.PNo').value;
+					location.href='${contextPath}/productDetail.st?productNo=' + productNo;
+				});
+			}
+			
+			const st2 = document.getElementsByClassName('section2');
+			for(const div of st2){
+				div.addEventListener('click', function(){
+					const productNo = this.querySelector('.PNo').value;
+					location.href='${contextPath}/productDetail.st?productNo=' + productNo;
+				});
+			}
+			
+			const st3 = document.getElementsByClassName('section3');
+			for(const div of st3){
+				div.addEventListener('click', function(){
+					const boardNo = this.querySelector('.marketBNo').value;
+					const writer = this.querySelector('.marketWriter').value;
+					location.href='${contextPath}/marketBoardDetail.ma?bNo=' + boardNo + '&boardWriter=' + writer;
+				});
+			}
+			
+			const st4 = document.getElementsByClassName('section4');
+			for(const div of st4){
+				div.addEventListener('click', function(){
+					const boardNo = this.querySelector('.marketBNo').value;
+					const writer = this.querySelector('.marketWriter').value;
+					location.href='${contextPath}/marketBoardDetail.ma?bNo=' + boardNo + '&boardWriter=' + writer;
+				});
+			}
+			
+			const st5 = document.getElementsByClassName('section5');
+			for(const div of st5){
+				div.addEventListener('click', function(){
+					const boardNo = this.querySelector('.commuBNo').value;
+					const writer = this.querySelector('.commuWriter').value;
+					location.href='${contextPath}/selectCommuBoard.co?bNo=' + boardNo + '&writer=' + writer;
+				});
+			}
+		}
+	</script>
 </body>
 </html>

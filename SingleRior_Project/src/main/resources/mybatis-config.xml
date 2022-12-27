@@ -33,7 +33,7 @@
 		<typeAlias type="com.E1I4.project.common.model.vo.ReportReply" alias="ReportReply"/>
 		<typeAlias type="com.E1I4.project.storeBoard.model.vo.OrderItem" alias="OrderItem"/>
 		<typeAlias type="com.E1I4.project.common.model.vo.InquiryAdmin" alias="InquiryAdmin"/>
-
+		<typeAlias type="com.E1I4.project.mainPage.model.vo.MainPage" alias="MainPage"/>
 	</typeAliases>
 
 	<mappers>
@@ -43,5 +43,6 @@
 	   	<mapper resource="mappers/noti-mapper.xml"/>
 	   	<mapper resource="mappers/commu-mapper.xml"/>
 	   	<mapper resource="mappers/admin-mapper.xml"/>
+	   	<mapper resource="mappers/main-mapper.xml"/>
 	</mappers>
 </configuration>

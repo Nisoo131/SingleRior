@@ -185,7 +185,7 @@
 		        	<table class="mx-auto">
 			        	<tr>
 			        		<td>
-					        	<select name="searchType" class="form-select form-select-sm" aria-label=".form-select-sm example" style="width: 120px; text-align: center;" required>
+					        	<select name="searchType" class="form-select form-select-sm" aria-label=".form-select-sm example" style="width: 120px; text-align: center;">
 					        		<option value="0">--------</option>
 					        		<option value="1">제목</option>
 					        		<option value="2">내용</option>
