@@ -18,6 +18,7 @@
 		<result column="MARKET_TYPE" property="marketType"/>
 		<result column="LIKE_COUNT" property="likeCount"/>
 		<result column="REPLY_COUNT" property="replyCount"/>
+		<result column="REPORT_STATUS" property="reportStatus"/>
 	</resultMap>
 	
 	<resultMap type="Attachment" id="attachmentResultSet">
@@ -36,7 +37,7 @@
 	<insert id="marketBoardInsert">
 		insert all
 			into board
-		values(SEQ_BID.nextval, #{boardType}, #{boardTitle}, #{boardContent}, sysdate, sysdate, default, default,#{writer}, default)
+		values(SEQ_BID.nextval, #{boardType}, #{boardTitle}, #{boardContent}, sysdate, sysdate, default, default,#{writer}, default, default)
 			into MARKET
 		values(SEQ_BID.currval, #{marketPrice}, #{marketType})
 		select * from dual
@@ -192,6 +193,7 @@
 		<result column="REPLY_STATUS" property="replyStatus"/>
 		<result column="BOARD_NO" property="boardNo"/>
 		<result column="NICKNAME" property="nickName"/>
+		<result column="REPORT_STATUS" property="reportStatus"/>
 	</resultMap>
 	
 	<resultMap type="ReReply" id="reReplyResultSet">
@@ -205,12 +207,13 @@
 		<result column="MEMBER_ID" property="memberId"/>
 		<result column="BOARD_NO" property="boardNo"/>
 		<result column="NICKNAME" property="nickName"/>
+		<result column="REPORT_STATUS" property="reportStatus"/>
 	</resultMap>
 	
 	
 	<insert id="replyInsert">
 		insert into reply
-		values(seq_rid.nextval, #{replyContent}, sysdate, sysdate, #{replySecret}, default, #{memberId}, #{boardNo})
+		values(seq_rid.nextval, #{replyContent}, sysdate, sysdate, #{replySecret}, default, #{memberId}, #{boardNo},default)
 	</insert>
 	
 	<select id="replySelect" resultMap="replyResultSet">
@@ -222,8 +225,8 @@
 	</select>
 	
 	<insert id="reReplyInsert">
-		insert into reply
-		values(seq_rrid.nextval, #{rReplyContent}, sysdate, sysdate, #{rReplySecret}, default, ${replyNo},#{memberId}, #{BoardNo})
+		insert into RE_REPLY
+		values(seq_rrid.nextval, #{reReplyContent}, sysdate, sysdate, #{reReplySecret}, default, #{replyNo},#{memberId}, #{boardNo},default)
 	</insert>
 	
 	<select id="reReplySelect" resultMap="reReplyResultSet">
@@ -314,28 +317,50 @@
 	<resultMap type="Report" id="reportResultSet">
 		<id column="REPORT_NO" property="reportNo"/>
 		<result column="BOARD_NO" property="boardNo"/>
+		<result column="CONTENT_NO" property="contentNo"/>
 		<result column="REPORT_TYPE" property="reportType"/>
 		<result column="REPORT_CATE" property="reportCate"/>
 		<result column="USER_ID" property="memberId"/>
-		<result column="CREATE_DATE" property="createDtae"/>
+		<result column="CREATE_DATE" property="createDate"/>
 	</resultMap>
 	
 	<insert id="marketReport">
 		insert into REPORT
-		values(SEQ_RPID.nextval, #{reportType}, #{boardNo},#{reportCate},sysdate, #{memberId})
+		values(SEQ_RPID.nextval, #{reportType}, #{contentNo},#{reportCate},sysdate, #{memberId})
 	</insert>
 	
 	<select id="reportSelect" resultMap="reportResultSet"> 
 		select *
 		from report
-		where BOARD_NO=#{bNo} and MEMBER_ID=#{id} and REPORT_CATE=#{cate}
+		where CONTENT_NO=#{cNo} and REPORT_CATE=#{cate}
 	</select>
 	
-	<select id="replyOneSelect" resultMap="replyResultSet"> 
-		select *
-		from reply
-		where REPLY_NO=#{replyNo} and REPLY_STATUS='Y'
-	</select>
-	
+	<update id="updateReportStatus">
+		<if test='cate.equals("B")'>
+		update BOARD
+		</if>
+		
+		<if test='cate.equals("R")'>
+		update REPLY
+		</if>
+		
+		<if test='cate.equals("RR")'>
+		update RE_REPLY
+		</if>
+		
+		set  REPORT_STATUS='Y'
+		
+		<if test='cate.equals("B")'>
+		where BOARD_NO = #{cNo}
+		</if>
+		
+		<if test='cate.equals("R")'>
+		where REPLY_NO = #{cNo}
+		</if>
+		
+		<if test='cate.equals("RR")'>
+		where RE_REPLY_NO = #{cNo}
+		</if>
+	</update>
 	
 </mapper>

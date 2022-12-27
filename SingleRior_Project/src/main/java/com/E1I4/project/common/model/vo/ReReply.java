@@ -24,5 +24,5 @@ public class ReReply {
 	private String reReplyStatus;
 	private String reReplySecret;
 	private String nickName;
-	
+	private String reportStatus;
 }

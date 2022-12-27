@@ -167,9 +167,9 @@
 					</div>
 					
 					<!-- 댓글 -->
-						<div class="px-5 " id="replyDiv">
+					<div class="px-5 " id="replyDiv">
 						<c:forEach items="${mkRList }" var="r">
-							<table class="table replyTable ">
+							<table class="table replyTable">
 								<tr>
 									<td style="text-align: center;" width="40"><img src="https://cdn-icons.flaticon.com/svg/3917/3917711.svg?token=exp=1670467359~hmac=b45251c2afca4a6751ba3fed9124eb31" width="20" height="20"></td>
 									<td width="150px; class="px-4" class="reNickName">${r.nickName}</td>
@@ -182,11 +182,11 @@
 												<c:if test="${ loginUser.memberId eq r.memberId }">
 													<li class="reReplyBtn"><a class="dropdown-item">답글달기</a></li>
 													<li class="updateReBtn"><a class="dropdown-item">수정</a></li>
-													<li class="deleteReBtn"><a class="dropdown-item ">삭제</a><input type="hidden" class="replyNo" value="${ r.replyNo }"></li>
+													<li class="deleteReBtn"><a class="dropdown-item ">삭제</a><input type="hidden" id="replyNo" class="replyNo" value="${ r.replyNo }"></li>
 												</c:if>
 												<c:if test="${ !(loginUser.memberId eq r.memberId) }">
-													<li><a class="dropdown-item" >답글달기</a></li>
-													<li class="reReportBtn"><a class="dropdown-item" ><input type="hidden" class="replyNo" value="${ r.replyNo }">신고</a></li>
+													<li class="reReplyBtn"><a class="dropdown-item" >답글달기</a></li>
+													<li class="reReportBtn"><input type="hidden" class="reportReplyNo" value="${ r.replyNo }"><input type="hidden" class="reportStatus" value="${ r.reportStatus }"><a class="dropdown-item" >신고</a></li>
 												</c:if>
 											</ul>
 										</div>
@@ -201,72 +201,65 @@
 									</td>
 								</tr>
 							</table>
-							
+						
 						<!-- 대댓글창 -->
 						<c:if test="${!empty loginUser }">
-							<table class="addChildCommentTable commentTable table table-borderless p-5" style="display:none;">
+							<table class="table table-borderless p-5 reReplyInput" style="display: none;" >
 		                    	<tr>
 		                        	<td width="1em">
 		                           		<i class="bi bi-arrow-return-right" style="font-size:1em">
 		                       		</td>
 		                        	<td >
-		                           		<input type="hidden" name="boardId" value="${mkBoard.boardNo}">     
-		                           		<input type="hidden" name="commentCId" value="${r.replyNo}">
+		                           		<input type="hidden" name="replyNo" value="${r.replyNo}">
 		                           		<div class="input-group" >
 		                           			<textarea  style="width: 1000px; border: none; resize: none;"></textarea>
-											<button class="btn btn-outline-primary btn-lg" id="reReplySubmit" type="button" style="width: 100px;">등록</button>
+											<button class="btn btn-outline-primary btn-lg reReplySubmit" type="button" style="width: 100px;">등록</button>
+											<br>&nbsp;
+											<label for="replySecret">비밀댓글</label>&nbsp;&nbsp;<input type="checkbox" class="reReplySecret" value="N">	
 										</div>
 		                        	</td>
 		                     	</tr>
 		                 	</table>
 		                 </c:if>
 						</c:forEach>
-						
-							
-						</div>
+					</div>
 					
-						
-						
-						
-						
-						
-						
-						<!-- 대댓글 -->
-						
-						<c:forEach items="${mkRRList}" var="rr">
-						<c:forEach items="${mkRList}" var="r">
-						<c:if test="${rr.replyNo==r.replyNo }"></c:if>
-						<div class="px-5" style="padding-bottom: 50px; margin-left: 60px;" id="reReplyDiv">
-							<table class="table">
-								<tr>
-									<td style="text-align: center;" width="40"><img src="https://cdn-icons-png.flaticon.com/512/9058/9058850.png" width="20" height="20">
-									<td style="text-align: center;" width="40"><img src="https://cdn-icons.flaticon.com/svg/3917/3917711.svg?token=exp=1670467359~hmac=b45251c2afca4a6751ba3fed9124eb31" width="20" height="20"></td>
-									<td class="px-4">${rr.nickName}</td>
-									<td class="px-4">${rr.reReplyModifyDate}</td>
-									<td width="750"></td>
-									<td>
-										<div class="dropdown">
-											<img class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" src="https://cdn-icons.flaticon.com/svg/3917/3917158.svg?token=exp=1670467948~hmac=2f18f7118b556af438bb1d4438649f4a" width="20" height="20">
-											<ul class="dropdown-menu" style="text-align: center;">
-												<c:if test="${ loginUser.memberId eq rr.memberId }">
-													<li><a class="dropdown-item" >수정</a></li>
-													<li><a class="dropdown-item" >삭제</a></li>
-												</c:if>
-												<c:if test="${ !(loginUser.memberId eq rr.memberId) }">
-													<li><a class="dropdown-item" >신고</a></li>
-												</c:if>
-											</ul>
-										</div>
-									</td>
-								</tr>
-								<tr style="font-size: 20px;">
-									<td class="px-5 py-3" colspan="6">${rr.reReplyContent}</td>
-								</tr>
-							</table>
-						
-						</div>
-						</c:forEach>
-						</c:forEach>
+					<!-- 대댓글 -->
+					<c:forEach items="${mkRRList}" var="rr">
+					<c:forEach items="${mkRList}" var="r">
+					<c:if test="${rr.replyNo==r.replyNo }">
+					<div class="px-5" style="padding-bottom: 50px; margin-left: 60px;" id="reReplyDiv">
+						<table class="table">
+							<tr>
+								<td style="text-align: center;" width="40"><img src="https://cdn-icons-png.flaticon.com/512/9058/9058850.png" width="20" height="20">
+								<td style="text-align: center;" width="40"><img src="https://cdn-icons.flaticon.com/svg/3917/3917711.svg?token=exp=1670467359~hmac=b45251c2afca4a6751ba3fed9124eb31" width="20" height="20"></td>
+								<td class="px-4">${rr.nickName}</td>
+								<td class="px-4">${rr.reReplyModifyDate}</td>
+								<td width="750"></td>
+								<td>
+									<div class="dropdown">
+										<img class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" src="https://cdn-icons.flaticon.com/svg/3917/3917158.svg?token=exp=1670467948~hmac=2f18f7118b556af438bb1d4438649f4a" width="20" height="20">
+										<ul class="dropdown-menu" style="text-align: center;">
+											<c:if test="${ loginUser.memberId eq rr.memberId }">
+												<li><a class="dropdown-item" >수정</a></li>
+												<li><a class="dropdown-item" >삭제</a></li>
+											</c:if>
+											<c:if test="${ !(loginUser.memberId eq rr.memberId) }">
+												<li><a class="dropdown-item" >신고</a></li>
+											</c:if>
+										</ul>
+									</div>
+								</td>
+							</tr>
+							<tr style="font-size: 20px;">
+								<td class="px-5 py-3" colspan="6">${rr.reReplyContent}</td>
+							</tr>
+						</table>
+					</div>
+					
+					</c:if>
+					</c:forEach>
+					</c:forEach>
 					<div style="border-bottom: 1px solid #DCDCDC; padding-top: 10px;"></div>
 					
 					<!-- 이동 -->
@@ -292,13 +285,13 @@
 				</form>
 			</div>
 		</div>
+		
 		<footer>
 			<jsp:include page="../common/footer.jsp"/>
 		</footer>	
 	</main>
 	
 	<!-- 삭제모달 -->
-
 	<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 	  <div class="modal-dialog">
 	    <div class="modal-content">
@@ -336,6 +329,7 @@
 			 <form action="${ contextPath }/marketReport.ma">
 			 <div class="form-check">
 			  <input  name="reportType" class="form-check-input" type="checkbox" value="홍보도배" id="flexCheckDefault">
+			  <input type="hidden" id="contentNo" name="contentNo" value="${mkBoard.boardNo }">
 			  <input type="hidden" id="boardNo" name="boardNo" value="${mkBoard.boardNo }">
 			  <input type="hidden" id="reportCate" name="reportCate" value="B">
 			  <label class="form-check-label" >
@@ -361,7 +355,7 @@
 			  </label>
 			</div>
 			 <div class="modal-footer">
-	        <button class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+	        <button class="btn btn-secondary" data-bs-dismiss="modal" type="reset" aria-label="Close">닫기</button>
 	        <button class="btn btn-primary">신고하기</button>
 	       	</div>
 	       	</form>
@@ -412,21 +406,22 @@
 	                         console.log(data);
 	                      }
 	                     });
-	                  
 	                  $(this).attr("class","btn btn-outline-danger symptClick");
 	            }
 	         });
 			
 		
 			//삭제모달
-			document.getElementById('deleteBtn').addEventListener('click', ()=>{
-				$('#deleteModal').modal('show');	
-			});
+			if(${ !(loginUser.memberId eq r.memberId) }){
+				document.getElementById('deleteBtn').addEventListener('click', ()=>{
+					$('#deleteModal').modal('show');	
+				});
+			}
 			
 			//신고확인
 			document.getElementById('reportBtn').addEventListener('click', ()=>{
-				if(${reportSelect!=null} ){
-					alert("이미 신고하셨습니다.");
+				if(${mkBoard.reportStatus!='N'} ){
+					alert("이미 신고된 글입니다.");
 				}else{
 					$('#reportModal').modal('show');	
 				}
@@ -434,69 +429,34 @@
 			});
 			
 			//댓글입력
-			document.getElementById('replySubmit').addEventListener('click', ()=> {
-				
-				if(document.getElementById('replySecret').checked){
-					document.getElementById('replySecret').value = 'Y';
-				}
-				$.ajax({
-					url: '${contextPath}/replyInsert.ma',
-					data: {replyContent:document.getElementById('replyContent').value,
-							replySecret:document.getElementById('replySecret').value,
-							boardNo:${mkBoard.boardNo},
-							memberId: '${loginUser.memberId}',
-							nickName: '${loginUser.nickName}'},
-					success: (data) => {
-						var replyCount = data.length;
-						document.getElementById('replyDiv').innerHTML = '';
-						document.getElementById('replyContent').value='';
-						for(const r of data){
-							let str = '<table class="table replyTable ">';
-							str +=	'<tr>';
-							str +=	'<td style="text-align: center;" width="40"><img src="https://cdn-icons.flaticon.com/svg/3917/3917711.svg?token=exp=1670467359~hmac=b45251c2afca4a6751ba3fed9124eb31" width="20" height="20"></td>';
-							str +=	'<td width="150px; class="px-4">'+ r.nickName + '</td>';
-							str +=	'<td width="150px; class="px-4">'+ r.replyModifyDate + '</td>';
-							str +=	'<td width="850px;"></td>';
-							str +=	'<td>';
-							str +=	'<div class="dropdown">';
-							str +=	'<img class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" src="https://cdn-icons.flaticon.com/svg/3917/3917158.svg?token=exp=1670467948~hmac=2f18f7118b556af438bb1d4438649f4a" width="20" height="20">';
-							str +=	'<ul class="dropdown-menu" style="text-align: center;">';
-							
-							if('${ loginUser.memberId}'== r.memberId){	
-								str +=	'<li class="reReplyBtn"><a class="dropdown-item ">답글달기</a></li>';
-								str +=	'<li class="updateReBtn"><a class="dropdown-item">수정</a></li>';
-								str +=	'<li class="deleteReBtn"><a class="dropdown-item ">삭제</a><input type="hidden" class="replyNo" value="'+ r.replyNo +'"></li>';
-							}else{										
-								str +=	'<li><a class="dropdown-item" >답글달기</a></li>';
-								str +=	'<li class="reportBtn" ><a class="dropdown-item" >신고</a></li>';
-							}
-								str +=	'</ul>';
-								str +=	'</div>';
-								str +=	'</td>';
-								str +=	'</tr>';
-								str +=	'<tr style="font-size: 20px;">';
-								str +=	'<td class="px-5 py-3 " colspan="5">';
-								str +=	'<div class="input-group replyContentArea" >';
-								str +=	'<textarea readonly style="width: 1000px; border: none; resize: none;">'+ r.replyContent + '</textarea>';
-								str +=	'<input type="hidden"  value="'+ r.replyNo + '">';
-								str +=	'</div>';
-								str +=	'</td>';
-								str +=	'</tr>';
-								str +=	'</table>';
-							
-								document.getElementById('replyDiv').innerHTML += str;
-								$("#replyCount").html(replyCount);
-						}
-					},
-					error: (data) => {
-						console.log(data);
+			if(${ !empty loginUser }){
+				document.getElementById('replySubmit').addEventListener('click', ()=> {
+					
+					if(document.getElementById('replySecret').checked){
+						document.getElementById('replySecret').value = 'Y';
 					}
+					$.ajax({
+						url: '${contextPath}/replyInsert.ma',
+						data: {replyContent:document.getElementById('replyContent').value,
+								replySecret:document.getElementById('replySecret').value,
+								boardNo:${mkBoard.boardNo},
+								memberId: '${loginUser.memberId}',
+								nickName: '${loginUser.nickName}'},
+						success: (data) => {
+							selectRList(data);
+						},
+						error: (data) => {
+							console.log(data);
+						}
+					});
 				});
-			});
+			}
+			
+			
 			
 	
-			//비밀댓글
-			$(document).on('click', "input[type='checkbox']", function(){
+		//비밀댓글
+		$(document).on('click', "input[type='checkbox']", function(){
 			    if(this.checked) {
 			        const checkboxes = $("input[type='checkbox']");
 			        for(let ind = 0; ind < checkboxes.length; ind++){
@@ -517,21 +477,22 @@
 					url: '${contextPath}/replyDelete.ma',
 					data: {rNo:this.parentNode.querySelector('input[type="hidden"]').value, bNo:${mkBoard.boardNo}},
 					success: (data) => {
-						this.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.remove();
-						var replyCount = data.length;
-						$("#replyCount").html(replyCount);
+						selectRList(data);
 					},
 					error: (data) => {
 						console.log(data);
 					}
 				});
 		});
-			
+		
+		
+		
+		
 		//댓글수정
 		$(document).on('click', '.updateReBtn', function(){
 			console.log("수정");
 			const textArea = this.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.querySelector('textarea');
-			
+			console.log("value1 : " + textArea.value);
 			
 			textArea.removeAttribute('readOnly');
 			textArea.focus();
@@ -541,7 +502,6 @@
 			const $upBtn = $(this);
 			
 			$upBtn.css('display', 'none');
-			
 			
 			btn.addEventListener('click', function () {
 				if(this.parentNode.querySelector('input[type="checkbox"]').checked){
@@ -557,16 +517,7 @@
 					data: {replyNo:replyNo,replyContent:replyContent,replySecret:replySecret,boardNo:${mkBoard.boardNo}},
 					type: 'post',
 					success:(data)=>{
-						
-						
-						$upBtn.css('display', 'block');
-
-						this.parentNode.querySelector('span').remove();
-						this.parentNode.querySelector('textarea').value = data.replyContent;
-						this.parentNode.querySelector('textarea').readOnly=true;
-						this.parentNode.querySelector('button').remove();
-						
-					
+						selectRList(data);
 					},
 					error: (data)=>{
 						console.log(data);
@@ -578,17 +529,95 @@
 		});
 		
 		
-		
+		//신고하기
 		$(document).on('click', ".reReportBtn", function(){
-			$("#reportContent").text("댓글내용 : " + this.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.querySelector('textarea').value);
-			$("#reportNickName").text("작성자 : " + this.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.querySelector('.reNickName').innerText);
-			$("boardNo").val(this.parentNode.querySelector('.replyNo').value);
-			$("#reportCate").val('R');
-			$('#reportModal').modal('show');	
+			var rNo = this.parentNode.querySelector('.reportReplyNo').value;
+			var rStatus = this.parentNode.querySelector('.reportStatus').value;
 			
+			if(rStatus=='Y'){
+				alert("이미 신고된 댓글입니다.");
+			}else{
+				$("#reportContent").text("댓글내용 : " + this.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.querySelector('textarea').value);
+				$("#reportNickName").text("작성자 : " + this.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.querySelector('.reNickName').innerText);
+				$("#contentNo").val(this.parentNode.querySelector('input[type="hidden"]').value);
+				$("#reportCate").val('R');
+				$('#reportModal').modal('show');	
+			}
 		});
 		
+		//댓글 출력 함수
+		function selectRList(data){
+			var replyCount = data.length;
+			document.getElementById('replyDiv').innerHTML = '';
+			document.getElementById('replyContent').value='';
+			for(const r of data){
+				let str = '<table class="table replyTable ">';
+				str +=	'<tr>';
+				str +=	'<td style="text-align: center;" width="40"><img src="https://cdn-icons.flaticon.com/svg/3917/3917711.svg?token=exp=1670467359~hmac=b45251c2afca4a6751ba3fed9124eb31" width="20" height="20"></td>';
+				str +=	'<td width="150px; class="px-4">'+ r.nickName + '</td>';
+				str +=	'<td width="150px; class="px-4">'+ r.replyModifyDate + '</td>';
+				str +=	'<td width="850px;"></td>';
+				str +=	'<td>';
+				str +=	'<div class="dropdown">';
+				str +=	'<img class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" src="https://cdn-icons.flaticon.com/svg/3917/3917158.svg?token=exp=1670467948~hmac=2f18f7118b556af438bb1d4438649f4a" width="20" height="20">';
+				str +=	'<ul class="dropdown-menu" style="text-align: center;">';
+				
+				if('${ loginUser.memberId}'== r.memberId){	
+					str +=	'<li class="reReplyBtn"><a class="dropdown-item ">답글달기</a></li>';
+					str +=	'<li class="updateReBtn"><a class="dropdown-item">수정</a></li>';
+					str +=	'<li class="deleteReBtn"><a class="dropdown-item ">삭제</a><input type="hidden" class="replyNo" value="'+ r.replyNo +'"></li>';
+				}else{										
+					str +=	'<li><a class="dropdown-item" >답글달기</a></li>';
+					str +=	'<li class="reportBtn" ><a class="dropdown-item" >신고</a></li>';
+				}
+					str +=	'</ul>';
+					str +=	'</div>';
+					str +=	'</td>';
+					str +=	'</tr>';
+					str +=	'<tr style="font-size: 20px;">';
+					str +=	'<td class="px-5 py-3 " colspan="5">';
+					str +=	'<div class="input-group replyContentArea" >';
+					str +=	'<textarea readonly style="width: 1000px; border: none; resize: none;">'+ r.replyContent + '</textarea>';
+					str +=	'<input type="hidden"  value="'+ r.replyNo + '">';
+					str +=	'</div>';
+					str +=	'</td>';
+					str +=	'</tr>';
+					str +=	'</table>';
+					str +=	'<table class="table table-borderless p-5 reReplyInput" style="display: none;" >';
+					str +=	'<tr>';
+					str +=	'<td width="1em">';
+					str +=	'<i class="bi bi-arrow-return-right" style="font-size:1em">';
+					str +=	'</td>';
+					str +=	'<td >';
+					str +=	'<input type="hidden" name="boardNo" value="'+ ${mkBoard.boardNo} + '">';     
+					str +=	'<input type="hidden" name="replyNo" value="'+ r.replyNo+ '">';
+					str +=	'<div class="input-group" >';
+					str +=	'<textarea  style="width: 1000px; border: none; resize: none;"></textarea>';
+                    str +=	'<button class="btn btn-outline-primary btn-lg reReplySubmit" type="button" style="width: 100px;">등록</button>';
+                    str +=	'</div>';
+                    str +=	'</td>';
+                    str +=	'</tr>';
+                    str +=	'</table>';
+					document.getElementById('replyDiv').innerHTML += str;
+					$("#replyCount").html(replyCount);
+			}
+		}
+		
+		//답글창
+		 $(document).on("click", ".reReplyBtn", function(){
+	        console.log("답글");
+	        console.log(this);
+			const input = this.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.nextElementSibling;
+			console.log(input);
 			
+			if(input.style.display == 'none') {
+	        	input.style.display = 'inline';
+	        } else {
+	        	input.style.display = 'none';
+	        }
+	     });
+
+
 	</script>
 	
 </body>

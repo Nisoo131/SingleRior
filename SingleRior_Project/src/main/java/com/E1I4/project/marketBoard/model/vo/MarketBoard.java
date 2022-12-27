@@ -30,7 +30,7 @@ public class MarketBoard {
 	private int marketType;
 	private int marketArray;
 	private int	replyCount;
-	
+	private String reportStatus;
 	
 	//boardType 3 market
 	//marketType 같이사요 1, 팝니다2, 삽니다3
