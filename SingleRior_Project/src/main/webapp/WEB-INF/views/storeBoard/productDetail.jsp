@@ -111,7 +111,11 @@
 							<button type="button" class="btn btn-outline-danger active wishListBtn" id="wishListOff">찜하기♥</button>
 						</c:if>
 	  				</td>
-	  				<td style="color:red; font:12px;" id="wishListCount"></td>
+	  				<td>
+	  				<a href="#" id="sns_urlCoby" class="btn_share_sns" onclick="shareURL(); return false;">
+	  					<button type="button" class="btn btn btn-primary active" id="shareURL">공유하기</button>
+				     </a>
+	  				</td>
 	  			</tr>
 	  		</table>　　　　　　　　　
 		  <h2>${ pList[0].boardTitle }</h2>
@@ -528,5 +532,20 @@
     	$('.order_form').submit();   
 	}); 
 
+    // URL 공유하기
+	function shareURL(){
+
+        var url = ''; 
+        var textarea = document.createElement("textarea");  
+        
+        document.body.appendChild(textarea); 
+        url = window.document.location.href; 
+        textarea.value = url; 
+        textarea.select();
+        document.execCommand("copy");   
+        document.body.removeChild(textarea); 
+        
+        alert("URL이 복사되었습니다.") 
+    }
 </script>
 </html>
