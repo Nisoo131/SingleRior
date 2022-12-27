@@ -10,6 +10,9 @@ import com.E1I4.project.storeBoard.model.vo.StoreBoard;
 
 public interface MainPageService {
 	
+	// 배너 리스트
+	ArrayList<Attachment> selectBnAttmList();
+	
 	// 스토어 리스트
 	ArrayList<StoreBoard> selectPdList();
 

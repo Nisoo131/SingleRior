@@ -22,6 +22,12 @@ public class MainPageServiceImpl implements MainPageService {
 	@Autowired
 	private SqlSessionTemplate sqlSession;
 	
+	// 배너 리스트
+	@Override
+	public ArrayList<Attachment> selectBnAttmList() {
+		return mainDAO.selectBnAttmList(sqlSession);
+	}
+	
 	// 스토어 리스트
 	@Override
 	public ArrayList<StoreBoard> selectPdList() {

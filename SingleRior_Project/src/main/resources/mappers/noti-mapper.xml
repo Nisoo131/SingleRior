@@ -52,5 +52,13 @@
 			 join notice n on (b.board_no = n.board_no)
 		where b_status='Y' and b.board_no = #{bNo}
 	</select>
+	
+	<select id="selectCommuNotiList" resultMap="NotiBoardResultSet">
+		select *
+		from board b
+			 join notice n on (b.board_no = n.board_no)
+		where b_status = 'Y' and board_type = '4' and n.notice_category = '싱글벙글'
+		order by create_date desc
+	</select>
 
 </mapper>

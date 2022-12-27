@@ -54,7 +54,7 @@ public class NotiBoardController {
 	}
 	
 	@RequestMapping("selectNotiBoard.no")
-	public ModelAndView selectNotiBoard(@RequestParam("bNo") int bNo, @RequestParam("writer") String writer, @RequestParam("page") int page, HttpSession session, ModelAndView mv) {
+	public ModelAndView selectNotiBoard(@RequestParam("bNo") int bNo, @RequestParam("writer") String writer, HttpSession session, ModelAndView mv) {
 		Member m = (Member)session.getAttribute("loginUser");
 		
 		String login = null;
@@ -72,7 +72,6 @@ public class NotiBoardController {
 		
 		if(notiBoard != null) {
 			mv.addObject("notiBoard", notiBoard);
-			mv.addObject("page", page);
 			mv.setViewName("notiBoardDetail");
 			return mv;
 		} else {

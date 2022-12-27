@@ -117,7 +117,7 @@
 				tr.addEventListener('click', function(){
 					const bNo = this.querySelectorAll('input')[0].value;
 					const writer = this.querySelectorAll('input')[1].value;
-					location.href='${contextPath}/selectNotiBoard.no?bNo=' + bNo + '&writer=' + writer + '&page=' + ${pi.currentPage};
+					location.href='${contextPath}/selectNotiBoard.no?bNo=' + bNo + '&writer=' + writer;
 				});
 			}
 		}

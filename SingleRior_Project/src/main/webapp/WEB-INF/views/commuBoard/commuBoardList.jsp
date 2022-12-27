@@ -128,9 +128,22 @@
 							<th width="70px">댓글</th>
 		          		</tr>
 		          	</thead>
-	         		<tbody class="tbody">
+	         		<tbody>
+	         			<c:forEach items="${ notiList }" begin="0" end="2" var="n">
+	         				<tr class="notiList" style="background-color: #f4f4f4;">
+								<td>
+									공지
+									<input type="hidden" value="${ n.boardNo }">
+								</td>
+								<td>${ n.boardTitle }</td>
+								<td><input type="hidden" value="${ n.writer }">${ n.writer }</td>
+								<td>${ n.createDate }</td>
+								<td>-</td>
+								<td>-</td>
+		          			</tr>
+	         			</c:forEach>
 	         			<c:forEach items="${ list }" var="b">
-	         				<tr>
+	         				<tr class="commuList">
 								<td>
 									<c:if test="${ b.commuType == 1 }">생활팁</c:if>
 									<c:if test="${ b.commuType == 2 }">후기</c:if>
@@ -258,9 +271,17 @@
 		})
 		
 		window.onload = () => {
-			const tbody = document.querySelector('.tbody');
-			const trs = tbody.querySelectorAll('tr');
-			for(const tr of trs){
+			const trs1 = document.querySelectorAll('.notiList');
+			for(const tr of trs1){
+				tr.addEventListener('click', function(){
+					const bNo = this.querySelectorAll('input')[0].value;
+					const writer = this.querySelectorAll('input')[1].value;
+					location.href='${contextPath}/selectNotiBoard.no?bNo=' + bNo + '&writer=' + writer;
+				});
+			}
+			
+			const trs2 = document.querySelectorAll('.commuList');
+			for(const tr of trs2){
 				tr.addEventListener('click', function(){
 					const bNo = this.querySelectorAll('input')[0].value;
 					const writer = this.querySelectorAll('input')[1].value;

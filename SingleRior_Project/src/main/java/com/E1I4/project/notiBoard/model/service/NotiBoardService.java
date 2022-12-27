@@ -13,4 +13,6 @@ public interface NotiBoardService {
 
 	NotiBoard selectNotiBoard(int bNo, boolean yn);
 
+	ArrayList<NotiBoard> selectCommuNotiList();
+
 }

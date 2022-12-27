@@ -239,10 +239,10 @@
 					<!-- 이동 -->
 					<div class="row px-5 py-4">
 						<div class="col-md-1" style="text-align: center; width: 150px;">
-							<button class="w-100 btn btn-outline-dark btn-lg" type="button" id="preForm" onclick="location.href='${contextPath}/selectCommuBoard.co?bNo=${ coBoard.boardNo - 1 }&writer=${ coBoard.writer }&page=${ page }'">이전글</button>
+							<button class="w-100 btn btn-outline-dark btn-lg" type="button" id="preForm" onclick="location.href='${contextPath}/selectCommuBoard.co?bNo=${ coBoard.boardNo - 1 }&writer=${ coBoard.nickName }'">이전글</button>
 						</div>
 						<div class="col-md-1" style="text-align: center; width: 150px;">
-							<button class="w-100 btn btn-outline-dark btn-lg" type="button" id="nextForm" onclick="location.href='${contextPath}/selectCommuBoard.co?bNo=${ coBoard.boardNo + 1 }&writer=${ coBoard.writer }&page=${ page }'">다음글</button>
+							<button class="w-100 btn btn-outline-dark btn-lg" type="button" id="nextForm" onclick="location.href='${contextPath}/selectCommuBoard.co?bNo=${ coBoard.boardNo + 1 }&writer=${ coBoard.nickName }'">다음글</button>
 						</div>
 						
 						<c:if test="${ loginUser.memberId eq coBoard.writer }">

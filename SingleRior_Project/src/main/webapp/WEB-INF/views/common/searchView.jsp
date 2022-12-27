@@ -104,7 +104,7 @@
 						<div class="album py-3">
 				  			<div class="container">
 				  				<div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-3 p-2 px-4">
-				  					<c:forEach items="${ pdList }" begin="1" end="4" var="p">
+				  					<c:forEach items="${ pdList }" begin="0" end="3" var="p">
 				  						<div class="col section1 section">
 					  						<div class="card shadow-sm">
 					  							<c:forEach items="${ pdAttmList }" var="pa">
@@ -167,7 +167,7 @@
 						<div class="album">
 				  			<div class="container mt-4 mb-4">
 				  				<div class="row px-4">
-				  					<c:forEach items="${ marketList }" begin="1" end="2" var="m">
+				  					<c:forEach items="${ marketList }" begin="0" end="1" var="m">
 				  						<div class="col-md-6 section section2">
 					  						<div class="row g-0 border rounded overflow-hidden flex-md-row shadow-sm h-md-250 position-relative">
 					  							<div class="col p-4 d-flex flex-column position-static" style="height: 250px;">
@@ -215,7 +215,7 @@
   		<c:if test="${ !empty commuList }">
 	  		<div class="container">
 	  			<div class="row px-4 mt-4">
-	  				<c:forEach items="${ commuList }" begin="1" end="2" var="c">
+	  				<c:forEach items="${ commuList }" begin="0" end="1" var="c">
 	  					<div class="col-md-6 section3 section">
 					  		<div class="row g-0 border rounded overflow-hidden flex-md-row shadow-sm h-md-250 position-relative mt-2 mb-4">
 					  			<c:forEach items="${ commuAttmList }" var="ca">
@@ -264,13 +264,14 @@
 			          		</tr>
 			          	</thead>
 		         		<tbody class="tbody">
-		         			<c:forEach items="${ notiList }" begin="1" end="5" var="n">
+		         			<c:forEach items="${ notiList }" begin="0" end="4" var="n">
 		         				<tr>
 									<td>
 										<c:if test="${ n.noticeCategory eq '전체' }">전체</c:if>
 										<c:if test="${ n.noticeCategory eq '싱글벙글' }">싱글벙글</c:if>
 										<c:if test="${ n.noticeCategory eq '씽씽마켓' }">씽씽마켓</c:if>
 										<input type="hidden" value="${ n.boardNo }">
+										<input type="hidden" value="${ n.nickName }">
 									</td>
 									<td>${ n.boardTitle }</td>
 									<td>${ n.createDate }</td>
@@ -312,6 +313,17 @@
 					const boardNo = this.querySelector('.commuBNo').value;
 					const writer = this.querySelector('.commuWriter').value;
 					location.href='${contextPath}/selectCommuBoard.co?bNo=' + boardNo + '&writer=' + writer;
+				});
+			}
+			
+			const tbody = document.querySelector('.tbody');
+			console.log(tbody);
+			const trs = tbody.querySelectorAll('tr');
+			for(const tr of trs){
+				tr.addEventListener('click', function(){
+					const bNo = this.querySelectorAll('input')[0].value;
+					const writer = this.querySelectorAll('input')[1].value;
+					location.href='${contextPath}/selectNotiBoard.no?bNo=' + bNo + '&writer=' + writer;
 				});
 			}
 		}
