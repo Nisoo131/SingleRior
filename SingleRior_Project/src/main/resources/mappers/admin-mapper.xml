@@ -498,11 +498,18 @@
 		    join product_top_cate on(product_top_cate.pro_topcate_code=product_sub_cate.pro_topcate_code)
 		    join board on(product.board_no=board.board_no)
 		where admin_status='Y'
-	
-	
-	
 	</select>
+	<select id="selectEnrollUser" resultType="map">
+		
+		select a,b,c
+		from(select to_char(enrolldate,'yyyy/mm/dd') as a, count(*) as b,sum(count(*)) over(order by to_char(enrolldate,'yyyy/mm/dd')) as c 
+    			from member
+    			group by TO_CHAR(enrolldate, 'yyyy/mm/dd')
+    			order by a desc)
+		where rownum<![CDATA[<]]>=5
 	
+	
+	</select>	
 	
 	
 	

@@ -70,22 +70,13 @@
              <div id="layoutSidenav_content">
                 <main>
                     <div class="container-fluid px-4">
-                        <h1 class="mt-4">Charts</h1>
-                        <ol class="breadcrumb mb-4">
-                            <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
-                            <li class="breadcrumb-item active">Charts</li>
-                        </ol>
+                        <h1 class="mt-4">방문 및 사용자 통계</h1>
                         <div class="card mb-4">
-                            <div class="card-body">
-                                Chart.js is a third party plugin that is used to generate the charts in this template. The charts below have been customized - for further customization options, please visit the official
-                                <a target="_blank" href="https://www.chartjs.org/docs/latest/">Chart.js documentation</a>
-                                .
-                            </div>
                         </div>
                         <div class="card mb-4">
                             <div class="card-header">
                                 <i class="fas fa-chart-area me-1"></i>
-                                Area Chart Example
+                                회원 가입 현황
                             </div>
                             <div class="card-body"><canvas id="myAreaChart" width="100%" height="30"></canvas></div>
                             <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
@@ -95,17 +86,17 @@
                                 <div class="card mb-4">
                                     <div class="card-header">
                                         <i class="fas fa-chart-bar me-1"></i>
-                                        Bar Chart Example
+                                        일일/누적 회원가입 통계
                                     </div>
-                                    <div class="card-body"><canvas id="myBarChart" width="100%" height="50"></canvas></div>
-                                    <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+                                    <div class="card-body"><canvas id="userSum"></canvas></div>
+                                    <div class="card-footer small text-muted">마지막 업데이트 일시 11:59 PM</div>
                                 </div>
                             </div>
                             <div class="col-lg-6">
                                 <div class="card mb-4">
                                     <div class="card-header">
                                         <i class="fas fa-chart-pie me-1"></i>
-                                        Pie Chart Example
+                                        사용자 컨텐츠 조회수
                                     </div>
                                     <div class="card-body"><canvas id="myPieChart" width="100%" height="50"></canvas></div>
                                     <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
@@ -124,6 +115,70 @@
                     </div>
                 </footer>
             </div>
+            
+            
+            <script>
+            
+            			
+            		var max=parseInt('${list[0].C}');
+            		var max2=parseInt('${list[0].B}');
+		            var ctx = document.getElementById('userSum').getContext('2d');
+		            var chart = new Chart(ctx, {
+		                // type : 'bar' = 막대차트를 의미합니다.
+		                type: 'bar', // 
+		                data: {
+		                    labels: ['${list[4].A}','${list[3].A}','${list[2].A}','${list[1].A}','${list[0].A}'],
+		                    datasets: [{
+		                        label: '일일 회원 가입자 수',
+		                        type : 'line',         // 'line' type
+		                        fill : false,         // 채우기 없음
+		                        lineTension : 0.2,  // 0이면 꺾은선 그래프, 숫자가 높을수록 둥글해짐
+		                        pointRadius : 0,    // 각 지점에 포인트 주지 않음
+		                        backgroundColor: 'rgb(255, 0, 0)',
+		                        borderColor: 'rgb(255, 0, 0)',
+		                        data: ['${list[4].B}','${list[3].B}','${list[2].B}','${list[1].B}','${list[0].B}'],
+		                        yAxisID: 'right-y-axis'
+		                    },{
+		                        label: '누적 회원 가입자 수',
+		                        backgroundColor: 'rgb(0, 128, 255)',
+		                        borderColor: 'rgb(0, 128, 255)',
+		                        data: ['${list[4].C}','${list[3].C}','${list[2].C}','${list[1].C}','${list[0].C}'],
+		                        yAxisID: 'left-y-axis'
+		                    
+		                    }]
+		                },
+		                options: {
+		                    scales: {
+		                        yAxes: [{
+		                            id: 'left-y-axis',
+		                            type: 'linear',
+		                            position: 'left',
+		                            ticks:{
+		                            	min:10,
+		                            	stepSize:10,
+		                            	max:max+10
+		                            }
+		                        }, {
+		                            id: 'right-y-axis',
+		                            type: 'linear',
+		                            position: 'right',
+		                            ticks:{
+		                            	min:1,
+		                            	stepSize:1,
+		                            	max:max2+2
+		                            }
+		                        }]
+		                    }
+		                }
+		                
+		            });
+		        
+
+            
+            
+            
+            </script>
+            
         
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
         <script src='${ pageContext.servletContext.contextPath }/resources/js/scripts.js'></script>

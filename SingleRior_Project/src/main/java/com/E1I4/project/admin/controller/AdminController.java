@@ -4,6 +4,7 @@ import java.io.File;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -869,8 +870,31 @@ public class AdminController {
 	
 		model.addAttribute("list",list);
 		return "manageInquiryAns";
-	
 	}
+	
+	@RequestMapping("statUser.adm")
+	public String statUser(Model model) {
+		ArrayList<HashMap<String,Object>> list = aService.enrollUserSum();
+		
+		System.out.println(list);
+		
+		model.addAttribute("list",list);
+		
+		return "statUser";
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	
@@ -881,11 +905,7 @@ public class AdminController {
 	public String orderList() {
 		return "orderList";
 	}
-
-	@RequestMapping("statUser.adm")
-	public String statUser() {
-		return "statUser";
-	}
+	
 	@RequestMapping("statProduct.adm")
 	public String statProduct() {
 		return "statProduct";

@@ -1,6 +1,7 @@
 package com.E1I4.project.admin.model.dao;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -222,6 +223,12 @@ public class AdminDAO {
 	public ArrayList<InquiryAdmin> inuiryAns(SqlSessionTemplate sqlSession) {
 		return (ArrayList)sqlSession.selectList("adminMapper.inquiryAns");
 	}
+
+	public ArrayList<HashMap<String, Object>> enrollUserSum(SqlSessionTemplate sqlSession) {
+		return (ArrayList)sqlSession.selectList("adminMapper.selectEnrollUser");
+	}
+
+
 
 	
 

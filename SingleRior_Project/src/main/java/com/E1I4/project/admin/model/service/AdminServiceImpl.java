@@ -1,6 +1,7 @@
 package com.E1I4.project.admin.model.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -251,6 +252,13 @@ public class AdminServiceImpl implements AdminService {
 	public ArrayList<InquiryAdmin> inquiryAns() {
 		return aDAO.inuiryAns(sqlSession);
 	}
+
+	@Override
+	public ArrayList<HashMap<String, Object>> enrollUserSum() {
+		return aDAO.enrollUserSum(sqlSession);
+	}
+
+
 
 
 	
