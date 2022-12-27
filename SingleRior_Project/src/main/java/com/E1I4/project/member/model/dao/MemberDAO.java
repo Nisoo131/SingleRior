@@ -17,6 +17,7 @@ import com.E1I4.project.common.model.vo.Reply;
 import com.E1I4.project.common.model.vo.Review;
 import com.E1I4.project.common.model.vo.WishList;
 import com.E1I4.project.member.model.vo.Member;
+import com.E1I4.project.member.model.vo.ProductCancel;
 import com.E1I4.project.storeBoard.model.vo.OrderItem;
 
 @Repository("mDAO")
@@ -204,6 +205,15 @@ public class MemberDAO {
 	public int orderStatusCount(SqlSessionTemplate sqlSession, HashMap<String, String> map) {
 		return sqlSession.selectOne("memberMapper.orderStatusCount", map);
 	}
+
+	public int orderStatusChange(SqlSessionTemplate sqlSession, HashMap<String, Integer> map) {
+		return sqlSession.update("memberMapper.orderStatusChange", map);
+	}
+
+	public int orderCancel(SqlSessionTemplate sqlSession, ProductCancel pc) {
+		return  sqlSession.insert("memberMapper.orderCancel", pc);
+	}
+
 
 
 

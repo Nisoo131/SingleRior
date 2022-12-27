@@ -515,6 +515,15 @@
 		<if test="status != '전체'">
 			and op.status = #{status}
 		</if>
+		<if test="date == '1개월'">
+			 and order_DATE >= to_char(add_months(sysdate,-1),'YYYYMMDD')
+		</if>
+		<if test="date == '3개월'">
+			 and order_DATE >= to_char(add_months(sysdate,-3),'YYYYMMDD')
+		</if>
+		<if test="date == '1년'">
+			 and order_DATE >= to_char(add_months(sysdate,-12),'YYYYMMDD')
+		</if>
 	</select>
 	
 	<select id="selectReviewNDoneList" resultMap="orderResultSet">
@@ -526,6 +535,16 @@
 		<if test="status != '전체'">
 			and status= #{status}
 		</if>
+		<if test="date == '1개월'">
+			 and order_DATE >= to_char(add_months(sysdate,-1),'YYYYMMDD')
+		</if>
+		<if test="date == '3개월'">
+			 and order_DATE >= to_char(add_months(sysdate,-3),'YYYYMMDD')
+		</if>
+		<if test="date == '1년'">
+			 and order_DATE >= to_char(add_months(sysdate,-12),'YYYYMMDD')
+		</if>
+		ORDER BY order_date DESC
 	</select>
 	
 	<select id="getImgOrder" resultType="string">
@@ -581,4 +600,20 @@
 		from order_product
 		where member_id = #{memberId} and status = #{orStatus}
 	</select>
+	
+	<update id="orderStatusChange">
+		update order_product
+		<if test="change == 1">
+			set status = '구매확정'
+		</if>
+		<if test="change == 2">
+			set status = '주문취소'
+		</if>
+		where order_no = #{orderNo}
+	</update>
+	
+	<insert id="orderCancel">
+	insert into product_cancel
+	values(SEQ_OCID.nextval,#{cancelCate},#{cancelReason},sysdate,#{orderNo})
+	</insert>
 </mapper>

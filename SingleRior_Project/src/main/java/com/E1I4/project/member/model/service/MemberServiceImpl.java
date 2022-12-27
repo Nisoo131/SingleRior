@@ -25,6 +25,7 @@ import com.E1I4.project.common.model.vo.Review;
 import com.E1I4.project.common.model.vo.WishList;
 import com.E1I4.project.member.model.dao.MemberDAO;
 import com.E1I4.project.member.model.vo.Member;
+import com.E1I4.project.member.model.vo.ProductCancel;
 import com.E1I4.project.storeBoard.model.vo.OrderItem;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -250,6 +251,17 @@ public class MemberServiceImpl implements MemberService {
 	public int orderStatusCount(HashMap<String, String> map) {
 		return mDAO.orderStatusCount(sqlSession,map);
 	}
+
+	@Override
+	public int orderStatusChange(HashMap<String, Integer> map) {
+		return mDAO.orderStatusChange(sqlSession,map);
+	}
+
+	@Override
+	public int orderCancel(ProductCancel pc) {
+		return mDAO.orderCancel(sqlSession,pc);
+	}
+
 
 
 
