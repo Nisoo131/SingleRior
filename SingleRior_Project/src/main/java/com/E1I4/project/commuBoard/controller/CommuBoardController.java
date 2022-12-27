@@ -32,6 +32,8 @@ import com.E1I4.project.common.model.vo.WishList;
 import com.E1I4.project.commuBoard.model.service.CommuBoardService;
 import com.E1I4.project.commuBoard.model.vo.CommuBoard;
 import com.E1I4.project.member.model.vo.Member;
+import com.E1I4.project.notiBoard.model.service.NotiBoardService;
+import com.E1I4.project.notiBoard.model.vo.NotiBoard;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonIOException;
@@ -41,6 +43,9 @@ public class CommuBoardController {
 	
 	@Autowired
 	private CommuBoardService cService;
+	
+	@Autowired
+	private NotiBoardService nService;
 	
 	// 커뮤니티 전체 글 목록
 	@RequestMapping("commuAllList.co")
@@ -83,12 +88,14 @@ public class CommuBoardController {
 		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 10);
 		
 		ArrayList<CommuBoard> list = cService.selectCommuAllList(pi, map);
+		ArrayList<NotiBoard> notiList = nService.selectCommuNotiList();
 		
 		if(list != null) {
 			model.addAttribute("pi", pi);
 			model.addAttribute("list", list);
 			model.addAttribute("commuArray", commuArray);
 			model.addAttribute("commuType", commuType);
+			model.addAttribute("notiList", notiList);
 			return "commuBoardList";
 		} else {
 			throw new BoardException("게시글 목록 조회에 실패하였습니다.");

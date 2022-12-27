@@ -14,6 +14,11 @@ import com.E1I4.project.storeBoard.model.vo.StoreBoard;
 @Repository("mainDAO")
 public class MainPageDAO {
 	
+	// 배너 리스트
+	public ArrayList<Attachment> selectBnAttmList(SqlSessionTemplate sqlSession) {
+		return (ArrayList)sqlSession.selectList("mainMapper.selectBnAttmList");
+	}
+	
 	// 스토어 리스트
 	public ArrayList<StoreBoard> selectPdList(SqlSessionTemplate sqlSession) {
 		return (ArrayList)sqlSession.selectList("mainMapper.selectPdList");

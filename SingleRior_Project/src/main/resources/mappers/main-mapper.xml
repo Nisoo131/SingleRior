@@ -2,6 +2,20 @@
 <!DOCTYPE mapper PUBLIC "-//mtbatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="mainMapper">
 
+	<resultMap type="Board" id="BoardResultSet">
+		<id column="BOARD_NO" property="boardNo"/>
+		<result column="BOARD_TYPE" property="boardType"/>
+		<result column="BOARD_TITLE" property="boardTitle"/>
+		<result column="BOARD_CONTENT" property="boardContent"/>
+		<result column="CREATE_DATE" property="createDate"/>
+		<result column="MODIFY_DATE" property="modifyDate"/>
+		<result column="NOTICE_STATUS" property="noticeStatus"/>
+		<result column="B_STATUS" property="status"/>
+		<result column="BOARD_WRITER" property="writer"/>
+		<result column="BOARD_COUNT" property="count"/>
+		<result column="REPORT_STATUS" property="reportStatus"/>
+	</resultMap>
+
 	<resultMap type="CommuBoard" id="CommuBoardResultSet">
 		<id column="BOARD_NO" property="boardNo"/>
 		<result column="BOARD_TYPE" property="boardType"/>
@@ -99,6 +113,13 @@
 		<id property="memberId" column="MEMBER_ID"/>
 	</resultMap>
 	
+	<!-- 배너 리스트 -->
+	<select id="selectBnAttmList" resultMap="attachmentResultSet">
+		select *
+		from IMG_REPOSITORY
+		where  IMG_B_TYPE = '6' and IMG_STATUS = 'Y' and IMG_LEVEL = 0
+	</select>
+	
 	<!-- 스토어 리스트 -->
 	<select id="selectPdList" resultMap="StoreBoardResultSet">
 		select *
@@ -106,6 +127,7 @@
 			 join member on (b.board_writer = member_id)
      		 join product p on (b.board_no = p.board_no)
 		where b.b_status = 'Y' and b.board_type = '1'
+		order by b.create_date desc
 	</select>
 	
 	<select id="selectPdAttmList" resultMap="attachmentResultSet">
@@ -121,6 +143,7 @@
 			 join member on (b.board_writer = member_id)
      		 join market m on (b.board_no = m.board_no)
 		where b.b_status = 'Y' and b.board_type = '3'
+		order by b.create_date desc
 	</select>
 	
 	<select id="selectMarketAttmList" resultMap="attachmentResultSet">
@@ -136,6 +159,7 @@
 			 join member on (b.board_writer = member_id)
      		 join community c on (b.board_no = c.board_no)
 		where b.b_status = 'Y' and b.board_type = '2'
+		order by b.create_date desc
 	</select>
 	
 	<select id="selectCommuAttmList" resultMap="attachmentResultSet">
@@ -153,6 +177,7 @@
 			 join member on (b.board_writer = member_id)
      		 join product p on (b.board_no = p.board_no)
 		where b.b_status = 'Y' and b.board_type = '1' and ((BOARD_TITLE LIKE '%'||#{findKeyword}||'%') or (BOARD_CONTENT LIKE '%'||#{findKeyword}||'%') or (BRAND LIKE '%'||#{findKeyword}||'%'))
+		order by b.create_date desc
 	</select>
 	
 	<!-- 씽씽마켓 -->
@@ -162,6 +187,7 @@
 			 join member on (b.board_writer = member_id)
      		 join market m on (b.board_no = m.board_no)
 		where b.b_status = 'Y' and b.board_type = '3' and ((BOARD_TITLE LIKE '%'||#{findKeyword}||'%') or (BOARD_CONTENT LIKE '%'||#{findKeyword}||'%'))
+		order by b.create_date desc
 	</select>
 	
 	<!-- 싱글벙글 -->
@@ -171,6 +197,7 @@
 			 join member on (b.board_writer = member_id)
      		 join community c on (b.board_no = c.board_no)
 		where b.b_status = 'Y' and b.board_type = '2' and ((BOARD_TITLE LIKE '%'||#{findKeyword}||'%') or (BOARD_CONTENT LIKE '%'||#{findKeyword}||'%'))
+		order by b.create_date desc
 	</select>
 	
 	<!-- 공지사항 -->
@@ -189,6 +216,6 @@
 		<if test="noticeCategory == '씽씽마켓'">
 			and n.notice_category = '씽씽마켓'
 		</if>
-		order by b.board_no desc
+		order by b.create_date desc
 	</select>
 </mapper>

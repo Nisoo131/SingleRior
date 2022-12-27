@@ -64,9 +64,8 @@
 	.boardTitle{
 		overflow: hidden;
 		text-overflow: ellipsis;
-		display: -webkit-box;
-		-webkit-line-clamp: 1; 
-		-webkit-box-orient: vertical;
+		white-space: nowrap;
+		width: 300px;
 	}
 	.section *:hover{cursor: pointer;}
 </style>
@@ -81,18 +80,21 @@
 	<main>
 		<!-- 배너 -->
 		<div id="myCarousel" class="carousel carousel-dark slide" data-bs-ride="carousel">
-			<div class="carousel-inner">
+			<div class="container carousel-inner">
 				<div class="carousel-item active">
-					<a href="#"><img src="https://i.pinimg.com/originals/26/63/5b/26635bf988317b546ce1ef99f79d4f91.jpg" style="width: 100%; height: 300px;"></a>
+					<c:forEach items="${ bnAttmList }" begin="0" end="0" var="bn">
+						<c:if test="${ bn.imgOriginalName != '' }">
+							<img src="resources/uploadFiles/${ bn.imgRename }" style="width: 100%; height: 300px;">
+						</c:if>
+					</c:forEach>
 				</div>
-				
-				<div class="carousel-item">
-					<img src="https://m.ramerit.co.kr/web/upload/NNEditor/20220812/16dcbcc9d1f3b3dfe0bf82969055c86a.jpg" style="width: 100%; height: 300px;">
-				</div>
-				
-				<div class="carousel-item">
-					<img src="https://openimage.interpark.com/milti/displayclassBanner/001812/01/20220715090841.jpg" style="width: 100%; height: 300px;">
-				</div>
+				<c:forEach items="${ bnAttmList }" begin="1" end="2" var="bn">
+					<c:if test="${ bn.imgOriginalName != '' }">
+						<div class="carousel-item">
+							<img src="resources/uploadFiles/${ bn.imgRename }" style="width: 100%; height: 300px;">
+						</div>
+					</c:if>
+				</c:forEach>
 			</div>
 			
 			<button class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
@@ -107,10 +109,10 @@
   		
   		<br><br>
   		
-  		<!-- 오늘의 특가 상품 -->
+  		<!-- 오늘의 신상 -->
   		<div class="container d-flex flex-wrap css-title">
   			<div>
-  				<p class="px-4">오늘의 특가 상품
+  				<p class="px-4">오늘의 신상
   			</div>
   		</div>
   		
@@ -120,7 +122,7 @@
 					<div class="album py-3">
 			  			<div class="container">
 			  				<div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-3 p-2 px-4">
-			  					<c:forEach items="${ pdList }" begin="1" end="4" var="p">
+			  					<c:forEach items="${ pdList }" begin="0" end="3" var="p">
 			  						<div class="col section1 section">
 				  						<div class="card shadow-sm">
 				  							<c:forEach items="${ pdAttmList }" var="pa">
@@ -130,7 +132,7 @@
 													</c:if>
 												</c:if>
 											</c:forEach>
-					  						<div class="card-body">
+					  						<div class="card-body boardTitle">
 					  							<span class="today-special-price-headerBrand">${ p.brand }</span>
 					  							<span class="today-special-price-headerName">${ p.boardTitle }</span>
 					  							<span class="today-special-price-itemPrice">
@@ -162,7 +164,7 @@
 					<div class="album py-3">
 			  			<div class="container">
 			  				<div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-3 p-2 px-4">
-			  					<c:forEach items="${ pdList }" begin="5" end="8" var="p">
+			  					<c:forEach items="${ pdList }" begin="4" end="7" var="p">
 			  						<div class="col section section2">
 				  						<div class="card shadow-sm">
 				  							<c:forEach items="${ pdAttmList }" var="pa">
@@ -226,7 +228,7 @@
 					<div class="album">
 			  			<div class="container mt-4 mb-4">
 			  				<div class="row px-4">
-			  					<c:forEach items="${ marketList }" begin="1" end="2" var="m">
+			  					<c:forEach items="${ marketList }" begin="0" end="1" var="m">
 			  						<div class="col-md-6 section section3">
 				  						<div class="row g-0 border rounded overflow-hidden flex-md-row shadow-sm h-md-250 position-relative">
 				  							<div class="col p-4 d-flex flex-column position-static" style="height: 250px;">
@@ -257,7 +259,7 @@
 					<div class="album">
 			  			<div class="container mt-4 mb-4">
 			  				<div class="row px-4">
-			  					<c:forEach items="${ marketList }" begin="3" end="4" var="m">
+			  					<c:forEach items="${ marketList }" begin="2" end="3" var="m">
 			  						<div class="col-md-6 section section4">
 				  						<div class="row g-0 border rounded overflow-hidden flex-md-row shadow-sm h-md-250 position-relative">
 				  							<div class="col p-4 d-flex flex-column position-static" style="height: 250px;">
@@ -306,7 +308,7 @@
   		
   		<div class="container">
   			<div class="row px-4 mt-4">
-  				<c:forEach items="${ commuList }" begin="1" end="2" var="c">
+  				<c:forEach items="${ commuList }" begin="0" end="1" var="c">
   					<div class="col-md-6 section5 section">
 				  		<div class="row g-0 border rounded overflow-hidden flex-md-row shadow-sm h-md-250 position-relative mt-2 mb-4">
 				  			<c:forEach items="${ commuAttmList }" var="ca">

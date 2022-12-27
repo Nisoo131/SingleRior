@@ -31,6 +31,10 @@ public class NotiBoardDAO {
 		return sqlSession.selectOne("notiMapper.selectNotiBoard", bNo);
 	}
 
+	public ArrayList<NotiBoard> selectCommuNotiList(SqlSessionTemplate sqlSession) {
+		return (ArrayList)sqlSession.selectList("notiMapper.selectCommuNotiList");
+	}
+
 	
 
 }

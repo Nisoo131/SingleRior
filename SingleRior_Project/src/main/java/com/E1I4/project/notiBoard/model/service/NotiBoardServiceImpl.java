@@ -40,4 +40,9 @@ public class NotiBoardServiceImpl implements NotiBoardService{
 		return notiBoard;
 	}
 
+	@Override
+	public ArrayList<NotiBoard> selectCommuNotiList() {
+		return nDAO.selectCommuNotiList(sqlSession);
+	}
+
 }

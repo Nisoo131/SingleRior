@@ -47,6 +47,8 @@ public class HomeController {
 		
 		model.addAttribute("serverTime", formattedDate );
 		
+		ArrayList<Attachment> bnAttmList = mainService.selectBnAttmList();
+		
 		ArrayList<StoreBoard> pdList = mainService.selectPdList();
 		ArrayList<Attachment> pdAttmList = mainService.selectPdAttmList();
 		
@@ -56,6 +58,7 @@ public class HomeController {
 		ArrayList<CommuBoard> commuList = mainService.selectCommuList();
 		ArrayList<Attachment> commuAttmList = mainService.selectCommuAttmList();
 		
+		model.addAttribute("bnAttmList", bnAttmList);
 		model.addAttribute("pdList", pdList);
 		model.addAttribute("pdAttmList", pdAttmList);
 		model.addAttribute("marketList", marketList);
