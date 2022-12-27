@@ -12,6 +12,7 @@ import com.E1I4.project.common.model.vo.Cart;
 import com.E1I4.project.common.model.vo.PageInfo;
 import com.E1I4.project.common.model.vo.ProductInquiry;
 import com.E1I4.project.common.model.vo.WishList;
+import com.E1I4.project.member.model.vo.Member;
 import com.E1I4.project.storeBoard.model.dao.StoreBoardDAO;
 import com.E1I4.project.storeBoard.model.vo.OrderItem;
 import com.E1I4.project.storeBoard.model.vo.StoreBoard;
@@ -78,6 +79,11 @@ public class StoreBoardServiceImpl implements StoreBoardService{
 	@Override
 	public ArrayList<ProductInquiry> selectInquiryList(int productNo) {
 		return sDAO.selectInquiryList(sqlSession, productNo);
+	}
+
+	@Override
+	public Member getUserInfo(String id) {
+		return sDAO.getUserInfo(sqlSession, id);
 	}
 
 

@@ -12,6 +12,7 @@ import com.E1I4.project.common.model.vo.Cart;
 import com.E1I4.project.common.model.vo.PageInfo;
 import com.E1I4.project.common.model.vo.ProductInquiry;
 import com.E1I4.project.common.model.vo.WishList;
+import com.E1I4.project.member.model.vo.Member;
 import com.E1I4.project.storeBoard.model.vo.OrderItem;
 import com.E1I4.project.storeBoard.model.vo.StoreBoard;
 
@@ -72,6 +73,10 @@ public class StoreBoardDAO {
 
 	public ArrayList<ProductInquiry> selectInquiryList(SqlSessionTemplate sqlSession, int productNo) {
 		return (ArrayList)sqlSession.selectList("storeMapper.selectInquiryList", productNo);
+	}
+
+	public Member getUserInfo(SqlSessionTemplate sqlSession, String id) {
+		return sqlSession.selectOne("storeMapper.getUserInfo", id);
 	}
 
 	
