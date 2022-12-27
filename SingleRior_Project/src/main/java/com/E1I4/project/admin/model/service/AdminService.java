@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.E1I4.project.common.model.vo.Attachment;
 import com.E1I4.project.common.model.vo.Board;
+import com.E1I4.project.common.model.vo.InquiryAdmin;
 import com.E1I4.project.common.model.vo.Notice;
 import com.E1I4.project.common.model.vo.PageInfo;
 import com.E1I4.project.common.model.vo.Product;
@@ -93,6 +94,15 @@ public interface AdminService {
 	int reportTableReply(int rNo);
 
 	int cancelStatusReply(int rNo);
+
+	ArrayList<InquiryAdmin> manageInquiry();
+
+	int inquiryAnswer(InquiryAdmin i);
+
+	ArrayList<InquiryAdmin> inquiryQue();
+
+	ArrayList<InquiryAdmin> inquiryAns();
+
 
 
 

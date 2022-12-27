@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.E1I4.project.admin.model.dao.AdminDAO;
 import com.E1I4.project.common.model.vo.Attachment;
 import com.E1I4.project.common.model.vo.Board;
+import com.E1I4.project.common.model.vo.InquiryAdmin;
 import com.E1I4.project.common.model.vo.Notice;
 import com.E1I4.project.common.model.vo.PageInfo;
 import com.E1I4.project.common.model.vo.Product;
@@ -230,6 +231,27 @@ public class AdminServiceImpl implements AdminService {
 	public int cancelStatusReply(int rNo) {
 		return aDAO.cancelStatusReply(sqlSession,rNo);
 	}
+
+	@Override
+	public ArrayList<InquiryAdmin> manageInquiry() {
+		return aDAO.manageInquiry(sqlSession);
+	}
+
+	@Override
+	public int inquiryAnswer(InquiryAdmin i) {
+		return aDAO.inquiryAnswer(sqlSession,i);
+	}
+
+	@Override
+	public ArrayList<InquiryAdmin> inquiryQue() {
+		return aDAO.inquiryQue(sqlSession);
+	}
+
+	@Override
+	public ArrayList<InquiryAdmin> inquiryAns() {
+		return aDAO.inuiryAns(sqlSession);
+	}
+
 
 	
 

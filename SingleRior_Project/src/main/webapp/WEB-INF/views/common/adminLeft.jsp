@@ -127,7 +127,7 @@
                                
                                 <nav class="sb-sidenav-menu-nested nav">
                                     <a class="nav-link" href="${contextPath}/managePoint.adm">포인트 관리</a>
-                                    <a class="nav-link" href="#">문의함 관리</a>
+                                    <a class="nav-link" href="${contextPath}/manageInquiry.adm">문의함 관리</a>
                                 </nav>
                             </div>
                         </div>

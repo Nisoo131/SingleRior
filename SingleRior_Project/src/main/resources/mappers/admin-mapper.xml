@@ -129,6 +129,7 @@
 	<resultMap type="ReportReply" id="reportReplyResultSet">
 		<id column="REPORT_NO" property="reportNo"/>
 		<result column="CONTENT_NO" property="contentNo"/>
+		<result column="BOARD_NO" property="boardNo"/>
 		<result column="REPORT_TYPE" property="reportType"/>
 		<result column="REPORT_CATE" property="reportCate"/>
 		<result column="BOARD_TYPE" property="boardType"/>
@@ -137,6 +138,20 @@
 		<result column="BOARD_TITLE" property="boardTitle"/>
 		<result column="REPLY_CONTENT" property="replyContent"/>
 		<result column="REPORT_STATUS" property="reportStatus"/>
+	</resultMap>
+
+	<resultMap type="InquiryAdmin" id="InquiryAdminResultSet">
+		<id column="INQUIRY_NO" property="inquiryNo"/>
+		<result column="PRO_TOPCATE_NAME" property="proTopCateName"/>
+		<result column="PRO_SUBCATE_NAME" property="proSubCateName"/>
+		<result column="BOARD_TITLE" property="boardTitle"/>
+		<result column="PRODUCT_NO" property="productNo"/>
+		<result column="INQUIRY_CONTENT" property="inquiryContent"/>
+		<result column="MEMBER_ID" property="memberId"/>
+		<result column="INQUIRY_DATE" property="inquiryDate"/>
+		<result column="INQUIRY_STATUS" property="inquiryStatus"/>
+		<result column="INQUIRY_ANSWER" property="inquiryAnswer"/>
+		<result column="ADMIN_STATUS" property="adminStatus"/>
 	</resultMap>
 
 	<insert id="insertProduct">
@@ -418,7 +433,7 @@
 	</update>
 	
 	<select id="selectReportReplyList" resultMap="reportReplyResultSet">
-		select report.report_no,report.report_type,report.content_no,report.report_cate,board.board_type,report.create_date,report.member_id,board.board_title,reply.reply_content,reply.report_status
+		select report.report_no,report.report_type,report.content_no,report.report_cate,board.board_no,board.board_type,report.create_date,report.member_id,board.board_title,reply.reply_content,reply.report_status
 		from report
     		join reply on (report.content_no=reply.reply_no)
     		join board on (reply.board_no=board.board_no)
@@ -444,6 +459,51 @@
 						join report on(reply.reply_no=report.report_no)
 						where report_no=#{rNo} and report_cate='R')
 	</update>
+	<select id="manageInquiry" resultMap="InquiryAdminResultSet">
+		
+		select inquiry_no,pro_topcate_name,pro_subcate_name,board_title,product_inquiry.product_no,inquiry_content,member_id,inquiry_date,inquiry_status,admin_status,inquiry_answer
+		from product_inquiry
+		    join product on(product_inquiry.product_no=product.product_no)
+		    join product_sub_cate on(product.pro_subcate_code=product_sub_cate.pro_subcate_code)
+		    join product_top_cate on(product_top_cate.pro_topcate_code=product_sub_cate.pro_topcate_code)
+		    join board on(product.board_no=board.board_no)
+	
+	</select>
+	
+	<update id="inquiryAnswer">
+		update product_inquiry
+		set admin_status='Y', inquiry_answer=#{inquiryContent}
+		where inquiry_no=#{inquiryNo}
+	
+	
+	</update>
+	<select id="inquiryQue" resultMap="InquiryAdminResultSet">
+	
+		select inquiry_no,pro_topcate_name,pro_subcate_name,board_title,product_inquiry.product_no,inquiry_content,member_id,inquiry_date,inquiry_status,admin_status,inquiry_answer
+		from product_inquiry
+		    join product on(product_inquiry.product_no=product.product_no)
+		    join product_sub_cate on(product.pro_subcate_code=product_sub_cate.pro_subcate_code)
+		    join product_top_cate on(product_top_cate.pro_topcate_code=product_sub_cate.pro_topcate_code)
+		    join board on(product.board_no=board.board_no)
+		where admin_status='N'
+
+	</select>
+	
+	
+	<select id="inquiryAns" resultMap="InquiryAdminResultSet">
+		select inquiry_no,pro_topcate_name,pro_subcate_name,board_title,product_inquiry.product_no,inquiry_content,member_id,inquiry_date,inquiry_status,admin_status,inquiry_answer
+		from product_inquiry
+		    join product on(product_inquiry.product_no=product.product_no)
+		    join product_sub_cate on(product.pro_subcate_code=product_sub_cate.pro_subcate_code)
+		    join product_top_cate on(product_top_cate.pro_topcate_code=product_sub_cate.pro_topcate_code)
+		    join board on(product.board_no=board.board_no)
+		where admin_status='Y'
+	
+	
+	
+	</select>
+	
+	
 	
 	
 	

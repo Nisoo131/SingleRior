@@ -21,6 +21,7 @@ public class ReportReply {
 	private String reportType;
 	private int contentNo;
 	private String reportCate;
+	private String boardNo;
 	private String boardType;
 	private String memberId;
 	private Date createDate;
