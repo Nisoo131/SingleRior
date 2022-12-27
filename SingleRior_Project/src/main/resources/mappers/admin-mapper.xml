@@ -510,7 +510,13 @@
 	
 	
 	</select>	
+	<select id="viewCountSum" resultType="map">
 	
+	select board_type as A,count(board_count) as B
+	from board
+	where board_type=1 or board_type=2 or board_type=3
+	group by board_type
+	</select>
 	
 	
 	

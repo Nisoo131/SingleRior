@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -98,7 +99,7 @@
                                         <i class="fas fa-chart-pie me-1"></i>
                                         사용자 컨텐츠 조회수
                                     </div>
-                                    <div class="card-body"><canvas id="myPieChart" width="100%" height="50"></canvas></div>
+                                    <div class="card-body"><canvas id="viewContentChart" width="100%" height="50"></canvas></div>
                                     <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
                                 </div>
                             </div>
@@ -172,7 +173,50 @@
 		                }
 		                
 		            });
-		        
+		            
+		           
+		            var context = document.getElementById('viewContentChart').getContext('2d');
+		            var myChart = new Chart(context, {
+		                type: 'pie', // 차트의 형태
+		                data: { // 차트에 들어갈 데이터
+		                    labels: [
+		                        //x 축
+		                        '스토어','씽씽마켓','싱글벙글'
+		                    ],
+		                    datasets: [
+		                        { //데이터
+		                            label: '컨텐츠 조회수', //차트 제목
+		                            fill: false, // line 형태일 때, 선 안쪽을 채우는지 안채우는지
+		                            data: [
+		                                '${viewContent[0].B}','${viewContent[1].B}','${viewContent[2].B}' //x축 label에 대응되는 데이터 값
+		                            ],
+		                            backgroundColor: [
+		                                //색상
+		                                'rgba(255, 99, 132, 0.2)',
+		                                'rgba(54, 162, 235, 0.2)',
+		                                'rgba(255, 206, 86, 0.2)'
+		                            ],
+		                            borderColor: [
+		                                //경계선 색상
+		                                'rgba(255, 99, 132, 1)',
+		                                'rgba(54, 162, 235, 1)',
+		                                'rgba(255, 206, 86, 1)'
+		                                
+		                            ],
+		                            borderWidth: 1 //경계선 굵기
+		                        }/* ,
+		                        {
+		                            label: 'test2',
+		                            fill: false,
+		                            data: [
+		                                8, 34, 12, 24
+		                            ],
+		                            backgroundColor: 'rgb(157, 109, 12)',
+		                            borderColor: 'rgb(157, 109, 12)'
+		                        } */
+		                    ]
+		                },
+		            });
 
             
             

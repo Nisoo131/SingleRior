@@ -258,6 +258,11 @@ public class AdminServiceImpl implements AdminService {
 		return aDAO.enrollUserSum(sqlSession);
 	}
 
+	@Override
+	public ArrayList<HashMap<String, Object>> viewContentSum() {
+		return aDAO.viewContentSum(sqlSession);
+	}
+
 
 
 

@@ -228,6 +228,10 @@ public class AdminDAO {
 		return (ArrayList)sqlSession.selectList("adminMapper.selectEnrollUser");
 	}
 
+	public ArrayList<HashMap<String, Object>> viewContentSum(SqlSessionTemplate sqlSession) {
+		return (ArrayList)sqlSession.selectList("adminMapper.viewCountSum");
+	}
+
 
 
 	

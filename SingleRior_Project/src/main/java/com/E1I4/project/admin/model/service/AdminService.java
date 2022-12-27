@@ -106,6 +106,8 @@ public interface AdminService {
 
 	ArrayList<HashMap<String, Object>> enrollUserSum();
 
+	ArrayList<HashMap<String, Object>> viewContentSum();
+
 
 
 

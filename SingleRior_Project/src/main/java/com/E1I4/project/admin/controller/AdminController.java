@@ -874,12 +874,14 @@ public class AdminController {
 	
 	@RequestMapping("statUser.adm")
 	public String statUser(Model model) {
+		
+		
+		
 		ArrayList<HashMap<String,Object>> list = aService.enrollUserSum();
-		
-		System.out.println(list);
-		
+		ArrayList<HashMap<String,Object>> viewContent = aService.viewContentSum();
+		System.out.println(viewContent);
 		model.addAttribute("list",list);
-		
+		model.addAttribute("viewContent",viewContent);
 		return "statUser";
 	}
 	
