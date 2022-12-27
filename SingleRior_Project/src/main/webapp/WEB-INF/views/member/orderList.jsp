@@ -31,7 +31,7 @@
 		margin:auto; 
 	 	margin-top:50px; 
 	 	max-width:1300px;
-	 	height:330px;
+	 	height:370px;
 	 	padding:20px;
 	 	background-color:rgba(0, 140, 212, 0.2);
 		border-top-left-radius: 10px;
