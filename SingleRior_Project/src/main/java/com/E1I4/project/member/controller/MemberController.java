@@ -604,17 +604,17 @@ public class MemberController {
 			date = "전체";
 		}
 		map.put("date", date);
-		int listCount = mService.getOrderListCount(map);
+//		int listCount = mService.getOrderListCount(map);
 		
-		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 5);
+//		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 5);
 		
-		ArrayList<OrderItem> oiList = mService.selectReviewNDoneList(pi,map);
-		for(int i = 0; i<oiList.size(); i++) {
-			String boardNo = Integer.toString(oiList.get(i).getBoardNo());
-			map.put("boardNo", boardNo);
-			String img = mService.getImgOrder(map);
-			oiList.get(i).setImgRename(img);
-		}
+//		ArrayList<OrderItem> oiList = mService.selectReviewNDoneList(pi,map);
+//		for(int i = 0; i<oiList.size(); i++) {
+//			String boardNo = Integer.toString(oiList.get(i).getBoardNo());
+//			map.put("boardNo", boardNo);
+//			String img = mService.getImgOrder(map);
+//			oiList.get(i).setImgRename(img);
+//		}
 		
 		
 //		System.out.println(oiList);
@@ -634,9 +634,9 @@ public class MemberController {
 			String countStatus = Arrays.toString(result);
 		
 		
-			model.addAttribute("oiList", oiList);
+//			model.addAttribute("oiList", oiList);
 			model.addAttribute("countStatus", countStatus);
-			model.addAttribute("pi", pi);
+//			model.addAttribute("pi", pi);
 			model.addAttribute("status", status);
 			model.addAttribute("date", date);
 			
@@ -701,17 +701,21 @@ public class MemberController {
 		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 5);
 		
 		ArrayList<OrderItem> orList = mService.selectReviewNDoneList(pi,map);
+
+		
 		ArrayList<Review> rList = new ArrayList<Review>();
 		
 		
 		for (int i = 0; i<orList.size(); i++) {
 			String boardNo = Integer.toString(orList.get(i).getBoardNo());
+			
 			map.put("boardNo", boardNo);
 			String img = mService.getImgOrder(map);
 			orList.get(i).setImgRename(img);
 
-			int orderNo = orList.get(i).getOrderNo();
-			Review r = mService.getMyReviewList(orderNo);
+			int orderDetailNo = orList.get(i).getOrderDetailNo();
+			Review r = mService.getMyReviewList(orderDetailNo);
+			System.out.println(r);
 			
 			int reviewNo = r.getReviewNo();
 			String reviewNoStr = "review" + Integer.toString(reviewNo);
@@ -732,6 +736,7 @@ public class MemberController {
 			model.addAttribute("pi", pi);
 		}
 		return "myReviewDoneList";
+//		return null;
 	}
 	@RequestMapping("myReviewNDoneList.me")
 	public String myReviewNDoneList(HttpSession session,@RequestParam(value="page", required=false) Integer page,Model model) {

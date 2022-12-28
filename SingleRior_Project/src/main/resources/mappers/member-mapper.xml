@@ -475,7 +475,7 @@
 		<result column="QUANTITY" property="quantity"/>
 		<result column="PAY_STATUS" property="payStatus"/>
 		<result column="PRODUCT_NO" property="productNo"/>
-		<result column="MEMBER_ID" property="memeberId"/>
+		<result column="MEMBER_ID" property="memberId"/>
 		<result column="PRODUCT_OPTION" property="productOption"/>
 		<result column="PRODUCT_OPTION_1" property="productOptions"/>
 		<result column="PRODUCT_PRICE" property="productPrice"/>
@@ -511,9 +511,10 @@
 	<select id="getOrderListCount" resultType="_int">
 		select count(*)
 		from order_product op
+		 join order_detail od using(order_no)
 		where op.member_id = #{memberId} 
 		<if test="status != '전체'">
-			and op.status = #{status}
+			and od.status = #{status}
 		</if>
 		<if test="date == '1개월'">
 			 and order_DATE >= to_char(add_months(sysdate,-1),'YYYYMMDD')
@@ -528,10 +529,11 @@
 	
 	<select id="selectReviewNDoneList" resultMap="orderResultSet">
 		select *
-		from order_product op
+		from order_detail od
 		join product using(product_no)
 		join board using using(board_no)
-		where member_id =#{memberId} 
+        join order_product op using(order_no)
+		where member_id =#{memberId} 	
 		<if test="status != '전체'">
 			and status= #{status}
 		</if>
@@ -572,21 +574,23 @@
 		<id column="ORDER_NO" property="orderNo"/>
 		<result column="DELIVERY_MESSAGE" property="deliveryMessage"/>
 		<result column="RECIPIENT" property="recipient"/>
-		<result column="ADDRESS" property="address"/>
-		<result column="PHONE" property="phone"/>
+		<result column="RECI_ADDRESS" property="reciAddress"/>
+		<result column="RECI_PHONE" property="reciPhone"/>
 		<result column="ORDER_DATE" property="orderDate"/>
 		<result column="MEMBER_ID" property="memberId"/>
 		<result column="PRODUCT_NO" property="productNo"/>
 		<result column="board_NO" property="boardNo"/>
 		<result column="STATUS" property="status"/>
 		<result column="PRODUCT_QUANTITY" property="productQuantity"/>
-		<result column="PRODUCT_FINALPRICE" property="totalPrice"/>
+		<result column="PRODUCT_PRICE" property="salePrice"/>
+		<result column="ORDER_TOTAL_PRICE" property="orderTotalPrice"/>
 		<result column="PRODUCT_OPTION" property="productOption"/>
 		<result column="board_title" property="boardTitle"/>
+		<result column="ORDER_DETAIL_NO" property="orderDetailNo"/>
 	</resultMap>
 	
 	<select id="getMyReviewList" resultMap="reviewResultSet">
-		select * from product_review where order_no = #{orderNo}
+		select * from product_review where order_detail_no = #{orderDetailNo}
 	</select>
 	
 	<select id="getImgReview" resultType="string">

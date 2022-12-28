@@ -42,6 +42,13 @@ public class OrderItem {
  private String productOption;
  private String imgRename;
  
+ // 테이블 바뀐것
+ private String reciAddress;
+ private String reciPhone;
+ private int orderTotalPrice;
+ private int orderDetailNo;
+ 
+ 
 }
   
 

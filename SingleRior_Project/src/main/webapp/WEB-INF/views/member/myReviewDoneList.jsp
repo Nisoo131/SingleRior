@@ -71,9 +71,10 @@
 					      	</td>
 					      	<td>
 								<div>${o.productOption}</div>		      
+								<div>수량 : ${o.productQuantity}</div>   
 					      	</td>
 					      	<td>
-					      		<div><fmt:formatNumber value="${o.totalPrice}" pattern="#,###"/>원</div>
+					      		<div><fmt:formatNumber value="${o.salePrice}" pattern="#,###"/>원</div>
 					      	</td>
 					   	</tr>
 					</table>
