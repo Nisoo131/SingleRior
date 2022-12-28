@@ -15,7 +15,7 @@ public class Cart {
 	private int cartNo;
 	private int quantity;
 	private String payStatus;
-	private String memeberId;
+	private String memberId;
 	private int productNo;
 	private String productOption;
 	private String productOptions;

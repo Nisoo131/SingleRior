@@ -125,6 +125,7 @@
 		  <p>구매리뷰 (개수)</p>
 		  <p>배송비 2,500원</p>
 		  <hr>
+  <!--  상품 옵션창  -->		
 			 <label for ="options">옵션선택</label>
 	           	 <select id="changeOpiton" class="form-select" onChange="selectChange(this.value);" aria-label="Default select example">
 					<option class="opsBasic" selected >상품 옵션을 선택해주세요</option>
@@ -132,8 +133,7 @@
 					  <option value="${ p }" class="option">${ p }</option>
 					</c:forEach>
 				 </select>
-				 <br>
-	<!--  옵션창  -->		
+				 <br>	
 				 <div class="opsResultDiv">
 				 <table>
 				 	<tr>
@@ -173,14 +173,14 @@
 	  	</div>
 	  	
 	<!-- 바로결제 주문시 전달 데이터-->
-	<form action="${ contextPath }/payment.st" method="post" class="order_form">
+	<%-- <form action="${ contextPath }/payment.st" method="post" class="order_form">
 		<input type="hidden" name="productNo" value="${ pList[0].productNo }">
 		<input type="hidden" name="productQty" value="">
 		<input type="hidden" name="finalPrice" value="${ pList[0].price-(pList[0].price*pList[0].discount/100)}">
 		<input type="hidden" name="productOption" value="">
 		<input type="hidden" name="boardTitle" value="${ pList[0].boardTitle }">
 		<input type="hidden" name="imgRename" value="${ pList[0].imgServerName }">
-	</form>
+	</form> --%>
 	  	
 	<!--상세정보 네비바 -->
 	 <div class="row mb-1">
@@ -402,7 +402,7 @@
      $(document).ready(function(){
     	$('#changeOpiton').change(function(){
     		var state = $('.option:selected').val();
-    	    console.log(state);
+    	    //console.log(state);
     		if (state != null ){
     			$('.opsResultDiv').show();
     		} else {
@@ -412,6 +412,7 @@
     }); 
      const selectChange = function(value){
 			$('#inputOption').val(value);	
+			
 	}
 	
  	// 제품 수량 & 금액 버튼 조작
@@ -444,15 +445,15 @@
    // 장바구니 추가
     $('.cart').on('click', function(e){
        const quantity = $('.quantity_input').val();
-       const option = $('.option').val();
-
+       const productOption = $('#inputOption').val();
+       //console.log(productOption);
        $.ajax({
     	   url: '${ contextPath }/cart.st',
     	   type : 'post',
     	   data : {memberId:'${loginUser.memberId}',
     		       productNo:'${ pList[0].productNo}', 
     		       quantity:quantity,
-    		       option:option},
+    		       productOption:productOption},
     	   success : function(result){
     		        alert("장바구니에 상품이 추가되었습니다.");
     	   },

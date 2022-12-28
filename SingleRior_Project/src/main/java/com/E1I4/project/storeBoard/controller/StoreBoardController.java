@@ -171,14 +171,16 @@ public class StoreBoardController {
 	// 장바구니
 	@RequestMapping("cart.st")
 	public String InsertCart(@RequestParam("memberId") String memberId, @RequestParam("productNo") int productNo,
-			                @RequestParam("quantity") int quantity, @RequestParam("option") String option, ModelAndView mv) {
+			                @RequestParam("quantity") int quantity, @RequestParam("productOption") String productOption, ModelAndView mv) {
 		
 		Cart cart = new Cart();
 		cart.setProductNo(productNo);
 		cart.setQuantity(quantity);
-		cart.setMemeberId(memberId);
-		cart.setProductOption(option);
-		
+		cart.setMemberId(memberId);
+		cart.setProductOption(productOption);
+	
+		System.out.println(productOption);
+	
 		int result = sService.insertCart(cart);
 		
 		if(result != 0) {

@@ -52,12 +52,10 @@
 				<fmt:formatNumber type="number" maxFractionDigits="3" value="${ s.price-(s.price*s.discount/100)}" var="totalPrice" />
 			    <div class="col-3">
 			      <div class="card" style="cursor:pointer">
-<%-- 					      	<c:if test="${ s.boardNo eq a.imgKey}"> --%>
-					        	<img src="resources/uploadFiles/${ aList[status.index].imgRename }" width="100%" height="255">
-<%-- 					     	</c:if> --%>
-<%-- 					     	<c:if test="${ !(s.boardNo eq a.imgKey) }"> --%>
-<!-- 					        	<img src="resources/image/SingleRior_logo.png" width="100%" height="255"> -->
-<%-- 					     	</c:if> --%>
+					    <img src="resources/uploadFiles/${ aList[status.index].imgRename }" width="100%" height="255">
+				     	   	<%-- <c:if test="${ s.boardNo ne a.imgKey }"> 
+				        		<img src="resources/image/SingleRior_logo.png" width="100%" height="255"> 
+					     	</c:if>  --%>
 			         <div class="card-body">
 			          <h6 class="card-title">${ s.brand } </h6>
 			          <h5 class="card-text">${ s.boardTitle }</h5>
@@ -73,7 +71,6 @@
 	</div>
 	<br><br>
 	</div></div>
-	
     
     <!-- 페이징 -->
 	<nav aria-label="Standard pagination example" style="background:white" >
