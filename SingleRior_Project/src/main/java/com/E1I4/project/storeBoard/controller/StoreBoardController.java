@@ -2,6 +2,7 @@ package com.E1I4.project.storeBoard.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -210,12 +211,13 @@ public class StoreBoardController {
 	
 	// 옵션 선택 후 바로 결제하기
 	@RequestMapping("payment.st")
-	public String payment(HttpSession session, OrderItem orderList, Model model ) {
+	public String payment(HttpSession session, OrderItem orderList, Model model, @RequestParam List<Integer> cartNo ) {
 		String id = ((Member)session.getAttribute("loginUser")).getMemberId();
 		
 		//System.out.println("memberId : " + id);
 		//System.out.println ("orders : " + orderList);
-
+		
+		System.out.println("여러개 들어와라:" +cartNo);
         Member m = new Member();
         Member member = null;
         member = sService.getUserInfo(id);

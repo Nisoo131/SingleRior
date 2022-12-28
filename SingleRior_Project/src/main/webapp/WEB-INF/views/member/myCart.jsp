@@ -44,40 +44,43 @@
 				<button id= "deleteSubmit" type="button" class="btn btn-light btn-sm" style="background:#008cd4; color:white">삭제</button>
 			</c:if>
 			<c:if test="${ !empty cartList  }">
-				<c:forEach items="${cartList }" var="cr">
-					<div id="cart">
-						<table class="table">
-						    <tr>
-						      <td scope="row" colspan="4"><input class="checkbox form-check-input" type="checkbox" value="${cr.cartNo }"></td>
-						    </tr>
-						    <tr height="15">
-						    	<td scope="row" width="250" rowspan="2" class="bottomNone"><img class="img" src="${ contextPath }/resources/uploadFiles/${cr.imgRename }" width="160"></td>
-						     	<td width="350">상품</td>
-						      	<td width="350">옵션/수량</td>
-						      	<td width="250">상품 금액</td>
-						      	<td style="display:none" class="productNo">${cr.productNo }</td>
-						   	</tr>
-						   	<tr>
-						     	<td class="bottomNone">
-						      		<div>${cr.boardTitle }</div>
-						      	</td>
-						      	<td class="bottomNone">
-									<div>옵션 : ${cr.productOption }</div>
-									<div>수량 : ${cr.quantity }개</div>		      
-						      	</td>
-						      	<td class="bottomNone">
-						      		<div><span class="price"><fmt:formatNumber value="${cr.lastPrice }" pattern="#,###"/></span>원</div>
-						      	</td>
-						   	</tr>
-						</table>
-						<input type="hidden" value="${cr.productNo }" name="productNo" class="productNo">
-						<input type="hidden" value="${cr.quantity }" name="productQuantity" class="productQuantity">
-						<input type="hidden" value="${cr.lastPrice }" name="salePrice" class="salePrice">
-						<input type="hidden" value="${cr.productOption }" name="productOption" class="productOption">
-						<input type="hidden" value="${cr.boardTitle }" name="boardTitle" class="boardTitle">
-						<input type="hidden" value="${cr.imgRename }" name="imgRename" class="imgRename">
-					</div>
-				</c:forEach>
+				<form action="${ contextPath }/payment.st" id="submitCartOrder">
+					<c:forEach items="${cartList }" var="cr">
+						<div id="cart">
+							<table class="table">
+							    <tr>
+							      <td scope="row" colspan="4"><input class="checkbox form-check-input" type="checkbox" value="${cr.cartNo }"></td>
+							    </tr>
+							    <tr height="15">
+							    	<td scope="row" width="250" rowspan="2" class="bottomNone"><img class="img" src="${ contextPath }/resources/uploadFiles/${cr.imgRename }" width="160"></td>
+							     	<td width="350">상품</td>
+							      	<td width="350">옵션/수량</td>
+							      	<td width="250">상품 금액</td>
+							      	<td style="display:none" class="productNo">${cr.productNo }</td>
+							   	</tr>
+							   	<tr>
+							     	<td class="bottomNone">
+							      		<div>${cr.boardTitle }</div>
+							      	</td>
+							      	<td class="bottomNone">
+										<div>옵션 : ${cr.productOption }</div>
+										<div>수량 : ${cr.quantity }개</div>		      
+							      	</td>
+							      	<td class="bottomNone">
+							      		<div><span class="price"><fmt:formatNumber value="${cr.lastPrice }" pattern="#,###"/></span>원</div>
+							      	</td>
+							   	</tr>
+							</table>
+<!-- 							<input type="hidden" value="" name="productNo" class="productNo"> -->
+<!-- 							<input type="hidden" value="" name="productQuantity" class="productQuantity"> -->
+<!-- 							<input type="hidden" value="" name="salePrice" class="salePrice"> -->
+<!-- 							<input type="hidden" value="" name="productOption" class="productOption"> -->
+<!-- 							<input type="hidden" value="" name="boardTitle" class="boardTitle"> -->
+<!-- 							<input type="hidden" value="" name="imgRename" class="imgRename"> -->
+							<input type="hidden" value="" name="cartNo" class="cartNo">
+						</div>
+					</c:forEach>
+				</form>
 			</c:if>
 			<c:if test="${ empty cartList  }">
 				<div class="alert alert-secondary" role="alert" style="margin:30px;">
@@ -135,27 +138,24 @@
 			var forms;
 				
 				if(checkboxs[i].checked ==true){
-					var productNo = checkboxs[i].parentNode.parentNode.parentNode.parentNode.parentNode.childNodes[3].value;
-					var productQuantity = checkboxs[i].parentNode.parentNode.parentNode.parentNode.parentNode.childNodes[5].value;
-					var salePrice = checkboxs[i].parentNode.parentNode.parentNode.parentNode.parentNode.childNodes[7].value;
-					var productOption = checkboxs[i].parentNode.parentNode.parentNode.parentNode.parentNode.childNodes[9].value;
-					var boardTitle = checkboxs[i].parentNode.parentNode.parentNode.parentNode.parentNode.childNodes[11].value;
-					var imgRename = checkboxs[i].parentNode.parentNode.parentNode.parentNode.parentNode.childNodes[13].value;
-					var cartNo = checkboxs[i].value;
-					
-					OrderItems = {
-						productNo :	productNo,
-						productQuantity : productQuantity,
-						salePrice : salePrice,
-						productOption : productOption,
-						boardTitle : boardTitle,
-						imgRename : imgRename,
-						cartNo : cartNo
-					};
-					console.log(OrderItems);
+// 					var productNo = checkboxs[i].parentNode.parentNode.parentNode.parentNode.parentNode.childNodes[3].value;
+// 					var productQuantity = checkboxs[i].parentNode.parentNode.parentNode.parentNode.parentNode.childNodes[5].value;
+// 					var salePrice = checkboxs[i].parentNode.parentNode.parentNode.parentNode.parentNode.childNodes[7].value;
+// 					var productOption = checkboxs[i].parentNode.parentNode.parentNode.parentNode.parentNode.childNodes[9].value;
+// 					var boardTitle = checkboxs[i].parentNode.parentNode.parentNode.parentNode.parentNode.childNodes[11].value;
+// 					var imgRename = checkboxs[i].parentNode.parentNode.parentNode.parentNode.parentNode.childNodes[13].value;
+// 					var cartNo = checkboxs[i].value;
+					var cartNoInput = checkboxs[i].value;
+					var cartNo = checkboxs[i].parentNode.parentNode.parentNode.parentNode.parentNode.childNodes[15];
+					cartNo.value = cartNoInput;
+					console.log(cartNo);
+// 					console.log(productNo);
 				}
+				
 			}
-// 				location.href='${contextPath}/payment.st?OrderItem=' + OrderItem;
+			var form = document.getElementById("submitCartOrder");
+			console.log(form);
+				form.submit();
 		});
 		
 		
