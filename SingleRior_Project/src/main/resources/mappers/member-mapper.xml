@@ -570,9 +570,8 @@
 		<result column="REVIEW_RATING" property="reviewRating"/>
 	</resultMap>
 	
-	<resultMap type="OrderItem" id="orderResultSet">
+	<resultMap type="Order" id="orderResultSet">
 		<id column="ORDER_NO" property="orderNo"/>
-		<result column="DELIVERY_MESSAGE" property="deliveryMessage"/>
 		<result column="RECIPIENT" property="recipient"/>
 		<result column="RECI_ADDRESS" property="reciAddress"/>
 		<result column="RECI_PHONE" property="reciPhone"/>
@@ -583,7 +582,6 @@
 		<result column="STATUS" property="status"/>
 		<result column="PRODUCT_QUANTITY" property="productQuantity"/>
 		<result column="PRODUCT_PRICE" property="salePrice"/>
-		<result column="ORDER_TOTAL_PRICE" property="orderTotalPrice"/>
 		<result column="PRODUCT_OPTION" property="productOption"/>
 		<result column="board_title" property="boardTitle"/>
 		<result column="ORDER_DETAIL_NO" property="orderDetailNo"/>

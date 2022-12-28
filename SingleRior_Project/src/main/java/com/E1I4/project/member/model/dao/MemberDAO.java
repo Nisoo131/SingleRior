@@ -17,8 +17,8 @@ import com.E1I4.project.common.model.vo.Reply;
 import com.E1I4.project.common.model.vo.Review;
 import com.E1I4.project.common.model.vo.WishList;
 import com.E1I4.project.member.model.vo.Member;
+import com.E1I4.project.member.model.vo.Order;
 import com.E1I4.project.member.model.vo.ProductCancel;
-import com.E1I4.project.storeBoard.model.vo.OrderItem;
 
 @Repository("mDAO")
 public class MemberDAO {
@@ -184,7 +184,7 @@ public class MemberDAO {
 		return sqlSession.selectOne("memberMapper.getOrderListCount", map);
 	}
 
-	public ArrayList<OrderItem> selectReviewNDoneList(SqlSessionTemplate sqlSession, PageInfo pi, HashMap<String, String> map) {
+	public ArrayList<Order> selectReviewNDoneList(SqlSessionTemplate sqlSession, PageInfo pi, HashMap<String, String> map) {
 		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
 		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
 		return (ArrayList)sqlSession.selectList("memberMapper.selectReviewNDoneList", map,rowBounds);
