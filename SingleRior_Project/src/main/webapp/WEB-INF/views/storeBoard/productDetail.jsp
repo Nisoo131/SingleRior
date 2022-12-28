@@ -154,7 +154,7 @@
 	             </div>
 			
 			  <br>
-			  <h2>총 <span id="changedQty"></span>개　<span id="finalPrice2"></span>원</h2>
+			  <h2>총 <span id="changedQty">0</span>개　<span id="finalPrice2">${ totalPrice }</span>원</h2>
 			  <div class="btn-group">
 			  	<c:if test="${ empty loginUser }">
 				  <button type="button" class="cart" style="width:200px;height:50px;font-size:20px;" onclick="location.href='${contextPath}/loginView.me'"> 장바구니 </button>
@@ -166,21 +166,21 @@
 				  <button type="button" class="payment"  style="width:200px;height:50px;font-size:20px;" onclick="location.href='${contextPath}/loginView.me'">결제하기</button>
 			    </c:if> 
 			    <c:if test="${ !empty loginUser }">	
-				  <button type="button" class="payment"  style="width:200px;height:50px;font-size:20px;" <%-- onclick="location.href='${ contextPath }/payment.st'" --%>>결제하기</button>
+				  <button type="button" class="payment"  style="width:200px;height:50px;font-size:20px;" onclick="location.href='${ contextPath }/payment.st'">결제하기</button>
 			    </c:if>
 			  </div>
 	  		</div>
 	  	</div>
 	  	
 	<!-- 바로결제 주문시 전달 데이터-->
-	<%-- <form action="${ contextPath }/payment.st" method="post" class="order_form">
+	 <form action="${ contextPath }/payment.st" method="post" class="order_form">
 		<input type="hidden" name="productNo" value="${ pList[0].productNo }">
 		<input type="hidden" name="productQty" value="">
 		<input type="hidden" name="finalPrice" value="${ pList[0].price-(pList[0].price*pList[0].discount/100)}">
 		<input type="hidden" name="productOption" value="">
 		<input type="hidden" name="boardTitle" value="${ pList[0].boardTitle }">
 		<input type="hidden" name="imgRename" value="${ pList[0].imgServerName }">
-	</form> --%>
+	</form> 
 	  	
 	<!--상세정보 네비바 -->
 	 <div class="row mb-1">
@@ -346,9 +346,9 @@
 			  <br><br>
 			
 			  <br>
-			  <h2>총 <span id="changedQty1"></span>개　<span id="finalPrice3"> </span>원</h2>
+			  <h2>총 <span id="changedQty1">0</span>개　<span id="finalPrice3">${ totalPrice }</span>원</h2>
 				  <div class="btn-group">
-					  <button type="button" class="wishlist" style="width:200px;height:50px;font-size:20px;">장바구니</button>
+					  <button type="button" class="cart" style="width:200px;height:50px;font-size:20px;">장바구니</button>
 					  <button type="button" class="payment" style="width:200px;height:50px;font-size:20px;" onclick="location.href='${ contextPath }/payment.st'">결제하기</button>
 				  </div>
 	        </div>
@@ -389,7 +389,26 @@
 		   </form>
 	      </div>
 	  	</div>
-	</div>	
+	</div>
+	
+	
+	<!-- 장바구니 모달창 -->	
+	<div class="modal fade" tabindex="-1" role="dialog" id="cartModal">
+		<div class="modal-dialog" role="document">
+	    	<div class="modal-content rounded-3 shadow">
+	      		<div class="modal-body p-4 text-center">
+	        		<h3 class="mb-0">장바구니에 상품이 추가되었습니다. </h3>
+	        		<p class="mb-0"></p>
+	      		</div>
+	      		<div class="modal-footer flex-nowrap p-0">
+	      			<button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0 border-end" data-bs-dismiss="modal">계속 쇼핑하기</button>
+	        		<button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0" id="yes" onclick="location.href='${ contextPath }/myCart.me'">
+	        			<strong>장바구니</strong>
+	        		</button>
+	      		</div>
+	    	</div>
+	  	</div>
+	</div>
 </main>
 
     <footer>
@@ -455,10 +474,10 @@
     		       quantity:quantity,
     		       productOption:productOption},
     	   success : function(result){
-    		        alert("장바구니에 상품이 추가되었습니다.");
+    		        alert('장바구니 추가 성공');
     	   },
     	   error : function(){
-    		      alert('장바구니 상품 추가 실패');   
+    		      alert('장바구니 추가 실패');   
     	   }
        }) 
     });

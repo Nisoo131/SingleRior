@@ -78,7 +78,7 @@
 			<li class="page-item">
 					<c:url var="goBack" value="${ loc }">
 						<c:param name="page" value="${ pi.currentPage-1 }"></c:param>
-						<c:param name="subCate" value="${ subCate }"></c:param>
+						<c:param name="subCate" value="${ subCate }"></c:param> 
 					</c:url>
 					<a class="page-link" href="${ goBack }" aria-label="Previous">
 						<span aria-hidden="true">&laquo;</span>
@@ -87,7 +87,7 @@
 			<c:forEach begin="${ pi.startPage }" end="${ pi.endPage }" var="p">
 				<c:url var="goNum" value="${ loc }">
 					<c:param name="page" value="${ p }"></c:param>
-					<c:param name="subCate" value="${ subCate }"></c:param>
+					<c:param name="subCate" value="${ subCate }"></c:param> 
 				</c:url>
 					<li class="page-item"><a class="page-link" href="${ goNum }">${ p }</a></li>
 				</c:forEach>
@@ -114,8 +114,8 @@
     	for(const div of cards){
     		div.addEventListener('click', function(){
     			const productNo = this.querySelectorAll('input')[0].value;
-    			 console.log(productNo); 
-    			 location.href='${contextPath}/productDetail.st?productNo=' + productNo; /* + '&page=' + ${pi.currentPage} */
+    			 //console.log(productNo); 
+    			 location.href='${contextPath}/productDetail.st?productNo=' + productNo; /* + '&page=' + ${pi.currentPage}; */
     		});
     	}
     }
