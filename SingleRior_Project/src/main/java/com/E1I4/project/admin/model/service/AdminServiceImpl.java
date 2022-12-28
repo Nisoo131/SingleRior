@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.E1I4.project.admin.model.dao.AdminDAO;
+import com.E1I4.project.admin.model.vo.OrderProducts;
 import com.E1I4.project.common.model.vo.Attachment;
 import com.E1I4.project.common.model.vo.Board;
 import com.E1I4.project.common.model.vo.InquiryAdmin;
@@ -261,6 +262,11 @@ public class AdminServiceImpl implements AdminService {
 	@Override
 	public ArrayList<HashMap<String, Object>> viewContentSum() {
 		return aDAO.viewContentSum(sqlSession);
+	}
+
+	@Override
+	public ArrayList<OrderProducts> selectOrderProducts() {
+		return aDAO.selectOrderProducts(sqlSession);
 	}
 
 

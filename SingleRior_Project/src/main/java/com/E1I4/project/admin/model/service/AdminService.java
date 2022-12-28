@@ -3,6 +3,7 @@ package com.E1I4.project.admin.model.service;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import com.E1I4.project.admin.model.vo.OrderProducts;
 import com.E1I4.project.common.model.vo.Attachment;
 import com.E1I4.project.common.model.vo.Board;
 import com.E1I4.project.common.model.vo.InquiryAdmin;
@@ -107,6 +108,8 @@ public interface AdminService {
 	ArrayList<HashMap<String, Object>> enrollUserSum();
 
 	ArrayList<HashMap<String, Object>> viewContentSum();
+
+	ArrayList<OrderProducts> selectOrderProducts();
 
 
 

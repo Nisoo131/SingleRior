@@ -1,6 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ page import="java.util.Date" %>
+<%
+  Date now = new Date();
+%>
 
 <!DOCTYPE html>
 <html>
@@ -90,7 +95,7 @@
                                         일일/누적 회원가입 통계
                                     </div>
                                     <div class="card-body"><canvas id="userSum"></canvas></div>
-                                    <div class="card-footer small text-muted">마지막 업데이트 일시 11:59 PM</div>
+                                    <div class="card-footer small text-muted">마지막 업데이트 일시: <fmt:formatDate pattern="yyyy년 MM월 dd일 hh시 mm분" value="<%= now %>"/></div>
                                 </div>
                             </div>
                             <div class="col-lg-6">
@@ -100,7 +105,7 @@
                                         사용자 컨텐츠 조회수
                                     </div>
                                     <div class="card-body"><canvas id="viewContentChart" width="100%" height="50"></canvas></div>
-                                    <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+                                    <div class="card-footer small text-muted">마지막 업데이트 일시: <fmt:formatDate pattern="yyyy년 MM월 dd일 hh시 mm분" value="<%= now %>"/></div>
                                 </div>
                             </div>
                         </div>
@@ -135,14 +140,14 @@
 		                        fill : false,         // 채우기 없음
 		                        lineTension : 0.2,  // 0이면 꺾은선 그래프, 숫자가 높을수록 둥글해짐
 		                        pointRadius : 0,    // 각 지점에 포인트 주지 않음
-		                        backgroundColor: 'rgb(255, 0, 0)',
-		                        borderColor: 'rgb(255, 0, 0)',
+		                        backgroundColor: 'rgb(255, 99, 132,0.7)',
+		                        borderColor: 'rgb(255, 99, 132,0.7)',
 		                        data: ['${list[4].B}','${list[3].B}','${list[2].B}','${list[1].B}','${list[0].B}'],
 		                        yAxisID: 'right-y-axis'
 		                    },{
 		                        label: '누적 회원 가입자 수',
-		                        backgroundColor: 'rgb(0, 128, 255)',
-		                        borderColor: 'rgb(0, 128, 255)',
+		                        backgroundColor: 'rgb(54, 162, 235,0.7)',
+		                        borderColor: 'rgb(54, 162, 235,0.7)',
 		                        data: ['${list[4].C}','${list[3].C}','${list[2].C}','${list[1].C}','${list[0].C}'],
 		                        yAxisID: 'left-y-axis'
 		                    
@@ -152,29 +157,31 @@
 		                    scales: {
 		                        yAxes: [{
 		                            id: 'left-y-axis',
+		                            scaleShowGridLines : false,
 		                            type: 'linear',
 		                            position: 'left',
 		                            ticks:{
 		                            	min:10,
-		                            	stepSize:10,
-		                            	max:max+10
+		                            	stepSize:15,
+		                            	max:max+20,
+		                            	display:true
 		                            }
 		                        }, {
 		                            id: 'right-y-axis',
+		                            scaleShowGridLines : false,
 		                            type: 'linear',
 		                            position: 'right',
 		                            ticks:{
-		                            	min:1,
-		                            	stepSize:1,
-		                            	max:max2+2
+		                            	min:0,
+		                            	stepSize:10,
+		                            	max:10,
+		                           		display: true
 		                            }
 		                        }]
 		                    }
 		                }
 		                
 		            });
-		            
-		           
 		            var context = document.getElementById('viewContentChart').getContext('2d');
 		            var myChart = new Chart(context, {
 		                type: 'pie', // 차트의 형태
@@ -192,9 +199,9 @@
 		                            ],
 		                            backgroundColor: [
 		                                //색상
-		                                'rgba(255, 99, 132, 0.2)',
-		                                'rgba(54, 162, 235, 0.2)',
-		                                'rgba(255, 206, 86, 0.2)'
+		                                'rgba(255, 99, 132,0.7)',
+		                                'rgba(54, 162, 235,0.7)',
+		                                'rgba(255, 206, 86,0.7)'
 		                            ],
 		                            borderColor: [
 		                                //경계선 색상

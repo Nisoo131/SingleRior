@@ -7,6 +7,7 @@ import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.E1I4.project.admin.model.vo.OrderProducts;
 import com.E1I4.project.common.model.vo.Attachment;
 import com.E1I4.project.common.model.vo.Board;
 import com.E1I4.project.common.model.vo.InquiryAdmin;
@@ -230,6 +231,10 @@ public class AdminDAO {
 
 	public ArrayList<HashMap<String, Object>> viewContentSum(SqlSessionTemplate sqlSession) {
 		return (ArrayList)sqlSession.selectList("adminMapper.viewCountSum");
+	}
+
+	public ArrayList<OrderProducts> selectOrderProducts(SqlSessionTemplate sqlSession) {
+		return (ArrayList)sqlSession.selectList("adminMapper.selectOrderProducts");
 	}
 
 
