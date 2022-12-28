@@ -136,7 +136,7 @@
 									<input type="hidden" value="${ n.boardNo }">
 								</td>
 								<td>${ n.boardTitle }</td>
-								<td><input type="hidden" value="${ n.writer }">${ n.writer }</td>
+								<td><input type="hidden" value="${ n.writer }">관리자</td>
 								<td>${ n.createDate }</td>
 								<td>-</td>
 								<td>-</td>
@@ -151,7 +151,7 @@
 									<input type="hidden" value="${ b.boardNo }">
 								</td>
 								<td>${ b.boardTitle }</td>
-								<td><input type="hidden" value="${ b.nickName }">${ b.nickName }</td>
+								<td><input type="hidden" value="${ b.writer }">${ b.nickName }</td>
 								<td>${ b.createDate }</td>
 								<td>${ b.symptCount }</td>
 								<td>${ b.replyCount }</td>
@@ -168,6 +168,8 @@
 			            <li class="page-item">
 			            	<c:url var="goBack" value="${ loc }">
 								<c:param name="page" value="${ pi.currentPage-1 }"/>
+								<c:param name="commuArray" value="${ commuArray }"/>
+								<c:param name="commuType" value="${ commuType }"/>
 							</c:url>
 			            	<a class="page-link" href="${ goBack }" aria-label="Previous">
 			            		<span aria-hidden="true">&laquo;</span>
@@ -177,6 +179,8 @@
 		            <c:forEach begin="${ pi.startPage }" end="${ pi.endPage }" var="p">
 		            	<c:url var="goNum" value="${ loc }">
 							<c:param name="page" value="${ p }"/>
+							<c:param name="commuArray" value="${ commuArray }"/>
+							<c:param name="commuType" value="${ commuType }"/>
 						</c:url>
 						<li class="page-item"><a class="page-link" href="${ goNum }">${ p }</a></li>
 		            </c:forEach>
@@ -184,6 +188,8 @@
 			            <li class="page-item">
 			            	<c:url var="goNext" value="${ loc }">
 								<c:param name="page" value="${ pi.currentPage + 1 }"/>
+								<c:param name="commuArray" value="${ commuArray }"/>
+								<c:param name="commuType" value="${ commuType }"/>
 							</c:url>
 							<a class="page-link" href="${ goNext }" aria-label="Next">
 			            		<span aria-hidden="true">&raquo;</span>

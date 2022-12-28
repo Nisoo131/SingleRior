@@ -31,6 +31,7 @@ import com.E1I4.project.common.model.vo.Report;
 import com.E1I4.project.common.model.vo.WishList;
 import com.E1I4.project.commuBoard.model.service.CommuBoardService;
 import com.E1I4.project.commuBoard.model.vo.CommuBoard;
+import com.E1I4.project.member.model.service.MemberService;
 import com.E1I4.project.member.model.vo.Member;
 import com.E1I4.project.notiBoard.model.service.NotiBoardService;
 import com.E1I4.project.notiBoard.model.vo.NotiBoard;
@@ -46,6 +47,9 @@ public class CommuBoardController {
 	
 	@Autowired
 	private NotiBoardService nService;
+	
+	@Autowired
+	private MemberService mService;
 	
 	// 커뮤니티 전체 글 목록
 	@RequestMapping("commuAllList.co")
@@ -211,24 +215,24 @@ public class CommuBoardController {
 	/* 게시글 상세보기 */
 	// 커뮤니티 글 조회
 	@RequestMapping("selectCommuBoard.co")
-	public ModelAndView selectCommuBoard(@RequestParam("bNo") int bNo,@RequestParam("writer") String writer, ModelAndView mv, HttpSession session) {
-		Member m = (Member)session.getAttribute("loginUser");
+	public ModelAndView selectCommuBoard(@RequestParam("bNo") int bNo, @RequestParam(value="writer", required=false) String writer, ModelAndView mv, HttpSession session) {
+		Member loginUser = (Member)session.getAttribute("loginUser");
 		
 		WishList wl = new WishList();
 		WishList wishList = null;
 		
 		String login = null;
 		
-		if(m != null) {
-			login = m.getNickName();
+		if(loginUser != null) {
+			login = loginUser.getNickName();
 			wl.setBoardNo(bNo);
-			wl.setMemberId (m.getMemberId());
+			wl.setMemberId (loginUser.getMemberId());
 			wishList = cService.selectSymptOn(wl);
 		}
 		
 		String id = " ";
-		if(m !=null) {
-			 id = m.getMemberId();
+		if(loginUser !=null) {
+			 id = loginUser.getMemberId();
 		}
 		
 		boolean yn = false;
@@ -242,7 +246,16 @@ public class CommuBoardController {
 		ArrayList<Attachment> list = cService.selectAttmBoard(strBNo);
 		
 		ArrayList<Reply> coRList = cService.selectReply(bNo);
+		
+		/*
+		 * for(int i = 0; i < coRList.size(); i++) { String[] reProfile = null;
+		 * reProfile[i] = coRList.get(i).getMemberId(); }
+		 */
+		
 		ArrayList<ReReply> coRRList = cService.selectReReply(bNo);
+		
+		String memberId = writer;
+		Attachment profileAttm = mService.selectProfile(memberId);
 		
 		if(coBoard != null) {
 			mv.addObject("coBoard", coBoard);
@@ -250,6 +263,7 @@ public class CommuBoardController {
 			mv.addObject("coRRList", coRRList);
 			mv.addObject("wishList", wishList);
 			mv.addObject("list", list);
+			mv.addObject("profileAttm", profileAttm);
 			mv.setViewName("commuBoardDetail");
 		} else {
 			throw new BoardException("게시글 상세보기에 실패하였습니다.");
@@ -331,24 +345,22 @@ public class CommuBoardController {
 	
 	// 커뮤니티 댓글 수정 (update)
 	@RequestMapping("updateReply.co")
-	public void updateReply(@ModelAttribute Reply reply, HttpServletResponse response) {
+	public void updateReply(@ModelAttribute Reply r, HttpServletResponse response) {
 		HashMap<String, Object> map = new HashMap<String, Object>();
-		map.put("content", reply.getReplyContent());
-		map.put("rNo",reply.getReplyNo());
-		map.put("secret", reply.getReplySecret());
+		map.put("content", r.getReplyContent());
+		map.put("rNo",r.getReplyNo());
+		map.put("secret", r.getReplySecret());
 		
 		int result = cService.updateReply(map);
 		
-		int replyNo = reply.getReplyNo();
-		
-		Reply r = cService.replyOneSelect(replyNo);
+		ArrayList<Reply> rList = cService.selectReply(r.getBoardNo());
 		
 		response.setContentType("application/json; charset=UTF-8");
 		GsonBuilder gb = new GsonBuilder();
 		GsonBuilder gb2 =  gb.setDateFormat("yyyy-MM-dd");
 		Gson gson = gb2.create();
 		try {
-			gson.toJson(r, response.getWriter());
+			gson.toJson(rList, response.getWriter());
 		} catch (JsonIOException | IOException e) {
 			e.printStackTrace();
 		}
