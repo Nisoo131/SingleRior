@@ -214,6 +214,10 @@ public class MemberDAO {
 		return  sqlSession.insert("memberMapper.orderCancel", pc);
 	}
 
+	public int orderProductStatusChange(SqlSessionTemplate sqlSession, int orderNo) {
+		return sqlSession.update("memberMapper.orderProductStatusChange", orderNo);
+	}
+
 
 
 

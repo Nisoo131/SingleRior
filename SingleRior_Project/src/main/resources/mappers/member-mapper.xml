@@ -511,19 +511,24 @@
 	<select id="getOrderListCount" resultType="_int">
 		select count(*)
 		from order_product op
-		 join order_detail od using(order_no)
+			 join order_detail od using(order_no)
 		where op.member_id = #{memberId} 
 		<if test="status != '전체'">
-			and od.status = #{status}
+			<if test="status != '구매확정'">
+				and status = #{status}
+			</if>
+			<if test="status == '구매확정'">
+				and (od.status = '구매확정' or od.status = '리뷰작성')
+			</if>
 		</if>
 		<if test="date == '1개월'">
-			 and order_DATE >= to_char(add_months(sysdate,-1),'YYYYMMDD')
+			 and op.order_DATE >= to_char(add_months(sysdate,-1),'YYYYMMDD')
 		</if>
 		<if test="date == '3개월'">
-			 and order_DATE >= to_char(add_months(sysdate,-3),'YYYYMMDD')
+			 and op.order_DATE >= to_char(add_months(sysdate,-3),'YYYYMMDD')
 		</if>
 		<if test="date == '1년'">
-			 and order_DATE >= to_char(add_months(sysdate,-12),'YYYYMMDD')
+			 and op.order_DATE >= to_char(add_months(sysdate,-12),'YYYYMMDD')
 		</if>
 	</select>
 	
@@ -535,7 +540,12 @@
         join order_product op using(order_no)
 		where member_id =#{memberId} 	
 		<if test="status != '전체'">
-			and status= #{status}
+			<if test="status != '구매확정'">
+				and status = #{status}
+			</if>
+			<if test="status == '구매확정'">
+				and (od.status = '구매확정' or od.status = '리뷰작성')
+			</if>
 		</if>
 		<if test="date == '1개월'">
 			 and order_DATE >= to_char(add_months(sysdate,-1),'YYYYMMDD')
@@ -599,23 +609,36 @@
 	
 	<select id="orderStatusCount" resultType="_int">
 		select count(*)
-		from order_product
-		where member_id = #{memberId} and status = #{orStatus}
+		from order_product op
+			join order_detail od using(order_no)
+		where op.member_id = #{memberId} 
+		<if test="orStatus != '구매확정'">
+			and od.status = #{orStatus}
+		</if>
+		<if test="orStatus == '구매확정'">
+			 and (od.status = '구매확정' or od.status = '리뷰작성')
+		</if>
 	</select>
 	
 	<update id="orderStatusChange">
-		update order_product
+		update order_detail
 		<if test="change == 1">
 			set status = '구매확정'
 		</if>
 		<if test="change == 2">
 			set status = '주문취소'
 		</if>
-		where order_no = #{orderNo}
+		where order_detail_no = #{orderDetailNo}
 	</update>
 	
 	<insert id="orderCancel">
 	insert into product_cancel
-	values(SEQ_OCID.nextval,#{cancelCate},#{cancelReason},sysdate,#{orderNo})
+	values(SEQ_OCID.nextval,#{cancelCate},#{cancelReason},sysdate,#{orderDetailNo})
 	</insert>
+	
+	<update id="orderProductStatusChange">
+	update order_product
+	set ORDER_TOTAL_STATUS = '취소예정'
+	where order_no = #{orderNo}
+	</update>
 </mapper>

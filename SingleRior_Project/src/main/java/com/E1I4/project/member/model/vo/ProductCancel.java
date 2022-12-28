@@ -19,4 +19,5 @@ public class ProductCancel {
 	private String cancelReason;
 	private Date cancelDate;
 	private int orderNo;
+	private int orderDetailNo;
 }

@@ -262,6 +262,11 @@ public class MemberServiceImpl implements MemberService {
 		return mDAO.orderCancel(sqlSession,pc);
 	}
 
+	@Override
+	public int orderProductStatusChange(int orderNo) {
+		return mDAO.orderProductStatusChange(sqlSession,orderNo);
+	}
+
 
 
 

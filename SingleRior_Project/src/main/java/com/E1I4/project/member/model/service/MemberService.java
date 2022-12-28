@@ -106,6 +106,8 @@ public interface MemberService {
 
 	int orderCancel(ProductCancel pc);
 
+	int orderProductStatusChange(int orderNo);
+
 
 
 

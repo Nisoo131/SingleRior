@@ -111,32 +111,38 @@
 							</tr>
 							<tr>
 								<td>${oi.productOption }</td>
-								<td><fmt:formatNumber value="${oi.totalPrice }" pattern="#,###"/>원</td>
+								<td><fmt:formatNumber value="${oi.salePrice }" pattern="#,###"/>원</td>
 							</tr>
 						</table>
 						<c:if test="${ oi.status == '입금대기' or oi.status == '결제완료' or oi.status == '배송준비'}">
 							<button type="button" class="orderStatusBtn btn btn-light orderCancel" data-bs-toggle="modal" data-bs-target="#orderCancelModal">
 							  주문취소
 							</button>
-							<input type="hidden" value="${ oi.orderNo }">	
+							<input type="hidden" value="${ oi.orderDetailNo }">	
 						</c:if>
 						<c:if test="${ oi.status == '배송중'}">
 							<button type="button" class="orderStatusBtn btn btn-light" data-bs-toggle="modal" data-bs-target="">
 							  운송장확인
 							</button>
-							<input type="hidden" value="${ oi.orderNo }">
+							<input type="hidden" value="${ oi.orderDetailNo }">
 						</c:if>
 						<c:if test="${ oi.status == '배송완료'}">
 							<button type="button" class="orderStatusBtn btn btn-light orderCommit" data-bs-toggle="modal" data-bs-target="#orderCommitModal">
 							  구매확정
 							</button>
-							<input type="hidden" value="${ oi.orderNo }">
+							<input type="hidden" value="${ oi.orderDetailNo }" name="orderDetailNo">
 						</c:if>
 						<c:if test="${ oi.status == '구매확정'}">
 							<button type="button" class="orderStatusBtn btn btn-light orderReview" data-bs-toggle="modal" data-bs-target="#orderReviewModal">
 							  리뷰작성
 							</button>
-							<input type="hidden" value="${ oi.orderNo }">
+							<input type="hidden" value="${ oi.orderDetailNo }">
+						</c:if>
+						<c:if test="${ oi.status == '주문취소'}">
+							<button type="button" class="orderStatusBtn btn btn-light orderReview" data-bs-toggle="modal" data-bs-target="#orderReviewModal">
+							 주문취소조회
+							</button>
+							<input type="hidden" value="${ oi.orderDetailNo }">
 						</c:if>
 					</div>
 				</c:forEach>
@@ -213,6 +219,7 @@
 						<button type="submit" class="btn btn-light"
 							style="background: #008cd4; color: white">주문취소</button>
 								<input type="hidden" value="" name="orderNo" id="orderCancelNo">
+								<input type="hidden" value="" name="orderDetailNo" id="orderCancelDetailNo">
 					</div>
 				</div>
 			</form>
@@ -234,7 +241,7 @@
 					<div class="modal-footer">
 						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">창닫기</button>
 						<button type="submit" class="btn btn-light" style="background:#008cd4; color:white">구매확정</button>
-					<input type="hidden" value="" name="orderNo" id="orderNo">
+					<input type="hidden" value="" name="orderDetailNo"  id="orderCommit">
 					</div>
 				</div>
 			</form>
@@ -323,8 +330,9 @@
 			
 			for(orderCommit of orderCommits){
 				orderCommit.addEventListener('click',function(){
-					var orderNo = this.parentNode.childNodes[15].value;
-					document.getElementById("orderNo").value = orderNo;
+					var orderDetailNo = this.parentNode.childNodes[13].value;
+					console.log(orderDetailNo);
+					document.getElementById("orderCommit").value = orderDetailNo;
 				});
 			}
 			
@@ -332,9 +340,12 @@
 // 			console.log(orderCancels);
 			for(orderCancel of orderCancels){
 				orderCancel.addEventListener("click",function(){
-					var orderNo = this.parentNode.childNodes[15].value;
+					var orderDetailNo = this.parentNode.childNodes[13].value;
+					console.log(orderDetailNo);
+					document.getElementById("orderCancelDetailNo").value = orderDetailNo;
+					var orderNo = this.parentNode.childNodes[5].childNodes[5].value;
+// 					console.log(orderNo);
 					document.getElementById("orderCancelNo").value = orderNo;
-					console.log(document.getElementById("orderCancelNo").value);
 				})
 			}
 			

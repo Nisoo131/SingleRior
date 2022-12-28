@@ -604,17 +604,20 @@ public class MemberController {
 			date = "전체";
 		}
 		map.put("date", date);
-//		int listCount = mService.getOrderListCount(map);
+		int listCount = mService.getOrderListCount(map);
+		System.out.println("구매확정" + listCount);
+		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 5);
 		
-//		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 5);
+		ArrayList<Order> oiList = mService.selectReviewNDoneList(pi,map);
 		
-//		ArrayList<OrderItem> oiList = mService.selectReviewNDoneList(pi,map);
-//		for(int i = 0; i<oiList.size(); i++) {
-//			String boardNo = Integer.toString(oiList.get(i).getBoardNo());
-//			map.put("boardNo", boardNo);
-//			String img = mService.getImgOrder(map);
-//			oiList.get(i).setImgRename(img);
-//		}
+		
+//		System.out.println(map);
+		for(int i = 0; i<oiList.size(); i++) {
+			String boardNo = Integer.toString(oiList.get(i).getBoardNo());
+			map.put("boardNo", boardNo);
+			String img = mService.getImgOrder(map);
+			oiList.get(i).setImgRename(img);
+		}
 		
 		
 //		System.out.println(oiList);
@@ -634,20 +637,21 @@ public class MemberController {
 			String countStatus = Arrays.toString(result);
 		
 		
-//			model.addAttribute("oiList", oiList);
+			model.addAttribute("oiList", oiList);
 			model.addAttribute("countStatus", countStatus);
-//			model.addAttribute("pi", pi);
+			model.addAttribute("pi", pi);
 			model.addAttribute("status", status);
 			model.addAttribute("date", date);
 			
 		return "orderList";
+//		return null;
 	}
 	
 	@RequestMapping("orderCommit.me")
-	public String orderCommit(@RequestParam("orderNo") int orderNo) {
-		System.out.println(orderNo);
+	public String orderCommit(@RequestParam("orderDetailNo") int orderDetailNo) {
+		System.out.println(orderDetailNo);
 		HashMap<String, Integer> map = new HashMap<String, Integer>();
-		map.put("orderNo", orderNo);
+		map.put("orderDetailNo", orderDetailNo);
 		int status = 1;  // 구매확정 : 1
 		map.put("change", status);
 		int result = mService.orderStatusChange(map);
@@ -657,16 +661,20 @@ public class MemberController {
 	@RequestMapping("orderCancel.me")
 	public String orderCancel(@ModelAttribute ProductCancel pc) {
 		
+		System.out.println(pc);
 		int result = 0;
 		if(pc != null) {
 			result = mService.orderCancel(pc);
 		}
 		if(result > 0 ) {
 			HashMap<String, Integer> map = new HashMap<String, Integer>();
-			map.put("orderNo", pc.getOrderNo());
+			map.put("orderDetailNo", pc.getOrderDetailNo());
 			int status = 2;  // 주문취소 : 2
 			map.put("change", status);
 			int result2 = mService.orderStatusChange(map);
+			if(result2 > 0 ) {
+				int result3 = mService.orderProductStatusChange(pc.getOrderNo());
+			}
 		}
 		
 		return "redirect:orderList.me";
@@ -693,10 +701,13 @@ public class MemberController {
 		
 		HashMap<String,String> map = new HashMap<String,String>();
 		String status = "리뷰작성";
+		String review = "review";
 		map.put("memberId", memberId);
 		map.put("status", status);
+		map.put("review", review);
 		
 		int listCount = mService.getOrderListCount(map);
+//		System.out.println("review" +listCount);
 
 		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 5);
 		
@@ -751,10 +762,13 @@ public class MemberController {
 		
 		HashMap<String,String> map = new HashMap<String,String>();
 		String status = "구매확정";
+		String review = "review";
 		map.put("memberId", memberId);
 		map.put("status", status);
+		map.put("review", review);
 		
 		int listCount = mService.getOrderListCount(map);
+
 		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 5);
 		
 		ArrayList<Order> orList = mService.selectReviewNDoneList(pi,map);
