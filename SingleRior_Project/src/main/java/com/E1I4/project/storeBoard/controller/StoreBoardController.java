@@ -44,8 +44,7 @@ public class StoreBoardController {
 	
 	// subCate 리스트 
 	@RequestMapping("categoryList.st")
-	public String storeList(@RequestParam(value="page", required=false) Integer page, 
-			                @RequestParam("subCate") int subCate, Model model) {
+	public String storeList(@RequestParam(value="page", required=false) Integer page, @RequestParam("subCate") int subCate, Model model) {
 			int currentPage = 1;
 			if(page != null) {
 				currentPage = page; 
@@ -179,16 +178,16 @@ public class StoreBoardController {
 		cart.setMemberId(memberId);
 		cart.setProductOption(productOption);
 	
-		System.out.println(productOption);
+		// System.out.println(productOption);
 	
 		int result = sService.insertCart(cart);
 		
-		if(result != 0) {
+		if(result != 0 && quantity !=0) { 
 			mv.addObject("cart",cart);
 			return "productDetail";
 			
 		} else {
-			throw new BoardException("장바구니 추가 실패");
+			throw new BoardException("장바구니에 상품을 1개 이상 담아주세요.");
 		}
 	}
 	
@@ -213,27 +212,33 @@ public class StoreBoardController {
 	
 	// 옵션 선택 후 바로 결제하기
 	@RequestMapping("payment.st")
-	public String payment(HttpSession session, OrderItem orderList, Model model, @RequestParam List<Integer> cartNo) {
+	public String payment(HttpSession session, OrderItem orderList, Model model, @RequestParam(required=false) List<Integer> cartNo ) {
+
 		String id = ((Member)session.getAttribute("loginUser")).getMemberId();
 		
-		//System.out.println("memberId : " + id);
-		//System.out.println ("orders : " + orderList);
 		
-		System.out.println("여러개 들어와라:" +cartNo);
         Member m = new Member();
         Member member = null;
         member = sService.getUserInfo(id);
         
+		/* List<Integer> cList = sService.getCartNo(id); */
+        
+     
+        // 장바구니 여러개
+        if(cartNo != null) {
+        	
+        }
+        // 바로결제하기
 		if(orderList != null) {
 			model.addAttribute("orderList", orderList);
 			model.addAttribute("member", member);
-			// System.out.println(member); 
+			
 			return "payment";
 		} else {
 			throw new BoardException("주문 기본정보 불러오기 실패");
 		}
-
 		
+
 	}
 	// 결제하기 버튼을 눌러서 새로 url하고 orderList를 다시 받아서 새로 맵핑시키기
 	// 주문자 정보 입력
