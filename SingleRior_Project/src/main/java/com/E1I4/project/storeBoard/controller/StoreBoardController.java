@@ -213,7 +213,7 @@ public class StoreBoardController {
 	
 	// 옵션 선택 후 바로 결제하기
 	@RequestMapping("payment.st")
-	public String payment(HttpSession session, OrderItem orderList, Model model, @RequestParam List<Integer> cartNo ) {
+	public String payment(HttpSession session, OrderItem orderList, Model model, @RequestParam List<Integer> cartNo) {
 		String id = ((Member)session.getAttribute("loginUser")).getMemberId();
 		
 		//System.out.println("memberId : " + id);

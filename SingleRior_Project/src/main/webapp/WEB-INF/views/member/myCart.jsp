@@ -44,7 +44,7 @@
 				<button id= "deleteSubmit" type="button" class="btn btn-light btn-sm" style="background:#008cd4; color:white">삭제</button>
 			</c:if>
 			<c:if test="${ !empty cartList  }">
-				<form action="${ contextPath }/payment.st" id="submitCartOrder">
+				<form action="${ contextPath }/payment.st" id="submitCartOrder" method="post">
 					<c:forEach items="${cartList }" var="cr">
 						<div id="cart">
 							<table class="table">
@@ -138,23 +138,24 @@
 			var forms;
 				
 				if(checkboxs[i].checked ==true){
-// 					var productNo = checkboxs[i].parentNode.parentNode.parentNode.parentNode.parentNode.childNodes[3].value;
+// 					var productNoInput = checkboxs[i].parentNode.parentNode.parentNode.childNodes[2].childNodes[9].innerText;
+// 					checkboxs[i].parentNode.parentNode.parentNode.parentNode.parentNode.childNodes[3].value = productNoInput;
+// 					var productNo = checkboxs[i].parentNode.parentNode.parentNode.parentNode.parentNode.childNodes[3];
 // 					var productQuantity = checkboxs[i].parentNode.parentNode.parentNode.parentNode.parentNode.childNodes[5].value;
 // 					var salePrice = checkboxs[i].parentNode.parentNode.parentNode.parentNode.parentNode.childNodes[7].value;
 // 					var productOption = checkboxs[i].parentNode.parentNode.parentNode.parentNode.parentNode.childNodes[9].value;
 // 					var boardTitle = checkboxs[i].parentNode.parentNode.parentNode.parentNode.parentNode.childNodes[11].value;
 // 					var imgRename = checkboxs[i].parentNode.parentNode.parentNode.parentNode.parentNode.childNodes[13].value;
-// 					var cartNo = checkboxs[i].value;
 					var cartNoInput = checkboxs[i].value;
 					var cartNo = checkboxs[i].parentNode.parentNode.parentNode.parentNode.parentNode.childNodes[15];
 					cartNo.value = cartNoInput;
-					console.log(cartNo);
+// 					console.log(productNo);
 // 					console.log(productNo);
 				}
 				
 			}
 			var form = document.getElementById("submitCartOrder");
-			console.log(form);
+// 			console.log(form);
 				form.submit();
 		});
 		
