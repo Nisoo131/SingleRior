@@ -73,12 +73,12 @@
 								<div>${o.productOption}</div>		      
 					      	</td>
 					      	<td>
-					      		<div><fmt:formatNumber value="${o.totalPrice}" pattern="#,###"/>원</div>
+					      		<div><fmt:formatNumber value="${o.salePrice}" pattern="#,###"/>원</div>
 					      	</td>
 					   	</tr>
 					</table>
 					<div class="reviewContent">
-						<div>아직 리뷰를 작성하시 않으셨습니다.</div>
+						<div>아직 리뷰를 작성하지 않으셨습니다.</div>
 						<div>이 제품의 리뷰를 남겨주세요.</div>
 					</div>
 					<hr>

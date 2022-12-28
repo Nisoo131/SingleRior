@@ -38,8 +38,8 @@ import com.E1I4.project.member.model.service.MailSendService;
 import com.E1I4.project.member.model.service.MemberService;
 import com.E1I4.project.member.model.service.NaverLogin;
 import com.E1I4.project.member.model.vo.Member;
+import com.E1I4.project.member.model.vo.Order;
 import com.E1I4.project.member.model.vo.ProductCancel;
-import com.E1I4.project.storeBoard.model.vo.OrderItem;
 
 @Controller
 public class MemberController {
@@ -700,7 +700,7 @@ public class MemberController {
 
 		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 5);
 		
-		ArrayList<OrderItem> orList = mService.selectReviewNDoneList(pi,map);
+		ArrayList<Order> orList = mService.selectReviewNDoneList(pi,map);
 
 		
 		ArrayList<Review> rList = new ArrayList<Review>();
@@ -757,7 +757,7 @@ public class MemberController {
 		int listCount = mService.getOrderListCount(map);
 		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 5);
 		
-		ArrayList<OrderItem> orList = mService.selectReviewNDoneList(pi,map);
+		ArrayList<Order> orList = mService.selectReviewNDoneList(pi,map);
 		
 		for (int i = 0; i<orList.size(); i++) {
 			String boardNo = Integer.toString(orList.get(i).getBoardNo());

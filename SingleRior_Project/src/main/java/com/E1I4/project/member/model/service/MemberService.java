@@ -13,8 +13,8 @@ import com.E1I4.project.common.model.vo.Reply;
 import com.E1I4.project.common.model.vo.Review;
 import com.E1I4.project.common.model.vo.WishList;
 import com.E1I4.project.member.model.vo.Member;
+import com.E1I4.project.member.model.vo.Order;
 import com.E1I4.project.member.model.vo.ProductCancel;
-import com.E1I4.project.storeBoard.model.vo.OrderItem;
 
 public interface MemberService {
 
@@ -92,7 +92,7 @@ public interface MemberService {
 
 	int getOrderListCount(HashMap<String, String> map);
 
-	ArrayList<OrderItem> selectReviewNDoneList(PageInfo pi, HashMap<String, String> map);
+	ArrayList<Order> selectReviewNDoneList(PageInfo pi, HashMap<String, String> map);
 
 	String getImgOrder(HashMap<String, String> map);
 

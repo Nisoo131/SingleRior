@@ -27,11 +27,11 @@
 		<typeAlias type="com.E1I4.project.common.model.vo.Review" alias="Review"/>
 		<typeAlias type="com.E1I4.project.common.model.vo.ReportBoard" alias="ReportBoard"/>
 		<typeAlias type="com.E1I4.project.common.model.vo.ReportReply" alias="ReportReply"/>
-		<typeAlias type="com.E1I4.project.storeBoard.model.vo.OrderItem" alias="OrderItem"/>
 		<typeAlias type="com.E1I4.project.common.model.vo.Review" alias="Review"/>
 		<typeAlias type="com.E1I4.project.common.model.vo.ReportBoard" alias="ReportBoard"/>
 		<typeAlias type="com.E1I4.project.common.model.vo.ReportReply" alias="ReportReply"/>
 		<typeAlias type="com.E1I4.project.storeBoard.model.vo.OrderItem" alias="OrderItem"/>
+		<typeAlias type="com.E1I4.project.member.model.vo.Order" alias="Order"/>
 		<typeAlias type="com.E1I4.project.common.model.vo.InquiryAdmin" alias="InquiryAdmin"/>
 		<typeAlias type="com.E1I4.project.mainPage.model.vo.MainPage" alias="MainPage"/>
 	</typeAliases>
