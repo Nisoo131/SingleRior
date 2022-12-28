@@ -124,9 +124,8 @@
    <!-- 장바구니 -->
    <insert id="insertCart">
    	    insert into cart
-		values (SEQ_CNO.NEXTVAL, #{quantity}, default, #{memberId}, #{productNo}, #{option})
-   </insert>
-   
+		values (SEQ_CNO.NEXTVAL, #{quantity}, default, #{memberId}, #{productNo}, #{productOption})
+   </insert>  
    
    
    <!-- 문의하기 -->
