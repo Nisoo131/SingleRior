@@ -42,9 +42,9 @@
 	</header>
 		<div class="py-1 border-bottom fs-5" style="background-color: #008cd4; text-align: center;">
 			<ul class="nav me-auto justify-content-center">
-		        <li class="nav-item"><a href="${ contextPath }/commuAllList.co?commuType=1" aria-current="page" class="nav-link px-5 mx-2" style="color: white;">생활팁</a></li>
-		        <li class="nav-item"><a href="${ contextPath }/commuAllList.co?commuType=2" class="nav-link px-5 mx-2" style="color: white;">후기</a></li>
-		        <li class="nav-item"><a href="${ contextPath }/commuAllList.co?commuType=3" class="nav-link px-5 mx-2" style="color: white;">자유</a></li>
+		        <li class="nav-item"><a href="${ contextPath }/commuAllList.co?commuType=1&commuArray=${commuArray}&searchType=${searchType}&commuSearch=${commuSearch}" aria-current="page" class="nav-link px-5 mx-2" style="color: white;">생활팁</a></li>
+		        <li class="nav-item"><a href="${ contextPath }/commuAllList.co?commuType=2&commuArray=${commuArray}&searchType=${searchType}&commuSearch=${commuSearch}" class="nav-link px-5 mx-2" style="color: white;">후기</a></li>
+		        <li class="nav-item"><a href="${ contextPath }/commuAllList.co?commuType=3&commuArray=${commuArray}&searchType=${searchType}&commuSearch=${commuSearch}" class="nav-link px-5 mx-2" style="color: white;">자유</a></li>
 		    </ul>
 		</div>
 	
@@ -74,21 +74,21 @@
 			  				<table>
 			  					<tr style="text-align: center; height: 35px;">
 			  						<td id="list1" width="80px;">
-			  							<a class="nav-link active" href="commuAllList.co?commuArray=1&commuType=${commuType}">
+			  							<a class="nav-link active" href="commuAllList.co?commuArray=1&commuType=${commuType}&searchType=${searchType}&commuSearch=${commuSearch}">
 				  							<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-check-lg me-1" viewBox="0 0 16 16">
 				  								<path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022Z"/>
 				  							</svg>최신순
 			  							</a>
 			  						</td>
 			  						<td id="list2" width="120px;">
-			  							<a class="nav-link active" href="commuAllList.co?commuArray=2&commuType=${commuType}">
+			  							<a class="nav-link active" href="commuAllList.co?commuArray=2&commuType=${commuType}&searchType=${searchType}&commuSearch=${commuSearch}">
 				  							<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-check-lg me-1" viewBox="0 0 16 16">
 				  								<path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022Z"/>
 				  							</svg>공감 많은 순
 			  							</a>
 			  						</td>
 			  						<td id="list3">
-			  							<a class="nav-link active" href="commuAllList.co?commuArray=3&commuType=${commuType}">
+			  							<a class="nav-link active" href="commuAllList.co?commuArray=3&commuType=${commuType}&searchType=${searchType}&commuSearch=${commuSearch}">
 				  							<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-check-lg me-1" viewBox="0 0 16 16">
 				  								<path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022Z"/>
 				  							</svg>댓글 많은 순
@@ -205,7 +205,7 @@
 			        	<tr>
 			        		<td>
 					        	<select name="searchType" class="form-select form-select-sm" aria-label=".form-select-sm example" style="width: 120px; text-align: center;">
-					        		<option value="0">--------</option>
+					        		<option value="0">전체</option>
 					        		<option value="1">제목</option>
 					        		<option value="2">내용</option>
 					        		<option value="3">작성자</option>

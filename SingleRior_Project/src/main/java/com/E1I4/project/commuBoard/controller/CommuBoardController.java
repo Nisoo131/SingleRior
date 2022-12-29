@@ -68,7 +68,7 @@ public class CommuBoardController {
 			commuArray = coArray;
 		}
 		
-		// searchType -> 1: 제목, 2: 내용, 3: 작성자
+		// searchType -> 0: 전체, 1: 제목, 2: 내용, 3: 작성자
 		String commuSearch = null;
 		int searchType= 0;
 		if(search != null && sType!=null) {

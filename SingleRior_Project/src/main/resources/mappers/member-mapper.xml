@@ -661,7 +661,7 @@
 	join board using using(board_no)
 	where order_no = #{orderNo}
 	</select>
-	
+
 	<resultMap type="OrderDetail" id="orderDetailResultSet">
 		<id column="ORDER_DETAIL_NO" property="orderDetailNo"/>
 		<result column="PRODUCT_NO" property="productNo"/>
