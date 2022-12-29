@@ -89,14 +89,14 @@ public class MarketBoardController {
 		map.put("searchType", searchType);
 		
 		int listCount = mkService.getMkListCount(map);
-		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 9);
+		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 12);
 		ArrayList<MarketBoard> mkBList = mkService.marketBoardList(pi, map);
 		ArrayList<Attachment> mkAList = mkService.attmListSelect();
 		
 		ArrayList<MarketBoard> topBList = mkService.marketTopList(marketType);
 		ArrayList<Attachment> topAList = mkService.topAttmListSelect(marketType);		
 		
-		
+		System.out.println(mkAList);
 		if(mkBList != null) {
 			model.addAttribute("pi", pi);
 			model.addAttribute("mkBList", mkBList);
@@ -118,7 +118,7 @@ public class MarketBoardController {
 	//글insert
 	@RequestMapping("marketBoardInsert.ma")
 	public String marketBoardInsert(HttpServletRequest request,@ModelAttribute MarketBoard mkBoard, @RequestParam("file") ArrayList<MultipartFile> files ) {
-
+		System.out.println(mkBoard);
 		String id = ((Member)request.getSession().getAttribute("loginUser")).getMemberId();
 		mkBoard.setWriter(id);
 		mkBoard.setMarketType(mkBoard.getMarketType());

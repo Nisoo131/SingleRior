@@ -43,16 +43,21 @@
 					<div class="col py-2 d-flex flex-column position-static">
 						<table>
 							<tr>
-								<td><a href="javascript:history.back();" class="nav-link link-dark"><img src="https://www.flaticon.com/svg/vstatic/svg/3916/3916912.svg?token=exp=1670460369~hmac=675d0b7c5b02f035ed8a059ae5814294" width="15" height="15"> 목록 보기</a></td>
+								<td><a href="javascript:history.back();" class="nav-link link-dark"><img src="https://www.flaticon.com/svg/vstatic/svg/3916/3916912.svg?token=exp=1670460369~hmac=675d0b7c5b02f035ed8a059ae5814294" width="15" height="15">목록 보기</a></td>
 							</tr>
 						</table>
 					</div>
 				</div>
+				
 			</div>
+			
 			<div class="col-12 border rounded overflow-hidden">
 				<form class="needs-validation" method="POST" id="detailForm">
 					<!-- 헤더 -->
+					<a id="btnKakao" onclick="kakaoShare()" class="kakaotalk" target="_self" title="카카오톡 새창열림"><img alt="" src="https://cdn-icons-png.flaticon.com/512/8301/8301971.png" style="width: 40px; height: 40px; float: right; margin-right: 20px; margin-top: 10px;"></a>
+					
 					<div style="font-size: 20px; padding-top: 30px; padding-left: 50px;">
+						
 						<span>
 							<c:if test="${ mkBoard.marketType == 1 }">[같이사요]</c:if>
 							<c:if test="${ mkBoard.marketType == 2 }">[팝니다]</c:if>
@@ -91,8 +96,10 @@
 							</div>
 						</div>
 					</div>
-														
-				 <div class="col-md-1" style="text-align: center; padding-top: 30px; padding-left: 50px; width: 170px;">
+				<c:if test="${mkBoard.location ne null }">
+					<div id="map" class="mx-auto" style=" width:300px;height:200px;"></div><br><div class="mx-auto" style="text-align:center; background: #D9E5FF; border-radius:2em; padding: 20px; width: 650px;"  >${mkBoard.nickName}님은  ${mkBoard.location }에서 직거래하고 싶어해요!</div>
+				</c:if>							
+				<div class="col-md-1" style="text-align: center; padding-top: 30px; padding-left: 50px; width: 170px;">
 	                  <div class="row g-0 flex-md-row shadow-sm h-md-250 position-relative mt-2 mb-4">
 	                     <c:if test="${ empty loginUser }">
 	                        <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#loginForm">
@@ -114,9 +121,6 @@
 	                     </c:if>
 	                  </div>
 	               </div> 	
-			  	
-			  	
-			  	
 			  	
 			  	
 				<div style="padding-top: 10px; "></div>
@@ -195,8 +199,16 @@
 								<tr style="font-size: 20px;">
 									<td class="px-5 py-3 " colspan="5">
 										<div class="input-group replyContentArea" >
-											<textarea readonly style="width: 1000px; border: none; resize: none;">${r.replyContent }</textarea>
-											<input type="hidden"  value="${ r.replyNo }">
+										<c:if test="${r.replySecret == 'Y' and (loginUser.memberId eq r.memberId  or loginUser.memberId eq mkBoard.writer or loginUser.memberAuthority eq 'Y')}">
+											<textarea readonly class="reContent" style="width: 1000px; border: none; resize: none;">${r.replyContent }</textarea>
+										</c:if>
+										<c:if test="${r.replySecret == 'N' }">
+											<textarea readonly class="reContent" style="width: 1000px; border: none; resize: none;">${r.replyContent }</textarea>
+										</c:if>
+										<c:if test="${(r.replySecret == 'Y' and loginUser.memberId ne r.memberId and loginUser.memberId ne mkBoard.writer and loginUser.memberAuthority eq 'N') or empty loginUser}">
+											<textarea readonly style="width: 1000px; border: none; resize: none;">비밀 댓글입니다.</textarea>
+										</c:if>
+										<input type="hidden"  value="${ r.replyNo }">
 										</div>
 									</td>
 								</tr>
@@ -363,8 +375,9 @@
 		</div>
 	  </div>
 	</div>
-		
-	
+	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=798f33ea8b65e2cf58f7aae47be6ed55&libraries=services"></script>	
+	<script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
+			
 	
 	<script>
 		window.onload = () =>{
@@ -443,6 +456,9 @@
 								memberId: '${loginUser.memberId}',
 								nickName: '${loginUser.nickName}'},
 						success: (data) => {
+							console.log(document.getElementById('replySecret'));
+							document.getElementById('replySecret').checked = false;
+							document.getElementById('replySecret').value = 'N';
 							selectRList(data);
 						},
 						error: (data) => {
@@ -452,9 +468,29 @@
 				});
 			}
 			
-			
-			
-	
+		//지도
+			var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+			mapOption = {
+		        center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
+		        level: 3 // 지도의 확대 레벨
+		    }; 
+
+			var map = new kakao.maps.Map(mapContainer, mapOption); 
+			var geocoder = new kakao.maps.services.Geocoder();
+			geocoder.addressSearch('${ mkBoard.location}', function(result, status) {
+			     if (status === kakao.maps.services.Status.OK) {
+			        var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+			        var marker = new kakao.maps.Marker({
+			            map: map,
+			            position: coords
+			        });
+			        map.setCenter(coords);
+			    } 
+			});  
+		
+			}
+		
+		
 		//비밀댓글
 		$(document).on('click', "input[type='checkbox']", function(){
 			    if(this.checked) {
@@ -467,7 +503,6 @@
 			        this.checked = false;
 			    }
 			});
-		}
 		
 		
 		//댓글삭제
@@ -517,6 +552,8 @@
 					data: {replyNo:replyNo,replyContent:replyContent,replySecret:replySecret,boardNo:${mkBoard.boardNo}},
 					type: 'post',
 					success:(data)=>{
+						this.parentNode.querySelector('input[type="checkbox"]').checked = false;
+						this.parentNode.querySelector('input[type="checkbox"]').value = 'N';
 						selectRList(data);
 					},
 					error: (data)=>{
@@ -550,7 +587,10 @@
 			var replyCount = data.length;
 			document.getElementById('replyDiv').innerHTML = '';
 			document.getElementById('replyContent').value='';
+			document.getElementById('replyContent').value='';
 			for(const r of data){
+				
+				console.log(r.replySecret);
 				let str = '<table class="table replyTable ">';
 				str +=	'<tr>';
 				str +=	'<td style="text-align: center;" width="40"><img src="https://cdn-icons.flaticon.com/svg/3917/3917711.svg?token=exp=1670467359~hmac=b45251c2afca4a6751ba3fed9124eb31" width="20" height="20"></td>';
@@ -575,9 +615,16 @@
 					str +=	'</td>';
 					str +=	'</tr>';
 					str +=	'<tr style="font-size: 20px;">';
-					str +=	'<td class="px-5 py-3 " colspan="5">';
+					str +=	'<td class="px-5 py-3" colspan="5">';
 					str +=	'<div class="input-group replyContentArea" >';
-					str +=	'<textarea readonly style="width: 1000px; border: none; resize: none;">'+ r.replyContent + '</textarea>';
+				
+				if(r.replySecret=='Y' &&('${loginUser.memberId}' == '${mkBoard.writer}' || '${loginUser.memberId}' == r.memberId || '${loginUser.memberAuthority}' == 'Y')){
+					str +=	'<textarea class="reContent" readonly style="width: 1000px; border: none; resize: none;">'+ r.replyContent + '</textarea>';
+				}else if(r.replySecret=='Y' && '${loginUser.memberId}' != '${mkBoard.writer}' && '${loginUser.memberId}' != r.memberId &&'${loginUser.memberAuthority}' != 'Y'){
+					str +=	'<input readonly style="width: 1000px; border: none; resize: none;"> 비밀댓글 입니다. </input>';
+				}else if(r.replySecret=='N'){
+					str +=	'<textarea class="reContent" readonly style="width: 1000px; border: none; resize: none;">'+ r.replyContent + '</textarea>';
+				}	
 					str +=	'<input type="hidden"  value="'+ r.replyNo + '">';
 					str +=	'</div>';
 					str +=	'</td>';
@@ -617,7 +664,37 @@
 	        }
 	     });
 
-
+		
+			
+		//카카오톡 공유하기
+		Kakao.init('798f33ea8b65e2cf58f7aae47be6ed55');
+		Kakao.isInitialized();
+		const currUrl =	$(location).attr('href');
+		function kakaoShare() {
+			Kakao.Share.sendDefault({
+				  objectType: 'feed',
+				  content: {
+				    title: '${mkBoard.boardTitle}',
+				    description: '${ fn:substring(vBoard.boardContent, 0, 20) }',
+				    imageUrl: 'https://ifh.cc/g/1Lygac.png',
+				    link: {
+				      webUrl: currUrl,
+				    },
+				  },
+				  buttons: [
+				    {
+				      title: 'SingleRior로 이동',
+				      link: {
+				        webUrl: currUrl,
+				      },
+				    },
+				  ],
+				});
+		}
+		
+		
+		
+		
 	</script>
 	
 </body>
