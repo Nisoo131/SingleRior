@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -26,6 +29,7 @@
 	.orderInfo h3{color:#008cd4;}
 	.orderInfo h5{color:gray; margin-top:3px;}
 	.orderInfo p{float:right;}
+	.orderStatusBtn{float:right;}
 </style>
 </head>
 <body>
@@ -35,50 +39,53 @@
 	<section>
 		<h1 style="text-align:left">주문상세</h1><br><br>
 		<div id="orderProduct">
-			<span>주문번호 : 000-1111-123456</span>&nbsp;&nbsp;&nbsp;
-			<span>주문일자 : 2022-02-12</span>
-			<button type="button" class="btn btn-light" style="background:#008cd4; color:white; float:right" data-bs-toggle="modal" data-bs-target="#orderCancelModal">주문취소</button>
-			<table class="table">
-			    <tr>
-			      <td scope="row" colspan="4"></td>
-			    </tr>
-			    <tr height="15">
-			    	<td scope="row" width="250" rowspan="2"><img src="${ contextPath }/resources/image/babychicken.png" width="160"></td>
-			     	<td>상품
-			      	</td>
-			      	<td>옵션	      
-			      	</td>
-			      	<td>상품 금액
-			      	</td>
-			   	</tr>
-			   	<tr>
-			     	<td>
-			      		<div>병아리 인형</div>
-			      	</td>
-			      	<td>
-						<div>색상 : 노란색</div>		      
-			      	</td>
-			      	<td>
-			      		<div>12500원</div>
-			      	</td>
-			   	</tr>
-			</table>
+			<c:if test="${ !empty oList }">
+				<span>주문번호 : ${fn:replace(oList[0].orderDate, '-', '')}${oList[0].orderNo }</span>&nbsp;&nbsp;&nbsp;
+				<span>주문일자 : ${oList[0].orderDate }</span>
+				<c:forEach items="${oList }" var="ol">
+					<table class="table">
+					    <tr>
+					      <td scope="row" colspan="4"></td>
+					    </tr>
+					    <tr height="15">
+					    	<td scope="row" width="250" rowspan="2"><img src="${ contextPath }/resources/uploadFiles/${ ol.imgRename }" width="160"></td>
+					     	<td width="350">상품
+					      	</td>
+					      	<td width="450">옵션	      
+					      	</td>
+					      	<td>상품 금액
+					      	</td>
+					   	</tr>
+					   	<tr>
+					     	<td>
+					      		<div>${ ol.boardTitle }</div>
+					      	</td>
+					      	<td>
+								<div>${ ol.productOption }</div>		      
+					      	</td>
+					      	<td>
+					      		<div><fmt:formatNumber value="${ol.salePrice }" pattern="#,###"/>원</div>
+					      	</td>
+					   	</tr>
+					</table>
+				</c:forEach>
+			</c:if>
 		</div><br><br>
 		<div class="orderInfo address">
 			<h3>배송지 정보</h3>
 			<p><button type="button" class="btn btn-light" style="background:#008cd4; color:white;" data-bs-toggle="modal" data-bs-target="#orderAddressModal">배송지변경</button></p>
 			<hr>
 			<h5>받는 사람</h5>
-			<p>김로즈</p>
+			<p>${oList[0].recipient }</p>
 			<br>
 			<h5>연락처</h5>
-			<p>010-1111-2222</p>
+			<p>${oList[0].reciPhone }</p>
 			<br>
 			<h5>주소</h5>
-			<p>서울특별시 강남구 역삼동</p>
+			<p>${oList[0].reciAddress }</p>
 			<br>
 			<h5>배송 메모</h5>
-			<p>부재시 현관앞에 놓아주세요</p>
+			<p>${oList[0].deliveryMsg }</p>
 		</div>
 		<br><br>
 		<div class="orderInfo pay">
@@ -87,12 +94,10 @@
 			<h5>결제 방법</h5><p>카드결제</p><br>
 			<h5>상품 금액</h5><p>12,500원</p><br>
 			<h5>배송비</h5><p>2,500원</p><br>
-			<h5>사용 포인트</h5><p>0원</p><br>
 			<h5>결제금액</h5><p>15,000원</p><br>
-			<h5>결제방법</h5><p>카드결제</p><br>
-			<h5>주문자</h5><p>김이현</p><br>
-			<h5>연락처</h5><p>010-1111-2222</p><br>
-			<h5>이메일</h5><p>rose@ro.se</p><br>
+			<h5>주문자</h5><p>${loginUser.memberName }</p><br>
+			<h5>연락처</h5><p>${loginUser.phone }</p><br>
+			<h5>이메일</h5><p>${loginUser.email }</p><br>
 		</div>
 		<br><br>
 		<div class="orderInfo Account">
@@ -148,34 +153,118 @@
 		<div class="modal-dialog modal-dialog-centered">
 	    	<div class="modal-content">
 	     		 <div class="modal-header">
-	       		 <h5 class="modal-title">배송지 변경</h5>
+	       		 <h5 class="modal-title" style="color:#008cd4">배송지 변경</h5>
 	       		 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 	    	  </div>
 	    	  <div class="modal-body">
-	      		  <div class="mb-3">
-						<label for="exampleFormControlInput1" class="form-label">받는 사람</label>
- 				 		<input type="text" class="form-control" id="exampleFormControlInput1">
-				  </div>
-	      		   <div class="mb-3">
-						<label for="exampleFormControlInput1" class="form-label">연락처</label>
- 				 		<input type="text" class="form-control" id="exampleFormControlInput1">
-				  </div>
-	      		  <div class="mb-3">
-						<label for="exampleFormControlInput1" class="form-label">주소</label>
- 				 		<input type="text" class="form-control" id="exampleFormControlInput1">
-				  </div>
-	      		  <div class="mb-3">
-						<label for="exampleFormControlInput1" class="form-label">배송메모</label>
- 				 		<input type="text" class="form-control" id="exampleFormControlInput1">
-				  </div>
+	    	  	 <p>이미 배송중인 상품이 있을 경우, 배송지 변경이 불가 할 수 있습니다.</p>
+<!-- 	    	  	 <form> -->
+		      		  <div class="mb-3">
+							<label for="exampleFormControlInput1" class="form-label">받는 사람</label>
+	 				 		<input type="text" class="form-control" name="recipient" id="changeRecipient">
+					  </div>
+		      		   <div class="mb-3">
+							<label for="exampleFormControlInput1" class="form-label">연락처</label>
+	 				 		<input type="text" class="form-control" name="reciPhone" id="changeReciPhone">
+					  </div>
+		      		  <div class="mb-3">
+							<label for="exampleFormControlInput1" class="form-label">주소</label>
+	 				 		<input type="text" class="form-control" name="address_kakao" id="address_kakao">
+					  </div>
+					<div class="mb-3">
+							<label for="exampleFormControlInput1" class="form-label">상세주소</label>
+	 				 		<input type="text" class="form-control" name="reciDetailAddress" id="changeReciDetailAddress">
+					  </div>
+		      		  <div class="mb-3">
+							<label for="exampleFormControlInput1" class="form-label">배송메모</label>
+					        <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" name="deliveryMsg" id="changeDeliveryMsg">
+								<option selected>취소 이유 선택</option>
+						        <option>배송시 요청사항을 선택해주세요</option>
+					        	<option>배송전에 미리 연락주세요</option>
+					        	<option>부재시 문앞에 놓아주세요</option>
+					        	<option>부재시 경비실에 맡겨주세요</option>
+					        	<option>부재시 전화나 문자 부탁드려요</option>
+							</select>
+					  </div>
+<!-- 	    	  	 </form> -->
 	     	 </div>
 			 <div class="modal-footer">
 				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">창닫기</button>
-				<button type="button" class="btn btn-light" style="background:#008cd4; color:white">배송지변경</button>
+				<button type="button" class="btn btn-light" style="background:#008cd4; color:white" id="changeDelivery">배송지변경</button>
 	     	 </div>
 	    </div>
 	  </div>
 	</div>
+	<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+	<script>
 	
+	
+	$(function(){
+		$('#changeDelivery').on('click', function(e){
+			let recipient = $('#changeRecipient').val();
+			if(recipient == ""){
+				$('#changeRecipient').focus();
+				return false;
+			}
+			let reciPhone = $('#changeReciPhone').val();
+			if(reciPhone == ""){
+				$('#changeReciPhone').focus();
+				return false;
+			}
+			let addressKakao = $('#address_kakao').val();
+			let reciDetailAddress = $('#changeReciDetailAddress').val();
+			if(reciDetailAddress == ""){
+				$('#changeReciDetailAddress').focus();
+				self.close();
+				return false;
+			}
+			let reciAddress = addressKakao+" "+reciDetailAddress;
+			
+			let deliveryMsg = $('#changeDeliveryMsg').val();
+// 			if(reciDetailAddress == ""){
+// 				$('#changeDeliveryMsg').focus();
+// 				return false;
+// 			}
+			let orderNo = '${oList[0].orderNo}';
+
+// 			console.log(deliveryMsg);
+			
+			$.ajax({
+				url : '${contextPath}/changeDeliveryAddress.me',
+				data : {recipient:recipient,
+						reciPhone:reciPhone,
+						reciAddress:reciAddress,
+						deliveryMsg:deliveryMsg,
+						orderNo:orderNo	
+				},
+				type : "post",
+				success: (data) =>{
+					console.log(data);
+					
+				},
+				error:(data)=>{
+					console.log(data);
+				}
+			});
+		});
+	});
+	
+	
+	window.onload = function(){
+		 document.getElementById("address_kakao").addEventListener("focus", function(){ //주소입력칸을 클릭하면 카카오 주소 발생
+		        new daum.Postcode({
+		            oncomplete: function(data) { //선택시 입력값 세팅
+		                document.getElementById("address_kakao").value = data.address; // 주소 넣기
+		                document.querySelector("input[name=reciDetailAddress]").focus(); // 상세입력 포커싱
+		            }
+		        }).open();
+		    });
+	} 
+	
+	
+	
+	
+	
+	</script>
 </body>
 </html>

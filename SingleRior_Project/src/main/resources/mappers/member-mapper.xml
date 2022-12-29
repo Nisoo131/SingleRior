@@ -538,14 +538,24 @@
 		join product using(product_no)
 		join board using using(board_no)
         join order_product op using(order_no)
-		where member_id =#{memberId} 	
-		<if test="status != '전체'">
-			<if test="status != '구매확정'">
-				and status = #{status}
+		where member_id =#{memberId}
+		<if test="review != review">
+			<if test="status != '전체'">
+				<if test="status != '구매확정'">
+					and status = #{status}
+				</if>
+				<if test="status == '구매확정'">
+					and (od.status = '구매확정' or od.status = '리뷰작성')
+				</if>
 			</if>
-			<if test="status == '구매확정'">
-				and (od.status = '구매확정' or od.status = '리뷰작성')
-			</if>
+		</if>
+		<if test="review == review">
+				<if test="status == '구매확정'">
+					and od.status = '구매확정'
+				</if>
+				<if test="status == '리뷰작성'">
+					and od.status = '리뷰작성'
+				</if>
 		</if>
 		<if test="date == '1개월'">
 			 and order_DATE >= to_char(add_months(sysdate,-1),'YYYYMMDD')
@@ -595,6 +605,7 @@
 		<result column="PRODUCT_OPTION" property="productOption"/>
 		<result column="board_title" property="boardTitle"/>
 		<result column="ORDER_DETAIL_NO" property="orderDetailNo"/>
+		<result column="DELIVERY_MSG" property="deliveryMsg"/>
 	</resultMap>
 	
 	<select id="getMyReviewList" resultMap="reviewResultSet">
@@ -641,4 +652,13 @@
 	set ORDER_TOTAL_STATUS = '취소예정'
 	where order_no = #{orderNo}
 	</update>
+	
+	<select id="orderDetailList" resultMap="orderResultSet">
+	select *
+	from order_product  op
+	join order_detail od using(order_no)
+	join product p using(product_no)
+	join board using using(board_no)
+	where order_no = #{orderNo}
+	</select>
 </mapper>

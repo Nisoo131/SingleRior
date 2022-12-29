@@ -31,4 +31,5 @@ public class Order {
 	 private String reciPhone;
 	 private int orderTotalPrice;
 	 private int orderDetailNo;
+	 private String deliveryMsg;
 }

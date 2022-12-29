@@ -51,7 +51,6 @@
 						    	<td scope="row" width="250" rowspan="3"><img src="${ contextPath }/resources/uploadFiles/${aList[a.index].imgRename}" width="160"></td>
 						    	<td>
 							    	<span>${pList[a.index].productName}</span><br><br><br>
-							    	<br><br><br>
 							    	<div>
 								    	<span>문의 유형 : ${pi.inquiryTitle}</span><br><br>
 										<span>Q. &nbsp;&nbsp;${pi.inquiryContent}</span>

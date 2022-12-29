@@ -93,7 +93,7 @@
 			<c:if test="${ !empty oiList }">
 				<c:forEach items="${ oiList }" var="oi">
 					<div class="orderDetail">
-						<span>주문번호 : ${ oi.orderDate }-${oi.orderNo }</span>&nbsp;&nbsp;&nbsp;
+						<span>주문번호 : ${fn:replace(oi.orderDate, '-', '')}${oi.orderNo }</span>&nbsp;&nbsp;&nbsp;
 						<span>주문일자 : ${ oi.orderDate }</span>
 						<form action="${contextPath}/orderProductDetail.me" method="post" class="detailForm">
 							<span class="orderProductDetail">상세보기</span><br><br>
@@ -139,7 +139,7 @@
 							<input type="hidden" value="${ oi.orderDetailNo }">
 						</c:if>
 						<c:if test="${ oi.status == '주문취소'}">
-							<button type="button" class="orderStatusBtn btn btn-light orderReview" data-bs-toggle="modal" data-bs-target="#orderReviewModal">
+							<button type="button" class="orderStatusBtn btn btn-light orderReview" data-bs-toggle="modal" data-bs-target="">
 							 주문취소조회
 							</button>
 							<input type="hidden" value="${ oi.orderDetailNo }">
