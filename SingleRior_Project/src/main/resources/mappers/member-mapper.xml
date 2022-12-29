@@ -682,4 +682,10 @@
 		set status = #{status}
 		where order_detail_no = #{orderDetailNo}
 	</update>
+	
+	<update id="changeDeliveryAddress">
+		update order_product
+		set RECIPIENT = #{recipient} , RECI_ADDRESS =#{reciAddress}, RECI_PHONE = #{reciPhone}, DELIVERY_MSG = #{deliveryMsg}
+		where order_no = #{orderNo}
+	</update>
 </mapper>
