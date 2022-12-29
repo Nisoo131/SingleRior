@@ -37,9 +37,9 @@
 	<insert id="marketBoardInsert">
 		insert all
 			into board
-		values(SEQ_BID.nextval, #{boardType}, #{boardTitle}, #{boardContent}, sysdate, sysdate, default, default,#{writer}, default, default)
+		values(SEQ_BID.nextval, #{boardType}, #{boardTitle}, #{boardContent}, sysdate, sysdate, default, default, #{writer}, default, default)
 			into MARKET
-		values(SEQ_BID.currval, #{marketPrice}, #{marketType})
+		values(SEQ_BID.currval, #{marketPrice}, #{marketType}, default, default, #{location})
 		select * from dual
 	</insert>
 	
@@ -82,7 +82,7 @@
 			and m.MARKET_TYPE = #{marketType}
 		</if>
 		
-		<if test="marketSearch != null and searchType!=0">
+		<if test="marketSearch != null">
 			<if test=" searchType==1">
 			and (BOARD_TITLE LIKE '%'||#{marketSearch}||'%')
 			</if>
@@ -92,6 +92,12 @@
 			<if test=" searchType==3">
 			and (BOARD_WRITER LIKE '%'||#{marketSearch}||'%')
 			</if>
+			<if test=" searchType==0">
+			and (BOARD_WRITER LIKE '%'||#{marketSearch}||'%')
+			and (BOARD_CONTENT LIKE '%'||#{marketSearch}||'%')
+			and (BOARD_TITLE LIKE '%'||#{marketSearch}||'%')
+			</if>
+			
 		</if>
 		
 		<if test="marketArray == 1">
@@ -126,13 +132,12 @@
 				</if>
 				order by BOARD_COUNT desc)
 		<![CDATA[
-		where rownum <= 8
+		where rownum <= 6
 		]]>
 	</select>
 		
 	<select id="topAttmListSelect" resultMap = "attachmentResultSet">
-		select *        
-		from(
+		
 				select *
 				from IMG_REPOSITORY
 		            join board b on(BOARD_NO=IMG_KEY)
@@ -142,10 +147,8 @@
 				<if test="marketType > 0">
 				and MARKET_TYPE = #{marketType}
 				</if>
-				order by BOARD_COUNT desc)
-		<![CDATA[
-		where rownum <= 8
-		]]>
+				order by BOARD_COUNT desc
+		
 	</select>
 	
 	<resultMap type="WishList" id="wishListResultSet">

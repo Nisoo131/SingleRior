@@ -51,10 +51,12 @@
 							<option value="3">삽니다</option>
 						</select>
 						
-							<label for="boardTitle" class="form-label">TITLE</label>
-							<input type="text" class="form-control" id="boardTitle" name="boardTitle">
-							<label for="marketPrice" class="form-label">PRICE</label>
-							<input type="number" min="0" class="form-control" id="marketPrice" name="marketPrice">
+							<label for="boardTitle" class="form-label" style="font-size: 14px;">제목</label>
+							<input type="text" class="form-control" id="boardTitle" name="boardTitle" placeholder="제목을 입력해주세요.">
+							<label for="marketPrice" class="form-label"  style="font-size: 14px;">가격</label>
+							<input type="number" min="0" class="form-control" id="marketPrice" name="marketPrice" placeholder="가격을 입력해주세요.">
+							<label for="marketPrice" class="form-label"  style="font-size: 14px;">직거래 장소</label>
+							<input type="text"  class="form-control" id="location" name="location" placeholder="직거래 장소를 입력해주세요." onclick="openAddress();">
 						</div>
 						
 
@@ -85,7 +87,7 @@
 
 
 	</div>
-	
+		<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 		<script>
 		window.onload=()=>{
 			
@@ -107,6 +109,19 @@
 		$(document).on('click', '.deleteFile', function(){
 					$(this).parent().remove();
 			});
+		
+		const searchAddress = document.getElementById('location');
+		
+    	const openAddress = function(){
+    		new daum.Postcode({
+    			oncomplete: function(data){
+    				searchAddress.value = data.address;
+    			}
+    			
+    			}).open({
+    				 popupTitle: '주소 검색'
+    			})
+    	};
 		
 	</script>
 </body>

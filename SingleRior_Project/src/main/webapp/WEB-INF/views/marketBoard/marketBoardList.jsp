@@ -57,20 +57,22 @@ li a:hover {
 			<div class="carousel-item active" data-bs-interval="10000">
 				<div class="album py-4">
 					<div class="container">
-						<div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-3 p-5 px-4">
-							<c:forEach items="${ topBList }" var="tb" begin="0" end="3" step="1">
-							<div class="col px-4" >
+						<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3 p-5 px-4">
+							<c:forEach items="${ topBList }" var="tb" begin="0" end="2" step="1">
+							<div class="col px-5 p-5 g-3" >
 								<div class="carouselCardSec shadow-sm">
-									<c:forEach items="${ topAList }" var="ta" begin="0" end="3" step="1">
+									<c:forEach items="${ topAList }" var="ta" >
 										<c:if test="${ tb.boardNo eq ta.imgKey }">
 											<c:if test="${ ta.imgOriginalName != '' }">
 												<img src="resources/uploadFiles/${ ta.imgRename }" class="card-img-top" height="225">
-											</c:if>		
-											<c:if test="${ ta.imgOriginalName == '' }">
-												<img class="bd-placeholder-img card-img-top" width="100%" height="225"  src="https://ifh.cc/g/yX3tCA.png">
-											</c:if>
+											</c:if>	
+											<c:set var="topCheck" value="topCheck"/>	
 										</c:if>
 									</c:forEach>
+									<c:if test="${ topCheck != 'topCheck' }">
+										<img class="bd-placeholder-img card-img-top" width="100%" height="225"  src="resources/uploadFiles/SingleRior_logo.png">
+									</c:if>
+									
 									<div class="card-body"  style="padding:15px;">
 									
 									<span style="float: right; font-size: 13px;" class="card-text">${ tb.nickName }</span>
@@ -101,20 +103,22 @@ li a:hover {
 			<div class="carousel-item">
 				<div class="album py-4">
 					<div class="container">
-						<div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-3 p-5 px-4">
-							<c:forEach items="${ topBList }" var="tb" begin="4" end="7" step="1">
-							<div class="col px-4">
+						<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3 p-5 px-4">
+							<c:forEach items="${ topBList }" var="tb" begin="3" end="5" step="1">
+							<div class="col p-5 px-5 g-3">
 								<div class="carouselCardSec shadow-sm">
-									<c:forEach items="${ topAList }" var="ta" begin="4" end="7" step="1">
-										<c:if test="${ tb.boardNo eq ta.imgKey }">
-											<c:if test="${ ta.imgOriginalName != '' }">
-												<img src="resources/uploadFiles/${ ta.imgRename }" class="card-img-top" height="225">
-											</c:if>
-											<c:if test="${ ta.imgOriginalName == '' }">
-												<img class="bd-placeholder-img card-img-top" width="100%" height="225"  src="https://ifh.cc/g/yX3tCA.png">
-											</c:if>
+									<c:forEach items="${ topAList }" var="ta" >
+									<c:if test="${ tb.boardNo eq ta.imgKey }">
+										<c:if test="${ ta.imgOriginalName != '' }">
+											<img src="resources/uploadFiles/${ ta.imgRename }" class="card-img-top" height="225">
 										</c:if>
+										<c:set var="imgCheck" value="imgCheck"/>
+									</c:if>
 									</c:forEach>
+									<c:if test="${ imgCheck != 'imgCheck' }">
+										<img class="bd-placeholder-img card-img-top" width="100%" height="225"  src="https://ifh.cc/g/1Lygac.png">
+									</c:if>
+									
 									<div class="card-body"  style="padding:15px;">
 									<span style="float: right; font-size: 13px;" class="card-text">${ tb.nickName }</span>
 										<p class="card-text">${tb.boardTitle }</p>
@@ -154,32 +158,32 @@ li a:hover {
 	<br>
 	
 	<!-- 정렬 -->
-  		<div class="row row-cols-1 row-cols-md-5 g-4" style="margin-left: 350px; margin-right: 350px;">
+  		<div class="row row-cols-1 row-cols-md-5 g-4" style="margin-left: 350px; margin-right: 300px;">
   			<div class="row px-1">
-			  	<div class="col-md-2" style="width: 380px;">
+			  	<div class="col-md-2" style="width: 680px;">
 			  		<div class="row border rounded overflow-hidden flex-md-row shadow-sm  position-relative mt-2 mb-5">
 			  			<div class="col py-2 d-flex flex-column position-static px-3">
 			  				<table>
 			  					<tr style="text-align: center; height: 35px;">
-			  						<td id="list1" width="80px;">
+			  						<td id="list1" >
 			  							<a class="nav-link active" href="marketBoardList.ma?marketArray=0&marketType=${marketType}">
 				  							<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-check-lg me-1" viewBox="0 0 16 16">
 				  								<path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022Z"/>
 				  							</svg>최신순
 			  							</a>
 			  						</td>
-			  						<td id="list2" width="120px;">
+			  						<td id="list2" >
 			  							<a class="nav-link active" href="marketBoardList.ma?marketArray=1&marketType=${marketType}">
 				  							<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-check-lg me-1" viewBox="0 0 16 16">
 				  								<path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022Z"/>
-				  							</svg>좋아요 많은 순
+				  							</svg>좋아요순
 			  							</a>
 			  						</td>
 			  						<td id="list3">
 			  							<a class="nav-link active" href="marketBoardList.ma?marketArray=2&marketType=${marketType}">
 				  							<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-check-lg me-1" viewBox="0 0 16 16">
 				  								<path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022Z"/>
-				  							</svg>댓글 많은 순
+				  							</svg>댓글순
 			  							</a>
 			  						</td>
 			  					</tr>
@@ -198,21 +202,22 @@ li a:hover {
 <br>
 <br>
 <!-- 글 리스트 -->	
-	<div class="row row-cols-1 row-cols-md-5 g-4" style="margin-left: 350px; margin-right: 350px;">
+	<div class="row row-cols-1 row-cols-md-4 g-4" style="margin-left: 350px; margin-right: 350px;">
 		<c:forEach items="${ mkBList }" var="mkB">
-	
 		<div class="col px-4">
 			<div class="cards shadow-sm">
 			<c:forEach items="${ mkAList }" var="mkA">
 			<c:if test="${ mkB.boardNo eq mkA.imgKey }">
 				<c:if test="${ mkA.imgOriginalName != '' }">
 					<img src="resources/uploadFiles/${ mkA.imgRename }" class="card-img-top" height="225">
-				</c:if>		
-				<c:if test="${ mkA.imgOriginalName == ' '}">
-				<img class="bd-placeholder-img card-img-top" width="100%" height="225"  src="resources/uploadFiles/SingleRior_logo.png" >
-				</c:if>
+				</c:if>	
+				<c:set var="check" value="check"/>
 			</c:if>
 			</c:forEach>
+			<c:if test="${ check != 'check' }">
+				<img class="bd-placeholder-img card-img-top" width="100%" height="225"  src="https://ifh.cc/g/1Lygac.png" >
+			</c:if>
+			
 				<div class="card-body" style="padding:15px;">
 				<span style="float: right; font-size: 13px;" class="card-text">${ mkB.nickName }</span>
 					<p class="card-text" style="font-size: 18px;">${ mkB.boardTitle }</p>
@@ -230,28 +235,27 @@ li a:hover {
 		</div>
 		</c:forEach>
 	</div>
-	     			<ul class="pagination" style="justify-content: center;">
-					<c:if test="${ pi.currentPage > 1 }">
-					<li class="page-item"><c:url var="goBack" value="${ loc }">
-							<c:param name="page" value="${ pi.currentPage-1 }"></c:param>
-						</c:url> <a class="page-link" href="${ goBack }" aria-label="Previous">
-							<span aria-hidden="true">&laquo;</span>
-					</a></li>
-					</c:if>
-					<c:forEach begin="${ pi.startPage }" end="${ pi.endPage }" var="p">
-						<c:url var="goNum" value="${ loc }">
-							<c:param name="page" value="${ p }"></c:param>
-						</c:url>
-						<li class="page-item"><a class="page-link" href="${ goNum }">${ p }</a></li>
-					</c:forEach>
-					<c:if test="${ pi.currentPage < pi.maxPage }">
-					<li class="page-item"><c:url var="goNext" value="${ loc }">
-							<c:param name="page" value="${ pi.currentPage+1 }"></c:param>
-						</c:url> <a class="page-link" href="${ goNext }" aria-label="Next"> <span
-							aria-hidden="true">&raquo;</span>
-					</a></li>
-					</c:if>
-				</ul>
+	     <ul class="pagination" style="justify-content: center;">
+		<c:if test="${ pi.currentPage > 1 }">
+			<li class="page-item"><c:url var="goBack" value="${ loc }">
+				<c:param name="page" value="${ pi.currentPage-1 }"></c:param>
+				</c:url> <a class="page-link" href="${ goBack }" aria-label="Previous">
+				<span aria-hidden="true">&laquo;</span></a>
+			</li>
+		</c:if>
+		<c:forEach begin="${ pi.startPage }" end="${ pi.endPage }" var="p">
+		<c:url var="goNum" value="${ loc }">
+		<c:param name="page" value="${ p }"></c:param>
+		</c:url>
+		<li class="page-item"><a class="page-link" href="${ goNum }">${ p }</a></li>
+		</c:forEach>
+		<c:if test="${ pi.currentPage < pi.maxPage }">
+			<li class="page-item"><c:url var="goNext" value="${ loc }">
+				<c:param name="page" value="${ pi.currentPage+1 }"></c:param>
+				</c:url> <a class="page-link" href="${ goNext }" aria-label="Next"> <span aria-hidden="true">&raquo;</span></a>
+			</li>
+		</c:if>
+		</ul>
 				        	
 				        	
 	        
@@ -261,7 +265,7 @@ li a:hover {
 		        	<tr>
 		        		<td>
 				        	<select name="searchType" class="form-select form-select-sm" aria-label=".form-select-sm example" style="width: 120px; text-align: center;">
-				        		<option>--------</option>
+				        		<option value="0">--------</option>
 				        		<option value="1">제목</option>
 				        		<option value="2">내용</option>
 				        		<option value="3">작성자</option>
