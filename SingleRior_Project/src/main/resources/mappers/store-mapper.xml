@@ -70,7 +70,7 @@
 		     join product using (board_no)
 		     join product_sub_Cate using(pro_subcate_code)
 		     join product_top_Cate using(pro_topcate_code) 
-		where b_status = 'Y' and board_type='1' and pro_subcate_code=#{subCate}
+		where product_status = 'Y' and board_type='1' and pro_subcate_code=#{subCate}
 		order by board_no desc
    </select>
    
