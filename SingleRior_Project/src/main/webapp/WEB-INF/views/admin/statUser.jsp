@@ -1,6 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ page import="java.util.Date" %>
+<%
+  Date now = new Date();
+%>
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -70,22 +76,13 @@
              <div id="layoutSidenav_content">
                 <main>
                     <div class="container-fluid px-4">
-                        <h1 class="mt-4">Charts</h1>
-                        <ol class="breadcrumb mb-4">
-                            <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
-                            <li class="breadcrumb-item active">Charts</li>
-                        </ol>
+                        <h1 class="mt-4">방문 및 사용자 통계</h1>
                         <div class="card mb-4">
-                            <div class="card-body">
-                                Chart.js is a third party plugin that is used to generate the charts in this template. The charts below have been customized - for further customization options, please visit the official
-                                <a target="_blank" href="https://www.chartjs.org/docs/latest/">Chart.js documentation</a>
-                                .
-                            </div>
                         </div>
                         <div class="card mb-4">
                             <div class="card-header">
                                 <i class="fas fa-chart-area me-1"></i>
-                                Area Chart Example
+                                회원 가입 현황
                             </div>
                             <div class="card-body"><canvas id="myAreaChart" width="100%" height="30"></canvas></div>
                             <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
@@ -95,20 +92,20 @@
                                 <div class="card mb-4">
                                     <div class="card-header">
                                         <i class="fas fa-chart-bar me-1"></i>
-                                        Bar Chart Example
+                                        일일/누적 회원가입 통계
                                     </div>
-                                    <div class="card-body"><canvas id="myBarChart" width="100%" height="50"></canvas></div>
-                                    <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+                                    <div class="card-body"><canvas id="userSum"></canvas></div>
+                                    <div class="card-footer small text-muted">마지막 업데이트 일시: <fmt:formatDate pattern="yyyy년 MM월 dd일 hh시 mm분" value="<%= now %>"/></div>
                                 </div>
                             </div>
                             <div class="col-lg-6">
                                 <div class="card mb-4">
                                     <div class="card-header">
                                         <i class="fas fa-chart-pie me-1"></i>
-                                        Pie Chart Example
+                                        사용자 컨텐츠 조회수
                                     </div>
-                                    <div class="card-body"><canvas id="myPieChart" width="100%" height="50"></canvas></div>
-                                    <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+                                    <div class="card-body"><canvas id="viewContentChart" width="100%" height="50"></canvas></div>
+                                    <div class="card-footer small text-muted">마지막 업데이트 일시: <fmt:formatDate pattern="yyyy년 MM월 dd일 hh시 mm분" value="<%= now %>"/></div>
                                 </div>
                             </div>
                         </div>
@@ -124,6 +121,115 @@
                     </div>
                 </footer>
             </div>
+            
+            
+            <script>
+            
+            			
+            		var max=parseInt('${list[0].C}');
+            		var max2=parseInt('${list[0].B}');
+		            var ctx = document.getElementById('userSum').getContext('2d');
+		            var chart = new Chart(ctx, {
+		                // type : 'bar' = 막대차트를 의미합니다.
+		                type: 'bar', // 
+		                data: {
+		                    labels: ['${list[4].A}','${list[3].A}','${list[2].A}','${list[1].A}','${list[0].A}'],
+		                    datasets: [{
+		                        label: '일일 회원 가입자 수',
+		                        type : 'line',         // 'line' type
+		                        fill : false,         // 채우기 없음
+		                        lineTension : 0.2,  // 0이면 꺾은선 그래프, 숫자가 높을수록 둥글해짐
+		                        pointRadius : 0,    // 각 지점에 포인트 주지 않음
+		                        backgroundColor: 'rgb(255, 99, 132,0.7)',
+		                        borderColor: 'rgb(255, 99, 132,0.7)',
+		                        data: ['${list[4].B}','${list[3].B}','${list[2].B}','${list[1].B}','${list[0].B}'],
+		                        yAxisID: 'right-y-axis'
+		                    },{
+		                        label: '누적 회원 가입자 수',
+		                        backgroundColor: 'rgb(54, 162, 235,0.7)',
+		                        borderColor: 'rgb(54, 162, 235,0.7)',
+		                        data: ['${list[4].C}','${list[3].C}','${list[2].C}','${list[1].C}','${list[0].C}'],
+		                        yAxisID: 'left-y-axis'
+		                    
+		                    }]
+		                },
+		                options: {
+		                    scales: {
+		                        yAxes: [{
+		                            id: 'left-y-axis',
+		                            scaleShowGridLines : false,
+		                            type: 'linear',
+		                            position: 'left',
+		                            ticks:{
+		                            	min:10,
+		                            	stepSize:15,
+		                            	max:max+20,
+		                            	display:true
+		                            }
+		                        }, {
+		                            id: 'right-y-axis',
+		                            scaleShowGridLines : false,
+		                            type: 'linear',
+		                            position: 'right',
+		                            ticks:{
+		                            	min:0,
+		                            	stepSize:10,
+		                            	max:10,
+		                           		display: true
+		                            }
+		                        }]
+		                    }
+		                }
+		                
+		            });
+		            var context = document.getElementById('viewContentChart').getContext('2d');
+		            var myChart = new Chart(context, {
+		                type: 'pie', // 차트의 형태
+		                data: { // 차트에 들어갈 데이터
+		                    labels: [
+		                        //x 축
+		                        '스토어','씽씽마켓','싱글벙글'
+		                    ],
+		                    datasets: [
+		                        { //데이터
+		                            label: '컨텐츠 조회수', //차트 제목
+		                            fill: false, // line 형태일 때, 선 안쪽을 채우는지 안채우는지
+		                            data: [
+		                                '${viewContent[0].B}','${viewContent[1].B}','${viewContent[2].B}' //x축 label에 대응되는 데이터 값
+		                            ],
+		                            backgroundColor: [
+		                                //색상
+		                                'rgba(255, 99, 132,0.7)',
+		                                'rgba(54, 162, 235,0.7)',
+		                                'rgba(255, 206, 86,0.7)'
+		                            ],
+		                            borderColor: [
+		                                //경계선 색상
+		                                'rgba(255, 99, 132, 1)',
+		                                'rgba(54, 162, 235, 1)',
+		                                'rgba(255, 206, 86, 1)'
+		                                
+		                            ],
+		                            borderWidth: 1 //경계선 굵기
+		                        }/* ,
+		                        {
+		                            label: 'test2',
+		                            fill: false,
+		                            data: [
+		                                8, 34, 12, 24
+		                            ],
+		                            backgroundColor: 'rgb(157, 109, 12)',
+		                            borderColor: 'rgb(157, 109, 12)'
+		                        } */
+		                    ]
+		                },
+		            });
+
+            
+            
+            
+            </script>
+            
         
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
         <script src='${ pageContext.servletContext.contextPath }/resources/js/scripts.js'></script>

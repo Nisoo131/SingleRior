@@ -1,6 +1,7 @@
 package com.E1I4.project.admin.model.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.E1I4.project.admin.model.dao.AdminDAO;
+import com.E1I4.project.admin.model.vo.OrderProducts;
 import com.E1I4.project.common.model.vo.Attachment;
 import com.E1I4.project.common.model.vo.Board;
 import com.E1I4.project.common.model.vo.InquiryAdmin;
@@ -251,6 +253,23 @@ public class AdminServiceImpl implements AdminService {
 	public ArrayList<InquiryAdmin> inquiryAns() {
 		return aDAO.inuiryAns(sqlSession);
 	}
+
+	@Override
+	public ArrayList<HashMap<String, Object>> enrollUserSum() {
+		return aDAO.enrollUserSum(sqlSession);
+	}
+
+	@Override
+	public ArrayList<HashMap<String, Object>> viewContentSum() {
+		return aDAO.viewContentSum(sqlSession);
+	}
+
+	@Override
+	public ArrayList<OrderProducts> selectOrderProducts() {
+		return aDAO.selectOrderProducts(sqlSession);
+	}
+
+
 
 
 	

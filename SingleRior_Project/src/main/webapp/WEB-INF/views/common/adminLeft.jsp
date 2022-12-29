@@ -88,7 +88,7 @@
                                 <nav class="sb-sidenav-menu-nested nav">
                                     <a class="nav-link" href="${contextPath}/insertProduct.adm">상픔 등록</a>
                                     <a class="nav-link" href="${contextPath}/manageProduct.adm">등록된 상품 리스트 </a>
-                                    <a class="nav-link" href="${contextPath}/orderList.adm">주문 목록 리스트 </a>
+                                    <a class="nav-link" href="${contextPath}/manageOrder.adm">주문 목록 리스트 </a>
                                 </nav>
                             </div>
 

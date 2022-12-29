@@ -153,7 +153,19 @@
 		<result column="INQUIRY_ANSWER" property="inquiryAnswer"/>
 		<result column="ADMIN_STATUS" property="adminStatus"/>
 	</resultMap>
-
+	
+	<resultMap type="OrderProducts" id="OrderProductsResultSet">
+		<id column="ORDER_NO" property="orderNo"/>
+		<result column="PRODUCTS" property="products"/>
+		<result column="ORDER_TOTAL_PRICE" property="orderTotalPrice"/>
+		<result column="RECIPIENT" property="recipient"/>
+		<result column="RECI_ADDRESS" property="reciAddress"/>
+		<result column="MEMBER_ID" property="memberId"/>
+		<result column="RECI_PHONE" property="reciPhone"/>
+		<result column="ORDER_DATE" property="orderDate"/>
+		<result column="ORDER_TOTAL_STATUS" property="orderTotalStatus"/>
+	</resultMap>
+	
 	<insert id="insertProduct">
 		insert all
 			into board values(seq_bid.nextval,1,#{productName},#{productContent},sysdate,sysdate,default,default,#{boardWriter},default,default)
@@ -345,6 +357,7 @@
 		update Board
 		set board_title=#{boardTitle}, board_content=#{boardContent}, modify_date=sysdate
 		where board_no=#{boardNo}
+		
 	</update>
 	<update id="QNAEdit">
 	
@@ -354,13 +367,17 @@
 	
 	</update>
 	<update id="deleteQNA">
+	
 		update board
 		set b_status='N'
 		where board_no=#{bNo}
+		
 	</update>
 	<insert id="insertBannerBoard">
+	
 		insert into board
 		values(seq_bid.nextval,#{boardType},#{boardTitle},#{boardContent},sysdate,sysdate,default,default,#{writer},default,default)
+		
 	</insert>		
 	<select id="selectBannerBoard" resultMap="boardResultSet">
 		select *
@@ -498,13 +515,36 @@
 		    join product_top_cate on(product_top_cate.pro_topcate_code=product_sub_cate.pro_topcate_code)
 		    join board on(product.board_no=board.board_no)
 		where admin_status='Y'
+	</select>
+	<select id="selectEnrollUser" resultType="map">
+		
+		select a,b,c
+		from(select to_char(enrolldate,'yyyy/mm/dd') as a, count(*) as b,sum(count(*)) over(order by to_char(enrolldate,'yyyy/mm/dd')) as c 
+    			from member
+    			group by TO_CHAR(enrolldate, 'yyyy/mm/dd')
+    			order by a desc)
+		where rownum<![CDATA[<]]>=5
 	
 	
+	</select>	
+	<select id="viewCountSum" resultType="map">
+	
+	select board_type as A,sum(board_count) as B
+	from board
+	where board_type=1 or board_type=2 or board_type=3
+	group by board_type
 	
 	</select>
+	<select id="selectOrderProducts" resultMap="OrderProductsResultSet">
 	
-	
-	
+	SELECT OP.ORDER_NO,LISTAGG(BOARD_TITLE,',') WITHIN GROUP(ORDER BY BOARD_TITLE) AS "PRODUCTS",ORDER_TOTAL_PRICE,RECIPIENT,RECI_ADDRESS,MEMBER_ID,RECI_PHONE,ORDER_DATE,ORDER_TOTAL_STATUS
+	FROM ORDER_PRODUCT OP
+    	JOIN ORDER_DETAIL OD ON(OP.ORDER_NO=OD.ORDER_NO)
+    	JOIN PRODUCT P ON(P.PRODUCT_NO=OD.PRODUCT_NO)
+    	JOIN BOARD B ON(B.BOARD_NO=P.BOARD_NO)
+	GROUP BY OP.ORDER_NO,ORDER_TOTAL_PRICE,RECIPIENT,RECI_ADDRESS,MEMBER_ID,ORDER_DATE,ORDER_TOTAL_STATUS,RECI_PHONE
+
+	</select>
 	
 	
 	

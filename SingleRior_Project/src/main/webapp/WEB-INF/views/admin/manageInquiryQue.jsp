@@ -133,7 +133,7 @@
 										      </div>
 										      <div class="modal-footer">
 										        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-										        <button type="button" class="btn btn-primary" id="showProduct">상품보기</button>
+										        <button type="button"  class="btn btn-warning" id="showProduct" onclick="location.href='${contextPath}/productDetail.st?productNo=${i.productNo}'">상품보기</button>
 										      </div>
 										    </div>
 										  </div>
@@ -225,6 +225,7 @@
         
         
         <script>
+        
         
 			 $(function(){
 				 $(document).on('click','.btn-primary',function(){

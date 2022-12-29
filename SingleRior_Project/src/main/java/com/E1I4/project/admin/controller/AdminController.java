@@ -4,6 +4,7 @@ import java.io.File;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -19,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.E1I4.project.admin.model.service.AdminService;
+import com.E1I4.project.admin.model.vo.OrderProducts;
 import com.E1I4.project.common.Pagination;
 import com.E1I4.project.common.exception.AdminException;
 import com.E1I4.project.common.exception.ProductException;
@@ -484,7 +486,23 @@ public class AdminController {
 		}
 		
 	}
-	
+	@RequestMapping("manageOrder.adm")
+	public String orderList(OrderProducts op,Model model) {
+		ArrayList<OrderProducts> list = aService.selectOrderProducts();
+		
+		for(int i=0;i<list.size();i++) {
+			String[] arr=list.get(i).getProducts().split(",");
+			int arrLen=arr.length;
+			
+			if(arrLen==1) {
+			list.get(i).setProducts(arr[0]);	
+			}else {
+			list.get(i).setProducts(arr[0]+" 외 "+(arrLen-1)+"개");
+			}
+		}
+		model.addAttribute("list",list);
+		return "manageOrder";
+	}
 	
 	@RequestMapping("detailNotice.adm")
 	public ModelAndView detailNotice(@RequestParam("bNo") int bNo,@RequestParam("page") int page,@RequestParam("boardWriter") String boardWriter,HttpSession session,ModelAndView mv) {
@@ -509,10 +527,7 @@ public class AdminController {
 		}else {
 			throw new AdminException("공지사항 상세보기 실패");
 		}
-		
-		
 	}
-	
 	
 	@RequestMapping("manageNotice.adm")
 	public String managerNotice(@RequestParam(value="page", required=false)Integer page,Model model) {
@@ -532,6 +547,7 @@ public class AdminController {
 	public String insertNotice(){
 		return "insertNotice";
 	}
+	
 	@RequestMapping("enrollNotice.adm")
 	public String enrollNotice(HttpSession session, @ModelAttribute Notice n,Model model){
 		String id=((Member)session.getAttribute("loginUser")).getMemberId();		
@@ -869,23 +885,29 @@ public class AdminController {
 	
 		model.addAttribute("list",list);
 		return "manageInquiryAns";
-	
 	}
 	
-	
-	
-	
-	
-	
-	@RequestMapping("orderList.adm")
-	public String orderList() {
-		return "orderList";
-	}
-
 	@RequestMapping("statUser.adm")
-	public String statUser() {
+	public String statUser(Model model) {
+
+		ArrayList<HashMap<String,Object>> list = aService.enrollUserSum();
+		ArrayList<HashMap<String,Object>> viewContent = aService.viewContentSum();
+
+		
+		model.addAttribute("list",list);
+		model.addAttribute("viewContent",viewContent);
 		return "statUser";
 	}
+	@RequestMapping("detailOrder.adm")
+	public String detailOrder() {
+		
+		
+		
+		
+		return "detailOrder";
+	}
+	
+	
 	@RequestMapping("statProduct.adm")
 	public String statProduct() {
 		return "statProduct";
