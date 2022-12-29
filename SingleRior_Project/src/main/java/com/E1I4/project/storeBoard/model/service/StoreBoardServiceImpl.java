@@ -1,7 +1,7 @@
 package com.E1I4.project.storeBoard.model.service;
 
 import java.util.ArrayList;
-
+import java.util.List;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -84,6 +84,11 @@ public class StoreBoardServiceImpl implements StoreBoardService{
 	@Override
 	public Member getUserInfo(String id) {
 		return sDAO.getUserInfo(sqlSession, id);
+	}
+
+	@Override
+	public Cart getCartInfo(int i) {
+		return sDAO.getCartInfo(sqlSession, i);
 	}
 
 

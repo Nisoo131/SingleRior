@@ -38,6 +38,10 @@ public interface StoreBoardService {
 
 	Member getUserInfo(String id);
 
+	Cart getCartInfo(int i);
+
+
+
 
 
 	

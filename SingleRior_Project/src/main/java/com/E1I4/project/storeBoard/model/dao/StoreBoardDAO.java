@@ -79,6 +79,11 @@ public class StoreBoardDAO {
 		return sqlSession.selectOne("storeMapper.getUserInfo", id);
 	}
 
+	public Cart getCartInfo(SqlSessionTemplate sqlSession, int i) {
+		return sqlSession.selectOne("storeMapper.getCartInfo", i);
+	}
+
+
 	
 
 
