@@ -831,35 +831,37 @@ public class MemberController {
 		return "myReviewNDoneList";
 	}
 	@RequestMapping("insertReview.me")
-	public String insertReview(@RequestParam("orderDetailNo") int orderDetailNo, @ModelAttribute Review review, @RequestParam(value="file", required=false) MultipartFile file, HttpServletRequest request, HttpSession session) {
+	public String insertReview(@RequestParam("orderDetailNo") int orderDetailNo, @ModelAttribute Review review,@RequestParam(value="file", required=false) MultipartFile file, HttpServletRequest request, HttpSession session) {
 		String id = ((Member)request.getSession().getAttribute("loginUser")).getMemberId();
 		
+		
+		System.out.println("file : "+file);
 		review.setMemberId(id);
 		review.setOrderDetailNo(orderDetailNo);
 		
 		System.out.println(review);
-		System.out.println(orderDetailNo);
+//		System.out.println(orderDetailNo);
 		
 //		int reviewResult = mService.insertReview(review);
 		
-		String strRNo = Integer.toString(review.getReviewNo());
+//		String strRNo = Integer.toString(review.getReviewNo());
 		
-		System.out.println(file);
+//		System.out.println(file);
 		
-		Attachment attm = new Attachment();
+//		Attachment attm = new Attachment();
 		
-		String fileName = file.getOriginalFilename();
-		if(!fileName.equals("")) {
-			String[] returnArr = saveFile(file, request);
-					
-			if(returnArr[1] != null) {
-				attm.setImgOriginalName(file.getOriginalFilename());
-				attm.setImgRename(returnArr[1]);
-				attm.setImgPath(returnArr[0]);
-				attm.setImgKey(strRNo);
-				attm.setBoardType(7);
-			}
-		}
+//		String fileName = file.getOriginalFilename();
+//		if(!fileName.equals("")) {
+//			String[] returnArr = saveFile(file, request);
+//					
+//			if(returnArr[1] != null) {
+//				attm.setImgOriginalName(file.getOriginalFilename());
+//				attm.setImgRename(returnArr[1]);
+//				attm.setImgPath(returnArr[0]);
+//				attm.setImgKey(strRNo);
+//				attm.setBoardType(7);
+//			}
+//		}
 		
 //		int attmResult = mService.insertReviewAttm(attm);
 		

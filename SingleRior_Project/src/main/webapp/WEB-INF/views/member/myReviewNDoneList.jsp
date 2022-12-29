@@ -151,7 +151,7 @@
 				aria-labelledby="exampleModalLabel" aria-hidden="true">
 				<div class="modal-dialog modal-dialog-centered">
 					<div class="modal-content">
-						<form name="" id="" action="${ contextPath }/insertReview.me" method="post">
+						<form action="${ contextPath }/insertReview.me" method="post" enctype="multipart/form-data">
 							<div class="modal-header">
 								<h3 style="color:#008cd4">여러분의 리뷰를 작성해주세요</h3>
 								<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -192,6 +192,7 @@
 	
 	<script>
 	window.onload = () =>{
+
 		var imgs = document.getElementsByClassName("img");
 // 		console.log(imgs);
 		for(img of imgs){
@@ -221,6 +222,7 @@
 		document.getElementById("orderNo").value = orderNo;
 		document.getElementById("productNo").value = productNo;
 		document.getElementById("boardNo").value = boardNo;
+		
 	});
 	
 	document.getElementById("starNum").addEventListener('input', e=>{
@@ -228,9 +230,11 @@
 		console.log(document.querySelector('#reviewRating').value);
 	});
 	
-	document.getElementById("starNum").addEventListener('click', ()=>{
-		console.log(document.querySelector('#file').value);
-	});
+// 	document.getElementById("starNum").addEventListener('click', ()=>{
+// 		console.log(document.querySelector('#file').value);
+// 	});
+	
+
 	</script>
 	
 	

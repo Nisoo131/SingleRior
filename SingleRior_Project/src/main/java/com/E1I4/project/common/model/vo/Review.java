@@ -26,5 +26,5 @@ public class Review {
 	private String productName;
 	private int productQuantity;
 	private String productOption;
-	private int reviewRating;
+	private double reviewRating;
 }
