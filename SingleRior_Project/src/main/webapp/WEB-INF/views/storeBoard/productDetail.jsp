@@ -125,6 +125,8 @@
 		  <p>구매리뷰 (개수)</p>
 		  <p>배송비 2,500원</p>
 		  <hr>
+		  
+		  
   <!--  상품 옵션창  -->		
 			 <label for ="options">옵션선택</label>
 	           	 <select id="changeOpiton" class="form-select" onChange="selectChange(this.value);" aria-label="Default select example">
@@ -176,8 +178,9 @@
 	 <form action="${ contextPath }/payment.st" method="post" class="order_form">
 		<input type="hidden" name="productNo" value="${ pList[0].productNo }">
 		<input type="hidden" name="productQty" value="">
-		<input type="hidden" name="finalPrice" value="${ pList[0].price-(pList[0].price*pList[0].discount/100)}">
-		<input type="hidden" name="productOption" value="">
+		<input type="hidden" name="productPrice" value="${ pList[0].price}">
+		<input type="hidden" name="productPrice" value="${ pList[0].price}">
+		<input type="hidden" name="discount" value="${ pList[0].discount }">
 		<input type="hidden" name="boardTitle" value="${ pList[0].boardTitle }">
 		<input type="hidden" name="imgRename" value="${ pList[0].imgServerName }">
 	</form> 

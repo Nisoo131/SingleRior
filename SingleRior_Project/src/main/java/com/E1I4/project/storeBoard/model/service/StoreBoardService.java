@@ -38,7 +38,9 @@ public interface StoreBoardService {
 
 	Member getUserInfo(String id);
 
-	Cart getCartInfo(int i);
+	OrderItem getCartInfo(int i);
+
+	String getImgRename(String boardNo);
 
 
 

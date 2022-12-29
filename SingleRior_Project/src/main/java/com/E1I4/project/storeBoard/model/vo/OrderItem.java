@@ -14,33 +14,18 @@ import lombok.ToString;
 @Setter
 @ToString
 public class OrderItem {
-	// view에서 전달 받을 값
+	// view에서 전달 받을 값 , 장바구니NO 받아서 DB에서 가져올 값 맞추기
  private int productNo;
  private String productQty;
- private String finalPrice;
- private String memberId;
- 
-   // DB에서 꺼내올 값
- private String boardTitle;
- private int productPrice;
- private int discount;
- 
-  // 만들어야 할 값
- private int salePrice; // 할인 적용된 가격
- private int totalPrice;
- private int point;
- 
- private int orderNo;
- private int boardNo;
- private String deliveryMessage;
- private String recipient;
- private String address;
- private String phone;
- private Date orderDate;
- private int productQuantity;
- private String status;
+ private int productPrice; // 단가
+ private int discount;     // 할인율 = 할인가격 다시 구하기 
  private String productOption;
+ private String boardTitle;
  private String imgRename;
+ private int cartNo;       // 카트번호
+ private int boardNo;
+ 
+
  
  
 }

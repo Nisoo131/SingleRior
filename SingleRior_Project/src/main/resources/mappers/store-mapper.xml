@@ -164,7 +164,7 @@
 	where member_id = #{id}
    </select>
    
-   <select id="getCartInfo" resultMap="cartResultSet">
+   <select id="getCartInfo" resultMap="OrderItemResultSet">
     SELECT *
 	FROM CART
      	 JOIN PRODUCT USING (PRODUCT_NO)
@@ -172,22 +172,23 @@
     WHERE CART_NO=#{i}
    </select>
    
- <resultMap type="Cart" id="cartResultSet">
-		<id column="CART_NO" property="cartNo"/>
-		<result column="QUANTITY" property="quantity"/>
-		<result column="PAY_STATUS" property="payStatus"/>
-		<result column="PRODUCT_NO" property="productNo"/>
-		<result column="MEMBER_ID" property="memberId"/>
-		<result column="PRODUCT_OPTION" property="productOption"/>
-		<result column="PRODUCT_OPTION_1" property="productOptions"/>
+  <resultMap type="OrderItem" id="OrderItemResultSet">
+		<id column="PRODUCT_NO" property="productNo"/>
+		<result column="QUANTITY" property="productQty"/>
 		<result column="PRODUCT_PRICE" property="productPrice"/>
-		<result column="PRODUCT_DISCOUNT" property="productDiscount"/>
-		<result column="BRAND" property="brand"/>
-		<result column="IMG_SERVER_NAME" property="imgRename"/>
+		<result column="PRODUCT_DISCOUNT" property="discount"/>
+		<result column="PRODUCT_OPTION" property="productOption"/>
 		<result column="BOARD_TITLE" property="boardTitle"/>
+		<result column="IMG_SERVER_NAME" property="imgRename"/>
+		<result column="CART_NO" property="cartNo"/>
 		<result column="BOARD_NO" property="boardNo"/>
    </resultMap>
    
+   <select id="getImgRename" resultType="string">
+   	select img_server_name
+   	from img_repository
+   	where img_key =  #{boardNo} and img_level = 0
+   </select>
    
  
 </mapper>

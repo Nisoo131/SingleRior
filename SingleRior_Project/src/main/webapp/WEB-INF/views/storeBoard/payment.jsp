@@ -11,9 +11,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
 <title>Insert title here</title>
 <script src="http://code.jquery.com/jquery-1.12.4.min.js"></script> 
-<script type="text/javascript" src="https://service.iamport.kr/js/iamport.payment-1.1.5.js"></script>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-<script src="https://service.iamport.kr/js/iamport.payment-1.1.5.js"></script>
+<!-- iamport.payment.js -->
+<script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.8.js"></script>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
 <style>
@@ -116,16 +116,18 @@
 			       </table>
 			       <br><br>
 			      
-			  <%-- ${ orderList } --%>
+			 
 			  <%-- ${ member } --%>
-
-	  <!-- 주문정보 바로 보내기 -->			        
+				
+				<%-- ${ orderItem } --%>
+		        
 				   <h5 class="blog-post-title mb-1">▶상품 정보</h5>
 				   <hr>
-				   <c:if test="${ !empty orderList }">
+				   <c:set var ="sum" value="0"/>
+				   <c:forEach items="${ orderItem }" var="o" varStatus="status">
 				       <table class="table">   
 					   <tr height="15">
-					    	<td scope="row" width="250" rowspan="2" class="bottomNone"><img src="${ contextPath }/resources/uploadFiles/${orderList.imgRename }"1 width="100"></td>
+					    	<td scope="row" width="250" rowspan="2" class="bottomNone"><img src="${ contextPath }/resources/uploadFiles/${o.imgRename }"1 width="100"></td>
 					     	<td width="350">상품</td>
 					      	<td width="350">옵션/수량</td>
 					      	<td width="250">총 상품 금액</td>
@@ -133,57 +135,28 @@
 					   	</tr>
 					   	<tr>
 					     	<td class="bottomNone">
-					      		<div>${ orderList.boardTitle }</div>
+					      		<div>${ o.boardTitle }</div>
 					      	</td>
 					      	<td class="bottomNone">
-								<div>옵션 : ${ orderList.productOption } </div>
-								<div>수량 : ${ orderList.productQty }</div>		      
+								<div>옵션 : ${ o.productOption } </div>
+								<div>수량 : ${ o.productQty }</div>		      
 					      	</td>
 					      	<td class="bottomNone">
-				
-					      	<fmt:formatNumber type="number" maxFractionDigits="3" value="${ orderList.finalPrice * orderList.productQty }" var="totalPrice" />
-					      		<div><span class="price" style="color:red;">${ totalPrice } 원</span>
+					     
+							  <c:set var="discountPrice" value="${ o.productPrice-(o.productPrice*o.discount/100)}"/> 	
+					        	 <div style="color:red;">
+					        	   	<span>
+					        	   		<fmt:formatNumber type="number" maxFractionDigits="3" value="${ discountPrice * o.productQty }" var="commaPrice" />
+					        	 		${ commaPrice}
+					        	 	</span>원 	
 					      	    </div>
+					      	    <c:set var="total" value="${ total + (discountPrice * o.productQty)}"/>
+					      	   
 					      	</td>
 					   	</tr>
 					</table>
-					</c:if>
-					
-					
-					
-	<!-- 장바구니 상품정보 -->
-					<c:set var= "total" value= "0"/>
-					<c:forEach items="${ cList }" var="c" varStatus="status">
-				       <table class="table">   
-					   <tr height="15">
-					    	<td scope="row" width="250" rowspan="2" class="bottomNone"><img src="${ contextPath }/resources/uploadFiles/${orderList.imgRename }"1 width="100"></td>
-					     	<td width="350">상품</td>
-					      	<td width="350">옵션/수량</td>
-					      	<td width="250">총 상품 금액</td>
-					      	<td style="display:none" class="productNo"></td>
-					   	</tr>
-					   	<tr>
-					     	<td class="bottomNone">
-					      		<div>${ c.boardTitle }</div>
-					      	</td>
-					      	<td class="bottomNone">
-								<div>옵션 : ${ c.productOption } </div>
-								<div>수량 : ${ c.quantity }</div>		      
-					      	</td>
-					      		<td class="bottomNone">
-				
-							<c:set var="discountPrice" value="${ c.productPrice-(c.productPrice*c.productDiscount/100)}"/>
-						
-					      	<fmt:formatNumber type="number" maxFractionDigits="3" value="${ discountPrice * c.quantity }" var="totalPrice" />
-					      		<div><span class="price" style="color:red;">${ totalPrice } 원</span>
-					      	    </div>
-					      	</td>
-					   	</tr>
-					</table>
-					
 					</c:forEach>
-			        
-			     
+				  
 				   <br><br>
 				   <h5 class="blog-post-title mb-1">▶결제 수단</h5>
 				   <hr>
@@ -219,11 +192,17 @@
 	         		 <table>
 				   		<tr>
 					   		<td width="200px">총 상품 금액</td>
-					   		<td class="Price" id="changedPrice">${ totalPrice }원</td>
+					   		
+	    <!--  최종 금액  -->
+					   		<td class="Price" id="changedPrice"> 
+					           <%--  <c:out value="${ total }"/>  --%>
+					            <fmt:formatNumber type="number" maxFractionDigits="3" value="${ total }" var="commatotal" />
+					            ${ commatotal }원
+					   		</td> 
 					   	</tr>
 					   	<tr>
 					   		<td width="200px" >배송비</td>
-					   		<td class="Price" id="deliveryPrice">0원</td>
+					   		<td class="Price" id="deliveryPrice">0 원</td>
 					   	</tr>
 					   </table>
 		         	</form>
@@ -234,9 +213,8 @@
 			         <input type="checkbox" required> 아래 내용에 모두 동의합니다.(필수)<br>
 			         <input type="checkbox" required> 개인정보 수집 이용 및 제 3자 제공 동의 (필수)
 			         <br>
-			         <button type="button" class="order_btn" id="check_module">결제하기</button>
-		         </form>
-		         
+			         <button type="button" class="order_btn" id="order_btn">결제하기</button>
+		         </form>		         
 		         </div>
 		         </div>
 			   </div>	
@@ -249,69 +227,84 @@
 		<jsp:include page="../common/footer.jsp"/>
 	</footer>
 	
-
-
-<script>
-	window.onload = function(){
-	    document.getElementById("address_kakao").addEventListener("click", function(){ //주소입력칸을 클릭하면 카카오 주소 발생
-	        new daum.Postcode({
-	            oncomplete: function(data) { //선택시 입력값 세팅
-	                document.getElementById("address_kakao").value = data.address; // 주소 넣기
-	                document.querySelector("input[name=address_detail]").focus(); // 상세입력 포커싱
-	            }
-	        }).open();
-	    });
-	    
-	    // (바로구매) 최종 금액 계산하기
-	    const price1 = $("#changedPrice").text();
-	    const price2 = price1.replace(",", "");
-	    const totalPrice = parseInt(price2); 
-	    //console.log(typeof totalPrice);
-	    
-	    if(totalPrice > 50000){
-	    	var deliveryFee = 0;	 
-	    	 $('#deliveryPrice').text(deliveryFee.toLocaleString()+"원");
-	    } else { 
-	    	var deliveryFee = 2500;
-	    	 $('#deliveryPrice').text(deliveryFee.toLocaleString()+"원");
-	    }
-		  finalPrice = deliveryFee + totalPrice
-	      // console.log(finalPrice); 
-	      $('#finalPrice').text(finalPrice.toLocaleString()+"원");
-	    }
 	
-	 </script>
-	 <script>
-	// 아임포트 API 결제하기
-	    $(".order_btn").click(function () {
-	    	  var IMP = window.IMP; // 생략가능
-	    	  IMP.init('imp24668238'); 	// <-- 싱글리어 식별코드 삽입
-       
-        IMP.request_pay({
-        	   pg: "html5_inicis",
-               pay_method: "card",
-               merchant_uid: 'SingleRior_'+new Date().getTime(),
-               name: "${ orderList.boardTitle }",
-               amount: finalPrice,
-               buyer_email: "${ member.email }",
-               buyer_name: "${ member.memberName }",
-               buyer_tel: "${ member.phone }",
-               buyer_addr: "",
-               buyer_postcode: ""
-        }, function (rsp) {
-            console.log(rsp);
-            if (rsp.success) {
-                var msg = '결제가 완료되었습니다.';
-                alert(msg);
-            } else {
-                var msg = '결제에 실패하였습니다.';
-                alert(msg);
+<script>
+window.onload = function(){
+    document.getElementById("address_kakao").addEventListener("click", function(){ //주소입력칸을 클릭하면 카카오 주소 발생
+        new daum.Postcode({
+            oncomplete: function(data) { //선택시 입력값 세팅
+                document.getElementById("address_kakao").value = data.address; // 주소 넣기
+                document.querySelector("input[name=address_detail]").focus(); // 상세입력 포커싱
             }
-
-        });
+        }).open();
     });
-
-
+    
+    // 배송비 & 최종 금액 계산하기
+    const price1 = $("#changedPrice").text();
+    const price2 = price1.replace(",", "");
+    const totalPrice = parseInt(price2); 
+    //console.log(typeof totalPrice);
+    
+    if(totalPrice > 50000){
+    	var deliveryFee = 0;	 
+    	 $('#deliveryPrice').text(deliveryFee.toLocaleString()+"원");
+    } else { 
+    	var deliveryFee = 2500;
+    	 $('#deliveryPrice').text(deliveryFee.toLocaleString()+"원");
+    }
+	  finalPrice = deliveryFee + totalPrice
+      $('#finalPrice').text(finalPrice.toLocaleString()+"원");
+    }
+    
+    // I'mport API
+     document.getElementById("order_btn").addEventListener("click", function(){
+    	  var IMP = window.IMP;   // 생략 가능
+    	  IMP.init("imp24668238"); // 예: imp00000000 
+    	   
+    	  var amount = finalPrice;
+   	      IMP.request_pay({ 
+   	          pg: "html5_inicis",
+   	          pay_method: "card",
+   	          merchant_uid: new Date().getTite,   // 주문번호
+   	          name: "SingleRior_스토어",
+   	          amount: amount,                     // 숫자타입
+   	      }, function (rsp) { // callback
+   	          if (rsp.success) {
+   	           // 결제 성공 시 로직,
+		              let imp_uid = rsp.imp_id;
+		              let merchant_uid = rsp.merchant_uid;
+		              let paid_amount = rsp.paid_amount;
+		              let apply_num = rsp.apply_num;
+		              
+		              let data = {imp_uid:imp_uid,
+		            			merchant_uid:merchant_uid,
+		            			paid_amount:paid_amount,
+		            			apply_num:apply_num
+		              };
+		              
+		              $.ajax({
+		            	  url: "${contextPath}/orderResult.st", 
+		            	  data:data,
+		            	  success: function(data){
+		  		              let msg = "결제가 완료되었습니다.\n";
+		  		              msg += "고유ID: " + imp_uid;
+		  		              msg += "\n상점거래ID : " + merchant_uid;
+		  		              msg += "\n결제금액 : " + paid_amount;
+		  		              msg += "\n 카드승인번호 : " + apply_num;
+		  		              alert(msg);
+		  		              location.href="${contextPath}/orderResult.st";
+		            	  }
+		              })// end ajax
+   	              alert('성공');
+   	          } else {
+   	        	 let msg = "결제를 실패하였습니다./n"
+ 		              msg = "에러내용: " + rsp.error_msg;
+ 		              
+ 		              alert("msg");
+   	          }
+   	      });
+    	 
+     });
 </script>
 </body>
-</html>
+</html>	
