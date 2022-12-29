@@ -76,8 +76,41 @@
 	
 	<select id="getCommuListCount" resultType="_int">
 		select count(*)
-		from board
+		from board b
+			 join member on (b.board_writer = member_id)
+			 join community c on (b.board_no = c.board_no)
 		where board_type = '2' and b_status = 'Y'
+		<if test="commuType > 0">
+			and c.commu_type = #{commuType}
+		</if>
+		
+		<if test="commuSearch != null">
+			<if test="searchType == 0">
+			and ((BOARD_TITLE LIKE '%'||#{commuSearch}||'%') or (BOARD_CONTENT LIKE '%'||#{commuSearch}||'%') or (nickName LIKE '%'||#{commuSearch}||'%'))
+			</if>
+			<if test="searchType == 1">
+			and (BOARD_TITLE LIKE '%'||#{commuSearch}||'%')
+			</if>
+			<if test="searchType == 2">
+			and (BOARD_CONTENT LIKE '%'||#{commuSearch}||'%')
+			</if>
+			<if test="searchType == 3">
+			and (nickName LIKE '%'||#{commuSearch}||'%')
+			</if>
+		</if>
+		
+		<if test="commuArray == 0 ">
+			order by b.create_date desc
+		</if>
+		<if test="commuArray == 1">
+			order by b.create_date desc
+		</if>
+		<if test="commuArray == 2">
+			order by c.sympt_count desc
+		</if>
+		<if test="commuArray == 3 ">
+			order by c.reply_count desc
+		</if>
 	</select>
 	
 	
