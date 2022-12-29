@@ -8,6 +8,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script src="${ contextPath }/resources/js/jquery-3.6.1.min.js"></script>
 <style>
 	section{
 		margin:auto;
@@ -29,6 +30,29 @@
 	tr{font-size:20px;}
   	.reviewContent div{margin:auto; text-align:center; font-size:20px;}  
 	img:hover{cursor:pointer;}
+	
+	.star {
+	position: relative;
+	font-size: 2rem;
+	color: #ddd;
+	}
+	.star input {
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	left: 0;
+	opacity: 0;
+	cursor: pointer;
+	}
+	
+	.star span {
+	width: 0;
+	position: absolute;
+	left: 0;
+	color: #008cd4;
+	overflow: hidden;
+	pointer-events: none;
+	}
 </style>
 </head>
 <body>
@@ -49,9 +73,10 @@
 		<c:if test="${ !empty orList  }">
 			<c:forEach items="${orList }" var="o">
 				<div class="orderCancelProduct done">
-					<span>주문번호 : ${ o.orderNo }</span>&nbsp;&nbsp;&nbsp;
-					<span>주문일자 : ${ o.orderDate }</span>&nbsp;&nbsp;&nbsp;
-					<button type="button" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#orderRatingModal" style="background:#008cd4; color:white; float:right">리뷰작성</button>
+					주문번호 : <span>${ o.orderNo }</span>&nbsp;&nbsp;&nbsp;
+					주문일자 : <span>${ o.orderDate }</span>&nbsp;&nbsp;&nbsp;
+					<input type="hidden" value="${ o.orderDetailNo }">
+					<button type="button" class="btn btn-light reviewBtn" data-bs-toggle="modal" data-bs-target="#orderRatingModal" style="background:#008cd4; color:white; float:right">리뷰작성</button>
 					<table class="table">
 					    <tr>
 					      <td scope="row" colspan="4"></td>
@@ -107,12 +132,15 @@
 						</c:url>
 						<li class="page-item"><a class="page-link" href="${ goNum }">${ p }</a></li>
 					</c:forEach>
-					<li class="page-item"><c:url var="goNext" value="${ loc }">
+					<li class="page-item">
+						<c:url var="goNext" value="${ loc }">
 							<c:param name="page" value="${ pi.currentPage+1 }" />
 							<c:param name="category" value="${ category }"/>
-						</c:url> <a class="page-link" href="${ goNext }" aria-label="Next"> <span
-							aria-hidden="true">&raquo;</span>
-					</a></li>
+						</c:url>
+						<a class="page-link" href="${ goNext }" aria-label="Next">
+							<span aria-hidden="true">&raquo;</span>
+						</a>
+					</li>
 				</ul>
 			</nav>
 			</c:if>
@@ -122,18 +150,29 @@
 				aria-labelledby="exampleModalLabel" aria-hidden="true">
 				<div class="modal-dialog modal-dialog-centered">
 					<div class="modal-content">
-						<form name="" id="" action="" method="post">
+						<form name="" id="" action="${ contextPath }/insertReview.me" method="post">
 							<div class="modal-header">
 								<h3 style="color:#008cd4">여러분의 리뷰를 작성해주세요</h3>
 								<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 							</div>
 							<div class="modal-body">
+								<div style="text-align: center;">
+									<span class="star">
+										★★★★★
+										<span>★★★★★</span>
+										<input id="starNum" type="range" oninput="drawStar(this)" value="1" step="1" min="0" max="10">
+									</span>
+									<input type="hidden" name="reviewRating" id="reviewRating">
+									<input type="hidden" name="orderDetailNo" id="orderDetailNo">
+									<input type="hidden" name="orderNo" id="orderNo">
+									<input type="hidden" name="productNo" id="productNo">
+								</div>
 								<div class="mb-3">
   									<label for="formFile" class="form-label">제품의 사진을 올려주세요.</label>
-  									<input class="form-control" type="file" id="formFile">
+  									<input class="form-control" type="file" id="formFile" name="file">
 								</div>
 								<div>
-									<textarea class="form-control" placeholder="여러분의 리뷰를 작성해주세요." id="boardContent" name="boardContent" style="height: 300px; resize:none;"></textarea>
+									<textarea class="form-control" placeholder="여러분의 리뷰를 작성해주세요." id="reviewContent" name="reviewContent" style="height: 300px; resize:none;"></textarea>
 								</div>
 							</div>
 							<div class="modal-footer">
@@ -161,7 +200,28 @@
 				location.href='${contextPath}/productDetail.st?productNo=' + productNo;
 			})
 		}
-	}	
+	}
+	
+	const drawStar = (target) => {
+		document.querySelector('.star span').style.width = target.value * 10 + '%';
+	}
+	
+	$(document).on('click', ".reviewBtn", function(){
+		var orderDetailNo = this.parentNode.querySelector('input[type="hidden"]').value;
+		var orderNo = this.parentNode.querySelector('span').innerText;
+		var productNo = this.parentNode.querySelectorAll('input[type="hidden"]')[1].value;
+		console.log(orderDetailNo);
+		console.log(orderNo);
+		console.log(productNo);
+		document.getElementById("orderDetailNo").value = orderDetailNo;
+		document.getElementById("orderNo").value = orderNo;
+		document.getElementById("productNo").value = productNo;
+	});
+	
+	document.getElementById("starNum").addEventListener('input', e=>{
+		document.querySelector('#reviewRating').value = e.target.value/2;
+		console.log(document.querySelector('#reviewRating').value);
+	});
 	</script>
 	
 	

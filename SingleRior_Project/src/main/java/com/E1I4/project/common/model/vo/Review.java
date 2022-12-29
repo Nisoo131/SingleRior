@@ -21,6 +21,7 @@ public class Review {
 	private String memberId;
 	private int boardNo;
 	private int orderNo;
+	private int orderDetailNo;
 	private String imgRename;
 	private String productName;
 	private int productQuantity;

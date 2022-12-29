@@ -271,6 +271,15 @@ public class MemberServiceImpl implements MemberService {
 	public ArrayList<Order> orderDetailList(int orderNo) {
 		return mDAO.orderDetailList(sqlSession,orderNo);
 	}
+	public int insertReview(Review review) {
+		return mDAO.insertReview(sqlSession, review);
+	}
+
+	@Override
+	public int updateReviewStatus(HashMap<String, Object> map) {
+		return mDAO.updateReviewStatus(sqlSession, map);
+
+	}
 
 
 

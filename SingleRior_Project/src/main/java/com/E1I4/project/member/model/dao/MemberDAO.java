@@ -220,6 +220,14 @@ public class MemberDAO {
 
 	public ArrayList<Order> orderDetailList(SqlSessionTemplate sqlSession, int orderNo) {
 		return (ArrayList)sqlSession.selectList("memberMapper.orderDetailList", orderNo);
+		
+	}	
+	public int insertReview(SqlSessionTemplate sqlSession, Review review) {
+		return sqlSession.insert("memberMapper.insertReview", review);
+	}
+
+	public int updateReviewStatus(SqlSessionTemplate sqlSession, HashMap<String, Object> map) {
+		return sqlSession.update("memberMapper.updateReviewStatus", map);
 	}
 
 
