@@ -114,6 +114,8 @@ public interface MemberService {
 
 	ArrayList<Order> orderDetailList(int orderNo);
 
+	int insertReviewAttm(HashMap<String, Object> map);
+
 
 
 

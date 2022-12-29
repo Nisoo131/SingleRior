@@ -230,6 +230,10 @@ public class MemberDAO {
 		return sqlSession.update("memberMapper.updateReviewStatus", map);
 	}
 
+	public int insertReviewAttm(SqlSessionTemplate sqlSession, HashMap<String, Object> map) {
+		return sqlSession.insert("memberMapper.insertReviewAttm", map);
+	}
+
 
 
 

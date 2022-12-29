@@ -85,6 +85,7 @@
 					    	<td scope="row" width="150" rowspan="2" class="trReview">
 					    		<img class='img' src="${ contextPath }/resources/uploadFiles/${o.imgRename}" width="160">
 					    		<input type="hidden" name="productNo" value="${o.productNo}">
+					    		<input type="hidden" name="boardNo" value="${o.boardNo}">
 					    	</td>
 					     	<td width="200">상품</td>
 					      	<td width="200">옵션</td>
@@ -166,10 +167,11 @@
 									<input type="hidden" name="orderDetailNo" id="orderDetailNo">
 									<input type="hidden" name="orderNo" id="orderNo">
 									<input type="hidden" name="productNo" id="productNo">
+									<input type="hidden" name="boardNo" id="boardNo">
 								</div>
 								<div class="mb-3">
   									<label for="formFile" class="form-label">제품의 사진을 올려주세요.</label>
-  									<input class="form-control" type="file" id="formFile" name="file">
+  									<input class="form-control" type="file" id="file" name="file">
 								</div>
 								<div>
 									<textarea class="form-control" placeholder="여러분의 리뷰를 작성해주세요." id="reviewContent" name="reviewContent" style="height: 300px; resize:none;"></textarea>
@@ -210,17 +212,24 @@
 		var orderDetailNo = this.parentNode.querySelector('input[type="hidden"]').value;
 		var orderNo = this.parentNode.querySelector('span').innerText;
 		var productNo = this.parentNode.querySelectorAll('input[type="hidden"]')[1].value;
+		var boardNo = this.parentNode.querySelectorAll('input[type="hidden"]')[2].value;
 		console.log(orderDetailNo);
 		console.log(orderNo);
 		console.log(productNo);
+		console.log(boardNo);
 		document.getElementById("orderDetailNo").value = orderDetailNo;
 		document.getElementById("orderNo").value = orderNo;
 		document.getElementById("productNo").value = productNo;
+		document.getElementById("boardNo").value = boardNo;
 	});
 	
 	document.getElementById("starNum").addEventListener('input', e=>{
 		document.querySelector('#reviewRating').value = e.target.value/2;
 		console.log(document.querySelector('#reviewRating').value);
+	});
+	
+	document.getElementById("starNum").addEventListener('click', ()=>{
+		console.log(document.querySelector('#file').value);
 	});
 	</script>
 	

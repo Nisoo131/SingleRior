@@ -677,6 +677,11 @@
 		values(SEQ_RVID.nextval, #{reviewContent}, sysdate, #{productNo}, #{memberId}, #{boardNo}, #{orderDetailNo}, #{reviewRating})
 	</insert>
 	
+	<insert id="insertReviewAttm">
+		insert into IMG_REPOSITORY
+		values(SingleRior_aid, #{imgOriginalName}, #{imgRename}, sysdate, sysdate, default, #{imgKey}, #{imgPath}, #{boardType}, 0)
+	</insert>
+	
 	<update id="updateReviewStatus">
 		update order_detail
 		set status = #{status}

@@ -281,6 +281,11 @@ public class MemberServiceImpl implements MemberService {
 
 	}
 
+	@Override
+	public int insertReviewAttm(HashMap<String, Object> map) {
+		return mDAO.insertReviewAttm(sqlSession, map);
+	}
+
 
 
 

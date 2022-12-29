@@ -818,7 +818,7 @@ public class MemberController {
 		return "myReviewNDoneList";
 	}
 	@RequestMapping("insertReview.me")
-	public String insertReview(@RequestParam("orderDetailNo") int orderDetailNo, @ModelAttribute Review review, HttpServletRequest request) {
+	public String insertReview(@RequestParam("orderDetailNo") int orderDetailNo, @ModelAttribute Review review, @RequestParam(value="file", required=false) MultipartFile file, HttpServletRequest request, HttpSession session) {
 		String id = ((Member)request.getSession().getAttribute("loginUser")).getMemberId();
 		
 		review.setMemberId(id);
@@ -827,19 +827,55 @@ public class MemberController {
 		System.out.println(review);
 		System.out.println(orderDetailNo);
 		
-		int boardResult = mService.insertReview(review);
+//		int reviewResult = mService.insertReview(review);
 		
-		if(boardResult > 0) {
-			String status = "리뷰작성";
-			HashMap<String, Object> map = new HashMap<String, Object>();
-			map.put("status", status);
-			map.put("orderDetailNo", orderDetailNo);
-			
-			int updateReviewStatus = mService.updateReviewStatus(map);
+		String strRNo = Integer.toString(review.getReviewNo());
+		
+		System.out.println(file);
+		
+		Attachment attm = new Attachment();
+		
+		String fileName = file.getOriginalFilename();
+		if(!fileName.equals("")) {
+			String[] returnArr = saveFile(file, request);
+					
+			if(returnArr[1] != null) {
+				attm.setImgOriginalName(file.getOriginalFilename());
+				attm.setImgRename(returnArr[1]);
+				attm.setImgPath(returnArr[0]);
+				attm.setImgKey(strRNo);
+				attm.setBoardType(7);
+			}
 		}
 		
-		return "myReviewDoneList";
+//		int attmResult = mService.insertReviewAttm(attm);
+		
+////		if(reviewResult + attmResult == 2) {
+//			String status = "리뷰작성";
+//			HashMap<String, Object> map = new HashMap<String, Object>();
+//			map.put("status", status);
+//			map.put("orderDetailNo", orderDetailNo);
+//			
+//			int updateReviewStatus = mService.updateReviewStatus(map);
+//			return "redirect:myReviewDoneList.me";
+//		} else {
+//			deleteFile(attm.getImgRename(), request);
+//			throw new BoardException("글이 정상적으로 등록되지 않았습니다.");
+//		}
+		return null;
 	}
+	
+	// 파일 삭제
+	public void deleteFile(String fileName, HttpServletRequest request) {
+		String root = request.getSession().getServletContext().getRealPath("resources");
+		String savePath = root + "\\uploadFiles";
+		
+		File f = new File(savePath + "\\" + fileName);
+		if(f.exists()) {
+			f.delete();
+		}
+	}
+	
 	@RequestMapping("myAskList.me")
 	public String myAskList(HttpSession session,@RequestParam(value="page", required=false) Integer page,Model model) {
 		Member m = (Member)session.getAttribute("loginUser");
