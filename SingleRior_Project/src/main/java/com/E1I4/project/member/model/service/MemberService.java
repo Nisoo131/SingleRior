@@ -116,6 +116,9 @@ public interface MemberService {
 
 	int insertReviewAttm(HashMap<String, Object> map);
 
+	int changeDeliveryAddress(Order order);
+
+
 
 
 

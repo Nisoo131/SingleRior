@@ -29,7 +29,7 @@
 	.orderInfo h3{color:#008cd4;}
 	.orderInfo h5{color:gray; margin-top:3px;}
 	.orderInfo p{float:right;}
-	.orderStatusBtn{float:right;}
+	img:hover{cursor:pointer}
 </style>
 </head>
 <body>
@@ -45,16 +45,17 @@
 				<c:forEach items="${oList }" var="ol">
 					<table class="table">
 					    <tr>
-					      <td scope="row" colspan="4"></td>
+					      <td scope="row" colspan="5"></td>
 					    </tr>
 					    <tr height="15">
-					    	<td scope="row" width="250" rowspan="2"><img src="${ contextPath }/resources/uploadFiles/${ ol.imgRename }" width="160"></td>
-					     	<td width="350">상품
-					      	</td>
-					      	<td width="450">옵션	      
-					      	</td>
-					      	<td>상품 금액
-					      	</td>
+					    	<td scope="row" width="250" rowspan="2">
+					    		<img src="${ contextPath }/resources/uploadFiles/${ ol.imgRename }" width="160" class="img">
+					    		<input type="hidden" value="${ ol.productNo }" class="productNo">
+					    	</td>
+					     	<td width="300">상품</td>
+					      	<td width="300">옵션</td>
+					      	<td width="300">상품 금액</td>
+					      	<td width="300">주문상태</td>
 					   	</tr>
 					   	<tr>
 					     	<td>
@@ -66,6 +67,7 @@
 					      	<td>
 					      		<div><fmt:formatNumber value="${ol.salePrice }" pattern="#,###"/>원</div>
 					      	</td>
+					      	<td>${ ol.status }</td>
 					   	</tr>
 					</table>
 				</c:forEach>
@@ -76,16 +78,16 @@
 			<p><button type="button" class="btn btn-light" style="background:#008cd4; color:white;" data-bs-toggle="modal" data-bs-target="#orderAddressModal">배송지변경</button></p>
 			<hr>
 			<h5>받는 사람</h5>
-			<p>${oList[0].recipient }</p>
+			<p id="returnRecipient">${oList[0].recipient }</p>
 			<br>
 			<h5>연락처</h5>
-			<p>${oList[0].reciPhone }</p>
+			<p id="returnReciPhone">${oList[0].reciPhone }</p>
 			<br>
 			<h5>주소</h5>
-			<p>${oList[0].reciAddress }</p>
+			<p id="returnReciAddress">${oList[0].reciAddress }</p>
 			<br>
 			<h5>배송 메모</h5>
-			<p>${oList[0].deliveryMsg }</p>
+			<p id="returnDeliveryMsg">${oList[0].deliveryMsg }</p>
 		</div>
 		<br><br>
 		<div class="orderInfo pay">
@@ -118,14 +120,17 @@
 	<!-- 주문 취소 모달창 -->
 	<div class="modal" tabindex="-1" id="orderCancelModal">
 		<div class="modal-dialog modal-dialog-centered">
-	    	<div class="modal-content">
-	     		 <div class="modal-header">
-	       		 <h5 class="modal-title">주문을 취소하시겠습니까?</h5>
-	       		 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-	    	  </div>
-	    	  <div class="modal-body">
-	      		  <p>배송중이거나 구매확정일 경우 관리자에 주문취소가 철회될 수 있습니다.</p>
-	      		  <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
+			<form action="${contextPath}/orderCancel.me" method="post">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title">주문을 취소하시겠습니까?</h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal"
+							aria-label="Close"></button>
+					</div>
+					<div class="modal-body">
+						<p>배송중이거나 구매확정일 경우 관리자에 주문취소가 철회될 수 있습니다.</p>
+						<select class="form-select form-select-lg mb-3"
+							aria-label=".form-select-lg example" name="cancelCate">
 							<option selected>취소 이유 선택</option>
 							<option value="단순변심">단순변심</option>
 							<option value="배송지연">배송지연</option>
@@ -137,15 +142,20 @@
 						</select>
 						<div class="mb-3">
 							<textarea class="form-control" id="exampleFormControlTextarea1"
-								rows="3" placeholder="기타를 선택하신 경우 입력해주세요." style="resize:none;"></textarea>
+								rows="3" placeholder="기타를 선택하신 경우 입력해주세요." style="resize: none;" name="cancelReason"></textarea>
 						</div>
-	     	 </div>
-			 <div class="modal-footer">
-				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">창닫기</button>
-				<button type="button" class="btn btn-light" style="background:#008cd4; color:white">주문취소</button>
-	     	 </div>
-	    </div>
-	  </div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary"
+							data-bs-dismiss="modal">창닫기</button>
+						<button type="submit" class="btn btn-light"
+							style="background: #008cd4; color: white">주문취소</button>
+								<input type="hidden" value="" name="orderNo" id="orderCancelNo">
+								<input type="hidden" value="" name="orderDetailNo" id="orderCancelDetailNo">
+					</div>
+				</div>
+			</form>
+		</div>
 	</div>
 	
 	<!-- 배송지 변경 모달창 -->
@@ -169,7 +179,7 @@
 					  </div>
 		      		  <div class="mb-3">
 							<label for="exampleFormControlInput1" class="form-label">주소</label>
-	 				 		<input type="text" class="form-control" name="address_kakao" id="address_kakao">
+	 				 		<input type="text" class="form-control" name="address_kakao" id="address_kakao" readonly>
 					  </div>
 					<div class="mb-3">
 							<label for="exampleFormControlInput1" class="form-label">상세주소</label>
@@ -178,7 +188,6 @@
 		      		  <div class="mb-3">
 							<label for="exampleFormControlInput1" class="form-label">배송메모</label>
 					        <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" name="deliveryMsg" id="changeDeliveryMsg">
-								<option selected>취소 이유 선택</option>
 						        <option>배송시 요청사항을 선택해주세요</option>
 					        	<option>배송전에 미리 연락주세요</option>
 					        	<option>부재시 문앞에 놓아주세요</option>
@@ -190,7 +199,7 @@
 	     	 </div>
 			 <div class="modal-footer">
 				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">창닫기</button>
-				<button type="button" class="btn btn-light" style="background:#008cd4; color:white" id="changeDelivery">배송지변경</button>
+				<button type="submit" class="btn btn-light" style="background:#008cd4; color:white" id="changeDelivery">배송지변경</button>
 	     	 </div>
 	    </div>
 	  </div>
@@ -200,6 +209,17 @@
 	
 	
 	$(function(){
+		 	document.getElementById("address_kakao").addEventListener("click", function(){ //주소입력칸을 클릭하면 카카오 주소 발생
+		        new daum.Postcode({
+		            oncomplete: function(data) { //선택시 입력값 세팅
+		                document.getElementById("address_kakao").value = data.address; // 주소 넣기
+		                document.querySelector("input[name=reciDetailAddress]").focus(); // 상세입력 포커싱
+		            }
+		        }).open();
+		    });
+		
+		
+		
 		$('#changeDelivery').on('click', function(e){
 			let recipient = $('#changeRecipient').val();
 			if(recipient == ""){
@@ -212,6 +232,10 @@
 				return false;
 			}
 			let addressKakao = $('#address_kakao').val();
+			if(addressKakao == ""){
+				$('#address_kakao').focus();
+				return false;
+			}
 			let reciDetailAddress = $('#changeReciDetailAddress').val();
 			if(reciDetailAddress == ""){
 				$('#changeReciDetailAddress').focus();
@@ -221,14 +245,17 @@
 			let reciAddress = addressKakao+" "+reciDetailAddress;
 			
 			let deliveryMsg = $('#changeDeliveryMsg').val();
-// 			if(reciDetailAddress == ""){
-// 				$('#changeDeliveryMsg').focus();
-// 				return false;
-// 			}
+			if(deliveryMsg == "배송시 요청사항을 선택해주세요"){
+				$('#changeDeliveryMsg').focus();
+				return false;
+			}
 			let orderNo = '${oList[0].orderNo}';
 
-// 			console.log(deliveryMsg);
+			console.log(deliveryMsg);
+			console.log(recipient);
 			
+			
+			$('#orderAddressModal').modal('hide');
 			$.ajax({
 				url : '${contextPath}/changeDeliveryAddress.me',
 				data : {recipient:recipient,
@@ -240,10 +267,17 @@
 				type : "post",
 				success: (data) =>{
 					console.log(data);
+					$("#returnRecipient").text(data.recipient);
 					
+					$("#returnReciPhone").text(data.reciPhone);
+					
+					$("#returnReciAddress").text(data.reciAddress);
+					
+					$("#returnDeliveryMsg").text(data.deliveryMsg);
 				},
 				error:(data)=>{
 					console.log(data);
+					alert("배송지 변경 실패");
 				}
 			});
 		});
@@ -251,14 +285,13 @@
 	
 	
 	window.onload = function(){
-		 document.getElementById("address_kakao").addEventListener("focus", function(){ //주소입력칸을 클릭하면 카카오 주소 발생
-		        new daum.Postcode({
-		            oncomplete: function(data) { //선택시 입력값 세팅
-		                document.getElementById("address_kakao").value = data.address; // 주소 넣기
-		                document.querySelector("input[name=reciDetailAddress]").focus(); // 상세입력 포커싱
-		            }
-		        }).open();
-		    });
+		var imgs = document.getElementsByClassName("img");
+		for(img of imgs){
+			img.addEventListener("click",function(){
+				var productNo = this.parentNode.childNodes[3].value;
+				location.href='${contextPath}/productDetail.st?productNo=' + productNo;
+			})
+		}
 	} 
 	
 	
