@@ -2,11 +2,13 @@ package com.E1I4.project.storeBoard.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.ibatis.reflection.SystemMetaObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -210,36 +212,43 @@ public class StoreBoardController {
 	
 	}
 	
-	// 옵션 선택 후 바로 결제하기
+	// 바로결제 & 장바구니 결제 주문서 
 	@RequestMapping("payment.st")
-	public String payment(HttpSession session, OrderItem orderList, Model model, @RequestParam(required=false) List<Integer> cartNo ) {
+	public String payment(HttpSession session, @ModelAttribute OrderItem orderList, Model model, @RequestParam(required=false) List<Integer> cartNo) {
 
 		String id = ((Member)session.getAttribute("loginUser")).getMemberId();
-		
 		
         Member m = new Member();
         Member member = null;
         member = sService.getUserInfo(id);
         
-		/* List<Integer> cList = sService.getCartNo(id); */
-        
-     
-        // 장바구니 여러개
-        if(cartNo != null) {
+         if(cartNo != null) {
+        	 while (cartNo.remove(null)) {}
+        	 
+        	 ArrayList<Cart> cList = new ArrayList<Cart>();
+        	 Cart cart = new Cart();
+        	 for(int i : cartNo)
+        	 {          
+        		 cart = sService.getCartInfo(i);       		 
+        		 cList.add(cart);		 
+        	 }
+        	 
+        	 // System.out.println(cList);
+        	 model.addAttribute("cList", cList);
+        	 model.addAttribute("member", member);
+        	 
+         }
+         else {
         	
-        }
-        // 바로결제하기
-		if(orderList != null) {
-			model.addAttribute("orderList", orderList);
-			model.addAttribute("member", member);
-			
-			return "payment";
-		} else {
-			throw new BoardException("주문 기본정보 불러오기 실패");
-		}
-		
-
+        	model.addAttribute("orderList", orderList);
+ 			model.addAttribute("member", member);
+ 			
+         }
+         	
+         return "payment";
 	}
+	
+	
 	// 결제하기 버튼을 눌러서 새로 url하고 orderList를 다시 받아서 새로 맵핑시키기
 	// 주문자 정보 입력
 	@RequestMapping("orderSheet.st")

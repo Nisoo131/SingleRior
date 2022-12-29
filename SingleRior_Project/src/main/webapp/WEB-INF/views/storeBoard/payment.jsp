@@ -118,8 +118,8 @@
 			      
 			  <%-- ${ orderList } --%>
 			  <%-- ${ member } --%>
-			  <!-- 주문정보 보내기 -->
-			        
+
+	  <!-- 주문정보 바로 보내기 -->			        
 				   <h5 class="blog-post-title mb-1">▶상품 정보</h5>
 				   <hr>
 				   <c:if test="${ !empty orderList }">
@@ -148,6 +148,41 @@
 					   	</tr>
 					</table>
 					</c:if>
+					
+					
+					
+	<!-- 장바구니 상품정보 -->
+					<c:set var= "total" value= "0"/>
+					<c:forEach items="${ cList }" var="c" varStatus="status">
+				       <table class="table">   
+					   <tr height="15">
+					    	<td scope="row" width="250" rowspan="2" class="bottomNone"><img src="${ contextPath }/resources/uploadFiles/${orderList.imgRename }"1 width="100"></td>
+					     	<td width="350">상품</td>
+					      	<td width="350">옵션/수량</td>
+					      	<td width="250">총 상품 금액</td>
+					      	<td style="display:none" class="productNo"></td>
+					   	</tr>
+					   	<tr>
+					     	<td class="bottomNone">
+					      		<div>${ c.boardTitle }</div>
+					      	</td>
+					      	<td class="bottomNone">
+								<div>옵션 : ${ c.productOption } </div>
+								<div>수량 : ${ c.quantity }</div>		      
+					      	</td>
+					      		<td class="bottomNone">
+				
+							<c:set var="discountPrice" value="${ c.productPrice-(c.productPrice*c.productDiscount/100)}"/>
+						
+					      	<fmt:formatNumber type="number" maxFractionDigits="3" value="${ discountPrice * c.quantity }" var="totalPrice" />
+					      		<div><span class="price" style="color:red;">${ totalPrice } 원</span>
+					      	    </div>
+					      	</td>
+					   	</tr>
+					</table>
+					
+					</c:forEach>
+			        
 			     
 				   <br><br>
 				   <h5 class="blog-post-title mb-1">▶결제 수단</h5>
@@ -174,7 +209,7 @@
 					</div>
 	            </div>
 	     
-	    <!-- 스크롤 옵션바 -->
+	    <!-- 결제창  -->
 	    <div class="col-md-4">
 	      <div class="position-sticky" style="top: 15rem;">
 	       <div class="p-4">
@@ -227,7 +262,7 @@
 	        }).open();
 	    });
 	    
-	    // 최종 금액 계산하기
+	    // (바로구매) 최종 금액 계산하기
 	    const price1 = $("#changedPrice").text();
 	    const price2 = price1.replace(",", "");
 	    const totalPrice = parseInt(price2); 
@@ -244,11 +279,11 @@
 	      // console.log(finalPrice); 
 	      $('#finalPrice').text(finalPrice.toLocaleString()+"원");
 	    }
-
+	
 	 </script>
 	 <script>
 	// 아임포트 API 결제하기
-	    $("#check_module").click(function () {
+	    $(".order_btn").click(function () {
 	    	  var IMP = window.IMP; // 생략가능
 	    	  IMP.init('imp24668238'); 	// <-- 싱글리어 식별코드 삽입
        
