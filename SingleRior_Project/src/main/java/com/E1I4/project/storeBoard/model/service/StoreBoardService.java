@@ -20,7 +20,7 @@ public interface StoreBoardService {
 
 	Attachment selectAttmList(int bNo);
 
-	ArrayList<StoreBoard> selectProduct(int productNo);
+	ArrayList<StoreBoard> selectProduct(int productNo, int boardNo);
 
 	int wishListOn(WishList wl);
 

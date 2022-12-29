@@ -80,10 +80,11 @@ public class StoreBoardController {
    
 	// 상품 상세보기
 	@RequestMapping("productDetail.st")
-	public String productDetail(@RequestParam("productNo") int productNo, HttpSession session, Model model) {
+	public String productDetail(@RequestParam("productNo") int productNo, @RequestParam("boardNo") int boardNo, HttpSession session, Model model) {
 		Member loginUser = (Member)session.getAttribute("loginUser");
-
-		ArrayList<StoreBoard> pList = sService.selectProduct(productNo);
+        //System.out.println(productNo);
+        //System.out.println(boardNo);
+		ArrayList<StoreBoard> pList = sService.selectProduct(productNo, boardNo);
 		ArrayList<ProductInquiry> iList = sService.selectInquiryList(productNo);
 		
 		if(iList != null) {

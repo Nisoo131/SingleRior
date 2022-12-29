@@ -190,5 +190,10 @@
    	where img_key =  #{boardNo} and img_level = 0
    </select>
    
+   <update id="addCount">
+        update board
+		set board_count = board_count + 1
+		where board_no = #{boardNo}
+   </update>
  
 </mapper>

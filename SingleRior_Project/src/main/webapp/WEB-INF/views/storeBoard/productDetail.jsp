@@ -156,7 +156,7 @@
 	             </div>
 			
 			  <br>
-			  <h2>총 <span id="changedQty">0</span>개　<span id="finalPrice2">${ totalPrice }</span>원</h2>
+			  <h2>총 <span id="changedQty">1</span>개　<span id="finalPrice2">${ totalPrice }</span>원</h2>
 			  <div class="btn-group">
 			  	<c:if test="${ empty loginUser }">
 				  <button type="button" class="cart" style="width:200px;height:50px;font-size:20px;" onclick="location.href='${contextPath}/loginView.me'"> 장바구니 </button>
@@ -349,7 +349,7 @@
 			  <br><br>
 			
 			  <br>
-			  <h2>총 <span id="changedQty1">0</span>개　<span id="finalPrice3">${ totalPrice }</span>원</h2>
+			  <h2>총 <span id="changedQty1">1</span>개　<span id="finalPrice3">${ totalPrice }</span>원</h2>
 				  <div class="btn-group">
 					  <button type="button" class="cart" style="width:200px;height:50px;font-size:20px;">장바구니</button>
 					  <button type="button" class="payment" style="width:200px;height:50px;font-size:20px;" onclick="location.href='${ contextPath }/payment.st'">결제하기</button>

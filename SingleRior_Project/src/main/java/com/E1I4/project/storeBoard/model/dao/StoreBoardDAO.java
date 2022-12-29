@@ -87,6 +87,10 @@ public class StoreBoardDAO {
 		return sqlSession.selectOne("storeMapper.getImgRename", boardNo);
 	}
 
+	public int addCount(SqlSessionTemplate sqlSession, int boardNo) {
+		return sqlSession.update("storeMapper.addCount", boardNo);
+	}
+
 
 	
 

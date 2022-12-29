@@ -42,7 +42,9 @@ public class StoreBoardServiceImpl implements StoreBoardService{
 	}
 
 	@Override
-	public ArrayList<StoreBoard> selectProduct(int productNo) {
+	public ArrayList<StoreBoard> selectProduct(int productNo, int boardNo) {
+		int result = 0;
+		result = sDAO.addCount(sqlSession, boardNo);
 		return sDAO.selectProduct(sqlSession,productNo);
 	}
 

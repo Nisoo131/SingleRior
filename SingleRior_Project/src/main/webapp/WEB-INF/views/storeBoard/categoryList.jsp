@@ -26,8 +26,9 @@
 	</header>
 	
 	<!-- 대분류/소분류 구분 -->
-    <%-- ${ sList }  --%>
+    <%--   ${ sList }  --%>
 	<%--  ${ aList }   --%> 
+	
 	<div class="front">
 		<h5><b> 전체 >  ${ sList[0].topCateName} > ${ sList[0].subCateName }  </b></h5>
 			<h3><b> ${ sList[0].subCateName } </b></h3>
@@ -63,6 +64,7 @@
 			          <span style="width:20px">${ s.discount }%</span><span>　</span><span style="color:#008cd4; font-size: 25px;">${ totalPrice } 원</span><br>
 			          <span>★4.9</span>			          
 			          <input type="hidden" value="${ s.productNo }" name="productNo">
+			          <input type="hidden" value="${ s.boardNo }" name="boardNo">
 			        </div>
 			      </div>
 			    </div>
@@ -114,8 +116,10 @@
     	for(const div of cards){
     		div.addEventListener('click', function(){
     			const productNo = this.querySelectorAll('input')[0].value;
-    			 //console.log(productNo); 
-    			 location.href='${contextPath}/productDetail.st?productNo=' + productNo; /* + '&page=' + ${pi.currentPage}; */
+    			const boardNo = this.querySelectorAll('input')[1].value;
+    			 console.log(productNo); 
+    			 console.log(boardNo); 
+    			 location.href='${contextPath}/productDetail.st?productNo=' + productNo + '&boardNo=' + boardNo;
     		});
     	}
     }

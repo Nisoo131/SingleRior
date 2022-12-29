@@ -103,15 +103,15 @@
 			       <table>
 			       	<tr>
 			       		<td>이름</td>
-			       		<td><input type="text" class="ordersheet" value="${ member.memberName }"></td>			       		
+			       		<td><input type="text" id="b_name" class="ordersheet" value="${ member.memberName }"></td>			       		
 			       	</tr>
 			       	<tr>
 			       		<td>이메일</td>
-			       		<td><input type="email" class="ordersheet" value="${ member.email }"></td>
+			       		<td><input type="email" id="b_email" class="ordersheet" value="${ member.email }"></td>
 			       	</tr>
 			       	<tr>
 			       		<td>휴대전화</td>
-			       		<td><input type="text" class="ordersheet" value="${ member.phone }"></td>
+			       		<td><input type="text" id="b_phone" class="ordersheet" value="${ member.phone }"></td>
 			       	</tr>
 			       </table>
 			       <br><br>
@@ -135,7 +135,7 @@
 					   	</tr>
 					   	<tr>
 					     	<td class="bottomNone">
-					      		<div>${ o.boardTitle }</div>
+					      		<div id="product_name">${ o.boardTitle }</div>
 					      	</td>
 					      	<td class="bottomNone">
 								<div>옵션 : ${ o.productOption } </div>
@@ -213,7 +213,7 @@
 			         <input type="checkbox" required> 아래 내용에 모두 동의합니다.(필수)<br>
 			         <input type="checkbox" required> 개인정보 수집 이용 및 제 3자 제공 동의 (필수)
 			         <br>
-			         <button type="button" class="order_btn" id="order_btn">결제하기</button>
+			         <button type="submit" class="order_btn" id="order_btn">결제하기</button>
 		         </form>		         
 		         </div>
 		         </div>
@@ -237,7 +237,7 @@ window.onload = function(){
                 document.querySelector("input[name=address_detail]").focus(); // 상세입력 포커싱
             }
         }).open();
-    });
+    });   
     
     // 배송비 & 최종 금액 계산하기
     const price1 = $("#changedPrice").text();
@@ -256,18 +256,36 @@ window.onload = function(){
       $('#finalPrice').text(finalPrice.toLocaleString()+"원");
     }
     
-    // I'mport API
+	// 주문서 공란 결제 못하게 막기
+		$("#order_btn").click(function(){
+		   if($.trim($(".ordersheet").val())==''){
+		     alert("주문서를 작성해주세요.");
+		     return false;
+		   } 
+		  /*  $("#order_form").submit(); */
+		 });
+    
+    // 아임포트 API
      document.getElementById("order_btn").addEventListener("click", function(){
-    	  var IMP = window.IMP;   // 생략 가능
+    	 
+    	  var IMP = window.IMP;   // 생략 가능함
     	  IMP.init("imp24668238"); // 예: imp00000000 
-    	   
+    	  
+    	  var buyer_name = $('#b_name').val();
+    	  var buyer_email = $('#b_email').val();
+    	  var buyer_phone = $('#b_phone').val();
+    	  
     	  var amount = finalPrice;
    	      IMP.request_pay({ 
    	          pg: "html5_inicis",
    	          pay_method: "card",
    	          merchant_uid: new Date().getTite,   // 주문번호
    	          name: "SingleRior_스토어",
-   	          amount: amount,                     // 숫자타입
+   	          amount: amount, // 숫자타입
+   	       	  buyer_email: buyer_email,
+ 	          buyer_name: buyer_name,
+ 	          buyer_tel: buyer_phone,
+
    	      }, function (rsp) { // callback
    	          if (rsp.success) {
    	           // 결제 성공 시 로직,
@@ -276,12 +294,7 @@ window.onload = function(){
 		              let paid_amount = rsp.paid_amount;
 		              let apply_num = rsp.apply_num;
 		              
-		              let data = {imp_uid:imp_uid,
-		            			merchant_uid:merchant_uid,
-		            			paid_amount:paid_amount,
-		            			apply_num:apply_num
-		              };
-		              
+		            
 		              $.ajax({
 		            	  url: "${contextPath}/orderResult.st", 
 		            	  data:data,
