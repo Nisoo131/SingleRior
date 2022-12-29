@@ -539,7 +539,15 @@
 		join board using using(board_no)
         join order_product op using(order_no)
 		where member_id =#{memberId}
-		<if test="review != review">
+		<if test="status2 == 'review'">
+				<if test="status == '구매확정'">
+					and od.status = '구매확정'
+				</if>
+				<if test="status == '리뷰작성'">
+					and od.status = '리뷰작성'
+				</if>
+		</if>
+		<if test="status2 == 'noReview'">
 			<if test="status != '전체'">
 				<if test="status != '구매확정'">
 					and status = #{status}
@@ -548,14 +556,6 @@
 					and (od.status = '구매확정' or od.status = '리뷰작성')
 				</if>
 			</if>
-		</if>
-		<if test="review == review">
-				<if test="status == '구매확정'">
-					and od.status = '구매확정'
-				</if>
-				<if test="status == '리뷰작성'">
-					and od.status = '리뷰작성'
-				</if>
 		</if>
 		<if test="date == '1개월'">
 			 and order_DATE >= to_char(add_months(sysdate,-1),'YYYYMMDD')
@@ -653,7 +653,6 @@
 	where order_no = #{orderNo}
 	</update>
 	
-<<<<<<< HEAD
 	<select id="orderDetailList" resultMap="orderResultSet">
 	select *
 	from order_product  op
@@ -662,7 +661,7 @@
 	join board using using(board_no)
 	where order_no = #{orderNo}
 	</select>
-=======
+	
 	<resultMap type="OrderDetail" id="orderDetailResultSet">
 		<id column="ORDER_DETAIL_NO" property="orderDetailNo"/>
 		<result column="PRODUCT_NO" property="productNo"/>
@@ -683,5 +682,4 @@
 		set status = #{status}
 		where order_detail_no = #{orderDetailNo}
 	</update>
->>>>>>> elly
 </mapper>

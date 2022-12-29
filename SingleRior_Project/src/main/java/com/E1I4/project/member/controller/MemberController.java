@@ -606,7 +606,9 @@ public class MemberController {
 		if(date == null) {
 			date = "전체";
 		}
+		String status2 = "noReview";
 		map.put("date", date);
+		map.put("status2", status2);
 		int listCount = mService.getOrderListCount(map);
 //		System.out.println("구매확정" + listCount);
 		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 5);
@@ -727,10 +729,10 @@ public class MemberController {
 		
 		HashMap<String,String> map = new HashMap<String,String>();
 		String status = "리뷰작성";
-		String review = "review";
+		String status2 = "review";
 		map.put("memberId", memberId);
 		map.put("status", status);
-		map.put("review", review);
+		map.put("status2", status2);
 		
 		int listCount = mService.getOrderListCount(map);
 //		System.out.println("review" +listCount);
@@ -788,10 +790,11 @@ public class MemberController {
 		
 		HashMap<String,String> map = new HashMap<String,String>();
 		String status = "구매확정";
-		String review = "review";
+		String status2 = "review";
+		
 		map.put("memberId", memberId);
 		map.put("status", status);
-		map.put("review", review);
+		map.put("status2", status2);
 		
 		int listCount = mService.getOrderListCount(map);
 
