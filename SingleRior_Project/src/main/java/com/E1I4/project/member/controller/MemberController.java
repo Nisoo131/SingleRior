@@ -605,7 +605,7 @@ public class MemberController {
 		}
 		map.put("date", date);
 		int listCount = mService.getOrderListCount(map);
-		System.out.println("구매확정" + listCount);
+//		System.out.println("구매확정" + listCount);
 		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 5);
 		
 		ArrayList<Order> oiList = mService.selectReviewNDoneList(pi,map);
@@ -680,9 +680,32 @@ public class MemberController {
 		return "redirect:orderList.me";
 	}
 	@RequestMapping("orderProductDetail.me")
-	public String orderProductDetail(@RequestParam("orderNo") int orderNo) {
+	public String orderProductDetail(@RequestParam("orderNo") int orderNo,Model model) {
 		System.out.println(orderNo);
+		
+		ArrayList<Order> oList = mService.orderDetailList(orderNo);
+		
+		HashMap<String,String> map = new HashMap<String,String>();
+		
+		for(int i = 0; i<oList.size(); i++) {
+			String boardNo = Integer.toString(oList.get(i).getBoardNo());
+			map.put("boardNo", boardNo);
+			String img = mService.getImgOrder(map);
+			oList.get(i).setImgRename(img);
+		}
+		
+//		System.out.println(oList);
+		model.addAttribute("oList", oList);
 		return "orderProductDetail";
+	}
+	
+	@RequestMapping("changeDeliveryAddress.me")
+	public String changeDeliveryAddress(@ModelAttribute Order order) {
+		
+		System.out.println("oder" +order);
+		
+		
+		return null;
 	}
 	@RequestMapping("orderCancelList.me")
 	public String orderCancelList() {

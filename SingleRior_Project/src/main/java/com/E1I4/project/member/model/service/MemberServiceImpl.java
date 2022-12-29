@@ -267,6 +267,11 @@ public class MemberServiceImpl implements MemberService {
 		return mDAO.orderProductStatusChange(sqlSession,orderNo);
 	}
 
+	@Override
+	public ArrayList<Order> orderDetailList(int orderNo) {
+		return mDAO.orderDetailList(sqlSession,orderNo);
+	}
+
 
 
 

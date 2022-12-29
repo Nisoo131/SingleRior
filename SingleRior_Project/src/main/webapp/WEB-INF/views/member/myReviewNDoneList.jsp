@@ -91,7 +91,7 @@
   				작성하실 리뷰가 없습니다.
 			</div>
 		</c:if>
-		
+		<c:if test="${ !empty orList  }">
 		<nav aria-label="Standard pagination example">
 				<ul class="pagination justify-content-center">
 					<li class="page-item"><c:url var="goBack" value="${ loc }">
@@ -115,6 +115,7 @@
 					</a></li>
 				</ul>
 			</nav>
+			</c:if>
 			
 	<!-- 리뷰 작성 모달창 -->
 	<div class="modal fade" id="orderRatingModal" tabindex="-1"

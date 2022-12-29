@@ -218,6 +218,10 @@ public class MemberDAO {
 		return sqlSession.update("memberMapper.orderProductStatusChange", orderNo);
 	}
 
+	public ArrayList<Order> orderDetailList(SqlSessionTemplate sqlSession, int orderNo) {
+		return (ArrayList)sqlSession.selectList("memberMapper.orderDetailList", orderNo);
+	}
+
 
 
 

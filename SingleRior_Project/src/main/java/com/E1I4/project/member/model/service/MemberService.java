@@ -108,6 +108,8 @@ public interface MemberService {
 
 	int orderProductStatusChange(int orderNo);
 
+	ArrayList<Order> orderDetailList(int orderNo);
+
 
 
 
