@@ -108,6 +108,10 @@ public interface MemberService {
 
 	int orderProductStatusChange(int orderNo);
 
+	int insertReview(Review review);
+
+	int updateReviewStatus(HashMap<String, Object> map);
+
 
 
 

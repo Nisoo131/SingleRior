@@ -641,4 +641,25 @@
 	set ORDER_TOTAL_STATUS = '취소예정'
 	where order_no = #{orderNo}
 	</update>
+	
+	<resultMap type="OrderDetail" id="orderDetailResultSet">
+		<id column="ORDER_DETAIL_NO" property="orderDetailNo"/>
+		<result column="PRODUCT_NO" property="productNo"/>
+		<result column="ORDER_NO" property="orderNo"/>
+		<result column="STATUS" property="status"/>
+		<result column="PRODUCT_QUANTITY" property="productQuantity"/>
+		<result column="PRODUCT_PRICE" property="salePrice"/>
+		<result column="PRODUCT_OPTION" property="productOption"/>
+	</resultMap>
+	
+	<insert id="insertReview">
+		insert into product_review
+		values(SEQ_RVID.nextval, #{reviewContent}, sysdate, #{productNo}, #{memberId}, #{boardNo}, #{orderDetailNo}, #{reviewRating})
+	</insert>
+	
+	<update id="updateReviewStatus">
+		update order_detail
+		set status = #{status}
+		where order_detail_no = #{orderDetailNo}
+	</update>
 </mapper>

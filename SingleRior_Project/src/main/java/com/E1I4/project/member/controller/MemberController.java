@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.E1I4.project.common.Pagination;
+import com.E1I4.project.common.exception.BoardException;
 import com.E1I4.project.common.exception.MemberException;
 import com.E1I4.project.common.model.vo.Attachment;
 import com.E1I4.project.common.model.vo.Board;
@@ -31,8 +32,10 @@ import com.E1I4.project.common.model.vo.PageInfo;
 import com.E1I4.project.common.model.vo.Product;
 import com.E1I4.project.common.model.vo.ProductInquiry;
 import com.E1I4.project.common.model.vo.Reply;
+import com.E1I4.project.common.model.vo.Report;
 import com.E1I4.project.common.model.vo.Review;
 import com.E1I4.project.common.model.vo.WishList;
+import com.E1I4.project.commuBoard.model.vo.CommuBoard;
 import com.E1I4.project.member.model.service.KakaoLogin;
 import com.E1I4.project.member.model.service.MailSendService;
 import com.E1I4.project.member.model.service.MemberService;
@@ -741,11 +744,11 @@ public class MemberController {
 //		System.out.println("rList : "+rList);
 		
 //		System.out.println("dd" +orList);
-		if(orList != null) {
+//		if(orList != null) {
 			model.addAttribute("orList", orList);
 			model.addAttribute("rList", rList);
 			model.addAttribute("pi", pi);
-		}
+//		}
 		return "myReviewDoneList";
 //		return null;
 	}
@@ -787,6 +790,29 @@ public class MemberController {
 		}
 		
 		return "myReviewNDoneList";
+	}
+	@RequestMapping("insertReview.me")
+	public String insertReview(@RequestParam("orderDetailNo") int orderDetailNo, @ModelAttribute Review review, HttpServletRequest request) {
+		String id = ((Member)request.getSession().getAttribute("loginUser")).getMemberId();
+		
+		review.setMemberId(id);
+		review.setOrderDetailNo(orderDetailNo);
+		
+		System.out.println(review);
+		System.out.println(orderDetailNo);
+		
+		int boardResult = mService.insertReview(review);
+		
+		if(boardResult > 0) {
+			String status = "리뷰작성";
+			HashMap<String, Object> map = new HashMap<String, Object>();
+			map.put("status", status);
+			map.put("orderDetailNo", orderDetailNo);
+			
+			int updateReviewStatus = mService.updateReviewStatus(map);
+		}
+		
+		return "myReviewDoneList";
 	}
 	@RequestMapping("myAskList.me")
 	public String myAskList(HttpSession session,@RequestParam(value="page", required=false) Integer page,Model model) {

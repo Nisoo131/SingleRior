@@ -218,6 +218,14 @@ public class MemberDAO {
 		return sqlSession.update("memberMapper.orderProductStatusChange", orderNo);
 	}
 
+	public int insertReview(SqlSessionTemplate sqlSession, Review review) {
+		return sqlSession.insert("memberMapper.insertReview", review);
+	}
+
+	public int updateReviewStatus(SqlSessionTemplate sqlSession, HashMap<String, Object> map) {
+		return sqlSession.update("memberMapper.updateReviewStatus", map);
+	}
+
 
 
 
