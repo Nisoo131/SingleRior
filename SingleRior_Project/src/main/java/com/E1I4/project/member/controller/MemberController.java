@@ -9,6 +9,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +44,9 @@ import com.E1I4.project.member.model.service.NaverLogin;
 import com.E1I4.project.member.model.vo.Member;
 import com.E1I4.project.member.model.vo.Order;
 import com.E1I4.project.member.model.vo.ProductCancel;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonIOException;
 
 @Controller
 public class MemberController {
@@ -666,7 +670,7 @@ public class MemberController {
 	@RequestMapping("orderCancel.me")
 	public String orderCancel(@ModelAttribute ProductCancel pc) {
 		
-		System.out.println(pc);
+//		System.out.println(pc);
 		int result = 0;
 		if(pc != null) {
 			result = mService.orderCancel(pc);
@@ -686,7 +690,7 @@ public class MemberController {
 	}
 	@RequestMapping("orderProductDetail.me")
 	public String orderProductDetail(@RequestParam("orderNo") int orderNo,Model model) {
-		System.out.println(orderNo);
+//		System.out.println(orderNo);
 		
 		ArrayList<Order> oList = mService.orderDetailList(orderNo);
 		
@@ -705,12 +709,21 @@ public class MemberController {
 	}
 	
 	@RequestMapping("changeDeliveryAddress.me")
-	public String changeDeliveryAddress(@ModelAttribute Order order) {
+	public void changeDeliveryAddress(@ModelAttribute Order order,HttpServletResponse response) {
 		
-		System.out.println("oder" +order);
+//		System.out.println("oder" +order);
+		int result = mService.changeDeliveryAddress(order);
+		response.setContentType("application/json; charset=UTF-8");
+		GsonBuilder gb = new GsonBuilder();
+		Gson gson = gb.create();
 		
-		
-		return null;
+		if(result>0) {
+			try {
+				gson.toJson(order, response.getWriter());
+			} catch (JsonIOException | IOException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 	@RequestMapping("orderCancelList.me")
 	public String orderCancelList() {

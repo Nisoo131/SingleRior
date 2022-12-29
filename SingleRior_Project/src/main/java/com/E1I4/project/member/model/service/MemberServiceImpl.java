@@ -278,7 +278,11 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public int updateReviewStatus(HashMap<String, Object> map) {
 		return mDAO.updateReviewStatus(sqlSession, map);
+	}
 
+	@Override
+	public int changeDeliveryAddress(Order order) {
+		return mDAO.changeDeliveryAddress(sqlSession, order);
 	}
 
 
