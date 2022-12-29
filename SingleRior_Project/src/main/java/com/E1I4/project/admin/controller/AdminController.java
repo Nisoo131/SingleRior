@@ -900,7 +900,7 @@ public class AdminController {
 	}
 	@RequestMapping("detailOrder.adm")
 	public String detailOrder() {
-		`
+		
 		
 		
 		
