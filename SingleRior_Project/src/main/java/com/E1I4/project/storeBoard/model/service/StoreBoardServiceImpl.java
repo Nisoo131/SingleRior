@@ -87,8 +87,13 @@ public class StoreBoardServiceImpl implements StoreBoardService{
 	}
 
 	@Override
-	public Cart getCartInfo(int i) {
+	public OrderItem getCartInfo(int i) {
 		return sDAO.getCartInfo(sqlSession, i);
+	}
+
+	@Override
+	public String getImgRename(String boardNo) {
+		return sDAO.getImgRename(sqlSession, boardNo);
 	}
 
 

@@ -2,7 +2,7 @@ package com.E1I4.project.storeBoard.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
@@ -216,35 +216,42 @@ public class StoreBoardController {
 	@RequestMapping("payment.st")
 	public String payment(HttpSession session, @ModelAttribute OrderItem orderList, Model model, @RequestParam(required=false) List<Integer> cartNo) {
 
+		//System.out.println(cartNo);
+		
 		String id = ((Member)session.getAttribute("loginUser")).getMemberId();
 		
         Member m = new Member();
         Member member = null;
         member = sService.getUserInfo(id);
         
+        ArrayList<OrderItem> orderItem = new ArrayList<OrderItem>();
+        
          if(cartNo != null) {
         	 while (cartNo.remove(null)) {}
-        	 
-        	 ArrayList<Cart> cList = new ArrayList<Cart>();
-        	 Cart cart = new Cart();
+
+        	
         	 for(int i : cartNo)
-        	 {          
-        		 cart = sService.getCartInfo(i);       		 
-        		 cList.add(cart);		 
+        	 {   
+        		 
+        	// img 따로 가져오는 법
+        	   orderList = sService.getCartInfo(i);   
+               String boardNo = Integer.toString(orderList.getBoardNo());
+//               System.out.println(boardNo);
+               String imgRename = sService.getImgRename(boardNo);
+//               System.out.print(imgRename);
+               
+               orderList.setImgRename(imgRename);
+               
+               orderItem.add(orderList);
+                  
         	 }
-        	 
-        	 // System.out.println(cList);
-        	 model.addAttribute("cList", cList);
-        	 model.addAttribute("member", member);
-        	 
          }
          else {
-        	
-        	model.addAttribute("orderList", orderList);
- 			model.addAttribute("member", member);
- 			
+        	orderItem.add(orderList);
          }
-         	
+         	//System.out.println(orderItem);
+         	model.addAttribute("orderItem", orderItem);
+ 			model.addAttribute("member", member);
          return "payment";
 	}
 	
