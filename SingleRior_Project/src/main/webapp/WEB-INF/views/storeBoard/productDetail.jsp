@@ -144,7 +144,7 @@
 				 		<td>
 				 		 	<span class="count-wrap _count">
 							    <button type="button" class="minus_btn" >-</button>
-							   	 <input type="text" class="quantity_input" value="0" id="qty" readonly style="width:50px;"/>
+							   	 <input type="text" class="quantity_input" value="1" id="qty" readonly style="width:50px;"/>
 							    <button type="button" class="plus_btn" >+</button>
 							</span>
 				 		</td>
@@ -339,7 +339,7 @@
 				<!--   	<input type="text" id="inputOption"><br> -->
 				  	<span class="count-wrap _count">
 						    <button type="button" class="minus_btn" style="height:35px;">-</button>
-						   	 <input type="text" class="quantity_input" value="0" style="width:70px;height:30px" id="qty"/>
+						   	 <input type="text" class="quantity_input" value="1" style="width:70px;height:30px" id="qty"/>
 						    <button type="button" class="plus_btn" style="height:35px;">+</button>
 					</span>
 				    <fmt:parseNumber var="i" type="number" value="${ totalPrice }"/>
