@@ -61,20 +61,19 @@ li a:hover {
 							<c:forEach items="${ topBList }" var="tb" begin="0" end="2" step="1">
 							<div class="col px-5 p-5 g-3" >
 								<div class="carouselCardSec shadow-sm">
-									<c:forEach items="${ topAList }" var="ta" >
-										<c:if test="${ tb.boardNo eq ta.imgKey }">
-											<c:if test="${ ta.imgOriginalName != '' }">
-												<img src="resources/uploadFiles/${ ta.imgRename }" class="card-img-top" height="225">
+									<c:forEach items="${ mkAList }" var="mkA" >
+										<c:if test="${ tb.boardNo eq mkA.imgKey }">
+											<c:if test="${ mkA.imgOriginalName != '' }">
+												<img src="resources/uploadFiles/${ mkA.imgRename }" class="card-img-top" height="225">
 											</c:if>	
-											<c:set var="topCheck" value="topCheck"/>	
+											<c:set var="topCheck" value="true"/>	
 										</c:if>
 									</c:forEach>
-									<c:if test="${ topCheck != 'topCheck' }">
-										<img class="bd-placeholder-img card-img-top" width="100%" height="225"  src="resources/uploadFiles/SingleRior_logo.png">
+									<c:if test="${ topCheck != 'true' }">
+										<img class="bd-placeholder-img card-img-top" width="100%" height="225"  src="https://ifh.cc/g/1Lygac.png">
 									</c:if>
-									
+									<c:set var="topCheck" value="false"></c:set>
 									<div class="card-body"  style="padding:15px;">
-									
 									<span style="float: right; font-size: 13px;" class="card-text">${ tb.nickName }</span>
 										<p class="card-text">${tb.boardTitle }</p>
 										<input  id="bNo" type="hidden" value="${ tb.boardNo }">
@@ -107,18 +106,18 @@ li a:hover {
 							<c:forEach items="${ topBList }" var="tb" begin="3" end="5" step="1">
 							<div class="col p-5 px-5 g-3">
 								<div class="carouselCardSec shadow-sm">
-									<c:forEach items="${ topAList }" var="ta" >
-									<c:if test="${ tb.boardNo eq ta.imgKey }">
-										<c:if test="${ ta.imgOriginalName != '' }">
-											<img src="resources/uploadFiles/${ ta.imgRename }" class="card-img-top" height="225">
+									<c:forEach items="${ mkAList }" var="mkA" >
+									<c:if test="${ tb.boardNo eq mkA.imgKey }">
+										<c:if test="${ mkA.imgOriginalName != '' }">
+											<img src="resources/uploadFiles/${ mkA.imgRename }" class="card-img-top" height="225">
 										</c:if>
-										<c:set var="imgCheck" value="imgCheck"/>
+										<c:set var="imgCheck" value="true"/>
 									</c:if>
 									</c:forEach>
-									<c:if test="${ imgCheck != 'imgCheck' }">
+									<c:if test="${ imgCheck != 'true' }">
 										<img class="bd-placeholder-img card-img-top" width="100%" height="225"  src="https://ifh.cc/g/1Lygac.png">
 									</c:if>
-									
+									<c:set var="imgCheck" value="false"></c:set>
 									<div class="card-body"  style="padding:15px;">
 									<span style="float: right; font-size: 13px;" class="card-text">${ tb.nickName }</span>
 										<p class="card-text">${tb.boardTitle }</p>
@@ -208,15 +207,16 @@ li a:hover {
 			<div class="cards shadow-sm">
 			<c:forEach items="${ mkAList }" var="mkA">
 			<c:if test="${ mkB.boardNo eq mkA.imgKey }">
-				<c:if test="${ mkA.imgOriginalName != '' }">
+				<c:if test="${ a.originalName != '' }">
 					<img src="resources/uploadFiles/${ mkA.imgRename }" class="card-img-top" height="225">
-				</c:if>	
-				<c:set var="check" value="check"/>
+				</c:if>
+				<c:set var="listCheck" value="true"/>
 			</c:if>
 			</c:forEach>
-			<c:if test="${ check != 'check' }">
-				<img class="bd-placeholder-img card-img-top" width="100%" height="225"  src="https://ifh.cc/g/1Lygac.png" >
+			<c:if test="${ listCheck !='true' }">
+				<img class="bd-placeholder-img card-img-top" width="100%" height="225"  src="https://ifh.cc/g/1Lygac.png">
 			</c:if>
+			<c:set var="listCheck" value="false"></c:set>
 			
 				<div class="card-body" style="padding:15px;">
 				<span style="float: right; font-size: 13px;" class="card-text">${ mkB.nickName }</span>
@@ -265,7 +265,7 @@ li a:hover {
 		        	<tr>
 		        		<td>
 				        	<select name="searchType" class="form-select form-select-sm" aria-label=".form-select-sm example" style="width: 120px; text-align: center;">
-				        		<option value="0">--------</option>
+				        		<option value="0">전체</option>
 				        		<option value="1">제목</option>
 				        		<option value="2">내용</option>
 				        		<option value="3">작성자</option>

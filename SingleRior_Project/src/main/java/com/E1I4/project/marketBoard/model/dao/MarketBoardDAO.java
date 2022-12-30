@@ -69,8 +69,8 @@ public class MarketBoardDAO {
 		return (ArrayList)sqlSession.selectList("marketMapper.reReplySelect", bNo);
 	}
 
-	public ArrayList<MarketBoard> marketTopList(SqlSessionTemplate sqlSession, int matketType) {
-		return (ArrayList)sqlSession.selectList("marketMapper.marketTopList", matketType);
+	public ArrayList<MarketBoard> marketTopList(SqlSessionTemplate sqlSession,HashMap<String, Object> map) {
+		return (ArrayList)sqlSession.selectList("marketMapper.marketTopList", map);
 	}
 
 	public ArrayList<Attachment> topAttmListSelect(SqlSessionTemplate sqlSession, int matketType) {

@@ -93,16 +93,14 @@ public class MarketBoardController {
 		ArrayList<MarketBoard> mkBList = mkService.marketBoardList(pi, map);
 		ArrayList<Attachment> mkAList = mkService.attmListSelect();
 		
-		ArrayList<MarketBoard> topBList = mkService.marketTopList(marketType);
-		ArrayList<Attachment> topAList = mkService.topAttmListSelect(marketType);		
-		
-		System.out.println(mkAList);
+		ArrayList<MarketBoard> topBList = mkService.marketTopList(map);
+	
 		if(mkBList != null) {
 			model.addAttribute("pi", pi);
 			model.addAttribute("mkBList", mkBList);
 			model.addAttribute("mkAList", mkAList);
 			model.addAttribute("topBList", topBList);
-			model.addAttribute("topAList", topAList);
+			
 			return "marketBoardList";
 		} else {
 			throw new BoardException("게시글 조회 실패");
@@ -278,8 +276,7 @@ public class MarketBoardController {
 				model.addAttribute("mkRList", mkRList);
 				model.addAttribute("mkRRList", mkRRList);
 				model.addAttribute("reportSelect", reportSelect);
-				model.addAttribute("profile", m);
-				model.addAttribute("profileAttm", profileAttm);
+				
 				
 				return "marketBoardDetail";
 			
@@ -295,8 +292,9 @@ public class MarketBoardController {
 			int result = mkService.replyInsert(reply);
 			int bNo = reply.getBoardNo();
 			int result1 = mkService.replyCount(bNo);
-			int replyNo = reply.getReplyNo();
 			ArrayList<Reply> r= mkService.replySelect(bNo);
+			
+			System.out.println(r);
 			response.setContentType("application/json; charset=UTF-8");
 			GsonBuilder gb = new GsonBuilder();
 			GsonBuilder gb2 =  gb.setDateFormat("yyyy-MM-dd");
