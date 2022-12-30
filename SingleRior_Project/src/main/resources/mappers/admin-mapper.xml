@@ -142,6 +142,8 @@
 
 	<resultMap type="InquiryAdmin" id="InquiryAdminResultSet">
 		<id column="INQUIRY_NO" property="inquiryNo"/>
+		
+		<result column="BOARD_NO" property="boardNo"/>
 		<result column="PRO_TOPCATE_NAME" property="proTopCateName"/>
 		<result column="PRO_SUBCATE_NAME" property="proSubCateName"/>
 		<result column="BOARD_TITLE" property="boardTitle"/>
@@ -492,7 +494,7 @@
 	</update>
 	<select id="manageInquiry" resultMap="InquiryAdminResultSet">
 		
-		select inquiry_no,pro_topcate_name,pro_subcate_name,board_title,product_inquiry.product_no,inquiry_content,member_id,inquiry_date,inquiry_status,admin_status,inquiry_answer
+		select inquiry_no,board.board_no,pro_topcate_name,pro_subcate_name,board_title,product_inquiry.product_no,inquiry_content,member_id,inquiry_date,inquiry_status,admin_status,inquiry_answer
 		from product_inquiry
 		    join product on(product_inquiry.product_no=product.product_no)
 		    join product_sub_cate on(product.pro_subcate_code=product_sub_cate.pro_subcate_code)
@@ -510,7 +512,7 @@
 	</update>
 	<select id="inquiryQue" resultMap="InquiryAdminResultSet">
 	
-		select inquiry_no,pro_topcate_name,pro_subcate_name,board_title,product_inquiry.product_no,inquiry_content,member_id,inquiry_date,inquiry_status,admin_status,inquiry_answer
+		select inquiry_no,board.board_no,pro_topcate_name,pro_subcate_name,board_title,product_inquiry.product_no,inquiry_content,member_id,inquiry_date,inquiry_status,admin_status,inquiry_answer
 		from product_inquiry
 		    join product on(product_inquiry.product_no=product.product_no)
 		    join product_sub_cate on(product.pro_subcate_code=product_sub_cate.pro_subcate_code)
@@ -522,7 +524,7 @@
 	
 	
 	<select id="inquiryAns" resultMap="InquiryAdminResultSet">
-		select inquiry_no,pro_topcate_name,pro_subcate_name,board_title,product_inquiry.product_no,inquiry_content,member_id,inquiry_date,inquiry_status,admin_status,inquiry_answer
+		select inquiry_no,board.board_no,pro_topcate_name,pro_subcate_name,board_title,product_inquiry.product_no,inquiry_content,member_id,inquiry_date,inquiry_status,admin_status,inquiry_answer
 		from product_inquiry
 		    join product on(product_inquiry.product_no=product.product_no)
 		    join product_sub_cate on(product.pro_subcate_code=product_sub_cate.pro_subcate_code)

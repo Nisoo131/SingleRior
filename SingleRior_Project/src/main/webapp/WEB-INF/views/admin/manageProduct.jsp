@@ -159,6 +159,5 @@
         <script src="${ pageContext.servletContext.contextPath }/resources/assets/demo/chart-area-demo.js"></script>
         <script src="${ pageContext.servletContext.contextPath }/resources/assets/demo/chart-bar-demo.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
-        <script src="${ pageContext.servletContext.contextPath }/resources/js/datatables-simple-demo.js"></script>
     </body>
 </html>
