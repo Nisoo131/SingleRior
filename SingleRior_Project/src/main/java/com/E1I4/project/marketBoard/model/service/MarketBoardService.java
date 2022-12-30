@@ -34,7 +34,7 @@ public interface MarketBoardService {
 
 	ArrayList<ReReply> reReplySelect(int bNo);
 
-	ArrayList<MarketBoard> marketTopList(int marketType);
+	ArrayList<MarketBoard> marketTopList(HashMap<String, Object> map);
 
 	ArrayList<Attachment> topAttmListSelect(int marketType);
 

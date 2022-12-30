@@ -19,6 +19,8 @@
 		<result column="LIKE_COUNT" property="likeCount"/>
 		<result column="REPLY_COUNT" property="replyCount"/>
 		<result column="REPORT_STATUS" property="reportStatus"/>
+		<result column="IMG_SERVER_NAME" property="profileImg"/>
+		<result column="ADDRESS" property="address"/>
 	</resultMap>
 	
 	<resultMap type="Attachment" id="attachmentResultSet">
@@ -97,7 +99,6 @@
 			and (BOARD_CONTENT LIKE '%'||#{marketSearch}||'%')
 			and (BOARD_TITLE LIKE '%'||#{marketSearch}||'%')
 			</if>
-			
 		</if>
 		
 		<if test="marketArray == 1">
@@ -173,10 +174,11 @@
 	</delete>
 	
 	<select id="marketBoardSelect" resultMap="marketBoardResultSet">
-		select *
+		select ADDRESS,NICKNAME,IMG_SERVER_NAME,b.BOARD_NO,BOARD_TYPE,BOARD_TITLE,BOARD_CONTENT,b.CREATE_DATE,b.MODIFY_DATE,NOTICE_STATUS,B_STATUS,BOARD_WRITER,BOARD_COUNT,REPORT_STATUS,PRICE,MARKET_TYPE,LIKE_COUNT,REPLY_COUNT,LOCATION
 		from board b
-			join market k on(k.BOARD_NO = b.BOARD_NO)
-			join member on (board_writer = member_id)
+			left join market k on(k.BOARD_NO = b.BOARD_NO)
+			left join member on (board_writer = member_id)
+			left join IMG_REPOSITORY on(IMG_KEY = MEMBER_ID)
 		where b.BOARD_NO = #{bNo} and b.B_STATUS = 'Y'
 	</select>
 	
@@ -197,6 +199,7 @@
 		<result column="BOARD_NO" property="boardNo"/>
 		<result column="NICKNAME" property="nickName"/>
 		<result column="REPORT_STATUS" property="reportStatus"/>
+		<result column="IMG_SERVER_NAME" property="profileImg"/>
 	</resultMap>
 	
 	<resultMap type="ReReply" id="reReplyResultSet">
@@ -220,9 +223,10 @@
 	</insert>
 	
 	<select id="replySelect" resultMap="replyResultSet">
-		select *
+		select REPLY_NO,REPLY_CONTENT,REPLY_CREATE_DATE,REPLY_MODIFY_DATE,RE_SECRET,REPLY_STATUS,r.MEMBER_ID,BOARD_NO,REPORT_STATUS,NICKNAME,IMG_SERVER_NAME
 		from reply r
-			join member m on(r.MEMBER_ID = m.MEMBER_ID)
+			left join member m on(r.MEMBER_ID = m.MEMBER_ID)
+			left join IMG_REPOSITORY on(IMG_KEY = m.MEMBER_ID)
 		where BOARD_NO=#{boardNo} and REPLY_STATUS = 'Y'
 		order by reply_no desc
 	</select>

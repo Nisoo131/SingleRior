@@ -75,24 +75,24 @@
 						
 						<div>
 							<c:forEach items="${mkAList }" var="a">
-								<h5>
+								
 									<a href="${contextPath }/resources/uploadFiles/${a.imgRename}" download="${a.imgOriginalName }">
 										${a.imgOriginalName }
 									</a>
 									<button type="button" class="btn btn-outline-dark btn-sm deleteAttm" id="delete-${a.imgRename }/${a.level}">
-										삭제하기
+										삭제
 									</button>
 									<input type="hidden" name="deleteAttm" >
-								</h5>
+								
 								<br>
 							</c:forEach>
 						</div>
 						
 						<div id="fileArea">
-							<div class="mb-3">
-								<button type="button" class="btn " id="addFile"> <img src="https://cdn-icons-png.flaticon.com/512/4148/4148851.png" style="width: 40px; height: 40px;"> </button>
+							<button type="button" class="btn" id="addFile"><img src="https://cdn-icons-png.flaticon.com/512/4148/4148851.png" style="width: 40px; height: 40px;"> </button>
+							<div class="mb-3 input-group">
 								<input type="file" class="form-control" name="file">
-								
+								<button type="button" class="btn btn-outline-dark deleteFile" >삭제</button>
 							</div>
 						</div>
 						<br><br><br><br><br>
@@ -120,7 +120,7 @@
 			document.getElementById('addFile').addEventListener('click',()=>{
 				const newDiv = document.createElement('div');
 				newDiv.classList.add('mb-3');
-				newDiv.innerHTML = '<input type="file" class="form-control" name="file">';
+				newDiv.innerHTML = '<div class="mb-3 input-group"><input type="file" class="form-control" name="file"><button type="button" class="btn btn-outline-dark deleteFile" >삭제</button></div>';
 				
 				fileArea.append(newDiv);
 			});
@@ -139,11 +139,17 @@
 					} else{ // 삭제 버튼을 누른 경우 (삭제 ON)
 						this.style.background = 'none';
 						this.style.color = 'black';
-						this.innerHTML = '삭제하기';
+						this.innerHTML = '삭제';
 						nextHidden.removeAttribute('value');
 					}
 				});
 			}
+			
+			
+		
+			$(document).on('click', '.deleteFile', function(){
+				$(this).parent().remove();
+			});			
 			
 		}
 		

@@ -38,7 +38,6 @@
 		<typeAlias type="com.E1I4.project.member.model.vo.OrderDetail" alias="OrderDetail"/>
 		<typeAlias type="com.E1I4.project.common.model.vo.OrderProductDetail" alias="OrderProductDetail"/>
 	</typeAliases>
-
 	<mappers>
 		<mapper resource="mappers/member-mapper.xml"/>
 	   	<mapper resource="mappers/market-mapper.xml"/>

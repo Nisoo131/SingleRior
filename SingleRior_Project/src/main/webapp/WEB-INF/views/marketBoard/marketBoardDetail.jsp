@@ -19,6 +19,138 @@
 		font-family: 'BMJUA';
 	}
 	.dropdown:hover{cursor: pointer;}
+	
+	
+	li{
+  list-style-type: none;
+	}
+	
+	/* 보여줄 구간의 높이와 넓이 설정 */
+	#slideShow{
+	  width: 500px;
+	  height: 300px;
+	  position: relative;
+	  margin: 50px auto;
+	  overflow: hidden;   
+	  /*리스트 형식으로 이미지를 일렬로 
+	  정렬할 것이기 때문에, 500px 밖으로 튀어 나간 이미지들은
+	  hidden으로 숨겨줘야됨*/
+	}
+	
+	
+	.slides{
+	  position: absolute;
+	  left: 0;
+	  top: 0;
+	  width: 2500px; /* 슬라이드할 사진과 마진 총 넓이 */
+	  transition: left 0.5s ease-out; 
+	  /*ease-out: 처음에는 느렸다가 점점 빨라짐*/
+	}
+	
+	/* 첫 번째 슬라이드 가운데에 정렬하기위해
+	첫번째 슬라이드만 margin-left조정 */
+	.slides li:first-child{
+	  margin-left: 75px;
+	}
+	
+	/* 슬라이드들 옆으로 정렬 */
+	.slides li:not(:last-child){
+	  float: left;
+	  margin-right: 120px;
+	}
+	
+	.slides li{
+	  float: left;
+	}
+	
+	.controller span{
+	  position:absolute;
+	  background-color: transparent;
+	  color: black;
+	  text-align: center;
+	  border-radius: 50%;
+	  padding: 10px 20px;
+	  top: 50%;
+	  font-size: 1.3em;
+	  cursor: pointer;
+	}
+	
+	/* 이전, 다음 화살표에 마우스 커서가 올라가 있을때 */
+	.controller span:hover{
+	  background-color: rgba(128, 128, 128, 0.11);
+	}
+	
+	.prev{
+	  left: 10px;
+	}
+	
+	/* 이전 화살표에 마우스 커서가 올라가 있을때 
+	이전 화살표가 살짝 왼쪽으로 이동하는 효과*/
+	.prev:hover{
+	  transform: translateX(-10px);
+	}
+	
+	.next{
+	  right: 10px;
+	}
+	
+	/* 다음 화살표에 마우스 커서가 올라가 있을때 
+	이전 화살표가 살짝 오른쪽으로 이동하는 효과*/
+	.next:hover{
+	  transform: translateX(10px);
+	}
+	
+	
+	.img{
+    width: auto;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+  /* 이미지 클릭 시, 밝기 조절 */
+  .img:hover {opacity: 0.8;}
+
+  .modal {
+    display: none; /* 모달창 숨겨 놓기 */
+    position: fixed; 
+    z-index: 1; /* 모달창을 제일 앞에 두기 */
+    padding-top: 100px;
+    left: 0; top: 0;
+    width: 100%; height: 100%;
+    overflow: auto; /* 스크롤 허용 auto */
+    cursor: pointer; /* 마우스 손가락모양 */
+    background-color: rgba(0, 0, 0, 0.8);
+  }
+  /* 모달창 이미지 */
+  .modal_content {
+    margin: auto;
+    display: block;
+    width: 50%; height: auto;
+    max-width: 1000px;
+    border-radius: 10px;
+    animation-name: zoom;
+    animation-duration: 0.8s;
+  }
+  /* 모달창 애니메이션 추가 */
+  @keyframes zoom {
+    from {transform: scale(0)}
+    to {transform: scale(1)}
+  }
+  /* 닫기 버튼 꾸미기 */
+  .close {
+    position: absolute;
+    top: 15px;
+    right: 35px;
+    color: #f1f1f1;
+    font-size: 40px;
+    font-weight: bold;
+    transition: 0.3s;
+  }
+  .close:hover, .close:focus{
+    color: #bbb;
+    text-decoration: none;
+    cursor: pointer;
+  }
 </style>
 </head>
 <body>
@@ -48,7 +180,6 @@
 						</table>
 					</div>
 				</div>
-				
 			</div>
 			
 			<div class="col-12 border rounded overflow-hidden">
@@ -69,9 +200,9 @@
 					<table>
 						<tr>
 							<td class="fs-3 px-5 py-3" width="1100">${ mkBoard.boardTitle }</td>
-							<td width="20"><img src="https://cdn-icons.flaticon.com/svg/3916/3916586.svg?token=exp=1670462433~hmac=154ca1ce619f5c92644b4e20378081cd" width="20" height="20"></td>
+							<td width="20"><img src="https://cdn-icons-png.flaticon.com/512/2589/2589197.png" width="20" height="20"></td>
 							<td class="fs-5" style="text-align: center;" width="60" id="likeCount">${ mkBoard.likeCount }</td>
-							<td width="20"><img src="https://cdn-icons.flaticon.com/svg/3916/3916603.svg?token=exp=1670462662~hmac=f05590d1f51351a3e5542f67adfcb754" width="20" height="20"></td>
+							<td width="20"><img src="https://cdn-icons-png.flaticon.com/512/7789/7789458.png" width="20" height="20"></td>
 							<td class="fs-5" style="text-align: center;" width="60" id="replyCount" >${ mkBoard.replyCount }</td>
 						</tr>
 					</table>
@@ -85,20 +216,33 @@
 						<span>${ mkBoard.boardContent }</span>
 					</div>
 					
-					<div class="row justify-content-center">
-						<div class="col-md-8">
-							<div class="row">
-								<c:forEach items="${mkAList }" var="mkA">
-								<a href="resources/uploadFiles/${ mkA.imgRename}" data-toggle="lightbox" class="col-sm-4">
-									<img src="resources/uploadFiles/${ mkA.imgRename}" class="img-fluid rounded" style="width: 250px; height: 250px; ">
-								</a>
-								</c:forEach>
-							</div>
-						</div>
-					</div>
+				<!-- 이미지 모달창 -->
+				<div class="modal">
+  					<span class="close" >&times;</span>
+  					<img class="modal_content">
+				</div>
+					
+				<!-- 첨부파일 -->
+				<c:if test="${!empty mkAList}">
+				<div id="slideShow">
+				    <ul class="slides">
+				    	<c:forEach items="${mkAList}" var="mkA">
+				      	<li ><img class="img" src="resources/uploadFiles/${ mkA.imgRename}" alt="" style="width: 280px; height: 280px; "></li>
+				    	</c:forEach>
+				    </ul>  
+				    <p class="controller">
+				      <span class="prev">&lang;</span>  
+				      <span class="next">&rang;</span>
+				    </p>
+				 </div>
+				<script src="JS/slideShow.js"></script>
+				</c:if>	
+
+				<!-- 지도영역  -->
 				<c:if test="${mkBoard.location ne null }">
 					<div id="map" class="mx-auto" style=" width:300px;height:200px;"></div><br><div class="mx-auto" style="text-align:center; background: #D9E5FF; border-radius:2em; padding: 20px; width: 650px;"  >${mkBoard.nickName}님은  ${mkBoard.location }에서 직거래하고 싶어해요!</div>
-				</c:if>							
+				</c:if>		
+									
 				<div class="col-md-1" style="text-align: center; padding-top: 30px; padding-left: 50px; width: 170px;">
 	                  <div class="row g-0 flex-md-row shadow-sm h-md-250 position-relative mt-2 mb-4">
 	                     <c:if test="${ empty loginUser }">
@@ -128,27 +272,27 @@
 						<div class="col-12" style="background: #D9E5FF; border-radius:2em; padding: 20px; " >
 							<table style="width: 100%">
 								<tr>
-									<td rowspan="2" style="width: 80px;"><img src="https://cdn-icons-png.flaticon.com/512/789/789473.png" style="width: 60px; height: 60px;"></td>
-									<td style="align-content: "><span style="font-size: 25px;">${ profile.nickName }</span></td>
-									<td>
-										<c:if test="profileAttm!=null">
-											<img  id="reportBtn" src="resources/uploadFiles/${ profileAttm.imgRename }"  style="width: 50px; height: 50px; float: right;">
+									<td style="width: 80px;" rowspan="2">
+										<c:if test="${ mkBoard.profileImg!=null}">
+											<img  src="resources/uploadFiles/${ mkBoard.profileImg }"  style="width: 90px; height: 90px; border-radius: 70%">
 										</c:if>
-										<c:if test="profileAttm==null">
-											<img src="${ contextPath }/resources/image/userProfile.png" >
+										<c:if test="${ mkBoard.profileImg==null}">
+											<img src="${ contextPath }/resources/image/userProfile.png" style="width: 90px; height: 90px;  border-radius: 70%">
 										</c:if>
 									</td>
+									<td ><span style="font-size: 25px;">&nbsp;&nbsp;${ mkBoard.nickName }</span></td>
+									<td rowspan="2" style="float: right; margin-right: 12px; "><img src="${ contextPath }/resources/image/report.png" style="width: 60px; height: 60px; " id="reportBtn"></td>
 								</tr>
 								<tr>
-									<td>
-									<c:set value="${ fn:split(profile.address,' ') }" var="address" />
+									<td>&nbsp;&nbsp;
+									<c:set value="${ fn:split(mkBoard.address,' ') }" var="address" />
 										<span>
 											<c:forEach items="${address}" var="a" begin='0' end='1'>
 											${a}
 											</c:forEach>
 										</span>
 									</td>
-									<td style="float: right; margin-right: 12px; "><img src="${ contextPath }/resources/image/report.png" style="width: 60px; height: 60px; " id="reportBtn"></td>
+									<td style="float: right; margin-right: 12px; ">신고하기&nbsp;</td>
 								</tr>
 							</table>
 						</div>&nbsp;
@@ -175,13 +319,18 @@
 						<c:forEach items="${mkRList }" var="r">
 							<table class="table replyTable">
 								<tr>
-									<td style="text-align: center;" width="40"><img src="https://cdn-icons.flaticon.com/svg/3917/3917711.svg?token=exp=1670467359~hmac=b45251c2afca4a6751ba3fed9124eb31" width="20" height="20"></td>
+								<c:if test="${ r.profileImg eq null}">
+									<td style="text-align: center;" width="40"><img src="resources/image/userProfile.png" width="50" height="50" style="border-radius: 70%"></td>
+								</c:if>
+								<c:if test="${ r.profileImg ne null}">
+									<td style="text-align: center;" width="40"><img src="resources/uploadFiles/${ r.profileImg }" width="50" height="50" style="border-radius: 70%"></td>
+								</c:if>	
 									<td width="150px; class="px-4" class="reNickName">${r.nickName}</td>
 									<td width="150px; class="px-4">${r.replyModifyDate}</td>
 									<td width="850px;"></td>
 									<td>
 										<div class="dropdown">
-											<img class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" src="https://cdn-icons.flaticon.com/svg/3917/3917158.svg?token=exp=1670467948~hmac=2f18f7118b556af438bb1d4438649f4a" width="20" height="20">
+											<img class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" src="resources/image/menu-dots.png" width="20" height="20">
 											<ul class="dropdown-menu" style="text-align: center;">
 												<c:if test="${ loginUser.memberId eq r.memberId }">
 													<li class="reReplyBtn"><a class="dropdown-item">답글달기</a></li>
@@ -205,7 +354,10 @@
 										<c:if test="${r.replySecret == 'N' }">
 											<textarea readonly class="reContent" style="width: 1000px; border: none; resize: none;">${r.replyContent }</textarea>
 										</c:if>
-										<c:if test="${(r.replySecret == 'Y' and loginUser.memberId ne r.memberId and loginUser.memberId ne mkBoard.writer and loginUser.memberAuthority eq 'N') or empty loginUser}">
+										<c:if test="${r.replySecret == 'Y' and loginUser.memberId ne r.memberId and loginUser.memberId ne mkBoard.writer and loginUser.memberAuthority eq 'N'}">
+											<textarea readonly style="width: 1000px; border: none; resize: none;">비밀 댓글입니다.</textarea>
+										</c:if>
+										<c:if test="${r.replySecret == 'Y' and loginUser eq null}">
 											<textarea readonly style="width: 1000px; border: none; resize: none;">비밀 댓글입니다.</textarea>
 										</c:if>
 										<input type="hidden"  value="${ r.replyNo }">
@@ -285,7 +437,7 @@
 						
 						<div class="col-md-10" style="width: 700px;"></div>
 						
-						<c:if test="${ !(loginUser.memberId eq r.memberId) }">
+						<c:if test="${ loginUser.memberId eq mkBoard.writer }">
 						<div class="col-md-1" style="text-align: center; width: 100px;">
 							<button class="w-100 btn btn-outline-primary btn-lg" type="button"  onclick="location.href='${contextPath}/mkBoardUpdateView.ma?bNo=${mkBoard.boardNo}'">수정</button>
 						</div>
@@ -375,6 +527,20 @@
 		</div>
 	  </div>
 	</div>
+	
+	<div class="container-fluid ">
+    <div class="row lightbox-container align-items-center">
+      <div class="col-10 col-md-10 mx-auto text-right lightbox-holder">
+        <span class="lightbox-close"><i class="fas fa-window-close"></i></span>
+        <div class="lightbox-item"></div>
+        <span class="lightbox-control btnLeft"><i class="fas fa-caret-left"></i></span>
+        <span class="lightbox-control btnRight"><i class="fas fa-caret-right"></i></span>
+      </div>
+
+    </div>
+  </div>
+	
+	
 	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=798f33ea8b65e2cf58f7aae47be6ed55&libraries=services"></script>	
 	<script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
 			
@@ -425,7 +591,7 @@
 			
 		
 			//삭제모달
-			if(${ !(loginUser.memberId eq r.memberId) }){
+			if(${ loginUser.memberId eq mkBoard.writer }){
 				document.getElementById('deleteBtn').addEventListener('click', ()=>{
 					$('#deleteModal').modal('show');	
 				});
@@ -468,27 +634,84 @@
 				});
 			}
 			
-		//지도
-			var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
-			mapOption = {
+			//지도
+			if(${mkBoard.location != null}){
+				var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+				mapOption = {
 		        center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
 		        level: 3 // 지도의 확대 레벨
-		    }; 
+		    	}; 
 
-			var map = new kakao.maps.Map(mapContainer, mapOption); 
-			var geocoder = new kakao.maps.services.Geocoder();
-			geocoder.addressSearch('${ mkBoard.location}', function(result, status) {
-			     if (status === kakao.maps.services.Status.OK) {
-			        var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
-			        var marker = new kakao.maps.Marker({
-			            map: map,
-			            position: coords
-			        });
-			        map.setCenter(coords);
-			    } 
-			});  
-		
+				var map = new kakao.maps.Map(mapContainer, mapOption); 
+				var geocoder = new kakao.maps.services.Geocoder();
+				geocoder.addressSearch('${ mkBoard.location}', function(result, status) {
+				     if (status === kakao.maps.services.Status.OK) {
+				        var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+				        var marker = new kakao.maps.Marker({
+				            map: map,
+				            position: coords
+				       	});
+				        map.setCenter(coords);
+				    	} 
+					});  
+				}
+			
+			//이미지 슬라이드
+			const slides = document.querySelector('.slides'); //전체 슬라이드 컨테이너
+			const slideImg = document.querySelectorAll('.slides li'); //모든 슬라이드들
+			let currentIdx = 0; //현재 슬라이드 index
+			const slideCount = slideImg.length; // 슬라이드 개수
+			const prev = document.querySelector('.prev'); //이전 버튼
+			const next = document.querySelector('.next'); //다음 버튼
+			const slideWidth = 300; //한개의 슬라이드 넓이
+			const slideMargin = 100; //슬라이드간의 margin 값
+
+			//전체 슬라이드 컨테이너 넓이 설정
+			slides.style.width = (slideWidth + slideMargin) * slideCount + 'px';
+
+			function moveSlide(num) {
+			  slides.style.left = -num * 400 + 'px';
+			  currentIdx = num;
 			}
+
+			prev.addEventListener('click', function () {
+			  /*첫 번째 슬라이드로 표시 됐을때는 
+			  이전 버튼 눌러도 아무런 반응 없게 하기 위해 
+			  currentIdx !==0일때만 moveSlide 함수 불러옴 */
+
+			  if (currentIdx !== 0) moveSlide(currentIdx - 1);
+			});
+
+			next.addEventListener('click', function () {
+			  /* 마지막 슬라이드로 표시 됐을때는 
+			  다음 버튼 눌러도 아무런 반응 없게 하기 위해
+			  currentIdx !==slideCount - 1 일때만 
+			  moveSlide 함수 불러옴 */
+			  if (currentIdx !== slideCount - 1) {
+			    moveSlide(currentIdx + 1);
+			  }
+			});
+			
+			//이미지 모달창 
+			const modal = document.querySelector(".modal");
+			const img = document.querySelector(".img");
+			const modal_img = document.querySelector(".modal_content");
+			const span = document.querySelector(".close");
+
+			$(document).on('click', ".img", function(){
+			  modalDisplay("block");
+			  modal_img.src = this.src;
+			});
+			span.addEventListener('click', ()=>{
+			  modalDisplay("none");
+			});
+			modal.addEventListener('click', ()=>{
+			  modalDisplay("none");
+			});
+			function modalDisplay(text){
+			  modal.style.display = text;
+			}
+		}
 		
 		
 		//비밀댓글
@@ -589,11 +812,15 @@
 			document.getElementById('replyContent').value='';
 			document.getElementById('replyContent').value='';
 			for(const r of data){
-				
-				console.log(r.replySecret);
+				console.log(data);
 				let str = '<table class="table replyTable ">';
 				str +=	'<tr>';
-				str +=	'<td style="text-align: center;" width="40"><img src="https://cdn-icons.flaticon.com/svg/3917/3917711.svg?token=exp=1670467359~hmac=b45251c2afca4a6751ba3fed9124eb31" width="20" height="20"></td>';
+				
+				if(r.profileImg != null){
+					str += '<td style="text-align: center;" width="40"><img src="resources/uploadFiles/' + r.profileImg + '" width="50" height="50" style="border-radius: 70%"></td>';
+				}else{
+					str += '<td style="text-align: center;" width="40"><img src="resources/image/userProfile.png" width="50" height="50" style="border-radius: 70%"></td>';
+				}
 				str +=	'<td width="150px; class="px-4">'+ r.nickName + '</td>';
 				str +=	'<td width="150px; class="px-4">'+ r.replyModifyDate + '</td>';
 				str +=	'<td width="850px;"></td>';
@@ -692,10 +919,9 @@
 				});
 		}
 		
-		
-		
-		
 	</script>
+	
+	
 	
 </body>
 </html>
