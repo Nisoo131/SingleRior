@@ -12,6 +12,7 @@ import com.E1I4.project.common.model.vo.Attachment;
 import com.E1I4.project.common.model.vo.Board;
 import com.E1I4.project.common.model.vo.InquiryAdmin;
 import com.E1I4.project.common.model.vo.Notice;
+import com.E1I4.project.common.model.vo.OrderProductDetail;
 import com.E1I4.project.common.model.vo.PageInfo;
 import com.E1I4.project.common.model.vo.Product;
 import com.E1I4.project.common.model.vo.ProductList;
@@ -235,6 +236,10 @@ public class AdminDAO {
 
 	public ArrayList<OrderProducts> selectOrderProducts(SqlSessionTemplate sqlSession) {
 		return (ArrayList)sqlSession.selectList("adminMapper.selectOrderProducts");
+	}
+
+	public ArrayList<OrderProductDetail> orderProductDetail(SqlSessionTemplate sqlSession, int orNo) {
+		return (ArrayList)sqlSession.selectList("adminMapper.orderProductDetail",orNo);
 	}
 
 

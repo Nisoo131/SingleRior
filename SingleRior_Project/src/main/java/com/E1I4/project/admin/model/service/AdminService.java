@@ -8,6 +8,7 @@ import com.E1I4.project.common.model.vo.Attachment;
 import com.E1I4.project.common.model.vo.Board;
 import com.E1I4.project.common.model.vo.InquiryAdmin;
 import com.E1I4.project.common.model.vo.Notice;
+import com.E1I4.project.common.model.vo.OrderProductDetail;
 import com.E1I4.project.common.model.vo.PageInfo;
 import com.E1I4.project.common.model.vo.Product;
 import com.E1I4.project.common.model.vo.ProductList;
@@ -110,6 +111,8 @@ public interface AdminService {
 	ArrayList<HashMap<String, Object>> viewContentSum();
 
 	ArrayList<OrderProducts> selectOrderProducts();
+
+	ArrayList<OrderProductDetail> orderProductDetail(int orNo);
 
 
 

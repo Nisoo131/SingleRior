@@ -166,6 +166,20 @@
 		<result column="ORDER_TOTAL_STATUS" property="orderTotalStatus"/>
 	</resultMap>
 	
+	<resultMap type="OrderProductDetail" id="OrderProductDetailResultSet">
+		<id column="ORDER_NO" property="orderNo"/>
+		<result column="ORDER_DATE" property="orderDate"/>
+		<result column="ORDER_TOTAL_PRICE" property="orderTotalPrice"/>
+		<result column="ORDER_DETAIL_NO" property="orderDetailNo"/>
+		<result column="BOARD_TITLE" property="productName"/>
+		<result column="PRODUCT_QUANTITY" property="productQuantity"/>
+		<result column="PRODUCT_PRICE" property="productPrice"/>
+		<result column="PRODUCT_OPTION" property="productOption"/>
+		<result column="STATUS" property="status"/>
+		<result column="IMG_SERVER_NAME" property="imgServerName"/>
+	</resultMap>
+	
+	
 	<insert id="insertProduct">
 		insert all
 			into board values(seq_bid.nextval,1,#{productName},#{productContent},sysdate,sysdate,default,default,#{boardWriter},default,default)
@@ -537,13 +551,24 @@
 	</select>
 	<select id="selectOrderProducts" resultMap="OrderProductsResultSet">
 	
-	SELECT OP.ORDER_NO,LISTAGG(BOARD_TITLE,',') WITHIN GROUP(ORDER BY BOARD_TITLE) AS "PRODUCTS",ORDER_TOTAL_PRICE,RECIPIENT,RECI_ADDRESS,MEMBER_ID,RECI_PHONE,ORDER_DATE,ORDER_TOTAL_STATUS
-	FROM ORDER_PRODUCT OP
-    	JOIN ORDER_DETAIL OD ON(OP.ORDER_NO=OD.ORDER_NO)
-    	JOIN PRODUCT P ON(P.PRODUCT_NO=OD.PRODUCT_NO)
-    	JOIN BOARD B ON(B.BOARD_NO=P.BOARD_NO)
-	GROUP BY OP.ORDER_NO,ORDER_TOTAL_PRICE,RECIPIENT,RECI_ADDRESS,MEMBER_ID,ORDER_DATE,ORDER_TOTAL_STATUS,RECI_PHONE
+		SELECT OP.ORDER_NO,LISTAGG(BOARD_TITLE,',') WITHIN GROUP(ORDER BY BOARD_TITLE) AS "PRODUCTS",ORDER_TOTAL_PRICE,RECIPIENT,RECI_ADDRESS,MEMBER_ID,RECI_PHONE,ORDER_DATE,ORDER_TOTAL_STATUS
+		FROM ORDER_PRODUCT OP
+		   	JOIN ORDER_DETAIL OD ON(OP.ORDER_NO=OD.ORDER_NO)
+		   	JOIN PRODUCT P ON(P.PRODUCT_NO=OD.PRODUCT_NO)
+		   	JOIN BOARD B ON(B.BOARD_NO=P.BOARD_NO)
+		GROUP BY OP.ORDER_NO,ORDER_TOTAL_PRICE,RECIPIENT,RECI_ADDRESS,MEMBER_ID,ORDER_DATE,ORDER_TOTAL_STATUS,RECI_PHONE
 
+	</select>
+	<select id="orderProductDetail" resultMap="OrderProductDetailResultSet">
+	
+		select op.order_no, op.order_date,op.order_total_price,od.order_detail_no,b.board_title,od.product_quantity,od.product_price,od.product_option,od.status,img_Server_Name
+		from order_product op
+		    join order_detail od on(op.order_no=od.order_no)
+		    join product p on(od.product_no=p.product_no)
+		    join board b on(p.board_no=b.board_no)
+		    join img_repository i on(to_char(b.board_no)=i.img_key)
+		where op.order_no=#{orNo} and img_level=0
+		
 	</select>
 	
 	
