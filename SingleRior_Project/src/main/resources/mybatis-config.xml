@@ -35,6 +35,8 @@
 		<typeAlias type="com.E1I4.project.common.model.vo.InquiryAdmin" alias="InquiryAdmin"/>
 		<typeAlias type="com.E1I4.project.mainPage.model.vo.MainPage" alias="MainPage"/>
 		<typeAlias type="com.E1I4.project.admin.model.vo.OrderProducts" alias="OrderProducts"/>
+		<typeAlias type="com.E1I4.project.common.model.vo.OrderProductDetail" alias="OrderProductDetail"/>
+	
 	</typeAliases>
 
 	<mappers>
