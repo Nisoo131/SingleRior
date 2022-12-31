@@ -114,7 +114,7 @@ public interface MemberService {
 
 	ArrayList<Order> orderDetailList(int orderNo);
 
-	int insertReviewAttm(Attachment attm);
+	int insertReviewAttm(HashMap<String, Object> map);
 
 	int changeDeliveryAddress(Order order);
 
@@ -123,6 +123,10 @@ public interface MemberService {
 	int deleteReviewAttm(int reviewNo);
 
 	int updateReview(Review review);
+
+	int deleteReview(int reviewNo);
+
+	int selectAttmCount(String strRNo);
 
 
 

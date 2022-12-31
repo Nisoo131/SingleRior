@@ -96,71 +96,73 @@
 	<section>
 		<c:if test="${ !empty orList }">
 			<c:forEach items="${ orList }" var="o" varStatus="r">
-				<div class="orderCancelProduct done">
-					주문번호 : <span>${ o.orderNo }</span>&nbsp;&nbsp;&nbsp;
-					주문일자 : <span>${ o.orderDate }</span>&nbsp;&nbsp;&nbsp;
-					<input type="hidden" value="${ o.orderDetailNo }">
-					<table class="table">
-					    <tr>
-					      <td scope="row" colspan="4"></td>
-					    </tr>
-					    <tr height="15">
-					    	<td scope="row" width="250" rowspan="2" class="trReview">
-					    		<img src="${ contextPath }/resources/uploadFiles/${o.imgRename}" width="160" class="img">
-					    		<input type="hidden" name="productNo" value="${o.productNo}">
-					    		<input type="hidden" name="boardNo" value="${o.boardNo}">
-					    		<input type="hidden" name="reviewNo" value="${rList[r.index].reviewNo}">
-					    	</td>
-					     	<td width="400">상품</td>
-					      	<td>옵션</td>
-					      	<td>상품 금액</td>
-					   	</tr>
-					   	<tr>
-					     	<td height='100'>
-					      		<div>${o.boardTitle}</div>
-					      	</td>
-					      	<td>
-								<div>${o.productOption}</div>		      
-								<div>수량 : ${o.productQuantity}</div>   
-					      	</td>
-					      	<td>
-					      		<div><fmt:formatNumber value="${o.salePrice}" pattern="#,###"/>원</div>
-					      	</td>
-					   	</tr>
-					</table>
-					<div class="reviewContent">
-						<div>별점 : 
-							<c:if test="${rList[r.index].reviewRating == 0}"><span class="starView">★★★★★<span>★★★★★</span><input class="starViewValue" type="range" value="0"></span></c:if>
-							<c:if test="${rList[r.index].reviewRating == 0.5}"><span class="starView">★★★★★<span>★★★★★</span><input class="starViewValue" type="range" value="1"></span></c:if>
-							<c:if test="${rList[r.index].reviewRating == 1}"><span class="starView">★★★★★<span>★★★★★</span><input class="starViewValue" type="range" value="2"></span></c:if>
-							<c:if test="${rList[r.index].reviewRating == 1.5}"><span class="starView">★★★★★<span>★★★★★</span><input class="starViewValue" type="range" value="3"></span></c:if>
-							<c:if test="${rList[r.index].reviewRating == 2}"><span class="starView">★★★★★<span>★★★★★</span><input class="starViewValue" type="range" value="4"></span></c:if>
-							<c:if test="${rList[r.index].reviewRating == 2.5}"><span class="starView">★★★★★<span>★★★★★</span><input class="starViewValue" type="range" value="5"></span></c:if>
-							<c:if test="${rList[r.index].reviewRating == 3}"><span class="starView">★★★★★<span>★★★★★</span><input class="starViewValue" type="range" value="6"></span></c:if>
-							<c:if test="${rList[r.index].reviewRating == 3.5}"><span class="starView">★★★★★<span>★★★★★</span><input class="starViewValue" type="range" value="7"></span></c:if>
-							<c:if test="${rList[r.index].reviewRating == 4}"><span class="starView">★★★★★<span>★★★★★</span><input class="starViewValue" type="range" value="8"></span></c:if>
-							<c:if test="${rList[r.index].reviewRating == 4.5}"><span class="starView">★★★★★<span>★★★★★</span><input class="starViewValue" type="range" value="9"></span></c:if>
-							<c:if test="${rList[r.index].reviewRating == 5}"><span class="starView">★★★★★<span>★★★★★</span><input class="starViewValue" type="range" value="10"></span></c:if>
-						</div>
-						<div>구매후기 :  <span>${rList[r.index].reviewContent}</span></div>
-						<c:forEach items="${ attmList }" var="a">
-							<div>
-								<c:if test="${ rList[r.index].reviewNo eq a.imgKey }">
-									<c:if test="${ a.imgOriginalName != '' }">
-					 			   		<img class="reviewImg" src="resources/uploadFiles/${ a.imgRename }" width="200" height="200">
-					 			   		<input type="hidden" value="resources/uploadFiles/${ a.imgOriginalName }">
-				 			    	</c:if>
-								</c:if>
+				<form method="POST" class="reviewForm">
+					<div class="orderCancelProduct done">
+						주문번호 : <span>${ o.orderNo }</span>&nbsp;&nbsp;&nbsp;
+						주문일자 : <span>${ o.orderDate }</span>&nbsp;&nbsp;&nbsp;
+						<input type="hidden" name="orderDetailNo" value="${ o.orderDetailNo }">
+						<table class="table">
+						    <tr>
+						      <td scope="row" colspan="4"></td>
+						    </tr>
+						    <tr height="15">
+						    	<td scope="row" width="250" rowspan="2" class="trReview">
+						    		<img src="${ contextPath }/resources/uploadFiles/${o.imgRename}" width="160" class="img">
+						    		<input type="hidden" name="productNo" value="${o.productNo}">
+						    		<input type="hidden" name="boardNo" value="${o.boardNo}">
+						    		<input type="hidden" name="reviewNo" value="${rList[r.index].reviewNo}">
+						    	</td>
+						     	<td width="400">상품</td>
+						      	<td>옵션</td>
+						      	<td>상품 금액</td>
+						   	</tr>
+						   	<tr>
+						     	<td height='100'>
+						      		<div>${o.boardTitle}</div>
+						      	</td>
+						      	<td>
+									<div>${o.productOption}</div>		      
+									<div>수량 : ${o.productQuantity}</div>   
+						      	</td>
+						      	<td>
+						      		<div><fmt:formatNumber value="${o.salePrice}" pattern="#,###"/>원</div>
+						      	</td>
+						   	</tr>
+						</table>
+						<div class="reviewContent">
+							<div>별점 : 
+								<c:if test="${rList[r.index].reviewRating == 0}"><span class="starView">★★★★★<span>★★★★★</span><input class="starViewValue" type="range" value="0"></span></c:if>
+								<c:if test="${rList[r.index].reviewRating == 0.5}"><span class="starView">★★★★★<span>★★★★★</span><input class="starViewValue" type="range" value="1"></span></c:if>
+								<c:if test="${rList[r.index].reviewRating == 1}"><span class="starView">★★★★★<span>★★★★★</span><input class="starViewValue" type="range" value="2"></span></c:if>
+								<c:if test="${rList[r.index].reviewRating == 1.5}"><span class="starView">★★★★★<span>★★★★★</span><input class="starViewValue" type="range" value="3"></span></c:if>
+								<c:if test="${rList[r.index].reviewRating == 2}"><span class="starView">★★★★★<span>★★★★★</span><input class="starViewValue" type="range" value="4"></span></c:if>
+								<c:if test="${rList[r.index].reviewRating == 2.5}"><span class="starView">★★★★★<span>★★★★★</span><input class="starViewValue" type="range" value="5"></span></c:if>
+								<c:if test="${rList[r.index].reviewRating == 3}"><span class="starView">★★★★★<span>★★★★★</span><input class="starViewValue" type="range" value="6"></span></c:if>
+								<c:if test="${rList[r.index].reviewRating == 3.5}"><span class="starView">★★★★★<span>★★★★★</span><input class="starViewValue" type="range" value="7"></span></c:if>
+								<c:if test="${rList[r.index].reviewRating == 4}"><span class="starView">★★★★★<span>★★★★★</span><input class="starViewValue" type="range" value="8"></span></c:if>
+								<c:if test="${rList[r.index].reviewRating == 4.5}"><span class="starView">★★★★★<span>★★★★★</span><input class="starViewValue" type="range" value="9"></span></c:if>
+								<c:if test="${rList[r.index].reviewRating == 5}"><span class="starView">★★★★★<span>★★★★★</span><input class="starViewValue" type="range" value="10"></span></c:if>
+							</div>
+							<div>구매후기 :  <span>${rList[r.index].reviewContent}</span></div>
+							<c:forEach items="${ attmList }" var="a">
+								<div>
+									<c:if test="${ rList[r.index].reviewNo eq a.imgKey }">
+										<c:if test="${ a.imgOriginalName != '' }">
+						 			   		<img class="reviewImg" src="resources/uploadFiles/${ a.imgRename }" width="200" height="200">
+						 			   		<input type="hidden" name="img" value="resources/uploadFiles/${ a.imgOriginalName }">
+					 			    	</c:if>
+									</c:if>
+				 			    </div>
+							</c:forEach>
+			 			    <div style="width: 200px;">
+			 			    	<button type="button" class="btn btn-light updateReview" style="background:#008cd4; color:white;" data-bs-toggle="modal" data-bs-target="#updateReviewModal">수정</button>
+			 			    	<button type="button" class="btn btn-light" style="background:#008cd4; color:white;" data-bs-toggle="modal" data-bs-target="#deleteReviewModal">삭제</button>
 			 			    </div>
-						</c:forEach>
-		 			    <div style="width: 200px;">
-		 			    	<button type="button" class="btn btn-light updateReview" style="background:#008cd4; color:white;" data-bs-toggle="modal" data-bs-target="#updateReviewModal">수정</button>
-		 			    	<button type="button" class="btn btn-light" style="background:#008cd4; color:white;" data-bs-toggle="modal" data-bs-target="#deleteReviewModal">삭제</button>
-		 			    </div>
+						</div>
+						<hr>
+						<br><br><br><br>
 					</div>
-					<hr>
-					<br><br><br><br>
-				</div>
+				</form>
 			</c:forEach>
 		</c:if>
 		<c:if test="${ empty orList }">
@@ -253,7 +255,7 @@
 	     	 </div>
 			 <div class="modal-footer">
 				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">창닫기</button>
-				<button type="button" class="btn btn-light" style="background:#008cd4; color:white">리뷰 삭제</button>
+				<button type="button" class="btn btn-light deleteReview" style="background:#008cd4; color:white">리뷰 삭제</button>
 	     	 </div>
 	    </div>
 	  </div>
@@ -302,13 +304,17 @@
 		var boardNo = this.parentNode.parentNode.parentNode.querySelectorAll('input[type="hidden"]')[2].value;
 		var reviewNo = this.parentNode.parentNode.parentNode.querySelectorAll('input[type="hidden"]')[3].value;
 		
-		if(document.querySelector('#reviewImg') != null){
+		if(this.parentNode.parentNode.querySelector('.reviewImg') != null){
 			var oriImg = this.parentNode.parentNode.querySelectorAll('input[type="hidden"]')[0].value;
 			var oriImgName = oriImg.split('/')[2];
 			
 			document.getElementById("oriImgName").innerText = "등록된 사진 : " + oriImgName;
+			
+			document.getElementById("deleteAttm").style.display = 'block';
+		} else {
+			document.getElementById("oriImgName").innerText = "";
+			document.getElementById("deleteAttm").style.display = 'none';
 		}
-		console.log(document.querySelector('#reviewImg'));
 		
 		console.log("원래 별점 : " + reviewRating);
 		console.log("원래 내용 : " + reviewContent);
@@ -317,8 +323,8 @@
 		console.log("productNo : " + productNo);
 		console.log("boardNo : " + boardNo);
 		console.log("reviewNo : " + reviewNo);
-//		console.log("oriImg : " + oriImg);
-//		console.log("oriImgName : " + oriImgName);
+		console.log("oriImg : " + oriImg);
+		console.log("oriImgName : " + oriImgName);
 		
 		document.getElementById("reviewRating").value = reviewRating;
 		document.getElementById("starNum").value = reviewRating;
@@ -332,11 +338,14 @@
 		document.getElementById("boardNo").value = boardNo;
 		document.getElementById("reviewNo").value = reviewNo;
 		
-		if(($('#deleteAttm').text == "삭제 X") && ($('#deleteAttm').css('display') === 'none')){
+		if(($('#deleteAttm').text() === "삭제 X") && ($('#deleteAttm').css('display') === 'none')){ // 원래 리뷰 사진이 없는 경우 -> 사진 첨부 가능
+			document.getElementById("file").removeAttribute('disabled');
+		} else if($('#deleteAttm').text() === "삭제 X") { // 원래 리뷰 사진이 존재 -> 사진 첨부 불가
 			document.getElementById("file").setAttribute('disabled', true);
 		}
 		
 		console.log($('#deleteAttm').css('display') === 'none');
+		console.log($('#deleteAttm').text() === '삭제 X');
 		
 		document.getElementById("deleteAttm").addEventListener('click', function(){
 			const nextHidden = this.nextElementSibling;
@@ -354,10 +363,6 @@
 				document.getElementById("file").setAttribute('disabled', true);
 			}
 		});
-		
-		
-		
-		
 	});
 	
 	const drawStar = (target) => {
@@ -367,6 +372,15 @@
 	document.getElementById("reviewRating").addEventListener('input', e=>{
 		document.querySelector('#starNum').value = e.target.value/2;
 		console.log(document.querySelector('#starNum').value);
+	});
+	
+	// 리뷰 삭제
+	$(document).on('click', ".deleteReview", function(){
+		var reviewForm = this.parentNode.parentNode.parentNode.parentNode.parentNode.querySelector('form');
+		console.log(reviewForm);
+		
+		reviewForm.action = '${contextPath}/deleteReview.me';
+		reviewForm.submit();
 	});
 	</script>
 </body>

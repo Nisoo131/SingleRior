@@ -844,6 +844,8 @@ public class MemberController {
 		
 		int reviewResult = mService.insertReview(review);
 		
+		System.out.println(review.getReviewNo());
+		
 		Attachment attm = new Attachment();
 		
 		String fileName = file.getOriginalFilename();
@@ -862,7 +864,13 @@ public class MemberController {
 			}
 		}
 		
-		int attmResult = mService.insertReviewAttm(attm);
+		String strBNo = Integer.toString(review.getReviewNo());
+		
+		HashMap<String, Object> map1 = new HashMap<String, Object>();
+		map1.put("attm", attm);
+		map1.put("reviewNo", strBNo);
+		
+		int attmResult = mService.insertReviewAttm(map1);
 		
 		String status = "리뷰작성";
 		HashMap<String, Object> map = new HashMap<String, Object>();
@@ -902,7 +910,7 @@ public class MemberController {
 		System.out.println(review.getMemberId());
 		System.out.println(review.getOrderDetailNo());
 		System.out.println(review.getReviewRating());
-		System.out.println();
+		System.out.println(review.getImgRename());
 		
 		// 기존에 첨부된 사진을 삭제한다고 한 경우
 		if(deleteAttm.equals("0")) {
@@ -911,10 +919,11 @@ public class MemberController {
 		}
 		
 		// 새로운 리뷰 사진 등록
-		if(!(file==null)) {
+		if(file != null) {
 			Attachment attm = new Attachment();
 			
 			String fileName = file.getOriginalFilename();
+			System.out.println(fileName);
 			if(!fileName.equals("")) {
 				String fileType = fileName.substring(fileName.lastIndexOf(".")+1).toLowerCase();
 				
@@ -930,7 +939,15 @@ public class MemberController {
 				}
 			}
 			
-			int attmResult = mService.insertReviewAttm(attm);
+			System.out.println(attm);
+			
+			String strBNo = Integer.toString(review.getReviewNo());
+			
+			HashMap<String, Object> map = new HashMap<String, Object>();
+			map.put("attm", attm);
+			map.put("reviewNo", strBNo);
+			
+			int attmResult = mService.insertReviewAttm(map);
 		}
 		
 		int updateReviewResult = mService.updateReview(review);
@@ -940,6 +957,38 @@ public class MemberController {
 		}else {
 			deleteFile(review.getImgRename(), request);
 			throw new BoardException("리뷰가 정상적으로 수정되지 않았습니다.");
+		}
+	}
+	
+	@RequestMapping("deleteReview.me")
+	public String deleteReview(@RequestParam("reviewNo") int reviewNo, @RequestParam("orderDetailNo") int orderDetailNo) {
+		String strRNo = Integer.toString(reviewNo);
+		
+		System.out.println(reviewNo);
+		System.out.println(orderDetailNo);
+		
+		int selectAttmCount = mService.selectAttmCount(strRNo);
+		
+		if(selectAttmCount == 1) {
+			System.out.println("이미지 1개 존재");
+			int deleteAttmResult = mService.deleteReviewAttm(reviewNo);
+		} else {
+			System.out.println("이미지 없음");
+		}
+		
+		int result = mService.deleteReview(reviewNo);
+		
+		String status = "구매확정";
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("status", status);
+		map.put("orderDetailNo", orderDetailNo);
+		
+		int updateReviewStatus = mService.updateReviewStatus(map);
+		
+		if(result + updateReviewStatus == 2) {
+			return "redirect:myReviewDoneList.me";
+		} else {
+			throw new BoardException("리뷰 삭제에 실패하였습니다.");
 		}
 	}
 	

@@ -231,8 +231,9 @@ public class MemberDAO {
 	}
 
 
-	public int insertReviewAttm(SqlSessionTemplate sqlSession, Attachment attm) {
-		return sqlSession.insert("memberMapper.insertReviewAttm", attm);
+	public int insertReviewAttm(SqlSessionTemplate sqlSession, HashMap<String, Object> map) {
+		System.out.println(map);
+		return sqlSession.insert("memberMapper.insertReviewAttm", map);
 	}
 
 	public int changeDeliveryAddress(SqlSessionTemplate sqlSession, Order order) {
@@ -250,6 +251,14 @@ public class MemberDAO {
 
 	public int updateReview(SqlSessionTemplate sqlSession, Review review) {
 		return sqlSession.update("memberMapper.updateReview", review);
+	}
+
+	public int deleteReview(SqlSessionTemplate sqlSession, int reviewNo) {
+		return sqlSession.delete("memberMapper.deleteReview", reviewNo);
+	}
+
+	public int selectAttmCount(SqlSessionTemplate sqlSession, String strRNo) {
+		return sqlSession.selectOne("memberMapper.selectAttmCount", strRNo);
 	}
 
 
