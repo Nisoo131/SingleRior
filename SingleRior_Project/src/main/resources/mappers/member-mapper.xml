@@ -615,7 +615,7 @@
 	<select id="getImgReview" resultType="string">
 		select *
 		from img_repository
-		where img_key = #{reviewNoStr} and img_level = 0
+		where img_key = #{reviewNoStr} and img_level = 0 and img_b_type = 7
 	</select>
 	
 	<select id="orderStatusCount" resultType="_int">
