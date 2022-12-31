@@ -230,11 +230,6 @@
 		console.log(document.querySelector('#reviewRating').value);
 	});
 	
-// 	document.getElementById("starNum").addEventListener('click', ()=>{
-// 		console.log(document.querySelector('#file').value);
-// 	});
-	
-
 	</script>
 	
 	

@@ -757,6 +757,10 @@ public class MemberController {
 		
 		ArrayList<Review> rList = new ArrayList<Review>();
 		
+		ArrayList<Attachment> attmList = mService.selectReviewAttmList();
+		
+//		System.out.println(attmList);
+		
 		
 		for (int i = 0; i<orList.size(); i++) {
 			String boardNo = Integer.toString(orList.get(i).getBoardNo());
@@ -786,6 +790,7 @@ public class MemberController {
 			model.addAttribute("orList", orList);
 			model.addAttribute("rList", rList);
 			model.addAttribute("pi", pi);
+			model.addAttribute("attmList", attmList);
 //		}
 		return "myReviewDoneList";
 //		return null;
@@ -831,53 +836,47 @@ public class MemberController {
 		return "myReviewNDoneList";
 	}
 	@RequestMapping("insertReview.me")
-	public String insertReview(@RequestParam("orderDetailNo") int orderDetailNo, @ModelAttribute Review review,@RequestParam(value="file", required=false) MultipartFile file, HttpServletRequest request, HttpSession session) {
+	public String insertReview(@RequestParam("orderDetailNo") int orderDetailNo, @ModelAttribute Review review, @RequestParam(value="file", required=false) MultipartFile file, HttpServletRequest request) {
 		String id = ((Member)request.getSession().getAttribute("loginUser")).getMemberId();
 		
-		
-		System.out.println("file : "+file);
 		review.setMemberId(id);
 		review.setOrderDetailNo(orderDetailNo);
 		
-		System.out.println(review);
-//		System.out.println(orderDetailNo);
+		int reviewResult = mService.insertReview(review);
 		
-//		int reviewResult = mService.insertReview(review);
+		Attachment attm = new Attachment();
 		
-//		String strRNo = Integer.toString(review.getReviewNo());
+		String fileName = file.getOriginalFilename();
+		if(!fileName.equals("")) {
+			String fileType = fileName.substring(fileName.lastIndexOf(".")+1).toLowerCase();
+			
+			if(fileType.equals("png") || fileType.equals("jpg") || fileType.equals("gif") || fileType.equals("jpeg") || fileType.equals("jfif")) {
+				String[] returnArr = saveFile(file, request);
+				
+				if(returnArr[1] != null) {
+					attm.setImgOriginalName(file.getOriginalFilename());
+					attm.setImgRename(returnArr[1]);
+					attm.setImgPath(returnArr[0]);
+					attm.setBoardType(7);
+				}
+			}
+		}
 		
-//		System.out.println(file);
+		int attmResult = mService.insertReviewAttm(attm);
 		
-//		Attachment attm = new Attachment();
+		String status = "리뷰작성";
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("status", status);
+		map.put("orderDetailNo", orderDetailNo);
 		
-//		String fileName = file.getOriginalFilename();
-//		if(!fileName.equals("")) {
-//			String[] returnArr = saveFile(file, request);
-//					
-//			if(returnArr[1] != null) {
-//				attm.setImgOriginalName(file.getOriginalFilename());
-//				attm.setImgRename(returnArr[1]);
-//				attm.setImgPath(returnArr[0]);
-//				attm.setImgKey(strRNo);
-//				attm.setBoardType(7);
-//			}
-//		}
+		int updateReviewStatus = mService.updateReviewStatus(map);
 		
-//		int attmResult = mService.insertReviewAttm(attm);
-		
-////		if(reviewResult + attmResult == 2) {
-//			String status = "리뷰작성";
-//			HashMap<String, Object> map = new HashMap<String, Object>();
-//			map.put("status", status);
-//			map.put("orderDetailNo", orderDetailNo);
-//			
-//			int updateReviewStatus = mService.updateReviewStatus(map);
-//			return "redirect:myReviewDoneList.me";
-//		} else {
-//			deleteFile(attm.getImgRename(), request);
-//			throw new BoardException("글이 정상적으로 등록되지 않았습니다.");
-//		}
-		return null;
+		if(reviewResult + updateReviewStatus == 2) {
+			return "redirect:myReviewDoneList.me";
+		} else {
+			deleteFile(attm.getImgRename(), request);
+			throw new BoardException("글이 정상적으로 등록되지 않았습니다.");
+		}
 	}
 	
 	// 파일 삭제
@@ -888,6 +887,59 @@ public class MemberController {
 		File f = new File(savePath + "\\" + fileName);
 		if(f.exists()) {
 			f.delete();
+		}
+	}
+	
+	@RequestMapping("updateReview.me")
+	public String updateReview(@ModelAttribute Review review, @RequestParam(value="deleteAttm", required=false) String deleteAttm, @RequestParam(value="file", required=false) MultipartFile file, HttpServletRequest request, Model model) {
+		String id = ((Member)request.getSession().getAttribute("loginUser")).getMemberId();
+		
+		review.setMemberId(id);
+		
+		System.out.println(review.getReviewNo());
+		System.out.println(review.getBoardNo());
+		System.out.println(review.getReviewContent());
+		System.out.println(review.getMemberId());
+		System.out.println(review.getOrderDetailNo());
+		System.out.println(review.getReviewRating());
+		System.out.println();
+		
+		// 기존에 첨부된 사진을 삭제한다고 한 경우
+		if(deleteAttm.equals("0")) {
+			int deleteAttmResult = mService.deleteReviewAttm(review.getReviewNo());
+			deleteFile(review.getImgRename(), request);
+		}
+		
+		// 새로운 리뷰 사진 등록
+		if(!(file==null)) {
+			Attachment attm = new Attachment();
+			
+			String fileName = file.getOriginalFilename();
+			if(!fileName.equals("")) {
+				String fileType = fileName.substring(fileName.lastIndexOf(".")+1).toLowerCase();
+				
+				if(fileType.equals("png") || fileType.equals("jpg") || fileType.equals("gif") || fileType.equals("jpeg") || fileType.equals("jfif")) {
+					String[] returnArr = saveFile(file, request);
+					
+					if(returnArr[1] != null) {
+						attm.setImgOriginalName(file.getOriginalFilename());
+						attm.setImgRename(returnArr[1]);
+						attm.setImgPath(returnArr[0]);
+						attm.setBoardType(7);
+					}
+				}
+			}
+			
+			int attmResult = mService.insertReviewAttm(attm);
+		}
+		
+		int updateReviewResult = mService.updateReview(review);
+		
+		if(updateReviewResult > 0) {
+			return "redirect:myReviewDoneList.me";
+		}else {
+			deleteFile(review.getImgRename(), request);
+			throw new BoardException("리뷰가 정상적으로 수정되지 않았습니다.");
 		}
 	}
 	

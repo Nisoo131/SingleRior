@@ -389,7 +389,7 @@ public class CommuBoardController {
 	/* 게시글 수정 (update) */
 	// 글 수정 페이지 이동
 	@RequestMapping("updateForm.co")
-	public String updateForm(@RequestParam("boardNo") int bNo, @RequestParam("page") int page, Model model) {
+	public String updateForm(@RequestParam("boardNo") int bNo, Model model) {
 		CommuBoard coBoard = cService.selectCommuBoard(bNo, false);
 		
 		String strBNo = Integer.toString(bNo);
@@ -397,13 +397,12 @@ public class CommuBoardController {
 		
 		model.addAttribute("coBoard", coBoard);
 		model.addAttribute("list", list);
-		model.addAttribute("page", page);
 		return "commuBoardEdit";
 	}
 	
 	// 커뮤니티 글 수정 (update)
 	@RequestMapping("updateCommuBoard.co")
-	public String updateCommuBoard(@ModelAttribute CommuBoard coBoard, @RequestParam("page") int page, @RequestParam(value="deleteAttm", required=false) String[] deleteAttm, @RequestParam("file") ArrayList<MultipartFile> files, HttpServletRequest request, Model model) {
+	public String updateCommuBoard(@ModelAttribute CommuBoard coBoard, @RequestParam(value="deleteAttm", required=false) String[] deleteAttm, @RequestParam("file") ArrayList<MultipartFile> files, HttpServletRequest request, Model model) {
 		int updateBoardResult = cService.updateCommuBoard(coBoard);
 		
 		// 새 파일 저장
@@ -497,7 +496,6 @@ public class CommuBoardController {
 		if(updateBoardResult + updateAttmResult == 2 + list.size()) {
 			model.addAttribute("bNo", coBoard.getBoardNo());
 			model.addAttribute("writer", ((Member)request.getSession().getAttribute("loginUser")).getNickName());
-			model.addAttribute("page", page);
 			return "redirect:selectCommuBoard.co";
 		} else {
 			for(Attachment a : list) {
