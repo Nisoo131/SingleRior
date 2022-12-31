@@ -125,6 +125,7 @@
 														<fmt:formatNumber type="number" maxFractionDigits="3" value="${ p.price-(p.price*p.discount/100)}" var="totalPrice" />
 						  								<span class="item-price">${ totalPrice }</span> 원
 						  								<input type="hidden" class="PNo" value="${ p.productNo }">
+						  								<input type="hidden" class="BNo" value="${ p.boardNo }">
 						  							</span>
 						  							<div class="today-special-price-review">
 						  								<svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" style="margin-bottom: 3px;" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
@@ -294,7 +295,8 @@
 			for(const div of st1){
 				div.addEventListener('click', function(){
 					const productNo = this.querySelector('.PNo').value;
-					location.href='${contextPath}/productDetail.st?productNo=' + productNo;
+					const boardNo = this.querySelector('.BNo').value;
+					location.href='${contextPath}/productDetail.st?productNo=' + productNo + '&boardNo=' + boardNo;
 				});
 			}
 			

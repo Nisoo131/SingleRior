@@ -114,7 +114,7 @@ public interface MemberService {
 
 	ArrayList<Order> orderDetailList(int orderNo);
 
-	int insertReviewAttm(Attachment attm);
+	int insertReviewAttm(HashMap<String, Object> map);
 
 	int changeDeliveryAddress(Order order);
 
@@ -130,10 +130,9 @@ public interface MemberService {
 
 	ProductCancel getProductCancel(int orderDetailNo);
 
+	int deleteReview(int reviewNo);
 
-
-
-
+	int selectAttmCount(String strRNo);
 
 
 }

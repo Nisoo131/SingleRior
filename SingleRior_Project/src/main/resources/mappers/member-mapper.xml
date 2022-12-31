@@ -672,14 +672,14 @@
 	
 	<insert id="insertReviewAttm">
 		insert into IMG_REPOSITORY
-		values(SingleRior_aid, #{imgOriginalName}, #{imgRename}, sysdate, sysdate, default,
-		<if test="reviewNo == null">
+		values(SingleRior_aid, #{attm.imgOriginalName}, #{attm.imgRename}, sysdate, sysdate, default,
+		<if test="reviewNo == 0">
 			seq_rvid.currval,
 		</if>
-		<if test="reviewNo != null">
-			#{reviewNo}
+		<if test="reviewNo > 0">
+			#{reviewNo},
 		</if>
-		#{imgPath}, #{boardType}, 0)
+		#{attm.imgPath}, #{attm.boardType}, 0)
 	</insert>
 	
 	<update id="updateReviewStatus">
@@ -710,6 +710,7 @@
 		set REVIEW_CONTENT = #{reviewContent}, REVIEW_RATING = #{reviewRating}
 		where review_no = #{reviewNo}
 	</update>
+
 	<select id="getOrderCancelCount" resultType="_int">
 	select count(*)
 	from order_product
@@ -739,5 +740,16 @@
 	select *
 	from product_cancel
 	where order_detail_no = #{orderDetailNo}
+	</select>
+	
+	<delete id="deleteReview">
+		delete from product_review
+		where review_no = #{reviewNo}
+	</delete>
+	
+	<select id="selectAttmCount" resultType="_int">
+		select count(*)
+		from img_repository
+		where IMG_STATUS = 'Y' and IMG_B_TYPE = '7' and img_key = #{strRNo}
 	</select>
 </mapper>

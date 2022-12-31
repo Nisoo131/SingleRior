@@ -286,8 +286,8 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public int insertReviewAttm(Attachment attm) {
-		return mDAO.insertReviewAttm(sqlSession, attm);
+	public int insertReviewAttm(HashMap<String, Object> map) {
+		return mDAO.insertReviewAttm(sqlSession, map);
 	}
 
 	@Override
@@ -320,15 +320,13 @@ public class MemberServiceImpl implements MemberService {
 		return mDAO.getProductCancel(sqlSession,orderDetailNo);
 	}
 
+	public int deleteReview(int reviewNo) {
+		return mDAO.deleteReview(sqlSession, reviewNo);
+	}
 
-
-
-
-
-
-
-
-	
-	
+	@Override
+	public int selectAttmCount(String strRNo) {
+		return mDAO.selectAttmCount(sqlSession, strRNo);
+	}
 
 }
