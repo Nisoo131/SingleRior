@@ -80,6 +80,7 @@
 							      	<td><h4>상품 금액</h4>
 							      	</td>
 							      	<td><h4>상태</h4></td>
+							      	<td><c:if test=""></c:if></td>
 							   	</tr>
 							   	<tr>
 							   		<td>${l.orderDetailNo}</td>
