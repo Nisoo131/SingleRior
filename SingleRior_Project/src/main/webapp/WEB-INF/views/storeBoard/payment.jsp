@@ -88,7 +88,7 @@
 			       	</form>
 			       	
 			        <br>
-			        <select style="width:500px; height:25px;" onchange="this.form.submit()">
+			        <select name="selectOpt" style="width:500px; height:25px;" >
 			        	<option>배송시 요청사항을 선택해주세요</option>
 			        	<option>배송전에 미리 연락주세요</option>
 			        	<option>부재시 문앞에 놓아주세요</option>
@@ -115,16 +115,16 @@
 			       	</tr>
 			       </table>
 			       <br><br>
-			      
-			 
-			  <%-- ${ member } --%>
-				
-				<%-- ${ orderItem } --%>
+			  
+				 
+				    <%-- ${ member } --%>	
+					<%--  ${ orderItem }  --%>
 		        
 				   <h5 class="blog-post-title mb-1">▶상품 정보</h5>
 				   <hr>
-				   <c:set var ="sum" value="0"/>
+				   <c:set var ="sum" value="0"/>  
 				   <c:forEach items="${ orderItem }" var="o" varStatus="status">
+				   <input type="hidden" name="productNo" value="${ o.productNo }">
 				       <table class="table">   
 					   <tr height="15">
 					    	<td scope="row" width="250" rowspan="2" class="bottomNone"><img src="${ contextPath }/resources/uploadFiles/${o.imgRename }"1 width="100"></td>
@@ -135,7 +135,7 @@
 					   	</tr>
 					   	<tr>
 					     	<td class="bottomNone">
-					      		<div id="product_name">${ o.boardTitle }</div>
+					      		<div id="product_name">${ o.boardTitle }${ o.productNo }</div>
 					      	</td>
 					      	<td class="bottomNone">
 								<div>옵션 : ${ o.productOption } </div>
@@ -157,6 +157,10 @@
 					</table>
 					</c:forEach>
 				  
+				   <form>
+				   <input type="hidden" name="productNo" value="${ o.productNo }">
+				   </form>
+				   
 				   <br><br>
 				   <h5 class="blog-post-title mb-1">▶결제 수단</h5>
 				   <hr>
@@ -213,7 +217,7 @@
 			         <input type="checkbox" required> 아래 내용에 모두 동의합니다.(필수)<br>
 			         <input type="checkbox" required> 개인정보 수집 이용 및 제 3자 제공 동의 (필수)
 			         <br>
-			         <button type="submit" class="order_btn" id="order_btn">결제하기</button>
+			         <button type="button" class="order_btn" id="order_btn">결제하기</button>
 		         </form>		         
 		         </div>
 		         </div>
@@ -257,13 +261,13 @@ window.onload = function(){
     }
     
 	// 주문서 공란 결제 못하게 막기
-		$("#order_btn").click(function(){
+	 $("#order_btn").click(function(){
 		   if($.trim($(".ordersheet").val())==''){
 		     alert("주문서를 작성해주세요.");
 		     return false;
 		   } 
-		  /*  $("#order_form").submit(); */
-		 });
+		    $("#order_form").submit(); 
+		 });  
     
     // 아임포트 API
      document.getElementById("order_btn").addEventListener("click", function(){
@@ -271,9 +275,25 @@ window.onload = function(){
     	  var IMP = window.IMP;   // 생략 가능함
     	  IMP.init("imp24668238"); // 예: imp00000000 
     	  
-    	  var buyer_name = $('#b_name').val();
-    	  var buyer_email = $('#b_email').val();
+    	  var memberName = $('#b_name').val();
+    	  var email = $('#b_email').val();
     	  var buyer_phone = $('#b_phone').val();
+    	  
+    	  var recipient = $('input[name=recipient]').val();
+    	  var recipient_phone = $('input[name=phone]').val();
+    	  var address = $('input[name=address]').val();
+    	  var address_detail = $('input[name=address_detail]').val();
+    	  var deliveryMsg = $('select[name=selectOpt] option:selected').text();
+    	 
+    	  var productNo = $('input[name=productNo]').val();
+    	  console.log(productNo);
+    	  for (var i=0; i < productNo.length; i++){
+    		  console.log(i + " ");
+    	  }
+    
+    	  
+    	  
+    	
     	  
     	  var amount = finalPrice;
    	      IMP.request_pay({ 
@@ -281,39 +301,34 @@ window.onload = function(){
    	          pay_method: "card",
    	          merchant_uid: new Date().getTite,   // 주문번호
    	          name: "SingleRior_스토어",
-   	          amount: amount, // 숫자타입
-   	       	  buyer_email: buyer_email,
- 	          buyer_name: buyer_name,
+   	          amount: 100, // 숫자타입 amount
+   	       	  buyer_email: email,
+ 	          buyer_name: memberName,
  	          buyer_tel: buyer_phone,
 
    	      }, function (rsp) { // callback
    	          if (rsp.success) {
    	           // 결제 성공 시 로직,
-		              let imp_uid = rsp.imp_id;
-		              let merchant_uid = rsp.merchant_uid;
-		              let paid_amount = rsp.paid_amount;
-		              let apply_num = rsp.apply_num;
-		              
-		            
 		              $.ajax({
 		            	  url: "${contextPath}/orderResult.st", 
-		            	  data:data,
-		            	  success: function(data){
-		  		              let msg = "결제가 완료되었습니다.\n";
-		  		              msg += "고유ID: " + imp_uid;
-		  		              msg += "\n상점거래ID : " + merchant_uid;
-		  		              msg += "\n결제금액 : " + paid_amount;
-		  		              msg += "\n 카드승인번호 : " + apply_num;
-		  		              alert(msg);
+		            	  data:{recipient:recipient,
+			            		  recipient_phone:recipient_phone,
+			            		  address:address,
+			            		  address_detail:address_detail,
+			            		  deliveryMsg:deliveryMsg,
+			            		  memberName:memberName,
+			            		  email:email,
+			            		  buyer_phone:buyer_phone,
+		            		      
+			            		  
+		            		    },
+						  success: function(data){
 		  		              location.href="${contextPath}/orderResult.st";
 		            	  }
-		              })// end ajax
-   	              alert('성공');
+		              })
+   	              alert("결제성공");
    	          } else {
-   	        	 let msg = "결제를 실패하였습니다./n"
- 		              msg = "에러내용: " + rsp.error_msg;
- 		              
- 		              alert("msg");
+   	        	 alert("결제를 실패하였습니다. 다시 시도해주세요");
    	          }
    	      });
     	 
