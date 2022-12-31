@@ -118,6 +118,12 @@ public interface MemberService {
 
 	int changeDeliveryAddress(Order order);
 
+	int getOrderCancelCount(HashMap<String, String> map);
+
+	ArrayList<Order> orderCancelList(HashMap<String, String> map, PageInfo pi);
+
+	ProductCancel getProductCancel(int orderDetailNo);
+
 
 
 

@@ -57,6 +57,7 @@
 							      	<td width="350">옵션/수량</td>
 							      	<td width="250">상품 금액</td>
 							      	<td style="display:none" class="productNo">${cr.productNo }</td>
+							      	<td style="display:none" class="boardNo">${cr.boardNo }</td>
 							   	</tr>
 							   	<tr>
 							     	<td class="bottomNone">
@@ -71,13 +72,7 @@
 							      	</td>
 							   	</tr>
 							</table>
-<!-- 							<input type="hidden" value="" name="productNo" class="productNo"> -->
-<!-- 							<input type="hidden" value="" name="productQuantity" class="productQuantity"> -->
-<!-- 							<input type="hidden" value="" name="salePrice" class="salePrice"> -->
-<!-- 							<input type="hidden" value="" name="productOption" class="productOption"> -->
-<!-- 							<input type="hidden" value="" name="boardTitle" class="boardTitle"> -->
-<!-- 							<input type="hidden" value="" name="imgRename" class="imgRename"> -->
-							<input type="hidden" value="" name="cartNo" class="cartNo">
+							<input type="hidden" value="-1" name="cartNo" class="cartNo">
 						</div>
 					</c:forEach>
 				</form>
@@ -122,8 +117,8 @@
 			img.addEventListener('click',function(){
 // 				console.log(this);
 				const productNo= this.parentNode.parentNode.childNodes[9].innerText;
-				
-				location.href='${contextPath}/productDetail.st?productNo=' + productNo + '&page=' + ${pi.currentPage};
+				const boardNo= this.parentNode.parentNode.childNodes[11].innerText;
+				location.href='${contextPath}/productDetail.st?productNo=' + productNo + '&boardNo='+ boardNo +'&page=' + ${pi.currentPage};
 			})
 		}
 		
@@ -137,25 +132,17 @@
 			for(var i=0; i<checkboxs.length; i++){
 			var forms;
 				
-				if(checkboxs[i].checked ==true){
-// 					var productNoInput = checkboxs[i].parentNode.parentNode.parentNode.childNodes[2].childNodes[9].innerText;
-// 					checkboxs[i].parentNode.parentNode.parentNode.parentNode.parentNode.childNodes[3].value = productNoInput;
-// 					var productNo = checkboxs[i].parentNode.parentNode.parentNode.parentNode.parentNode.childNodes[3];
-// 					var productQuantity = checkboxs[i].parentNode.parentNode.parentNode.parentNode.parentNode.childNodes[5].value;
-// 					var salePrice = checkboxs[i].parentNode.parentNode.parentNode.parentNode.parentNode.childNodes[7].value;
-// 					var productOption = checkboxs[i].parentNode.parentNode.parentNode.parentNode.parentNode.childNodes[9].value;
-// 					var boardTitle = checkboxs[i].parentNode.parentNode.parentNode.parentNode.parentNode.childNodes[11].value;
-// 					var imgRename = checkboxs[i].parentNode.parentNode.parentNode.parentNode.parentNode.childNodes[13].value;
+				if(checkboxs[i].checked == true){
 					var cartNoInput = checkboxs[i].value;
-					var cartNo = checkboxs[i].parentNode.parentNode.parentNode.parentNode.parentNode.childNodes[15];
+					var cartNo = checkboxs[i].parentNode.parentNode.parentNode.parentNode.parentNode.childNodes[3];
 					cartNo.value = cartNoInput;
-// 					console.log(productNo);
-// 					console.log(productNo);
+				}else{
+					var cartNo = checkboxs[i].parentNode.parentNode.parentNode.parentNode.parentNode.childNodes[3];
+					console.log(cartNo.value);
 				}
 				
 			}
 			var form = document.getElementById("submitCartOrder");
-// 			console.log(form);
 				form.submit();
 		});
 		

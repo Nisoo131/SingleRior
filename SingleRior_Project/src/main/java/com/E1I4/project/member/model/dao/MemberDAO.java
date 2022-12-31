@@ -240,6 +240,20 @@ public class MemberDAO {
 
 	}
 
+	public int getOrderCancelCount(SqlSessionTemplate sqlSession, HashMap<String, String> map) {
+		return sqlSession.selectOne("memberMapper.getOrderCancelCount", map);
+	}
+
+	public ArrayList<Order> orderCancelList(SqlSessionTemplate sqlSession, PageInfo pi,HashMap<String, String> map) {
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		return (ArrayList)sqlSession.selectList("memberMapper.orderCancelList", map,rowBounds);
+	}
+
+	public ProductCancel getProductCancel(SqlSessionTemplate sqlSession, int orderDetailNo) {
+		return sqlSession.selectOne("memberMapper.getProductCancel", orderDetailNo);
+	}
+
 
 
 

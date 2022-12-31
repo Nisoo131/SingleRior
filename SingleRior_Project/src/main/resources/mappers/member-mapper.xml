@@ -572,7 +572,7 @@
 	<select id="getImgOrder" resultType="string">
 	select img_server_name
 	from img_repository
-	where img_key = #{boardNo} and img_level = 0
+	where img_key = #{boardNo} and img_level = 0 and img_b_type = 1
 	</select>
 	
 	<resultMap type="Review" id="reviewResultSet">
@@ -662,16 +662,6 @@
 	where order_no = #{orderNo}
 	</select>
 
-	<resultMap type="OrderDetail" id="orderDetailResultSet">
-		<id column="ORDER_DETAIL_NO" property="orderDetailNo"/>
-		<result column="PRODUCT_NO" property="productNo"/>
-		<result column="ORDER_NO" property="orderNo"/>
-		<result column="STATUS" property="status"/>
-		<result column="PRODUCT_QUANTITY" property="productQuantity"/>
-		<result column="PRODUCT_PRICE" property="salePrice"/>
-		<result column="PRODUCT_OPTION" property="productOption"/>
-	</resultMap>
-	
 	<insert id="insertReview">
 		insert into product_review
 		values(SEQ_RVID.nextval, #{reviewContent}, sysdate, #{productNo}, #{memberId}, #{boardNo}, #{orderDetailNo}, #{reviewRating})
@@ -693,4 +683,35 @@
 		set RECIPIENT = #{recipient} , RECI_ADDRESS =#{reciAddress}, RECI_PHONE = #{reciPhone}, DELIVERY_MSG = #{deliveryMsg}
 		where order_no = #{orderNo}
 	</update>
+	
+	<select id="getOrderCancelCount" resultType="_int">
+	select count(*)
+	from order_product
+    join order_detail using(order_no)
+    where (order_detail.status = '주문취소' or order_detail.status = '환불완료') and order_product.member_id = #{memberId}
+	</select>
+	
+	<select id="orderCancelList" resultMap="orderResultSet">
+	select *
+	from order_product
+    join order_detail using(order_no)
+    join product using(product_no)
+    join board using(board_no)
+    where (order_detail.status = '주문취소' or order_detail.status = '환불완료') and order_product.member_id = #{memberId}
+	</select>
+	
+	
+	<resultMap type="ProductCancel" id="productCancelResultSet">
+		<id column="CANCEL_NO" property="cancelNo"/>
+		<result column="CANCEL_CATE" property="cancelCate"/>
+		<result column="CANCEL_REASON" property="cancelReason"/>
+		<result column="CANCEL_DATE" property="cancelDate"/>
+		<result column="ORDER_DETAIL_NO" property="orderDetailNo"/>
+	</resultMap>
+	
+	<select id="getProductCancel" resultMap="productCancelResultSet">
+	select *
+	from product_cancel
+	where order_detail_no = #{orderDetailNo}
+	</select>
 </mapper>
