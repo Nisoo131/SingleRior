@@ -224,6 +224,7 @@
 			</if>
 		</if>
 			and b_status = 'Y'
+			 order by modify_date desc
 	</select>
 	
 	<select id="getLikeCount" resultType="_int">
@@ -284,6 +285,7 @@
   		  <if test="category == '씽씽마켓'">
   		  and  b.board_type = 3
   		  </if>
+  		   order by reply_modify_date desc
 	</select>
 	
 	<select id="selectReplyBoardList" resultMap="boardResultSet">
@@ -492,6 +494,7 @@
  		   jOIN PRODUCT USING(PRODUCT_NO)
   			join board using (board_no)
 			WHERE C.MEMBER_ID = #{memberId} and c.pay_status = 'N'
+			order by cart_no desc
 	</select>
 	
 	<select id="selectCartImg" resultType="string">

@@ -90,7 +90,7 @@
 					<br>
 					<i class="bi bi-telephone-fill"></i>
 					</td>
-					<td onClick="location.href='${contextPath}/wishList.me'">찜상품
+					<td onClick="location.href='${contextPath}/wishList.me'">관심
 					<br>
 					<i class="bi bi-heart-fill"></i>
 					</td>
