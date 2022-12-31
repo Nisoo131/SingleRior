@@ -286,8 +286,23 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public int insertReviewAttm(HashMap<String, Object> map) {
-		return mDAO.insertReviewAttm(sqlSession, map);
+	public int insertReviewAttm(Attachment attm) {
+		return mDAO.insertReviewAttm(sqlSession, attm);
+	}
+
+	@Override
+	public ArrayList<Attachment> selectReviewAttmList() {
+		return mDAO.selectReviewAttmList(sqlSession);
+	}
+
+	@Override
+	public int deleteReviewAttm(int reviewNo) {
+		return mDAO.deleteReviewAttm(sqlSession, reviewNo);
+	}
+
+	@Override
+	public int updateReview(Review review) {
+		return mDAO.updateReview(sqlSession, review);
 	}
 
 

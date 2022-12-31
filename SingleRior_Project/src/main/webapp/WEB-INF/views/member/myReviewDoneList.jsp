@@ -8,6 +8,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script src="${ contextPath }/resources/js/jquery-3.6.1.min.js"></script>
 <style>
 	section{
 		margin:auto;
@@ -28,8 +29,54 @@
 	}
 	tr{font-size:20px;}
  	.reviewContent div{margin:auto; display:inline-block; width:355px; text-align:center; font-size:20px;}
- 	img:hover{cursor:pointer};
-
+ 	img:hover{cursor:pointer;}
+ 	
+ 	.star {
+	position: relative;
+	font-size: 2rem;
+	color: #ddd;
+	}
+	.star input {
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	left: 0;
+	opacity: 0;
+	cursor: pointer;
+	}
+	
+	.star span {
+	width: 0;
+	position: absolute;
+	left: 0;
+	color: #008cd4;
+	overflow: hidden;
+	pointer-events: none;
+	}
+	
+	.starView {
+	position: relative;
+	font-size: 2rem;
+	color: #ddd;
+	}
+	
+	.starView input {
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	left: 0;
+	opacity: 0;
+	cursor: pointer;
+	}
+	
+	.starView span {
+	width: 0;
+	position: absolute;
+	left: 0;
+	color: #008cd4;
+	overflow: hidden;
+	pointer-events: none;
+	}
 </style>
 </head>
 <body>
@@ -50,8 +97,9 @@
 		<c:if test="${ !empty orList }">
 			<c:forEach items="${ orList }" var="o" varStatus="r">
 				<div class="orderCancelProduct done">
-					<span>주문번호 : ${ o.orderNo }</span>&nbsp;&nbsp;&nbsp;
-					<span>주문일자 : ${ o.orderDate }</span>&nbsp;&nbsp;&nbsp;
+					주문번호 : <span>${ o.orderNo }</span>&nbsp;&nbsp;&nbsp;
+					주문일자 : <span>${ o.orderDate }</span>&nbsp;&nbsp;&nbsp;
+					<input type="hidden" value="${ o.orderDetailNo }">
 					<table class="table">
 					    <tr>
 					      <td scope="row" colspan="4"></td>
@@ -60,6 +108,8 @@
 					    	<td scope="row" width="250" rowspan="2" class="trReview">
 					    		<img src="${ contextPath }/resources/uploadFiles/${o.imgRename}" width="160" class="img">
 					    		<input type="hidden" name="productNo" value="${o.productNo}">
+					    		<input type="hidden" name="boardNo" value="${o.boardNo}">
+					    		<input type="hidden" name="reviewNo" value="${rList[r.index].reviewNo}">
 					    	</td>
 					     	<td width="400">상품</td>
 					      	<td>옵션</td>
@@ -80,26 +130,31 @@
 					</table>
 					<div class="reviewContent">
 						<div>별점 : 
-							<c:if test="${rList[r.index].reviewRating == 0}">☆☆☆☆☆</c:if>
-<%-- 							<c:if test="${rList[r.index].reviewRating == 0.5}">☆☆☆☆☆</c:if> --%>
-							<c:if test="${rList[r.index].reviewRating == 1}">★☆☆☆☆</c:if>
-<%-- 							<c:if test="${rList[r.index].reviewRating == 1.5}">★☆☆☆☆</c:if> --%>
-							<c:if test="${rList[r.index].reviewRating == 2}">★★☆☆☆</c:if>
-<%-- 							<c:if test="${rList[r.index].reviewRating == 2.5}">★★☆☆☆</c:if> --%>
-							<c:if test="${rList[r.index].reviewRating == 3}">★★★☆☆</c:if>
-<%-- 							<c:if test="${rList[r.index].reviewRating == 3.5}">★★★☆☆</c:if> --%>
-							<c:if test="${rList[r.index].reviewRating == 4}">★★★★☆</c:if>
-<%-- 							<c:if test="${rList[r.index].reviewRating == 4.5}">★★★★☆</c:if> --%>
-							<c:if test="${rList[r.index].reviewRating == 5}">★★★★★</c:if>
+							<c:if test="${rList[r.index].reviewRating == 0}"><span class="starView">★★★★★<span>★★★★★</span><input class="starViewValue" type="range" value="0"></span></c:if>
+							<c:if test="${rList[r.index].reviewRating == 0.5}"><span class="starView">★★★★★<span>★★★★★</span><input class="starViewValue" type="range" value="1"></span></c:if>
+							<c:if test="${rList[r.index].reviewRating == 1}"><span class="starView">★★★★★<span>★★★★★</span><input class="starViewValue" type="range" value="2"></span></c:if>
+							<c:if test="${rList[r.index].reviewRating == 1.5}"><span class="starView">★★★★★<span>★★★★★</span><input class="starViewValue" type="range" value="3"></span></c:if>
+							<c:if test="${rList[r.index].reviewRating == 2}"><span class="starView">★★★★★<span>★★★★★</span><input class="starViewValue" type="range" value="4"></span></c:if>
+							<c:if test="${rList[r.index].reviewRating == 2.5}"><span class="starView">★★★★★<span>★★★★★</span><input class="starViewValue" type="range" value="5"></span></c:if>
+							<c:if test="${rList[r.index].reviewRating == 3}"><span class="starView">★★★★★<span>★★★★★</span><input class="starViewValue" type="range" value="6"></span></c:if>
+							<c:if test="${rList[r.index].reviewRating == 3.5}"><span class="starView">★★★★★<span>★★★★★</span><input class="starViewValue" type="range" value="7"></span></c:if>
+							<c:if test="${rList[r.index].reviewRating == 4}"><span class="starView">★★★★★<span>★★★★★</span><input class="starViewValue" type="range" value="8"></span></c:if>
+							<c:if test="${rList[r.index].reviewRating == 4.5}"><span class="starView">★★★★★<span>★★★★★</span><input class="starViewValue" type="range" value="9"></span></c:if>
+							<c:if test="${rList[r.index].reviewRating == 5}"><span class="starView">★★★★★<span>★★★★★</span><input class="starViewValue" type="range" value="10"></span></c:if>
 						</div>
-						<div>구매후기 :  <span>${rList[r.index].reviewContent}</span></div> 
-		 			    <div>
-		 			    	<c:if test="${ !empty rList[r.index].imgRename}">
-			 			   		<img  src="${ contextPath }/resources/uploadFiles/${rList[r.index].imgRename}" width="100">
-		 			    	</c:if>
-		 			    </div>
-		 			    <div>
-		 			    	<button type="button" class="btn btn-light" style="background:#008cd4; color:white;" data-bs-toggle="modal" data-bs-target="#updateReviewModal">수정</button>
+						<div>구매후기 :  <span>${rList[r.index].reviewContent}</span></div>
+						<c:forEach items="${ attmList }" var="a">
+							<div>
+								<c:if test="${ rList[r.index].reviewNo eq a.imgKey }">
+									<c:if test="${ a.imgOriginalName != '' }">
+					 			   		<img class="reviewImg" src="resources/uploadFiles/${ a.imgRename }" width="200" height="200">
+					 			   		<input type="hidden" value="resources/uploadFiles/${ a.imgOriginalName }">
+				 			    	</c:if>
+								</c:if>
+			 			    </div>
+						</c:forEach>
+		 			    <div style="width: 200px;">
+		 			    	<button type="button" class="btn btn-light updateReview" style="background:#008cd4; color:white;" data-bs-toggle="modal" data-bs-target="#updateReviewModal">수정</button>
 		 			    	<button type="button" class="btn btn-light" style="background:#008cd4; color:white;" data-bs-toggle="modal" data-bs-target="#deleteReviewModal">삭제</button>
 		 			    </div>
 					</div>
@@ -137,24 +192,42 @@
 					</a></li>
 				</ul>
 			</nav>
-		</c:if>			
+		</c:if>	
+				
 		<!--  리뷰 수정 모달 -->	
 		<div class="modal fade" id="updateReviewModal" tabindex="-1"
 				aria-labelledby="exampleModalLabel" aria-hidden="true">
 				<div class="modal-dialog modal-dialog-centered">
 					<div class="modal-content">
-						<form name="" id="" action="" method="post">
+						<form action="${ contextPath }/updateReview.me" method="post" enctype="multipart/form-data">
 							<div class="modal-header">
 								<h3 style="color:#008cd4">리뷰를 수정합니다.</h3>
 								<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 							</div>
 							<div class="modal-body">
+								<div style="text-align: center;">
+									<span class="star">
+										★★★★★
+										<span>★★★★★</span>
+										<input id="reviewRating" type="range" oninput="drawStar(this)" value="1" step="1" min="0" max="10">
+										<input type="hidden" name="reviewRating" id="starNum">
+										<input type="hidden" name="orderDetailNo" id="orderDetailNo">
+										<input type="hidden" name="orderNo" id="orderNo">
+										<input type="hidden" name="productNo" id="productNo">
+										<input type="hidden" name="boardNo" id="boardNo">
+										<input type="hidden" name="reviewNo" id="reviewNo">
+									</span>
+								</div>
 								<div class="mb-3">
   									<label for="formFile" class="form-label">제품의 사진을 올려주세요.</label>
-  									<input class="form-control" type="file" id="formFile">
+  									<input class="form-control" type="file" id="file" name="file">
 								</div>
 								<div>
-									<textarea class="form-control" placeholder="여러분의 리뷰를 작성해주세요." id="boardContent" name="boardContent" style="height: 300px; resize:none;"></textarea>
+									<span id="oriImgName"></span>&nbsp;&nbsp;<button type="button" class="btn btn-outline-dark btn-sm" id="deleteAttm" style="display: none;">삭제 X</button>
+									<input type="hidden" name="deleteAttm">
+								</div>
+								<div class="pt-2">
+									<textarea class="form-control" placeholder="여러분의 리뷰를 작성해주세요." id="reviewContent" name="reviewContent" style="height: 300px; resize:none;"></textarea>
 								</div>
 							</div>
 							<div class="modal-footer">
@@ -202,7 +275,99 @@
 				location.href='${contextPath}/productDetail.st?productNo=' + productNo;
 			})
 		}
-	}	
+		
+	}
+	
+	// 별점 뿌리기
+//	console.log(document.querySelectorAll('.starViewValue').length);
+	var starViewValueCount = document.querySelectorAll('.starViewValue').length;
+//	console.log(starViewValueCount);
+	
+	var starViewValue = document.querySelectorAll('.starViewValue');
+	var num = 0;
+	for(const i of starViewValue){
+		console.log(i.value);
+		document.querySelectorAll('.starView span')[num].style.width = i.value * 10 + '%';
+		num += 1;
+	}
+	
+	// 리뷰 수정
+	$(document).on('click', ".updateReview", function(){
+		// 원래 정보 화면에 뿌리기
+		var reviewRating = this.parentNode.parentNode.querySelectorAll('input')[0].value;
+		var reviewContent = this.parentNode.parentNode.querySelectorAll('span')[2].innerText;
+		var orderDetailNo = this.parentNode.parentNode.parentNode.querySelector('input[type="hidden"]').value;
+		var orderNo = this.parentNode.parentNode.parentNode.querySelector('span').innerText;
+		var productNo = this.parentNode.parentNode.parentNode.querySelectorAll('input[type="hidden"]')[1].value;
+		var boardNo = this.parentNode.parentNode.parentNode.querySelectorAll('input[type="hidden"]')[2].value;
+		var reviewNo = this.parentNode.parentNode.parentNode.querySelectorAll('input[type="hidden"]')[3].value;
+		
+		if(document.querySelector('#reviewImg') != null){
+			var oriImg = this.parentNode.parentNode.querySelectorAll('input[type="hidden"]')[0].value;
+			var oriImgName = oriImg.split('/')[2];
+			
+			document.getElementById("oriImgName").innerText = "등록된 사진 : " + oriImgName;
+		}
+		console.log(document.querySelector('#reviewImg'));
+		
+		console.log("원래 별점 : " + reviewRating);
+		console.log("원래 내용 : " + reviewContent);
+		console.log("orderDetailNo : " + orderDetailNo);
+		console.log("orderNo : " + orderNo);
+		console.log("productNo : " + productNo);
+		console.log("boardNo : " + boardNo);
+		console.log("reviewNo : " + reviewNo);
+//		console.log("oriImg : " + oriImg);
+//		console.log("oriImgName : " + oriImgName);
+		
+		document.getElementById("reviewRating").value = reviewRating;
+		document.getElementById("starNum").value = reviewRating;
+		document.querySelector('.star span').style.width = document.querySelector('#reviewRating').value * 10 + '%';
+		
+		document.getElementById("reviewContent").innerText = reviewContent;
+		
+		document.getElementById("orderDetailNo").value = orderDetailNo;
+		document.getElementById("orderNo").value = orderNo;
+		document.getElementById("productNo").value = productNo;
+		document.getElementById("boardNo").value = boardNo;
+		document.getElementById("reviewNo").value = reviewNo;
+		
+		if(($('#deleteAttm').text == "삭제 X") && ($('#deleteAttm').css('display') === 'none')){
+			document.getElementById("file").setAttribute('disabled', true);
+		}
+		
+		console.log($('#deleteAttm').css('display') === 'none');
+		
+		document.getElementById("deleteAttm").addEventListener('click', function(){
+			const nextHidden = this.nextElementSibling;
+			if(nextHidden.value == ''){ // 삭제 버튼을 누르지 않은 상태(삭제 X)
+				this.style.background = 'black';
+				this.style.color = 'white';
+				this.innerText = '삭제 O';
+				nextHidden.value = 0;
+				document.getElementById("file").removeAttribute('disabled');
+			} else { // 삭제 버튼이 눌린 상태라면(삭제 O)
+				this.style.background = 'none';
+				this.style.color = 'black';
+				this.innerText = '삭제 X';
+				nextHidden.removeAttribute('value');
+				document.getElementById("file").setAttribute('disabled', true);
+			}
+		});
+		
+		
+		
+		
+	});
+	
+	const drawStar = (target) => {
+		document.querySelector('.star span').style.width = target.value * 10 + '%';
+	}
+	
+	document.getElementById("reviewRating").addEventListener('input', e=>{
+		document.querySelector('#starNum').value = e.target.value/2;
+		console.log(document.querySelector('#starNum').value);
+	});
 	</script>
 </body>
 </html>

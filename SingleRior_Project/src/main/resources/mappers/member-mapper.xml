@@ -679,7 +679,14 @@
 	
 	<insert id="insertReviewAttm">
 		insert into IMG_REPOSITORY
-		values(SingleRior_aid, #{imgOriginalName}, #{imgRename}, sysdate, sysdate, default, #{imgKey}, #{imgPath}, #{boardType}, 0)
+		values(SingleRior_aid, #{imgOriginalName}, #{imgRename}, sysdate, sysdate, default,
+		<if test="reviewNo == null">
+			seq_rvid.currval,
+		</if>
+		<if test="reviewNo != null">
+			#{reviewNo}
+		</if>
+		#{imgPath}, #{boardType}, 0)
 	</insert>
 	
 	<update id="updateReviewStatus">
@@ -692,5 +699,22 @@
 		update order_product
 		set RECIPIENT = #{recipient} , RECI_ADDRESS =#{reciAddress}, RECI_PHONE = #{reciPhone}, DELIVERY_MSG = #{deliveryMsg}
 		where order_no = #{orderNo}
+	</update>
+	
+	<select id="selectReviewAttmList" resultMap="attachmentResultSet">
+		select *
+		from IMG_REPOSITORY
+		where IMG_STATUS = 'Y' and IMG_B_TYPE = '7'
+	</select>
+	
+	<delete id="deleteReviewAttm">
+		delete from IMG_REPOSITORY
+		where IMG_B_TYPE = '7' and img_key = #{reviewNo}
+	</delete>
+	
+	<update id="updateReview">
+		update product_review
+		set REVIEW_CONTENT = #{reviewContent}, REVIEW_RATING = #{reviewRating}
+		where review_no = #{reviewNo}
 	</update>
 </mapper>

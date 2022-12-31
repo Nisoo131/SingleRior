@@ -114,9 +114,15 @@ public interface MemberService {
 
 	ArrayList<Order> orderDetailList(int orderNo);
 
-	int insertReviewAttm(HashMap<String, Object> map);
+	int insertReviewAttm(Attachment attm);
 
 	int changeDeliveryAddress(Order order);
+
+	ArrayList<Attachment> selectReviewAttmList();
+
+	int deleteReviewAttm(int reviewNo);
+
+	int updateReview(Review review);
 
 
 
