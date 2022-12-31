@@ -160,7 +160,7 @@
 // 				console.log(productNo);
 
 				if(category == 1){
-					location.href='${contextPath}/productDetail.st?productNo=' + productNo + '&page=' + ${pi.currentPage};
+					location.href='${contextPath}/productDetail.st?productNo=' + productNo + '&boardNo=' + boardNo + '&page=' + ${pi.currentPage};
 				}else if(category == 2){
 					location.href='${contextPath}/selectCommuBoard.co?bNo=' + boardNo + '&writer=' + writer + '&page=' + ${pi.currentPage};
 				}else{

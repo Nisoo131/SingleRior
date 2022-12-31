@@ -628,7 +628,7 @@ public class MemberController {
 		}
 		
 		
-//		System.out.println(oiList);
+
 		
 		// 배송상태 카운트
 		String[] orderStatus = {"입금대기","결제완료","배송준비","배송중","배송완료","구매확정"};
@@ -644,7 +644,7 @@ public class MemberController {
 		}
 			String countStatus = Arrays.toString(result);
 		
-		
+			System.out.println(oiList);
 			model.addAttribute("oiList", oiList);
 			model.addAttribute("countStatus", countStatus);
 			model.addAttribute("pi", pi);
@@ -702,7 +702,7 @@ public class MemberController {
 			oList.get(i).setImgRename(img);
 		}
 		
-//		System.out.println(oList);
+		System.out.println(oList);
 		model.addAttribute("oList", oList);
 		return "orderProductDetail";
 	}

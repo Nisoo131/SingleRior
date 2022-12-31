@@ -43,7 +43,8 @@
 					<div class="myAskListDiv">
 						<span>문의일자 : ${pi.inquiryDate}</span>&nbsp;&nbsp;&nbsp;
 						<span class="badge" style="background:#008cd4; color:white; float:right">답변완료</span>
-						<div style="display:none" class="bNo">${pList[a.index].productNo}</div>
+						<div style="display:none" class="productNo">${pList[a.index].productNo}</div>
+						<div style="display:none" class="boardNo">${pList[a.index].boardNo}</div>
 						<table class="table">
 						    <tr>
 						      <td scope="row" colspan="4"></td>
@@ -104,9 +105,11 @@
 		
 		for(cardDiv of cardDivs){
 			cardDiv.addEventListener('click',function(){
-				const bNo = this.childNodes[5].innerText;
-				console.log(bNo);
-				location.href='${contextPath}//productDetail.st?productNo=' + bNo + '&page=' + ${pi.currentPage};
+				const productNo = this.childNodes[5].innerText;
+				const boardNo = this.childNodes[7].innerText;
+				console.log(boardNo);
+
+				location.href='${contextPath}/productDetail.st?productNo=' + productNo + '&boardNo=' + boardNo + '&page=' + ${pi.currentPage};
 			});
 		}
 		

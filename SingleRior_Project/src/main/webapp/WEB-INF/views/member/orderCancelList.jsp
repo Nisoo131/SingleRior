@@ -14,6 +14,7 @@
 		margin-top:70px;
 		max-width:1500px;
 	}
+	.img:hover{cursor:pointer}
 
 
 </style>
@@ -30,12 +31,14 @@
 					<span>주문번호 : ${fn:replace(oc.orderDate, '-', '')}${oc.orderNo }</span>&nbsp;&nbsp;&nbsp;
 					<span>주문일자 : ${oc.orderDate }</span>
 					<h4><span class="badge bg-secondary" style="float:right">${oc.status }</span></h4>
+					    <input type="hidden" class="boardNo" value="${oc.boardNo }">
+					    <input type="hidden" class="productNo" value="${oc.productNo }">
 					<table class="table">
 					    <tr>
 					      <td scope="row" colspan="4"></td>
 					    </tr>
 					    <tr height="15">
-					    	<td scope="row" width="250" rowspan="3"><img src="${ contextPath }/resources/uploadFiles/${oc.imgRename }" width="160"></td>
+					    	<td scope="row" width="250" rowspan="3"><img src="${ contextPath }/resources/uploadFiles/${oc.imgRename }" width="160" class="img"></td>
 					     	<td width="350">상품</td>
 					      	<td width="450">옵션</td>
 					      	<td>상품 금액</td>
@@ -98,6 +101,23 @@
 		<jsp:include page="../common/footer.jsp"/>
 	</footer>
 	
+	<script>
+	window.onload=()=>{
+		var imgs = document.getElementsByClassName("img");
+		for(img of imgs){
+			img.addEventListener("click",function(){
+				var boardNo = this.parentNode.parentNode.parentNode.parentNode.parentNode.childNodes[7].value;
+				var productNo = this.parentNode.parentNode.parentNode.parentNode.parentNode.childNodes[9].value;
+				
+				location.href='${contextPath}/productDetail.st?productNo=' + productNo + '&boardNo=' + boardNo + '&page=' + ${pi.currentPage};
+			})
+		}
+		
+		
+		
+	}
 	
+	
+	</script>
 </body>
 </html>

@@ -50,7 +50,7 @@
 	.orderProductDetail{float:right; cursor:pointer;}
 	.orderProductDetail:hover{text-decoration:underline; font-weight:bold;}
 	.orderStatusBtn{float:right}
-	
+	.img:hover{cursor:pointer}
 </style>
 </head>
 <body>
@@ -95,6 +95,8 @@
 					<div class="orderDetail">
 						<span>주문번호 : ${fn:replace(oi.orderDate, '-', '')}${oi.orderNo }</span>&nbsp;&nbsp;&nbsp;
 						<span>주문일자 : ${ oi.orderDate }</span>
+						<input type="hidden" value="${ oi.boardNo }" name="boardNo">
+						<input type="hidden" value="${ oi.productNo }" name="productNo">
 						<form action="${contextPath}/orderProductDetail.me" method="post" class="detailForm">
 							<span class="orderProductDetail">상세보기</span><br><br>
 							<input type="hidden" value="${ oi.orderNo }" name="orderNo">
@@ -104,7 +106,7 @@
 						</div>
 						<table>
 							<tr>
-								<td rowspan="2" width="200px;"><img src="${ contextPath }/resources/uploadFiles/${oi.imgRename }" width="160"></td>
+								<td rowspan="2" width="200px;"><img src="${ contextPath }/resources/uploadFiles/${oi.imgRename }" width="160" class="img"></td>
 								<td  height="50px;" width="450">${oi.boardTitle }</td>
 								<td rowspan="2" width="50px;"><div class="line"></div></td>
 								<td colspan="2">가격</td>
@@ -118,31 +120,25 @@
 							<button type="button" class="orderStatusBtn btn btn-light orderCancel" data-bs-toggle="modal" data-bs-target="#orderCancelModal">
 							  주문취소
 							</button>
-							<input type="hidden" value="${ oi.orderDetailNo }">	
+							<input type="hidden" value="${ oi.orderDetailNo }" class="orderDetailNo">	
 						</c:if>
 						<c:if test="${ oi.status == '배송중'}">
 							<button type="button" class="orderStatusBtn btn btn-light" data-bs-toggle="modal" data-bs-target="">
 							  운송장확인
 							</button>
-							<input type="hidden" value="${ oi.orderDetailNo }">
+							<input type="hidden" value="${ oi.orderDetailNo }" class="orderDetailNo">
 						</c:if>
 						<c:if test="${ oi.status == '배송완료'}">
 							<button type="button" class="orderStatusBtn btn btn-light orderCommit" data-bs-toggle="modal" data-bs-target="#orderCommitModal">
 							  구매확정
 							</button>
-							<input type="hidden" value="${ oi.orderDetailNo }" name="orderDetailNo">
+							<input type="hidden" value="${ oi.orderDetailNo }" name="orderDetailNo" class="orderDetailNo">
 						</c:if>
 						<c:if test="${ oi.status == '구매확정'}">
 							<button type="button" class="orderStatusBtn btn btn-light orderReview" data-bs-toggle="modal" data-bs-target="#orderReviewModal">
 							  리뷰작성
 							</button>
-							<input type="hidden" value="${ oi.orderDetailNo }">
-						</c:if>
-						<c:if test="${ oi.status == '주문취소'}">
-							<button type="button" class="orderStatusBtn btn btn-light orderReview" data-bs-toggle="modal" data-bs-target="">
-							 주문취소조회
-							</button>
-							<input type="hidden" value="${ oi.orderDetailNo }">
+							<input type="hidden" value="${ oi.orderDetailNo }" class="orderDetailNo">
 						</c:if>
 					</div>
 				</c:forEach>
@@ -291,6 +287,16 @@
 			});
 		}
 		
+		var imgs = document.getElementsByClassName("img");
+		for(img of imgs){
+			img.addEventListener('click',function(){
+				var boardNo = this.parentNode.parentNode.parentNode.parentNode.parentNode.childNodes[5].value;
+				var productNo = this.parentNode.parentNode.parentNode.parentNode.parentNode.childNodes[7].value;
+				console.log(productNo);
+				location.href='${contextPath}/productDetail.st?productNo=' + productNo + '&boardNo=' + boardNo + '&page=' + ${pi.currentPage};
+				
+			});
+		}
 	
 		window.onload = () =>{
 			var orderStatusCounts = document.getElementsByClassName("orderStatusCount");
@@ -330,7 +336,7 @@
 			
 			for(orderCommit of orderCommits){
 				orderCommit.addEventListener('click',function(){
-					var orderDetailNo = this.parentNode.childNodes[13].value;
+					var orderDetailNo = this.parentNode.childNodes[17].value;
 					console.log(orderDetailNo);
 					document.getElementById("orderCommit").value = orderDetailNo;
 				});
@@ -340,11 +346,11 @@
 // 			console.log(orderCancels);
 			for(orderCancel of orderCancels){
 				orderCancel.addEventListener("click",function(){
-					var orderDetailNo = this.parentNode.childNodes[13].value;
+					var orderDetailNo = this.parentNode.childNodes[17].value;
 					console.log(orderDetailNo);
 					document.getElementById("orderCancelDetailNo").value = orderDetailNo;
-					var orderNo = this.parentNode.childNodes[5].childNodes[5].value;
-// 					console.log(orderNo);
+					var orderNo = this.parentNode.childNodes[9].childNodes[5].value;
+					console.log(orderNo);
 					document.getElementById("orderCancelNo").value = orderNo;
 				})
 			}

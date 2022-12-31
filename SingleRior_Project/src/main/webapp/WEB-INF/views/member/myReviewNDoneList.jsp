@@ -198,9 +198,10 @@
 		for(img of imgs){
 			img.addEventListener('click',function(){
 				const productNo= this.parentNode.childNodes[3].value;
+				const boardNo = this.parentNode.childNodes[5].value;
 				console.log(productNo);
 				
-				location.href='${contextPath}/productDetail.st?productNo=' + productNo;
+				location.href='${contextPath}/productDetail.st?productNo=' + productNo + '&boardNo=' + boardNo + '&page=' + ${pi.currentPage};
 			})
 		}
 	}
