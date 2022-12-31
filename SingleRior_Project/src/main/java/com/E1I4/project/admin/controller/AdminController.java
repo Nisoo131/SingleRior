@@ -28,7 +28,7 @@ import com.E1I4.project.common.model.vo.Attachment;
 import com.E1I4.project.common.model.vo.Board;
 import com.E1I4.project.common.model.vo.InquiryAdmin;
 import com.E1I4.project.common.model.vo.Notice;
-import com.E1I4.project.common.model.vo.OrderProductDetail;
+//import com.E1I4.project.common.model.vo.OrderProductDetail;
 import com.E1I4.project.common.model.vo.PageInfo;
 import com.E1I4.project.common.model.vo.Product;
 import com.E1I4.project.common.model.vo.ProductList;
@@ -901,9 +901,9 @@ public class AdminController {
 	}
 	@RequestMapping("detailOrder.adm")
 	public String detailOrder(@RequestParam("orderNo") int orNo,Model model) {
-		ArrayList<OrderProductDetail> list = aService.orderProductDetail(orNo);
+//		ArrayList<OrderProductDetail> list = aService.orderProductDetail(orNo);
 		
-		model.addAttribute("list",list);
+//		model.addAttribute("list",list);
 		
 		return "detailOrderProduct";
 	}

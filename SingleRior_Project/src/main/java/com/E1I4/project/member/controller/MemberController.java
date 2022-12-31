@@ -770,7 +770,7 @@ public class MemberController {
 			System.out.println(r);
 			
 			int reviewNo = r.getReviewNo();
-			String reviewNoStr = "review" + Integer.toString(reviewNo);
+			String reviewNoStr = Integer.toString(reviewNo);
 			String rImg = mService.getImgReview(reviewNoStr);
 			
 			r.setImgRename(rImg);
