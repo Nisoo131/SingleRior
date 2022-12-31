@@ -196,9 +196,10 @@ public class StoreBoardController {
 	
 	// 상품 문의하기
 	@RequestMapping("productInquiry.st")
-	public String productInquiry(@RequestParam("productNo") int productNo, HttpSession session, @ModelAttribute ProductInquiry productInquiry, 
+	public String productInquiry(@RequestParam("productNo") int productNo, @RequestParam("boardNo") int boardNo, HttpSession session, @ModelAttribute ProductInquiry productInquiry, 
 			Model model) {
-		
+	
+       //System.out.println(boardNo);
 		
 	   String id = ((Member)session.getAttribute("loginUser")).getMemberId();
 	   productInquiry.setMemberId(id);
@@ -208,6 +209,7 @@ public class StoreBoardController {
 	 
 	   if(result >0) {
 		   model.addAttribute("productNo", productNo);
+		   model.addAttribute("boardNo", boardNo);
 	   }
 	   return "redirect:productDetail.st";
 	
@@ -248,7 +250,7 @@ public class StoreBoardController {
          else {
         	orderItem.add(orderList);
          }
-         	System.out.println(orderItem);
+         	//System.out.println(orderItem);
          	model.addAttribute("orderItem", orderItem);
  			model.addAttribute("member", member);
          return "payment";

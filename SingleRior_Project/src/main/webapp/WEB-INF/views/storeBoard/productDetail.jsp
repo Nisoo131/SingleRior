@@ -369,6 +369,7 @@
 	      </div>
 	      <form action="${ contextPath }/productInquiry.st" method="post">
 	       <input type="hidden" name="productNo" value="${ pList[0].productNo }">
+	       <input type="hidden" name="boardNo" value="${ pList[0].boardNo }">
 		      <div class="modal-body">
 		        <p>문의유형</p>
 		        	<select class="form-select" aria-label="Default select example" name="inquiryTitle" id="inquiry_ops">
