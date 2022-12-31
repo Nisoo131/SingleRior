@@ -124,6 +124,13 @@ public interface MemberService {
 
 	int updateReview(Review review);
 
+	int getOrderCancelCount(HashMap<String, String> map);
+
+	ArrayList<Order> orderCancelList(HashMap<String, String> map, PageInfo pi);
+
+	ProductCancel getProductCancel(int orderDetailNo);
+
+
 
 
 

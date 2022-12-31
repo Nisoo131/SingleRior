@@ -305,6 +305,21 @@ public class MemberServiceImpl implements MemberService {
 		return mDAO.updateReview(sqlSession, review);
 	}
 
+	@Override
+	public int getOrderCancelCount(HashMap<String, String> map) {
+		return mDAO.getOrderCancelCount(sqlSession, map);
+	}
+
+	@Override
+	public ArrayList<Order> orderCancelList(HashMap<String, String> map, PageInfo pi) {
+		return mDAO.orderCancelList(sqlSession,pi,map);
+	}
+
+	@Override
+	public ProductCancel getProductCancel(int orderDetailNo) {
+		return mDAO.getProductCancel(sqlSession,orderDetailNo);
+	}
+
 
 
 

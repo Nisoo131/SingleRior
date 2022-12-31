@@ -217,8 +217,6 @@ public class StoreBoardController {
 	@RequestMapping("payment.st")
 	public String payment(HttpSession session, @ModelAttribute OrderItem orderList, Model model, @RequestParam(required=false) List<Integer> cartNo) {
 
-		//System.out.println(cartNo);
-		
 		String id = ((Member)session.getAttribute("loginUser")).getMemberId();
 		
         Member m = new Member();
@@ -228,7 +226,7 @@ public class StoreBoardController {
         ArrayList<OrderItem> orderItem = new ArrayList<OrderItem>();
         
          if(cartNo != null) {
-        	 while (cartNo.remove(null)) {}
+        	 while (cartNo.remove(new Integer(-1))) {}
 
         	
         	 for(int i : cartNo)
@@ -250,7 +248,7 @@ public class StoreBoardController {
          else {
         	orderItem.add(orderList);
          }
-         	//System.out.println(orderItem);
+         	System.out.println(orderItem);
          	model.addAttribute("orderItem", orderItem);
  			model.addAttribute("member", member);
          return "payment";

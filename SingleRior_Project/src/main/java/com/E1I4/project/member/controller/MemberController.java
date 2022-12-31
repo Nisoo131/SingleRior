@@ -74,7 +74,6 @@ public class MemberController {
 //		System.out.println(m);
 		Member loginUser = mService.login(m);
 //		System.out.println("뭔가 잘못됨:" +loginUser);
-		
 //		System.out.println(bcrypt.encode(m.getMemberPwd()));  // 암호화 비밀번호
 		if(bcrypt.matches(m.getMemberPwd(), loginUser.getMemberPwd())) {
 			session.setAttribute("loginUser", loginUser);
@@ -726,8 +725,43 @@ public class MemberController {
 		}
 	}
 	@RequestMapping("orderCancelList.me")
-	public String orderCancelList() {
+	public String orderCancelList(HttpSession session,@RequestParam(value="page", required=false) Integer page,Model model) {
+		Member m = (Member)session.getAttribute("loginUser");
+		String memberId = m.getMemberId();
+		
+		HashMap<String, String> map = new HashMap<String,String>();
+		map.put("memberId", memberId);
+		
+		int currentPage =1;
+		if(page != null) {
+			currentPage = page;
+		}
+		
+		int listCount = mService.getOrderCancelCount(map);
+		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 5);
+		ArrayList<Order> ocList = mService.orderCancelList(map,pi);
+		
+//		ProductCancel pc = new ProductCancel();
+		ArrayList<ProductCancel> pcList = new ArrayList<ProductCancel>();
+		
+		for(int i = 0; i<ocList.size(); i++) {
+			int orderDetailNo = ocList.get(i).getOrderDetailNo();
+			String boardNo = Integer.toString(ocList.get(i).getBoardNo());
+			map.put("boardNo", boardNo);
+			String img = mService.getImgOrder(map);
+			ocList.get(i).setImgRename(img);
+			
+			ProductCancel pc = mService.getProductCancel(orderDetailNo);
+			pcList.add(pc);
+		}
+		
+		
+		System.out.println(ocList);
+		model.addAttribute("pcList", pcList);
+		model.addAttribute("ocList", ocList);
+		model.addAttribute("pi", pi);
 		return "orderCancelList";
+		
 	}
 	@RequestMapping("myReviewDoneList.me")
 	public String myReviewList(HttpSession session,@RequestParam(value="page", required=false) Integer page,Model model) {

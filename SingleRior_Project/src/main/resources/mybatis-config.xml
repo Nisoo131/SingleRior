@@ -32,10 +32,10 @@
 		<typeAlias type="com.E1I4.project.common.model.vo.ReportReply" alias="ReportReply"/>
 		<typeAlias type="com.E1I4.project.storeBoard.model.vo.OrderItem" alias="OrderItem"/>
 		<typeAlias type="com.E1I4.project.member.model.vo.Order" alias="Order"/>
+		<typeAlias type="com.E1I4.project.member.model.vo.ProductCancel" alias="ProductCancel"/>
 		<typeAlias type="com.E1I4.project.common.model.vo.InquiryAdmin" alias="InquiryAdmin"/>
 		<typeAlias type="com.E1I4.project.mainPage.model.vo.MainPage" alias="MainPage"/>
 		<typeAlias type="com.E1I4.project.admin.model.vo.OrderProducts" alias="OrderProducts"/>
-		<typeAlias type="com.E1I4.project.member.model.vo.OrderDetail" alias="OrderDetail"/>
 		<typeAlias type="com.E1I4.project.common.model.vo.OrderProductDetail" alias="OrderProductDetail"/>
 	</typeAliases>
 	<mappers>
