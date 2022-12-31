@@ -17,6 +17,7 @@ import lombok.ToString;
 public class InquiryAdmin {
 	
 	private int inquiryNo;
+	private int boardNo;
 	private String proTopCateName;
 	private String proSubCateName;
 	private String boardTitle;

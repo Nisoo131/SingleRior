@@ -80,6 +80,7 @@
 							      	<td><h4>상품 금액</h4>
 							      	</td>
 							      	<td><h4>상태</h4></td>
+							      	<td><c:if test=""></c:if></td>
 							   	</tr>
 							   	<tr>
 							   		<td>${l.orderDetailNo}</td>
@@ -105,7 +106,6 @@
 						</div><br><br>
 						<div class="orderInfo address">
 							<h3>배송지 정보</h3>
-							<p><button type="button" class="btn btn-light" style="background:#008cd4; color:white;" data-bs-toggle="modal" data-bs-target="#orderAddressModal">배송지변경</button></p>
 							<hr>
 							<h5>받는 사람</h5>
 							<p>김로즈</p>
