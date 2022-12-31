@@ -14,6 +14,7 @@ import com.E1I4.project.common.model.vo.Attachment;
 import com.E1I4.project.common.model.vo.Board;
 import com.E1I4.project.common.model.vo.InquiryAdmin;
 import com.E1I4.project.common.model.vo.Notice;
+import com.E1I4.project.common.model.vo.OrderProductDetail;
 //import com.E1I4.project.common.model.vo.OrderProductDetail;
 import com.E1I4.project.common.model.vo.PageInfo;
 import com.E1I4.project.common.model.vo.Product;
@@ -270,10 +271,10 @@ public class AdminServiceImpl implements AdminService {
 		return aDAO.selectOrderProducts(sqlSession);
 	}
 
-//	@Override
-//	public ArrayList<OrderProductDetail> orderProductDetail(int orNo) {
-//		return aDAO.orderProductDetail(sqlSession,orNo);
-//	}
+	@Override
+	public ArrayList<OrderProductDetail> orderProductDetail(int orNo) {
+		return aDAO.orderProductDetail(sqlSession,orNo);
+	}
 
 
 
