@@ -328,7 +328,7 @@
 	      <div class="position-sticky" style="top: 15rem;">
 	        <div class="p-4">
 	          <label for ="options">옵션선택</label>
-	           	 <select id="changeOpiton" class="form-select" onChange="selectChange(this.value);" aria-label="Default select example">
+	           	 <select id="changeOpiton1" class="form-select" onChange="selectChange(this.value);" aria-label="Default select example">
 					<option class="opsBasic" selected >상품 옵션을 선택해주세요</option>
 					 <c:forEach items="${ fn:split( pList[0].option, ',') }" var="p">
 					  <option value="${ p }" class="option">${ p }</option>
@@ -425,6 +425,7 @@
      $(document).ready(function(){
     	$('#changeOpiton').change(function(){
     		var state = $('.option:selected').val();
+    		var state1 = $('#changeOpiton1').val();
     	    //console.log(state);
     		if (state != null ){
     			$('.opsResultDiv').show();
@@ -433,6 +434,17 @@
     		} 
     	});
     }); 
+    
+     $(document).ready(function(){
+     	$('#changeOpiton1').change(function(){
+     		var state = $('.option:selected').val();
+     		if (state != null ){
+     			$('.opsResultDiv').show();
+     		} else {
+     			$('.opsResultDiv').hide();
+     		} 
+     	});
+     });
      const selectChange = function(value){
 			$('#inputOption').val(value);	
 			

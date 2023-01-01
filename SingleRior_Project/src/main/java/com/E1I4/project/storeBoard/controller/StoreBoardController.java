@@ -8,7 +8,6 @@ import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.ibatis.reflection.SystemMetaObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -47,8 +46,9 @@ public class StoreBoardController {
 	// subCate 리스트 
 	@RequestMapping("categoryList.st")
 	public String storeList(@RequestParam(value="page", required=false) Integer page, @RequestParam("subCate") int subCate, Model model) {
-			int currentPage = 1;
-			if(page != null) {
+			
+		    int currentPage = 1;
+			if(page != null && page > 1) {
 				currentPage = page; 
 			}
 	
@@ -74,7 +74,7 @@ public class StoreBoardController {
 				model.addAttribute("aList", aList);
 				model.addAttribute("subCate", subCate);
 					
-			} return "categoryList"; // dead code 발생
+			} return "categoryList"; 
 			
 	}
    
@@ -234,7 +234,7 @@ public class StoreBoardController {
         	 for(int i : cartNo)
         	 {   
         		 
-        	// img 따로 가져오는 법
+        	// img 가져오기
         	   orderList = sService.getCartInfo(i);   
                String boardNo = Integer.toString(orderList.getBoardNo());
 //               System.out.println(boardNo);
@@ -257,12 +257,29 @@ public class StoreBoardController {
 	}
 	
 	
-	// 결제하기 버튼을 눌러서 새로 url하고 orderList를 다시 받아서 새로 맵핑시키기
-	// 주문자 정보 입력
-	@RequestMapping("orderSheet.st")
-	public String orderSheet(HttpSession session, OrderItem orderList, Model model) {
-		
-		return "payment";
+	// 결제정보 처리
+	@RequestMapping("orderResult.st")
+	public String orderResult(@RequestParam(value="recipient", required=false) String recipient,
+						@RequestParam(value="recipient_phone", required=false) String recipient_phone,
+						@RequestParam(value="address", required=false) String address,
+						@RequestParam(value="address_detail", required=false) String address_detail,
+						@RequestParam(value="deliveryMsg", required=false) String deliveryMsg,
+						@RequestParam(value="memberName", required=false) String memberName,
+						@RequestParam(value="email", required=false) String email,
+						@RequestParam(value="buyer_phone", required=false) String buyer_phone,
+						@RequestParam(value="Arr", required=false) List<Integer> pNoArr[],
+						HttpSession session, Model model) {
+		System.out.println(recipient);
+		System.out.println(recipient_phone);
+		System.out.println(address);
+		System.out.println(address_detail);
+		System.out.println(deliveryMsg);
+		System.out.println(memberName);
+		System.out.println(email);
+		System.out.println(buyer_phone);
+		System.out.println(pNoArr);
+	
+		return null;
 	}
 	
 }

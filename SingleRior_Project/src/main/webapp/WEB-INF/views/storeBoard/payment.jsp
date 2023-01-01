@@ -66,7 +66,7 @@
 			     <div class="blog-post">
 			        <h5 class="blog-post-title mb-1">▶배송지 정보</h5>
 			        <hr>
-			        <form action="${ contextPath }/ordersheet.st">
+			        <form action="${ contextPath }/orderResult.st" method="post" class="order_form">
 			          <table>
 					       	<tr>
 					       		<td>수령인</td>
@@ -74,7 +74,7 @@
 					       	</tr>
 					       	<tr>
 					       		<td>휴대전화</td>
-					       		<td><input type="text" class="ordersheet" name="phone" placeholder="받으시는 분 휴대전화를 입력해주세요" required></td>
+					       		<td><input type="text" class="ordersheet" name="recipient_phone" placeholder="받으시는 분 휴대전화를 입력해주세요" required></td>
 					       	</tr>
 					       	<tr>
 					       		<td>주소</td>
@@ -85,10 +85,11 @@
 					       		<td><input type="text" class="ordersheet" name="address_detail" placeholder="배송지 상세주소를 입력해주세요" id="address_kakao" required></td>
 					       	</tr>
 			        	</table>
-			       	</form>
+			        </form>
+			    
 			       	
 			        <br>
-			        <select name="selectOpt" style="width:500px; height:25px;" >
+			        <select name="deliveryMsg" style="width:500px; height:25px;" >
 			        	<option>배송시 요청사항을 선택해주세요</option>
 			        	<option>배송전에 미리 연락주세요</option>
 			        	<option>부재시 문앞에 놓아주세요</option>
@@ -100,20 +101,22 @@
 			       <br><br>
 			       <h5 class="blog-post-title mb-1">▶주문자 정보</h5>
 			       <hr>
-			       <table>
-			       	<tr>
-			       		<td>이름</td>
-			       		<td><input type="text" id="b_name" class="ordersheet" value="${ member.memberName }"></td>			       		
-			       	</tr>
-			       	<tr>
-			       		<td>이메일</td>
-			       		<td><input type="email" id="b_email" class="ordersheet" value="${ member.email }"></td>
-			       	</tr>
-			       	<tr>
-			       		<td>휴대전화</td>
-			       		<td><input type="text" id="b_phone" class="ordersheet" value="${ member.phone }"></td>
-			       	</tr>
-			       </table>
+			       <form action="${ contextPath }/orderResult.st" method="post" class="order_form">
+				       <table>
+				       	<tr>
+				       		<td>이름</td>
+				       		<td><input type="text" id="b_name" name="memberName" value="${ member.memberName }"></td>			       		
+				       	</tr>
+				       	<tr>
+				       		<td>이메일</td>
+				       		<td><input type="email" id="b_email" name="email" value="${ member.email }"></td>
+				       	</tr>
+				       	<tr>
+				       		<td>휴대전화</td>
+				       		<td><input type="text" id="b_phone" name="buyer_phone" value="${ member.phone }"></td>
+				       	</tr>
+				       </table>
+			       </form>
 			       <br><br>
 			  
 				 
@@ -124,7 +127,12 @@
 				   <hr>
 				   <c:set var ="sum" value="0"/>  
 				   <c:forEach items="${ orderItem }" var="o" varStatus="status">
-				   <input type="hidden" name="productNo" value="${ o.productNo }">
+				   ${ o.productNo }
+ <!-- 상품정보 보내기 -->				   
+				    <form action="${ contextPath }/orderResult.st" method="post" class="order_form">
+				  	 <input type="hidden" name="productNo[]" value="${ o.productNo }">
+				   </form> 
+				   
 				       <table class="table">   
 					   <tr height="15">
 					    	<td scope="row" width="250" rowspan="2" class="bottomNone"><img src="${ contextPath }/resources/uploadFiles/${o.imgRename }"1 width="100"></td>
@@ -135,7 +143,7 @@
 					   	</tr>
 					   	<tr>
 					     	<td class="bottomNone">
-					      		<div id="product_name">${ o.boardTitle }${ o.productNo }</div>
+					      		<div id="product_name">${ o.boardTitle }</div>
 					      	</td>
 					      	<td class="bottomNone">
 								<div>옵션 : ${ o.productOption } </div>
@@ -156,10 +164,6 @@
 					   	</tr>
 					</table>
 					</c:forEach>
-				  
-				   <form>
-				   <input type="hidden" name="productNo" value="${ o.productNo }">
-				   </form>
 				   
 				   <br><br>
 				   <h5 class="blog-post-title mb-1">▶결제 수단</h5>
@@ -233,16 +237,16 @@
 	
 	
 <script>
-window.onload = function(){
-    document.getElementById("address_kakao").addEventListener("click", function(){ //주소입력칸을 클릭하면 카카오 주소 발생
-        new daum.Postcode({
-            oncomplete: function(data) { //선택시 입력값 세팅
-                document.getElementById("address_kakao").value = data.address; // 주소 넣기
-                document.querySelector("input[name=address_detail]").focus(); // 상세입력 포커싱
-            }
-        }).open();
-    });   
-    
+	window.onload = function(){
+	    document.getElementById("address_kakao").addEventListener("click", function(){ //주소입력칸을 클릭하면 카카오 주소 발생
+	        new daum.Postcode({
+	            oncomplete: function(data) { //선택시 입력값 세팅
+	                document.getElementById("address_kakao").value = data.address; // 주소 넣기
+	                document.querySelector("input[name=address_detail]").focus(); // 상세입력 포커싱
+	            }
+	        }).open();
+	    });   
+	    
     // 배송비 & 최종 금액 계산하기
     const price1 = $("#changedPrice").text();
     const price2 = price1.replace(",", "");
@@ -266,72 +270,79 @@ window.onload = function(){
 		     alert("주문서를 작성해주세요.");
 		     return false;
 		   } 
-		    $("#order_form").submit(); 
+		    //$("#order_form").submit(); 
 		 });  
-    
+
     // 아임포트 API
      document.getElementById("order_btn").addEventListener("click", function(){
     	 
     	  var IMP = window.IMP;   // 생략 가능함
     	  IMP.init("imp24668238"); // 예: imp00000000 
     	  
-    	  var memberName = $('#b_name').val();
-    	  var email = $('#b_email').val();
-    	  var buyer_phone = $('#b_phone').val();
-    	  
-    	  var recipient = $('input[name=recipient]').val();
-    	  var recipient_phone = $('input[name=phone]').val();
+    	  // 넘길 데이터 총 9개  
+    	  // 배송지 입력정보
+     	  var recipient = $('input[name=recipient]').val();
+    	  var recipient_phone = $('input[name=recipient_phone]').val();
     	  var address = $('input[name=address]').val();
     	  var address_detail = $('input[name=address_detail]').val();
-    	  var deliveryMsg = $('select[name=selectOpt] option:selected').text();
-    	 
-    	  var productNo = $('input[name=productNo]').val();
-    	  console.log(productNo);
-    	  for (var i=0; i < productNo.length; i++){
-    		  console.log(i + " ");
-    	  }
-    
-    	  
-    	  
-    	
-    	  
+     	  var deliveryMsg = $('select[name=deliveryMsg] option:selected').text();
+     	  
+     	 // 구매자 기본정보
+    	  var memberName = $('#b_name').val();
+    	  var email = $('#b_email').val();
+    	  var buyer_phone = $('#b_phone').val(); 
+
+    	  // 구매 상품 정보
+   		  var arr=[];
+   		  $.each($("input[name='productNo[]']"),function(k,v){
+   			    arr[arr.length] = $(v).val();
+   			});
+   		  console.log(arr);
+    	    
+    	  console.log(memberName);
+    	  console.log(email);
+    	  console.log(buyer_phone);
+    	  console.log(deliveryMsg);
+    	  console.log(recipient);
+    	  console.log(recipient_phone); 
+    	  console.log(address);
+    	  console.log(address_detail);
+
     	  var amount = finalPrice;
+    	  
+    	  var allData ={"memberName":memberName,
+    			         "email":email,
+    			         "buyer_phone":buyer_phone,
+    			         "recipient":recipient,
+    			         "recipient_phone":recipient_phone,
+    			         "address":address,
+    			         "address_detail":address_detail,
+    			         "deliveryMsg":deliveryMsg,
+    			         "arr":arr};  
    	      IMP.request_pay({ 
    	          pg: "html5_inicis",
    	          pay_method: "card",
    	          merchant_uid: new Date().getTite,   // 주문번호
    	          name: "SingleRior_스토어",
-   	          amount: 100, // 숫자타입 amount
+   	          amount: 100, // 결제 테스트 이후 amount 수정 
    	       	  buyer_email: email,
  	          buyer_name: memberName,
  	          buyer_tel: buyer_phone,
 
    	      }, function (rsp) { // callback
    	          if (rsp.success) {
-   	           // 결제 성공 시 로직,
-		              $.ajax({
-		            	  url: "${contextPath}/orderResult.st", 
-		            	  data:{recipient:recipient,
-			            		  recipient_phone:recipient_phone,
-			            		  address:address,
-			            		  address_detail:address_detail,
-			            		  deliveryMsg:deliveryMsg,
-			            		  memberName:memberName,
-			            		  email:email,
-			            		  buyer_phone:buyer_phone,
-		            		      
-			            		  
-		            		    },
-						  success: function(data){
-		  		              location.href="${contextPath}/orderResult.st";
-		            	  }
+   	                    $.ajax({
+			            	  url: "${contextPath}/orderResult.st", 
+			            	  type: "post",
+			            	  data: allData,
+							  success: function(data){
+			  		              location.href="${contextPath}/orderResult.st";}
 		              })
-   	              alert("결제성공");
+   	              alert("결제성공");     
    	          } else {
    	        	 alert("결제를 실패하였습니다. 다시 시도해주세요");
    	          }
-   	      });
-    	 
+   	      }); 
      });
 </script>
 </body>
