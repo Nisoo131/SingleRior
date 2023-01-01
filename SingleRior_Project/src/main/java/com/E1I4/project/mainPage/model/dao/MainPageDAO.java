@@ -67,4 +67,10 @@ public class MainPageDAO {
 	public ArrayList<NotiBoard> searchNotiList(SqlSessionTemplate sqlSession, String findKeyword) {
 		return (ArrayList)sqlSession.selectList("mainMapper.searchNotiList", findKeyword);
 	}
+
+	
+	/* 배너 */
+	public ArrayList<Attachment> selectBannerList(SqlSessionTemplate sqlSession, String imgKey) {
+		return (ArrayList)sqlSession.selectList("mainMapper.selectBannerList", imgKey);
+	}
 }
