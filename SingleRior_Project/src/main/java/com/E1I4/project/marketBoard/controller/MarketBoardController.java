@@ -100,6 +100,9 @@ public class MarketBoardController {
 			model.addAttribute("mkBList", mkBList);
 			model.addAttribute("mkAList", mkAList);
 			model.addAttribute("topBList", topBList);
+			model.addAttribute("marketArray", marketArray);
+			model.addAttribute("marketType", marketType);
+			
 			
 			return "marketBoardList";
 		} else {

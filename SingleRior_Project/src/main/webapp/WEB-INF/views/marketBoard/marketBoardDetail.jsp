@@ -221,7 +221,7 @@
   					<span class="close" >&times;</span>
   					<img class="modal_content">
 				</div>
-					
+				
 				<!-- 첨부파일 -->
 				<c:if test="${!empty mkAList}">
 				<div id="slideShow">
@@ -240,6 +240,7 @@
 
 				<!-- 지도영역  -->
 				<c:if test="${mkBoard.location ne null }">
+				
 					<div id="map" class="mx-auto" style=" width:300px;height:200px;"></div><br><div class="mx-auto" style="text-align:center; background: #D9E5FF; border-radius:2em; padding: 20px; width: 650px;"  >${mkBoard.nickName}님은  ${mkBoard.location }에서 직거래하고 싶어해요!</div>
 				</c:if>		
 									
@@ -269,33 +270,38 @@
 			  	
 				<div style="padding-top: 10px; "></div>
 					<!-- 프로필 -->
-						<div class="col-12" style="background: #D9E5FF; border-radius:2em; padding: 20px; " >
-							<table style="width: 100%">
-								<tr>
-									<td style="width: 80px;" rowspan="2">
-										<c:if test="${ mkBoard.profileImg!=null}">
-											<img  src="resources/uploadFiles/${ mkBoard.profileImg }"  style="width: 90px; height: 90px; border-radius: 70%">
-										</c:if>
-										<c:if test="${ mkBoard.profileImg==null}">
-											<img src="${ contextPath }/resources/image/userProfile.png" style="width: 90px; height: 90px;  border-radius: 70%">
-										</c:if>
-									</td>
-									<td ><span style="font-size: 25px;">&nbsp;&nbsp;${ mkBoard.nickName }</span></td>
-									<td rowspan="2" style="float: right; margin-right: 12px; "><img src="${ contextPath }/resources/image/report.png" style="width: 60px; height: 60px; " id="reportBtn"></td>
+					<div class="col-12" style="background: #D9E5FF; border-radius:2em; padding: 20px; " >
+						<table style="width: 100%">
+							<tr>
+								<td style="width: 80px;" rowspan="2">
+									<c:if test="${ mkBoard.profileImg!=null}">
+										<img src="resources/uploadFiles/${ mkBoard.profileImg }"  style="width: 90px; height: 90px; border-radius: 70%">
+									</c:if>
+									<c:if test="${ mkBoard.profileImg==null}">
+										<img src="${ contextPath }/resources/image/userProfile.png" style="width: 90px; height: 90px;  border-radius: 70%">
+									</c:if>
+								</td>
+								<td >
+									<span class=" dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" style="font-size: 25px;" >&nbsp;&nbsp;${ mkBoard.nickName }</span>
+									<ul class="dropdown-menu" style="text-align: center;">
+										<li><a class="dropdown-item sendMsg">쪽지보내기</a></li>
+									</ul>
+								</td>									
+								<td rowspan="2" style="float: right; margin-right: 12px; "><img src="${ contextPath }/resources/image/report.png" style="width: 60px; height: 60px; " id="reportBtn"></td>
 								</tr>
-								<tr>
-									<td>&nbsp;&nbsp;
-									<c:set value="${ fn:split(mkBoard.address,' ') }" var="address" />
-										<span>
-											<c:forEach items="${address}" var="a" begin='0' end='1'>
-											${a}
-											</c:forEach>
-										</span>
-									</td>
-									<td style="float: right; margin-right: 12px; ">신고하기&nbsp;</td>
-								</tr>
-							</table>
-						</div>&nbsp;
+							<tr>
+								<td>&nbsp;&nbsp;
+								<c:set value="${ fn:split(mkBoard.address,' ') }" var="address" />
+									<span>
+										<c:forEach items="${address}" var="a" begin='0' end='1'>
+										${a}
+										</c:forEach>
+									</span>
+								</td>
+								<td style="float: right; margin-right: 12px; ">신고하기&nbsp;</td>
+							</tr>
+						</table>
+					</div>&nbsp;
 					
 					<div style=" padding-top: 10px;"></div>
 					
@@ -325,8 +331,13 @@
 								<c:if test="${ r.profileImg ne null}">
 									<td style="text-align: center;" width="40"><img src="resources/uploadFiles/${ r.profileImg }" width="50" height="50" style="border-radius: 70%"></td>
 								</c:if>	
-									<td width="150px; class="px-4" class="reNickName">${r.nickName}</td>
-									<td width="150px; class="px-4">${r.replyModifyDate}</td>
+									<td width="150px;  class="reNickName">
+										<span class=" dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">${r.nickName}</span>
+										<ul class="dropdown-menu" style="text-align: center;">
+											<li><a class="dropdown-item sendMsg" >쪽지보내기</a></li>
+										</ul>
+									</td>
+									<td width="150px;">${r.replyModifyDate}</td>
 									<td width="850px;"></td>
 									<td>
 										<div class="dropdown">
@@ -397,7 +408,7 @@
 							<tr>
 								<td style="text-align: center;" width="40"><img src="https://cdn-icons-png.flaticon.com/512/9058/9058850.png" width="20" height="20">
 								<td style="text-align: center;" width="40"><img src="https://cdn-icons.flaticon.com/svg/3917/3917711.svg?token=exp=1670467359~hmac=b45251c2afca4a6751ba3fed9124eb31" width="20" height="20"></td>
-								<td class="px-4">${rr.nickName}</td>
+								<td class="px-4 ">${rr.nickName}</td>
 								<td class="px-4">${rr.reReplyModifyDate}</td>
 								<td width="750"></td>
 								<td>
@@ -528,6 +539,7 @@
 	  </div>
 	</div>
 	
+	<!-- 이미지 슬라이드 -->
 	<div class="container-fluid ">
     <div class="row lightbox-container align-items-center">
       <div class="col-10 col-md-10 mx-auto text-right lightbox-holder">
@@ -536,9 +548,31 @@
         <span class="lightbox-control btnLeft"><i class="fas fa-caret-left"></i></span>
         <span class="lightbox-control btnRight"><i class="fas fa-caret-right"></i></span>
       </div>
-
     </div>
   </div>
+	
+	<!-- 메세지 보내기 모달창 -->
+	<div class="modal fade" id="msgModal" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
+	  <div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+			  	<div class="modal-header">
+			        <h1 class="modal-title fs-5" id="exampleModalToggleLabel2">SEND MESSAGE</h1>
+			        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			    </div>
+			 	<div class="modal-body" style="text-align: left">
+				    	제목<input type="text" class="form-control input" name="messageTitle">
+				    	내용<input class="form-control input" style="height: 300px" name="messageContent">
+				      	<br>
+				      	받는 사람 : <input id="receiver" type="text" name="receiver" class="input" readonly style="border: none;">
+				 </div>
+				 <div class="modal-footer">
+					<button class="btn btn-primary" id="sendBtn" ><strong>보내기</strong></button>
+			      	<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+				 </div>
+	    	</div> 
+	  </div>
+	</div>	
+	
 	
 	
 	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=798f33ea8b65e2cf58f7aae47be6ed55&libraries=services"></script>	
@@ -547,7 +581,6 @@
 	
 	<script>
 		window.onload = () =>{
-			
 			//좋아요
 	         $(".symptClick").click(function(){
 	            if($(this).attr("class") == "btn btn-outline-danger symptClick"){
@@ -657,41 +690,34 @@
 				}
 			
 			//이미지 슬라이드
-			const slides = document.querySelector('.slides'); //전체 슬라이드 컨테이너
-			const slideImg = document.querySelectorAll('.slides li'); //모든 슬라이드들
-			let currentIdx = 0; //현재 슬라이드 index
-			const slideCount = slideImg.length; // 슬라이드 개수
-			const prev = document.querySelector('.prev'); //이전 버튼
-			const next = document.querySelector('.next'); //다음 버튼
-			const slideWidth = 300; //한개의 슬라이드 넓이
-			const slideMargin = 100; //슬라이드간의 margin 값
-
-			//전체 슬라이드 컨테이너 넓이 설정
-			slides.style.width = (slideWidth + slideMargin) * slideCount + 'px';
-
-			function moveSlide(num) {
-			  slides.style.left = -num * 400 + 'px';
-			  currentIdx = num;
-			}
-
-			prev.addEventListener('click', function () {
-			  /*첫 번째 슬라이드로 표시 됐을때는 
-			  이전 버튼 눌러도 아무런 반응 없게 하기 위해 
-			  currentIdx !==0일때만 moveSlide 함수 불러옴 */
-
-			  if (currentIdx !== 0) moveSlide(currentIdx - 1);
-			});
-
-			next.addEventListener('click', function () {
-			  /* 마지막 슬라이드로 표시 됐을때는 
-			  다음 버튼 눌러도 아무런 반응 없게 하기 위해
-			  currentIdx !==slideCount - 1 일때만 
-			  moveSlide 함수 불러옴 */
-			  if (currentIdx !== slideCount - 1) {
-			    moveSlide(currentIdx + 1);
-			  }
-			});
 			
+		if(${ !empty mkAList }){
+				const slides = document.querySelector('.slides');
+				const slideImg = document.querySelectorAll('.slides li'); 
+				let currentIdx = 0;
+				const slideCount = slideImg.length; 
+				const prev = document.querySelector('.prev');
+				const next = document.querySelector('.next');
+				const slideWidth = 300;
+				const slideMargin = 100;
+	
+				slides.style.width = (slideWidth + slideMargin) * slideCount + 'px';
+	
+				function moveSlide(num) {
+				  slides.style.left = -num * 400 + 'px';
+				  currentIdx = num;
+				}
+	
+				prev.addEventListener('click', function () {
+				  if (currentIdx !== 0) moveSlide(currentIdx - 1);
+				});
+	
+				next.addEventListener('click', function () {
+				  if (currentIdx !== slideCount - 1) {
+				    moveSlide(currentIdx + 1);
+				  }
+				});
+		}
 			//이미지 모달창 
 			const modal = document.querySelector(".modal");
 			const img = document.querySelector(".img");
@@ -711,6 +737,50 @@
 			function modalDisplay(text){
 			  modal.style.display = text;
 			}
+			
+			//메세지 보내기
+			$(document).on('click', ".sendMsg", function(){
+				const senderNickname = this.parentNode.parentNode.parentNode.querySelector('span').innerText;
+				const sender = senderNickname.trim();
+				const id = '${loginUser.nickName}';
+				console.log(sender);
+				console.log(id);
+				document.getElementById('receiver').value = sender;
+				
+				if(id != sender){
+					$('#msgModal').modal('show');
+				}
+				
+				if(id == sender){
+					alert("본인에게 메세지를 보낼 수 없습니다.");
+				}
+				
+			});
+			
+			
+			document.getElementById('sendBtn').addEventListener('click', () => {
+				const input = document.getElementsByClassName('input');
+				console.log(input[0].value);
+				console.log(input[1].value);
+				console.log(input[2].value);
+				$.ajax({
+					url: '${ contextPath }/insertMsg.cm',
+					data: {messageTitle:input[0].value,
+						   messageContent:input[1].value,
+						   receiver:input[2].value,
+						   },
+					success: (data) => {
+						$('#msgModal').modal('hide')
+						input[0].value = '';
+						input[1].value = ''; 
+						location.reload();
+					},
+					error: (data) => {
+						console.log(data);
+					}
+				});
+			});
+			
 		}
 		
 		
@@ -742,8 +812,6 @@
 					}
 				});
 		});
-		
-		
 		
 		
 		//댓글수정
@@ -821,12 +889,19 @@
 				}else{
 					str += '<td style="text-align: center;" width="40"><img src="resources/image/userProfile.png" width="50" height="50" style="border-radius: 70%"></td>';
 				}
-				str +=	'<td width="150px; class="px-4">'+ r.nickName + '</td>';
+				str +=	'<td width="150px;  class="reNickName">';
+				str +=	'<span class=" dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">' + r.nickName + '</span>';
+				
+				if('${ loginUser.nickName}'!= r.nickName){	
+					str +=	'<ul class="dropdown-menu" style="text-align: center;">';
+					str += 	'<li><a class="dropdown-item sendMsg" onclick="$(' + "'#msgModal'" + ').modal(' + "'show'" + ')">쪽지보내기</a></li></ul></td>'
+				}
+				
 				str +=	'<td width="150px; class="px-4">'+ r.replyModifyDate + '</td>';
 				str +=	'<td width="850px;"></td>';
 				str +=	'<td>';
 				str +=	'<div class="dropdown">';
-				str +=	'<img class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" src="https://cdn-icons.flaticon.com/svg/3917/3917158.svg?token=exp=1670467948~hmac=2f18f7118b556af438bb1d4438649f4a" width="20" height="20">';
+				str +=	'<img class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" src="resources/image/menu-dots.png" width="20" height="20">';
 				str +=	'<ul class="dropdown-menu" style="text-align: center;">';
 				
 				if('${ loginUser.memberId}'== r.memberId){	

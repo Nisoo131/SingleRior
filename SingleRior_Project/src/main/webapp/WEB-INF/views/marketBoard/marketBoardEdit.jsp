@@ -83,7 +83,6 @@
 										삭제
 									</button>
 									<input type="hidden" name="deleteAttm" >
-								
 								<br>
 							</c:forEach>
 						</div>
