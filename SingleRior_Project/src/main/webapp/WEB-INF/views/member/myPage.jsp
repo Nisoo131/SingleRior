@@ -111,6 +111,7 @@
 				<li onClick="location.href='${contextPath}/orderCancelList.me'"><span>취소/환불내역</span></li>
 				<li onClick="location.href='${contextPath}/myReviewDoneList.me'"><span>나의 구매후기</span></li>
 				<li onClick="location.href='${contextPath}/myAskList.me'"><span>나의 문의</span></li>
+				<li onClick="location.href='${contextPath}/messageBox.cm'"><span>메세지함</span></li>
 			</ul>
 		</div>
 		<br><br><br>

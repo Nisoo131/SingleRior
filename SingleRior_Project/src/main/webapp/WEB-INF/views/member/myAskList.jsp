@@ -31,7 +31,7 @@
 			<div class="collapse navbar-collapse" id="navbarNavAltMarkup">
 				<div class="navbar-nav">
 					<a class="nav-link" aria-current="page" onclick="location.href='${contextPath}/myAskList.me'" style="color:#008cd4">답변 미완료 문의</a>
-					<a class="nav-link"onclick="location.href='${contextPath}/myAskDoneList.me'">답변 완료 문의</a>
+					<a class="nav-link" onclick="location.href='${contextPath}/myAskDoneList.me'">답변 완료 문의</a>
 				</div>
 			</div>
 	</nav>
