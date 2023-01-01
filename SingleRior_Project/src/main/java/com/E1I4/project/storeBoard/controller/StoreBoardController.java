@@ -57,7 +57,6 @@ public class StoreBoardController {
 			PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 12); //boardLimit: 카드 12개
 			
 			ArrayList<StoreBoard> sList = sService.selectStoreBoardList(pi, subCate);
-			
 			ArrayList<Attachment> aList = new ArrayList<Attachment>();
 		    
 			for(int i=0; i<sList.size(); i++) {
