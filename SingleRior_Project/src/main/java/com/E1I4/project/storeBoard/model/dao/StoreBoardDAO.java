@@ -1,7 +1,8 @@
 package com.E1I4.project.storeBoard.model.dao;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+
 
 import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -25,7 +26,7 @@ public class StoreBoardDAO {
 	
 	public ArrayList<StoreBoard> selectStoreBoardList(SqlSessionTemplate sqlSession, PageInfo pi, int subCate) {
 		
-		int offset = (pi.getCurrentPage() -1 ) * pi.getBoardLimit();
+		int offset = (pi.getCurrentPage() -1) * pi.getBoardLimit();
 		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
 		return (ArrayList)sqlSession.selectList("storeMapper.selectStoreBoardList", subCate, rowBounds);
 		
