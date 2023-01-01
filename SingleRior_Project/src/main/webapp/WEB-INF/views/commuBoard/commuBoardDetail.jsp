@@ -154,7 +154,7 @@
 							</c:if>
 						</div>
 						<div class="justify-content-center" style="padding-bottom: 50px; padding-right: 100px; color: #A9A9A9; text-align: right; font-size: 20px;">
-							<span style="padding-right: 30px;">0 / 600</span>
+							<span id="counter">0</span><span style="padding-right: 30px;"> / 600</span>
 							<label for="replySecret">비밀댓글</label>
 							<input type="checkbox" id="replySecret" value="N">
 						</div>
@@ -167,10 +167,15 @@
 							<div class="px-5 replyCount">
 								<table class="table" id="replyUpdateArea">
 									<tr>
-										<td style="text-align: center;" width="40"><img src="${ contextPath }/resources/image/user.png" width="20" height="20"></td>
+										<c:if test="${ r.profileImg eq null}">
+											<td style="text-align: center;" width="40"><img src="${ contextPath }/resources/image/user.png" width="20" height="20"></td>
+										</c:if>
+										<c:if test="${ r.profileImg ne null}">
+											<td style="text-align: center;" width="40"><img src="resources/uploadFiles/${ r.profileImg }" width="35" height="35" style="border-radius: 70%"></td>
+										</c:if>
 										<td class="px-4 reNickName">${ r.nickName }</td>
 										<td class="px-4">${ r.replyModifyDate }</td>
-										<td width="850"></td>
+										<td width="700"></td>
 										<td>
 											<div class="dropdown">
 												<img class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" src="${ contextPath }/resources/image/menu-dots.png" width="20" height="20">
@@ -202,7 +207,18 @@
 									<tr style="font-size: 20px;">
 										<td class="px-5 py-3" colspan="5">
 											<div class="input-group">
-												<textarea style="width: 1000px; border: none; resize: none;" readonly>${ r.replyContent }</textarea>
+												<c:if test="${r.replySecret == 'Y' and (loginUser.memberId eq r.memberId  or loginUser.memberId eq coBoard.writer or loginUser.memberAuthority eq 'Y')}">
+													<textarea style="width: 1000px; border: none; resize: none;" readonly>${ r.replyContent }</textarea>
+												</c:if>
+												<c:if test="${r.replySecret == 'N' }">
+													<textarea class="updateContent" style="width: 1000px; border: none; resize: none;" readonly>${ r.replyContent }</textarea>
+												</c:if>
+												<c:if test="${r.replySecret == 'Y' and loginUser.memberId ne r.memberId and loginUser.memberId ne coBoard.writer and loginUser.memberAuthority eq 'N'}">
+													<textarea class="updateContent" style="width: 1000px; border: none; resize: none;" readonly>비밀 댓글입니다.</textarea>
+												</c:if>
+												<c:if test="${r.replySecret == 'Y' and loginUser eq null}">
+													<textarea style="width: 1000px; border: none; resize: none;" readonly>비밀 댓글입니다.</textarea>
+												</c:if>
 												<input type="hidden" value="${ r.replyNo }">
 											</div>
 										</td>
@@ -404,6 +420,24 @@
 			}
 		})
 		
+		// 댓글 수 count
+		$('#replyContent').keyup(function(){
+			const input = $(this).val();
+			const inputLength = input.length;
+			
+			$('#counter').html('<b>' + inputLength + '</b>');
+			
+			if(inputLength > 600){
+				$('#counter').css('color', 'red');
+				$('#counter').html('<b>600</b>');
+			} else {
+				$('#counter').css('color', '#A9A9A9');
+			}
+			
+			const piece = input.substr(0, 600);
+			$(this).val(piece);
+		});
+		
 		// 댓글 insert
 		$(document).on('click', "#replySubmit", function(){
 			if(document.getElementById('replySecret').checked){
@@ -425,7 +459,11 @@
 						listHtml += "<div class='px-5 replyCount'>";
 						listHtml += '<table class="table" id="replyUpdateArea">';
 						listHtml += "<tr>";
-						listHtml += "<td style='text-align: center;' width='40'><img src='${ contextPath }/resources/image/user.png' width='20' height='20'></td>";
+						if(data[i].profileImg == null){
+							listHtml += "<td style='text-align: center;' width='40'><img src='${ contextPath }/resources/image/user.png' width='20' height='20'></td>";
+						} else {
+							listHtml += '<td style="text-align: center;" width="40"><img src="resources/uploadFiles/' + data[i].profileImg + '" width="35" height="35" style="border-radius: 70%"></td>';
+						}
 						listHtml += '<td class="px-4 reNickName">' + data[i].nickName + "</td>";
 						listHtml += "<td class='px-4'>" + data[i].replyModifyDate + "</td>";
 						listHtml += "<td width='850'></td>";
@@ -461,7 +499,15 @@
 						listHtml += "<tr style='font-size: 20px;'>";
 						listHtml += "<td class='px-5 py-3' colspan='5'>";
 						listHtml += "<div class='input-group'>";
-						listHtml += "<textarea style='width: 1000px; border: none; resize: none;' readonly>" + data[i].replyContent + "</textarea>";
+						if(data[i].replySecret =='Y' && ('${ loginUser.memberId }' == '${ coBoard.writer }' || '${ loginUser.memberId }' == data[i].memberId || '${ loginUser.memberAuthority }' == 'Y')){
+							listHtml += "<textarea style='width: 1000px; border: none; resize: none;' readonly>" + data[i].replyContent + "</textarea>";
+						} else if(data[i].replySecret =='N'){
+							listHtml += "<textarea style='width: 1000px; border: none; resize: none;' readonly>" + data[i].replyContent + "</textarea>";
+						} else if(data[i].replySecret =='Y' && '${ loginUser.memberId }' != '${ coBoard.writer }' && '${ loginUser.memberId }' != data[i].memberId && '${ loginUser.memberAuthority }' == 'N'){
+							listHtml += "<textarea style='width: 1000px; border: none; resize: none;' readonly>비밀 댓글입니다.</textarea>";
+						} else if(data[i].replySecret =='Y' && '${loginUser}' == null){
+							listHtml += "<textarea style='width: 1000px; border: none; resize: none;' readonly>비밀 댓글입니다.</textarea>";
+						}
 						listHtml += '<input type="hidden" value="' + data[i].replyNo + '">';
 						listHtml += "</div>";
 						listHtml += "</td>";
@@ -489,7 +535,29 @@
 			textArea.removeAttribute('readonly');
 			textArea.style.border = "1px solid";
 			textArea.focus();
-			textArea.parentNode.innerHTML += '<button type="button" class="btn btn-outline-primary btn-lg reUpdateSubmit" style="width: 100px;">등록</button><span>비밀댓글&nbsp;&nbsp;<input type="checkbox" class="replyUpateSecret" value="N"></span>';
+			textArea.parentNode.innerHTML += '<button type="button" class="btn btn-outline-primary btn-lg reUpdateSubmit" style="width: 100px;">등록</button><span>비밀댓글&nbsp;&nbsp;<input type="checkbox" class="replyUpateSecret" value="N"></span><span class="counter" style="padding-left: 30px;">0</span><span> / 600</span>';
+			
+			const updateCounter = this.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.querySelector('.counter');
+			updateCounter.innerText = textArea.innerText.length;
+			
+			// 댓글 수 count
+			$('.updateContent').keyup(function(){
+				console.log("얍");
+				const input = $(this).val();
+				const inputLength = input.length;
+				
+				$('.counter').html('<b>' + inputLength + '</b>');
+				
+				if(inputLength > 600){
+					$('.counter').css('color', 'red');
+					$('.counter').html('<b>600</b>');
+				} else {
+					$('.counter').css('color', 'black');
+				}
+				
+				const piece = input.substr(0, 600);
+				$(this).val(piece);
+			});
 			
 			const btn = this.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.querySelector('button');
 			const $upBtn = $(this);
@@ -519,7 +587,11 @@
 							listHtml += "<div class='px-5 replyCount'>";
 							listHtml += '<table class="table" id="replyUpdateArea">';
 							listHtml += "<tr>";
-							listHtml += "<td style='text-align: center;' width='40'><img src='${ contextPath }/resources/image/user.png' width='20' height='20'></td>";
+							if(data[i].profileImg == null){
+								listHtml += "<td style='text-align: center;' width='40'><img src='${ contextPath }/resources/image/user.png' width='20' height='20'></td>";
+							} else {
+								listHtml += '<td style="text-align: center;" width="40"><img src="resources/uploadFiles/' + data[i].profileImg + '" width="35" height="35" style="border-radius: 70%"></td>';
+							}
 							listHtml += '<td class="px-4 reNickName">' + data[i].nickName + "</td>";
 							listHtml += "<td class='px-4'>" + data[i].replyModifyDate + "</td>";
 							listHtml += "<td width='850'></td>";
@@ -555,7 +627,15 @@
 							listHtml += "<tr style='font-size: 20px;'>";
 							listHtml += "<td class='px-5 py-3' colspan='5'>";
 							listHtml += "<div class='input-group'>";
-							listHtml += "<textarea style='width: 1000px; border: none; resize: none;' readonly>" + data[i].replyContent + "</textarea>";
+							if(data[i].replySecret =='Y' && ('${ loginUser.memberId }' == '${ coBoard.writer }' || '${ loginUser.memberId }' == data[i].memberId || '${ loginUser.memberAuthority }' == 'Y')){
+								listHtml += "<textarea style='width: 1000px; border: none; resize: none;' readonly>" + data[i].replyContent + "</textarea>";
+							} else if(data[i].replySecret =='N'){
+								listHtml += "<textarea style='width: 1000px; border: none; resize: none;' readonly>" + data[i].replyContent + "</textarea>";
+							} else if(data[i].replySecret =='Y' && '${ loginUser.memberId }' != '${ coBoard.writer }' && '${ loginUser.memberId }' != data[i].memberId && '${ loginUser.memberAuthority }' == 'N'){
+								listHtml += "<textarea style='width: 1000px; border: none; resize: none;' readonly>비밀 댓글입니다.</textarea>";
+							} else if(data[i].replySecret =='Y' && '${loginUser}' == null){
+								listHtml += "<textarea style='width: 1000px; border: none; resize: none;' readonly>비밀 댓글입니다.</textarea>";
+							}
 							listHtml += '<input type="hidden" value="' + data[i].replyNo + '">';
 							listHtml += "</div>";
 							listHtml += "</td>";
@@ -591,7 +671,11 @@
 						listHtml += "<div class='px-5 replyCount'>";
 						listHtml += '<table class="table" id="replyUpdateArea">';
 						listHtml += "<tr>";
-						listHtml += "<td style='text-align: center;' width='40'><img src='${ contextPath }/resources/image/user.png' width='20' height='20'></td>";
+						if(data[i].profileImg == null){
+							listHtml += "<td style='text-align: center;' width='40'><img src='${ contextPath }/resources/image/user.png' width='20' height='20'></td>";
+						} else {
+							listHtml += '<td style="text-align: center;" width="40"><img src="resources/uploadFiles/' + data[i].profileImg + '" width="35" height="35" style="border-radius: 70%"></td>';
+						}
 						listHtml += '<td class="px-4 reNickName">' + data[i].nickName + "</td>";
 						listHtml += "<td class='px-4'>" + data[i].replyModifyDate + "</td>";
 						listHtml += "<td width='850'></td>";
@@ -627,7 +711,15 @@
 						listHtml += "<tr style='font-size: 20px;'>";
 						listHtml += "<td class='px-5 py-3' colspan='5'>";
 						listHtml += "<div class='input-group'>";
-						listHtml += "<textarea style='width: 100%; border: none; resize: none;' readonly>" + data[i].replyContent + "</textarea>";
+						if(data[i].replySecret =='Y' && ('${ loginUser.memberId }' == '${ coBoard.writer }' || '${ loginUser.memberId }' == data[i].memberId || '${ loginUser.memberAuthority }' == 'Y')){
+							listHtml += "<textarea style='width: 1000px; border: none; resize: none;' readonly>" + data[i].replyContent + "</textarea>";
+						} else if(data[i].replySecret =='N'){
+							listHtml += "<textarea style='width: 1000px; border: none; resize: none;' readonly>" + data[i].replyContent + "</textarea>";
+						} else if(data[i].replySecret =='Y' && '${ loginUser.memberId }' != '${ coBoard.writer }' && '${ loginUser.memberId }' != data[i].memberId && '${ loginUser.memberAuthority }' == 'N'){
+							listHtml += "<textarea style='width: 1000px; border: none; resize: none;' readonly>비밀 댓글입니다.</textarea>";
+						} else if(data[i].replySecret =='Y' && '${loginUser}' == null){
+							listHtml += "<textarea style='width: 1000px; border: none; resize: none;' readonly>비밀 댓글입니다.</textarea>";
+						}
 						listHtml += '<input type="hidden" value="' + data[i].replyNo + '">';
 						listHtml += "</div>";
 						listHtml += "</td>";

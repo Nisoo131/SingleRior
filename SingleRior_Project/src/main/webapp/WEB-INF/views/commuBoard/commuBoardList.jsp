@@ -122,7 +122,7 @@
 						<tr class="fs-5">
 							<th width="100px">카테고리</th>
 							<th>글 제목</th>
-							<th width="130px">작성자</th>
+							<th width="160px">작성자</th>
 							<th width="130px">작성일</th>
 							<th width="70px">공감</th>
 							<th width="70px">댓글</th>

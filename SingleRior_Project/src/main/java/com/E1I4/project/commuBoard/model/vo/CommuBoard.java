@@ -30,4 +30,5 @@ public class CommuBoard {
 	private int commuArray;
 	private int replyCount;
 	private String reportStatus;
+	private String profileImg;
 }

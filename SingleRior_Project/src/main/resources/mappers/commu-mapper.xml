@@ -17,6 +17,7 @@
 		<result column="COMMU_TYPE" property="commuType"/>
 		<result column="REPLY_COUNT" property="replyCount"/>
 		<result column="REPORT_STATUS" property="reportStatus"/>
+		<result column="IMG_SERVER_NAME" property="profileImg"/>
 	</resultMap>
 	
 	<resultMap type="Attachment" id="attachmentResultSet">
@@ -43,6 +44,7 @@
 		<result column="BOARD_NO" property="boardNo"/>
 		<result column="NICKNAME" property="nickName"/>
 		<result column="REPORT_STATUS" property="reportStatus"/>
+		<result column="IMG_SERVER_NAME" property="profileImg"/>
 	</resultMap>
 	
 	<resultMap type="ReReply" id="rReplyResultSet">
@@ -239,10 +241,11 @@
 	<!-- 댓글 -->
 	<!-- 댓글 list select -->
 	<select id="selectReply" resultMap="replyResultSet">
-		select *
+		select REPLY_NO, REPLY_CONTENT, REPLY_CREATE_DATE, REPLY_MODIFY_DATE, RE_SECRET, REPLY_STATUS, r.MEMBER_ID, BOARD_NO, REPORT_STATUS, NICKNAME, IMG_SERVER_NAME
 		from reply r
-			 join member m on(r.member_id = m.member_id)
-		where board_no = #{boardNo} and reply_status = 'Y'
+			left join member m on (r.MEMBER_ID = m.MEMBER_ID)
+			left join IMG_REPOSITORY on (IMG_KEY = m.MEMBER_ID)
+		where BOARD_NO = #{boardNo} and REPLY_STATUS = 'Y'
 		order by reply_no desc
 	</select>
 	

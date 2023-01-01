@@ -246,12 +246,6 @@ public class CommuBoardController {
 		ArrayList<Attachment> list = cService.selectAttmBoard(strBNo);
 		
 		ArrayList<Reply> coRList = cService.selectReply(bNo);
-		
-		/*
-		 * for(int i = 0; i < coRList.size(); i++) { String[] reProfile = null;
-		 * reProfile[i] = coRList.get(i).getMemberId(); }
-		 */
-		
 		ArrayList<ReReply> coRRList = cService.selectReReply(bNo);
 		
 		String memberId = writer;
