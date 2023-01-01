@@ -84,14 +84,14 @@
 				<div class="carousel-item active">
 					<c:forEach items="${ bnAttmList }" begin="0" end="0" var="bn">
 						<c:if test="${ bn.imgOriginalName != '' }">
-							<img src="resources/uploadFiles/${ bn.imgRename }" style="width: 100%; height: 300px;">
+							<a href="${ contextPath }/mainBanner.main?imgKey=${bn.imgKey}"><img src="resources/uploadFiles/${ bn.imgRename }" style="width: 100%; height: 300px;"></a>
 						</c:if>
 					</c:forEach>
 				</div>
 				<c:forEach items="${ bnAttmList }" begin="1" end="2" var="bn">
 					<c:if test="${ bn.imgOriginalName != '' }">
 						<div class="carousel-item">
-							<img src="resources/uploadFiles/${ bn.imgRename }" style="width: 100%; height: 300px;">
+							<a href="${ contextPath }/mainBanner.main?imgKey=${bn.imgKey}"><img src="resources/uploadFiles/${ bn.imgRename }" style="width: 100%; height: 300px;"></a>
 						</div>
 					</c:if>
 				</c:forEach>

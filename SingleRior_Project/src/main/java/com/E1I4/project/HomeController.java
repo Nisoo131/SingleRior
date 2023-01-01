@@ -99,4 +99,12 @@ public class HomeController {
 		return "common/searchView";
 	}
 	
+	@RequestMapping("mainBanner.main")
+	public String mainBanner(@RequestParam("imgKey") String imgKey, Model model) {
+		ArrayList<Attachment> bannerList = mainService.selectBannerList(imgKey);
+		
+		model.addAttribute("bannerList", bannerList);
+		return "common/mainBanner";
+	}
+	
 }

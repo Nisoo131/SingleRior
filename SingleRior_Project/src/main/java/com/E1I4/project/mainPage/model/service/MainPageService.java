@@ -41,4 +41,8 @@ public interface MainPageService {
 	
 	// 공지사항
 	ArrayList<NotiBoard> searchNotiList(String findKeyword);
+	
+	
+	/* 배너 */
+	ArrayList<Attachment> selectBannerList(String imgKey);
 }
