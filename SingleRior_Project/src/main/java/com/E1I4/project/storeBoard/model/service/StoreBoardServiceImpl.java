@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.E1I4.project.common.model.vo.Attachment;
 import com.E1I4.project.common.model.vo.Cart;
+import com.E1I4.project.common.model.vo.OrderProductDetail;
 import com.E1I4.project.common.model.vo.PageInfo;
 import com.E1I4.project.common.model.vo.ProductInquiry;
 import com.E1I4.project.common.model.vo.WishList;
@@ -17,7 +18,9 @@ import com.E1I4.project.member.model.vo.Member;
 import com.E1I4.project.storeBoard.model.dao.StoreBoardDAO;
 import com.E1I4.project.storeBoard.model.vo.OrderItem;
 import com.E1I4.project.storeBoard.model.vo.OrderResult;
+import com.E1I4.project.storeBoard.model.vo.ProductReview;
 import com.E1I4.project.storeBoard.model.vo.StoreBoard;
+import com.E1I4.project.storeBoard.model.vo.TotalReview;
 
 @Service("sService")
 public class StoreBoardServiceImpl implements StoreBoardService{
@@ -106,27 +109,51 @@ public class StoreBoardServiceImpl implements StoreBoardService{
 	}
 
 	@Override
-	public ArrayList<Cart> selectCartInfo(int i) {
+	public Cart selectCartInfo(int i) {
 		return sDAO.selectCartInfo(sqlSession, i);
 	}
 
+	@Override
+	public int getMoreInquiryCount(int productNo) {
+		return sDAO.getMoreInquiryCount(sqlSession, productNo);
+	}
+
+	@Override
+	public ArrayList<ProductInquiry> selectMoreInquiryList(PageInfo pi, int productNo) {
+		return sDAO.selectMoreInquiryList(sqlSession, productNo,pi);
+	}
+
+	@Override
+	public ArrayList<ProductReview> selectReviewList(int productNo) {
+		return sDAO.selectReviewList(sqlSession,productNo);
+
+	}
+
+	@Override
+	public int insertProductDetail(Cart cart) {
+		return sDAO.insertProductDetail(sqlSession, cart);
+	}
 
 
-	
+	@Override
+	public int deleteCart(Cart cart) {
+		return sDAO.deleteCart(sqlSession, cart);
+	}
 
+	@Override
+	public ArrayList<TotalReview> selectTotalReview(int productNo) {
+		return sDAO.selectTotalReview(sqlSession,productNo);
+	}
 
-	
+	@Override
+	public int getMoreReviewCount(int productNo) {
+		return sDAO.getMoreReviewCount(sqlSession,productNo);
+	}
 
-	
-
-
-
-	
-	
-	
-	
-
-	
+	@Override
+	public ArrayList<ProductReview> selectMoreReviewList(PageInfo pi, int productNo) {
+		return sDAO.selectMoreReviewList(sqlSession,pi,productNo);
+	}
 
 
 	

@@ -10,13 +10,16 @@ import org.springframework.stereotype.Repository;
 
 import com.E1I4.project.common.model.vo.Attachment;
 import com.E1I4.project.common.model.vo.Cart;
+import com.E1I4.project.common.model.vo.OrderProductDetail;
 import com.E1I4.project.common.model.vo.PageInfo;
 import com.E1I4.project.common.model.vo.ProductInquiry;
 import com.E1I4.project.common.model.vo.WishList;
 import com.E1I4.project.member.model.vo.Member;
 import com.E1I4.project.storeBoard.model.vo.OrderItem;
 import com.E1I4.project.storeBoard.model.vo.OrderResult;
+import com.E1I4.project.storeBoard.model.vo.ProductReview;
 import com.E1I4.project.storeBoard.model.vo.StoreBoard;
+import com.E1I4.project.storeBoard.model.vo.TotalReview;
 
 @Repository("sDAO")
 public class StoreBoardDAO {
@@ -97,9 +100,55 @@ public class StoreBoardDAO {
 		return sqlSession.insert("storeMapper.InsertOrderProduct", r);
 	}
 
-	public ArrayList<Cart> selectCartInfo(SqlSessionTemplate sqlSession, int i) {
-		return (ArrayList)sqlSession.selectList("storeMapper.selectCartInfo", i);
+	public Cart selectCartInfo(SqlSessionTemplate sqlSession, int i) {
+		return sqlSession.selectOne("storeMapper.selectCartInfo", i);
 	}
+
+
+	public int getMoreInquiryCount(SqlSessionTemplate sqlSession, int productNo) {
+		return sqlSession.selectOne("storeMapper.getMoreInquiryCount", productNo);
+	}
+
+
+	public ArrayList<ProductInquiry> selectMoreInquiryList(SqlSessionTemplate sqlSession, int productNo, PageInfo pi) {
+		
+		int offset = (pi.getCurrentPage() -1) * pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		
+		return (ArrayList)sqlSession.selectList("storeMapper.selectMoreInquiryList", productNo, rowBounds);
+	}
+		
+	
+	public ArrayList<ProductReview> selectReviewList(SqlSessionTemplate sqlSession, int productNo) {
+		return (ArrayList)sqlSession.selectList("storeMapper.selectReviewList",productNo);
+
+	}
+
+	public int insertProductDetail(SqlSessionTemplate sqlSession, Cart cart) {
+		return sqlSession.insert("storeMapper.insertProductDetail", cart);
+	}
+
+	public int deleteCart(SqlSessionTemplate sqlSession, Cart cart) {
+		return sqlSession.delete("storeMapper.deleteCart", cart);
+	}
+
+	public ArrayList<TotalReview> selectTotalReview(SqlSessionTemplate sqlSession, int productNo) {
+		return (ArrayList)sqlSession.selectList("storeMapper.selectTotalReview",productNo);
+	}
+
+	public int getMoreReviewCount(SqlSessionTemplate sqlSession, int productNo) {
+		return sqlSession.selectOne("storeMapper.getMoreReviewCount", productNo);
+	}
+
+	public ArrayList<ProductReview> selectMoreReviewList(SqlSessionTemplate sqlSession, PageInfo pi, int productNo) {
+		int offset = (pi.getCurrentPage() -1) * pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		
+		return (ArrayList)sqlSession.selectList("storeMapper.selectMoreReviewList", productNo, rowBounds);
+	}
+
+
+
 
 
 

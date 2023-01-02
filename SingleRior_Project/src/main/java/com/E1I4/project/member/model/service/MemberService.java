@@ -7,6 +7,7 @@ import com.E1I4.project.common.model.vo.Attachment;
 import com.E1I4.project.common.model.vo.Board;
 import com.E1I4.project.common.model.vo.Cart;
 import com.E1I4.project.common.model.vo.PageInfo;
+import com.E1I4.project.common.model.vo.Pay;
 import com.E1I4.project.common.model.vo.Product;
 import com.E1I4.project.common.model.vo.ProductInquiry;
 import com.E1I4.project.common.model.vo.Reply;
@@ -133,6 +134,10 @@ public interface MemberService {
 	int deleteReview(int reviewNo);
 
 	int selectAttmCount(String strRNo);
+
+	int deleteInquiry(int inquiryNo);
+
+	Pay getPayInfo(int orderNo);
 
 
 }

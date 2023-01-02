@@ -38,7 +38,11 @@
 		<typeAlias type="com.E1I4.project.admin.model.vo.OrderProducts" alias="OrderProducts"/>
 		<typeAlias type="com.E1I4.project.common.model.vo.OrderProductDetail" alias="OrderProductDetail"/>
 		<typeAlias type="com.E1I4.project.common.model.vo.Message" alias="Message"/>
+		<typeAlias type="com.E1I4.project.storeBoard.model.vo.ProductReview" alias="ProductReview"/>
+		<typeAlias type="com.E1I4.project.common.model.vo.Pay" alias="Pay"/>
+		<typeAlias type="com.E1I4.project.storeBoard.model.vo.TotalReview" alias="TotalReview"/>
 	</typeAliases>
+	
 	<mappers>
 		<mapper resource="mappers/common-mapper.xml"/>
 		<mapper resource="mappers/member-mapper.xml"/>

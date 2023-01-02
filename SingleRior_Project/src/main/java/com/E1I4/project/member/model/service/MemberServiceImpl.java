@@ -18,6 +18,7 @@ import com.E1I4.project.common.model.vo.Attachment;
 import com.E1I4.project.common.model.vo.Board;
 import com.E1I4.project.common.model.vo.Cart;
 import com.E1I4.project.common.model.vo.PageInfo;
+import com.E1I4.project.common.model.vo.Pay;
 import com.E1I4.project.common.model.vo.Product;
 import com.E1I4.project.common.model.vo.ProductInquiry;
 import com.E1I4.project.common.model.vo.Reply;
@@ -327,6 +328,16 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public int selectAttmCount(String strRNo) {
 		return mDAO.selectAttmCount(sqlSession, strRNo);
+	}
+
+	@Override
+	public int deleteInquiry(int inquiryNo) {
+		return mDAO.deleteInquiry(sqlSession, inquiryNo);
+	}
+
+	@Override
+	public Pay getPayInfo(int orderNo) {
+		return mDAO.getPayInfo(sqlSession, orderNo);
 	}
 
 }

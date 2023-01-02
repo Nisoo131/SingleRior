@@ -158,6 +158,12 @@
 	  from product_inquiry
       where product_no = #{productNo}
    </select>
+   <select id="selectMoreInquiryList" resultMap="ProductInquiryResultSet">
+   	select *
+   	from product_inquiry
+   	where product_no=#{productNo}
+   
+   </select>
    
    <resultMap type="ProductInquiry" id="ProductInquiryResultSet">
 		<id column="INQUIRY_NO" property="inquiryNo"/>
@@ -218,6 +224,7 @@
    <select id="selectCartInfo" resultMap="cartResultSet">
    	select *
 	from cart
+	join product using(product_no)
 	where cart_no=#{i} 
    </select>
    
@@ -236,9 +243,77 @@
 		<result column="BOARD_TITLE" property="boardTitle"/>
 		<result column="BOARD_NO" property="boardNo"/>
 	</resultMap>
+
+	
+   <resultMap type="ProductReview" id="productReviewResultSet">
+		<id column="REVIEW_NO" property="reviewNo"/>
+		<result column="REVIEW_CONTENT" property="reviewContent"/>
+		<result column="PRODUCT_NO" property="productNo"/>
+		<result column="REVIEW_DATE" property="reviewDate"/>
+		<result column="REVIEW_RATING" property="reviewRating"/>
+		<result column="ORDER_DETAIL_NO" property="orderDetailNo"/>
+		<result column="PRODUCT_OPTION" property="productOption"/>
+		<result column="IMG_SERVER_NAME" property="imgServerName"/>
+		<result column="NICKNAME" property="nickName"/>
+	</resultMap>
+
+	<insert id="insertProductDetail" >
+		insert into order_detail
+		values (SEQ_ODID.nextval, #{productNo} , '결제완료', #{quantity}, #{lastPrice}, #{productOption}, SEQ_OID.currval)
+	</insert> 
+	
+	<delete id="deleteCart">
+		delete from cart
+		where cart_no = #{cartNo}
+	</delete>
    
   
+  <select id="getMoreInquiryCount" resultType="_int">
+   		select count(*)
+        from product_inquiry
+        where product_no = #{productNo} and inquiry_status = 'Y'
+  </select>
+  <select id="selectReviewList" resultMap="productReviewResultSet">
+	  
+	select r.review_no,r.review_content,r.review_date,img_server_name,r.review_rating,r.order_detail_no,od.product_option,m.nickname
+	from product_review r
+	    join img_repository on(img_repository.img_key=to_char(review_no))
+	    join order_detail od on(od.order_detail_no=r.order_detail_no)
+	    join order_product op on(op.order_no=od.order_no)
+	    join member m on(op.member_id=m.member_id)
+	where img_b_type=7 and r.product_no=#{productNo}
+  	order by r.order_detail_no desc
+  </select>
+   <resultMap type="TotalReview" id="totalReviewResultSet">
+		<id column="REVIEW_COUNT" property="reviewCount"/>
+		<result column="SUM_STAR" property="sumStar"/>
+	</resultMap>
+  
+  
+  <select id="selectTotalReview" resultMap="totalReviewResultSet">
+  select count(*) REVIEW_COUNT,sum(review_rating) SUM_STAR
+	from product_review r
+	    join img_repository on(img_repository.img_key=to_char(review_no))
+	    join order_detail od on(od.order_detail_no=r.order_detail_no)
+	    join order_product op on(op.order_no=od.order_no)
+	    join member m on(op.member_id=m.member_id)
+	where img_b_type=7 and r.product_no=#{productNo}
+  
+  </select>
+  <select id="getMoreReviewCount" resultType="_int">
+   		select count(*)
+        from product_review
+        where product_no = #{productNo}
+  </select>
+	<select id="selectMoreReviewList" resultMap="productReviewResultSet">
+   	select r.review_no,r.product_no,r.review_content,r.review_date,img_server_name,r.review_rating,r.order_detail_no,od.product_option,m.nickname
+	from product_review r
+	    join img_repository on(img_repository.img_key=to_char(review_no))
+	    join order_detail od on(od.order_detail_no=r.order_detail_no)
+	    join order_product op on(op.order_no=od.order_no)
+	    join member m on(op.member_id=m.member_id)
+	where img_b_type=7 and r.product_no=#{productNo}
+  	order by r.order_detail_no desc
    
-   
- 
+   </select>
 </mapper>

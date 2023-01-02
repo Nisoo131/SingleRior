@@ -11,6 +11,7 @@ import com.E1I4.project.common.model.vo.Attachment;
 import com.E1I4.project.common.model.vo.Board;
 import com.E1I4.project.common.model.vo.Cart;
 import com.E1I4.project.common.model.vo.PageInfo;
+import com.E1I4.project.common.model.vo.Pay;
 import com.E1I4.project.common.model.vo.Product;
 import com.E1I4.project.common.model.vo.ProductInquiry;
 import com.E1I4.project.common.model.vo.Reply;
@@ -273,6 +274,14 @@ public class MemberDAO {
 
 	public int selectAttmCount(SqlSessionTemplate sqlSession, String strRNo) {
 		return sqlSession.selectOne("memberMapper.selectAttmCount", strRNo);
+	}
+
+	public int deleteInquiry(SqlSessionTemplate sqlSession, int inquiryNo) {
+		return sqlSession.update("memberMapper.deleteInquiry", inquiryNo);
+	}
+
+	public Pay getPayInfo(SqlSessionTemplate sqlSession, int orderNo) {
+		return sqlSession.selectOne("memberMapper.getPayInfo", orderNo);
 	}
 
 

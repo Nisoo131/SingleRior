@@ -67,7 +67,7 @@
 				
 				<!-- 본문 -->
 				<div class="p-5" style="font-size: 20px;">
-					<span>${ notiBoard.boardContent }</span>
+					<textarea style="width: 100%; border: none; resize: none;" readonly>${ notiBoard.boardContent }</textarea>
 				</div>
 				
 				<div style="border-bottom: 1px solid #DCDCDC; padding-top: 10px;"></div>
@@ -88,5 +88,14 @@
 	<footer>
 		<jsp:include page="../common/footer.jsp"/>
 	</footer>
+	
+	<script>
+		var txtArea = $('textarea');
+	    if (txtArea) {
+	        txtArea.each(function(){
+	            $(this).height(this.scrollHeight);
+	        });
+	    }
+	</script>
 </body>
 </html>

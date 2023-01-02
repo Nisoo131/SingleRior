@@ -143,17 +143,17 @@
 								<c:if test="${rList[r.index].reviewRating == 4.5}"><span class="starView">★★★★★<span>★★★★★</span><input class="starViewValue" type="range" value="9"></span></c:if>
 								<c:if test="${rList[r.index].reviewRating == 5}"><span class="starView">★★★★★<span>★★★★★</span><input class="starViewValue" type="range" value="10"></span></c:if>
 							</div>
-							<div>구매후기 :  <span>${rList[r.index].reviewContent}</span></div>
-							<c:forEach items="${ attmList }" var="a">
-								<div>
+							<div style="width:200px">구매후기 :  <span>${rList[r.index].reviewContent}</span></div>
+								<div class="what">
+								<c:forEach items="${ attmList }" var="a">
 									<c:if test="${ rList[r.index].reviewNo eq a.imgKey }">
 										<c:if test="${ a.imgOriginalName != '' }">
 						 			   		<img class="reviewImg" src="resources/uploadFiles/${ a.imgRename }" width="200" height="200">
 						 			   		<input type="hidden" name="img" value="resources/uploadFiles/${ a.imgOriginalName }">
 					 			    	</c:if>
 									</c:if>
+								</c:forEach>
 				 			    </div>
-							</c:forEach>
 			 			    <div style="width: 200px;">
 			 			    	<button type="button" class="btn btn-light updateReview" style="background:#008cd4; color:white;" data-bs-toggle="modal" data-bs-target="#updateReviewModal">수정</button>
 			 			    	<button type="button" class="btn btn-light" style="background:#008cd4; color:white;" data-bs-toggle="modal" data-bs-target="#deleteReviewModal">삭제</button>
@@ -328,7 +328,7 @@
 		console.log("oriImgName : " + oriImgName);
 		
 		document.getElementById("reviewRating").value = reviewRating;
-		document.getElementById("starNum").value = reviewRating;
+		document.getElementById("starNum").value = reviewRating/2;
 		document.querySelector('.star span').style.width = document.querySelector('#reviewRating').value * 10 + '%';
 		
 		document.getElementById("reviewContent").innerText = reviewContent;
@@ -338,6 +338,12 @@
 		document.getElementById("productNo").value = productNo;
 		document.getElementById("boardNo").value = boardNo;
 		document.getElementById("reviewNo").value = reviewNo;
+		
+		console.log(document.getElementById("orderDetailNo").value);
+		console.log(document.getElementById("orderNo").value);
+		console.log(document.getElementById("productNo").value);
+		console.log(document.getElementById("boardNo").value);
+		console.log(document.getElementById("reviewNo").value);
 		
 		if(($('#deleteAttm').text() === "삭제 X") && ($('#deleteAttm').css('display') === 'none')){ // 원래 리뷰 사진이 없는 경우 -> 사진 첨부 가능
 			document.getElementById("file").removeAttribute('disabled');

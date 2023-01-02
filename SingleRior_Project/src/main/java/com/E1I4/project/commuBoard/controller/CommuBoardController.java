@@ -224,15 +224,10 @@ public class CommuBoardController {
 		String login = null;
 		
 		if(loginUser != null) {
-			login = loginUser.getNickName();
+			login = loginUser.getMemberId();
 			wl.setBoardNo(bNo);
-			wl.setMemberId (loginUser.getMemberId());
+			wl.setMemberId(loginUser.getMemberId());
 			wishList = cService.selectSymptOn(wl);
-		}
-		
-		String id = " ";
-		if(loginUser !=null) {
-			 id = loginUser.getMemberId();
 		}
 		
 		boolean yn = false;

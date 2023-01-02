@@ -58,6 +58,37 @@
         white-space: nowrap;
         -webkit-overflow-scrolling: touch;
       }
+      #moreInquiry{float:right; cursor:pointer}
+      #moreInquiry:hover{text-decoration:underline;}
+      #moreReview{float:right; cursor:pointer}
+      #moreReview:hover{text-decoration:underline;}
+      
+      
+      .reviewTable td{padding:20px;}
+      
+	      .starView {
+		position: relative;
+		font-size: 2rem;
+		color: #ddd;
+		}
+		
+		.starView input {
+		width: 100%;
+		height: 100%;
+		position: absolute;
+		left: 0;
+		opacity: 0;
+		cursor: pointer;
+		}
+		
+		.starView span {
+		width: 0;
+		position: absolute;
+		left: 0;
+		color: #008cd4;
+		overflow: hidden;
+		pointer-events: none;
+		}
     </style>
 
     
@@ -77,7 +108,7 @@
 			<h2><b> ${ pList[0].subCateName } </b></h2> 
 			<br>
 		</div>
-		 <%-- ${ pList }   --%>
+<%-- 		 ${ pList }   --%>
 		 <%--  ${ pList[0] }<br><br> --%>
 	     <%-- 	 ${ pList[1] }
 		 ${ pList[2] }  --%>
@@ -223,18 +254,89 @@
 			   <img src="resources/uploadFiles/${ pList[1].imgServerName }" width="100%" height="100%">
 			   <img src="resources/uploadFiles/${ pList[2].imgServerName }" width="100%" height="100%">			  
 	   	 </article>
-	   	 
+	   	 <c:if test="${!empty prList }">
 	   	 <div id="review">
 	      <hr>
 	      <article class="blog-post" >
-	        <h2 class="blog-post-title mb-1" >리뷰 (개수)</h2>
-	        	<div class="star">
-		        	<h2 style="color:#008cd4">★★★★☆</h2>
-		        	<h2>4.0</h2>
-		        </div>
+	         <h2 class="blog-post-title mb-1" >리뷰  ${trList[0].reviewCount }개</h2>
+	        	<br><br>
+		        	<div class="reviewContent">
+							<h2>총점 : <span class="reviewRatingTable badge badge rounded-pill text-bg-danger" style="font-size: 1rem; ">★${ trList[0].avgStar }</span></h2>
+							<%-- <div>별점 : 
+								<c:if test="${ '0'<trList[0].avgStar<'0.5'}"><span class="starView">★★★★★<span>★★★★★</span><input class="starViewValue" type="range" value="0"></span></c:if>
+								<c:if test="${'0.5'<=trList[0].avgStar <'1'}"><span class="starView">★★★★★<span>★★★★★</span><input class="starViewValue" type="range" value="1"></span></c:if>
+								<c:if test="${'1'<trList[0].avgStar<='1.5'}"><span class="starView">★★★★★<span>★★★★★</span><input class="starViewValue" type="range" value="2"></span></c:if>
+								<c:if test="${'1.5'<trList[0].avgStar<='2'}"><span class="starView">★★★★★<span>★★★★★</span><input class="starViewValue" type="range" value="3"></span></c:if>
+								<c:if test="${'2'<trList[0].avgStar<='2.5'}"><span class="starView">★★★★★<span>★★★★★</span><input class="starViewValue" type="range" value="4"></span></c:if>
+								<c:if test="${'2.5'<trList[0].avgStar<='3'}"><span class="starView">★★★★★<span>★★★★★</span><input class="starViewValue" type="range" value="5"></span></c:if>
+								<c:if test="${'3'<trList[0].avgStar<='3.5'}"><span class="starView">★★★★★<span>★★★★★</span><input class="starViewValue" type="range" value="6"></span></c:if>
+								<c:if test="${'3.5'<trList[0].avgStar<='4'}"><span class="starView">★★★★★<span>★★★★★</span><input class="starViewValue" type="range" value="7"></span></c:if>
+								<c:if test="${'4'<trList[0].avgStar<='4.5'}"><span class="starView">★★★★★<span>★★★★★</span><input class="starViewValue" type="range" value="8"></span></c:if>
+								<c:if test="${'4.5'<trList[0].avgStar<'5'}"><span class="starView">★★★★★<span>★★★★★</span><input class="starViewValue" type="range" value="9"></span></c:if>
+							</div> --%>
+							
+		        	
+		        	
+		        	
+		        	
+		        	
+		        </div> 
+		        <br><br>
+		        		<c:if test="${fn:length(prList)<6}">
+						 <c:forEach items="${prList}" var="pr">
+						  <table class="reviewTable">
+						 <tr>
+						 	<td>
+						 	<img src="${ contextPath }/resources/uploadFiles/${pr.imgServerName}" width="160" class="img">
+						 	</td>
+						 	<td>
+						 	<span><b>${pr.nickName }</b>의 리뷰</span><br><br>
+						 	<span>${pr.reviewContent}</span><br><br>
+						 	<span>${pr.productOption}&nbsp;&nbsp;&nbsp;</span><br>
+						 	<span>작성일 : ${pr.reviewDate }&nbsp;&nbsp;&nbsp;</span>
+						 	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						 	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						 	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						 	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						 	<span class="reviewRatingTable badge badge rounded-pill text-bg-danger" style="font-size: 1rem; float: right;">★${ pr.reviewRating }</span>
+						 	</td>
+						 </tr>
+						 </table>
+						</c:forEach>
+						 </c:if>
+						 <c:if test="${fn:length(prList)>5}">
+						 <c:forEach items="${prList}" var="pr" begin="0" end="4">
+						 <table class="reviewTable">
+						 <tr>
+						 	<td>
+						 	<img src="${ contextPath }/resources/uploadFiles/${pr.imgServerName}" width="160" class="img">
+						 	</td>
+						 	<td>
+						 	<span><b>${pr.nickName }</b>의 리뷰</span><br><br>
+						 	<span>${pr.reviewContent}</span><br><br>
+						 	<span>${pr.productOption}&nbsp;&nbsp;&nbsp;</span><br>
+						 	<span>작성일 : ${pr.reviewDate }&nbsp;&nbsp;&nbsp;</span>
+						 	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						 	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						 	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						 	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						 	<span class="reviewRatingTable badge badge rounded-pill text-bg-danger" style="font-size: 1rem; float: right;">★${ pr.reviewRating }</span>
+						 	</td>
+						 </tr>
+						 </table>
+						</c:forEach>
+						<div id="moreReview">더보기</div><br>
+					</c:if>
+		         
 	       </article>
+	       
 	      </div>
+	     
+	      </c:if>
+	      <c:if test="${empty prList}">
+	    <div style="text-align:center;"><h2>상품에 대한 리뷰가 아직 없습니다 ㅜ.ㅜ</h2><br><img src="${contextPath}/resources/image/reviewZero.jpg" width="200" ></div>
 	      
+	      </c:if>
 	       <hr>
 	       
 	   <!-- 문의하기 -->
@@ -262,22 +364,25 @@
 	        	</form>
 	 		</div>
 	 		<%--  ${ iList } --%>
-	 		<c:forEach items="${ iList }" var="i">
-	 		<div style="border:black solid 1px; width:600px; padding:10px 10px; border-radius:10px;" id="delivery">
-		        <p class="blog-post-meta">${i.inquiryTitle} | 
-			        <c:if test="${ i.inquiryAnswer == null }">
-			        	<span style="color:#008cd4;">답변대기</span>
-			        </c:if>
-			        <c:if test="${ i.inquiryAnswer != null }">
-			        	<span style="color:#008cd4;">답변완료</span>
-			        </c:if>
-			        </p>
-				<p> ${i.memberId} | ${i.inquiryDate}</p>
-				<p><img src="https://cdn-icons-png.flaticon.com/512/8371/8371275.png" width="20px" height="20px"> ${ i.inquiryContent }</p>
-				<p><img src="https://cdn-icons-png.flaticon.com/512/25/25628.png" width="20px" height="20px"> ${ i.inquiryAnswer }</p>
-	    	</div>
-	    	<br>
-	    	</c:forEach>
+	 		<c:if test="${! empty iList }">
+		 		<c:forEach items="${ iList }" var="i" begin="1" end="5">
+		 		<div style="border:black solid 1px; width:600px; padding:10px 10px; border-radius:10px;">
+			        <p class="blog-post-meta">${i.inquiryTitle} | 
+				        <c:if test="${ i.inquiryAnswer == null }">
+				        	<span style="color:#008cd4;">답변대기</span>
+				        </c:if>
+				        <c:if test="${ i.inquiryAnswer != null }">
+				        	<span style="color:#008cd4;">답변완료</span>
+				        </c:if>
+				        </p>
+					<p> ${i.memberId} | ${i.inquiryDate}</p>
+					<p><img src="https://cdn-icons-png.flaticon.com/512/8371/8371275.png" width="20px" height="20px"> ${ i.inquiryContent }</p>
+					<p><img src="https://cdn-icons-png.flaticon.com/512/25/25628.png" width="20px" height="20px"> ${ i.inquiryAnswer }</p>
+		    	</div>
+		    	<br>
+		    	</c:forEach>
+		    	<div id="moreInquiry">더보기</div><br>
+		    	</c:if>
 	    	</article>
 	    	<hr>
 	    	
@@ -583,5 +688,29 @@
         
         alert("URL이 복사되었습니다.") 
     }
+    
+    window.onload = () =>{
+    	var moreInquiry = document.getElementById("moreInquiry");
+    	moreInquiry.addEventListener("click",function(){
+    		var productNo = '${pList[0].productNo}';
+//     		console.log(productNo);
+    		location.href='${contextPath}/moreInquiry.st?productNo=' + productNo;
+    	})
+    	var moreReview = document.getElementById("moreReview");
+    	moreReview.addEventListener("click",function(){
+    		var productNo = '${pList[0].productNo}';
+//     		console.log(productNo);
+    		location.href='${contextPath}/moreReview.st?productNo=' + productNo;
+    	})
+    	
+    	
+    	
+    }
+</script>
+<script>
+const drawStar = (target) => {
+	  document.querySelector(`.star span`).style.width = `${target.value * 10}%`;
+	}
+
 </script>
 </html>
