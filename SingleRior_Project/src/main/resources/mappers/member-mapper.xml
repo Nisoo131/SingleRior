@@ -240,45 +240,24 @@
 	</select>
 	
 	<select id="getMyReplyListCount" resultType="_int">
-	    SELECT (SELECT COUNT(*) 
-  		 FROM reply
-    	    join board b using (board_no)
-  		  where member_id=#{memberId} and reply_status = 'Y' 
-  		  <if test="category == '싱글벙글'">
+	select count(*)
+	from reply r
+	join board b using(board_no)
+	where r.member_id = 'user02' and r.reply_status = 'Y'
+		<if test="category == '싱글벙글'">
   		  and  b.board_type = 2
   		  </if>
   		  <if test="category == '씽씽마켓'">
   		  and  b.board_type = 3
   		  </if>
-  		  ) + (SELECT COUNT(*)
-   			 from re_reply
-  			  join board b using (board_no)
-    		where member_id=#{memberId}  and re_reply_status = 'Y'
-    	 <if test="category == '싱글벙글'">
-  		  and  b.board_type = 2
-  		  </if>
-  		  <if test="category == '씽씽마켓'">
-  		  and  b.board_type = 3
-  		  </if>
-    		 ) FROM DUAL
+  		  
 	</select>
 	
 	<select id="selectReplyList" resultMap="replyResultSet">
-	select reply_no, reply_content,reply_modify_date, member_id, board_no
-	    from reply r
-	    join board b using(board_no)
-	    where member_id=#{memberId} and r.reply_status = 'Y'
-	     <if test="category == '싱글벙글'">
-  		  and  b.board_type = 2
-  		  </if>
-  		  <if test="category == '씽씽마켓'">
-  		  and  b.board_type = 3
-  		  </if>
-		union 
-		select re_reply_no, re_reply_content,re_reply_modify_date, member_id, board_no
-	    from re_reply rr
-	    join board b using(board_no)
-	    where member_id=#{memberId} and rr.re_reply_status = 'Y'
+		select reply_no, reply_content,reply_modify_date, member_id, board_no
+		from reply r
+		join board b using(board_no)
+		where r.member_id = 'user02' and r.reply_status = 'Y'
 	     <if test="category == '싱글벙글'">
   		  and  b.board_type = 2
   		  </if>
