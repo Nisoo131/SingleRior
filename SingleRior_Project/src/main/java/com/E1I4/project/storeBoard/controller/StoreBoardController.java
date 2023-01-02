@@ -25,6 +25,7 @@ import com.E1I4.project.common.model.vo.ProductInquiry;
 import com.E1I4.project.common.model.vo.WishList;
 import com.E1I4.project.member.model.vo.Member;
 import com.E1I4.project.storeBoard.model.service.StoreBoardService;
+import com.E1I4.project.storeBoard.model.vo.OrderDetail;
 import com.E1I4.project.storeBoard.model.vo.OrderItem;
 import com.E1I4.project.storeBoard.model.vo.OrderResult;
 import com.E1I4.project.storeBoard.model.vo.ProductReview;
@@ -308,7 +309,7 @@ public class StoreBoardController {
                orderItem.add(orderList);
                   
         	 }
-        	 System.out.println(orderItem);
+        	 //System.out.println(orderItem);
          }
          else {
         	orderItem.add(orderList);
@@ -335,7 +336,8 @@ public class StoreBoardController {
 								@RequestParam(value="arr[]", required=false) ArrayList<Integer> pNoArr,
 								@RequestParam(value="cartArr[]", required=false) ArrayList<Integer> cartArr,
 								@RequestParam(value="pricesArr[]", required=false) ArrayList<String> pricesArr,
-								@ModelAttribute OrderItem orderList, HttpSession session, Model model) {
+								@RequestParam(value="merchant_uid", required=false) String payNo,
+								@ModelAttribute OrderDetail orderdetail, HttpSession session, Model model) {
 		String id = ((Member)session.getAttribute("loginUser")).getMemberId();
 		
 //		System.out.println(recipient);
@@ -346,9 +348,11 @@ public class StoreBoardController {
 //		System.out.println(memberName);
 //		System.out.println(email);
 //		System.out.println(buyer_phone);
-//		System.out.println(finalPrice);
-		System.out.println(pNoArr); 
-		System.out.println(pricesArr); 
+		System.out.println(finalPrice);
+//		System.out.println(pNoArr); 
+//		System.out.println(pricesArr);
+		System.out.println(payNo);
+	
 	
 		OrderResult r = new OrderResult();
 		r.setRecipient(recipient);
@@ -362,26 +366,35 @@ public class StoreBoardController {
         
         int result = sService.InsertOrderProduct(r); 
         
-//        if(result>0) {
-//        	sService.InsertOrderDetail();
-//        }
-        //productNo로 cart 찾아오기
+        ArrayList<Cart> cartList = new ArrayList<Cart>();
+        Cart cart = new Cart();
         for(int i: cartArr) {
-        	System.out.println(i);
+        	//System.out.println("cartArr : " + cartArr);
         	
-            ArrayList<Cart> cart = new ArrayList<Cart>();
         	cart = sService.selectCartInfo(i);
-        	//System.out.println(cart);
         	
-        	for(String price : pricesArr) {
-	        	// System.out.println(price);
+        	double pp = cart.getProductPrice();
+        	double pd = cart.getProductDiscount();
+        	int qt = cart.getQuantity();
+        	
+        	int lp = (int)((pp * (1-(pd/100)))*qt) ;
+        	cart.setLastPrice(lp);
+        	
+        	cartList.add(cart);
+        	
+        }	
+
+        // System.out.println("cart가격 확인" + cartList);
+        int result1 = 0;
+        for(int i = 0; i<cartList.size(); i++) {
+        	cart = cartList.get(i);
+        	result1 = sService.insertProductDetail(cart);
+        	if(result1>0) {
+        		int cartDelete = sService.deleteCart(cart);
+        		
         	}
-	
         }
-	       
-	        
-        
-      
+    	//System.out.println(result1);
 
 		return "orderResult";
 	}
