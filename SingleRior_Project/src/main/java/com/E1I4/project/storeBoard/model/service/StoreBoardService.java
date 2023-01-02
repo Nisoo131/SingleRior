@@ -58,13 +58,6 @@ public interface StoreBoardService {
 
 
 
-   Cart selectCartInfo(int i);
-
-
-   int insertProductDetail(Cart cart);
-
-   int deleteCart(Cart cart);
-
 
 
 
