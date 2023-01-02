@@ -1,6 +1,7 @@
 package com.E1I4.project.storeBoard.model.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.mybatis.spring.SqlSessionTemplate;
@@ -28,8 +29,8 @@ public class StoreBoardServiceImpl implements StoreBoardService{
 	
 
 	@Override
-	public int getStoreListCount(int i) {
-		return sDAO.getStoreListCount(sqlSession, i);
+	public int getStoreListCount(HashMap<String, Integer> map) {
+		return sDAO.getStoreListCount(sqlSession, map);
 	}
 
 	@Override
