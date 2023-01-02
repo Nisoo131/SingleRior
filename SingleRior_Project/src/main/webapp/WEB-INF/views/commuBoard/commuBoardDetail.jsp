@@ -106,7 +106,7 @@
 					</c:forEach>
 						
 					<div class="p-5" style="font-size: 20px;">
-						<span>${ coBoard.boardContent }</span>
+						<textarea style="width: 100%; border: none; resize: none;" readonly>${ coBoard.boardContent }</textarea>
 					</div>
 					<div class="col-md-1" style="text-align: center; padding-top: 30px; padding-left: 50px; width: 170px;">
 						<div class="row g-0 flex-md-row shadow-sm h-md-250 position-relative mt-2 mb-4">
@@ -224,37 +224,57 @@
 										</td>
 									</tr>
 								</table>
+								
+								<!-- 대댓글창 -->
+								<c:if test="${ !empty loginUser }">
+									<table class="table table-borderless p-5 reReplyInput" style="display: none;">
+				                    	<tr>
+				                        	<td style="text-align: center;" width="40"><img src="${ contextPath }/resources/image/down-right.png" width="20" height="20">
+				                        	<td>
+				                           		<input type="hidden" name="replyNo" value="${ r.replyNo }">
+				                           		<div class="input-group">
+				                           			<textarea style="width: 1000px; resize: none;"></textarea>
+													<button class="btn btn-outline-primary btn-lg reReplySubmit" type="button" style="width: 100px;">등록</button>
+													<br>&nbsp;
+													<label for="replySecret">비밀댓글</label>&nbsp;&nbsp;<input type="checkbox" class="reReplySecret" value="N">	
+												</div>
+				                        	</td>
+				                     	</tr>
+				                 	</table>
+				                 </c:if>
 							</div>
 						</c:forEach>
 						
 						<!-- 답글(reReply) 출력 -->
 						<%-- <div class="px-5" style="padding-bottom: 50px; margin-left: 60px;">
-							<table class="table">
-								<tr>
-									<td style="text-align: center;" width="40"><img src="${ contextPath }/resources/image/down-right.png" width="20" height="20">
-									<td style="text-align: center;" width="40"><img src="${ contextPath }/resources/image/user.png" width="20" height="20"></td>
-									<td class="px-4">닉네임</td>
-									<td class="px-4">2022-12-15</td>
-									<td width="750"></td>
-									<td>
-										<div class="dropdown">
-											<img class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" src="${ contextPath }/resources/image/menu-dots.png" width="20" height="20">
-											<ul class="dropdown-menu" style="text-align: center;">
-												<c:if test="${ loginUser.memberId eq r.memberId }">
-													<li><a class="dropdown-item" href="#">수정</a></li>
-													<li><a class="dropdown-item" href="#">삭제</a></li>
-												</c:if>
-												<c:if test="${ !(loginUser.memberId eq r.memberId) }">
-													<li><a class="dropdown-item" href="#">신고</a></li>
-												</c:if>
-											</ul>
-										</div>
-									</td>
-								</tr>
-								<tr style="font-size: 20px;">
-									<td class="px-5 py-3" colspan="6">내용입니다요 내용내용 으아아아아아아내용입니다요 내용내용 으아아아아아아내용입니다요 내용내용 으아아아아아아내용입니다요 내용내용 으아아아아아아내용입니다요 내용내용 으아아아아아아</td>
-								</tr>
-							</table>
+							<c:forEach items="${ coRRList }" var="rr">
+								<table class="table">
+									<tr>
+										<td style="text-align: center;" width="40"><img src="${ contextPath }/resources/image/down-right.png" width="20" height="20">
+										<td style="text-align: center;" width="40"><img src="${ contextPath }/resources/image/user.png" width="20" height="20"></td>
+										<td class="px-4">닉네임</td>
+										<td class="px-4">2022-12-15</td>
+										<td width="750"></td>
+										<td>
+											<div class="dropdown">
+												<img class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" src="${ contextPath }/resources/image/menu-dots.png" width="20" height="20">
+												<ul class="dropdown-menu" style="text-align: center;">
+													<c:if test="${ loginUser.memberId eq r.memberId }">
+														<li><a class="dropdown-item" href="#">수정</a></li>
+														<li><a class="dropdown-item" href="#">삭제</a></li>
+													</c:if>
+													<c:if test="${ !(loginUser.memberId eq r.memberId) }">
+														<li><a class="dropdown-item" href="#">신고</a></li>
+													</c:if>
+												</ul>
+											</div>
+										</td>
+									</tr>
+									<tr style="font-size: 20px;">
+										<td class="px-5 py-3" colspan="6">${ rr.replyContent }</td>
+									</tr>
+								</table>
+							</c:forEach>
 						</div> --%>
 					</div>
 					
@@ -774,6 +794,32 @@
 				$('#reportModal').modal('show');
 			}
 		});
+		
+		// textarea 높이 지정
+		console.log($('textarea'));
+		var textArea = $('textarea');
+	    if (textArea) {
+	        textArea.each(function(){
+	            $(this).height(this.scrollHeight);
+	        });
+	    }
+	    
+		// 답글 textarea 보이게 하기
+		$(document).on("click", ".reReplyBtn", function(){
+			console.log("답글");
+			const input = this.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.nextElementSibling;
+			console.log(input);
+			console.log(input.querySelector('textarea'));
+			
+			if(input.style.display == 'none') {
+				input.style.display = 'inline';
+				input.querySelector('textarea').style.height = '50px';
+			} else {
+				input.style.display = 'none';
+			}
+		});
+		
+		
 	</script>
 </body>
 </html>
