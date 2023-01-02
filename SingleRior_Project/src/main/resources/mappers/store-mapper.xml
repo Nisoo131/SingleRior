@@ -80,10 +80,10 @@
 			 order by modify_date desc
 		</if>
 		<if test="cateNo == 3">
-			 order by product_price
+			 order by product_price * (1-(product_discount/100)) 
 		</if>
 		<if test="cateNo == 4">
-			 order by product_price desc
+			 order by product_price * (1-(product_discount/100)) desc
 		</if>
    </select>
    
