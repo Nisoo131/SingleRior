@@ -73,7 +73,18 @@
 		     join product_sub_Cate using(pro_subcate_code)
 		     join product_top_Cate using(pro_topcate_code) 
 		where product_status = 'Y' and board_type='1' and pro_subcate_code=#{subCate}
-		order by board_no desc
+		<if test="cateNo == 1">
+			order by board_count desc
+		</if>
+		<if test="cateNo == 2">
+			 order by modify_date desc
+		</if>
+		<if test="cateNo == 3">
+			 order by product_price
+		</if>
+		<if test="cateNo == 4">
+			 order by product_price desc
+		</if>
    </select>
    
     <select id="selectAttmList" resultMap="attmResultSet">

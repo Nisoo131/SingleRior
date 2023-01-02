@@ -34,8 +34,8 @@ public class StoreBoardServiceImpl implements StoreBoardService{
 	}
 
 	@Override
-	public ArrayList<StoreBoard> selectStoreBoardList(PageInfo pi, int subCate) {
-		return sDAO.selectStoreBoardList(sqlSession, pi, subCate);
+	public ArrayList<StoreBoard> selectStoreBoardList(PageInfo pi, HashMap<String, Integer> map) {
+		return sDAO.selectStoreBoardList(sqlSession, pi, map);
 	}
 
 	@Override
