@@ -29,6 +29,7 @@ import com.E1I4.project.storeBoard.model.vo.OrderItem;
 import com.E1I4.project.storeBoard.model.vo.OrderResult;
 import com.E1I4.project.storeBoard.model.vo.ProductReview;
 import com.E1I4.project.storeBoard.model.vo.StoreBoard;
+import com.E1I4.project.storeBoard.model.vo.TotalReview;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonIOException;
@@ -119,12 +120,6 @@ public class StoreBoardController {
 		
 		ArrayList<ProductInquiry> iList = sService.selectInquiryList(productNo);
 		ArrayList<ProductReview> prList=sService.selectReviewList(productNo);
-		
-		
-		
-		System.out.println(prList);
-		
-		
 		
 		if(iList != null) {
 		   model.addAttribute("iList", iList);

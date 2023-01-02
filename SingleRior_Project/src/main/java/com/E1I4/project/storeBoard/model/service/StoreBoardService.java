@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.E1I4.project.common.model.vo.Attachment;
 import com.E1I4.project.common.model.vo.Cart;
+import com.E1I4.project.common.model.vo.OrderProductDetail;
 import com.E1I4.project.common.model.vo.PageInfo;
 import com.E1I4.project.common.model.vo.ProductInquiry;
 import com.E1I4.project.common.model.vo.WishList;
@@ -17,74 +18,81 @@ import com.E1I4.project.storeBoard.model.vo.StoreBoard;
 
 public interface StoreBoardService {
 
-	int getStoreListCount(HashMap<String, Integer> map);
+   int getStoreListCount(HashMap<String, Integer> map);
 
-	ArrayList<StoreBoard> selectStoreBoardList(PageInfo pi, HashMap<String, Integer> map);
+   ArrayList<StoreBoard> selectStoreBoardList(PageInfo pi, HashMap<String, Integer> map);
 
-	Attachment selectAttmList(int bNo);
+   Attachment selectAttmList(int bNo);
 
-	ArrayList<StoreBoard> selectProduct(int productNo, int boardNo);
+   ArrayList<StoreBoard> selectProduct(int productNo, int boardNo);
 
-	int wishListOn(WishList wl);
+   int wishListOn(WishList wl);
 
-	int wishListOff(WishList wl);
-	
-	int wishListCount(WishList wl);
+   int wishListOff(WishList wl);
+   
+   int wishListCount(WishList wl);
 
-	int insertCart(Cart cart);
+   int insertCart(Cart cart);
 
-	int insertInquiry(ProductInquiry productInquiry); 
+   int insertInquiry(ProductInquiry productInquiry); 
 
-	int InquiryCount(ProductInquiry pi);
+   int InquiryCount(ProductInquiry pi);
 
-	ArrayList<ProductInquiry> selectInquiryList(int productNo);
+   ArrayList<ProductInquiry> selectInquiryList(int productNo);
 
-	Member getUserInfo(String id);
+   Member getUserInfo(String id);
 
-	OrderItem getCartInfo(int i);
+   OrderItem getCartInfo(int i);
 
-	String getImgRename(String boardNo);
+   String getImgRename(String boardNo);
 
-	int InsertOrderProduct(OrderResult r);
+   int InsertOrderProduct(OrderResult r);
 
-	ArrayList<Cart> selectCartInfo(int i);
+   Cart selectCartInfo(int i);
 
-	int getMoreInquiryCount(int productNo);
+   int insertProductDetail(Cart cart);
 
-
-	ArrayList<ProductInquiry> selectMoreInquiryList(PageInfo pi, int productNo);
-
-	ArrayList<ProductReview> selectReviewList(int productNo);
-
-
-	
+   int deleteCart(Cart cart);
 
 
 
 
-
-	
-
+   int getMoreInquiryCount(int productNo);
 
 
+   ArrayList<ProductInquiry> selectMoreInquiryList(PageInfo pi, int productNo);
+
+   ArrayList<ProductReview> selectReviewList(int productNo);
+
+
+   
 
 
 
 
 
+   
 
 
 
 
 
 
-	
 
 
 
 
-	
 
-	
+
+
+
+   
+
+
+
+
+   
+
+   
 
 }

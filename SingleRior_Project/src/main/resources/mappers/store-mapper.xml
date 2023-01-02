@@ -263,7 +263,7 @@
 	    join order_product op on(op.order_no=od.order_no)
 	    join member m on(op.member_id=m.member_id)
 	where img_b_type=7 and r.product_no=#{productNo}
-  
+  	order by r.order_detail_no desc
   </select>
 
 </mapper>

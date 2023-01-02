@@ -236,7 +236,7 @@
 		        	<h2>4.0</h2>
 		        </div> 
 		        
-						 <c:forEach items="${prList}" var="pr">
+						 <c:forEach items="${prList}" var="pr" begin="1" end="5">
 						 <table class="reviewTable">
 						 <tr>
 						 	<td>
