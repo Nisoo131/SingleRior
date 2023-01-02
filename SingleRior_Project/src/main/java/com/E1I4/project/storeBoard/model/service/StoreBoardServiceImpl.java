@@ -110,6 +110,11 @@ public class StoreBoardServiceImpl implements StoreBoardService{
 		return sDAO.selectCartInfo(sqlSession, i);
 	}
 
+	@Override
+	public int getMoreInquiryCount(int productNo) {
+		return sDAO.getMoreInquiryCount(sqlSession, productNo);
+	}
+
 
 
 	

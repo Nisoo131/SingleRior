@@ -134,5 +134,7 @@ public interface MemberService {
 
 	int selectAttmCount(String strRNo);
 
+	int deleteInquiry(int inquiryNo);
+
 
 }

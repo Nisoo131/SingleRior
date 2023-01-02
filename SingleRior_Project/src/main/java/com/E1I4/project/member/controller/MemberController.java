@@ -1117,6 +1117,20 @@ public class MemberController {
 		
 		return "myAskDoneList";
 	}
+	
+	@RequestMapping("deleteInquiry.me")
+	public String deleteInquiry(@RequestParam("inquiryNo") int inquiryNo, @RequestParam("cate") String cate,Model model) {
+		
+		System.out.println(inquiryNo);
+		int result = mService.deleteInquiry(inquiryNo);
+		
+		if(cate.equals("done")) {
+			return "redirect:myAskDoneList.me";
+		}else {
+			return "redirect:myAskList.me";
+		}
+		
+	}
 	@RequestMapping("myContentList.me")
 	public String myContentList(@RequestParam(value="page", required=false) Integer page, HttpSession session, Model model) {
 		Member m = (Member)session.getAttribute("loginUser");

@@ -101,6 +101,10 @@ public class StoreBoardDAO {
 		return (ArrayList)sqlSession.selectList("storeMapper.selectCartInfo", i);
 	}
 
+	public int getMoreInquiryCount(SqlSessionTemplate sqlSession, int productNo) {
+		return sqlSession.selectOne("storeMapper.getMoreInquiryCount", productNo);
+	}
+
 
 
 

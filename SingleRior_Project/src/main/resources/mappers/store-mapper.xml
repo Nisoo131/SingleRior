@@ -221,7 +221,11 @@
 	where cart_no=#{i} 
    </select>
    
-  
+  <select id="getMoreInquiryCount" resultType="_int">
+   		select count(*)
+        from product_inquiry
+        where product_no = #{productNo} and inquiry_status = 'Y'
+  </select>
    
    
  
