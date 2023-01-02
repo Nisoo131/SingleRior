@@ -92,29 +92,12 @@
 		    })
 		  }
 		  
-		  
-		 //네이버 로그인
-// 		 var naverLogin = new naver.LoginWithNaverId({
-			
-// 			 clientId : "csSoyGLeoDJrrYsbQ_Vt",
-// 			 callbackUrl : "http://localhost:8088/SingleRior/naverLogin.me",
-// 			 isPopup:false,
-// 		 	 callbackHandle : true
-// 		 });
-		 
-// 		 naverLogin.init();
-		 
-// 		 window.addEventListener('load',function(){
-// 			 naverLogin.getLoginStatus(function(status){
-// 				 if(status){
-// 					 const email = naverLogin.user.getEmail();
-// 					 const memberName = naverLogin.user.getName();
-// 					 const nickName = naverLogin.user.getNickname();
-// 					 const phone = naverLogin.user.getMobile();
-// 				 }
-// 			 })
-// 		 })
-		 
-		 
+		  window.onload = () => {
+			  var login = '${msg}';
+			  
+			  if(login == "로그인실패"){
+				  alert("로그인에 실패하셨습니다. 아이디 또는 비밀번호를 다시 확인해주세요.");
+			  }
+		  }
 	</script>
 </html>
