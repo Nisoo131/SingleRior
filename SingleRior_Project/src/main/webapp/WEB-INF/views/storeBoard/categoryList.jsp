@@ -34,11 +34,11 @@
 			<h3><b> ${ sList[0].subCateName } </b></h3>
 		
 		<div id="selectOption" dir="rtl">
-			<select style="width:100px; height:30px;">
-			  <option selected>판매순</option>
-			  <option value="1">신상품순</option>
-			  <option value="2">낮은 가격순</option>
-			  <option value="3">높은 가격순</option>
+			<select style="width:100px; height:30px;" name="category">
+			  <option value="인기순"<c:if test="${category == '인기순'}">selected</c:if>>인기순</option>
+			  <option value="신상품순" <c:if test="${category == '신상품순'}">selected</c:if>>신상품순</option>
+			  <option value="낮은가격순" <c:if test="${category == '낮은가격순'}">selected</c:if>>낮은 가격순</option>
+			  <option value="높은가격순" <c:if test="${category == '높은가격순'}">selected</c:if>>높은 가격순</option>
 			</select>
 		</div>
 		<br>
@@ -80,7 +80,8 @@
 			<li class="page-item">
 					<c:url var="goBack" value="${ loc }">
 						<c:param name="page" value="${ pi.currentPage-1 }"></c:param>
-						<c:param name="subCate" value="${ subCate }"></c:param> 
+						<c:param name="subCate" value="${ subCate }"></c:param>
+						<c:param name="category" value="${ category }"></c:param>
 					</c:url>
 					<a class="page-link" href="${ goBack }" aria-label="Previous">
 						<span aria-hidden="true">&laquo;</span>
@@ -90,6 +91,7 @@
 				<c:url var="goNum" value="${ loc }">
 					<c:param name="page" value="${ p }"></c:param>
 					<c:param name="subCate" value="${ subCate }"></c:param> 
+					<c:param name="category" value="${ category }"></c:param>
 				</c:url>
 					<li class="page-item"><a class="page-link" href="${ goNum }">${ p }</a></li>
 				</c:forEach>
@@ -97,6 +99,7 @@
 					<c:url var="goNext" value="${ loc }">
 						<c:param name="page" value="${ pi.currentPage+1 }"></c:param>
 						<c:param name="subCate" value="${ subCate }"></c:param>
+						<c:param name="category" value="${ category }"></c:param>
 					</c:url>
 					<a class="page-link" href="${ goNext }" aria-label="Next">
 						<span aria-hidden="true">&raquo;</span>
@@ -122,7 +125,21 @@
     			 location.href='${contextPath}/productDetail.st?productNo=' + productNo + '&boardNo=' + boardNo;
     		});
     	}
+    	
     }
+    
+		$(function(){
+		
+		$('select[name=category]').change(function(){
+			
+			category = $('select[name=category]').val();
+			let subCate = '${ subCate }';
+			let page = '${pi.currentPage}';
+			location.href='${contextPath}/categoryList.st?category=' + category + '&subCate=' + subCate + '&page=';
+			
+		});
+		
+	});
 
 </script>	
 </body>

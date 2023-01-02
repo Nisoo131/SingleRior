@@ -46,7 +46,30 @@ public class StoreBoardController {
 	
 	// subCate 리스트 
 	@RequestMapping("categoryList.st")
-	public String storeList(@RequestParam(value="page", required=false) Integer page, @RequestParam("subCate") int subCate, Model model) {
+	public String storeList(@RequestParam(value="page", required=false) Integer page, @RequestParam("subCate") int subCate,
+								Model model,@RequestParam(value="category", required=false) String category) {
+			
+			if(category == null) {
+				category = "인기순";
+			}
+			
+			int cateNo = 0;
+			switch(category) {
+			case "인기순" :
+				cateNo = 1;
+				break;
+			case "신상품순" : 
+				cateNo = 2;
+				break;
+			case "낮은가격순" : 
+				cateNo = 3;
+				break;
+			case "높은가격순" :
+				cateNo = 4;
+				break;
+			}
+			
+//			System.out.println(cateNo);
 			
 		    int currentPage = 1;
 			if(page != null && page > 1) {
@@ -56,13 +79,14 @@ public class StoreBoardController {
 			HashMap<String, Integer> map = new HashMap<String, Integer>();
 			map.put("subCate", subCate);
 			map.put("boardType", 1);
+			map.put("cateNo", cateNo);
 			int listCount = sService.getStoreListCount(map); //board type 스토어 1인 것만 가져오기
 	
 //			System.out.println(listCount);
 			
 			PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 12); //boardLimit: 카드 12개
 			
-			ArrayList<StoreBoard> sList = sService.selectStoreBoardList(pi, subCate);
+			ArrayList<StoreBoard> sList = sService.selectStoreBoardList(pi, map);
 			ArrayList<Attachment> aList = new ArrayList<Attachment>();
 		    
 			for(int i=0; i<sList.size(); i++) {
@@ -78,6 +102,7 @@ public class StoreBoardController {
 				model.addAttribute("sList", sList);
 				model.addAttribute("aList", aList);
 				model.addAttribute("subCate", subCate);
+				model.addAttribute("category",category);
 					
 			} return "categoryList"; 
 			

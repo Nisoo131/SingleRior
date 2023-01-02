@@ -25,11 +25,11 @@ public class StoreBoardDAO {
 		return sqlSession.selectOne("storeMapper.getStoreListCount", map);
 	}
 	
-	public ArrayList<StoreBoard> selectStoreBoardList(SqlSessionTemplate sqlSession, PageInfo pi, int subCate) {
+	public ArrayList<StoreBoard> selectStoreBoardList(SqlSessionTemplate sqlSession, PageInfo pi, HashMap<String, Integer> map) {
 		
 		int offset = (pi.getCurrentPage() -1) * pi.getBoardLimit();
 		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
-		return (ArrayList)sqlSession.selectList("storeMapper.selectStoreBoardList", subCate, rowBounds);
+		return (ArrayList)sqlSession.selectList("storeMapper.selectStoreBoardList", map, rowBounds);
 		
 	}
 

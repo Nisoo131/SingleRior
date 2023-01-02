@@ -18,7 +18,7 @@ public interface StoreBoardService {
 
 	int getStoreListCount(HashMap<String, Integer> map);
 
-	ArrayList<StoreBoard> selectStoreBoardList(PageInfo pi, int subCate);
+	ArrayList<StoreBoard> selectStoreBoardList(PageInfo pi, HashMap<String, Integer> map);
 
 	Attachment selectAttmList(int bNo);
 
