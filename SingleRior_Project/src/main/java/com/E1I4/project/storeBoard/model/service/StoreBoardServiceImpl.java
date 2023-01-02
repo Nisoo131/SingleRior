@@ -17,6 +17,7 @@ import com.E1I4.project.member.model.vo.Member;
 import com.E1I4.project.storeBoard.model.dao.StoreBoardDAO;
 import com.E1I4.project.storeBoard.model.vo.OrderItem;
 import com.E1I4.project.storeBoard.model.vo.OrderResult;
+import com.E1I4.project.storeBoard.model.vo.ProductReview;
 import com.E1I4.project.storeBoard.model.vo.StoreBoard;
 
 @Service("sService")
@@ -113,6 +114,11 @@ public class StoreBoardServiceImpl implements StoreBoardService{
 	@Override
 	public int getMoreInquiryCount(int productNo) {
 		return sDAO.getMoreInquiryCount(sqlSession, productNo);
+	}
+
+	@Override
+	public ArrayList<ProductReview> selectReviewList(int productNo) {
+		return sDAO.selectReviewList(sqlSession,productNo);
 	}
 
 

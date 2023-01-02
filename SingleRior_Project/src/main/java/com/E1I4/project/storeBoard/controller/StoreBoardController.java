@@ -27,6 +27,7 @@ import com.E1I4.project.member.model.vo.Member;
 import com.E1I4.project.storeBoard.model.service.StoreBoardService;
 import com.E1I4.project.storeBoard.model.vo.OrderItem;
 import com.E1I4.project.storeBoard.model.vo.OrderResult;
+import com.E1I4.project.storeBoard.model.vo.ProductReview;
 import com.E1I4.project.storeBoard.model.vo.StoreBoard;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -116,6 +117,12 @@ public class StoreBoardController {
         //System.out.println(boardNo);
 		ArrayList<StoreBoard> pList = sService.selectProduct(productNo, boardNo);
 		ArrayList<ProductInquiry> iList = sService.selectInquiryList(productNo);
+		ArrayList<ProductReview> prList=sService.selectReviewList(productNo);
+		
+		
+		
+		System.out.println(prList);
+		
 		
 		
 		if(iList != null) {
@@ -145,8 +152,8 @@ public class StoreBoardController {
 		if(pList!= null) {
 			model.addAttribute("pList", pList);
 			model.addAttribute("count", result1);
-			model.addAttribute("piCount", result2);
-			
+			model.addAttribute("piCount",result2);
+			model.addAttribute("prList",prList);
 			return "productDetail";
 			
 		} else {

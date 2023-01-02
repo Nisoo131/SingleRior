@@ -14,15 +14,18 @@ import lombok.ToString;
 @Getter
 @ToString
 
-public class productRiewDetail {
+public class ProductReview {
 
-	private String boardNo;
 	private int reviewNo;
 	private String reviewContent;
 	private Date reviewDate;
-	private int productNo;
-	private String memberId;
 	private int reviewRating;
+	private int orderDetailNo;
+	private String imgServerName;
+	private String productOption;
+	private String nickName;
+
+	
 
 }
 

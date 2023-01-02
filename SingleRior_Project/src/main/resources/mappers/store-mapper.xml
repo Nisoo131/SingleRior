@@ -236,12 +236,34 @@
 		<result column="BOARD_TITLE" property="boardTitle"/>
 		<result column="BOARD_NO" property="boardNo"/>
 	</resultMap>
-   
+	
+	
+   <resultMap type="ProductReview" id="productReviewResultSet">
+		<id column="REVIEW_NO" property="reviewNo"/>
+		<result column="REVIEW_CONTENT" property="reviewContent"/>
+		<result column="REVIEW_DATE" property="reviewDate"/>
+		<result column="REVIEW_RATING" property="reviewRating"/>
+		<result column="ORDER_DETAIL_NO" property="orderDetailNo"/>
+		<result column="PRODUCT_OPTION" property="productOption"/>
+		<result column="IMG_SERVER_NAME" property="imgServerName"/>
+		<result column="NICKNAME" property="nickName"/>
+	</resultMap>
   
   <select id="getMoreInquiryCount" resultType="_int">
    		select count(*)
         from product_inquiry
         where product_no = #{productNo} and inquiry_status = 'Y'
+  </select>
+  <select id="selectReviewList" resultMap="productReviewResultSet">
+	  
+	select r.review_no,r.review_content,r.review_date,img_server_name,r.review_rating,r.order_detail_no,od.product_option,m.nickname
+	from product_review r
+	    join img_repository on(img_repository.img_key=to_char(review_no))
+	    join order_detail od on(od.order_detail_no=r.order_detail_no)
+	    join order_product op on(op.order_no=od.order_no)
+	    join member m on(op.member_id=m.member_id)
+	where img_b_type=7 and r.product_no=#{productNo}
+  
   </select>
 
 </mapper>
