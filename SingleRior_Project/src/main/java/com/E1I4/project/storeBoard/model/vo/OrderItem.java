@@ -24,7 +24,6 @@ public class OrderItem {
  private String imgRename;
  private int cartNo;       // 카트번호
  private int boardNo;
- 
 
  
  

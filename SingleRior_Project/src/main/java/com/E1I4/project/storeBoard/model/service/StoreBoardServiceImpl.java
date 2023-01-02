@@ -105,13 +105,8 @@ public class StoreBoardServiceImpl implements StoreBoardService{
 	}
 
 	@Override
-	public OrderItem getProductInfo(int i) {
-		return sDAO.getProductInfo(sqlSession, i);
-	}
-
-	@Override
-	public int insertProductDetail(OrderItem orderList) {
-		return sDAO.insertProductDetail(sqlSession, orderList);
+	public ArrayList<Cart> selectCartInfo(int i) {
+		return sDAO.selectCartInfo(sqlSession, i);
 	}
 
 

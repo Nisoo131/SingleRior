@@ -127,10 +127,12 @@
 				   <hr>
 				   <c:set var ="sum" value="0"/>  
 				   <c:forEach items="${ orderItem }" var="o" varStatus="status">
-				   ${ o.productNo }
+				 <%--   ${ o.productNo } --%>
+				   ${ o.cartNo }
  <!-- 상품정보 보내기 -->				   
 				    <form action="${ contextPath }/orderResult.st" method="post" class="order_form">
 				  	 <input type="hidden" name="productNo[]" value="${ o.productNo }">
+				  	 <input type="hidden" name="cartNo[]" value="${ o.cartNo }">
 				    </form> 
 				   
 				       <table class="table">   
@@ -308,6 +310,13 @@
    			pricesArr[pricesArr.length] = $(v).val();
    			});
    		  console.log(pricesArr);
+   		  
+   		  // 카트넘버 넘기기
+   		   var cartArr=[];
+   		  $.each($("input[name='cartNo[]']"),function(k,v){
+   			cartArr[cartArr.length] = $(v).val();
+   			});
+   		  console.log(cartArr);
     	    
     	  console.log(memberName);
     	  console.log(email);
@@ -331,7 +340,9 @@
     			         "deliveryMsg":deliveryMsg,
     			         "finalPrice":finalPrice,
     			         "arr":arr,
-    			         "pricesArr":pricesArr};  
+    			         "pricesArr":pricesArr,
+    			         "cartArr":cartArr};  
+    	  
    	      IMP.request_pay({ 
    	          pg: "html5_inicis",
    	          pay_method: "card",
