@@ -752,4 +752,10 @@
 		from img_repository
 		where IMG_STATUS = 'Y' and IMG_B_TYPE = '7' and img_key = #{strRNo}
 	</select>
+	
+	<update id="deleteInquiry">
+		update product_inquiry
+		set inquiry_status = 'N'
+		where inquiry_no = #{inquiryNo}
+	</update>
 </mapper>

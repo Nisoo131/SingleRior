@@ -58,6 +58,8 @@
         white-space: nowrap;
         -webkit-overflow-scrolling: touch;
       }
+      #moreInquiry{float:right; cursor:pointer}
+      #moreInquiry:hover{text-decoration:underline;}
     </style>
 
     
@@ -77,7 +79,7 @@
 			<h2><b> ${ pList[0].subCateName } </b></h2> 
 			<br>
 		</div>
-		 <%-- ${ pList }   --%>
+<%-- 		 ${ pList }   --%>
 		 <%--  ${ pList[0] }<br><br> --%>
 	     <%-- 	 ${ pList[1] }
 		 ${ pList[2] }  --%>
@@ -262,22 +264,25 @@
 	        	</form>
 	 		</div>
 	 		<%--  ${ iList } --%>
-	 		<c:forEach items="${ iList }" var="i">
-	 		<div style="border:black solid 1px; width:600px; padding:10px 10px; border-radius:10px;" id="delivery">
-		        <p class="blog-post-meta">${i.inquiryTitle} | 
-			        <c:if test="${ i.inquiryAnswer == null }">
-			        	<span style="color:#008cd4;">답변대기</span>
-			        </c:if>
-			        <c:if test="${ i.inquiryAnswer != null }">
-			        	<span style="color:#008cd4;">답변완료</span>
-			        </c:if>
-			        </p>
-				<p> ${i.memberId} | ${i.inquiryDate}</p>
-				<p><img src="https://cdn-icons-png.flaticon.com/512/8371/8371275.png" width="20px" height="20px"> ${ i.inquiryContent }</p>
-				<p><img src="https://cdn-icons-png.flaticon.com/512/25/25628.png" width="20px" height="20px"> ${ i.inquiryAnswer }</p>
-	    	</div>
-	    	<br>
-	    	</c:forEach>
+	 		<c:if test="${! empty iList }">
+		 		<c:forEach items="${ iList }" var="i" begin="1" end="5">
+		 		<div style="border:black solid 1px; width:600px; padding:10px 10px; border-radius:10px;">
+			        <p class="blog-post-meta">${i.inquiryTitle} | 
+				        <c:if test="${ i.inquiryAnswer == null }">
+				        	<span style="color:#008cd4;">답변대기</span>
+				        </c:if>
+				        <c:if test="${ i.inquiryAnswer != null }">
+				        	<span style="color:#008cd4;">답변완료</span>
+				        </c:if>
+				        </p>
+					<p> ${i.memberId} | ${i.inquiryDate}</p>
+					<p><img src="https://cdn-icons-png.flaticon.com/512/8371/8371275.png" width="20px" height="20px"> ${ i.inquiryContent }</p>
+					<p><img src="https://cdn-icons-png.flaticon.com/512/25/25628.png" width="20px" height="20px"> ${ i.inquiryAnswer }</p>
+		    	</div>
+		    	<br>
+		    	</c:forEach>
+		    	<div id="moreInquiry">더보기</div><br>
+		    	</c:if>
 	    	</article>
 	    	<hr>
 	    	
@@ -582,6 +587,15 @@
         document.body.removeChild(textarea); 
         
         alert("URL이 복사되었습니다.") 
+    }
+    
+    window.onload = () =>{
+    	var moreInquiry = document.getElementById("moreInquiry");
+    	moreInquiry.addEventListener("click",function(){
+    		var productNo = '${pList[0].productNo}';
+//     		console.log(productNo);
+    		location.href='${contextPath}/moreInquiry.st?productNo=' + productNo;
+    	})
     }
 </script>
 </html>

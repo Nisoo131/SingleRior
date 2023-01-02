@@ -329,4 +329,9 @@ public class MemberServiceImpl implements MemberService {
 		return mDAO.selectAttmCount(sqlSession, strRNo);
 	}
 
+	@Override
+	public int deleteInquiry(int inquiryNo) {
+		return mDAO.deleteInquiry(sqlSession, inquiryNo);
+	}
+
 }

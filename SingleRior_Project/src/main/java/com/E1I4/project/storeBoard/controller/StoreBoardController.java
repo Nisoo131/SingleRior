@@ -117,6 +117,7 @@ public class StoreBoardController {
 		ArrayList<StoreBoard> pList = sService.selectProduct(productNo, boardNo);
 		ArrayList<ProductInquiry> iList = sService.selectInquiryList(productNo);
 		
+		
 		if(iList != null) {
 		   model.addAttribute("iList", iList);
 		} else {
@@ -152,6 +153,23 @@ public class StoreBoardController {
 			throw new BoardException("제품 상세 조회 실패.");
 		}
 
+	}
+	
+	// 문의 더보기
+	@RequestMapping("moreInquiry.st")
+	public String moreInquiry(@RequestParam(value="page", required=false) Integer page,@RequestParam("productNo") int productNo) {
+		
+		 int currentPage = 1;
+			if(page != null) {
+				currentPage = page; 
+			}
+		
+//			System.out.println(productNo);
+		int listCount = sService.getMoreInquiryCount(productNo);
+		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 10);
+		
+		
+		return "moreInquiry";
 	}
 	
 	// 상품 찜하기

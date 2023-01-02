@@ -275,6 +275,10 @@ public class MemberDAO {
 		return sqlSession.selectOne("memberMapper.selectAttmCount", strRNo);
 	}
 
+	public int deleteInquiry(SqlSessionTemplate sqlSession, int inquiryNo) {
+		return sqlSession.update("memberMapper.deleteInquiry", inquiryNo);
+	}
+
 
 
 

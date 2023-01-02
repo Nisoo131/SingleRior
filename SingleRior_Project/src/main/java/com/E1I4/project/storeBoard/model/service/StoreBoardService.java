@@ -48,6 +48,8 @@ public interface StoreBoardService {
 
 	ArrayList<Cart> selectCartInfo(int i);
 
+	int getMoreInquiryCount(int productNo);
+
 	
 
 
