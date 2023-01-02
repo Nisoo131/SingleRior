@@ -92,7 +92,7 @@ public interface MemberService {
 
 	int getOrderListCount(HashMap<String, String> map);
 
-	ArrayList<Order> selectReviewNDoneList(PageInfo pi, HashMap<String, String> map);
+	ArrayList<Order> selectCommonList(PageInfo pi, HashMap<String, String> map);
 
 	String getImgOrder(HashMap<String, String> map);
 

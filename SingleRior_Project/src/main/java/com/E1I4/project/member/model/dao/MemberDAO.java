@@ -184,10 +184,10 @@ public class MemberDAO {
 		return sqlSession.selectOne("memberMapper.getOrderListCount", map);
 	}
 
-	public ArrayList<Order> selectReviewNDoneList(SqlSessionTemplate sqlSession, PageInfo pi, HashMap<String, String> map) {
+	public ArrayList<Order> selectCommonList(SqlSessionTemplate sqlSession, PageInfo pi, HashMap<String, String> map) {
 		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
 		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
-		return (ArrayList)sqlSession.selectList("memberMapper.selectReviewNDoneList", map,rowBounds);
+		return (ArrayList)sqlSession.selectList("memberMapper.selectCommonList", map,rowBounds);
 	}
 
 	public String getImgOrder(SqlSessionTemplate sqlSession, HashMap<String, String> map) {
