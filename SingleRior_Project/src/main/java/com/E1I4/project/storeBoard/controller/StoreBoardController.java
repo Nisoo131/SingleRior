@@ -115,6 +115,7 @@ public class StoreBoardController {
         //System.out.println(productNo);
         //System.out.println(boardNo);
 		ArrayList<StoreBoard> pList = sService.selectProduct(productNo, boardNo);
+		
 		ArrayList<ProductInquiry> iList = sService.selectInquiryList(productNo);
 		
 		
@@ -157,7 +158,7 @@ public class StoreBoardController {
 	
 	// 문의 더보기
 	@RequestMapping("moreInquiry.st")
-	public String moreInquiry(@RequestParam(value="page", required=false) Integer page,@RequestParam("productNo") int productNo) {
+	public String moreInquiry(@RequestParam(value="page", required=false) Integer page,@RequestParam("productNo") int productNo,Model model) {
 		
 		 int currentPage = 1;
 			if(page != null) {
@@ -168,6 +169,12 @@ public class StoreBoardController {
 		int listCount = sService.getMoreInquiryCount(productNo);
 		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 10);
 		
+		ArrayList<ProductInquiry> iList = sService.selectMoreInquiryList(pi,productNo);
+		
+		System.out.println(iList);
+		
+		model.addAttribute("iList", iList);
+		model.addAttribute("pi", pi);
 		
 		return "moreInquiry";
 	}
