@@ -336,13 +336,20 @@ public class StoreBoardController {
         //productNo로 cart 찾아오기
         for(int i: cartArr) {
         	System.out.println(i);
+        	
             ArrayList<Cart> cart = new ArrayList<Cart>();
         	cart = sService.selectCartInfo(i);
+        	//System.out.println(cart);
         	
-        	System.out.println(cart);
-     
-     
+        	for(String price : pricesArr) {
+	        	// System.out.println(price);
+        	}
+	
         }
+	       
+	        
+        
+      
 
 		return "orderResult";
 	}
