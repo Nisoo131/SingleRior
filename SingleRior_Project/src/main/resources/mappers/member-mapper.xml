@@ -772,4 +772,35 @@
 	from pay
 	where order_no = #{orderNo}
 	</select>
+	
+	<resultMap type="LoginLog" id="loginLogResultSet">
+		<id column="MEMBER_ID" property="memberId"/>
+		<result column="LOGIN_TIME" property="loginTime"/>
+		<result column="DATE_TIME" property="dateTime"/>
+		<result column="LOGIN_CHECK" property="loginCheck"/>
+	</resultMap>
+	
+	<select id="searchLog" resultMap="loginLogResultSet">
+		select *
+		from Log
+		where member_id=#{memberId} and login_check='Y'
+	</select>
+	<insert id="insertTime">
+		insert into log log values (#{memberId},to_char(sysdate,'YYYY-MM-DD HH:MI:SS'),to_char(sysdate),'Y') 
+	</insert>
+	<select id="loginCheck" resultMap="loginLogResultSet">
+		select *
+		from log
+		where member_id=#{memberId} and date_time=to_char(sysdate)	
+	</select>
+	<update id="updateTime">
+		update log
+		set login_time=to_char(sysdate,'YYYY-MM-DD HH:MI:SS')
+		where member_id=#{memberId}
+	</update>
+	<update id="updateCheck">
+		update log
+		set login_check='N'
+		where member_id=#{memberId} and login_check='Y'
+	</update>
 </mapper>
