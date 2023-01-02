@@ -46,9 +46,9 @@ public interface StoreBoardService {
 
 	int InsertOrderProduct(OrderResult r);
 
-	OrderItem getProductInfo(int i);
+	ArrayList<Cart> selectCartInfo(int i);
 
-	int insertProductDetail(OrderItem orderList);
+	
 
 
 

@@ -204,11 +204,13 @@
    
    </insert>
    
-   <select id="getProductInfo" resultMap="OrderItemResultSet">
+   <select id="selectCartInfo">
    	select *
 	from cart
-	where product_no = #{i}
+	where cart_no=#{i} 
    </select>
+   
+  
    
    
  

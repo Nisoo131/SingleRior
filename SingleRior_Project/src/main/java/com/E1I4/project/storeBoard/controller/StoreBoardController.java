@@ -251,6 +251,7 @@ public class StoreBoardController {
                orderItem.add(orderList);
                   
         	 }
+        	 System.out.println(orderItem);
          }
          else {
         	orderItem.add(orderList);
@@ -260,6 +261,7 @@ public class StoreBoardController {
  			model.addAttribute("member", member);
          return "payment";
 	}
+
 	
 	
 	// 결제정보 DB 입력하기
@@ -274,6 +276,7 @@ public class StoreBoardController {
 								@RequestParam(value="buyer_phone", required=false) String buyer_phone,
 								@RequestParam(value="finalPrice", required=false) int finalPrice,
 								@RequestParam(value="arr[]", required=false) ArrayList<Integer> pNoArr,
+								@RequestParam(value="cartArr[]", required=false) ArrayList<Integer> cartArr,
 								@RequestParam(value="pricesArr[]", required=false) ArrayList<String> pricesArr,
 								@ModelAttribute OrderItem orderList, HttpSession session, Model model) {
 		String id = ((Member)session.getAttribute("loginUser")).getMemberId();
@@ -302,13 +305,18 @@ public class StoreBoardController {
         
         int result = sService.InsertOrderProduct(r); 
         
-        //productNo로 cart 내용 찾아오기
-        for(int i: pNoArr) {
+//        if(result>0) {
+//        	sService.InsertOrderDetail();
+//        }
+        //productNo로 cart 찾아오기
+        for(int i: cartArr) {
         	System.out.println(i);
-        	orderList = sService.getProductInfo(i);
-        	System.out.println(orderList);
+            ArrayList<Cart> cart = new ArrayList<Cart>();
+        	cart = sService.selectCartInfo(i);
         	
-        	int result2 = sService.insertProductDetail(orderList);
+        	System.out.println(cart);
+     
+     
         }
 
 		return "orderResult";
