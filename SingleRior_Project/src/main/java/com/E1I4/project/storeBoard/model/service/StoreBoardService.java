@@ -1,6 +1,7 @@
 package com.E1I4.project.storeBoard.model.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import com.E1I4.project.common.model.vo.Attachment;
@@ -15,7 +16,7 @@ import com.E1I4.project.storeBoard.model.vo.StoreBoard;
 
 public interface StoreBoardService {
 
-	int getStoreListCount(int i);
+	int getStoreListCount(HashMap<String, Integer> map);
 
 	ArrayList<StoreBoard> selectStoreBoardList(PageInfo pi, int subCate);
 

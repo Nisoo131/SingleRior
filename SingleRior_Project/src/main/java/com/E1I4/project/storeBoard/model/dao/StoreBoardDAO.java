@@ -21,8 +21,8 @@ import com.E1I4.project.storeBoard.model.vo.StoreBoard;
 @Repository("sDAO")
 public class StoreBoardDAO {
 
-	public int getStoreListCount(SqlSessionTemplate sqlSession, int i) {
-		return sqlSession.selectOne("storeMapper.getStoreListCount", i);
+	public int getStoreListCount(SqlSessionTemplate sqlSession, HashMap<String, Integer> map) {
+		return sqlSession.selectOne("storeMapper.getStoreListCount", map);
 	}
 	
 	public ArrayList<StoreBoard> selectStoreBoardList(SqlSessionTemplate sqlSession, PageInfo pi, int subCate) {

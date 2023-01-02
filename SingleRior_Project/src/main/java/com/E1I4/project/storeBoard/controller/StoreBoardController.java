@@ -2,6 +2,7 @@ package com.E1I4.project.storeBoard.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
@@ -52,8 +53,13 @@ public class StoreBoardController {
 				currentPage = page; 
 			}
 	
-			int listCount = sService.getStoreListCount(1); //board type 스토어 1인 것만 가져오기
+			HashMap<String, Integer> map = new HashMap<String, Integer>();
+			map.put("subCate", subCate);
+			map.put("boardType", 1);
+			int listCount = sService.getStoreListCount(map); //board type 스토어 1인 것만 가져오기
 	
+//			System.out.println(listCount);
+			
 			PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 12); //boardLimit: 카드 12개
 			
 			ArrayList<StoreBoard> sList = sService.selectStoreBoardList(pi, subCate);

@@ -60,8 +60,10 @@
    
 	<select id="getStoreListCount" resultType="_int">
 		select count(*)
-		from board
-		where board_type='1' and b_status = 'Y'
+		from board b
+        join product p using(board_no)
+         join product_sub_Cate psc using(pro_subcate_code)
+		where b.board_type='1' and product_status = 'Y' and pro_subcate_code = #{subCate}
 	</select>
 	
 	<select id="selectStoreBoardList" resultMap="StoreBoardResultSet">
