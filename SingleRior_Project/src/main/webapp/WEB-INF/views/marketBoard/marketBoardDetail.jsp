@@ -241,11 +241,12 @@
 
 				<!-- 지도영역  -->
 				<c:if test="${mkBoard.location ne null }">
-				
-					<div id="map" class="mx-auto" style=" width:300px;height:200px;"></div><br><div class="mx-auto" style="text-align:center; background: #D9E5FF; border-radius:2em; padding: 20px; width: 650px;"  >${mkBoard.nickName}님은  ${mkBoard.location }에서 직거래하고 싶어해요!</div>
-					<span>위도 : </span><input type="text" id="lat" name="lat" readonly/><br/>
-					  <span>경도 : </span><input type="text" id="long" name="long" readonly/>
-					  <div id="result"></div>
+					
+					<div id="map" class="mx-auto" style=" width:300px;height:200px;"></div>
+					<br>
+					<div id="myLocation" class="mx-auto" style="width:230px; text-align:center; border-radius:2em;padding: 20px; "><img style="width: 30px; height: 30px;" alt="" src="resources/image/pick.png">&nbsp;&nbsp;내 위치 확인하기</div>
+					<div id="tranLocation" class="mx-auto" style="width:230px; text-align:center; border-radius:2em; padding: 20px; display: none;"><img style="width: 30px; height: 30px;" alt="" src="resources/image/pick.png">&nbsp;&nbsp;직거래 위치 확인하기 </div>
+					<div class="mx-auto" style="text-align:center; background: #D9E5FF; border-radius:2em; padding: 20px; width: 650px;"  >${mkBoard.nickName}님은  ${mkBoard.location }에서 직거래하하고 싶어해요!</div>
 				</c:if>		
 									
 				<div class="col-md-1" style="text-align: center; padding-top: 30px; padding-left: 50px; width: 170px;">
@@ -323,9 +324,10 @@
 						</div>
 					</div>
 					
-					<!-- 댓글 -->
+					<!-- 댓글 -->	
 					<div class="px-5 " id="replyDiv">
-						<c:forEach items="${mkRList }" var="r">
+						<c:forEach items="${mkRList}" var="r">
+							<c:if test="${ r.replyNo == r.groupNo}">
 							<table class="table replyTable">
 								<tr>
 								<c:if test="${ r.profileImg eq null}">
@@ -379,13 +381,14 @@
 									</td>
 								</tr>
 							</table>
+						</c:if>
 						
 						<!-- 대댓글창 -->
 						<c:if test="${!empty loginUser }">
 							<table class="table table-borderless p-5 reReplyInput" style="display: none;" >
 		                    	<tr>
 		                        	<td width="1em">
-		                           		<i class="bi bi-arrow-return-right" style="font-size:1em">
+		                           		<img src="https://cdn-icons-png.flaticon.com/512/9058/9058850.png" width="20" height="20">
 		                       		</td>
 		                        	<td >
 		                           		<input type="hidden" name="replyNo" value="${r.replyNo}">
@@ -399,45 +402,72 @@
 		                     	</tr>
 		                 	</table>
 		                 </c:if>
-						</c:forEach>
-					</div>
 					
 					<!-- 대댓글 -->
-					<c:forEach items="${mkRRList}" var="rr">
-					<c:forEach items="${mkRList}" var="r">
-					<c:if test="${rr.replyNo==r.replyNo }">
-					<div class="px-5" style="padding-bottom: 50px; margin-left: 60px;" id="reReplyDiv">
+					<c:forEach items="${mkRList}" var="rr">
+					
+					<c:if test="${ r.replyNo == rr.groupNo}">
+					<c:if test="${ rr.replyNo != rr.groupNo}">
+					<div class="px-5" style="padding-bottom: 20px; margin-left: 10px;" id="reReplyDiv">
 						<table class="table">
 							<tr>
-								<td style="text-align: center;" width="40"><img src="https://cdn-icons-png.flaticon.com/512/9058/9058850.png" width="20" height="20">
-								<td style="text-align: center;" width="40"><img src="https://cdn-icons.flaticon.com/svg/3917/3917711.svg?token=exp=1670467359~hmac=b45251c2afca4a6751ba3fed9124eb31" width="20" height="20"></td>
-								<td class="px-4 ">${rr.nickName}</td>
-								<td class="px-4">${rr.reReplyModifyDate}</td>
+								<td style="text-align: center;" width="40"><img src="https://cdn-icons-png.flaticon.com/512/9058/9058850.png" width="18" height="20">
+								<c:if test="${ rr.profileImg eq null}">
+									<td style="text-align: center;" width="40"><img src="resources/image/userProfile.png" width="50" height="50" style="border-radius: 70%"></td>
+								</c:if>
+								<c:if test="${ rr.profileImg ne null}">
+									<td style="text-align: center;" width="40"><img src="resources/uploadFiles/${ rr.profileImg }" width="50" height="50" style="border-radius: 70%"></td>
+								</c:if>	
+								<td class="px-4"  style="width: 150px;">
+									<span class=" dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">${rr.nickName}</span>
+									<ul class="dropdown-menu" style="text-align: center;">
+										<li><a class="dropdown-item sendMsg" >쪽지보내기</a></li>
+									</ul>
+								</td>
+								<td class="px-4" style="width: 150px;">${rr.replyModifyDate}</td>
 								<td width="750"></td>
 								<td>
 									<div class="dropdown">
-										<img class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" src="https://cdn-icons.flaticon.com/svg/3917/3917158.svg?token=exp=1670467948~hmac=2f18f7118b556af438bb1d4438649f4a" width="20" height="20">
+										<img class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" src="resources/image/menu-dots.png" width="20" height="20">
 										<ul class="dropdown-menu" style="text-align: center;">
 											<c:if test="${ loginUser.memberId eq rr.memberId }">
-												<li><a class="dropdown-item" >수정</a></li>
-												<li><a class="dropdown-item" >삭제</a></li>
+												<li class="updateReBtn"><a class="dropdown-item" >수정</a></li>
+												<li class="deleteReBtn"><a class="dropdown-item" >삭제</a><input type="hidden" id="replyNo" class="replyNo" value="${ rr.replyNo }"></li>
 											</c:if>
 											<c:if test="${ !(loginUser.memberId eq rr.memberId) }">
-												<li><a class="dropdown-item" >신고</a></li>
+												<li class="reReportBtn"><input type="hidden" class="reportReplyNo" value="${ rr.replyNo }"><input type="hidden" class="reportStatus" value="${ rr.reportStatus }"><a class="dropdown-item" >신고</a></li>
 											</c:if>
 										</ul>
 									</div>
 								</td>
 							</tr>
 							<tr style="font-size: 20px;">
-								<td class="px-5 py-3" colspan="6">${rr.reReplyContent}</td>
+								<td class="px-5 py-3 " colspan="5">
+										<div class="input-group replyContentArea" >
+										<c:if test="${rr.replySecret == 'Y' and (loginUser.memberId eq rr.memberId  or loginUser.memberId eq mkBoard.writer or loginUser.memberAuthority eq 'Y')}">
+											<textarea readonly class="reContent" style="width: 1000px; border: none; resize: none;">${rr.replyContent }</textarea>
+										</c:if>
+										<c:if test="${rr.replySecret == 'N' }">
+											<textarea readonly class="reContent" style="width: 1000px; border: none; resize: none;">${rr.replyContent }</textarea>
+										</c:if>
+										<c:if test="${rr.replySecret == 'Y' and loginUser.memberId ne rr.memberId and loginUser.memberId ne mkBoard.writer and loginUser.memberAuthority eq 'N'}">
+											<textarea readonly style="width: 1000px; border: none; resize: none;">비밀 댓글입니다.</textarea>
+										</c:if>
+										<c:if test="${rr.replySecret == 'Y' and loginUser eq null}">
+											<textarea readonly style="width: 1000px; border: none; resize: none;">비밀 댓글입니다.</textarea>
+										</c:if>
+										<input type="hidden"  value="${ rr.replyNo }">
+										</div>
+									</td>
 							</tr>
 						</table>
 					</div>
-					
+					</c:if>
 					</c:if>
 					</c:forEach>
 					</c:forEach>
+					</div>
+					
 					<div style="border-bottom: 1px solid #DCDCDC; padding-top: 10px;"></div>
 					
 					<!-- 이동 -->
@@ -592,9 +622,7 @@
 	                        data: {boardNo: ${ mkBoard.boardNo }},
 	                        type: 'post',
 	                        success:(data)=>{
-	                           console.log(data);
 	                           var symptCount = parseInt($('#likeCount').html());
-	                           console.log(symptCount);
 	                           $('#likeCount').html(symptCount + data);
 	                           
 	                        },
@@ -611,9 +639,7 @@
 	                        data: {boardNo:${mkBoard.boardNo}},
 	                        type: 'post',
 	                        success:(data)=>{
-	                           console.log(data);
 	                           var symptCount = parseInt($('#likeCount').html());
-	                           console.log(symptCount);
 	                           $('#likeCount').html(symptCount - data);
 	                         
 	                        },
@@ -656,9 +682,9 @@
 								replySecret:document.getElementById('replySecret').value,
 								boardNo:${mkBoard.boardNo},
 								memberId: '${loginUser.memberId}',
-								nickName: '${loginUser.nickName}'},
+								nickName: '${loginUser.nickName}',groupNo:0
+								},
 						success: (data) => {
-							console.log(document.getElementById('replySecret'));
 							document.getElementById('replySecret').checked = false;
 							document.getElementById('replySecret').value = 'N';
 							selectRList(data);
@@ -670,31 +696,380 @@
 				});
 			}
 			
+			//답글창
+			 $(document).on("click", ".reReplyBtn", function(){
+				const input = this.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.nextElementSibling;
+				
+				if(input.style.display == 'none') {
+		        	input.style.display = 'inline';
+		        } else {
+		        	input.style.display = 'none';
+		        }
+		     });
+			
+			//대댓글
+			   $(document).on("click", ".reReplySubmit", function(){
+			           if(this.nextElementSibling.nextElementSibling.nextElementSibling.checked){
+			            this.nextElementSibling.nextElementSibling.nextElementSibling.value ='Y';
+			          }
+			          
+			          const reReplyContent = this.previousElementSibling.value;
+			           const replyNo = this.parentNode.previousElementSibling.value;   
+			           const reReplySecret= this.nextElementSibling.nextElementSibling.nextElementSibling.value;
+			           
+			           $.ajax({
+			            url: '${contextPath}/replyInsert.ma',
+			            data: {groupNo:replyNo,replyContent:reReplyContent,
+			            	replySecret:reReplySecret,boardNo:${mkBoard.boardNo},
+			            	},
+			            type: 'post',
+			            success:(data)=>{
+			               for(const r of data){
+			               
+			               this.previousElementSibling.value = '';
+			               this.parentNode.querySelector('.reReplySecret').checked = false;
+			               var replyCount = data.length;
+			               this.parentNode.parentNode.parentNode.parentNode.parentNode.style.display = "none";
+			               selectRList(data);  
+			            
+			               }
+			                  
+			            },
+			            error: (data)=>{
+			               console.log(data);
+			            }
+			         });
+			           
+			       });
+			
 			//지도
 			if(${mkBoard.location != null}){
 				var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
 				mapOption = {
 		        center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
-		        level: 3 // 지도의 확대 레벨
+		        level: 4 // 지도의 확대 레벨
 		    	}; 
+				
+				var latitude = "", longitude = "";
+				    
+				if (navigator.geolocation) {
+					navigator.geolocation.getCurrentPosition(onSuccess, onError);
+				} else {
+					latitude = "", longitude = "";
+				}   
+				    
+				function onSuccess(position) {
+					latitude = position.coords.latitude; //y
+					longitude = position.coords.longitude; //x
+				    console.log(latitude);
+				    
+				
 
 				var map = new kakao.maps.Map(mapContainer, mapOption); 
+				map.addOverlayMapTypeId(kakao.maps.MapTypeId.TRAFFIC);   
 				var geocoder = new kakao.maps.services.Geocoder();
+				var coords = "";
 				geocoder.addressSearch('${ mkBoard.location}', function(result, status) {
 				     if (status === kakao.maps.services.Status.OK) {
-				        var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+				    	console.log(result);
+				        coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+				        here = new kakao.maps.LatLng(latitude,longitude );
+				        
 				        var marker = new kakao.maps.Marker({
 				            map: map,
 				            position: coords
 				       	});
+				        var marker = new kakao.maps.Marker({
+				            map: map,
+				            position: here
+				       	});
 				        map.setCenter(coords);
-				    	} 
-					});
-				$(document).on('click', ".distance", function(){
-					console.log(123);
-					
-					
+				        $(document).on('click', "#myLocation", function(){
+				        	 map.setCenter(here);
+				        	 this.style.display = "none";
+				        	 document.querySelector("#tranLocation").style.display = "block";
+				        });
+				        $(document).on('click', "#tranLocation", function(){
+				        	map.setCenter(coords);
+				        	 this.style.display = "none";
+				        	 document.querySelector("#myLocation").style.display = "block";
+				        });
+				        
+				        var drawingFlag = false; // 선이 그려지고 있는 상태를 가지고 있을 변수입니다
+				        var moveLine; // 선이 그려지고 있을때 마우스 움직임에 따라 그려질 선 객체 입니다
+				        var clickLine // 마우스로 클릭한 좌표로 그려질 선 객체입니다
+				        var distanceOverlay; // 선의 거리정보를 표시할 커스텀오버레이 입니다
+				        var dots = {}; // 선이 그려지고 있을때 클릭할 때마다 클릭 지점과 거리를 표시하는 커스텀 오버레이 배열입니다.
+				        
+				     // 지도에 클릭 이벤트를 등록합니다
+				     // 지도를 클릭하면 선 그리기가 시작됩니다 그려진 선이 있으면 지우고 다시 그립니다
+				     kakao.maps.event.addListener(map, 'click', function(mouseEvent) {
+
+				         // 마우스로 클릭한 위치입니다 
+				         var clickPosition = mouseEvent.latLng;
+
+				         // 지도 클릭이벤트가 발생했는데 선을 그리고있는 상태가 아니면
+				         if (!drawingFlag) {
+
+				             // 상태를 true로, 선이 그리고있는 상태로 변경합니다
+				             drawingFlag = true;
+				             
+				             // 지도 위에 선이 표시되고 있다면 지도에서 제거합니다
+				             deleteClickLine();
+				             
+				             // 지도 위에 커스텀오버레이가 표시되고 있다면 지도에서 제거합니다
+				             deleteDistnce();
+
+				             // 지도 위에 선을 그리기 위해 클릭한 지점과 해당 지점의 거리정보가 표시되고 있다면 지도에서 제거합니다
+				             deleteCircleDot();
+				         
+				             // 클릭한 위치를 기준으로 선을 생성하고 지도위에 표시합니다
+				             clickLine = new kakao.maps.Polyline({
+				                 map: map, // 선을 표시할 지도입니다 
+				                 path: [clickPosition], // 선을 구성하는 좌표 배열입니다 클릭한 위치를 넣어줍니다
+				                 strokeWeight: 3, // 선의 두께입니다 
+				                 strokeColor: '#db4040', // 선의 색깔입니다
+				                 strokeOpacity: 1, // 선의 불투명도입니다 0에서 1 사이값이며 0에 가까울수록 투명합니다
+				                 strokeStyle: 'solid' // 선의 스타일입니다
+				             });
+				             
+				             // 선이 그려지고 있을 때 마우스 움직임에 따라 선이 그려질 위치를 표시할 선을 생성합니다
+				             moveLine = new kakao.maps.Polyline({
+				                 strokeWeight: 3, // 선의 두께입니다 
+				                 strokeColor: '#db4040', // 선의 색깔입니다
+				                 strokeOpacity: 0.5, // 선의 불투명도입니다 0에서 1 사이값이며 0에 가까울수록 투명합니다
+				                 strokeStyle: 'solid' // 선의 스타일입니다    
+				             });
+				         
+				             // 클릭한 지점에 대한 정보를 지도에 표시합니다
+				             displayCircleDot(clickPosition, 0);
+
+				                 
+				         } else { // 선이 그려지고 있는 상태이면
+
+				             // 그려지고 있는 선의 좌표 배열을 얻어옵니다
+				             var path = clickLine.getPath();
+
+				             // 좌표 배열에 클릭한 위치를 추가합니다
+				             path.push(clickPosition);
+				             
+				             // 다시 선에 좌표 배열을 설정하여 클릭 위치까지 선을 그리도록 설정합니다
+				             clickLine.setPath(path);
+
+				             var distance = Math.round(clickLine.getLength());
+				             displayCircleDot(clickPosition, distance);
+				         }
+				     });
+				         
+				     // 지도에 마우스무브 이벤트를 등록합니다
+				     // 선을 그리고있는 상태에서 마우스무브 이벤트가 발생하면 그려질 선의 위치를 동적으로 보여주도록 합니다
+				     kakao.maps.event.addListener(map, 'mousemove', function (mouseEvent) {
+
+				         // 지도 마우스무브 이벤트가 발생했는데 선을 그리고있는 상태이면
+				         if (drawingFlag){
+				             
+				             // 마우스 커서의 현재 위치를 얻어옵니다 
+				             var mousePosition = mouseEvent.latLng; 
+
+				             // 마우스 클릭으로 그려진 선의 좌표 배열을 얻어옵니다
+				             var path = clickLine.getPath();
+				             
+				             // 마우스 클릭으로 그려진 마지막 좌표와 마우스 커서 위치의 좌표로 선을 표시합니다
+				             var movepath = [path[path.length-1], mousePosition];
+				             moveLine.setPath(movepath);    
+				             moveLine.setMap(map);
+				             
+				             var distance = Math.round(clickLine.getLength() + moveLine.getLength()), // 선의 총 거리를 계산합니다
+				                 content = '<div class="dotOverlay distanceInfo">총거리 <span class="number">' + distance + '</span>m</div>'; // 커스텀오버레이에 추가될 내용입니다
+				             
+				             // 거리정보를 지도에 표시합니다
+				             showDistance(content, mousePosition);   
+				         }             
+				     });                 
+
+				     // 지도에 마우스 오른쪽 클릭 이벤트를 등록합니다
+				     // 선을 그리고있는 상태에서 마우스 오른쪽 클릭 이벤트가 발생하면 선 그리기를 종료합니다
+				     kakao.maps.event.addListener(map, 'rightclick', function (mouseEvent) {
+
+				         // 지도 오른쪽 클릭 이벤트가 발생했는데 선을 그리고있는 상태이면
+				         if (drawingFlag) {
+				             
+				             // 마우스무브로 그려진 선은 지도에서 제거합니다
+				             moveLine.setMap(null);
+				             moveLine = null;  
+				             
+				             // 마우스 클릭으로 그린 선의 좌표 배열을 얻어옵니다
+				             var path = clickLine.getPath();
+				         
+				             // 선을 구성하는 좌표의 개수가 2개 이상이면
+				             if (path.length > 1) {
+
+				                 // 마지막 클릭 지점에 대한 거리 정보 커스텀 오버레이를 지웁니다
+				                 if (dots[dots.length-1].distance) {
+				                     dots[dots.length-1].distance.setMap(null);
+				                     dots[dots.length-1].distance = null;    
+				                 }
+
+				                 var distance = Math.round(clickLine.getLength()), // 선의 총 거리를 계산합니다
+				                     content = getTimeHTML(distance); // 커스텀오버레이에 추가될 내용입니다
+				                     
+				                 // 그려진 선의 거리정보를 지도에 표시합니다
+				                 showDistance(content, path[path.length-1]);  
+				                  
+				             } else {
+
+				                 // 선을 구성하는 좌표의 개수가 1개 이하이면 
+				                 // 지도에 표시되고 있는 선과 정보들을 지도에서 제거합니다.
+				                 deleteClickLine();
+				                 deleteCircleDot(); 
+				                 deleteDistnce();
+
+				             }
+				             
+				             // 상태를 false로, 그리지 않고 있는 상태로 변경합니다
+				             drawingFlag = false;          
+				         }  
+				     });    
+
+				     // 클릭으로 그려진 선을 지도에서 제거하는 함수입니다
+				     function deleteClickLine() {
+				         if (clickLine) {
+				             clickLine.setMap(null);    
+				             clickLine = null;        
+				         }
+				     }
+
+				     // 마우스 드래그로 그려지고 있는 선의 총거리 정보를 표시하거
+				     // 마우스 오른쪽 클릭으로 선 그리가 종료됐을 때 선의 정보를 표시하는 커스텀 오버레이를 생성하고 지도에 표시하는 함수입니다
+				     function showDistance(content, position) {
+				         
+				         if (distanceOverlay) { // 커스텀오버레이가 생성된 상태이면
+				             
+				             // 커스텀 오버레이의 위치와 표시할 내용을 설정합니다
+				             distanceOverlay.setPosition(position);
+				             distanceOverlay.setContent(content);
+				             
+				         } else { // 커스텀 오버레이가 생성되지 않은 상태이면
+				             
+				             // 커스텀 오버레이를 생성하고 지도에 표시합니다
+				             distanceOverlay = new kakao.maps.CustomOverlay({
+				                 map: map, // 커스텀오버레이를 표시할 지도입니다
+				                 content: content,  // 커스텀오버레이에 표시할 내용입니다
+				                 position: position, // 커스텀오버레이를 표시할 위치입니다.
+				                 xAnchor: 0,
+				                 yAnchor: 0,
+				                 zIndex: 3  
+				             });      
+				         }
+				     }
+
+				     // 그려지고 있는 선의 총거리 정보와 
+				     // 선 그리가 종료됐을 때 선의 정보를 표시하는 커스텀 오버레이를 삭제하는 함수입니다
+				     function deleteDistnce () {
+				         if (distanceOverlay) {
+				             distanceOverlay.setMap(null);
+				             distanceOverlay = null;
+				         }
+				     }
+
+				     // 선이 그려지고 있는 상태일 때 지도를 클릭하면 호출하여 
+				     // 클릭 지점에 대한 정보 (동그라미와 클릭 지점까지의 총거리)를 표출하는 함수입니다
+				     function displayCircleDot(position, distance) {
+
+				         // 클릭 지점을 표시할 빨간 동그라미 커스텀오버레이를 생성합니다
+				         var circleOverlay = new kakao.maps.CustomOverlay({
+				             content: '<span class="dot"></span>',
+				             position: position,
+				             zIndex: 1
+				         });
+
+				         // 지도에 표시합니다
+				         circleOverlay.setMap(map);
+
+				         if (distance > 0) {
+				             // 클릭한 지점까지의 그려진 선의 총 거리를 표시할 커스텀 오버레이를 생성합니다
+				             var distanceOverlay = new kakao.maps.CustomOverlay({
+				                 content: '<div class="dotOverlay">거리 <span class="number">' + distance + '</span>m</div>',
+				                 position: position,
+				                 yAnchor: 1,
+				                 zIndex: 2
+				             });
+
+				             // 지도에 표시합니다
+				             distanceOverlay.setMap(map);
+				         }
+
+				         // 배열에 추가합니다
+				         dots.push({circle:circleOverlay, distance: distanceOverlay});
+				     }
+
+				     // 클릭 지점에 대한 정보 (동그라미와 클릭 지점까지의 총거리)를 지도에서 모두 제거하는 함수입니다
+				     function deleteCircleDot() {
+				         var i;
+
+				         for ( i = 0; i < dots.length; i++ ){
+				             if (dots[i].circle) { 
+				                 dots[i].circle.setMap(null);
+				             }
+
+				             if (dots[i].distance) {
+				                 dots[i].distance.setMap(null);
+				             }
+				         }
+
+				         dots = [];
+				     }
+
+				     // 마우스 우클릭 하여 선 그리기가 종료됐을 때 호출하여 
+				     // 그려진 선의 총거리 정보와 거리에 대한 도보, 자전거 시간을 계산하여
+				     // HTML Content를 만들어 리턴하는 함수입니다
+				     function getTimeHTML(distance) {
+
+				         // 도보의 시속은 평균 4km/h 이고 도보의 분속은 67m/min입니다
+				         var walkkTime = distance / 67 | 0;
+				         var walkHour = '', walkMin = '';
+
+				         // 계산한 도보 시간이 60분 보다 크면 시간으로 표시합니다
+				         if (walkkTime > 60) {
+				             walkHour = '<span class="number">' + Math.floor(walkkTime / 60) + '</span>시간 '
+				         }
+				         walkMin = '<span class="number">' + walkkTime % 60 + '</span>분'
+
+				         // 자전거의 평균 시속은 16km/h 이고 이것을 기준으로 자전거의 분속은 267m/min입니다
+				         var bycicleTime = distance / 227 | 0;
+				         var bycicleHour = '', bycicleMin = '';
+
+				         // 계산한 자전거 시간이 60분 보다 크면 시간으로 표출합니다
+				         if (bycicleTime > 60) {
+				             bycicleHour = '<span class="number">' + Math.floor(bycicleTime / 60) + '</span>시간 '
+				         }
+				         bycicleMin = '<span class="number">' + bycicleTime % 60 + '</span>분'
+
+				         // 거리와 도보 시간, 자전거 시간을 가지고 HTML Content를 만들어 리턴합니다
+				         var content = '<ul class="dotOverlay distanceInfo">';
+				         content += '    <li>';
+				         content += '        <span class="label">총거리</span><span class="number">' + distance + '</span>m';
+				         content += '    </li>';
+				         content += '    <li>';
+				         content += '        <span class="label">도보</span>' + walkHour + walkMin;
+				         content += '    </li>';
+				         content += '    <li>';
+				         content += '        <span class="label">자전거</span>' + bycicleHour + bycicleMin;
+				         content += '    </li>';
+				         content += '</ul>'
+
+				         return content;
+				     }
+				    } 
 				});
+			}
+				
+				function onError() {
+					alert("현재위치를 가져오지 못했습니다.");
+				}
+				
+				
+				
 			}
 			
 		//이미지 슬라이드
@@ -750,8 +1125,6 @@
 				const senderNickname = this.parentNode.parentNode.parentNode.querySelector('span').innerText;
 				const sender = senderNickname.trim();
 				const id = '${loginUser.nickName}';
-				console.log(sender);
-				console.log(id);
 				document.getElementById('receiver').value = sender;
 				
 				if(id != sender){
@@ -767,9 +1140,6 @@
 			
 			document.getElementById('sendBtn').addEventListener('click', () => {
 				const input = document.getElementsByClassName('input');
-				console.log(input[0].value);
-				console.log(input[1].value);
-				console.log(input[2].value);
 				$.ajax({
 					url: '${ contextPath }/insertMsg.cm',
 					data: {messageTitle:input[0].value,
@@ -825,7 +1195,6 @@
 		$(document).on('click', '.updateReBtn', function(){
 			console.log("수정");
 			const textArea = this.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.querySelector('textarea');
-			console.log("value1 : " + textArea.value);
 			
 			textArea.removeAttribute('readOnly');
 			textArea.focus();
@@ -885,94 +1254,123 @@
 			var replyCount = data.length;
 			document.getElementById('replyDiv').innerHTML = '';
 			document.getElementById('replyContent').value='';
-			document.getElementById('replyContent').value='';
+			
 			for(const r of data){
-				console.log(data);
-				let str = '<table class="table replyTable ">';
-				str +=	'<tr>';
-				
-				if(r.profileImg != null){
-					str += '<td style="text-align: center;" width="40"><img src="resources/uploadFiles/' + r.profileImg + '" width="50" height="50" style="border-radius: 70%"></td>';
-				}else{
-					str += '<td style="text-align: center;" width="40"><img src="resources/image/userProfile.png" width="50" height="50" style="border-radius: 70%"></td>';
-				}
-				str +=	'<td width="150px;  class="reNickName">';
-				str +=	'<span class=" dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">' + r.nickName + '</span>';
-				
-				if('${ loginUser.nickName}'!= r.nickName){	
-					str +=	'<ul class="dropdown-menu" style="text-align: center;">';
-					str += 	'<li><a class="dropdown-item sendMsg" onclick="$(' + "'#msgModal'" + ').modal(' + "'show'" + ')">쪽지보내기</a></li></ul></td>'
-				}
-				
-				str +=	'<td width="150px; class="px-4">'+ r.replyModifyDate + '</td>';
-				str +=	'<td width="850px;"></td>';
-				str +=	'<td>';
-				str +=	'<div class="dropdown">';
-				str +=	'<img class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" src="resources/image/menu-dots.png" width="20" height="20">';
-				str +=	'<ul class="dropdown-menu" style="text-align: center;">';
-				
-				if('${ loginUser.memberId}'== r.memberId){	
-					str +=	'<li class="reReplyBtn"><a class="dropdown-item ">답글달기</a></li>';
-					str +=	'<li class="updateReBtn"><a class="dropdown-item">수정</a></li>';
-					str +=	'<li class="deleteReBtn"><a class="dropdown-item ">삭제</a><input type="hidden" class="replyNo" value="'+ r.replyNo +'"></li>';
-				}else{										
-					str +=	'<li><a class="dropdown-item" >답글달기</a></li>';
-					str +=	'<li class="reportBtn" ><a class="dropdown-item" >신고</a></li>';
-				}
-					str +=	'</ul>';
-					str +=	'</div>';
-					str +=	'</td>';
-					str +=	'</tr>';
-					str +=	'<tr style="font-size: 20px;">';
-					str +=	'<td class="px-5 py-3" colspan="5">';
-					str +=	'<div class="input-group replyContentArea" >';
-				
-				if(r.replySecret=='Y' &&('${loginUser.memberId}' == '${mkBoard.writer}' || '${loginUser.memberId}' == r.memberId || '${loginUser.memberAuthority}' == 'Y')){
-					str +=	'<textarea class="reContent" readonly style="width: 1000px; border: none; resize: none;">'+ r.replyContent + '</textarea>';
-				}else if(r.replySecret=='Y' && '${loginUser.memberId}' != '${mkBoard.writer}' && '${loginUser.memberId}' != r.memberId &&'${loginUser.memberAuthority}' != 'Y'){
-					str +=	'<input readonly style="width: 1000px; border: none; resize: none;"> 비밀댓글 입니다. </input>';
-				}else if(r.replySecret=='N'){
-					str +=	'<textarea class="reContent" readonly style="width: 1000px; border: none; resize: none;">'+ r.replyContent + '</textarea>';
-				}	
-					str +=	'<input type="hidden"  value="'+ r.replyNo + '">';
-					str +=	'</div>';
-					str +=	'</td>';
-					str +=	'</tr>';
-					str +=	'</table>';
-					str +=	'<table class="table table-borderless p-5 reReplyInput" style="display: none;" >';
-					str +=	'<tr>';
-					str +=	'<td width="1em">';
-					str +=	'<i class="bi bi-arrow-return-right" style="font-size:1em">';
-					str +=	'</td>';
-					str +=	'<td >';
-					str +=	'<input type="hidden" name="boardNo" value="'+ ${mkBoard.boardNo} + '">';     
-					str +=	'<input type="hidden" name="replyNo" value="'+ r.replyNo+ '">';
-					str +=	'<div class="input-group" >';
-					str +=	'<textarea  style="width: 1000px; border: none; resize: none;"></textarea>';
-                    str +=	'<button class="btn btn-outline-primary btn-lg reReplySubmit" type="button" style="width: 100px;">등록</button>';
-                    str +=	'</div>';
-                    str +=	'</td>';
-                    str +=	'</tr>';
-                    str +=	'</table>';
-					document.getElementById('replyDiv').innerHTML += str;
-					$("#replyCount").html(replyCount);
+				let str = " ";
+				if(r.replyNo == r.groupNo){
+					str += '<table class="table replyTable">';
+					str += '<tr>';
+					if( r.profileImg == null){
+						str += '<td style="text-align: center;" width="40"><img src="resources/image/userProfile.png" width="50" height="50" style="border-radius: 70%"></td>';
+					}else if(r.profileImg != null){
+						str += '<td style="text-align: center;" width="40"><img src="resources/uploadFiles/'+ r.profileImg + '" width="50" height="50" style="border-radius: 70%"></td>';
+					}	
+					str += '<td width="150px;  class="reNickName">';
+					str += '<span class=" dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">'+r.nickName+'</span>';
+					str += '<ul class="dropdown-menu" style="text-align: center;">';
+					str += '<li><a class="dropdown-item sendMsg" >쪽지보내기</a></li>';
+					str += '</ul></td>';
+					str += '<td width="150px;">'+ r.replyModifyDate + '</td>';
+					str += '<td width="850px;"></td>';
+					str += '<td>';					
+					str += '<div class="dropdown">';
+					str += '<img class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" src="resources/image/menu-dots.png" width="20" height="20">';
+					str += '<ul class="dropdown-menu" style="text-align: center;">';
+					if('${ loginUser.memberId }' == r.memberId){
+						str +='<li class="reReplyBtn"><a class="dropdown-item">답글달기</a></li>';
+						str +='<li class="updateReBtn"><a class="dropdown-item">수정</a></li>';
+						str +='<li class="deleteReBtn"><a class="dropdown-item ">삭제</a><input type="hidden" id="replyNo" class="replyNo" value="'+ r.replyNo+ '"></li>';
+					}else if('${ loginUser.memberId }' != r.memberId){
+						str +='<li class="reReplyBtn"><a class="dropdown-item" >답글달기</a></li>';
+						str +='<li class="reReportBtn"><input type="hidden" class="reportReplyNo" value="'+ r.replyNo +'"><input type="hidden" class="reportStatus" value="'+ r.reportStatus +'"><a class="dropdown-item" >신고</a></li>';
+					}	
+					
+					str +='</ul></div></td>	</tr>';
+					str +='<tr style="font-size: 20px;">';
+					str +='<td class="px-5 py-3 " colspan="5">';
+					str +='<div class="input-group replyContentArea" >';		
+					if(r.replySecret =='Y' && ('${ loginUser.memberId }' == '${ mkBoard.writer }' || '${ loginUser.memberId }' == r.memberId || '${ loginUser.memberAuthority }' == 'Y')){
+						str +='<textarea readonly class="reContent" style="width: 1000px; border: none; resize: none;">'+r.replyContent+ '</textarea>';
+					}else if(r.replySecret =='N'){
+						str +='<textarea readonly class="reContent" style="width: 1000px; border: none; resize: none;">'+r.replyContent+ '</textarea>';
+					}else if(r.replySecret =='Y' && '${ loginUser.memberId }' != '${ mkBoard.writer }' && '${ loginUser.memberId }' != r.memberId && '${ loginUser.memberAuthority }' == 'N'){
+						str +='<textarea readonly style="width: 1000px; border: none; resize: none;">비밀 댓글입니다.</textarea>';
+					}else if(r.replySecret =='Y' && '${loginUser}' == null){
+						str +='<textarea readonly style="width: 1000px; border: none; resize: none;">비밀 댓글입니다.</textarea>';
+					}
+					
+					str +='<input type="hidden"  value="'+ r.replyNo+ '">';					
+					str +='</div></td></tr></table>';						
+					
+					if('${loginUser!=null}'){
+						str +='<table class="table table-borderless p-5 reReplyInput" style="display: none;">';	
+						str +='<tr><td width="1em"><img src="https://cdn-icons-png.flaticon.com/512/9058/9058850.png" width="20" height="20"></td>';	
+						str +='	<td ><input type="hidden" name="replyNo" value="'+r.replyNo+'">';
+						str +='	<div class="input-group" >';
+						str +='	<textarea  style="width: 1000px; border: none; resize: none;"></textarea>';
+						str +='	<button class="btn btn-outline-primary btn-lg reReplySubmit" type="button" style="width: 100px;">등록</button>';
+						str +='<br>&nbsp;<label for="replySecret">비밀댓글</label>&nbsp;&nbsp;<input type="checkbox" class="reReplySecret" value="N">';
+						str +='</div></td></tr></table>';
+						
+					}
+				for(const rr of data){
+					if(r.replyNo == rr.groupNo && rr.replyNo != rr.groupNo){
+						str += '<div class="px-5" style="padding-bottom: 20px; margin-left: 10px;" id="reReplyDiv">';
+						str += '<table class="table">';
+						str += '<tr>';
+						str += '<td style="text-align: center;" width="40"><img src="https://cdn-icons-png.flaticon.com/512/9058/9058850.png" width="18" height="20">';
+						if( rr.profileImg == null){
+							str += '<td style="text-align: center;" width="40"><img src="resources/image/userProfile.png" width="50" height="50" style="border-radius: 70%"></td>';
+						}else if(rr.profileImg != null){
+							str += '<td style="text-align: center;" width="40"><img src="resources/uploadFiles/'+rr.profileImg +'" width="50" height="50" style="border-radius: 70%"></td>';
+						}
+						str += '<td class="px-4"  style="width: 150px;">';
+						str += '<span class=" dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">'+rr.nickName+'</span>';
+						str += '<ul class="dropdown-menu" style="text-align: center;">';
+						str += '<li><a class="dropdown-item sendMsg" >쪽지보내기</a></li>';
+						str += '</ul>';
+						str += '</td>';
+						str += '<td class="px-4" style="width: 150px;">'+rr.replyModifyDate+'</td>';
+						str += '<td width="750"></td>';
+						str += '<td>';
+						str += '<div class="dropdown">';
+						str += '<img class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" src="resources/image/menu-dots.png" width="20" height="20">';
+						str += '<ul class="dropdown-menu" style="text-align: center;">';
+						if('${ loginUser.memberId }' == rr.memberId){
+							str += '<li class="updateReBtn"><a class="dropdown-item" >수정</a></li>';
+							str += '<li class="deleteReBtn"><a class="dropdown-item" >삭제</a><input type="hidden" id="replyNo" class="replyNo" value="'+ rr.replyNo +'"></li>';
+						}else if('${ loginUser.memberId }' != rr.memberId){
+							str += '<li class="reReportBtn"><input type="hidden" class="reportReplyNo" value="'+ rr.replyNo +'"><input type="hidden" class="reportStatus" value="'+ rr.reportStatus+ '"><a class="dropdown-item" >신고</a></li>';
+						}
+						str += '</ul>';
+						str += '</div>';
+						str += '</td>';
+						str += '</tr>';
+						str += '<tr style="font-size: 20px;">';
+						str += '<td class="px-5 py-3 " colspan="5">';
+						str += '<div class="input-group replyContentArea" >';
+						if(rr.replySecret =='Y' && ('${ loginUser.memberId }' == '${ mkBoard.writer }' || '${ loginUser.memberId }' == rr.memberId || '${ loginUser.memberAuthority }' == 'Y')){
+							str +='<textarea readonly class="reContent" style="width: 1000px; border: none; resize: none;">'+rr.replyContent+ '</textarea>';
+						}else if(rr.replySecret =='N'){
+							str +='<textarea readonly class="reContent" style="width: 1000px; border: none; resize: none;">'+rr.replyContent+ '</textarea>';
+						}else if(rr.replySecret =='Y' && '${ loginUser.memberId }' != '${ mkBoard.writer }' && '${ loginUser.memberId }' != rr.memberId && '${ loginUser.memberAuthority }' == 'N'){
+							str +='<textarea readonly style="width: 1000px; border: none; resize: none;">비밀 댓글입니다.</textarea>';
+						}else if(rr.replySecret =='Y' && '${loginUser}' == null){
+							str +='<textarea readonly style="width: 1000px; border: none; resize: none;">비밀 댓글입니다.</textarea>';
+						}
+						str += '<input type="hidden"  value="'+ rr.replyNo + '">';
+						str += '</div>';
+						str += '</td>';
+						str += '</tr>';
+						str += '</table>';
+						str += '</div>';
+					}
+					}
+			}
+				document.getElementById('replyDiv').innerHTML += str;
+				$("#replyCount").html(replyCount);
 			}
 		}
-		
-		//답글창
-		 $(document).on("click", ".reReplyBtn", function(){
-	        console.log("답글");
-	        console.log(this);
-			const input = this.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.nextElementSibling;
-			console.log(input);
-			
-			if(input.style.display == 'none') {
-	        	input.style.display = 'inline';
-	        } else {
-	        	input.style.display = 'none';
-	        }
-	     });
-
 		
 			
 		//카카오톡 공유하기
@@ -1002,38 +1400,9 @@
 		}
 		
 		
+		
 	</script>
-	
-	<script>
-	var latitude = "", longitude = "";
-    
-    window.onload = function() {
-    	if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(onSuccess, onError);
-        } else {
-            latitude = "", longitude = "";
-        }	
-    }
-    
-    function onSuccess(position) {
-    	latitude = position.coords.latitude;
-        longitude = position.coords.longitude;
-        console.log("위도 : "  +latitude);
-        console.log("경도 : "  +longitude);
-		document.getElementById("result").innerHTML = "<p>성공</p>";
-    }
-    
-    function onError() {
-    	latitude ="N/A";
-    	longitude = "N/A";
-        document.getElementById("result").innerHTML = "<p>실패</p>";
-    }
-    
-    document.getElementById("lat").value = latitude;
-    document.getElementById("long").value = longitude;
-    
-    
-</script>
+   
 	
 </body>
 </html>

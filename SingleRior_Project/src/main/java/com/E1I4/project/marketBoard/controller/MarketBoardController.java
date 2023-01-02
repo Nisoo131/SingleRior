@@ -23,7 +23,6 @@ import com.E1I4.project.common.Pagination;
 import com.E1I4.project.common.exception.BoardException;
 import com.E1I4.project.common.model.vo.Attachment;
 import com.E1I4.project.common.model.vo.PageInfo;
-import com.E1I4.project.common.model.vo.ReReply;
 import com.E1I4.project.common.model.vo.Reply;
 import com.E1I4.project.common.model.vo.Report;
 import com.E1I4.project.common.model.vo.WishList;
@@ -288,7 +287,7 @@ public class MarketBoardController {
 			MarketBoard mkBoard = mkService.marketBoardSelect(bNo, yn);
 			ArrayList<Attachment> mkAList = mkService.selectAttm(strBNo);
 			ArrayList<Reply> mkRList = mkService.replySelect(bNo);
-			ArrayList<ReReply> mkRRList = mkService.reReplySelect(bNo);
+	
 			
 			Member m = new Member();
 			m.setMemberId(boardWriter);
@@ -300,7 +299,7 @@ public class MarketBoardController {
 			
 			System.out.println(boardWriter);
 			System.out.println(m);
-			System.out.println(profileAttm);
+			System.out.println(mkRList);
 			
 			if(mkBoard != null) {
 				
@@ -308,7 +307,6 @@ public class MarketBoardController {
 				model.addAttribute("mkAList", mkAList);
 				model.addAttribute("wishList", wishList);
 				model.addAttribute("mkRList", mkRList);
-				model.addAttribute("mkRRList", mkRRList);
 				model.addAttribute("reportSelect", reportSelect);
 				
 				
@@ -322,20 +320,24 @@ public class MarketBoardController {
 
 		//댓글 insert
 		@RequestMapping("replyInsert.ma")
-		public void replyInsert(@ModelAttribute Reply reply, HttpServletResponse response ) {
+		public void replyInsert(@ModelAttribute Reply reply, HttpSession session,HttpServletResponse response ) {
+			System.out.println("댓글"+reply);
+			String id = ((Member)session.getAttribute("loginUser")).getMemberId();
+			reply.setMemberId(id);
 			int result = mkService.replyInsert(reply);
 			int bNo = reply.getBoardNo();
 			int result1 = mkService.replyCount(bNo);
-			ArrayList<Reply> r= mkService.replySelect(bNo);
+			System.out.println("댓글"+reply);
+			ArrayList<Reply> mkRList= mkService.replySelect(bNo);
+			System.out.println("댓글"+mkRList);
 			
-			System.out.println(r);
 			response.setContentType("application/json; charset=UTF-8");
 			GsonBuilder gb = new GsonBuilder();
 			GsonBuilder gb2 =  gb.setDateFormat("yyyy-MM-dd");
 			Gson gson = gb2.create();
 			
 			try {
-				gson.toJson(r, response.getWriter());
+				gson.toJson(mkRList, response.getWriter());
 			} catch (JsonIOException | IOException e) {
 				e.printStackTrace();
 			}
@@ -392,27 +394,7 @@ public class MarketBoardController {
 		}
 		
 		
-		//대댓글 insert
-		@RequestMapping("reReplyInsert.ma")
-		public void reReplyInsert(@ModelAttribute ReReply reReply, HttpServletResponse response, HttpSession session ) {
-			String id = ((Member)session.getAttribute("loginUser")).getMemberId();
-			System.out.println(reReply);
-			reReply.setMemberId(id);
-			int result = mkService.reReplyInsert(reReply);
-			response.setContentType("application/json; charset=UTF-8");
-			ArrayList<ReReply> mkRRList= mkService.reReplySelect(reReply.getBoardNo());
-			GsonBuilder gb = new GsonBuilder();
-			GsonBuilder gb2 =  gb.setDateFormat("yyyy-MM-dd");
-			Gson gson = gb2.create();
-
-			try {
-				gson.toJson(mkRRList, response.getWriter());
-			} catch (JsonIOException | IOException e) {
-				e.printStackTrace();
-			}
-
-		
-		}
+	
 
 		//좋아요 Insert
 		@RequestMapping("marketLike.ma")

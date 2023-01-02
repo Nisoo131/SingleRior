@@ -7,7 +7,7 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style>
-li a:hover {
+.marketNav li a:hover {
 	font-size: 20px;
 }
 
@@ -24,7 +24,7 @@ li a:hover {
 	font-family: 'BMJUA';
 }
 
-li a:hover {
+.marketNav li a:hover {
 	font-size: 20px;
 }
 </style>
@@ -45,7 +45,7 @@ li a:hover {
 		</div>
 	</header>
 	<div style="background: #008cd4">
-		<ul class="nav justify-content-center">
+		<ul class="marketNav nav justify-content-center">
 			<li class="nav-item"><a style="color: white;" class="nav-link active" href="marketNotiBoardList.ma?marketType=3&marketArray=${marketArray}&searchType=${searchType}&marketSear">공지</a></li>
 			<li class="nav-item"><a style="color: white;" class="nav-link active" aria-current="page" href="marketBoardList.ma?marketType=1&marketArray=${marketArray}&searchType=${searchType}&marketSearch=${marketSearch}">같이사요</a></li>
 			<li class="nav-item"><a style="color: white;" class="nav-link active" href="marketBoardList.ma?marketType=2&marketArray=${marketArray}&searchType=${searchType}&marketSearch=${marketSearch}">팝니다</a></li>

@@ -222,6 +222,7 @@
 		<result column="NICKNAME" property="nickName"/>
 		<result column="REPORT_STATUS" property="reportStatus"/>
 		<result column="IMG_SERVER_NAME" property="profileImg"/>
+		<result column="GROUP_NO" property="groupNo"/>
 	</resultMap>
 	
 	<resultMap type="ReReply" id="reReplyResultSet">
@@ -241,30 +242,25 @@
 	
 	<insert id="replyInsert">
 		insert into reply
-		values(seq_rid.nextval, #{replyContent}, sysdate, sysdate, #{replySecret}, default, #{memberId}, #{boardNo},default)
+		values(seq_rid.nextval, #{replyContent}, sysdate, sysdate, #{replySecret}, default, #{memberId}, #{boardNo},default,
+		<if test="groupNo ==0">
+		seq_rid.currval)
+		</if>
+		<if test="groupNo !=0">
+		#{groupNo})
+		</if>
+		
 	</insert>
 	
 	<select id="replySelect" resultMap="replyResultSet">
-		select REPLY_NO,REPLY_CONTENT,REPLY_CREATE_DATE,REPLY_MODIFY_DATE,RE_SECRET,REPLY_STATUS,r.MEMBER_ID,BOARD_NO,REPORT_STATUS,NICKNAME,IMG_SERVER_NAME
+		select REPLY_NO,REPLY_CONTENT,REPLY_CREATE_DATE,REPLY_MODIFY_DATE,RE_SECRET,REPLY_STATUS,r.MEMBER_ID,BOARD_NO,REPORT_STATUS,NICKNAME,IMG_SERVER_NAME,GROUP_NO
 		from reply r
 			left join member m on(r.MEMBER_ID = m.MEMBER_ID)
 			left join IMG_REPOSITORY on(IMG_KEY = m.MEMBER_ID)
 		where BOARD_NO=#{boardNo} and REPLY_STATUS = 'Y'
-		order by reply_no desc
+		order by reply_no 
 	</select>
 	
-	<insert id="reReplyInsert">
-		insert into RE_REPLY
-		values(seq_rrid.nextval, #{reReplyContent}, sysdate, sysdate, #{reReplySecret}, default, #{replyNo},#{memberId}, #{boardNo},default)
-	</insert>
-	
-	<select id="reReplySelect" resultMap="reReplyResultSet">
-		select *
-		from RE_REPLY r
-			join member m on(r.MEMBER_ID = m.MEMBER_ID)
-		where board_no = #{boardNo} and RE_REPLY_STATUS = 'Y'
-		order by reply_no desc
-	</select>
 	
 	<update id="boardUpdate">
 		update board

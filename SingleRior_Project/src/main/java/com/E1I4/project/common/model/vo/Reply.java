@@ -25,6 +25,7 @@ public class Reply {
 	private String nickName;
 	private String reportStatus;
 	private String profileImg;
+	private int	groupNo;
 //	private String boardTitle;
 //	private int boardType;
 }
