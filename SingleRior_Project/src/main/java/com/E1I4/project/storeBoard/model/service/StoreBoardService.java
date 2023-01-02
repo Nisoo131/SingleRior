@@ -18,35 +18,36 @@ import com.E1I4.project.storeBoard.model.vo.StoreBoard;
 
 public interface StoreBoardService {
 
-	int getStoreListCount(HashMap<String, Integer> map);
+   int getStoreListCount(HashMap<String, Integer> map);
 
-	ArrayList<StoreBoard> selectStoreBoardList(PageInfo pi, HashMap<String, Integer> map);
+   ArrayList<StoreBoard> selectStoreBoardList(PageInfo pi, HashMap<String, Integer> map);
 
-	Attachment selectAttmList(int bNo);
+   Attachment selectAttmList(int bNo);
 
-	ArrayList<StoreBoard> selectProduct(int productNo, int boardNo);
+   ArrayList<StoreBoard> selectProduct(int productNo, int boardNo);
 
-	int wishListOn(WishList wl);
+   int wishListOn(WishList wl);
 
-	int wishListOff(WishList wl);
-	
-	int wishListCount(WishList wl);
+   int wishListOff(WishList wl);
+   
+   int wishListCount(WishList wl);
 
-	int insertCart(Cart cart);
+   int insertCart(Cart cart);
 
-	int insertInquiry(ProductInquiry productInquiry); 
+   int insertInquiry(ProductInquiry productInquiry); 
 
-	int InquiryCount(ProductInquiry pi);
+   int InquiryCount(ProductInquiry pi);
 
-	ArrayList<ProductInquiry> selectInquiryList(int productNo);
+   ArrayList<ProductInquiry> selectInquiryList(int productNo);
 
-	Member getUserInfo(String id);
+   Member getUserInfo(String id);
 
-	OrderItem getCartInfo(int i);
+   OrderItem getCartInfo(int i);
 
-	String getImgRename(String boardNo);
+   String getImgRename(String boardNo);
 
-	int InsertOrderProduct(OrderResult r);
+   int InsertOrderProduct(OrderResult r);
+
 
 	Cart selectCartInfo(int i);
 
@@ -57,42 +58,52 @@ public interface StoreBoardService {
 
 
 
-	int getMoreInquiryCount(int productNo);
+   Cart selectCartInfo(int i);
 
 
-	ArrayList<ProductInquiry> selectMoreInquiryList(PageInfo pi, int productNo);
+   int insertProductDetail(Cart cart);
 
-	ArrayList<ProductReview> selectReviewList(int productNo);
-
-
-	
+   int deleteCart(Cart cart);
 
 
 
 
-
-	
-
+   int getMoreInquiryCount(int productNo);
 
 
+   ArrayList<ProductInquiry> selectMoreInquiryList(PageInfo pi, int productNo);
+
+   ArrayList<ProductReview> selectReviewList(int productNo);
 
 
-
-
+   
 
 
 
 
 
-
-
-	
-
+   
 
 
 
-	
 
-	
+
+
+
+
+
+
+
+
+
+
+   
+
+
+
+
+   
+
+   
 
 }

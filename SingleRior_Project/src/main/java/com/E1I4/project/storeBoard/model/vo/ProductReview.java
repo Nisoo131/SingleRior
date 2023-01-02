@@ -19,7 +19,7 @@ public class ProductReview {
 	private int reviewNo;
 	private String reviewContent;
 	private Date reviewDate;
-	private int reviewRating;
+	private double reviewRating;
 	private int orderDetailNo;
 	private String imgServerName;
 	private String productOption;
