@@ -60,7 +60,35 @@
       }
       #moreInquiry{float:right; cursor:pointer}
       #moreInquiry:hover{text-decoration:underline;}
+      #moreReview{float:right; cursor:pointer}
+      #moreReview:hover{text-decoration:underline;}
+      
+      
       .reviewTable td{padding:20px;}
+      
+	      .starView {
+		position: relative;
+		font-size: 2rem;
+		color: #ddd;
+		}
+		
+		.starView input {
+		width: 100%;
+		height: 100%;
+		position: absolute;
+		left: 0;
+		opacity: 0;
+		cursor: pointer;
+		}
+		
+		.starView span {
+		width: 0;
+		position: absolute;
+		left: 0;
+		color: #008cd4;
+		overflow: hidden;
+		pointer-events: none;
+		}
     </style>
 
     
@@ -230,13 +258,54 @@
 	   	 <div id="review">
 	      <hr>
 	      <article class="blog-post" >
-	         <h2 class="blog-post-title mb-1" >리뷰 (개수)</h2>
-	        	<div class="star">
-		        	<h2 style="color:#008cd4">★★★★☆</h2>
-		        	<h2>4.0</h2>
+	         <h2 class="blog-post-title mb-1" >리뷰  ${trList[0].reviewCount }개</h2>
+	        	<br><br>
+		        	<div class="reviewContent">
+							<h2>총점 : <span class="reviewRatingTable badge badge rounded-pill text-bg-danger" style="font-size: 1rem; ">★${ trList[0].avgStar }</span></h2>
+							<%-- <div>별점 : 
+								<c:if test="${ '0'<trList[0].avgStar<'0.5'}"><span class="starView">★★★★★<span>★★★★★</span><input class="starViewValue" type="range" value="0"></span></c:if>
+								<c:if test="${'0.5'<=trList[0].avgStar <'1'}"><span class="starView">★★★★★<span>★★★★★</span><input class="starViewValue" type="range" value="1"></span></c:if>
+								<c:if test="${'1'<trList[0].avgStar<='1.5'}"><span class="starView">★★★★★<span>★★★★★</span><input class="starViewValue" type="range" value="2"></span></c:if>
+								<c:if test="${'1.5'<trList[0].avgStar<='2'}"><span class="starView">★★★★★<span>★★★★★</span><input class="starViewValue" type="range" value="3"></span></c:if>
+								<c:if test="${'2'<trList[0].avgStar<='2.5'}"><span class="starView">★★★★★<span>★★★★★</span><input class="starViewValue" type="range" value="4"></span></c:if>
+								<c:if test="${'2.5'<trList[0].avgStar<='3'}"><span class="starView">★★★★★<span>★★★★★</span><input class="starViewValue" type="range" value="5"></span></c:if>
+								<c:if test="${'3'<trList[0].avgStar<='3.5'}"><span class="starView">★★★★★<span>★★★★★</span><input class="starViewValue" type="range" value="6"></span></c:if>
+								<c:if test="${'3.5'<trList[0].avgStar<='4'}"><span class="starView">★★★★★<span>★★★★★</span><input class="starViewValue" type="range" value="7"></span></c:if>
+								<c:if test="${'4'<trList[0].avgStar<='4.5'}"><span class="starView">★★★★★<span>★★★★★</span><input class="starViewValue" type="range" value="8"></span></c:if>
+								<c:if test="${'4.5'<trList[0].avgStar<'5'}"><span class="starView">★★★★★<span>★★★★★</span><input class="starViewValue" type="range" value="9"></span></c:if>
+							</div> --%>
+							
+		        	
+		        	
+		        	
+		        	
+		        	
 		        </div> 
-		        
-						 <c:forEach items="${prList}" var="pr" begin="1" end="5">
+		        <br><br>
+		        		<c:if test="${fn:length(prList)<6}">
+						 <c:forEach items="${prList}" var="pr">
+						  <table class="reviewTable">
+						 <tr>
+						 	<td>
+						 	<img src="${ contextPath }/resources/uploadFiles/${pr.imgServerName}" width="160" class="img">
+						 	</td>
+						 	<td>
+						 	<span><b>${pr.nickName }</b>의 리뷰</span><br><br>
+						 	<span>${pr.reviewContent}</span><br><br>
+						 	<span>${pr.productOption}&nbsp;&nbsp;&nbsp;</span><br>
+						 	<span>작성일 : ${pr.reviewDate }&nbsp;&nbsp;&nbsp;</span>
+						 	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						 	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						 	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						 	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						 	<span class="reviewRatingTable badge badge rounded-pill text-bg-danger" style="font-size: 1rem; float: right;">★${ pr.reviewRating }</span>
+						 	</td>
+						 </tr>
+						 </table>
+						</c:forEach>
+						 </c:if>
+						 <c:if test="${fn:length(prList)>5}">
+						 <c:forEach items="${prList}" var="pr" begin="0" end="4">
 						 <table class="reviewTable">
 						 <tr>
 						 	<td>
@@ -256,22 +325,16 @@
 						 </tr>
 						 </table>
 						</c:forEach>
-					
-		        
+						<div id="moreReview">더보기</div><br>
+					</c:if>
+		         
 	       </article>
 	       
-	       
-	       
-	       
-	       
 	      </div>
+	     
 	      </c:if>
 	      <c:if test="${empty prList}">
-	      	 <h2 class="blog-post-title mb-1" >상품에 대한 리뷰가 아직 없습니다 ㅜ.ㅜ </h2>
-	        	<div class="star">
-		        	<h2 style="color:#008cd4">☆☆☆☆☆</h2>
-		        	<h2>0.0</h2>
-		        </div> 
+	    <div style="text-align:center;"><h2>상품에 대한 리뷰가 아직 없습니다 ㅜ.ㅜ</h2><br><img src="${contextPath}/resources/image/reviewZero.jpg" width="200" ></div>
 	      
 	      </c:if>
 	       <hr>
@@ -633,6 +696,21 @@
 //     		console.log(productNo);
     		location.href='${contextPath}/moreInquiry.st?productNo=' + productNo;
     	})
+    	var moreReview = document.getElementById("moreReview");
+    	moreReview.addEventListener("click",function(){
+    		var productNo = '${pList[0].productNo}';
+//     		console.log(productNo);
+    		location.href='${contextPath}/moreReview.st?productNo=' + productNo;
+    	})
+    	
+    	
+    	
     }
+</script>
+<script>
+const drawStar = (target) => {
+	  document.querySelector(`.star span`).style.width = `${target.value * 10}%`;
+	}
+
 </script>
 </html>

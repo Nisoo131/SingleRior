@@ -19,6 +19,7 @@ import com.E1I4.project.storeBoard.model.vo.OrderItem;
 import com.E1I4.project.storeBoard.model.vo.OrderResult;
 import com.E1I4.project.storeBoard.model.vo.ProductReview;
 import com.E1I4.project.storeBoard.model.vo.StoreBoard;
+import com.E1I4.project.storeBoard.model.vo.TotalReview;
 
 @Repository("sDAO")
 public class StoreBoardDAO {
@@ -129,6 +130,21 @@ public class StoreBoardDAO {
 
 	public int deleteCart(SqlSessionTemplate sqlSession, Cart cart) {
 		return sqlSession.delete("storeMapper.deleteCart", cart);
+	}
+
+	public ArrayList<TotalReview> selectTotalReview(SqlSessionTemplate sqlSession, int productNo) {
+		return (ArrayList)sqlSession.selectList("storeMapper.selectTotalReview",productNo);
+	}
+
+	public int getMoreReviewCount(SqlSessionTemplate sqlSession, int productNo) {
+		return sqlSession.selectOne("storeMapper.getMoreReviewCount", productNo);
+	}
+
+	public ArrayList<ProductReview> selectMoreReviewList(SqlSessionTemplate sqlSession, PageInfo pi, int productNo) {
+		int offset = (pi.getCurrentPage() -1) * pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		
+		return (ArrayList)sqlSession.selectList("storeMapper.selectMoreReviewList", productNo, rowBounds);
 	}
 
 

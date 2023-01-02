@@ -20,6 +20,7 @@ import com.E1I4.project.storeBoard.model.vo.OrderItem;
 import com.E1I4.project.storeBoard.model.vo.OrderResult;
 import com.E1I4.project.storeBoard.model.vo.ProductReview;
 import com.E1I4.project.storeBoard.model.vo.StoreBoard;
+import com.E1I4.project.storeBoard.model.vo.TotalReview;
 
 @Service("sService")
 public class StoreBoardServiceImpl implements StoreBoardService{
@@ -137,6 +138,21 @@ public class StoreBoardServiceImpl implements StoreBoardService{
 	@Override
 	public int deleteCart(Cart cart) {
 		return sDAO.deleteCart(sqlSession, cart);
+	}
+
+	@Override
+	public ArrayList<TotalReview> selectTotalReview(int productNo) {
+		return sDAO.selectTotalReview(sqlSession,productNo);
+	}
+
+	@Override
+	public int getMoreReviewCount(int productNo) {
+		return sDAO.getMoreReviewCount(sqlSession,productNo);
+	}
+
+	@Override
+	public ArrayList<ProductReview> selectMoreReviewList(PageInfo pi, int productNo) {
+		return sDAO.selectMoreReviewList(sqlSession,pi,productNo);
 	}
 
 

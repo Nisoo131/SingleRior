@@ -121,6 +121,17 @@ public class StoreBoardController {
 		
 		ArrayList<ProductInquiry> iList = sService.selectInquiryList(productNo);
 		ArrayList<ProductReview> prList=sService.selectReviewList(productNo);
+		//괜히 리스트로 받았네... TotalReview 객체로 받아도 상관없어용 ㅠㅠ 
+		ArrayList<TotalReview> trList=sService.selectTotalReview(productNo);
+		double reviewCount=trList.get(0).getReviewCount();
+		double sumStar=trList.get(0).getSumStar();
+		double avgResult=sumStar/reviewCount;
+		
+		
+		double avgStar=Math.round(avgResult*100)/100.0;
+		trList.get(0).setAvgStar(avgStar);
+		
+		
 		
 		if(iList != null) {
 		   model.addAttribute("iList", iList);
@@ -151,6 +162,8 @@ public class StoreBoardController {
 			model.addAttribute("count", result1);
 			model.addAttribute("piCount",result2);
 			model.addAttribute("prList",prList);
+			model.addAttribute("trList",trList);
+		
 			return "productDetail";
 			
 		} else {
@@ -180,6 +193,31 @@ public class StoreBoardController {
 		model.addAttribute("pi", pi);
 		
 		return "moreInquiry";
+	}
+	
+	//리뷰 더 보기
+	
+	@RequestMapping("moreReview.st")
+	public String moreReview(@RequestParam(value="page", required=false) Integer page,@RequestParam("productNo")  int productNo,Model model) {
+		
+		 int currentPage = 1;
+			if(page != null) {
+				currentPage = page; 
+			}
+		
+//			System.out.println(productNo);
+		int listCount = sService.getMoreReviewCount(productNo);
+		System.out.println(listCount);
+		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 5);
+		
+		ArrayList<ProductReview> prList = sService.selectMoreReviewList(pi,productNo);
+		
+		System.out.println(prList);
+		
+		model.addAttribute("prList", prList);
+		model.addAttribute("pi", pi);
+		
+		return "moreReview";
 	}
 	
 	// 상품 찜하기

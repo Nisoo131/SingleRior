@@ -15,6 +15,7 @@ import com.E1I4.project.storeBoard.model.vo.OrderItem;
 import com.E1I4.project.storeBoard.model.vo.OrderResult;
 import com.E1I4.project.storeBoard.model.vo.ProductReview;
 import com.E1I4.project.storeBoard.model.vo.StoreBoard;
+import com.E1I4.project.storeBoard.model.vo.TotalReview;
 
 public interface StoreBoardService {
 
@@ -62,6 +63,12 @@ public interface StoreBoardService {
    ArrayList<ProductInquiry> selectMoreInquiryList(PageInfo pi, int productNo);
 
    ArrayList<ProductReview> selectReviewList(int productNo);
+
+ArrayList<TotalReview> selectTotalReview(int productNo);
+
+int getMoreReviewCount(int productNo);
+
+ArrayList<ProductReview> selectMoreReviewList(PageInfo pi, int productNo);
 
 
    
