@@ -55,6 +55,7 @@ public interface StoreBoardService {
 
 	int deleteCart(Cart cart);
 
+
    int getMoreInquiryCount(int productNo);
 
 
