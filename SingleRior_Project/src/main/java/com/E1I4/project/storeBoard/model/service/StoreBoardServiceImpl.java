@@ -115,6 +115,11 @@ public class StoreBoardServiceImpl implements StoreBoardService{
 		return sDAO.getMoreInquiryCount(sqlSession, productNo);
 	}
 
+	@Override
+	public ArrayList<ProductInquiry> selectMoreInquiryList(PageInfo pi, int productNo) {
+		return sDAO.selectMoreInquiryList(sqlSession, productNo,pi);
+	}
+
 
 
 	

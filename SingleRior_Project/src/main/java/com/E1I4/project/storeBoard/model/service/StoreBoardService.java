@@ -50,6 +50,8 @@ public interface StoreBoardService {
 
 	int getMoreInquiryCount(int productNo);
 
+	ArrayList<ProductInquiry> selectMoreInquiryList(PageInfo pi, int productNo);
+
 	
 
 

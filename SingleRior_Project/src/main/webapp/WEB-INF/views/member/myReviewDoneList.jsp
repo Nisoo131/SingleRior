@@ -143,17 +143,17 @@
 								<c:if test="${rList[r.index].reviewRating == 4.5}"><span class="starView">★★★★★<span>★★★★★</span><input class="starViewValue" type="range" value="9"></span></c:if>
 								<c:if test="${rList[r.index].reviewRating == 5}"><span class="starView">★★★★★<span>★★★★★</span><input class="starViewValue" type="range" value="10"></span></c:if>
 							</div>
-							<div>구매후기 :  <span>${rList[r.index].reviewContent}</span></div>
-							<c:forEach items="${ attmList }" var="a">
-								<div>
+							<div style="width:200px">구매후기 :  <span>${rList[r.index].reviewContent}</span></div>
+								<div class="what">
+								<c:forEach items="${ attmList }" var="a">
 									<c:if test="${ rList[r.index].reviewNo eq a.imgKey }">
 										<c:if test="${ a.imgOriginalName != '' }">
 						 			   		<img class="reviewImg" src="resources/uploadFiles/${ a.imgRename }" width="200" height="200">
 						 			   		<input type="hidden" name="img" value="resources/uploadFiles/${ a.imgOriginalName }">
 					 			    	</c:if>
 									</c:if>
+								</c:forEach>
 				 			    </div>
-							</c:forEach>
 			 			    <div style="width: 200px;">
 			 			    	<button type="button" class="btn btn-light updateReview" style="background:#008cd4; color:white;" data-bs-toggle="modal" data-bs-target="#updateReviewModal">수정</button>
 			 			    	<button type="button" class="btn btn-light" style="background:#008cd4; color:white;" data-bs-toggle="modal" data-bs-target="#deleteReviewModal">삭제</button>
