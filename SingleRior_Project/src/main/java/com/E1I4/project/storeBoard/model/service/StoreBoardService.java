@@ -12,6 +12,7 @@ import com.E1I4.project.common.model.vo.WishList;
 import com.E1I4.project.member.model.vo.Member;
 import com.E1I4.project.storeBoard.model.vo.OrderItem;
 import com.E1I4.project.storeBoard.model.vo.OrderResult;
+import com.E1I4.project.storeBoard.model.vo.ProductReview;
 import com.E1I4.project.storeBoard.model.vo.StoreBoard;
 
 public interface StoreBoardService {
@@ -50,7 +51,11 @@ public interface StoreBoardService {
 
 	int getMoreInquiryCount(int productNo);
 
+
 	ArrayList<ProductInquiry> selectMoreInquiryList(PageInfo pi, int productNo);
+
+	ArrayList<ProductReview> selectReviewList(int productNo);
+
 
 	
 

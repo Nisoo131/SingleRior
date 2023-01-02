@@ -60,6 +60,7 @@
       }
       #moreInquiry{float:right; cursor:pointer}
       #moreInquiry:hover{text-decoration:underline;}
+      .reviewTable td{padding:20px;}
     </style>
 
     
@@ -225,18 +226,54 @@
 			   <img src="resources/uploadFiles/${ pList[1].imgServerName }" width="100%" height="100%">
 			   <img src="resources/uploadFiles/${ pList[2].imgServerName }" width="100%" height="100%">			  
 	   	 </article>
-	   	 
+	   	 <c:if test="${!empty prList }">
 	   	 <div id="review">
 	      <hr>
 	      <article class="blog-post" >
-	        <h2 class="blog-post-title mb-1" >리뷰 (개수)</h2>
+	         <h2 class="blog-post-title mb-1" >리뷰 (개수)</h2>
 	        	<div class="star">
 		        	<h2 style="color:#008cd4">★★★★☆</h2>
 		        	<h2>4.0</h2>
-		        </div>
+		        </div> 
+		        
+						 <c:forEach items="${prList}" var="pr">
+						 <table class="reviewTable">
+						 <tr>
+						 	<td>
+						 	<img src="${ contextPath }/resources/uploadFiles/${pr.imgServerName}" width="160" class="img">
+						 	</td>
+						 	<td>
+						 	<span><b>${pr.nickName }</b>의 리뷰</span><br><br>
+						 	<span>${pr.reviewContent}</span><br><br>
+						 	<span>${pr.productOption}&nbsp;&nbsp;&nbsp;</span><br>
+						 	<span>작성일 : ${pr.reviewDate }&nbsp;&nbsp;&nbsp;</span>
+						 	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						 	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						 	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						 	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						 	<span class="reviewRatingTable badge badge rounded-pill text-bg-danger" style="font-size: 1rem; float: right;">★${ pr.reviewRating }</span>
+						 	</td>
+						 </tr>
+						 </table>
+						</c:forEach>
+					
+		        
 	       </article>
+	       
+	       
+	       
+	       
+	       
 	      </div>
+	      </c:if>
+	      <c:if test="${empty prList}">
+	      	 <h2 class="blog-post-title mb-1" >상품에 대한 리뷰가 아직 없습니다 ㅜ.ㅜ </h2>
+	        	<div class="star">
+		        	<h2 style="color:#008cd4">☆☆☆☆☆</h2>
+		        	<h2>0.0</h2>
+		        </div> 
 	      
+	      </c:if>
 	       <hr>
 	       
 	   <!-- 문의하기 -->
