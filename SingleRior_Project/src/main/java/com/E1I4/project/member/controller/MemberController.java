@@ -938,13 +938,14 @@ public class MemberController {
 		
 		review.setMemberId(id);
 		
-		System.out.println(review.getReviewNo());
-		System.out.println(review.getBoardNo());
-		System.out.println(review.getReviewContent());
-		System.out.println(review.getMemberId());
-		System.out.println(review.getOrderDetailNo());
-		System.out.println(review.getReviewRating());
-		System.out.println(review.getImgRename());
+		System.out.println("리뷰넘버 : " + review.getReviewNo());
+		System.out.println("보드넘버 : " + review.getBoardNo());
+		System.out.println("리뷰내용 : " + review.getReviewContent());
+		System.out.println("user : " + review.getMemberId());
+		System.out.println("주문디테일넘버 : " + review.getOrderDetailNo());
+		System.out.println("별점 : " + review.getReviewRating());
+		System.out.println("이미지 이름 : " + review.getImgRename());
+		System.out.println("deleteAttm : " + deleteAttm);
 		
 		// 기존에 첨부된 사진을 삭제한다고 한 경우
 		if(deleteAttm.equals("0")) {
@@ -952,12 +953,15 @@ public class MemberController {
 			deleteFile(review.getImgRename(), request);
 		}
 		
+		System.out.println("새로 들어왔다면 들어온 파일" + file);
+		
 		// 새로운 리뷰 사진 등록
-		if(file != null) {
+		String fileName = file.getOriginalFilename();
+		
+		if(fileName != "") {
 			Attachment attm = new Attachment();
 			
-			String fileName = file.getOriginalFilename();
-			System.out.println(fileName);
+			System.out.println("새로 들어온 파일 이름" + fileName);
 			if(!fileName.equals("")) {
 				String fileType = fileName.substring(fileName.lastIndexOf(".")+1).toLowerCase();
 				
@@ -973,7 +977,7 @@ public class MemberController {
 				}
 			}
 			
-			System.out.println(attm);
+//			System.out.println(attm);
 			
 			String strBNo = Integer.toString(review.getReviewNo());
 			

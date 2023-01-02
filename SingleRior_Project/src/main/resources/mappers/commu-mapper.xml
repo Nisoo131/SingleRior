@@ -128,7 +128,10 @@
 		</if>
 		
 		<!-- 검색 (Search) -->
-		<if test="commuSearch != null and searchType != 0">
+		<if test="commuSearch != null">
+			<if test="searchType == 0">
+			and ((BOARD_TITLE LIKE '%'||#{commuSearch}||'%') or (BOARD_CONTENT LIKE '%'||#{commuSearch}||'%') or (nickName LIKE '%'||#{commuSearch}||'%'))
+			</if>
 			<if test="searchType == 1">
 			and (BOARD_TITLE LIKE '%'||#{commuSearch}||'%')
 			</if>
@@ -246,7 +249,7 @@
 			left join member m on (r.MEMBER_ID = m.MEMBER_ID)
 			left join IMG_REPOSITORY on (IMG_KEY = m.MEMBER_ID)
 		where BOARD_NO = #{boardNo} and REPLY_STATUS = 'Y'
-		order by reply_no desc
+		order by reply_no
 	</select>
 	
 	<!-- 댓글 등록 (insert) -->

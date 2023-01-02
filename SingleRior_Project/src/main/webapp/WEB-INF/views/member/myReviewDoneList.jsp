@@ -328,7 +328,7 @@
 		console.log("oriImgName : " + oriImgName);
 		
 		document.getElementById("reviewRating").value = reviewRating;
-		document.getElementById("starNum").value = reviewRating;
+		document.getElementById("starNum").value = reviewRating/2;
 		document.querySelector('.star span').style.width = document.querySelector('#reviewRating').value * 10 + '%';
 		
 		document.getElementById("reviewContent").innerText = reviewContent;
@@ -338,6 +338,12 @@
 		document.getElementById("productNo").value = productNo;
 		document.getElementById("boardNo").value = boardNo;
 		document.getElementById("reviewNo").value = reviewNo;
+		
+		console.log(document.getElementById("orderDetailNo").value);
+		console.log(document.getElementById("orderNo").value);
+		console.log(document.getElementById("productNo").value);
+		console.log(document.getElementById("boardNo").value);
+		console.log(document.getElementById("reviewNo").value);
 		
 		if(($('#deleteAttm').text() === "삭제 X") && ($('#deleteAttm').css('display') === 'none')){ // 원래 리뷰 사진이 없는 경우 -> 사진 첨부 가능
 			document.getElementById("file").removeAttribute('disabled');
