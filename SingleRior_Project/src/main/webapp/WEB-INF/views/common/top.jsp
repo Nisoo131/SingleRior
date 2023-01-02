@@ -175,7 +175,7 @@
 						url: '${ contextPath }/msgAlarm.cm',
 						success: (data) => {
 							if(data>0){
-								console.log(document.getElementById('msgBox'))
+								
 								document.getElementById('msgBox').style.display = 'block';
 								document.getElementById('msgBox').innerText = "+ " + data;
 							}
