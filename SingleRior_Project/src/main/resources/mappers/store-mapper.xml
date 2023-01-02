@@ -195,5 +195,19 @@
 		set board_count = board_count + 1
 		where board_no = #{boardNo}
    </update>
+   
+   <insert id="InsertOrderProduct">
+   	    insert into order_product
+        values (SEQ_OID.nextval, #{recipient}, #{address}, #{recipient_phone}, sysdate, #{finalPrice}, #{memberId}, default, #{deliveryMsg})
+   
+   </insert>
+   
+   <select id="getProductInfo" resultMap="OrderItemResultSet">
+   	select *
+	from cart
+	where product_no = #{i}
+   </select>
+   
+   
  
 </mapper>

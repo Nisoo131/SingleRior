@@ -2,7 +2,6 @@ package com.E1I4.project.storeBoard.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
@@ -26,6 +25,7 @@ import com.E1I4.project.common.model.vo.WishList;
 import com.E1I4.project.member.model.vo.Member;
 import com.E1I4.project.storeBoard.model.service.StoreBoardService;
 import com.E1I4.project.storeBoard.model.vo.OrderItem;
+import com.E1I4.project.storeBoard.model.vo.OrderResult;
 import com.E1I4.project.storeBoard.model.vo.StoreBoard;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -256,29 +256,58 @@ public class StoreBoardController {
 	}
 	
 	
-	// 결제정보 처리
+	// 결제정보 DB 입력하기
 	@RequestMapping("orderResult.st")
 	public String orderResult(@RequestParam(value="recipient", required=false) String recipient,
-						@RequestParam(value="recipient_phone", required=false) String recipient_phone,
-						@RequestParam(value="address", required=false) String address,
-						@RequestParam(value="address_detail", required=false) String address_detail,
-						@RequestParam(value="deliveryMsg", required=false) String deliveryMsg,
-						@RequestParam(value="memberName", required=false) String memberName,
-						@RequestParam(value="email", required=false) String email,
-						@RequestParam(value="buyer_phone", required=false) String buyer_phone,
-						@RequestParam(value="Arr", required=false) List<Integer> pNoArr[],
-						HttpSession session, Model model) {
-		System.out.println(recipient);
-		System.out.println(recipient_phone);
-		System.out.println(address);
-		System.out.println(address_detail);
-		System.out.println(deliveryMsg);
-		System.out.println(memberName);
-		System.out.println(email);
-		System.out.println(buyer_phone);
-		System.out.println(pNoArr);
+								@RequestParam(value="recipient_phone", required=false) String recipient_phone,
+								@RequestParam(value="address", required=false) String address,
+								@RequestParam(value="address_detail", required=false) String address_detail,
+								@RequestParam(value="deliveryMsg", required=false) String deliveryMsg,
+								@RequestParam(value="memberName", required=false) String memberName,
+								@RequestParam(value="email", required=false) String email,
+								@RequestParam(value="buyer_phone", required=false) String buyer_phone,
+								@RequestParam(value="finalPrice", required=false) int finalPrice,
+								@RequestParam(value="arr[]", required=false) ArrayList<Integer> pNoArr,
+								@RequestParam(value="pricesArr[]", required=false) ArrayList<String> pricesArr,
+								@ModelAttribute OrderItem orderList, HttpSession session, Model model) {
+		String id = ((Member)session.getAttribute("loginUser")).getMemberId();
+		
+//		System.out.println(recipient);
+//		System.out.println(recipient_phone);
+//		System.out.println(address);
+//		System.out.println(address_detail);
+//		System.out.println(deliveryMsg);
+//		System.out.println(memberName);
+//		System.out.println(email);
+//		System.out.println(buyer_phone);
+//		System.out.println(finalPrice);
+		System.out.println(pNoArr); 
+		System.out.println(pricesArr); 
 	
-		return null;
+		OrderResult r = new OrderResult();
+		r.setRecipient(recipient);
+		r.setAddress(address + address_detail);
+		r.setRecipient_phone(recipient_phone);
+        r.setMemberId(id);
+        r.setFinalPrice(finalPrice);
+        r.setDeliveryMsg(deliveryMsg);
+        
+        //System.out.println(r);
+        
+        int result = sService.InsertOrderProduct(r); 
+        
+        //productNo로 cart 내용 찾아오기
+        for(int i: pNoArr) {
+        	System.out.println(i);
+        	orderList = sService.getProductInfo(i);
+        	System.out.println(orderList);
+        	
+        	int result2 = sService.insertProductDetail(orderList);
+        }
+
+		return "orderResult";
 	}
+	
+	
 	
 }

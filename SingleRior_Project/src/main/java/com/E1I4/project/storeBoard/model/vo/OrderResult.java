@@ -13,15 +13,13 @@ import lombok.ToString;
 @ToString
 public class OrderResult {
  private String recipient;
+ private String address; //address+address_detail
  private String recipient_phone;
- private String address;
- private String address_detail;
+ private int finalPrice;
+ private String memberId;
  private String deliveryMsg;
  
- private String memberName;
- private String email;
- private String buyer_phone;
- 
+
 
 
 

@@ -10,6 +10,7 @@ import com.E1I4.project.common.model.vo.ProductInquiry;
 import com.E1I4.project.common.model.vo.WishList;
 import com.E1I4.project.member.model.vo.Member;
 import com.E1I4.project.storeBoard.model.vo.OrderItem;
+import com.E1I4.project.storeBoard.model.vo.OrderResult;
 import com.E1I4.project.storeBoard.model.vo.StoreBoard;
 
 public interface StoreBoardService {
@@ -41,6 +42,12 @@ public interface StoreBoardService {
 	OrderItem getCartInfo(int i);
 
 	String getImgRename(String boardNo);
+
+	int InsertOrderProduct(OrderResult r);
+
+	OrderItem getProductInfo(int i);
+
+	int insertProductDetail(OrderItem orderList);
 
 
 
