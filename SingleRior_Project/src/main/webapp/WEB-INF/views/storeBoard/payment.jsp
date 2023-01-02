@@ -131,7 +131,7 @@
  <!-- 상품정보 보내기 -->				   
 				    <form action="${ contextPath }/orderResult.st" method="post" class="order_form">
 				  	 <input type="hidden" name="productNo[]" value="${ o.productNo }">
-				   </form> 
+				    </form> 
 				   
 				       <table class="table">   
 					   <tr height="15">
@@ -159,7 +159,9 @@
 					        	 	</span>원 	
 					      	    </div>
 					      	    <c:set var="total" value="${ total + (discountPrice * o.productQty)}"/>
-					      	   
+					      	    <form action="${ contextPath }/orderResult.st" method="post" class="order_form">
+							  	 <input type="hidden" name="prices[]" value="${ discountPrice * o.productQty }">
+							    </form>   
 					      	</td>
 					   	</tr>
 					</table>
@@ -290,14 +292,22 @@
      	 // 구매자 기본정보
     	  var memberName = $('#b_name').val();
     	  var email = $('#b_email').val();
-    	  var buyer_phone = $('#b_phone').val(); 
+    	  var buyer_phone = $('#b_phone').val();
+    	  
 
     	  // 구매 상품 정보
    		  var arr=[];
    		  $.each($("input[name='productNo[]']"),function(k,v){
    			    arr[arr.length] = $(v).val();
    			});
-   		  console.log(arr);
+   		  //console.log(arr);
+   		  
+   		  // 상품단가*개수 = 주문상품별 가격
+   		   var pricesArr=[];
+   		  $.each($("input[name='prices[]']"),function(k,v){
+   			pricesArr[pricesArr.length] = $(v).val();
+   			});
+   		  console.log(pricesArr);
     	    
     	  console.log(memberName);
     	  console.log(email);
@@ -309,6 +319,7 @@
     	  console.log(address_detail);
 
     	  var amount = finalPrice;
+    	  console.log(finalPrice);
     	  
     	  var allData ={"memberName":memberName,
     			         "email":email,
@@ -318,7 +329,9 @@
     			         "address":address,
     			         "address_detail":address_detail,
     			         "deliveryMsg":deliveryMsg,
-    			         "arr":arr};  
+    			         "finalPrice":finalPrice,
+    			         "arr":arr,
+    			         "pricesArr":pricesArr};  
    	      IMP.request_pay({ 
    	          pg: "html5_inicis",
    	          pay_method: "card",

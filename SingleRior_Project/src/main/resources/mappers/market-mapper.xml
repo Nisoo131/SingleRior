@@ -69,8 +69,30 @@
 	
 	<select id="getMkListCount" resultType="_int">
 		select count(*)
-		from BOARD
+		from BOARD b
+			join market m on(m.board_no = b.board_no)
 		where BOARD_TYPE = '3' and B_STATUS = 'Y'
+				<if test="marketType > 0">
+			and m.MARKET_TYPE = #{marketType}
+		</if>
+		
+		<if test="marketSearch != null">
+			<if test=" searchType==1">
+			and (BOARD_TITLE LIKE '%'||#{marketSearch}||'%')
+			</if>
+			<if test=" searchType==2">
+			and (BOARD_CONTENT LIKE '%'||#{marketSearch}||'%')
+			</if>
+			<if test=" searchType==3">
+			and (BOARD_WRITER LIKE '%'||#{marketSearch}||'%')
+			</if>
+			<if test=" searchType==0">
+			and (BOARD_WRITER LIKE '%'||#{marketSearch}||'%')
+			or (BOARD_CONTENT LIKE '%'||#{marketSearch}||'%')
+			or (BOARD_TITLE LIKE '%'||#{marketSearch}||'%')
+			</if>
+		</if>
+		
 	</select>
 	
 	<select id="marketBoardList" parameterType="hashmap" resultMap="marketBoardResultSet">
@@ -96,8 +118,8 @@
 			</if>
 			<if test=" searchType==0">
 			and (BOARD_WRITER LIKE '%'||#{marketSearch}||'%')
-			and (BOARD_CONTENT LIKE '%'||#{marketSearch}||'%')
-			and (BOARD_TITLE LIKE '%'||#{marketSearch}||'%')
+			or (BOARD_CONTENT LIKE '%'||#{marketSearch}||'%')
+			or (BOARD_TITLE LIKE '%'||#{marketSearch}||'%')
 			</if>
 		</if>
 		

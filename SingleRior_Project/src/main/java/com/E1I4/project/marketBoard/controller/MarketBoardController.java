@@ -31,6 +31,8 @@ import com.E1I4.project.marketBoard.model.service.MarketBoardService;
 import com.E1I4.project.marketBoard.model.vo.MarketBoard;
 import com.E1I4.project.member.model.service.MemberService;
 import com.E1I4.project.member.model.vo.Member;
+import com.E1I4.project.notiBoard.model.service.NotiBoardService;
+import com.E1I4.project.notiBoard.model.vo.NotiBoard;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonIOException;
@@ -45,6 +47,9 @@ public class MarketBoardController {
 	
 	@Autowired
 	private MemberService mService;
+	
+	@Autowired
+	private NotiBoardService nService;
 	
 	//글리스트
 	@RequestMapping("marketBoardList.ma")
@@ -92,20 +97,49 @@ public class MarketBoardController {
 		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 12);
 		ArrayList<MarketBoard> mkBList = mkService.marketBoardList(pi, map);
 		ArrayList<Attachment> mkAList = mkService.attmListSelect();
-		
 		ArrayList<MarketBoard> topBList = mkService.marketTopList(map);
-	
+		
+		
 		if(mkBList != null) {
 			model.addAttribute("pi", pi);
 			model.addAttribute("mkBList", mkBList);
 			model.addAttribute("mkAList", mkAList);
 			model.addAttribute("topBList", topBList);
+			model.addAttribute("marketArray", marketArray);
+			model.addAttribute("marketType", marketType);
 			
 			return "marketBoardList";
 		} else {
 			throw new BoardException("게시글 조회 실패");
 		}
 	}
+	
+	//공지사항 리스트
+	@RequestMapping("marketNotiBoardList.ma")
+	public String selectNotiAllList(@RequestParam(value="page", required=false) Integer page, Model model) {
+	
+		String noticeCategory = "씽씽마켓";
+		
+		int currentPage = 1;
+		if(page != null && page > 1) {
+			currentPage = page;
+		}
+		
+		int listCount = nService.getNotiListCount(noticeCategory);
+		
+		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 10);
+		
+		ArrayList<NotiBoard> notiList = nService.selectNotiAllList(pi, noticeCategory);
+		
+		if(notiList != null) {
+			model.addAttribute("pi", pi);
+			model.addAttribute("notiList", notiList);
+			return "marketNotiBoardList";
+		} else {
+			throw new BoardException("게시글 목록 조회에 실패하였습니다.");
+		}
+	}
+	
 	
 	//글작성페이지
 	@RequestMapping("marketBoardWrite.ma")

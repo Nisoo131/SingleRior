@@ -33,10 +33,8 @@ import com.E1I4.project.common.model.vo.PageInfo;
 import com.E1I4.project.common.model.vo.Product;
 import com.E1I4.project.common.model.vo.ProductInquiry;
 import com.E1I4.project.common.model.vo.Reply;
-import com.E1I4.project.common.model.vo.Report;
 import com.E1I4.project.common.model.vo.Review;
 import com.E1I4.project.common.model.vo.WishList;
-import com.E1I4.project.commuBoard.model.vo.CommuBoard;
 import com.E1I4.project.member.model.service.KakaoLogin;
 import com.E1I4.project.member.model.service.MailSendService;
 import com.E1I4.project.member.model.service.MemberService;
@@ -81,7 +79,8 @@ public class MemberController {
 //			 System.out.println("로그인성공");
 			 return "redirect:/";
 		} else {
-			throw new MemberException("로그인에 실패하였습니다.");
+			model.addAttribute("msg", "로그인실패");
+			return "login";
 		}
 	}
 	
@@ -616,7 +615,7 @@ public class MemberController {
 //		System.out.println("구매확정" + listCount);
 		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 5);
 		
-		ArrayList<Order> oiList = mService.selectReviewNDoneList(pi,map);
+		ArrayList<Order> oiList = mService.selectCommonList(pi,map);
 		
 		
 //		System.out.println(map);
@@ -786,7 +785,7 @@ public class MemberController {
 
 		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 5);
 		
-		ArrayList<Order> orList = mService.selectReviewNDoneList(pi,map);
+		ArrayList<Order> orList = mService.selectCommonList(pi,map);
 
 		
 		ArrayList<Review> rList = new ArrayList<Review>();
@@ -852,7 +851,7 @@ public class MemberController {
 
 		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 5);
 		
-		ArrayList<Order> orList = mService.selectReviewNDoneList(pi,map);
+		ArrayList<Order> orList = mService.selectCommonList(pi,map);
 		
 		for (int i = 0; i<orList.size(); i++) {
 			String boardNo = Integer.toString(orList.get(i).getBoardNo());

@@ -15,6 +15,7 @@ import com.E1I4.project.common.model.vo.ProductInquiry;
 import com.E1I4.project.common.model.vo.WishList;
 import com.E1I4.project.member.model.vo.Member;
 import com.E1I4.project.storeBoard.model.vo.OrderItem;
+import com.E1I4.project.storeBoard.model.vo.OrderResult;
 import com.E1I4.project.storeBoard.model.vo.StoreBoard;
 
 @Repository("sDAO")
@@ -90,6 +91,18 @@ public class StoreBoardDAO {
 
 	public int addCount(SqlSessionTemplate sqlSession, int boardNo) {
 		return sqlSession.update("storeMapper.addCount", boardNo);
+	}
+
+	public int InsertOrderProduct(SqlSessionTemplate sqlSession, OrderResult r) {		
+		return sqlSession.insert("storeMapper.InsertOrderProduct", r);
+	}
+
+	public OrderItem getProductInfo(SqlSessionTemplate sqlSession, int i) {
+		return sqlSession.selectOne("storeMapper.getProductInfo", i);
+	}
+
+	public int insertProductDetail(SqlSessionTemplate sqlSession, OrderItem orderList) {
+		return sqlSession.insert("storeMapper.insertProductDetail", orderList);
 	}
 
 

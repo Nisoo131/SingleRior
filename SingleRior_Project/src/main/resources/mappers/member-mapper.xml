@@ -535,7 +535,7 @@
 		</if>
 	</select>
 	
-	<select id="selectReviewNDoneList" resultMap="orderResultSet">
+	<select id="selectCommonList" resultMap="orderResultSet">
 		select *
 		from order_detail od
 		join product using(product_no)

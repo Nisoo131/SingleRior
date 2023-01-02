@@ -97,8 +97,8 @@
 	  	<div class="p-3 border bg-light">
 	  		<table>
 	  			<tr>
-	  				<td style="font-size:25px;">${ pList[0].brand }</td>
-	  				<td width="250px"></td>
+	  				<td style="font-size:22px;">${ pList[0].brand }</td>
+	  				<td width="240px"></td>
 	  				<td>
 		  				 <c:if test="${ empty loginUser }">
 							<button type="button" class="btn btn-outline-danger wishListBtn" onclick="location.href='${contextPath}/loginView.me'">찜하기♥

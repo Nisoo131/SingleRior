@@ -117,7 +117,7 @@
 	<select id="selectBnAttmList" resultMap="attachmentResultSet">
 		select *
 		from IMG_REPOSITORY
-		where  IMG_B_TYPE = '6' and IMG_STATUS = 'Y' and IMG_LEVEL = 0
+		where IMG_B_TYPE = '6' and IMG_STATUS = 'Y' and IMG_LEVEL = 0
 	</select>
 	
 	<!-- 스토어 리스트 -->
@@ -217,5 +217,13 @@
 			and n.notice_category = '씽씽마켓'
 		</if>
 		order by b.create_date desc
+	</select>
+	
+	
+	<!-- 배너 본문 -->
+	<select id="selectBannerList" resultMap="attachmentResultSet">
+		select *
+		from IMG_REPOSITORY
+		where IMG_B_TYPE = '6' and IMG_STATUS = 'Y' and IMG_LEVEL = 1 and img_key = #{imgKey}
 	</select>
 </mapper>

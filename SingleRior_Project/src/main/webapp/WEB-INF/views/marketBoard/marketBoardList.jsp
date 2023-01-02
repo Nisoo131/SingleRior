@@ -46,9 +46,10 @@ li a:hover {
 	</header>
 	<div style="background: #008cd4">
 		<ul class="nav justify-content-center">
-			<li class="nav-item"><a style="color: white;" class="nav-link active" aria-current="page" href="marketBoardList.ma?marketType=1">같이사요</a></li>
-			<li class="nav-item"><a style="color: white;" class="nav-link active" href="marketBoardList.ma?marketType=2">팝니다</a></li>
-			<li class="nav-item"><a style="color: white;" class="nav-link active" href="marketBoardList.ma?marketType=3">삽니다</a></li>
+			<li class="nav-item"><a style="color: white;" class="nav-link active" href="marketNotiBoardList.ma?marketType=3&marketArray=${marketArray}&searchType=${searchType}&marketSear">공지</a></li>
+			<li class="nav-item"><a style="color: white;" class="nav-link active" aria-current="page" href="marketBoardList.ma?marketType=1&marketArray=${marketArray}&searchType=${searchType}&marketSearch=${marketSearch}">같이사요</a></li>
+			<li class="nav-item"><a style="color: white;" class="nav-link active" href="marketBoardList.ma?marketType=2&marketArray=${marketArray}&searchType=${searchType}&marketSearch=${marketSearch}">팝니다</a></li>
+			<li class="nav-item"><a style="color: white;" class="nav-link active" href="marketBoardList.ma?marketType=3&marketArray=${marketArray}&searchType=${searchType}&marketSearch=${marketSearch}">삽니다</a></li>
 		</ul>
 	</div>
 	<div id="today_special_price" class="carousel carousel-dark slide"
@@ -165,21 +166,21 @@ li a:hover {
 			  				<table>
 			  					<tr style="text-align: center; height: 35px;">
 			  						<td id="list1" >
-			  							<a class="nav-link active" href="marketBoardList.ma?marketArray=0&marketType=${marketType}">
+			  							<a class="nav-link active" href="marketBoardList.ma?marketArray=0&marketType=${marketType}&searchType=${searchType}&marketSearch=${marketSearch}">
 				  							<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-check-lg me-1" viewBox="0 0 16 16">
 				  								<path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022Z"/>
 				  							</svg>최신순
 			  							</a>
 			  						</td>
 			  						<td id="list2" >
-			  							<a class="nav-link active" href="marketBoardList.ma?marketArray=1&marketType=${marketType}">
+			  							<a class="nav-link active" href="marketBoardList.ma?marketArray=1&marketType=${marketType}&searchType=${searchType}&marketSearch=${marketSearch}">
 				  							<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-check-lg me-1" viewBox="0 0 16 16">
 				  								<path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022Z"/>
 				  							</svg>좋아요순
 			  							</a>
 			  						</td>
 			  						<td id="list3">
-			  							<a class="nav-link active" href="marketBoardList.ma?marketArray=2&marketType=${marketType}">
+			  							<a class="nav-link active" href="marketBoardList.ma?marketArray=2&marketType=${marketType}&searchType=${searchType}&marketSearch=${marketSearch}">
 				  							<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-check-lg me-1" viewBox="0 0 16 16">
 				  								<path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022Z"/>
 				  							</svg>댓글순
@@ -292,6 +293,18 @@ li a:hover {
 <script>
 
 	window.onload = () => {
+		
+		//공지글 상세페이지
+		const trs1 = document.querySelectorAll('.notiList');
+		for(const tr of trs1){
+			tr.addEventListener('click', function(){
+				const bNo = this.querySelectorAll('input')[0].value;
+				const writer = this.querySelectorAll('input')[1].value;
+				location.href='${contextPath}/selectNotiBoard.no?bNo=' + bNo + '&writer=' + writer;
+			});
+		}
+		
+		
 		
 		//첫번째 슬라이드 상세페이지
 		const fiRcards = document.getElementsByClassName('carouselCardFir');

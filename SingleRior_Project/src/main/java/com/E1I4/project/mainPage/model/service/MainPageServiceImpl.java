@@ -86,4 +86,11 @@ public class MainPageServiceImpl implements MainPageService {
 	public ArrayList<NotiBoard> searchNotiList(String findKeyword) {
 		return mainDAO.searchNotiList(sqlSession, findKeyword);
 	}
+
+	
+	/* 배너 */
+	@Override
+	public ArrayList<Attachment> selectBannerList(String imgKey) {
+		return mainDAO.selectBannerList(sqlSession, imgKey);
+	}
 }

@@ -228,8 +228,8 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public ArrayList<Order> selectReviewNDoneList(PageInfo pi, HashMap<String, String> map) {
-		return mDAO.selectReviewNDoneList(sqlSession,pi,map);
+	public ArrayList<Order> selectCommonList(PageInfo pi, HashMap<String, String> map) {
+		return mDAO.selectCommonList(sqlSession,pi,map);
 	}
 
 	@Override

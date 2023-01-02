@@ -15,6 +15,7 @@ import com.E1I4.project.common.model.vo.WishList;
 import com.E1I4.project.member.model.vo.Member;
 import com.E1I4.project.storeBoard.model.dao.StoreBoardDAO;
 import com.E1I4.project.storeBoard.model.vo.OrderItem;
+import com.E1I4.project.storeBoard.model.vo.OrderResult;
 import com.E1I4.project.storeBoard.model.vo.StoreBoard;
 
 @Service("sService")
@@ -96,6 +97,21 @@ public class StoreBoardServiceImpl implements StoreBoardService{
 	@Override
 	public String getImgRename(String boardNo) {
 		return sDAO.getImgRename(sqlSession, boardNo);
+	}
+
+	@Override
+	public int InsertOrderProduct(OrderResult r){
+		return sDAO.InsertOrderProduct(sqlSession, r);
+	}
+
+	@Override
+	public OrderItem getProductInfo(int i) {
+		return sDAO.getProductInfo(sqlSession, i);
+	}
+
+	@Override
+	public int insertProductDetail(OrderItem orderList) {
+		return sDAO.insertProductDetail(sqlSession, orderList);
 	}
 
 
