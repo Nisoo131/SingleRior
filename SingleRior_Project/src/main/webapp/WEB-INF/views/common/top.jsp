@@ -34,6 +34,7 @@
 					<li class="nav-item"><a href="${contextPath}/enrollView.me" class="nav-link link-dark px-2">Sign up</a></li>
 				</c:if>
 				<c:if test = "${ !empty loginUser && loginUser.memberAuthority=='N'}">
+					<li class="nav-item  position-relative" ><i id="msgIcon" class="bi bi-envelope-fill" role="button" style="font-size:2rem; " onclick="location.href='${contextPath}/messageBox.cm'"><span style="font-size: 9px; display: none;" class="position-absolute top-50 start-100 translate-middle badge rounded-pill bg-danger" id="msgBox"></span></i></li>&nbsp;&nbsp;&nbsp;
 					<li class="nav-item"><i class="bi bi-cart-fill nav-link link-dark px-2" role="button" style="font-size:2rem;" onclick="location.href='${contextPath}/myCart.me'"></i></li>&nbsp;&nbsp;&nbsp;
 					<li class="nav-item dropdown-center">
 						<i class="bi bi-person-circle" style="font-size:2rem;" role="button" data-bs-toggle="dropdown" aria-expanded="false"></i>
@@ -44,6 +45,7 @@
 					</li>
 				</c:if>
 				<c:if test = "${ !empty loginUser && loginUser.memberAuthority=='Y' }">
+				<li class="nav-item"><i class="bi bi-envelope-fill" role="button" style="font-size:2rem;" onclick="location.href='${contextPath}/messageBox.cm'"></i></li>&nbsp;&nbsp;&nbsp;
 				<li class="nav-item"><i class="bi bi-cart-fill nav-link link-dark px-2" role="button" style="font-size:2rem;" onclick="location.href='${contextPath}/myCart.me'"></i></li>&nbsp;&nbsp;&nbsp;
 				<li class="nav-item dropdown-center">
 					<i class="bi bi-person-circle" style="font-size:2rem;" role="button" data-bs-toggle="dropdown" aria-expanded="false"></i>
@@ -164,6 +166,26 @@
       ChannelIO('boot', {
          "pluginKey" : "10a22f6a-22c4-4cd7-9a9f-d85a11e58ddb"
       });
+      
+      if(${ !empty loginUser }){
+    	  
+		setInterval(
+				function alarm() {
+					$.ajax({
+						url: '${ contextPath }/msgAlarm.cm',
+						success: (data) => {
+							if(data>0){
+								console.log(document.getElementById('msgBox'))
+								document.getElementById('msgBox').style.display = 'block';
+								document.getElementById('msgBox').innerText = "+ " + data;
+							}
+						},
+						error: (data) => {
+							console.log(data);
+						}
+					});
+			 	},1000);
+		 }
    </script>
 </body>
 </html>

@@ -51,4 +51,9 @@ public class CommonServiceImpl implements CommonService{
 		
 	}
 
+	@Override
+	public int msgAlarm(String nickName) {
+		return coDAO.msgAlarm(sqlSession, nickName);
+	}
+
 }

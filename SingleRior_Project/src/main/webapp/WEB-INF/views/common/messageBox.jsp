@@ -128,7 +128,7 @@
 		  <div class="modal-dialog modal-dialog-centered">
 		    <div class="modal-content">
 		      <div class="modal-header">
-				        <h1 class="modal-title fs-5" id="exampleModalToggleLabel2">MESSAGE</h1>
+				        <h1 class="modal-title fs-5" id="exampleModalToggleLabel2"><img style="width:40px; height: 40px; " alt="" src="resources/image/msg.png">&nbsp;&nbsp;MESSAGE</h1>
 				        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				    </div>
 		      <div class="modal-body" style="text-align: left">
@@ -153,7 +153,7 @@
 		  <div class="modal-dialog modal-dialog-centered">
 	 			<div class="modal-content">
 				   	<div class="modal-header">
-				        <h1 class="modal-title fs-5" id="exampleModalToggleLabel2">SEND MESSAGE</h1>
+				        <h1 class="modal-title fs-5" id="exampleModalToggleLabel2"><img style="width:40px; height: 40px; " alt="" src="resources/image/msg.png">&nbsp;&nbsp;SEND MESSAGE</h1>
 				        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				    </div>
 				 	<div class="modal-body" style="text-align: left">
@@ -189,7 +189,7 @@
 				msgNo = this.querySelectorAll('input')[0].value;
 				type = this.querySelectorAll('input')[1].value;
 				$.ajax({
-					url: '${contextPath}/selectMsg.me',
+					url: '${contextPath}/selectMsg.cm',
 					data: {
 							messageNo:msgNo,
 							msgType:type
@@ -226,7 +226,7 @@
 			const mNo = msgNo;
 			const msgType = type;
 			console.log(mNo);
-			location.href='${contextPath}/deleteMsg.me?mNo='+ mNo +'&msgType='+ msgType;
+			location.href='${contextPath}/deleteMsg.cm?mNo='+ mNo +'&msgType='+ msgType;
 		});
 		
 		
