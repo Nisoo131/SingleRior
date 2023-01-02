@@ -122,7 +122,6 @@ public class StoreBoardServiceImpl implements StoreBoardService{
 		return sDAO.selectMoreInquiryList(sqlSession, productNo,pi);
 	}
 
-	}
 	public ArrayList<ProductReview> selectReviewList(int productNo) {
 		return sDAO.selectReviewList(sqlSession,productNo);
 

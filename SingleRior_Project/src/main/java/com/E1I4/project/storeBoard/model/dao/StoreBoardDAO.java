@@ -115,7 +115,6 @@ public class StoreBoardDAO {
 		return (ArrayList)sqlSession.selectList("storeMapper.selectMoreInquiryList", productNo, rowBounds);
 	}
 		
-	}
 	public ArrayList<ProductReview> selectReviewList(SqlSessionTemplate sqlSession, int productNo) {
 		return (ArrayList)sqlSession.selectList("storeMapper.selectReviewList",productNo);
 
