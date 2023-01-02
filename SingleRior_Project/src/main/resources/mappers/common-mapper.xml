@@ -70,5 +70,10 @@
 		where RECEIVE_USER = #{nickName} and MESSAGE_NO = #{mNo}
 	</update>
 	
+	<select id="msgAlarm" resultType="_int">
+		select count(*)
+		from message
+    		where RECEIVE_USER = #{nickName} and MESSAGE_CHECK='N'
+	</select>
 	
 </mapper>

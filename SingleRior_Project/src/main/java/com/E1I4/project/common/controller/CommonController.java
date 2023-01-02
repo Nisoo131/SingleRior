@@ -98,7 +98,7 @@ public class CommonController {
 	}
 	
 	//메시지 상세보기
-	@RequestMapping("selectMsg.me")
+	@RequestMapping("selectMsg.cm")
 	@ResponseBody
 	public void selectMsg(@RequestParam("messageNo") int mNo, @RequestParam(value="msgType", required=false) Integer type,Model model, HttpServletResponse response,HttpSession session ) {
 		String nickName = ((Member)session.getAttribute("loginUser")).getNickName();
@@ -135,7 +135,7 @@ public class CommonController {
 	}
 	
 	// 메세지 삭제
-	@RequestMapping("deleteMsg.me")
+	@RequestMapping("deleteMsg.cm")
 	public String deleteMsg(@RequestParam("mNo") int mNo,@RequestParam(value="msgType", required=false) Integer type, HttpSession session) {
 		String nickName=((Member)session.getAttribute("loginUser")).getNickName();
 		int msgType=0;
@@ -156,6 +156,22 @@ public class CommonController {
 			throw new MemberException("쪽지 삭제 실패. 다시 시도해주세요");
 		}
 		
+	}
+	
+	@RequestMapping("msgAlarm.cm")
+	public void msgAlarm(HttpSession session, HttpServletResponse response) {
+		String nickName =((Member)session.getAttribute("loginUser")).getNickName();
+	
+		int result = coService.msgAlarm(nickName);
+		response.setContentType("application/json; charset=UTF-8");
+		GsonBuilder gb = new GsonBuilder();
+		Gson gson = gb.create();
+		
+		try {
+			gson.toJson(result, response.getWriter());
+		} catch (JsonIOException | IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 }

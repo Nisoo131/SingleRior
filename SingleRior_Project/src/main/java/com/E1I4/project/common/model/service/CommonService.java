@@ -22,5 +22,7 @@ public interface CommonService {
 	Message selectMsg(int mNo);
 
 	int updateCheck(Map<String, Object> map);
+
+	int msgAlarm(String nickName);
 	
 }

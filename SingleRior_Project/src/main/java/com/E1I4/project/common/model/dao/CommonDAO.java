@@ -40,4 +40,8 @@ int offset = (pi.getCurrentPage() - 1)*pi.getBoardLimit();
 		return sqlSession.update("commonMapper.updateCheck", map);
 	}
 
+	public int msgAlarm(SqlSessionTemplate sqlSession, String nickName) {
+		return sqlSession.selectOne("commonMapper.msgAlarm", nickName);
+	}
+
 }
