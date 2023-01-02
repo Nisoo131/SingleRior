@@ -176,11 +176,11 @@
 					  <div class="row row-cols-auto">
 					  	<table class="method">
 					  		<tr>
-					  			<td> <div class="col"><img src="https://cdn-icons-png.flaticon.com/512/3991/3991999.png" style="width:100px;height:100px;"></div></td>
+					  			<td><input type="checkbox" name="payment" value="카카오페이" src="https://cdn-icons-png.flaticon.com/512/3991/3991999.png" width=100px; height=100px; class="payment"></td>
 					  			<td class="space"></td>
-					  			<td> <div class="col"><img src="https://cdn-icons-png.flaticon.com/512/4614/4614153.png" style="width:100px;height:100px;"></div></td>
+					  			<td><input type="checkbox" name="payment" value="신용카드" src="https://cdn-icons-png.flaticon.com/512/4614/4614153.png" width=100px; height=100px; class="payment"></td>
 					  			<td class="space"></td>
-					  			<td> <div class="col"><img src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2Fdathdj%2FbtqCpPA7Ejb%2FjLbp8B6QOqMTxQ6RmqdGL0%2Fimg.jpg" style="width:100px;height:100px;"></div></td>
+					  			<td><input type="checkbox" name="payment" value="네이버페이" src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2Fdathdj%2FbtqCpPA7Ejb%2FjLbp8B6QOqMTxQ6RmqdGL0%2Fimg.jpg" width=100px; height=100px; class="payment"></td>
 					  		</tr>
 					  		<tr>
 					  			<td>카카오페이</td>
@@ -317,7 +317,11 @@
    			cartArr[cartArr.length] = $(v).val();
    			});
    		  console.log(cartArr);
-    	    
+   		  
+   		  // 결제정보 넘기기 
+   		/*   var payment = $('input[name=payment]:checked').val();
+    	  console.log(payment); */
+    	  
     	  console.log(memberName);
     	  console.log(email);
     	  console.log(buyer_phone);
@@ -341,7 +345,8 @@
     			         "finalPrice":finalPrice,
     			         "arr":arr,
     			         "pricesArr":pricesArr,
-    			         "cartArr":cartArr};  
+    			         "cartArr":cartArr};
+    	  console.log(allData);
     	  
    	      IMP.request_pay({ 
    	          pg: "html5_inicis",
@@ -355,12 +360,22 @@
 
    	      }, function (rsp) { // callback
    	          if (rsp.success) {
+   	        	      console.log(rsp);
+   	        	   var msg = '결제가 완료되었습니다.';
+	   				msg += '고유ID : ' + rsp.imp_uid;
+	   				msg += '상점 거래ID : ' + rsp.merchant_uid;
+	   				msg += '결제 금액 : ' + rsp.paid_amount;
+	   				msg += '카드 승인번호 : ' + rsp.apply_num;
+	   				
+	   	       //controller에 DB 넘기기
    	                    $.ajax({
 			            	  url: "${contextPath}/orderResult.st", 
 			            	  type: "post",
 			            	  data: allData,
+			            	        merchant_uid: rsp.merchant_uid,
 							  success: function(data){
-			  		              location.href="${contextPath}/orderResult.st";}
+			  		              location.href = "${contextPath}/orderResult.st";
+			  		    }
 		              })
    	              alert("결제성공");     
    	          } else {

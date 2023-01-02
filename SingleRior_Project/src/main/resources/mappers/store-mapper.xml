@@ -218,6 +218,7 @@
    <select id="selectCartInfo" resultMap="cartResultSet">
    	select *
 	from cart
+	join product using(product_no)
 	where cart_no=#{i} 
    </select>
    
@@ -236,6 +237,16 @@
 		<result column="BOARD_TITLE" property="boardTitle"/>
 		<result column="BOARD_NO" property="boardNo"/>
 	</resultMap>
+	
+	<insert id="insertProductDetail" >
+		insert into order_detail
+		values (SEQ_ODID.nextval, #{productNo} , '결제완료', #{quantity}, #{lastPrice}, #{productOption}, SEQ_OID.currval)
+	</insert> 
+	
+	<delete id="deleteCart">
+		delete from cart
+		where cart_no = #{cartNo}
+	</delete>
    
   
    

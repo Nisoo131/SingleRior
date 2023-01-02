@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.E1I4.project.common.model.vo.Attachment;
 import com.E1I4.project.common.model.vo.Cart;
+import com.E1I4.project.common.model.vo.OrderProductDetail;
 import com.E1I4.project.common.model.vo.PageInfo;
 import com.E1I4.project.common.model.vo.ProductInquiry;
 import com.E1I4.project.common.model.vo.WishList;
@@ -106,11 +107,21 @@ public class StoreBoardServiceImpl implements StoreBoardService{
 	}
 
 	@Override
-	public ArrayList<Cart> selectCartInfo(int i) {
+	public Cart selectCartInfo(int i) {
 		return sDAO.selectCartInfo(sqlSession, i);
 	}
 
+	@Override
+	public int insertProductDetail(Cart cart) {
+		return sDAO.insertProductDetail(sqlSession, cart);
+	}
 
+	@Override
+	public int deleteCart(Cart cart) {
+		return sDAO.deleteCart(sqlSession, cart);
+	}
+
+	
 
 	
 

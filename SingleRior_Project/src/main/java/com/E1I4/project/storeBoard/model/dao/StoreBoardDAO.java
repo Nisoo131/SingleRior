@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import com.E1I4.project.common.model.vo.Attachment;
 import com.E1I4.project.common.model.vo.Cart;
+import com.E1I4.project.common.model.vo.OrderProductDetail;
 import com.E1I4.project.common.model.vo.PageInfo;
 import com.E1I4.project.common.model.vo.ProductInquiry;
 import com.E1I4.project.common.model.vo.WishList;
@@ -97,9 +98,19 @@ public class StoreBoardDAO {
 		return sqlSession.insert("storeMapper.InsertOrderProduct", r);
 	}
 
-	public ArrayList<Cart> selectCartInfo(SqlSessionTemplate sqlSession, int i) {
-		return (ArrayList)sqlSession.selectList("storeMapper.selectCartInfo", i);
+	public Cart selectCartInfo(SqlSessionTemplate sqlSession, int i) {
+		return sqlSession.selectOne("storeMapper.selectCartInfo", i);
 	}
+
+	public int insertProductDetail(SqlSessionTemplate sqlSession, Cart cart) {
+		return sqlSession.insert("storeMapper.insertProductDetail", cart);
+	}
+
+	public int deleteCart(SqlSessionTemplate sqlSession, Cart cart) {
+		return sqlSession.delete("storeMapper.deleteCart", cart);
+	}
+
+
 
 
 
