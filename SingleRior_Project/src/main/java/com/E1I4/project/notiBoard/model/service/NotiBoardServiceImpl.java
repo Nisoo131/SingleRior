@@ -45,4 +45,5 @@ public class NotiBoardServiceImpl implements NotiBoardService{
 		return nDAO.selectCommuNotiList(sqlSession);
 	}
 
+
 }

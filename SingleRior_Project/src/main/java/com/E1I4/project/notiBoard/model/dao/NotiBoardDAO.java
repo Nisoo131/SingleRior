@@ -35,6 +35,5 @@ public class NotiBoardDAO {
 		return (ArrayList)sqlSession.selectList("notiMapper.selectCommuNotiList");
 	}
 
-	
 
 }

@@ -17,8 +17,14 @@
 	
 	<select id="getNotiListCount" resultType="_int">
 		select count(*)
-		from board
+		from board b
+		<if test="noticeCategory == '씽씽마켓'">
+			join notice n on (b.board_no = n.board_no)
+		</if>
 		where board_type = '4' and b_status = 'Y'
+		<if test="noticeCategory == '씽씽마켓'">
+			and n.notice_category = '씽씽마켓'
+		</if>
 	</select>
 	
 	<select id="selectNotiAllList" resultMap="NotiBoardResultSet">
@@ -58,6 +64,14 @@
 		from board b
 			 join notice n on (b.board_no = n.board_no)
 		where b_status = 'Y' and board_type = '4' and n.notice_category = '싱글벙글'
+		order by create_date desc
+	</select>
+	
+	<select id="selectMarketNotiList" resultMap="NotiBoardResultSet">
+		select *
+		from board b
+			 join notice n on (b.board_no = n.board_no)
+		where b_status = 'Y' and board_type = '4' and n.notice_category = '씽씽마켓'
 		order by create_date desc
 	</select>
 

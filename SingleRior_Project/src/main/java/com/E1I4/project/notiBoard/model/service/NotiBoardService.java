@@ -15,4 +15,5 @@ public interface NotiBoardService {
 
 	ArrayList<NotiBoard> selectCommuNotiList();
 
+
 }

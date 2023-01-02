@@ -161,6 +161,7 @@
 		
 		<div class="py-1 border-bottom fs-5" style="background-color: #008cd4; text-align: center;">
 			<ul class="nav justify-content-center">
+				<li class="nav-item"><a style="color: white;" class="nav-link active" href="marketNotiBoardList.ma?marketType=3&marketArray=${marketArray}&searchType=${searchType}&marketSear">공지</a></li>
 				<li class="nav-item"><a style="color: white;" class="nav-link active" aria-current="page" href="marketBoardList.ma?marketType=1">같이사요</a></li>
 				<li class="nav-item"><a style="color: white;" class="nav-link active" href="marketBoardList.ma?marketType=2">팝니다</a></li>
 				<li class="nav-item"><a style="color: white;" class="nav-link active" href="marketBoardList.ma?marketType=3">삽니다</a></li>
@@ -242,6 +243,9 @@
 				<c:if test="${mkBoard.location ne null }">
 				
 					<div id="map" class="mx-auto" style=" width:300px;height:200px;"></div><br><div class="mx-auto" style="text-align:center; background: #D9E5FF; border-radius:2em; padding: 20px; width: 650px;"  >${mkBoard.nickName}님은  ${mkBoard.location }에서 직거래하고 싶어해요!</div>
+					<span>위도 : </span><input type="text" id="lat" name="lat" readonly/><br/>
+					  <span>경도 : </span><input type="text" id="long" name="long" readonly/>
+					  <div id="result"></div>
 				</c:if>		
 									
 				<div class="col-md-1" style="text-align: center; padding-top: 30px; padding-left: 50px; width: 170px;">
@@ -266,7 +270,6 @@
 	                     </c:if>
 	                  </div>
 	               </div> 	
-			  	
 			  	
 				<div style="padding-top: 10px; "></div>
 					<!-- 프로필 -->
@@ -577,7 +580,7 @@
 	
 	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=798f33ea8b65e2cf58f7aae47be6ed55&libraries=services"></script>	
 	<script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
-			
+		
 	
 	<script>
 		window.onload = () =>{
@@ -686,11 +689,15 @@
 				       	});
 				        map.setCenter(coords);
 				    	} 
-					});  
-				}
+					});
+				$(document).on('click', ".distance", function(){
+					console.log(123);
+					
+					
+				});
+			}
 			
-			//이미지 슬라이드
-			
+		//이미지 슬라이드
 		if(${ !empty mkAList }){
 				const slides = document.querySelector('.slides');
 				const slideImg = document.querySelectorAll('.slides li'); 
@@ -994,9 +1001,39 @@
 				});
 		}
 		
+		
 	</script>
 	
-	
+	<script>
+	var latitude = "", longitude = "";
+    
+    window.onload = function() {
+    	if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(onSuccess, onError);
+        } else {
+            latitude = "", longitude = "";
+        }	
+    }
+    
+    function onSuccess(position) {
+    	latitude = position.coords.latitude;
+        longitude = position.coords.longitude;
+        console.log("위도 : "  +latitude);
+        console.log("경도 : "  +longitude);
+		document.getElementById("result").innerHTML = "<p>성공</p>";
+    }
+    
+    function onError() {
+    	latitude ="N/A";
+    	longitude = "N/A";
+        document.getElementById("result").innerHTML = "<p>실패</p>";
+    }
+    
+    document.getElementById("lat").value = latitude;
+    document.getElementById("long").value = longitude;
+    
+    
+</script>
 	
 </body>
 </html>
