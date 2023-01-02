@@ -702,8 +702,13 @@ public class MemberController {
 			oList.get(i).setImgRename(img);
 		}
 		
-		System.out.println(oList);
+		Pay pay = mService.getPayInfo(orderNo);
+		
+		
+//		System.out.println(oList);
+		
 		model.addAttribute("oList", oList);
+		model.addAttribute("pay", pay);
 		return "orderProductDetail";
 	}
 	

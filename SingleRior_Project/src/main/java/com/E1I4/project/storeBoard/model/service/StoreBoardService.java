@@ -55,19 +55,6 @@ public interface StoreBoardService {
 
 	int deleteCart(Cart cart);
 
-
-
-
-   Cart selectCartInfo(int i);
-
-
-   int insertProductDetail(Cart cart);
-
-   int deleteCart(Cart cart);
-
-
-
-
    int getMoreInquiryCount(int productNo);
 
 

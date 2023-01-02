@@ -93,24 +93,16 @@
 		<div class="orderInfo pay">
 			<h3>결제 정보</h3>
 			<hr>
+			<c:if test="${!empty pay }">
 			<h5>결제 방법</h5><p>카드결제</p><br>
-			<h5>상품 금액</h5><p>12,500원</p><br>
-			<h5>배송비</h5><p>2,500원</p><br>
-			<h5>결제금액</h5><p>15,000원</p><br>
+			<h5>결제 날짜</h5><p>${ pay.payDate }</p><br>
+			<h5>결제금액</h5><p><fmt:formatNumber value="${ pay.payAmount }" pattern="#,###"/>원</p><br>
 			<h5>주문자</h5><p>${loginUser.memberName }</p><br>
 			<h5>연락처</h5><p>${loginUser.phone }</p><br>
 			<h5>이메일</h5><p>${loginUser.email }</p><br>
+			</c:if>
 		</div>
 		<br><br>
-		<div class="orderInfo Account">
-			<h3>가상계좌정보(무통장입금)</h3>
-			<hr>
-			<h5>은행명</h5><p>국민은행</p><br>
-			<h5>계좌번호</h5><p>123-456789-153</p><br>
-			<h5>예금주</h5><p>주식회사 씽씽마켓</p><br>
-			<h5>입금금액</h5><p>12,500원</p><br>
-			<h5>기간</h5><p>2022-11-08 23:59까지</p><br>
-		</div>
 	</section>
 	<footer>
 		<jsp:include page="../common/footer.jsp"/>

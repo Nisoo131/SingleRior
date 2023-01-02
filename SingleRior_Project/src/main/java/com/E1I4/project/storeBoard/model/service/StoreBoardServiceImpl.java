@@ -118,18 +118,17 @@ public class StoreBoardServiceImpl implements StoreBoardService{
 	}
 
 	@Override
-
 	public ArrayList<ProductInquiry> selectMoreInquiryList(PageInfo pi, int productNo) {
 		return sDAO.selectMoreInquiryList(sqlSession, productNo,pi);
 	}
 
-	
+	@Override
 	public ArrayList<ProductReview> selectReviewList(int productNo) {
 		return sDAO.selectReviewList(sqlSession,productNo);
 
 	}
 
-
+	@Override
 	public int insertProductDetail(Cart cart) {
 		return sDAO.insertProductDetail(sqlSession, cart);
 	}
@@ -139,24 +138,6 @@ public class StoreBoardServiceImpl implements StoreBoardService{
 	public int deleteCart(Cart cart) {
 		return sDAO.deleteCart(sqlSession, cart);
 	}
-
-	
-
-	
-
-
-	
-
-	
-
-
-
-	
-	
-	
-	
-
-	
 
 
 	

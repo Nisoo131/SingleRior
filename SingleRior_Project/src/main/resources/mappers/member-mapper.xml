@@ -758,4 +758,18 @@
 		set inquiry_status = 'N'
 		where inquiry_no = #{inquiryNo}
 	</update>
+	
+	<resultMap type="Pay" id="payResultSet">
+		<id column="PAY_NO" property="payNo"/>
+		<result column="PAY_AMOUNT" property="payAmount"/>
+		<result column="PAY_DATE" property="payDate"/>
+		<result column="PAY_STATUS" property="payStatus"/>
+		<result column="ORDER_NO" property="orderNo"/>
+	</resultMap>
+	
+	<select id="getPayInfo" resultMap="payResultSet">
+	select *
+	from pay
+	where order_no = #{orderNo}
+	</select>
 </mapper>
