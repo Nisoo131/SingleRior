@@ -51,6 +51,7 @@
                     <img src="${ pageContext.servletContext.contextPath }/resources/image/SingleRior_logo.png" style="width:250px; height:100px;">
                     <br>
                     <h1>상세 주문 목록</h1>
+                    ${list }
                     </div>
                     
           
