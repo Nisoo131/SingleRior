@@ -254,13 +254,6 @@
         from product_inquiry
         where product_no = #{productNo} and inquiry_status = 'Y'
   </select>
-
-  
-  <select id="selectMoreInquiryList" resultMap="ProductInquiryResultSet">
-      select *
-	  from product_inquiry
-      where product_no = #{productNo}
-
   <select id="selectReviewList" resultMap="productReviewResultSet">
 	  
 	select r.review_no,r.review_content,r.review_date,img_server_name,r.review_rating,r.order_detail_no,od.product_option,m.nickname
