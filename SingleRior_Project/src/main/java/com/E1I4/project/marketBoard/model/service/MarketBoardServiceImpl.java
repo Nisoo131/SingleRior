@@ -16,6 +16,7 @@ import com.E1I4.project.common.model.vo.WishList;
 import com.E1I4.project.marketBoard.model.dao.MarketBoardDAO;
 import com.E1I4.project.marketBoard.model.vo.MarketBoard;
 import com.E1I4.project.member.model.vo.Member;
+import com.E1I4.project.notiBoard.model.vo.NotiBoard;
 
 
 

@@ -26,17 +26,12 @@
 <body>
 	<jsp:include page="../common/top.jsp"/>
 	<div style="background: #008cd4">
-	<ul class="nav justify-content-center">
-	  <li class="nav-item">
-	    <a style="color: white;" class="nav-link active" aria-current="page" href="#">같이사요</a>
-	  </li>
-	  <li class="nav-item">
-	    <a style="color: white;" class="nav-link active" href="#">팝니다</a>
-	  </li>
-	  <li class="nav-item">
-	    <a style="color: white;" class="nav-link active" href="#">삽니다</a>
-	  </li>
-	</ul>
+		<ul class="nav justify-content-center">
+			<li class="nav-item"><a style="color: white;" class="nav-link active" href="marketNotiBoardList.ma?marketType=3&marketArray=${marketArray}&searchType=${searchType}&marketSear">공지</a></li>
+			<li class="nav-item"><a style="color: white;" class="nav-link active" aria-current="page" href="marketBoardList.ma?marketType=1&marketArray=${marketArray}&searchType=${searchType}&marketSearch=${marketSearch}">같이사요</a></li>
+			<li class="nav-item"><a style="color: white;" class="nav-link active" href="marketBoardList.ma?marketType=2&marketArray=${marketArray}&searchType=${searchType}&marketSearch=${marketSearch}">팝니다</a></li>
+			<li class="nav-item"><a style="color: white;" class="nav-link active" href="marketBoardList.ma?marketType=3&marketArray=${marketArray}&searchType=${searchType}&marketSearch=${marketSearch}">삽니다</a></li>
+		</ul>
 	</div>
 		<div class="container">
 		<main>

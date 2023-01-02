@@ -46,6 +46,7 @@ li a:hover {
 	</header>
 	<div style="background: #008cd4">
 		<ul class="nav justify-content-center">
+			<li class="nav-item"><a style="color: white;" class="nav-link active" href="marketNotiBoardList.ma?marketType=3&marketArray=${marketArray}&searchType=${searchType}&marketSear">공지</a></li>
 			<li class="nav-item"><a style="color: white;" class="nav-link active" aria-current="page" href="marketBoardList.ma?marketType=1&marketArray=${marketArray}&searchType=${searchType}&marketSearch=${marketSearch}">같이사요</a></li>
 			<li class="nav-item"><a style="color: white;" class="nav-link active" href="marketBoardList.ma?marketType=2&marketArray=${marketArray}&searchType=${searchType}&marketSearch=${marketSearch}">팝니다</a></li>
 			<li class="nav-item"><a style="color: white;" class="nav-link active" href="marketBoardList.ma?marketType=3&marketArray=${marketArray}&searchType=${searchType}&marketSearch=${marketSearch}">삽니다</a></li>
@@ -292,6 +293,18 @@ li a:hover {
 <script>
 
 	window.onload = () => {
+		
+		//공지글 상세페이지
+		const trs1 = document.querySelectorAll('.notiList');
+		for(const tr of trs1){
+			tr.addEventListener('click', function(){
+				const bNo = this.querySelectorAll('input')[0].value;
+				const writer = this.querySelectorAll('input')[1].value;
+				location.href='${contextPath}/selectNotiBoard.no?bNo=' + bNo + '&writer=' + writer;
+			});
+		}
+		
+		
 		
 		//첫번째 슬라이드 상세페이지
 		const fiRcards = document.getElementsByClassName('carouselCardFir');
