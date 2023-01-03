@@ -781,7 +781,7 @@ public class MemberController {
 		}
 		
 		
-		System.out.println(ocList);
+//		System.out.println(ocList);
 		model.addAttribute("pcList", pcList);
 		model.addAttribute("ocList", ocList);
 		model.addAttribute("pi", pi);

@@ -588,6 +588,7 @@
 		<result column="board_title" property="boardTitle"/>
 		<result column="ORDER_DETAIL_NO" property="orderDetailNo"/>
 		<result column="DELIVERY_MSG" property="deliveryMsg"/>
+		<result column="ORDER_TOTAL_PRICE" property="orderTotalPrice"/>
 	</resultMap>
 	
 	<select id="getMyReviewList" resultMap="reviewResultSet">
