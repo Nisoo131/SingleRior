@@ -774,9 +774,7 @@
 						</c:forEach>
 						<div id="moreReview">더보기</div><br>
 					</c:if>
-		         
 	       </article>
-	       
 	      </div>
 	      </c:if>
 	     

@@ -52,17 +52,17 @@ public class StoreBoardController {
 			return "storeList";
 		}
 	
-	// subCate 리스트 
-	@RequestMapping("categoryList.st")
-	public String storeList(@RequestParam(value="page", required=false) Integer page, @RequestParam(value="subCate", required=false)  Integer subCate,
-								@RequestParam(value="topCate", required=false)  Integer topCate,
-								Model model,@RequestParam(value="category", required=false) String category) {
-		
+		// subCate 리스트 
+		@RequestMapping("categoryList.st")
+		public String storeList(@RequestParam(value="page", required=false) Integer page, @RequestParam(value="subCate", required=false)  Integer subCate,
+				@RequestParam(value="topCate", required=false)  Integer topCate,
+				Model model,@RequestParam(value="category", required=false) String category) {
+
 			System.out.println(topCate);
 			if(category == null) {
 				category = "인기순";
 			}
-			
+
 			int cateNo = 0;
 			switch(category) {
 			case "인기순" :
@@ -78,14 +78,14 @@ public class StoreBoardController {
 				cateNo = 4;
 				break;
 			}
-			
-//			System.out.println(cateNo);
-			
-		    int currentPage = 1;
+
+			//			System.out.println(cateNo);
+
+			int currentPage = 1;
 			if(page != null && page > 1) {
 				currentPage = page; 
 			}
-//	
+			//	
 			HashMap<String, Integer> map = new HashMap<String, Integer>();
 			String topCateName = null;
 
@@ -93,33 +93,33 @@ public class StoreBoardController {
 				map.put("subCate", subCate);
 				topCateName = sService.getTopCateName(map);
 			}
-			
+
 			if(topCate != null) {
 				map.put("topCate", topCate);
 				topCateName = sService.getTopCateName2(map);
 			}
-			
+
 			String subCateName = sService.getSubCateName(map);
-			
-			
+
+
 			map.put("boardType", 1);
 			map.put("cateNo", cateNo);
 			int listCount = sService.getStoreListCount(map); //board type 스토어 1인 것만 가져오기
-	
+
 			System.out.println(listCount);
-			
+
 			PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 12); //boardLimit: 카드 12개
-			
+
 			ArrayList<StoreBoard> sList = sService.selectStoreBoardList(pi, map);
 			ArrayList<Attachment> aList = new ArrayList<Attachment>();
-		    
+
 			System.out.println("tdd : "+topCateName);
 			for(int i=0; i<sList.size(); i++) {
 				int bNo = sList.get(i).getBoardNo();
 				Attachment a = sService.selectAttmList(bNo);
 
 				aList.add(a);
-				
+
 			};
 			if(subCate != null) {
 				model.addAttribute("subCate", subCate);
@@ -127,7 +127,7 @@ public class StoreBoardController {
 			if(topCate != null) {
 				model.addAttribute("topCate", topCate);
 			}
-			
+
 			model.addAttribute("subCateName", subCateName);
 			model.addAttribute("topCateName", topCateName);
 			if(sList != null) {
@@ -135,11 +135,15 @@ public class StoreBoardController {
 				model.addAttribute("sList", sList);
 				model.addAttribute("aList", aList);
 				model.addAttribute("category",category);
-					
-			} return "categoryList"; 
-			
 
-	}
+			} return "categoryList"; 
+
+
+
+		}
+
+
+
 
 	// subCate 리스트
 	@RequestMapping("categoryList.st")
@@ -239,6 +243,12 @@ public class StoreBoardController {
 		System.out.println(trList);
 
 		if(iList != null) {
+
+		   model.addAttribute("iList", iList);
+
+
+		if (iList != null) {
+
 			model.addAttribute("iList", iList);
 
 
@@ -288,7 +298,44 @@ public class StoreBoardController {
 			}
 
 		}
+
+		WishList wl = new WishList();
+		ProductInquiry pi = new ProductInquiry();
+
+		int result1 = 0;
+		int result2 = 0;
+
+		if (loginUser != null) {
+
+			wl.setProductNo(productNo);
+			wl.setMemberId(loginUser.getMemberId());
+
+			pi.setMemberId(loginUser.getMemberId());
+			pi.setProductNo(productNo);
+
+			result1 = sService.wishListCount(wl);
+			result2 = sService.InquiryCount(pi);
+		}
+
+		if (pList != null) {
+			model.addAttribute("pList", pList);
+			model.addAttribute("count", result1);
+
+			model.addAttribute("piCount",result2);
+			model.addAttribute("prList",prList);
+			model.addAttribute("trList",trList);
+		
+
+			model.addAttribute("piCount", result2);
+			model.addAttribute("prList", prList);
+
+
+		} else {
+			throw new BoardException("제품 상세 조회 실패.");
+			}
+		}
 		return "productDetail";
+		
 	}
 	// 문의 더보기
 	@RequestMapping("moreInquiry.st")

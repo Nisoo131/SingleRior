@@ -77,9 +77,5 @@ public interface StoreBoardService {
 
 	int insertPayment(Pay pay);
 
-	int insertDirectOrderDetail(OrderDetail od);
-
-
-	
 
 }

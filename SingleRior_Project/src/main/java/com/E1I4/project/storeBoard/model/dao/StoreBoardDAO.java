@@ -166,10 +166,6 @@ public class StoreBoardDAO {
 		return sqlSession.insert("storeMapper.insertPayment", pay);
 	}
 
-	public int insertDirectOrderDetail(SqlSessionTemplate sqlSession, OrderDetail od) {
-		return sqlSession.insert("storMapper.insertDirectOrderDetail", od);
-
-	}
 
 
 
