@@ -463,6 +463,127 @@
          </div>
        </div>
      </div>
+
+
+                  </div>
+                     
+                 
+      
+                 
+                 
+              </div> 
+              <br><br>
+                    <c:if test="${fn:length(prList)<6}">
+                   <c:forEach items="${prList}" var="pr">
+                    <table class="reviewTable">
+                   <tr>
+                      <td>
+                      <img src="${ contextPath }/resources/uploadFiles/${pr.imgServerName}" width="160" class="img">
+                      </td>
+                      <td>
+                      <span><b>${pr.nickName }</b>의 리뷰</span><br><br>
+                      <span>${pr.reviewContent}</span><br><br>
+                      <span>${pr.productOption}&nbsp;&nbsp;&nbsp;</span><br>
+                      <span>작성일 : ${pr.reviewDate }&nbsp;&nbsp;&nbsp;</span>
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                      <span class="reviewRatingTable badge badge rounded-pill text-bg-danger" style="font-size: 1rem; float: right;">★${ pr.reviewRating }</span>
+                      </td>
+                   </tr>
+                   </table>
+                  </c:forEach>
+                   </c:if>
+                   <c:if test="${fn:length(prList)>5}">
+                   <c:forEach items="${prList}" var="pr" begin="0" end="4">
+                   <table class="reviewTable">
+                   <tr>
+                      <td>
+                      <img src="${ contextPath }/resources/uploadFiles/${pr.imgServerName}" width="160" class="img">
+                      </td>
+                      <td>
+                      <span><b>${pr.nickName }</b>의 리뷰</span><br><br>
+                      <span>${pr.reviewContent}</span><br><br>
+                      <span>${pr.productOption}&nbsp;&nbsp;&nbsp;</span><br>
+                      <span>작성일 : ${pr.reviewDate }&nbsp;&nbsp;&nbsp;</span>
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                      <span class="reviewRatingTable badge badge rounded-pill text-bg-danger" style="font-size: 1rem; float: right;">★${ pr.reviewRating }</span>
+                      </td>
+                   </tr>
+                   </table>
+                  </c:forEach>
+                  <div id="moreReview">더보기</div><br>
+               </c:if>
+               
+          </article>
+          
+         </div>
+        
+         <c:if test="${empty prList}">
+       <div style="text-align:center;"><h2>상품에 대한 리뷰가 아직 없습니다 ㅜ.ㅜ</h2><br><img src="${contextPath}/resources/image/reviewZero.jpg" width="200" ></div>
+         
+         </c:if>
+          <hr>
+          
+      <!-- 문의하기 -->
+          <article class="blog-post" id="inquiry">
+           <div class="blog-post-title mb-1">
+              <form>
+                 <table>
+                    <tr>
+                       <td class="inquiry">문의</td>
+                    
+                       <td colspan="3" width="650px"></td>
+                       <c:if test="${ empty loginUser  }">
+                          <td><button type="button" class="btn btn-primary" id="inquiryBtn1" onclick="location.href='${contextPath}/loginView.me'" >문의하기</button></td>
+                       </c:if>
+                       <c:if test="${ !empty loginUser }">
+                          <td><button type="button" class="btn btn-primary" id="inquiryBtn2" data-bs-toggle="modal" data-bs-target="#inquiryModal">문의하기</button></td>
+                       </c:if>
+                       
+                       <%-- <c:if test="${ !empty loginUser and piCount == 1 }">
+                          <td><button type="button" class="btn btn-primary" id="inquiryUpdate" data-bs-toggle="modal" data-bs-target="#updateModal">수정</button></td>
+                          <td><button type="button" class="btn btn-primary" id="inquiryDelete" data-bs-toggle="modal" data-bs-target="#deleteModal">삭제</button></td>
+                       </c:if> --%>
+                    </tr>
+                 </table>
+              </form>
+          </div>
+<%--            ${ iList } --%>
+             <c:if test="${ !empty iList }">
+             <c:forEach items="${ iList }" var="i" begin="0" end="4">
+             <div style="border:black solid 1px; width:600px; padding:10px 10px; border-radius:10px;">
+                 <p class="blog-post-meta">${i.inquiryTitle} | 
+                    <c:if test="${ i.inquiryAnswer == null }">
+                       <span style="color:#008cd4;">답변대기</span>
+                    </c:if>
+                    <c:if test="${ i.inquiryAnswer != null }">
+                       <span style="color:#008cd4;">답변완료</span>
+                    </c:if>
+                    </p>
+               <p> ${i.memberId} | ${i.inquiryDate}</p>
+               <p><img src="https://cdn-icons-png.flaticon.com/512/8371/8371275.png" width="20px" height="20px"> ${ i.inquiryContent }</p>
+               <p><img src="https://cdn-icons-png.flaticon.com/512/25/25628.png" width="20px" height="20px"> ${ i.inquiryAnswer }</p>
+             </div>
+             <br>
+             </c:forEach>
+             <div id="moreInquiry">더보기</div><br>
+          </c:if>
+          <c:if test="${ empty iList }">
+           <div style="text-align:center;"><h2>상품에 대한 문의가 아직 없습니다 ㅜ.ㅜ</h2><br><img src="${contextPath}/resources/image/reviewZero.jpg" width="200" ></div>
+          </c:if>
+
+						</div>
+							
+		        	
+		
+		        	
+		        	
+		        </div> 
 		        <br><br>
 		        		<c:if test="${fn:length(prList)<6}">
 						 <c:forEach items="${prList}" var="pr">
@@ -567,6 +688,7 @@
 		    <c:if test="${ empty iList }">
 		     <div style="text-align:center;"><h2>상품에 대한 문의가 아직 없습니다 ㅜ.ㅜ</h2><br><img src="${contextPath}/resources/image/reviewZero.jpg" width="200" ></div>
 		    </c:if>
+
           </article>
           <hr>
           
@@ -648,6 +770,7 @@
        </div>
      </div>
 
+
 	<!--문의하기 모달창 -->
 	<div class="modal" tabindex="-1" id="inquiryModal">
 	  <div class="modal-dialog">
@@ -702,6 +825,7 @@
 	    	</div>
 	  	</div>
 	</div>
+
    <!--문의하기 모달창 -->
    <div class="modal" tabindex="-1" id="inquiryModal">
      <div class="modal-dialog">
@@ -756,6 +880,62 @@
           </div>
         </div>
    </div>
+
+   <!--문의하기 모달창 -->
+   <div class="modal" tabindex="-1" id="inquiryModal">
+     <div class="modal-dialog">
+       <div class="modal-content">
+         <div class="modal-header">
+           <h5 class="modal-title">문의하기</h5>
+           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+         </div>
+         <form action="${ contextPath }/productInquiry.st" method="post">
+          <input type="hidden" name="productNo" value="${ pList[0].productNo }">
+          <input type="hidden" name="boardNo" value="${ pList[0].boardNo }">
+            <div class="modal-body">
+              <p>문의유형</p>
+                 <select class="form-select" aria-label="Default select example" name="inquiryTitle" id="inquiry_ops">
+                    <option value="상품">상품</option>
+                    <option value="배송">배송</option>
+                    <option value="반품">반품</option>
+                    <option value="교환">교환</option>
+                    <option value="환불">환불</option>
+                    <option value="기타">기타</option>
+               </select>
+                <br>
+            <p>문의내용 <span id="counter">0</span>/300</p>
+            <textarea cols="50" rows="3" id="textarea" name="inquiryContent"></textarea>
+            </div>
+            <div style="color:#008cd4;">
+            　문의 답변은 ‘My Page> 나의 문의' 또는 ‘상품 상세페이지’에서 확인 가능합니다.<br>
+            </div>
+           <div class="modal-footer">
+              <button type="submit" class="btn btn-primary" id="inquiry_modal" >완료</button>
+           </div>
+         </form>
+         </div>
+        </div>
+   </div>
+   
+   
+   <!-- 장바구니 모달창 -->   
+   <div class="modal fade" tabindex="-1" role="dialog" id="cartModal">
+      <div class="modal-dialog" role="document">
+          <div class="modal-content rounded-3 shadow">
+               <div class="modal-body p-4 text-center">
+                 <h3 class="mb-0">장바구니에 상품이 추가되었습니다. </h3>
+                 <p class="mb-0"></p>
+               </div>
+               <div class="modal-footer flex-nowrap p-0">
+                  <button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0 border-end" data-bs-dismiss="modal">계속 쇼핑하기</button>
+                 <button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0" id="yes" onclick="location.href='${ contextPath }/myCart.me'">
+                    <strong>장바구니</strong>
+                 </button>
+               </div>
+          </div>
+        </div>
+   </div>
+
 </main>
 
     <footer>
