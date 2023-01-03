@@ -46,7 +46,7 @@
 		</div>
 		<br><br><br>
 		<div>
-			<c:if test="${rList != null }">
+			<c:if test="${!empty rList}">
 				<c:forEach items="${rList }" var ='r' varStatus="b">
 						<div class="card">
 							<div class="card-header">
@@ -69,12 +69,13 @@
 						<br><br>
 					</c:forEach>
 			</c:if>
-			<c:if test="${rList == null }">
+			<c:if test="${empty rList}">
 				<div class="alert alert-secondary" role="alert">아직 작성하신 게시글이 없습니다.</div>
 			</c:if>
 			<br>
 			<br>
 			<!-- 페이징 -->
+			<c:if test="${!empty rList}">
 			<nav aria-label="Standard pagination example">
 				<ul class="pagination justify-content-center">
 					<li class="page-item"><c:url var="goBack" value="${ loc }">
@@ -98,6 +99,7 @@
 					</a></li>
 				</ul>
 			</nav>
+			</c:if>
 		</div>
 	</section>
 	<footer>
