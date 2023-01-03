@@ -186,7 +186,7 @@
 			<div class="col-12 border rounded overflow-hidden">
 				<form class="needs-validation" method="POST" id="detailForm">
 					<!-- 헤더 -->
-					<a id="btnKakao" onclick="kakaoShare()" class="kakaotalk" target="_self" title="카카오톡 새창열림"><img alt="" src="https://cdn-icons-png.flaticon.com/512/8301/8301971.png" style="width: 40px; height: 40px; float: right; margin-right: 20px; margin-top: 10px;"></a>
+					<a onclick="$('#share').modal('show')"><img alt="" src="https://cdn-icons-png.flaticon.com/512/8301/8301971.png" style="width: 40px; height: 40px; float: right; margin-right: 20px; margin-top: 10px;"></a>
 					
 					<div style="font-size: 20px; padding-top: 30px; padding-left: 50px;">
 						
@@ -214,7 +214,7 @@
 					
 					<!-- 본문 -->
 					<div class="p-5" style="font-size: 20px;">
-						<span>${ mkBoard.boardContent }</span>
+						<textarea style="width: 100%; border: none; resize: none;" readonly>${ mkBoard.boardContent }</textarea>
 					</div>
 					
 				<!-- 이미지 모달창 -->
@@ -246,7 +246,7 @@
 					<br>
 					<div id="myLocation" class="mx-auto" style="width:230px; text-align:center; border-radius:2em;padding: 20px; "><img style="width: 30px; height: 30px;" alt="" src="resources/image/pick.png">&nbsp;&nbsp;내 위치 확인하기</div>
 					<div id="tranLocation" class="mx-auto" style="width:230px; text-align:center; border-radius:2em; padding: 20px; display: none;"><img style="width: 30px; height: 30px;" alt="" src="resources/image/pick.png">&nbsp;&nbsp;직거래 위치 확인하기 </div>
-					<div class="mx-auto" style="text-align:center; background: #D9E5FF; border-radius:2em; padding: 20px; width: 650px;"  >${mkBoard.nickName}님은  ${mkBoard.location }에서 직거래하하고 싶어해요!</div>
+					<div class="mx-auto" style="text-align:center; background: #D9E5FF; border-radius:2em; padding: 20px; width: 650px;"  >${mkBoard.nickName}님은  ${mkBoard.location }에서 직거래하고 싶어해요!</div>
 				</c:if>		
 									
 				<div class="col-md-1" style="text-align: center; padding-top: 30px; padding-left: 50px; width: 170px;">
@@ -336,8 +336,8 @@
 								<c:if test="${ r.profileImg ne null}">
 									<td style="text-align: center;" width="40"><img src="resources/uploadFiles/${ r.profileImg }" width="50" height="50" style="border-radius: 70%"></td>
 								</c:if>	
-									<td width="150px;  class="reNickName">
-										<span class=" dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">${r.nickName}</span>
+									<td width="150px;">
+										<span class="reNickName dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">${r.nickName}</span>
 										<ul class="dropdown-menu" style="text-align: center;">
 											<li><a class="dropdown-item sendMsg" >쪽지보내기</a></li>
 										</ul>
@@ -393,7 +393,7 @@
 		                        	<td >
 		                           		<input type="hidden" name="replyNo" value="${r.replyNo}">
 		                           		<div class="input-group" >
-		                           			<textarea  style="width: 1000px; border: none; resize: none;"></textarea>
+		                           			<textarea  style="width: 800px; border: none; resize: none;"></textarea>
 											<button class="btn btn-outline-primary btn-lg reReplySubmit" type="button" style="width: 100px;">등록</button>
 											<br>&nbsp;
 											<label for="replySecret">비밀댓글</label>&nbsp;&nbsp;<input type="checkbox" class="reReplySecret" value="N">	
@@ -419,7 +419,7 @@
 									<td style="text-align: center;" width="40"><img src="resources/uploadFiles/${ rr.profileImg }" width="50" height="50" style="border-radius: 70%"></td>
 								</c:if>	
 								<td class="px-4"  style="width: 150px;">
-									<span class=" dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">${rr.nickName}</span>
+									<span class="reNickName dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">${rr.nickName}</span>
 									<ul class="dropdown-menu" style="text-align: center;">
 										<li><a class="dropdown-item sendMsg" >쪽지보내기</a></li>
 									</ul>
@@ -473,10 +473,10 @@
 					<!-- 이동 -->
 					<div class="row px-5 py-4">
 						<div class="col-md-1" style="text-align: center; width: 150px;">
-							<button class="w-100 btn btn-outline-dark btn-lg" type="button" id="preForm" onclick="location.href='${contextPath}/marketBoardDetail.ma?bNo=${mkBoard.boardNo-1 }&boardWriter=${mkBoard.writer }'">이전글</button>
+							<button class="w-100 btn btn-outline-dark btn-lg" type="button" id="preForm" >이전글</button>
 						</div>
 						<div class="col-md-1" style="text-align: center; width: 150px;">
-							<button class="w-100 btn btn-outline-dark btn-lg" type="button" id="nextForm" onclick="location.href='${contextPath}/marketBoardDetail.ma?bNo=${mkBoard.boardNo+1 }&boardWriter=${mkBoard.writer }'">다음글</button>
+							<button class="w-100 btn btn-outline-dark btn-lg" type="button" id="nextForm" >다음글</button>
 						</div>
 						
 						<div class="col-md-10" style="width: 700px;"></div>
@@ -606,6 +606,23 @@
 	  </div>
 	</div>	
 	
+<!-- 공유하기 모달창 -->
+<div class="modal"  id="share">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title"><img src="https://cdn-icons-png.flaticon.com/512/8301/8301971.png" style="width:50px; height:50px;" >&nbsp;&nbsp;공유하기</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      
+       <div style="text-align:center; padding: 5px; padding-bottom: 50px;">
+	      <img src="resources/image/kakao.PNG" style="width:80px; height:80px; padding: 10px; " id="btnKakao" onclick="kakaoShare()" class="kakaotalk" target="_self" title="카카오톡 새창열림">
+	      <img src="resources/image/naver.PNG" style="width:80px; height:80px;  padding: 10px; " onclick="naverShare()">
+	      <img src="resources/image/facebook.png" style="width:90px; height:90px;  padding: 10px; " onclick="facebookShare()">
+	      <img src="resources/image/twitter.png" style="width:80px; height:80px;  padding: 10px; " onclick="twitterShare()"></div>
+	    </div>
+    </div>
+  </div>
 	
 	
 	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=798f33ea8b65e2cf58f7aae47be6ed55&libraries=services"></script>	
@@ -702,6 +719,7 @@
 				
 				if(input.style.display == 'none') {
 		        	input.style.display = 'inline';
+		        	input.querySelector('textarea').style.height = '50px';
 		        } else {
 		        	input.style.display = 'none';
 		        }
@@ -1227,6 +1245,7 @@
 						console.log(data);
 					}
 				});
+				
 			});
 			
 			
@@ -1340,7 +1359,8 @@
 							str += '<li class="updateReBtn"><a class="dropdown-item" >수정</a></li>';
 							str += '<li class="deleteReBtn"><a class="dropdown-item" >삭제</a><input type="hidden" id="replyNo" class="replyNo" value="'+ rr.replyNo +'"></li>';
 						}else if('${ loginUser.memberId }' != rr.memberId){
-							str += '<li class="reReportBtn"><input type="hidden" class="reportReplyNo" value="'+ rr.replyNo +'"><input type="hidden" class="reportStatus" value="'+ rr.reportStatus+ '"><a class="dropdown-item" >신고</a></li>';
+							str += '<li class="reReportBtn"><input type="hidden" class="reportReplyNo" value="' + rr.replyNo + '"><input type="hidden" class="reportStatus" value="'+ rr.reportStatus +'"><a class="dropdown-item" >신고</a></li>';
+						
 						}
 						str += '</ul>';
 						str += '</div>';
@@ -1369,6 +1389,12 @@
 			}
 				document.getElementById('replyDiv').innerHTML += str;
 				$("#replyCount").html(replyCount);
+				var textArea = $('textarea');
+			       if (textArea) {
+			           textArea.each(function(){
+			               $(this).height(this.scrollHeight);
+			           });
+			       }
 			}
 		}
 		
@@ -1399,8 +1425,32 @@
 				});
 		}
 		
+		//네이버
+		function naverShare() {
+			var url = $(location).attr('href');
+			var title = '${mkBoard.boardTitle}';
+			var shareURL = "https://share.naver.com/web/shareView?url=" + url + "&title=" + title;
+			document.location = shareURL;
+		 }
+		//트위터
+		function twitterShare() {
+			var url = $(location).attr('href');
+			var title = '${mkBoard.boardTitle}';
+		    window.open("https://twitter.com/intent/tweet?text=" + title + "&url=" + url);
+		}
+		//페이스북
+		function facebookShare() {
+			var url = $(location).attr('href');
+			var title = '${mkBoard.boardTitle}';
+			window.open('http://www.facebook.com/sharer.php?u=' + url);
+		}
 		
-		
+		var textArea = $('textarea');
+	       if (textArea) {
+	           textArea.each(function(){
+	               $(this).height(this.scrollHeight);
+	           });
+	       }
 	</script>
    
 	

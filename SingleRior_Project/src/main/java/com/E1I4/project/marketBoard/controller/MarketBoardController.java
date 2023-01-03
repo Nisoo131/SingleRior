@@ -149,7 +149,6 @@ public class MarketBoardController {
 	//글insert
 	@RequestMapping("marketBoardInsert.ma")
 	public String marketBoardInsert(HttpServletRequest request,@ModelAttribute MarketBoard mkBoard, @RequestParam("file") ArrayList<MultipartFile> files ) {
-		System.out.println(mkBoard);
 		String id = ((Member)request.getSession().getAttribute("loginUser")).getMemberId();
 		mkBoard.setWriter(id);
 		mkBoard.setMarketType(mkBoard.getMarketType());
@@ -282,7 +281,6 @@ public class MarketBoardController {
 			map.put("bNo",bNo);
 			
 			Report reportSelect =  mkService.reportSelect(map);
-			System.out.println(reportSelect);
 			
 			MarketBoard mkBoard = mkService.marketBoardSelect(bNo, yn);
 			ArrayList<Attachment> mkAList = mkService.selectAttm(strBNo);
@@ -294,12 +292,7 @@ public class MarketBoardController {
 			m = mService.login(m);
 			
 			String memberId = boardWriter;
-			System.out.println(memberId); 
 			Attachment profileAttm = mService.selectProfile(memberId);
-			
-			System.out.println(boardWriter);
-			System.out.println(m);
-			System.out.println(mkRList);
 			
 			if(mkBoard != null) {
 				
@@ -321,15 +314,12 @@ public class MarketBoardController {
 		//댓글 insert
 		@RequestMapping("replyInsert.ma")
 		public void replyInsert(@ModelAttribute Reply reply, HttpSession session,HttpServletResponse response ) {
-			System.out.println("댓글"+reply);
 			String id = ((Member)session.getAttribute("loginUser")).getMemberId();
 			reply.setMemberId(id);
 			int result = mkService.replyInsert(reply);
 			int bNo = reply.getBoardNo();
 			int result1 = mkService.replyCount(bNo);
-			System.out.println("댓글"+reply);
 			ArrayList<Reply> mkRList= mkService.replySelect(bNo);
-			System.out.println("댓글"+mkRList);
 			
 			response.setContentType("application/json; charset=UTF-8");
 			GsonBuilder gb = new GsonBuilder();
@@ -370,13 +360,11 @@ public class MarketBoardController {
 			map.put("content", reply.getReplyContent());
 			map.put("rNo",reply.getReplyNo());
 			map.put("secret", reply.getReplySecret());
-			System.out.println(reply.getBoardNo());
 			
 			int result = mkService.replyUpdate(map);
 			ArrayList<Reply> r = mkService.replySelect(reply.getBoardNo());
 			
 			int replyNo = reply.getReplyNo();
-			System.out.println("댓글넘버 :"+replyNo);
 			
 			response.setContentType("application/json; charset=UTF-8");
 			
@@ -407,8 +395,6 @@ public class MarketBoardController {
 			
 			int result = mkService.marketLike(wl);
 			int result1 = mkService.likeCount(bNo);
-			System.out.println("좋아요:"+result1);
-			System.out.println("좋아요:"+result);
 			response.setContentType("application/json; charset=UTF-8");
 			
 			GsonBuilder gb = new GsonBuilder();
@@ -434,8 +420,6 @@ public class MarketBoardController {
 				
 			int result =  mkService.marketLikeCancle(wl);
 			int result1 = mkService.likeCancleCount(bNo);
-			System.out.println("좋아요취소:"+result1);
-			System.out.println("좋아요취소:"+result);
 			response.setContentType("application/json; charset=UTF-8");
 				
 			GsonBuilder gb = new GsonBuilder();
@@ -593,7 +577,6 @@ public class MarketBoardController {
 		public String marketReport(HttpSession session, @ModelAttribute Report report, Model model) {
 			String id = ((Member)session.getAttribute("loginUser")).getMemberId();
 			report.setMemberId(id);
-			System.out.println(report);
 			HashMap<String, Object> map = new HashMap<String, Object>();
 			map.put("id", id);
 			map.put("cNo",report.getContentNo());
@@ -602,7 +585,6 @@ public class MarketBoardController {
 			Report reportSelect =  mkService.reportSelect(map);
 			int result = mkService.updateReportStatus(map);
 			int result1 = mkService.marketReport(report);
-			System.out.println(reportSelect);
 			
 			if(result>0) {
 				model.addAttribute("bNo", report.getBoardNo());

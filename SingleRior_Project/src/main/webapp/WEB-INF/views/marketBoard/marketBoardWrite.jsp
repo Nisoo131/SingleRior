@@ -94,11 +94,6 @@
 				
 				fileArea.append(newDiv);
 			});
-			
-			
-			
-			
-			
 		}
 		
 		$(document).on('click', '.deleteFile', function(){

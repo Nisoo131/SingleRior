@@ -56,9 +56,9 @@
 		data-bs-ride="true">
 		<div class="carousel-inner">
 			<div class="carousel-item active" data-bs-interval="10000">
-				<div class="album py-4">
+				<div class="album py-5">
 					<div class="container">
-						<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3 p-5 px-4">
+						<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3 p-5 px-5">
 							<c:forEach items="${ topBList }" var="tb" begin="0" end="2" step="1">
 							<div class="col px-5 p-5 g-3" >
 								<div class="carouselCardSec shadow-sm">
@@ -74,8 +74,8 @@
 										<img class="bd-placeholder-img card-img-top" width="100%" height="225"  src="https://ifh.cc/g/1Lygac.png">
 									</c:if>
 									<c:set var="topCheck" value="false"></c:set>
-									<div class="card-body"  style="padding:15px;">
-									<span style="float: right; font-size: 13px;" class="card-text">${ tb.nickName }</span>
+									<div class="card-body"  style="padding:10px;">
+									<span style=" font-size: 13px; class="card-text">${ tb.nickName }</span>
 										<p class="card-text">${tb.boardTitle }</p>
 										<input  id="bNo" type="hidden" value="${ tb.boardNo }">
 										<input  id="writer" type="hidden" value="${ tb.writer}">
@@ -101,9 +101,9 @@
 <!-- 첫번째 슬라이드  끝-->
 
 			<div class="carousel-item">
-				<div class="album py-4">
+				<div class="album py-5">
 					<div class="container">
-						<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3 p-5 px-4">
+						<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3 p-5 px-5">
 							<c:forEach items="${ topBList }" var="tb" begin="3" end="5" step="1">
 							<div class="col p-5 px-5 g-3">
 								<div class="carouselCardSec shadow-sm">
@@ -120,7 +120,7 @@
 									</c:if>
 									<c:set var="imgCheck" value="false"></c:set>
 									<div class="card-body"  style="padding:15px;">
-									<span style="float: right; font-size: 13px;" class="card-text">${ tb.nickName }</span>
+									<span style=" font-size: 13px;" class="card-text">${ tb.nickName }</span>
 										<p class="card-text">${tb.boardTitle }</p>
 										<input id="bNo" type="hidden" value="${ tb.boardNo }">
 										<input id="writer" type="hidden" value="${ tb.writer}">
@@ -220,7 +220,7 @@
 			<c:set var="listCheck" value="false"></c:set>
 			
 				<div class="card-body" style="padding:15px;">
-				<span style="float: right; font-size: 13px;" class="card-text">${ mkB.nickName }</span>
+				<span style="font-size: 13px;" class="card-text">${ mkB.nickName }</span>
 					<p class="card-text" style="font-size: 18px;">${ mkB.boardTitle }</p>
 					<input id="bNo" type="hidden" value="${ mkB.boardNo }">
 					<input id="writer" type="hidden" value="${ mkB.writer}">
@@ -253,7 +253,7 @@
 		<c:if test="${ pi.currentPage < pi.maxPage }">
 			<li class="page-item"><c:url var="goNext" value="${ loc }">
 				<c:param name="page" value="${ pi.currentPage+1 }"></c:param>
-				</c:url> <a class="page-link" href="${ goNext }" aria-label="Next"> <span aria-hidden="true">&raquo;</span></a>
+				</c:url> <a class="page-link" href="${ goNext }" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
 			</li>
 		</c:if>
 		</ul>
