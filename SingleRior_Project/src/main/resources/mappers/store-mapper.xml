@@ -310,9 +310,8 @@
 	    join order_product op on(op.order_no=od.order_no)
 	    join member m on(op.member_id=m.member_id)
 	where img_b_type=7 and r.product_no=#{productNo}
-  
   </select>
-<<<<<<< HEAD
+
   <select id="getMoreReviewCount" resultType="_int">
    		select count(*)
         from product_review
@@ -348,8 +347,6 @@
    	from product_top_cate
    	where pro_topcate_code = #{topCate}
    </select>
-   
-=======
   
   <insert id="insertPayment">
      insert into pay
@@ -361,5 +358,4 @@
 	values (SEQ_ODID.nextval, #{productNo} , '결제완료', #{quantity}, #{finalPrice}, #{productOption}, SEQ_OID.currval)
   </insert>
 
->>>>>>> Sue
 </mapper>

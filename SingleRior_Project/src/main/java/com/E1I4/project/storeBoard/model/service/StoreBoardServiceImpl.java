@@ -152,11 +152,6 @@ public class StoreBoardServiceImpl implements StoreBoardService{
 	}
 
 	@Override
-	public int insertDirectOrderDetail(OrderDetail od) {
-		return sDAO.insertDirectOrderDetail(sqlSession, od);
-	}
-
-	@Override
 	public int getMoreReviewCount(int productNo) {
 		return sDAO.getMoreReviewCount(sqlSession,productNo);
 	}

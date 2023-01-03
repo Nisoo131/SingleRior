@@ -138,12 +138,7 @@ public class StoreBoardController {
 					
 			} return "categoryList"; 
 			
-
-	@RequestMapping("storeList.st")
-	public String storeList() {
-		return "storeList";
-
-	}
+}
 
 	// subCate 리스트
 	@RequestMapping("categoryList.st")
@@ -245,9 +240,6 @@ public class StoreBoardController {
 		if(iList != null) {
 		   model.addAttribute("iList", iList);
 
-		ArrayList<ProductReview> prList = sService.selectReviewList(productNo);
-
-		// System.out.println(prList);
 
 		if (iList != null) {
 			model.addAttribute("iList", iList);
@@ -286,12 +278,13 @@ public class StoreBoardController {
 			model.addAttribute("piCount", result2);
 			model.addAttribute("prList", prList);
 
-			return "productDetail";
 
 		} else {
 			throw new BoardException("제품 상세 조회 실패.");
+			}
 		}
-
+		return "productDetail";
+		
 	}
 
 	// 문의 더보기
