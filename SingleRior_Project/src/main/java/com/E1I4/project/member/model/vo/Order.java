@@ -26,7 +26,6 @@ public class Order {
 	private String status;
 	private String productOption;
 	private String imgRename;
-	
 	 private String reciAddress;
 	 private String reciPhone;
 	 private int orderTotalPrice;
