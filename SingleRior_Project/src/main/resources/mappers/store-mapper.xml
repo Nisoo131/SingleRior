@@ -277,5 +277,15 @@
 	where img_b_type=7 and r.product_no=#{productNo}
   
   </select>
+  
+  <insert id="insertPayment">
+     insert into pay
+	 values (SEQ_PAYID.nextval, #{payAmount}, sysdate, 'Y', SEQ_OID.currval)
+  </insert>
+  
+  <insert id="insertDirectOrderDetail">
+  	insert into order_detail
+	values (SEQ_ODID.nextval, #{productNo} , '결제완료', #{quantity}, #{finalPrice}, #{productOption}, SEQ_OID.currval)
+  </insert>
 
 </mapper>

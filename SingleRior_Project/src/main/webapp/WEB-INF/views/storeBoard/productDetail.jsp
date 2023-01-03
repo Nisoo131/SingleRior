@@ -185,6 +185,7 @@
 		<input type="hidden" name="productPrice" value="${ pList[0].price}">
 		<input type="hidden" name="discount" value="${ pList[0].discount }">
 		<input type="hidden" name="boardTitle" value="${ pList[0].boardTitle }">
+		<input type="hidden" name="productOption" value="${ p }">
 		<input type="hidden" name="imgRename" value="${ pList[0].imgServerName }">
 	</form> 
 	  	

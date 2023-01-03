@@ -12,9 +12,11 @@ import com.E1I4.project.common.model.vo.Attachment;
 import com.E1I4.project.common.model.vo.Cart;
 import com.E1I4.project.common.model.vo.OrderProductDetail;
 import com.E1I4.project.common.model.vo.PageInfo;
+import com.E1I4.project.common.model.vo.Pay;
 import com.E1I4.project.common.model.vo.ProductInquiry;
 import com.E1I4.project.common.model.vo.WishList;
 import com.E1I4.project.member.model.vo.Member;
+import com.E1I4.project.storeBoard.model.vo.OrderDetail;
 import com.E1I4.project.storeBoard.model.vo.OrderItem;
 import com.E1I4.project.storeBoard.model.vo.OrderResult;
 import com.E1I4.project.storeBoard.model.vo.ProductReview;
@@ -129,6 +131,14 @@ public class StoreBoardDAO {
 
 	public int deleteCart(SqlSessionTemplate sqlSession, Cart cart) {
 		return sqlSession.delete("storeMapper.deleteCart", cart);
+	}
+
+	public int insertPayment(SqlSessionTemplate sqlSession, Pay pay) {
+		return sqlSession.insert("storeMapper.insertPayment", pay);
+	}
+
+	public int insertDirectOrderDetail(SqlSessionTemplate sqlSession, OrderDetail od) {
+		return sqlSession.insert("storMapper.insertDirectOrderDetail", od);
 	}
 
 

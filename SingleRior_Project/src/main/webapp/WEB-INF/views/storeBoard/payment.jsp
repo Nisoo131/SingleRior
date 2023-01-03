@@ -7,6 +7,8 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+<link rel="icon" href="/favicon.ico" type="image/x-icon">
 <!-- <meta name="viewport" content="width=device-width, initial-scale=1"> -->
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
 <title>Insert title here</title>
@@ -66,7 +68,7 @@
 			     <div class="blog-post">
 			        <h5 class="blog-post-title mb-1">▶배송지 정보</h5>
 			        <hr>
-			        <form action="${ contextPath }/orderResult.st" method="post" class="order_form">
+			        <form>
 			          <table>
 					       	<tr>
 					       		<td>수령인</td>
@@ -101,7 +103,7 @@
 			       <br><br>
 			       <h5 class="blog-post-title mb-1">▶주문자 정보</h5>
 			       <hr>
-			       <form action="${ contextPath }/orderResult.st" method="post" class="order_form">
+			       <form>
 				       <table>
 				       	<tr>
 				       		<td>이름</td>
@@ -121,19 +123,24 @@
 			  
 				 
 				    <%-- ${ member } --%>	
-					<%--  ${ orderItem }  --%>
+					<%--  ${ orderItem }   --%>
 		        
 				   <h5 class="blog-post-title mb-1">▶상품 정보</h5>
 				   <hr>
 				   <c:set var ="sum" value="0"/>  
 				   <c:forEach items="${ orderItem }" var="o" varStatus="status">
 				 <%--   ${ o.productNo } --%>
-				   ${ o.cartNo }
+				  <%--  ${ o.cartNo } --%>
+				 
  <!-- 상품정보 보내기 -->				   
-				    <form action="${ contextPath }/orderResult.st" method="post" class="order_form">
-				  	 <input type="hidden" name="productNo[]" value="${ o.productNo }">
-				  	 <input type="hidden" name="cartNo[]" value="${ o.cartNo }">
-				    </form> 
+				   
+				  	 <input type="hidden" name="productNo" value="${ o.productNo }">
+				  	 <input type="hidden" name="cartNo" value="${ o.cartNo }">
+				  	 <input type="hidden" name="productQty" value="${ o.productQty }">
+				  	 <input type="hidden" name="productPrice" value="${ o.productPrice }">
+				  	 <input type="hidden" name="discount" value="${ o.discount }">
+				  	 <input type="hidden" name="productOption" value="${ o.productOption }">
+				 
 				   
 				       <table class="table">   
 					   <tr height="15">
@@ -161,13 +168,13 @@
 					        	 	</span>원 	
 					      	    </div>
 					      	    <c:set var="total" value="${ total + (discountPrice * o.productQty)}"/>
-					      	    <form action="${ contextPath }/orderResult.st" method="post" class="order_form">
-							  	 <input type="hidden" name="prices[]" value="${ discountPrice * o.productQty }">
-							    </form>   
+					      	  	 <input type="hidden" name="prices[]" value="${ discountPrice * o.productQty }">
+							 
 					      	</td>
 					   	</tr>
 					</table>
 					</c:forEach>
+					
 				   
 				   <br><br>
 				   <h5 class="blog-post-title mb-1">▶결제 수단</h5>
@@ -176,11 +183,11 @@
 					  <div class="row row-cols-auto">
 					  	<table class="method">
 					  		<tr>
-					  			<td><input type="checkbox" name="payment" value="카카오페이" src="https://cdn-icons-png.flaticon.com/512/3991/3991999.png" width=100px; height=100px; class="payment"></td>
+					  			<td><img src="https://cdn-icons-png.flaticon.com/512/3991/3991999.png" width=100px; height=100px; class="payment"></td>
 					  			<td class="space"></td>
-					  			<td><input type="checkbox" name="payment" value="신용카드" src="https://cdn-icons-png.flaticon.com/512/4614/4614153.png" width=100px; height=100px; class="payment"></td>
+					  			<td><img src="https://cdn-icons-png.flaticon.com/512/4614/4614153.png" width=100px; height=100px; class="payment"></td>
 					  			<td class="space"></td>
-					  			<td><input type="checkbox" name="payment" value="네이버페이" src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2Fdathdj%2FbtqCpPA7Ejb%2FjLbp8B6QOqMTxQ6RmqdGL0%2Fimg.jpg" width=100px; height=100px; class="payment"></td>
+					  			<td><img src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2Fdathdj%2FbtqCpPA7Ejb%2FjLbp8B6QOqMTxQ6RmqdGL0%2Fimg.jpg" width=100px; height=100px; class="payment"></td>
 					  		</tr>
 					  		<tr>
 					  			<td>카카오페이</td>
@@ -214,7 +221,7 @@
 					   	</tr>
 					   	<tr>
 					   		<td width="200px" >배송비</td>
-					   		<td class="Price" id="deliveryPrice">0 원</td>
+					   		<td class="Price" id="deliveryPrice">0 <span>원</span></td>
 					   	</tr>
 					   </table>
 		         	</form>
@@ -253,7 +260,7 @@
 	    
     // 배송비 & 최종 금액 계산하기
     const price1 = $("#changedPrice").text();
-    const price2 = price1.replace(",", "");
+    const price2 = price1.replace(/,/g, '');
     const totalPrice = parseInt(price2); 
     //console.log(typeof totalPrice);
     
@@ -283,7 +290,6 @@
     	  var IMP = window.IMP;   // 생략 가능함
     	  IMP.init("imp24668238"); // 예: imp00000000 
     	  
-    	  // 넘길 데이터 총 9개  
     	  // 배송지 입력정보
      	  var recipient = $('input[name=recipient]').val();
     	  var recipient_phone = $('input[name=recipient_phone]').val();
@@ -294,16 +300,23 @@
      	 // 구매자 기본정보
     	  var memberName = $('#b_name').val();
     	  var email = $('#b_email').val();
-    	  var buyer_phone = $('#b_phone').val();
-    	  
+    	  var buyer_phone = $('#b_phone').val();    	  
 
-    	  // 구매 상품 정보
-   		  var arr=[];
-   		  $.each($("input[name='productNo[]']"),function(k,v){
-   			    arr[arr.length] = $(v).val();
-   			});
-   		  //console.log(arr);
-   		  
+    	  
+    	 // view값 받아오기
+    	 var productNo = $('input[name=productNo]').val()
+    	 var productQty = $('input[name=productQty]').val()
+    	 var productPrice = $('input[name=productPrice]').val()
+    	 var discount = $('input[name=discount]').val()
+    	 var productOption = $('input[name=productOption]').val()
+    	 var cartNo = $('input[name=cartNo]').val()
+    	 console.log(productNo);
+    	 console.log(productQty);
+    	 console.log(productPrice);
+    	 console.log(discount);
+    	 console.log(productOption); 
+    	 console.log(productOption); 
+    	 
    		  // 상품단가*개수 = 주문상품별 가격
    		   var pricesArr=[];
    		  $.each($("input[name='prices[]']"),function(k,v){
@@ -315,13 +328,8 @@
    		   var cartArr=[];
    		  $.each($("input[name='cartNo[]']"),function(k,v){
    			cartArr[cartArr.length] = $(v).val();
-   			});
-   		  console.log(cartArr);
-   		  
-   		  // 결제정보 넘기기 
-   		/*   var payment = $('input[name=payment]:checked').val();
-    	  console.log(payment); */
-    	  
+   			});   		  
+   		
     	  console.log(memberName);
     	  console.log(email);
     	  console.log(buyer_phone);
@@ -334,7 +342,7 @@
     	  var amount = finalPrice;
     	  console.log(finalPrice);
     	  
-    	  var allData ={"memberName":memberName,
+    	/*   var allData ={"memberName":memberName,
     			         "email":email,
     			         "buyer_phone":buyer_phone,
     			         "recipient":recipient,
@@ -343,11 +351,16 @@
     			         "address_detail":address_detail,
     			         "deliveryMsg":deliveryMsg,
     			         "finalPrice":finalPrice,
-    			         "arr":arr,
     			         "pricesArr":pricesArr,
     			         "cartArr":cartArr};
-    	  console.log(allData);
+    	  //console.log(allData);
     	  
+    	 var OrderItem ={"productNo":productNo,
+	   			            "productQty":productQty,
+	   			            "productPrice":productPrice,
+	   			            "discount":discount,
+	   			            "productOption":productOption};  */
+    	
    	      IMP.request_pay({ 
    	          pg: "html5_inicis",
    	          pay_method: "card",
@@ -360,21 +373,30 @@
 
    	      }, function (rsp) { // callback
    	          if (rsp.success) {
-   	        	      console.log(rsp);
-   	        	   var msg = '결제가 완료되었습니다.';
-	   				msg += '고유ID : ' + rsp.imp_uid;
-	   				msg += '상점 거래ID : ' + rsp.merchant_uid;
-	   				msg += '결제 금액 : ' + rsp.paid_amount;
-	   				msg += '카드 승인번호 : ' + rsp.apply_num;
-	   				
 	   	       //controller에 DB 넘기기
    	                    $.ajax({
 			            	  url: "${contextPath}/orderResult.st", 
 			            	  type: "post",
-			            	  data: allData,
-			            	        merchant_uid: rsp.merchant_uid,
+			            	  data: {memberName:memberName,
+			    			         email:email,
+			    			         buyer_phone:buyer_phone,
+			    			         recipient:recipient,
+			    			         recipient_phone:recipient_phone,
+			    			         address:address,
+			    			         address_detail:address_detail,
+			    			         deliveryMsg:deliveryMsg,
+			    			         finalPrice:finalPrice,
+			    			         pricesArr:pricesArr,
+			    			         pricesArr:pricesArr,
+			    			         cartArr:cartArr,
+			            		     productNo:productNo,
+			            		     cartNo:cartNo,
+			   			             productQty:productQty,
+			   			             productPrice:productPrice,
+			   			             discount:discount,
+			   			             productOption:productOption},
 							  success: function(data){
-			  		              location.href = "${contextPath}/orderResult.st";
+								  location.href='${contextPath}/finalOrder.st?cartList=' + data;
 			  		    }
 		              })
    	              alert("결제성공");     

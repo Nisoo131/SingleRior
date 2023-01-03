@@ -8,9 +8,11 @@ import com.E1I4.project.common.model.vo.Attachment;
 import com.E1I4.project.common.model.vo.Cart;
 import com.E1I4.project.common.model.vo.OrderProductDetail;
 import com.E1I4.project.common.model.vo.PageInfo;
+import com.E1I4.project.common.model.vo.Pay;
 import com.E1I4.project.common.model.vo.ProductInquiry;
 import com.E1I4.project.common.model.vo.WishList;
 import com.E1I4.project.member.model.vo.Member;
+import com.E1I4.project.storeBoard.model.vo.OrderDetail;
 import com.E1I4.project.storeBoard.model.vo.OrderItem;
 import com.E1I4.project.storeBoard.model.vo.OrderResult;
 import com.E1I4.project.storeBoard.model.vo.ProductReview;
@@ -63,6 +65,10 @@ public interface StoreBoardService {
 	ArrayList<ProductInquiry> selectMoreInquiryList(PageInfo pi, int productNo);
 
 	ArrayList<ProductReview> selectReviewList(int productNo);
+
+	int insertPayment(Pay pay);
+
+	int insertDirectOrderDetail(OrderDetail od);
 
 
 	

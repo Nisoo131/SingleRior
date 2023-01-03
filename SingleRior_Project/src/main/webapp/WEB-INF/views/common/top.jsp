@@ -166,26 +166,7 @@
       ChannelIO('boot', {
          "pluginKey" : "10a22f6a-22c4-4cd7-9a9f-d85a11e58ddb"
       });
-      
-      if(${ !empty loginUser }){
-    	  
-		setInterval(
-				function alarm() {
-					$.ajax({
-						url: '${ contextPath }/msgAlarm.cm',
-						success: (data) => {
-							if(data>0){
-								
-								document.getElementById('msgBox').style.display = 'block';
-								document.getElementById('msgBox').innerText = "+ " + data;
-							}
-						},
-						error: (data) => {
-							console.log(data);
-						}
-					});
-			 	},1000);
-		 }
+
    </script>
 </body>
 </html>

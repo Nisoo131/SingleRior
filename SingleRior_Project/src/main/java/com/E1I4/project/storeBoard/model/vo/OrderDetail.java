@@ -1,8 +1,22 @@
 package com.E1I4.project.storeBoard.model.vo;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
+@ToString
 public class OrderDetail {
-	private String productNo;
+	private int productNo;
 	private int quantity;
-	private String option;
-	private int orderNo;
+	private int productPrice;
+	private int lastPrice;
+	private int discount;
+	private String productOption;
+
 }
