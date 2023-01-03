@@ -169,6 +169,7 @@
       });
 <<<<<<< HEAD
       
+<<<<<<< HEAD
       if(${ !empty loginUser }){
     	  
 		setInterval(
@@ -192,6 +193,9 @@
 =======
 
 >>>>>>> Sue
+=======
+    
+>>>>>>> elly
    </script>
 </body>
 </html>

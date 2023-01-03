@@ -187,4 +187,9 @@ public class CommuBoardServiceImpl implements CommuBoardService{
 		return cDAO.selectReport(sqlSession, map);
 	}
 
+	@Override
+	public int insertReReply(HashMap<String, Object> map) {
+		return cDAO.insertReReply(sqlSession, map);
+	}
+
 }

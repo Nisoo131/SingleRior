@@ -166,4 +166,8 @@ public class CommuBoardDAO {
 		return sqlSession.selectOne("commuMapper.selectReport", map);
 	}
 
+	public int insertReReply(SqlSessionTemplate sqlSession, HashMap<String, Object> map) {
+		return sqlSession.insert("commuMapper.insertReReply", map);
+	}
+
 }

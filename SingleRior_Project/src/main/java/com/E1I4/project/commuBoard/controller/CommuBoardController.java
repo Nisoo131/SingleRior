@@ -312,6 +312,7 @@ public class CommuBoardController {
 	// 커뮤니티 댓글 등록 (insert)
 	@RequestMapping("insertReply.co")
 	public void insertReply(@ModelAttribute Reply r, HttpServletResponse response) {
+		
 		int result = cService.insertReply(r);
 		int bNo = r.getBoardNo();
 		int result1 = cService.replyCountUp(bNo);
@@ -373,6 +374,33 @@ public class CommuBoardController {
 			e.printStackTrace();
 		}
 	}
+	
+	// 커뮤니티 대댓글 등록 (insert)
+		@RequestMapping("insertReReply.co")
+		public void insertReReply(@ModelAttribute Reply r, @RequestParam("groupNo") int gNo, HttpServletResponse response) {
+			HashMap<String, Object> map = new HashMap<String, Object>();
+			map.put("r", r);
+			map.put("gNo", gNo);
+			
+			int result = cService.insertReReply(map);
+			int bNo = r.getBoardNo();
+			int result1 = cService.replyCountUp(bNo);
+			
+			ArrayList<Reply> list = cService.selectReply(r.getBoardNo());
+			
+//			System.out.println(r);
+//			System.out.println(list);
+			
+			response.setContentType("application/json; charset=UTF-8");
+			GsonBuilder gb = new GsonBuilder();
+			GsonBuilder gb2 = gb.setDateFormat("yyyy-MM-dd");
+			Gson gson = gb2.create();
+			try {
+				gson.toJson(list, response.getWriter());
+			} catch (JsonIOException | IOException e) {
+				e.printStackTrace();
+			}
+		}
 	
 	
 	/* 게시글 수정 (update) */

@@ -91,4 +91,6 @@ public interface CommuBoardService {
 	// 신고여부 확인
 	Report selectReport(HashMap<String, Object> map);
 
+	int insertReReply(HashMap<String, Object> map);
+
 }

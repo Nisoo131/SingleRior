@@ -164,118 +164,159 @@
 					<div id="replyList">
 						<!-- 댓글(reply) 출력 -->
 						<c:forEach items="${ coRList }" var="r">
-							<div class="px-5 replyCount">
-								<table class="table" id="replyUpdateArea">
-									<tr>
-										<c:if test="${ r.profileImg eq null}">
-											<td style="text-align: center;" width="40"><img src="${ contextPath }/resources/image/user.png" width="20" height="20"></td>
-										</c:if>
-										<c:if test="${ r.profileImg ne null}">
-											<td style="text-align: center;" width="40"><img src="resources/uploadFiles/${ r.profileImg }" width="35" height="35" style="border-radius: 70%"></td>
-										</c:if>
-										<td class="px-4 reNickName">${ r.nickName }</td>
-										<td class="px-4">${ r.replyModifyDate }</td>
-										<td width="700"></td>
-										<td>
-											<div class="dropdown">
-												<img class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" src="${ contextPath }/resources/image/menu-dots.png" width="20" height="20">
-												<ul class="dropdown-menu" style="text-align: center;">
-													<c:if test="${ loginUser.memberId eq r.memberId }">
-														<input type="hidden" value="${ r.replyNo }">
-														<li class="reReplyBtn"><a class="dropdown-item">답글달기</a></li>
-														<li class="replyUpdate"><a class="dropdown-item">수정</a></li>
-														<li class="replyDelete"><a class="dropdown-item">삭제</a></li>
-													</c:if>
-													<c:if test="${ !(loginUser.memberId eq r.memberId) && !empty loginUser }">
-														<li class="reReplyBtn"><a class="dropdown-item">답글달기</a></li>
-														<li class="replyReport">
-															<a class="dropdown-item">
-																<input type="hidden" value="${ r.reportStatus }" class="r_reportStatus">
-																<input type="hidden" class="replyNo" value="${ r.replyNo }">
-																신고
-															</a>
-														</li>
-													</c:if>
-													<c:if test="${ empty loginUser }">
-														<li><a class="dropdown-item reReplyBtn" data-bs-toggle="modal" data-bs-target="#loginForm">답글달기</a></li>
-														<li><a class="dropdown-item replyReport" data-bs-toggle="modal" data-bs-target="#loginForm">신고</a></li>
-													</c:if>
-												</ul>
-											</div>
-										</td>
-									</tr>
-									<tr style="font-size: 20px;">
-										<td class="px-5 py-3" colspan="5">
-											<div class="input-group">
-												<c:if test="${r.replySecret == 'Y' and (loginUser.memberId eq r.memberId  or loginUser.memberId eq coBoard.writer or loginUser.memberAuthority eq 'Y')}">
-													<textarea style="width: 1000px; border: none; resize: none;" readonly>${ r.replyContent }</textarea>
-												</c:if>
-												<c:if test="${r.replySecret == 'N' }">
-													<textarea class="updateContent" style="width: 1000px; border: none; resize: none;" readonly>${ r.replyContent }</textarea>
-												</c:if>
-												<c:if test="${r.replySecret == 'Y' and loginUser.memberId ne r.memberId and loginUser.memberId ne coBoard.writer and loginUser.memberAuthority eq 'N'}">
-													<textarea class="updateContent" style="width: 1000px; border: none; resize: none;" readonly>비밀 댓글입니다.</textarea>
-												</c:if>
-												<c:if test="${r.replySecret == 'Y' and loginUser eq null}">
-													<textarea style="width: 1000px; border: none; resize: none;" readonly>비밀 댓글입니다.</textarea>
-												</c:if>
-												<input type="hidden" value="${ r.replyNo }">
-											</div>
-										</td>
-									</tr>
-								</table>
-								
-								<!-- 대댓글창 -->
-								<c:if test="${ !empty loginUser }">
-									<table class="table table-borderless p-5 reReplyInput" style="display: none;">
-				                    	<tr>
-				                        	<td style="text-align: center;" width="40"><img src="${ contextPath }/resources/image/down-right.png" width="20" height="20">
-				                        	<td>
-				                           		<input type="hidden" name="replyNo" value="${ r.replyNo }">
-				                           		<div class="input-group">
-				                           			<textarea style="width: 1000px; resize: none;"></textarea>
-													<button class="btn btn-outline-primary btn-lg reReplySubmit" type="button" style="width: 100px;">등록</button>
-													<br>&nbsp;
-													<label for="replySecret">비밀댓글</label>&nbsp;&nbsp;<input type="checkbox" class="reReplySecret" value="N">	
+							<c:if test="${ r.replyNo == r.groupNo }">
+								<div class="px-5 replyCount">
+									<table class="table">
+										<tr>
+											<c:if test="${ r.profileImg eq null }">
+												<td style="text-align: center;" width="40"><img src="${ contextPath }/resources/image/user.png" width="20" height="20"></td>
+											</c:if>
+											<c:if test="${ r.profileImg ne null }">
+												<td style="text-align: center;" width="40"><img src="resources/uploadFiles/${ r.profileImg }" width="35" height="35" style="border-radius: 70%"></td>
+											</c:if>
+											<td class="px-4 reNickName">${ r.nickName }</td>
+											<td class="px-4">${ r.replyModifyDate }</td>
+											<td width="700"></td>
+											<td>
+												<div class="dropdown">
+													<img class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" src="${ contextPath }/resources/image/menu-dots.png" width="20" height="20">
+													<ul class="dropdown-menu" style="text-align: center;">
+														<c:if test="${ loginUser.memberId eq r.memberId }">
+															<input type="hidden" value="${ r.replyNo }">
+															<li class="reReplyBtn"><a class="dropdown-item">답글달기</a></li>
+															<li class="replyUpdate"><a class="dropdown-item">수정</a></li>
+															<li class="replyDelete"><a class="dropdown-item">삭제</a></li>
+														</c:if>
+														<c:if test="${ !(loginUser.memberId eq r.memberId) && !empty loginUser }">
+															<li class="reReplyBtn"><a class="dropdown-item">답글달기</a></li>
+															<li class="replyReport">
+																<a class="dropdown-item">
+																	<input type="hidden" value="${ r.reportStatus }" class="r_reportStatus">
+																	<input type="hidden" class="replyNo" value="${ r.replyNo }">
+																	<input type="hidden" class="groupNo" value="${ r.groupNo }">
+																	신고
+																</a>
+															</li>
+														</c:if>
+														<c:if test="${ empty loginUser }">
+															<li><a class="dropdown-item reReplyBtn" data-bs-toggle="modal" data-bs-target="#loginForm">답글달기</a></li>
+															<li><a class="dropdown-item replyReport" data-bs-toggle="modal" data-bs-target="#loginForm">신고</a></li>
+														</c:if>
+													</ul>
 												</div>
-				                        	</td>
-				                     	</tr>
-				                 	</table>
-				                 </c:if>
-							</div>
-						</c:forEach>
+											</td>
+										</tr>
+										<tr style="font-size: 20px;">
+											<td class="px-5" colspan="5">
+												<div class="input-group">
+													<c:if test="${r.replySecret == 'Y' and (loginUser.memberId eq r.memberId  or loginUser.memberId eq coBoard.writer or loginUser.memberAuthority eq 'Y')}">
+														<textarea style="width: 1000px; border: none; resize: none;" readonly>${ r.replyContent }</textarea>
+													</c:if>
+													<c:if test="${r.replySecret == 'N' }">
+														<textarea class="updateContent" style="width: 1000px; border: none; resize: none;" readonly>${ r.replyContent }</textarea>
+													</c:if>
+													<c:if test="${r.replySecret == 'Y' and loginUser.memberId ne r.memberId and loginUser.memberId ne coBoard.writer and loginUser.memberAuthority eq 'N'}">
+														<textarea class="updateContent" style="width: 1000px; border: none; resize: none;" readonly>비밀 댓글입니다.</textarea>
+													</c:if>
+													<c:if test="${r.replySecret == 'Y' and loginUser eq null}">
+														<textarea style="width: 1000px; border: none; resize: none;" readonly>비밀 댓글입니다.</textarea>
+													</c:if>
+													<input type="hidden" value="${ r.replyNo }">
+												</div>
+											</td>
+										</tr>
+									</table>
+									
+									<!-- 대댓글창 -->
+									<c:if test="${ !empty loginUser }">
+										<table class="table table-borderless p-5 reReplyInput" style="display: none;">
+					                    	<tr>
+					                        	<td style="text-align: center;" width="40"><img src="${ contextPath }/resources/image/down-right.png" width="20" height="20">
+					                        	<td>
+					                           		<input type="hidden" name="replyNo" value="${ r.replyNo }">
+					                           		<input type="hidden" class="groupNo" value="${ r.groupNo }">
+					                           		<div class="input-group">
+					                           			<textarea class="replyContent" style="width: 1000px; resize: none;"></textarea>
+														<button class="btn btn-outline-primary btn-lg reReplySubmit" type="button" style="width: 100px;">등록</button>
+														<br>&nbsp;
+														<label for="replySecret">비밀댓글</label>&nbsp;&nbsp;<input type="checkbox" class="reReplySecret" value="N">
+														<span style="padding-left: 30px;" class="counter">0</span><span> / 600</span>
+													</div>
+					                        	</td>
+					                    	</tr>
+					                	</table>
+					            	</c:if>
+								</div>
+							</c:if>
 						
-						<!-- 답글(reReply) 출력 -->
-						<%-- <div class="px-5" style="padding-bottom: 50px; margin-left: 60px;">
-							<c:forEach items="${ coRRList }" var="rr">
-								<table class="table">
-									<tr>
-										<td style="text-align: center;" width="40"><img src="${ contextPath }/resources/image/down-right.png" width="20" height="20">
-										<td style="text-align: center;" width="40"><img src="${ contextPath }/resources/image/user.png" width="20" height="20"></td>
-										<td class="px-4">닉네임</td>
-										<td class="px-4">2022-12-15</td>
-										<td width="750"></td>
-										<td>
-											<div class="dropdown">
-												<img class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" src="${ contextPath }/resources/image/menu-dots.png" width="20" height="20">
-												<ul class="dropdown-menu" style="text-align: center;">
-													<c:if test="${ loginUser.memberId eq r.memberId }">
-														<li><a class="dropdown-item" href="#">수정</a></li>
-														<li><a class="dropdown-item" href="#">삭제</a></li>
+						<!-- 대댓글 출력 -->
+							<c:forEach items="${ coRList }" var="rr">
+								<c:if test="${ r.replyNo == rr.groupNo }">
+									<c:if test="${ rr.replyNo != rr.groupNo }">
+										<div class="px-5" style="margin-left: 60px;">
+											<table class="table">
+												<tr>
+													<td style="text-align: center;" width="40"><img src="${ contextPath }/resources/image/down-right.png" width="20" height="20">
+													<c:if test="${ rr.profileImg eq null }">
+														<td style="text-align: center;" width="40"><img src="${ contextPath }/resources/image/user.png" width="20" height="20"></td>
 													</c:if>
-													<c:if test="${ !(loginUser.memberId eq r.memberId) }">
-														<li><a class="dropdown-item" href="#">신고</a></li>
+													<c:if test="${ rr.profileImg ne null }">
+														<td style="text-align: center;" width="40"><img src="resources/uploadFiles/${ rr.profileImg }" width="35" height="35" style="border-radius: 70%"></td>
 													</c:if>
-												</ul>
-											</div>
-										</td>
-									</tr>
-									<tr style="font-size: 20px;">
-										<td class="px-5 py-3" colspan="6">${ rr.replyContent }</td>
-									</tr>
-								</table>
+													<td class="px-4 reNickName">${ rr.nickName }</td>
+													<td class="px-4">${ rr.replyModifyDate }</td>
+													<td width="550"></td>
+													<td>
+														<div class="dropdown">
+															<img class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" src="${ contextPath }/resources/image/menu-dots.png" width="20" height="20">
+															<ul class="dropdown-menu" style="text-align: center;">
+																<c:if test="${ loginUser.memberId eq rr.memberId }">
+																	<input type="hidden" value="${ rr.replyNo }">
+																	<li class="replyUpdate"><a class="dropdown-item">수정</a></li>
+																	<li class="replyDelete"><a class="dropdown-item">삭제</a></li>
+																</c:if>
+																<c:if test="${ !(loginUser.memberId eq rr.memberId) && !empty loginUser }">
+																	<li class="replyReport">
+																		<a class="dropdown-item">
+																			<input type="hidden" value="${ rr.reportStatus }" class="r_reportStatus">
+																			<input type="hidden" class="replyNo" value="${ rr.replyNo }">
+																			<input type="hidden" class="groupNo" value="${ rr.groupNo }">
+																			신고
+																		</a>
+																	</li>
+																</c:if>
+																<c:if test="${ empty loginUser }">
+																	<li><a class="dropdown-item replyReport" data-bs-toggle="modal" data-bs-target="#loginForm">신고</a></li>
+																</c:if>
+															</ul>
+														</div>
+													</td>
+												</tr>
+												<tr style="font-size: 20px;">
+													<td class="px-5 py-3" colspan="6">
+														<div class="input-group">
+															<c:if test="${rr.replySecret == 'Y' and (loginUser.memberId eq rr.memberId  or loginUser.memberId eq coBoard.writer or loginUser.memberAuthority eq 'Y')}">
+																<textarea style="width: 900px; border: none; resize: none;" readonly>${ rr.replyContent }</textarea>
+															</c:if>
+															<c:if test="${rr.replySecret == 'N' }">
+																<textarea class="updateContent" style="width: 900px; border: none; resize: none;" readonly>${ rr.replyContent }</textarea>
+															</c:if>
+															<c:if test="${rr.replySecret == 'Y' and loginUser.memberId ne rr.memberId and loginUser.memberId ne coBoard.writer and loginUser.memberAuthority eq 'N'}">
+																<textarea class="updateContent" style="width: 900px; border: none; resize: none;" readonly>비밀 댓글입니다.</textarea>
+															</c:if>
+															<c:if test="${rr.replySecret == 'Y' and loginUser eq null}">
+																<textarea style="width: 900px; border: none; resize: none;" readonly>비밀 댓글입니다.</textarea>
+															</c:if>
+															<input type="hidden" value="${ rr.replyNo }">
+														</div>
+													</td>
+												</tr>
+											</table>
+										</div>
+									</c:if>
+								</c:if>
 							</c:forEach>
-						</div> --%>
+						</c:forEach>
 					</div>
 					
 					<div style="border-bottom: 1px solid #DCDCDC; padding-top: 10px;"></div>
@@ -283,10 +324,10 @@
 					<!-- 이동 -->
 					<div class="row px-5 py-4">
 						<div class="col-md-1" style="text-align: center; width: 150px;">
-							<button class="w-100 btn btn-outline-dark btn-lg" type="button" id="preForm" onclick="location.href='${contextPath}/selectCommuBoard.co?bNo=${ coBoard.boardNo - 1 }&writer=${ coBoard.nickName }'">이전글</button>
+							<button class="w-100 btn btn-outline-dark btn-lg" type="button" id="preForm" onclick="location.href='${contextPath}/selectCommuBoard.co?bNo=${ coBoard.boardNo - 1 }&writer=${ coBoard.writer }'">이전글</button>
 						</div>
 						<div class="col-md-1" style="text-align: center; width: 150px;">
-							<button class="w-100 btn btn-outline-dark btn-lg" type="button" id="nextForm" onclick="location.href='${contextPath}/selectCommuBoard.co?bNo=${ coBoard.boardNo + 1 }&writer=${ coBoard.nickName }'">다음글</button>
+							<button class="w-100 btn btn-outline-dark btn-lg" type="button" id="nextForm" onclick="location.href='${contextPath}/selectCommuBoard.co?bNo=${ coBoard.boardNo + 1 }&writer=${ coBoard.writer }'">다음글</button>
 						</div>
 						
 						<c:if test="${ loginUser.memberId eq coBoard.writer }">
@@ -472,75 +513,68 @@
 				success: function(data){
 					console.log(data);
 					
-					var listHtml = "";
 					var replyCount = data.length;
 					
-					for(const i in data){
-						listHtml += "<div class='px-5 replyCount'>";
-						listHtml += '<table class="table" id="replyUpdateArea">';
-						listHtml += "<tr>";
-						if(data[i].profileImg == null){
-							listHtml += "<td style='text-align: center;' width='40'><img src='${ contextPath }/resources/image/user.png' width='20' height='20'></td>";
-						} else {
-							listHtml += '<td style="text-align: center;" width="40"><img src="resources/uploadFiles/' + data[i].profileImg + '" width="35" height="35" style="border-radius: 70%"></td>';
-						}
-						listHtml += '<td class="px-4 reNickName">' + data[i].nickName + "</td>";
-						listHtml += "<td class='px-4'>" + data[i].replyModifyDate + "</td>";
-						listHtml += "<td width='850'></td>";
-						listHtml += "<td>";
-						listHtml += "<div class='dropdown'>";
-						listHtml += "<img class='dropdown-toggle' data-bs-toggle='dropdown' aria-expanded='false' src='${ contextPath }/resources/image/menu-dots.png' width='20' height='20'>";
-						if('${ loginUser.memberId }' == data[i].memberId){
-							listHtml += "<ul class='dropdown-menu' style='text-align: center;'>";
-							listHtml += '<input type="hidden" value="' + data[i].replyNo + '">';
-							listHtml += '<li class="reReplyBtn"><a class="dropdown-item">답글달기</a></li>';
-							listHtml += '<li class="replyUpdate"><a class="dropdown-item">수정</a></li>';
-							listHtml += '<li class="replyDelete"><a class="dropdown-item">삭제</a></li>';
-							listHtml += "</ul>";
-						} else if (!('${ loginUser.memberId }' == data[i].memberId) && '${loginUser}' != null) {
-							listHtml += "<ul class='dropdown-menu' style='text-align: center;'>";
-							listHtml += '<li class="reReplyBtn"><a class="dropdown-item">답글달기</a></li>';
-							listHtml += '<li class="replyReport">';
-							listHtml += '<a class="dropdown-item">';
-							listHtml += '<input type="hidden" value="' + data[i].reportStatus + '" class="r_reportStatus">';
-							listHtml += '<input type="hidden" class="replyNo" value="' + data[i].replyNo + '">';
-							listHtml += '신고';
-							listHtml += '</a>';
-							listHtml += '</ul>';
-						} else if('${loginUser}' == null){
-							listHtml += "<ul class='dropdown-menu' style='text-align: center;'>";
-							listHtml += '<li><a class="dropdown-item reReplyBtn" data-bs-toggle="modal" data-bs-target="#loginForm">답글달기</a></li>';
-							listHtml += '<li><a class="dropdown-item replyReport" data-bs-toggle="modal" data-bs-target="#loginForm">신고</a></li>';
-							listHtml += '</ul>';
-						}
-						listHtml += "</div>";
-						listHtml += "</td>";
-						listHtml += "</tr>";
-						listHtml += "<tr style='font-size: 20px;'>";
-						listHtml += "<td class='px-5 py-3' colspan='5'>";
-						listHtml += "<div class='input-group'>";
-						if(data[i].replySecret =='Y' && ('${ loginUser.memberId }' == '${ coBoard.writer }' || '${ loginUser.memberId }' == data[i].memberId || '${ loginUser.memberAuthority }' == 'Y')){
-							listHtml += "<textarea style='width: 1000px; border: none; resize: none;' readonly>" + data[i].replyContent + "</textarea>";
-						} else if(data[i].replySecret =='N'){
-							listHtml += "<textarea style='width: 1000px; border: none; resize: none;' readonly>" + data[i].replyContent + "</textarea>";
-						} else if(data[i].replySecret =='Y' && '${ loginUser.memberId }' != '${ coBoard.writer }' && '${ loginUser.memberId }' != data[i].memberId && '${ loginUser.memberAuthority }' == 'N'){
-							listHtml += "<textarea style='width: 1000px; border: none; resize: none;' readonly>비밀 댓글입니다.</textarea>";
-						} else if(data[i].replySecret =='Y' && '${loginUser}' == null){
-							listHtml += "<textarea style='width: 1000px; border: none; resize: none;' readonly>비밀 댓글입니다.</textarea>";
-						}
-						listHtml += '<input type="hidden" value="' + data[i].replyNo + '">';
-						listHtml += "</div>";
-						listHtml += "</td>";
-						listHtml += "</tr>";
-						listHtml += "</table>";
-						listHtml += "</div>";
-					}
+					selectRList(data);
 					
 					$("#replyCount").html(replyCount);
-					$("#replyList").html(listHtml);
 					$("#replyContent").val("");
 					$("#replySecret").prop("checked", false);
 					document.getElementById('replySecret').value = 'N';
+					$('#counter').html('0');
+					
+				},
+				error: (data)=>{
+					console.log(data);
+				}
+			});
+		});
+		
+		// 대댓글 수 count
+		$('.replyContent').keyup(function(){
+			const input = $(this).val();
+			const inputLength = input.length;
+			
+			console.log($(this).parent().find('.counter'))
+			
+			const counter = $(this).parent().find('.counter')
+			
+			counter.html('<b>' + inputLength + '</b>');
+			
+			if(inputLength > 600){
+				counter.css('color', 'red');
+				counter.html('<b>600</b>');
+			} else {
+				counter.css('color', 'black');
+			}
+			
+			const piece = input.substr(0, 600);
+			$(this).val(piece);
+		});
+		
+		// 대댓글 insert
+		$(document).on('click', ".reReplySubmit", function(){
+			var groupNo = this.parentNode.parentNode.querySelector('.groupNo').value;
+			console.log(this.parentNode.parentNode.querySelector('textarea').value); 
+			
+			if(this.parentNode.querySelector('.reReplySecret').checked){
+				this.parentNode.querySelector('.reReplySecret').value = 'Y';
+			}
+			
+			$.ajax({
+				url: '${contextPath}/insertReReply.co',
+				data: {replyContent:this.parentNode.parentNode.querySelector('textarea').value,
+						replySecret:this.parentNode.querySelector('.reReplySecret').value,
+						boardNo:'${coBoard.boardNo}', memberId:'${loginUser.memberId}',
+						groupNo:groupNo},
+				success: function(data){
+					console.log(data);
+					
+					var replyCount = data.length;
+					
+					selectRList(data);
+					
+					$("#replyCount").html(replyCount);
 				},
 				error: (data)=>{
 					console.log(data);
@@ -601,69 +635,9 @@
 						boardNo:'${coBoard.boardNo}'},
 					type: 'post',
 					success:(data)=>{
-						var listHtml = "";
 						
-						for(const i in data){
-							listHtml += "<div class='px-5 replyCount'>";
-							listHtml += '<table class="table" id="replyUpdateArea">';
-							listHtml += "<tr>";
-							if(data[i].profileImg == null){
-								listHtml += "<td style='text-align: center;' width='40'><img src='${ contextPath }/resources/image/user.png' width='20' height='20'></td>";
-							} else {
-								listHtml += '<td style="text-align: center;" width="40"><img src="resources/uploadFiles/' + data[i].profileImg + '" width="35" height="35" style="border-radius: 70%"></td>';
-							}
-							listHtml += '<td class="px-4 reNickName">' + data[i].nickName + "</td>";
-							listHtml += "<td class='px-4'>" + data[i].replyModifyDate + "</td>";
-							listHtml += "<td width='850'></td>";
-							listHtml += "<td>";
-							listHtml += "<div class='dropdown'>";
-							listHtml += "<img class='dropdown-toggle' data-bs-toggle='dropdown' aria-expanded='false' src='${ contextPath }/resources/image/menu-dots.png' width='20' height='20'>";
-							if('${ loginUser.memberId }' == data[i].memberId){
-								listHtml += "<ul class='dropdown-menu' style='text-align: center;'>";
-								listHtml += '<input type="hidden" value="' + data[i].replyNo + '">';
-								listHtml += '<li class="reReplyBtn"><a class="dropdown-item">답글달기</a></li>';
-								listHtml += '<li class="replyUpdate"><a class="dropdown-item">수정</a></li>';
-								listHtml += '<li class="replyDelete"><a class="dropdown-item">삭제</a></li>';
-								listHtml += "</ul>";
-							} else if (!('${ loginUser.memberId }' == data[i].memberId) && '${loginUser}' != null) {
-								listHtml += "<ul class='dropdown-menu' style='text-align: center;'>";
-								listHtml += '<li class="reReplyBtn"><a class="dropdown-item">답글달기</a></li>';
-								listHtml += '<li class="replyReport">';
-								listHtml += '<a class="dropdown-item">';
-								listHtml += '<input type="hidden" value="' + data[i].reportStatus + '" class="r_reportStatus">';
-								listHtml += '<input type="hidden" class="replyNo" value="' + data[i].replyNo + '">';
-								listHtml += '신고';
-								listHtml += '</a>';
-								listHtml += '</ul>';
-							} else if('${loginUser}' == null){
-								listHtml += "<ul class='dropdown-menu' style='text-align: center;'>";
-								listHtml += '<li><a class="dropdown-item reReplyBtn" data-bs-toggle="modal" data-bs-target="#loginForm">답글달기</a></li>';
-								listHtml += '<li><a class="dropdown-item replyReport" data-bs-toggle="modal" data-bs-target="#loginForm">신고</a></li>';
-								listHtml += '</ul>';
-							}
-							listHtml += "</div>";
-							listHtml += "</td>";
-							listHtml += "</tr>";
-							listHtml += "<tr style='font-size: 20px;'>";
-							listHtml += "<td class='px-5 py-3' colspan='5'>";
-							listHtml += "<div class='input-group'>";
-							if(data[i].replySecret =='Y' && ('${ loginUser.memberId }' == '${ coBoard.writer }' || '${ loginUser.memberId }' == data[i].memberId || '${ loginUser.memberAuthority }' == 'Y')){
-								listHtml += "<textarea style='width: 1000px; border: none; resize: none;' readonly>" + data[i].replyContent + "</textarea>";
-							} else if(data[i].replySecret =='N'){
-								listHtml += "<textarea style='width: 1000px; border: none; resize: none;' readonly>" + data[i].replyContent + "</textarea>";
-							} else if(data[i].replySecret =='Y' && '${ loginUser.memberId }' != '${ coBoard.writer }' && '${ loginUser.memberId }' != data[i].memberId && '${ loginUser.memberAuthority }' == 'N'){
-								listHtml += "<textarea style='width: 1000px; border: none; resize: none;' readonly>비밀 댓글입니다.</textarea>";
-							} else if(data[i].replySecret =='Y' && '${loginUser}' == null){
-								listHtml += "<textarea style='width: 1000px; border: none; resize: none;' readonly>비밀 댓글입니다.</textarea>";
-							}
-							listHtml += '<input type="hidden" value="' + data[i].replyNo + '">';
-							listHtml += "</div>";
-							listHtml += "</td>";
-							listHtml += "</tr>";
-							listHtml += "</table>";
-							listHtml += "</div>";
-						}
-						$("#replyList").html(listHtml);
+						selectRList(data);
+						
 					},
 					error: (data)=>{
 						console.log(data);
@@ -684,78 +658,175 @@
 				success: function(data){
 					console.log(data);
 					
-					var listHtml = "";
 					var replyCount = data.length;
 					
-					for(const i in data){
-						listHtml += "<div class='px-5 replyCount'>";
-						listHtml += '<table class="table" id="replyUpdateArea">';
-						listHtml += "<tr>";
-						if(data[i].profileImg == null){
-							listHtml += "<td style='text-align: center;' width='40'><img src='${ contextPath }/resources/image/user.png' width='20' height='20'></td>";
-						} else {
-							listHtml += '<td style="text-align: center;" width="40"><img src="resources/uploadFiles/' + data[i].profileImg + '" width="35" height="35" style="border-radius: 70%"></td>';
-						}
-						listHtml += '<td class="px-4 reNickName">' + data[i].nickName + "</td>";
-						listHtml += "<td class='px-4'>" + data[i].replyModifyDate + "</td>";
-						listHtml += "<td width='850'></td>";
-						listHtml += "<td>";
-						listHtml += "<div class='dropdown'>";
-						listHtml += "<img class='dropdown-toggle' data-bs-toggle='dropdown' aria-expanded='false' src='${ contextPath }/resources/image/menu-dots.png' width='20' height='20'>";
-						if('${ loginUser.memberId }' == data[i].memberId){
-							listHtml += "<ul class='dropdown-menu' style='text-align: center;'>";
-							listHtml += '<input type="hidden" value="' + data[i].replyNo + '">';
-							listHtml += '<li class="reReplyBtn"><a class="dropdown-item">답글달기</a></li>';
-							listHtml += '<li class="replyUpdate"><a class="dropdown-item">수정</a></li>';
-							listHtml += '<li class="replyDelete"><a class="dropdown-item">삭제</a></li>';
-							listHtml += "</ul>";
-						} else if (!('${ loginUser.memberId }' == data[i].memberId) && '${loginUser}' != null) {
-							listHtml += "<ul class='dropdown-menu' style='text-align: center;'>";
-							listHtml += '<li class="reReplyBtn"><a class="dropdown-item">답글달기</a></li>';
-							listHtml += '<li class="replyReport">';
-							listHtml += '<a class="dropdown-item">';
-							listHtml += '<input type="hidden" value="' + data[i].reportStatus + '" class="r_reportStatus">';
-							listHtml += '<input type="hidden" class="replyNo" value="' + data[i].replyNo + '">';
-							listHtml += '신고';
-							listHtml += '</a>';
-							listHtml += '</ul>';
-						} else if('${loginUser}' == null){
-							listHtml += "<ul class='dropdown-menu' style='text-align: center;'>";
-							listHtml += '<li><a class="dropdown-item reReplyBtn" data-bs-toggle="modal" data-bs-target="#loginForm">답글달기</a></li>';
-							listHtml += '<li><a class="dropdown-item replyReport" data-bs-toggle="modal" data-bs-target="#loginForm">신고</a></li>';
-							listHtml += '</ul>';
-						}
-						listHtml += "</div>";
-						listHtml += "</td>";
-						listHtml += "</tr>";
-						listHtml += "<tr style='font-size: 20px;'>";
-						listHtml += "<td class='px-5 py-3' colspan='5'>";
-						listHtml += "<div class='input-group'>";
-						if(data[i].replySecret =='Y' && ('${ loginUser.memberId }' == '${ coBoard.writer }' || '${ loginUser.memberId }' == data[i].memberId || '${ loginUser.memberAuthority }' == 'Y')){
-							listHtml += "<textarea style='width: 1000px; border: none; resize: none;' readonly>" + data[i].replyContent + "</textarea>";
-						} else if(data[i].replySecret =='N'){
-							listHtml += "<textarea style='width: 1000px; border: none; resize: none;' readonly>" + data[i].replyContent + "</textarea>";
-						} else if(data[i].replySecret =='Y' && '${ loginUser.memberId }' != '${ coBoard.writer }' && '${ loginUser.memberId }' != data[i].memberId && '${ loginUser.memberAuthority }' == 'N'){
-							listHtml += "<textarea style='width: 1000px; border: none; resize: none;' readonly>비밀 댓글입니다.</textarea>";
-						} else if(data[i].replySecret =='Y' && '${loginUser}' == null){
-							listHtml += "<textarea style='width: 1000px; border: none; resize: none;' readonly>비밀 댓글입니다.</textarea>";
-						}
-						listHtml += '<input type="hidden" value="' + data[i].replyNo + '">';
-						listHtml += "</div>";
-						listHtml += "</td>";
-						listHtml += "</tr>";
-						listHtml += "</table>";
-						listHtml += "</div>";
-					}
+					selectRList(data);
 					
 					$("#replyCount").html(replyCount);
-					$("#replyList").html(listHtml);
 				},
 				error: (data)=>{
 					console.log(data);
 				}
 			});
 		});
+		
+		// 댓글 list 불러오기
+		function selectRList(data){
+			var listHtml = "";
+			for(const i in data){
+				if(data[i].replyNo == data[i].groupNo){
+					listHtml += "<div class='px-5 replyCount'>";
+					listHtml += '<table class="table">';
+					listHtml += "<tr>";
+					if(data[i].profileImg == null){
+						listHtml += "<td style='text-align: center;' width='40'><img src='${ contextPath }/resources/image/user.png' width='20' height='20'></td>";
+					} else {
+						listHtml += '<td style="text-align: center;" width="40"><img src="resources/uploadFiles/' + data[i].profileImg + '" width="35" height="35" style="border-radius: 70%"></td>';
+					}
+					listHtml += '<td class="px-4 reNickName">' + data[i].nickName + "</td>";
+					listHtml += "<td class='px-4'>" + data[i].replyModifyDate + "</td>";
+					listHtml += "<td width='700'></td>";
+					listHtml += "<td>";
+					listHtml += "<div class='dropdown'>";
+					listHtml += "<img class='dropdown-toggle' data-bs-toggle='dropdown' aria-expanded='false' src='${ contextPath }/resources/image/menu-dots.png' width='20' height='20'>";
+					if('${ loginUser.memberId }' == data[i].memberId){
+						listHtml += "<ul class='dropdown-menu' style='text-align: center;'>";
+						listHtml += '<input type="hidden" value="' + data[i].replyNo + '">';
+						listHtml += '<li class="reReplyBtn"><a class="dropdown-item">답글달기</a></li>';
+						listHtml += '<li class="replyUpdate"><a class="dropdown-item">수정</a></li>';
+						listHtml += '<li class="replyDelete"><a class="dropdown-item">삭제</a></li>';
+						listHtml += "</ul>";
+					} else if (!('${ loginUser.memberId }' == data[i].memberId) && '${loginUser}' != null) {
+						listHtml += "<ul class='dropdown-menu' style='text-align: center;'>";
+						listHtml += '<li class="reReplyBtn"><a class="dropdown-item">답글달기</a></li>';
+						listHtml += '<li class="replyReport">';
+						listHtml += '<a class="dropdown-item">';
+						listHtml += '<input type="hidden" value="' + data[i].reportStatus + '" class="r_reportStatus">';
+						listHtml += '<input type="hidden" class="replyNo" value="' + data[i].replyNo + '">';
+						listHtml += '<input type="hidden" class="groupNo" value="' + data[i].groupNo + '">';
+						listHtml += '신고';
+						listHtml += '</a>';
+						listHtml += '</ul>';
+					} else if('${loginUser}' == null){
+						listHtml += "<ul class='dropdown-menu' style='text-align: center;'>";
+						listHtml += '<li><a class="dropdown-item reReplyBtn" data-bs-toggle="modal" data-bs-target="#loginForm">답글달기</a></li>';
+						listHtml += '<li><a class="dropdown-item replyReport" data-bs-toggle="modal" data-bs-target="#loginForm">신고</a></li>';
+						listHtml += '</ul>';
+					}
+					listHtml += "</div>";
+					listHtml += "</td>";
+					listHtml += "</tr>";
+					listHtml += "<tr style='font-size: 20px;'>";
+					listHtml += "<td class='px-5' colspan='5'>";
+					listHtml += "<div class='input-group'>";
+					if(data[i].replySecret =='Y' && ('${ loginUser.memberId }' == '${ coBoard.writer }' || '${ loginUser.memberId }' == data[i].memberId || '${ loginUser.memberAuthority }' == 'Y')){
+						listHtml += "<textarea style='width: 1000px; border: none; resize: none;' readonly>" + data[i].replyContent + "</textarea>";
+					} else if(data[i].replySecret =='N'){
+						listHtml += "<textarea class='updateContent' style='width: 1000px; border: none; resize: none;' readonly>" + data[i].replyContent + "</textarea>";
+					} else if(data[i].replySecret =='Y' && '${ loginUser.memberId }' != '${ coBoard.writer }' && '${ loginUser.memberId }' != data[i].memberId && '${ loginUser.memberAuthority }' == 'N'){
+						listHtml += "<textarea class='updateContent' style='width: 1000px; border: none; resize: none;' readonly>비밀 댓글입니다.</textarea>";
+					} else if(data[i].replySecret =='Y' && '${loginUser}' == null){
+						listHtml += "<textarea style='width: 1000px; border: none; resize: none;' readonly>비밀 댓글입니다.</textarea>";
+					}
+					listHtml += '<input type="hidden" value="' + data[i].replyNo + '">';
+					listHtml += "</div>";
+					listHtml += "</td>";
+					listHtml += "</tr>";
+					listHtml += "</table>";
+					if('${loginUser}' != null){
+						listHtml += '<table class="table table-borderless p-5 reReplyInput" style="display: none;">';
+						listHtml += '<tr>';
+						listHtml += '<td style="text-align: center;" width="40"><img src="${ contextPath }/resources/image/down-right.png" width="20" height="20">';
+						listHtml += '<td>';
+						listHtml += '<input type="hidden" name="replyNo" value="' + data[i].replyNo + '">';
+						listHtml += '<input type="hidden" class="groupNo" value="' + data[i].groupNo + '">';
+						listHtml += '<div class="input-group">';
+						listHtml += '<textarea class="replyContent" style="width: 1000px; resize: none;"></textarea>';
+						listHtml += '<button class="btn btn-outline-primary btn-lg reReplySubmit" type="button" style="width: 100px;">등록</button>';
+						listHtml += '<br>&nbsp;';
+						listHtml += '<label for="replySecret">비밀댓글</label>&nbsp;&nbsp;<input type="checkbox" class="reReplySecret" value="N">';
+						listHtml += '<span style="padding-left: 30px;" class="counter">0</span><span> / 600</span>';
+						listHtml += '</div>';
+						listHtml += '</td>';
+						listHtml += '</tr>';
+						listHtml += '</table>';
+					}
+					listHtml += "</div>";
+				}
+				
+				for(const ii in data){
+					if(data[i].replyNo == data[ii].groupNo){
+						if(data[ii].replyNo != data[ii].groupNo){
+							listHtml += '<div class="px-5" style="margin-left: 60px;">';
+							listHtml += '<table class="table">';
+							listHtml += "<tr>";
+							listHtml += '<td style="text-align: center;" width="40"><img src="${ contextPath }/resources/image/down-right.png" width="20" height="20">';
+							if(data[ii].profileImg == null){
+								listHtml += "<td style='text-align: center;' width='40'><img src='${ contextPath }/resources/image/user.png' width='20' height='20'></td>";
+							} else {
+								listHtml += '<td style="text-align: center;" width="40"><img src="resources/uploadFiles/' + data[ii].profileImg + '" width="35" height="35" style="border-radius: 70%"></td>';
+							}
+							listHtml += '<td class="px-4 reNickName">' + data[ii].nickName + "</td>";
+							listHtml += "<td class='px-4'>" + data[ii].replyModifyDate + "</td>";
+							listHtml += "<td width='550'></td>";
+							listHtml += "<td>";
+							listHtml += "<div class='dropdown'>";
+							listHtml += "<img class='dropdown-toggle' data-bs-toggle='dropdown' aria-expanded='false' src='${ contextPath }/resources/image/menu-dots.png' width='20' height='20'>";
+							if('${ loginUser.memberId }' == data[ii].memberId){
+								listHtml += "<ul class='dropdown-menu' style='text-align: center;'>";
+								listHtml += '<input type="hidden" value="' + data[ii].replyNo + '">';
+								listHtml += '<li class="replyUpdate"><a class="dropdown-item">수정</a></li>';
+								listHtml += '<li class="replyDelete"><a class="dropdown-item">삭제</a></li>';
+								listHtml += "</ul>";
+							} else if (!('${ loginUser.memberId }' == data[ii].memberId) && '${loginUser}' != null) {
+								listHtml += "<ul class='dropdown-menu' style='text-align: center;'>";
+								listHtml += '<li class="replyReport">';
+								listHtml += '<a class="dropdown-item">';
+								listHtml += '<input type="hidden" value="' + data[ii].reportStatus + '" class="r_reportStatus">';
+								listHtml += '<input type="hidden" class="replyNo" value="' + data[ii].replyNo + '">';
+								listHtml += '<input type="hidden" class="groupNo" value="' + data[ii].groupNo + '">';
+								listHtml += '신고';
+								listHtml += '</a>';
+								listHtml += '</ul>';
+							} else if('${loginUser}' == null){
+								listHtml += "<ul class='dropdown-menu' style='text-align: center;'>";
+								listHtml += '<li><a class="dropdown-item replyReport" data-bs-toggle="modal" data-bs-target="#loginForm">신고</a></li>';
+								listHtml += '</ul>';
+							}
+							listHtml += "</div>";
+							listHtml += "</td>";
+							listHtml += "</tr>";
+							listHtml += "<tr style='font-size: 20px;'>";
+							listHtml += "<td class='px-5 py-3' colspan='6'>";
+							listHtml += "<div class='input-group'>";
+							if(data[i].replySecret =='Y' && ('${ loginUser.memberId }' == '${ coBoard.writer }' || '${ loginUser.memberId }' == data[ii].memberId || '${ loginUser.memberAuthority }' == 'Y')){
+								listHtml += "<textarea style='width: 900px; border: none; resize: none;' readonly>" + data[ii].replyContent + "</textarea>";
+							} else if(data[ii].replySecret =='N'){
+								listHtml += "<textarea class='updateContent' style='width: 900px; border: none; resize: none;' readonly>" + data[ii].replyContent + "</textarea>";
+							} else if(data[ii].replySecret =='Y' && '${ loginUser.memberId }' != '${ coBoard.writer }' && '${ loginUser.memberId }' != data[ii].memberId && '${ loginUser.memberAuthority }' == 'N'){
+								listHtml += "<textarea class='updateContent' style='width: 900px; border: none; resize: none;' readonly>비밀 댓글입니다.</textarea>";
+							} else if(data[ii].replySecret =='Y' && '${loginUser}' == null){
+								listHtml += "<textarea style='width: 900px; border: none; resize: none;' readonly>비밀 댓글입니다.</textarea>";
+							}
+							listHtml += '<input type="hidden" value="' + data[ii].replyNo + '">';
+							listHtml += "</div>";
+							listHtml += "</td>";
+							listHtml += "</tr>";
+							listHtml += "</table>";
+							listHtml += "</div>";
+						}
+					}
+				}
+			}
+			$("#replyList").html(listHtml);
+			
+			var textArea = $('textarea');
+		    if (textArea) {
+		        textArea.each(function(){
+		            $(this).height(this.scrollHeight);
+		        });
+		    }
+		}
 		
 		// 글 edit 페이지로 넘어가기 (update)
 		const upd = document.getElementById('updateForm');
@@ -806,7 +877,6 @@
 	    
 		// 답글 textarea 보이게 하기
 		$(document).on("click", ".reReplyBtn", function(){
-			console.log("답글");
 			const input = this.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.nextElementSibling;
 			console.log(input);
 			console.log(input.querySelector('textarea'));
@@ -818,7 +888,6 @@
 				input.style.display = 'none';
 			}
 		});
-		
 		
 	</script>
 </body>
