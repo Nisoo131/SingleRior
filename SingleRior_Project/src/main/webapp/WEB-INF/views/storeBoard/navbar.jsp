@@ -54,20 +54,20 @@
 	
 	/* Navigation Styles */
 	
-	nav { background: #2ba0db; }
+	.navStore { background: #2ba0db; }
 	
-	nav ul {
+	.navStore ul {
 	  font-size: 15px;
 	  margin: 0;
 	  padding: 0;
 	}
 	
-	nav ul li {
+	.navStore ul li {
 	  display: inline-block;
 	  position: relative;
 	}
 	
-	nav ul li a {
+	.navStore ul li a {
 	  color: #fff;
 	  display: block;
 	  font-size: 15px;
@@ -75,31 +75,31 @@
 	  transition: 0.3s linear;
 	}
 	
-	nav ul li:hover { background: #126d9b; }
+	.navStore ul li:hover { background: #126d9b; }
 	
-	nav ul li ul {
+	.navStore ul li ul {
 	  border-bottom: 5px solid #2ba0db;
 	  display: none;
 	  position: absolute;
 	  width: 250px;
 	}
 	
-	nav ul li ul li {
+	.navStore ul li ul li {
 	  border-top: 1px solid #444;
 	  display: block;
 	}
 	
-	nav ul li ul li:first-child { border-top: none; }
+	.navStore ul li ul li:first-child { border-top: none; }
 	
-	nav ul li ul li a {
+	.navStore ul li ul li a {
 	  background: #373737;
 	  display: block;
 	  padding: 10px 14px;
 	}
 	
-	nav ul li ul li a:hover { background: #126d9b; }
+	.navStore ul li ul li a:hover { background: #126d9b; }
 	
-	nav .fa.fa-angle-down { margin-left: 6px; }
+	.navStore .fa.fa-angle-down { margin-left: 6px; }
 	
 </style>
 </head>
@@ -111,7 +111,7 @@
 	</header>
 	
 	<div id="drop" >
-	<nav>
+	<nav class="navStore">
 	  <div class="container">
 	    <ul>
 	      <li class='top-menu'><a href="${ contextPath }/categoryList.st?topCate=1">가구<i class='fa fa-angle-down'></i></a>
@@ -177,7 +177,7 @@
 	</div>
 
 	<script>
-	$('nav li').hover(
+	$('.navStore li').hover(
 	  function() {
 	      $('ul', this).stop().slideDown(200);
 	      $('ul', this).css('background','transparent');
