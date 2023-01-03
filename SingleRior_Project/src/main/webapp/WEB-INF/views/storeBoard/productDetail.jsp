@@ -261,19 +261,8 @@
             <h2 class="blog-post-title mb-1" >리뷰  ${trList[0].reviewCount }개</h2>
               <br><br>
                  <div class="reviewContent">
-                     <h2>총점 : <span class="reviewRatingTable badge badge rounded-pill text-bg-danger" style="font-size: 1rem; ">★${ trList[0].avgStar }</span></h2>
-                     <%-- <div>별점 : 
-                        <c:if test="${ '0'<trList[0].avgStar<'0.5'}"><span class="starView">★★★★★<span>★★★★★</span><input class="starViewValue" type="range" value="0"></span></c:if>
-                        <c:if test="${'0.5'<=trList[0].avgStar <'1'}"><span class="starView">★★★★★<span>★★★★★</span><input class="starViewValue" type="range" value="1"></span></c:if>
-                        <c:if test="${'1'<trList[0].avgStar<='1.5'}"><span class="starView">★★★★★<span>★★★★★</span><input class="starViewValue" type="range" value="2"></span></c:if>
-                        <c:if test="${'1.5'<trList[0].avgStar<='2'}"><span class="starView">★★★★★<span>★★★★★</span><input class="starViewValue" type="range" value="3"></span></c:if>
-                        <c:if test="${'2'<trList[0].avgStar<='2.5'}"><span class="starView">★★★★★<span>★★★★★</span><input class="starViewValue" type="range" value="4"></span></c:if>
-                        <c:if test="${'2.5'<trList[0].avgStar<='3'}"><span class="starView">★★★★★<span>★★★★★</span><input class="starViewValue" type="range" value="5"></span></c:if>
-                        <c:if test="${'3'<trList[0].avgStar<='3.5'}"><span class="starView">★★★★★<span>★★★★★</span><input class="starViewValue" type="range" value="6"></span></c:if>
-                        <c:if test="${'3.5'<trList[0].avgStar<='4'}"><span class="starView">★★★★★<span>★★★★★</span><input class="starViewValue" type="range" value="7"></span></c:if>
-                        <c:if test="${'4'<trList[0].avgStar<='4.5'}"><span class="starView">★★★★★<span>★★★★★</span><input class="starViewValue" type="range" value="8"></span></c:if>
-                        <c:if test="${'4.5'<trList[0].avgStar<'5'}"><span class="starView">★★★★★<span>★★★★★</span><input class="starViewValue" type="range" value="9"></span></c:if>
-                     </div> --%>
+                    
+                     <h2><div id="avgRating"></div></h2>
                      
                  
                  
@@ -465,13 +454,6 @@
      </div>
 
 
-                  </div>
-                     
-                 
-      
-                 
-                 
-              </div> 
               <br><br>
                     <c:if test="${fn:length(prList)<6}">
                    <c:forEach items="${prList}" var="pr">
@@ -1126,9 +1108,41 @@
     }
 </script>
 <script>
-const drawStar = (target) => {
-     document.querySelector(`.star span`).style.width = `${target.value * 10}%`;
-   }
-
+		// 평점 구하기
+		//    console.log(${ review.movieRating });
+		   
+		   const avgRating = document.getElementById("avgRating");
+		   const rating = '${ trList[0].avgStar }';
+		//    console.log(rating);
+		   
+		   let print = '';
+		   
+		   if(rating >= 5 ){
+		      print = '평균점수 '+ rating + '점 <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>';
+		   }else if(rating >= 4.5){
+		      print = '평균점수 '+ rating + '점 <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-half"></i>';
+		   } else if (rating >= 4.0) {
+		      print = '평균점수 '+ rating + '점 <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star"></i>';
+		   } else if(rating >= 3.5){
+		      print = '평균점수 '+ rating + '점 <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-half"></i><i class="bi bi-star"></i>';
+		   } else if(rating >= 3.0){
+		      print = '평균점수 '+ rating + '점 <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star"></i><i class="bi bi-star"></i>';
+		   } else if(rating >= 2.5){
+		      print = '평균점수 '+ rating + '점 <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-half"></i><i class="bi bi-star"></i><i class="bi bi-star"></i>';
+		   } else if(rating >= 2.0){
+		      print = '평균점수 '+ rating + '점 <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star"></i><i class="bi bi-star"></i><i class="bi bi-star"></i>';
+		   } else if(rating >= 1.5){
+		      print = '평균점수 '+ rating + '점 <i class="bi bi-star-fill"><i class="bi bi-star-half"></i><i class="bi bi-star"></i><i class="bi bi-star"></i><i class="bi bi-star"></i>';
+		   }else if(rating >= 1.0){
+		      print = '평균점수 '+ rating + '점 <i class="bi bi-star-fill"></i><i class="bi bi-star"></i><i class="bi bi-star"></i><i class="bi bi-star"></i><i class="bi bi-star"></i>';
+		   } else if(rating >= 0.5){
+		      print = '평균점수 '+ rating + '점 <i class="bi bi-star-half"></i><i class="bi bi-star"></i><i class="bi bi-star"></i><i class="bi bi-star"></i><i class="bi bi-star"></i>';
+		   } else if(rating > 0){
+		      print = '평균점수 '+ rating + '점 <i class="bi bi-star"></i><i class="bi bi-star"></i><i class="bi bi-star"></i><i class="bi bi-star"></i><i class="bi bi-star"></i>';
+		   } else{
+		      print = '평균점수 0점 <i class="bi bi-star"></i><i class="bi bi-star"></i><i class="bi bi-star"></i><i class="bi bi-star"></i><i class="bi bi-star"></i>';
+		   }
+		   
+		   avgRating.innerHTML = print;
 </script>
 </html>
