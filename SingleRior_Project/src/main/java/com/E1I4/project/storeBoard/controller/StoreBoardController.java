@@ -139,13 +139,8 @@ public class StoreBoardController {
 			} return "categoryList"; 
 
 
-
 		}
 
-
-
-
-	
 
 	// 상품 상세보기
 	@RequestMapping("productDetail.st")
@@ -475,9 +470,13 @@ public class StoreBoardController {
 			@RequestParam(value = "productPrice", required = false) Integer productPrice,
 			@RequestParam(value = "discount", required = false) Integer discount,
 			@RequestParam(value = "productOption", required = false) String productOption,
+			@RequestParam(value = "imp_uid", required = false) String impuid,
+			@RequestParam(value = "merchant_uid", required = false) String merchantuid,
 			@ModelAttribute OrderDetail orderdetail, HttpSession session, Model model) {
 		String id = ((Member) session.getAttribute("loginUser")).getMemberId();
 
+//		System.out.println(merchantuid);
+//		System.out.println(impuid);
 //		System.out.println(recipient); 
 //		System.out.println(recipient_phone); 
 //		System.out.println(address); 
@@ -493,6 +492,7 @@ public class StoreBoardController {
 //		System.out.println(productOption);
 //		System.out.println(finalPrice);
 
+
 		
 		ArrayList<Cart> cartList = new ArrayList<Cart>();
 
@@ -506,14 +506,15 @@ public class StoreBoardController {
 
 		int finalp = r.getFinalPrice();
 
-		System.out.println("r :" + r);
+		//System.out.println("r :" + r);
 		int result = sService.InsertOrderProduct(r);
 		if (result > 0) {
-
+			System.out.println("1" + cartArr);
 			Cart cart = new Cart();
-			if (cartArr != null) {
+			if (cartArr.get(0) != 0) {
+				System.out.println("2" + cartArr);
 				for (int i : cartArr) {
-					// System.out.println("cartArr : " + cartArr);
+					System.out.println("3 : " + cartArr);
 					cart = sService.selectCartInfo(i);
 
 					double pp = cart.getProductPrice();
@@ -540,11 +541,12 @@ public class StoreBoardController {
 				int lp = (int) ((pp * (1 - (pd / 100))) * qt);
 				cart.setLastPrice(lp);
 
-				System.out.println("cart: " + cart);
+				//System.out.println("cart: " + cart);
 				cartList.add(cart);
 			}
 
-			// System.out.println("cart가격 확인" + cartList);
+			 //System.out.println("cart가격 확인" + cartList);
+	
 			int result1 = 0;
 			for (int i = 0; i < cartList.size(); i++) {
 				cart = cartList.get(i);
@@ -560,10 +562,10 @@ public class StoreBoardController {
 			int result2 = 0;
 			Pay pay = new Pay();
 			pay.setPayAmount(finalp);
-			System.out.println("null이지마:" + finalp);
-			System.out.println("제발요..:" + finalPrice);
+			pay.setMerchantuid(merchantuid);
+			pay.setImpuid(impuid);
+			
 			result2 = sService.insertPayment(pay);
-			System.out.println("pay: " + pay);
 		}
 		
 		return r;
