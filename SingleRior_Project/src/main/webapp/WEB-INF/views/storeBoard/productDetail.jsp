@@ -383,6 +383,9 @@
 		    	</c:forEach>
 		    	<div id="moreInquiry">더보기</div><br>
 		    	</c:if>
+		    <c:if test="${ empty iList }">
+		     <div style="text-align:center;"><h2>상품에 대한 문의가 아직 없습니다 ㅜ.ㅜ</h2><br><img src="${contextPath}/resources/image/reviewZero.jpg" width="200" ></div>
+		    </c:if>
 	    	</article>
 	    	<hr>
 	    	

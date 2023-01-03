@@ -70,6 +70,12 @@ int getMoreReviewCount(int productNo);
 
 ArrayList<ProductReview> selectMoreReviewList(PageInfo pi, int productNo);
 
+String getSubCateName(HashMap<String, Integer> map);
+
+String getTopCateName(HashMap<String, Integer> map);
+
+String getTopCateName2(HashMap<String, Integer> map);
+
 
    
 

@@ -147,6 +147,18 @@ public class StoreBoardDAO {
 		return (ArrayList)sqlSession.selectList("storeMapper.selectMoreReviewList", productNo, rowBounds);
 	}
 
+	public String getSubCateName(SqlSessionTemplate sqlSession, HashMap<String, Integer> map) {
+		return sqlSession.selectOne("storeMapper.getSubCateName", map);
+	}
+
+	public String getTopCateName(SqlSessionTemplate sqlSession, HashMap<String, Integer> map) {
+		return sqlSession.selectOne("storeMapper.getTopCateName", map);
+	}
+
+	public String getTopCateName2(SqlSessionTemplate sqlSession, HashMap<String, Integer> map) {
+		return sqlSession.selectOne("storeMapper.getTopCateName2", map);
+	}
+
 
 
 

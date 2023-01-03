@@ -155,6 +155,21 @@ public class StoreBoardServiceImpl implements StoreBoardService{
 		return sDAO.selectMoreReviewList(sqlSession,pi,productNo);
 	}
 
+	@Override
+	public String getSubCateName(HashMap<String, Integer> map) {
+		return sDAO.getSubCateName(sqlSession,map);
+	}
+
+	@Override
+	public String getTopCateName(HashMap<String, Integer> map) {
+		return sDAO.getTopCateName(sqlSession,map);
+	}
+
+	@Override
+	public String getTopCateName2(HashMap<String, Integer> map) {
+		return sDAO.getTopCateName2(sqlSession,map);
+	}
+
 
 	
 	

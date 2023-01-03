@@ -30,8 +30,8 @@
 	<%--  ${ aList }   --%> 
 	
 	<div class="front">
-		<h5><b> 전체 >  ${ sList[0].topCateName} > ${ sList[0].subCateName }  </b></h5>
-			<h3><b> ${ sList[0].subCateName } </b></h3>
+		<h5><b> 전체 >  ${ topCateName } <c:if test="${empty topCate}"> > ${ subCateName }  </c:if></b></h5>
+			<h3><b><c:if test="${empty topCate}"> ${ subCateName } </c:if></b></h3>
 		
 		<div id="selectOption" dir="rtl">
 			<select style="width:100px; height:30px;" name="category">
@@ -47,67 +47,98 @@
 	<div class="album py-5 bg-light">
 		<div class="container">		
 		 <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-4">
-		 <c:forEach items="${ sList }" var="s" varStatus="status">
-			<fmt:formatNumber type="number" maxFractionDigits="3" value="${s.price}" var="commaPrice" />
-				<c:set var="discountPrice" value="${ s.price-(s.price*s.discount/100)}"/>
-				<fmt:formatNumber type="number" maxFractionDigits="3" value="${ s.price-(s.price*s.discount/100)}" var="totalPrice" />
-			    <div class="col-3">
-			      <div class="card" style="cursor:pointer">
-					    <img src="resources/uploadFiles/${ aList[status.index].imgRename }" width="100%" height="255">
-				     	   	<%-- <c:if test="${ s.boardNo ne a.imgKey }"> 
-				        		<img src="resources/image/SingleRior_logo.png" width="100%" height="255"> 
-					     	</c:if>  --%>
-			         <div class="card-body">
-			          <h6 class="card-title">${ s.brand } </h6>
-			          <h5 class="card-text">${ s.boardTitle }</h5>
-			          <span><s>${ commaPrice }</s>원</span><br>
-			          <span style="width:20px">${ s.discount }%</span><span>　</span><span style="color:#008cd4; font-size: 25px;">${ totalPrice } 원</span><br>
-			          <span>★4.9</span>			          
-			          <input type="hidden" value="${ s.productNo }" name="productNo">
-			          <input type="hidden" value="${ s.boardNo }" name="boardNo">
-			        </div>
-			      </div>
-			    </div>
-			 </c:forEach>
+		 <c:if test="${!empty sList }">
+			 <c:forEach items="${ sList }" var="s" varStatus="status">
+				<fmt:formatNumber type="number" maxFractionDigits="3" value="${s.price}" var="commaPrice" />
+					<c:set var="discountPrice" value="${ s.price-(s.price*s.discount/100)}"/>
+					<fmt:formatNumber type="number" maxFractionDigits="3" value="${ s.price-(s.price*s.discount/100)}" var="totalPrice" />
+				    <div class="col-3">
+				      <div class="card" style="cursor:pointer">
+						    <img src="resources/uploadFiles/${ aList[status.index].imgRename }" width="100%" height="255">
+					     	   	<%-- <c:if test="${ s.boardNo ne a.imgKey }"> 
+					        		<img src="resources/image/SingleRior_logo.png" width="100%" height="255"> 
+						     	</c:if>  --%>
+				         <div class="card-body">
+				          <h6 class="card-title">${ s.brand } </h6>
+				          <h5 class="card-text">${ s.boardTitle }</h5>
+				          <span><s>${ commaPrice }</s>원</span><br>
+				          <span style="width:20px">${ s.discount }%</span><span>　</span><span style="color:#008cd4; font-size: 25px;">${ totalPrice } 원</span><br>
+				          <span>★4.9</span>			          
+				          <input type="hidden" value="${ s.productNo }" name="productNo">
+				          <input type="hidden" value="${ s.boardNo }" name="boardNo">
+				        </div>
+				      </div>
+				    </div>
+				 </c:forEach>
+			 </c:if>
+			 <c:if test="${empty sList }">
+			 <div>아직 등록된 상품이 없습니다.</div>
+			 </c:if>
 		</div>
 	</div>
 	<br><br>
 	</div></div>
     
     <!-- 페이징 -->
+     <c:if test="${!empty sList }">
 	<nav aria-label="Standard pagination example" style="background:white" >
 		<ul class="pagination">
+		<c:if test="${ pi.currentPage > 1 }">
 			<li class="page-item">
 					<c:url var="goBack" value="${ loc }">
 						<c:param name="page" value="${ pi.currentPage-1 }"></c:param>
+						<c:if test="${ !empty subCate }">
 						<c:param name="subCate" value="${ subCate }"></c:param>
+						</c:if>
+						<c:if test="${ !empty category }">
 						<c:param name="category" value="${ category }"></c:param>
+						</c:if>
+						<c:if test="${ !empty topCate }">
+						<c:param name="topCate" value="${ topCate }"></c:param>
+						</c:if>
 					</c:url>
 					<a class="page-link" href="${ goBack }" aria-label="Previous">
 						<span aria-hidden="true">&laquo;</span>
 	 				</a>
 			</li>
+			</c:if>
 			<c:forEach begin="${ pi.startPage }" end="${ pi.endPage }" var="p">
 				<c:url var="goNum" value="${ loc }">
 					<c:param name="page" value="${ p }"></c:param>
-					<c:param name="subCate" value="${ subCate }"></c:param> 
-					<c:param name="category" value="${ category }"></c:param>
+						<c:if test="${ !empty subCate }">
+						<c:param name="subCate" value="${ subCate }"></c:param>
+						</c:if>
+						<c:if test="${ !empty category }">
+						<c:param name="category" value="${ category }"></c:param>
+						</c:if>
+						<c:if test="${ !empty topCate }">
+						<c:param name="topCate" value="${ topCate }"></c:param>
+						</c:if>
 				</c:url>
 					<li class="page-item"><a class="page-link" href="${ goNum }">${ p }</a></li>
 				</c:forEach>
+				<c:if test="${ pi.currentPage < pi.maxPage }">
 				<li class="page-item">
 					<c:url var="goNext" value="${ loc }">
 						<c:param name="page" value="${ pi.currentPage+1 }"></c:param>
+						<c:if test="${ !empty subCate }">
 						<c:param name="subCate" value="${ subCate }"></c:param>
+						</c:if>
+						<c:if test="${ !empty category }">
 						<c:param name="category" value="${ category }"></c:param>
+						</c:if>
+						<c:if test="${ !empty topCate }">
+						<c:param name="topCate" value="${ topCate }"></c:param>
+						</c:if>
 					</c:url>
 					<a class="page-link" href="${ goNext }" aria-label="Next">
 						<span aria-hidden="true">&raquo;</span>
 					</a>
      			</li>
+     			</c:if>
  			</ul>
     	</nav>
-	 
+	 	</c:if>
 	<footer>
 		<jsp:include page="../common/footer.jsp"/>
 	</footer>  	
@@ -134,8 +165,14 @@
 			
 			category = $('select[name=category]').val();
 			let subCate = '${ subCate }';
+			let topCate = '${topCate}';
+			console.log(subCate);
 			let page = '${pi.currentPage}';
-			location.href='${contextPath}/categoryList.st?category=' + category + '&subCate=' + subCate + '&page=';
+			if(subCate == ""){
+			location.href='${contextPath}/categoryList.st?category=' + category + '&topCate=' + topCate + '&page=';
+			}else{
+				location.href='${contextPath}/categoryList.st?category=' + category + '&subCate=' + subCate + '&page=';
+			}
 			
 		});
 		
