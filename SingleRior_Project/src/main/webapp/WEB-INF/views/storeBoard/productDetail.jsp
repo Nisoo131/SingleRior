@@ -464,52 +464,6 @@
        </div>
      </div>
 
-<<<<<<< HEAD
-								<%
-									ArrayList<TotalReview> trList = (ArrayList)request.getAttribute("trList");
-									if(trList.get(0).getAvgStar() > 4.5){
-								%>
-									<span class="starView">★★★★★<span>★★★★★</span><input class="starViewValue" type="range" value="9"></span>
-								<%	
-									}else if(trList.get(0).getAvgStar()>4){
-								%>
-									<span class="starView">★★★★★<span>★★★★★</span><input class="starViewValue" type="range" value="8"></span>
-								<%
-									}else if(trList.get(0).getAvgStar()>3.5){
-								%>
-									<span class="starView">★★★★★<span>★★★★★</span><input class="starViewValue" type="range" value="7"></span>
-								<%
-									}else if(trList.get(0).getAvgStar()>3){
-								%>
-									<span class="starView">★★★★★<span>★★★★★</span><input class="starViewValue" type="range" value="6"></span>	
-								
-								<%
-									}else if(trList.get(0).getAvgStar()>2.5){
-								%>
-									<span class="starView">★★★★★<span>★★★★★</span><input class="starViewValue" type="range" value="5"></span>
-								<%
-									}else if(trList.get(0).getAvgStar()>2){
-								%>
-									<span class="starView">★★★★★<span>★★★★★</span><input class="starViewValue" type="range" value="4"></span>
-								<%
-									}else if(trList.get(0).getAvgStar()>1.5){
-								%>
-									<span class="starView">★★★★★<span>★★★★★</span><input class="starViewValue" type="range" value="3"></span>
-								<%
-									}else if(trList.get(0).getAvgStar()>1){
-								%>
-									<span class="starView">★★★★★<span>★★★★★</span><input class="starViewValue" type="range" value="2"></span>
-								<%
-									}else if(trList.get(0).getAvgStar()>0.5){
-								%>
-									<span class="starView">★★★★★<span>★★★★★</span><input class="starViewValue" type="range" value="1"></span>
-								<%
-									}else{
-								%>
-									<span class="starView">★★★★★<span>★★★★★</span><input class="starViewValue" type="range" value="0"></span>
-								<%	
-									};
-								%>
 						</div>
 							
 		        	
@@ -568,7 +522,6 @@
 	       
 	      </div>
 	     
-	      </c:if>
 	      <c:if test="${empty prList}">
 	    <div style="text-align:center;"><h2>상품에 대한 리뷰가 아직 없습니다 ㅜ.ㅜ</h2><br><img src="${contextPath}/resources/image/reviewZero.jpg" width="200" ></div>
 	      
@@ -599,9 +552,9 @@
 		        	</table>
 	        	</form>
 	 		</div>
-	 		<%--  ${ iList } --%>
-	 		<c:if test="${! empty iList }">
-		 		<c:forEach items="${ iList }" var="i" begin="1" end="5">
+<%--            ${ iList } --%>
+       		<c:if test="${ !empty iList }">
+		 		<c:forEach items="${ iList }" var="i" begin="0" end="4">
 		 		<div style="border:black solid 1px; width:600px; padding:10px 10px; border-radius:10px;">
 			        <p class="blog-post-meta">${i.inquiryTitle} | 
 				        <c:if test="${ i.inquiryAnswer == null }">
@@ -618,91 +571,92 @@
 		    	<br>
 		    	</c:forEach>
 		    	<div id="moreInquiry">더보기</div><br>
-		    	</c:if>
+		    </c:if>
 		    <c:if test="${ empty iList }">
 		     <div style="text-align:center;"><h2>상품에 대한 문의가 아직 없습니다 ㅜ.ㅜ</h2><br><img src="${contextPath}/resources/image/reviewZero.jpg" width="200" ></div>
 		    </c:if>
-	    	</article>
-	    	<hr>
-	    	
-	   <!-- 배송/환불 -->
-	       <article class="blog-post" id="delievery">
-	        <h2 class="blog-post-title mb-1">배송/환불</h2>
-	        <br>
-	        <p class="blog-post-meta">▶배송</p>
-			<table>
-				<tr>
-					<td width="150px">배송방법</td>
-					<td>일반택배</td>
-				</tr>
-				<tr>
-					<td>배송비</td>
-					<td>2,500원</td>
-				</tr>
-				<tr>
-					<td></td>
-					<td>50,000원 이상 주문시 무료배송</td>
-				</tr>
-				<tr>
-					<td>배송 불가 지역</td>
-					<td>도서산간 지역 / 제주도</td>
-				</tr>
-			</table>
-			<br><br>
-			<p class="blog-post-meta">▶교환/환불</p>
-			<table>
-				<tr>
-					<td width="150px">반품배송비</td>
-					<td>50,000원</td>
-				</tr>
-				<tr>
-					<td>교환배송비</td>
-					<td>100,000원</td>
-				</tr>
-				<tr>
-					<td>보내실 곳</td>
-					<td>서울특별시 중구 남대문로 120 그레이츠 청계(구 대일빌딩) 2F, 3F</td>
-				</tr>
-			</table>
-	    	</article>
-	    </div>
-	     
-	    <!-- 스크롤 옵션바 -->
-	    <div class="col-md-4">
-	      <div class="position-sticky" style="top: 15rem;">
-	        <div class="p-4">
-	          <label for ="options">옵션선택</label>
-	           	 <select id="changeOpiton1" class="form-select" onChange="selectChange(this.value);" aria-label="Default select example">
-					<option class="opsBasic" selected >상품 옵션을 선택해주세요</option>
-					 <c:forEach items="${ fn:split( pList[0].option, ',') }" var="p">
-					  <option value="${ p }" class="option">${ p }</option>
-					</c:forEach>
-				 </select>
-				 <br>
-				<!--  <div class="opsResultDiv1" style="border:1px solid black; width:450px; height:100px;"> -->
-				<!--   	<input type="text" id="inputOption"><br> -->
-				  	<span class="count-wrap _count">
-						    <button type="button" class="minus_btn" style="height:35px;">-</button>
-						   	 <input type="text" class="quantity_input" value="1" style="width:70px;height:30px" id="qty"/>
-						    <button type="button" class="plus_btn" style="height:35px;">+</button>
-					</span>
-				    <fmt:parseNumber var="i" type="number" value="${ totalPrice }"/>
-				   
-				    <!-- <span id="finalPrice"></span>원 -->
-	             </div>
-			  <br><br>
-			
-			  <br>
-			  <h2>총 <span id="changedQty1">1</span>개　<span id="finalPrice3">${ totalPrice }</span>원</h2>
-				  <div class="btn-group">
-					  <button type="button" class="cart" style="width:200px;height:50px;font-size:20px;">장바구니</button>
-					  <button type="button" class="payment" style="width:200px;height:50px;font-size:20px;" onclick="location.href='${ contextPath }/payment.st'">결제하기</button>
-				  </div>
-	        </div>
-	      </div>
-	    </div>
-	  </div>
+          </article>
+          <hr>
+          
+      <!-- 배송/환불 -->
+          <article class="blog-post" id="delievery">
+           <h2 class="blog-post-title mb-1">배송/환불</h2>
+           <br>
+           <p class="blog-post-meta">▶배송</p>
+         <table>
+            <tr>
+               <td width="150px">배송방법</td>
+               <td>일반택배</td>
+            </tr>
+            <tr>
+               <td>배송비</td>
+               <td>2,500원</td>
+            </tr>
+            <tr>
+               <td></td>
+               <td>50,000원 이상 주문시 무료배송</td>
+            </tr>
+            <tr>
+               <td>배송 불가 지역</td>
+               <td>도서산간 지역 / 제주도</td>
+            </tr>
+         </table>
+         <br><br>
+         <p class="blog-post-meta">▶교환/환불</p>
+         <table>
+            <tr>
+               <td width="150px">반품배송비</td>
+               <td>50,000원</td>
+            </tr>
+            <tr>
+               <td>교환배송비</td>
+               <td>100,000원</td>
+            </tr>
+            <tr>
+               <td>보내실 곳</td>
+               <td>서울특별시 중구 남대문로 120 그레이츠 청계(구 대일빌딩) 2F, 3F</td>
+            </tr>
+         </table>
+          </article>
+       </div>
+        
+       <!-- 스크롤 옵션바 -->
+       <div class="col-md-4">
+         <div class="position-sticky" style="top: 15rem;">
+           <div class="p-4">
+             <label for ="options">옵션선택</label>
+                  <select id="changeOpiton1" class="form-select" onChange="selectChange(this.value);" aria-label="Default select example">
+               <option class="opsBasic" selected >상품 옵션을 선택해주세요</option>
+                <c:forEach items="${ fn:split( pList[0].option, ',') }" var="p">
+                 <option value="${ p }" class="option">${ p }</option>
+               </c:forEach>
+             </select>
+             <br>
+            <!--  <div class="opsResultDiv1" style="border:1px solid black; width:450px; height:100px;"> -->
+            <!--      <input type="text" id="inputOption"><br> -->
+                 <span class="count-wrap _count">
+                      <button type="button" class="minus_btn" style="height:35px;">-</button>
+                         <input type="text" class="quantity_input" value="1" style="width:70px;height:30px" id="qty"/>
+                      <button type="button" class="plus_btn" style="height:35px;">+</button>
+               </span>
+                <fmt:parseNumber var="i" type="number" value="${ totalPrice }"/>
+               
+                <!-- <span id="finalPrice"></span>원 -->
+                </div>
+           <br><br>
+         
+           <br>
+           <h2>총 <span id="changedQty1">1</span>개　<span id="finalPrice3">${ totalPrice }</span>원</h2>
+              <div class="btn-group">
+                 <button type="button" class="cart" style="width:200px;height:50px;font-size:20px;">장바구니</button>
+                 <button type="button" class="payment" style="width:200px;height:50px;font-size:20px;" onclick="location.href='${ contextPath }/payment.st'">결제하기</button>
+              </div>
+           </div>
+         </div>
+       </div>
+     </div>
 
+<<<<<<< HEAD
 	<!--문의하기 모달창 -->
 	<div class="modal" tabindex="-1" id="inquiryModal">
 	  <div class="modal-dialog">
@@ -758,6 +712,8 @@
 	  	</div>
 	</div>
 =======
+=======
+>>>>>>> bella
    <!--문의하기 모달창 -->
    <div class="modal" tabindex="-1" id="inquiryModal">
      <div class="modal-dialog">
@@ -812,7 +768,10 @@
           </div>
         </div>
    </div>
+<<<<<<< HEAD
 >>>>>>> donni
+=======
+>>>>>>> bella
 </main>
 
     <footer>
