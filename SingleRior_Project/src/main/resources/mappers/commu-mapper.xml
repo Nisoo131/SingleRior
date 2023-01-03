@@ -45,6 +45,7 @@
 		<result column="NICKNAME" property="nickName"/>
 		<result column="REPORT_STATUS" property="reportStatus"/>
 		<result column="IMG_SERVER_NAME" property="profileImg"/>
+		<result column="GROUP_NO" property="groupNo"/>
 	</resultMap>
 	
 	<resultMap type="ReReply" id="rReplyResultSet">
@@ -244,7 +245,7 @@
 	<!-- 댓글 -->
 	<!-- 댓글 list select -->
 	<select id="selectReply" resultMap="replyResultSet">
-		select REPLY_NO, REPLY_CONTENT, REPLY_CREATE_DATE, REPLY_MODIFY_DATE, RE_SECRET, REPLY_STATUS, r.MEMBER_ID, BOARD_NO, REPORT_STATUS, NICKNAME, IMG_SERVER_NAME
+		select REPLY_NO, REPLY_CONTENT, REPLY_CREATE_DATE, REPLY_MODIFY_DATE, RE_SECRET, REPLY_STATUS, r.MEMBER_ID, BOARD_NO, REPORT_STATUS, NICKNAME, IMG_SERVER_NAME, GROUP_NO
 		from reply r
 			left join member m on (r.MEMBER_ID = m.MEMBER_ID)
 			left join IMG_REPOSITORY on (IMG_KEY = m.MEMBER_ID)
@@ -255,7 +256,7 @@
 	<!-- 댓글 등록 (insert) -->
 	<insert id="insertReply">
 		insert into reply
-		values(seq_rid.nextval, #{replyContent}, sysdate, sysdate, #{replySecret}, default, #{memberId}, #{boardNo}, default)
+		values(seq_rid.nextval, #{replyContent}, sysdate, sysdate, #{replySecret}, default, #{memberId}, #{boardNo}, default, seq_rid.currval)
 	</insert>
 	
 	<!-- 댓글 count up -->
@@ -291,6 +292,12 @@
 		set reply_count = reply_count - 1
 		where board_no = #{bNo}
 	</update>
+	
+	<!-- 대댓글 등록 (insert) -->
+	<insert id="insertReReply">
+		insert into reply
+		values(seq_rid.nextval, #{r.replyContent}, sysdate, sysdate, #{r.replySecret}, default, #{r.memberId}, #{r.boardNo}, default, #{gNo})
+	</insert>
 	
 	<!-- 대댓글 불러오기 -->
 	<select id="selectReReply" resultMap="rReplyResultSet">

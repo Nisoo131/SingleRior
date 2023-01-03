@@ -107,6 +107,8 @@
 		$(document).on('click', '.deleteFile', function(){
 			$(this).parent().remove();
 		});
+		
+	
 	</script>
 </body>
 </html>

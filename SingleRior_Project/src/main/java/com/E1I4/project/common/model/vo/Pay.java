@@ -19,4 +19,6 @@ public class Pay {
 	private Date payDate;
 	private String payStatus;
 	private int orderNo;
+	private String merchantuid;
+	private String impuid;
 }

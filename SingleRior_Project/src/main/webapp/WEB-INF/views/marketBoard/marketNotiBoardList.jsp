@@ -53,7 +53,7 @@
 							<th width="130px">작성일</th>
 		          		</tr>
 		          	</thead>
-	         		<tbody>
+	         		<tbody class="tbody">
 	         			<c:forEach items="${ notiList }" begin="0" end="2" var="n">
 	         				<tr class="notiList" style="background-color: #f4f4f4;">
 								<td>

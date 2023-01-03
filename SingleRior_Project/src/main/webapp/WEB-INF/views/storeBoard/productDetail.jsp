@@ -263,12 +263,6 @@
                  <div class="reviewContent">
                     
                      <h2><div id="avgRating"></div></h2>
-                     
-                 
-                 
-                 
-                 
-                 
               </div> 
               <br><br>
                     <c:if test="${fn:length(prList)<6}">
@@ -558,13 +552,174 @@
           <c:if test="${ empty iList }">
            <div style="text-align:center;"><h2>상품에 대한 문의가 아직 없습니다 ㅜ.ㅜ</h2><br><img src="${contextPath}/resources/image/reviewZero.jpg" width="200" ></div>
           </c:if>
-
 						</div>
-							
-		        	
-		
-		        	
-		        	
+
+		<header class="sticky-top">
+			<div>
+				<jsp:include page="../storeBoard/navbar.jsp"/>
+			</div>
+		</header>
+		<div class="category">
+			<h5><b> 전체 > ${ pList[0].topCateName } > ${ pList[0].subCateName }</b></h5>
+			<h2><b> ${ pList[0].subCateName } </b></h2> 
+			<br>
+		</div>
+<%-- 		 ${ pList }   --%>
+		 <%--  ${ pList[0] }<br><br> --%>
+	     <%-- 	 ${ pList[1] }
+		 ${ pList[2] }  --%>
+	<main class="container">
+	   <div class="row mx-md-n5">
+	 	 <div class="col px-md-5"><div class="p-3 border bg-light">
+	 	 	<c:if test="${ fn:containsIgnoreCase( pList[0].imgServerName, 'jpg') or fn:containsIgnoreCase( pList[0].imgServerName, 'png') }">
+	 	 		<img src="resources/uploadFiles/${ pList[0].imgServerName }" width="100%" height="100%">
+			</c:if>
+	 	 </div>
+	 	</div> 
+	
+	<fmt:formatNumber type="number" maxFractionDigits="3" value="${ pList[0].price }" var="commaPrice" />
+	<c:set var="discountPrice" value="${ pList[0].price-(pList[0].price*pList[0].discount/100)}"/>
+	<fmt:formatNumber type="number" maxFractionDigits="3" value="${ pList[0].price-(pList[0].price*pList[0].discount/100)}" var="totalPrice" />
+	  <div class="col px-md-5">
+	  	<div class="p-3 border bg-light">
+	  		<table>
+	  			<tr>
+	  				<td style="font-size:22px;">${ pList[0].brand }</td>
+	  				<td width="240px"></td>
+	  				<td>
+		  				 <c:if test="${ empty loginUser }">
+							<button type="button" class="btn btn-outline-danger wishListBtn" onclick="location.href='${contextPath}/loginView.me'">찜하기♥
+						</button>
+						</c:if>
+						<c:if test="${ !empty loginUser and count == 0}">
+							<button type="button" class="btn btn-outline-danger wishListBtn" id="wishListOn">찜하기♥</button>
+						</c:if>
+						<c:if test="${ !empty loginUser and count == 1}">
+							<button type="button" class="btn btn-outline-danger active wishListBtn" id="wishListOff">찜하기♥</button>
+						</c:if>
+	  				</td>
+	  				<td>
+	  				<a href="#" id="sns_urlCoby" class="btn_share_sns" onclick="shareURL(); return false;">
+	  					<button type="button" class="btn btn btn-primary active" id="shareURL">공유하기</button>
+				     </a>
+	  				</td>
+	  			</tr>
+	  		</table>　　　　　　　　　
+		  <h2>${ pList[0].boardTitle }</h2>
+		  <p><s>${ commaPrice } 원</s></p>
+		  <h1><span>${ pList[0].discount }%</span>　<span style="color:#008cd4;">${ totalPrice } 원</span></h1>
+		  <br><br>
+		  <p>구매리뷰 (개수)</p>
+		  <p>배송비 2,500원</p>
+		  <hr>
+		  
+		  
+  <!--  상품 옵션창  -->		
+			 <label for ="options">옵션선택</label>
+	           	 <select id="changeOpiton" class="form-select" onChange="selectChange(this.value);" aria-label="Default select example">
+					<option class="opsBasic" selected >상품 옵션을 선택해주세요</option>
+					 <c:forEach items="${ fn:split( pList[0].option, ',') }" var="p">
+					  <option value="${ p }" class="option">${ p }</option>
+					</c:forEach>
+				 </select>
+				 <br>	
+				 <div class="opsResultDiv">
+				 <table>
+				 	<tr>
+				 		<td><input type="text" id="inputOption"></td>
+				 		<td width="10px"></td>
+				 		<td>
+				 		 	<span class="count-wrap _count">
+							    <button type="button" class="minus_btn" >-</button>
+							   	 <input type="text" class="quantity_input" value="1" id="qty" readonly style="width:50px;"/>
+							    <button type="button" class="plus_btn" >+</button>
+							</span>
+				 		</td>
+				 	</tr>
+				 </table>
+				
+				    <fmt:parseNumber var="i" type="number" value="${ totalPrice }"/>
+				   
+	             </div>
+			
+			  <br>
+			  <h2>총 <span id="changedQty">1</span>개　<span id="finalPrice2">${ totalPrice }</span>원</h2>
+			  <div class="btn-group">
+			  	<c:if test="${ empty loginUser }">
+				  <button type="button" class="cart" style="width:200px;height:50px;font-size:20px;" onclick="location.href='${contextPath}/loginView.me'"> 장바구니 </button>
+				</c:if>
+				<c:if test="${ !empty loginUser }">
+				  <button type="button" class="cart" style="width:200px;height:50px;font-size:20px;"> 장바구니 </button>
+				</c:if>
+				<c:if test="${ empty loginUser }">	
+				  <button type="button" class="payment"  style="width:200px;height:50px;font-size:20px;" onclick="location.href='${contextPath}/loginView.me'">결제하기</button>
+			    </c:if> 
+			    <c:if test="${ !empty loginUser }">	
+				  <button type="button" class="payment"  style="width:200px;height:50px;font-size:20px;" onclick="location.href='${ contextPath }/payment.st'">결제하기</button>
+			    </c:if>
+			  </div>
+	  		</div>
+	  	</div>
+	  	
+	<!-- 바로결제 주문시 전달 데이터-->
+	 <form action="${ contextPath }/payment.st" method="post" class="order_form">
+		<input type="hidden" name="productNo" value="${ pList[0].productNo }">
+		<input type="hidden" name="productQty" value="">
+		<input type="hidden" name="productPrice" value="${ pList[0].price}">
+		<input type="hidden" name="productPrice" value="${ pList[0].price}">
+		<input type="hidden" name="discount" value="${ pList[0].discount }">
+		<input type="hidden" name="boardTitle" value="${ pList[0].boardTitle }">
+		<input type="hidden" name="productOption" value="${ p }">
+		<input type="hidden" name="imgRename" value="${ pList[0].imgServerName }">
+	</form> 
+	  	
+	<!--상세정보 네비바 -->
+	 <div class="row mb-1">
+	 </div>
+	  <div class="row g-5">
+	    <div class="col-md-8">
+	      <h3 class="pb-4 mb-4 border-bottom">
+	        <nav class="navbar navbar-expand-lg bg-light">
+			  <div class="container-fluid">
+			    <a class="navbar-brand" href="#productInfo">상품정보</a>
+				    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+				      <span class="navbar-toggler-icon"></span>
+				    </button>
+			    
+			    <a class="navbar-brand" href="#review">리뷰(100)</a>
+				    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+				      <span class="navbar-toggler-icon"></span>
+				    </button>
+			    
+			      <a class="navbar-brand" href="#inquiry">문의하기</a>
+				    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+				      <span class="navbar-toggler-icon"></span>
+				    </button>
+			    
+			      <a class="navbar-brand" href="#delivery">배송/환불</a>
+				    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+				      <span class="navbar-toggler-icon"></span>
+				    </button>
+				  </div>
+				 </nav>
+				</h3>
+	
+	   <!-- 상품 설명 이미지 -->
+	      <article class="blog-post" id="productInfo">
+	        <h2 class="blog-post-title mb-1">상품정보</h2>
+	        <p class="blog-post-meta"></p>	        	      
+			   <img src="resources/uploadFiles/${ pList[1].imgServerName }" width="100%" height="100%">
+			   <img src="resources/uploadFiles/${ pList[2].imgServerName }" width="100%" height="100%">			  
+	   	 </article>
+	   	 <c:if test="${!empty prList }">
+	   	 <div id="review">
+	      <hr>
+	      <article class="blog-post" >
+	         <h2 class="blog-post-title mb-1" >리뷰 (개수)</h2>
+	        	<div class="star">
+		        	<h2 style="color:#008cd4">★★★★☆</h2>
+		        	<h2>4.0</h2>
+
 		        </div> 
 		        <br><br>
 		        		<c:if test="${fn:length(prList)<6}">
@@ -612,10 +767,9 @@
 						</c:forEach>
 						<div id="moreReview">더보기</div><br>
 					</c:if>
-		         
 	       </article>
-	       
 	      </div>
+	      </c:if>
 	     
 	      <c:if test="${empty prList}">
 	    <div style="text-align:center;"><h2>상품에 대한 리뷰가 아직 없습니다 ㅜ.ㅜ</h2><br><img src="${contextPath}/resources/image/reviewZero.jpg" width="200" ></div>

@@ -63,7 +63,13 @@
 								<c:if test="${oc.status == '주문취소'}">
 								예상 
 								</c:if>
-								환불 금액: <fmt:formatNumber value="${oc.salePrice }" pattern="#,###"/>원
+								환불 금액: 
+								<c:if test="${oc.orderTotalPrice - oc.salePrice > 50000 }">
+								<fmt:formatNumber value="${oc.salePrice }" pattern="#,###"/>원
+								</c:if>
+								<c:if test="${oc.orderTotalPrice - oc.salePrice < 50000 }">
+								<fmt:formatNumber value="${oc.salePrice - 2500}" pattern="#,###"/>원
+								</c:if>
 							</td>
 						</tr>
 					</table>

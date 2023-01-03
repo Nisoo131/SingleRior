@@ -781,7 +781,7 @@ public class MemberController {
 		}
 		
 		
-		System.out.println(ocList);
+//		System.out.println(ocList);
 		model.addAttribute("pcList", pcList);
 		model.addAttribute("ocList", ocList);
 		model.addAttribute("pi", pi);
@@ -981,36 +981,38 @@ public class MemberController {
 		System.out.println("새로 들어왔다면 들어온 파일" + file);
 		
 		// 새로운 리뷰 사진 등록
-		String fileName = file.getOriginalFilename();
-		
-		if(fileName != "") {
-			Attachment attm = new Attachment();
+		if(file != null) {
+			String fileName = file.getOriginalFilename();
 			
-			System.out.println("새로 들어온 파일 이름" + fileName);
-			if(!fileName.equals("")) {
-				String fileType = fileName.substring(fileName.lastIndexOf(".")+1).toLowerCase();
+			if(fileName != "") {
+				Attachment attm = new Attachment();
 				
-				if(fileType.equals("png") || fileType.equals("jpg") || fileType.equals("gif") || fileType.equals("jpeg") || fileType.equals("jfif")) {
-					String[] returnArr = saveFile(file, request);
+				System.out.println("새로 들어온 파일 이름" + fileName);
+				if(!fileName.equals("")) {
+					String fileType = fileName.substring(fileName.lastIndexOf(".")+1).toLowerCase();
 					
-					if(returnArr[1] != null) {
-						attm.setImgOriginalName(file.getOriginalFilename());
-						attm.setImgRename(returnArr[1]);
-						attm.setImgPath(returnArr[0]);
-						attm.setBoardType(7);
+					if(fileType.equals("png") || fileType.equals("jpg") || fileType.equals("gif") || fileType.equals("jpeg") || fileType.equals("jfif")) {
+						String[] returnArr = saveFile(file, request);
+						
+						if(returnArr[1] != null) {
+							attm.setImgOriginalName(file.getOriginalFilename());
+							attm.setImgRename(returnArr[1]);
+							attm.setImgPath(returnArr[0]);
+							attm.setBoardType(7);
+						}
 					}
 				}
+				
+	//			System.out.println(attm);
+				
+				String strBNo = Integer.toString(review.getReviewNo());
+				
+				HashMap<String, Object> map = new HashMap<String, Object>();
+				map.put("attm", attm);
+				map.put("reviewNo", strBNo);
+				
+				int attmResult = mService.insertReviewAttm(map);
 			}
-			
-//			System.out.println(attm);
-			
-			String strBNo = Integer.toString(review.getReviewNo());
-			
-			HashMap<String, Object> map = new HashMap<String, Object>();
-			map.put("attm", attm);
-			map.put("reviewNo", strBNo);
-			
-			int attmResult = mService.insertReviewAttm(map);
 		}
 		
 		int updateReviewResult = mService.updateReview(review);

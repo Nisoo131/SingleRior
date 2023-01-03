@@ -133,9 +133,9 @@
 				    </div>
 		      <div class="modal-body" style="text-align: left">
 		    	제목<input type="text" class="form-control " id="recipient-name" name="selectMsgDetail" readonly>
-		    	내용 ${m}<input class="form-control" name="selectMsgDetail" readonly style="height: 300px">
+		    	내용 <textarea readonly class="form-control " style="height: 300px" name="messageContent" id="msgContent">${m}</textarea>
 		      	<br>
-		      	아이디 : <input readonly="readonly" name="selectMsgDetail" readonly style="border: none;">
+		      	닉네임 : <input readonly="readonly" name="selectMsgDetail" readonly style="border: none;">
 		      </div>
 		      <div class="modal-footer">
 		      	 <c:if test="${msgType!=1}">
@@ -158,9 +158,9 @@
 				    </div>
 				 	<div class="modal-body" style="text-align: left">
 					    	제목<input type="text" class="form-control reMsgInput" id="recipient-name" name="messageTitle">
-					    	내용<input class="form-control reMsgInput" style="height: 300px" name="messageContent">
+					    	내용<textarea class="form-control reMsgInput" style="height: 300px" name="messageContent" id="msgContent"></textarea>
 					      	<br>
-					      	보낼 아이디 : <input type="text" name="receiver" class="reMsgInput" readonly style="border: none;">
+					      	보낼 닉네임 : <input type="text" name="receiver" class="reMsgInput" readonly style="border: none;">
 					      	<input type="hidden" name="refBoardId" class="reMsgInput">
 					 </div>
 					 <div class="modal-footer">
@@ -197,9 +197,10 @@
 					success: (data) => {
 						$('#msgDetailModal').modal('show');
 						const inputMsg = document.getElementsByName("selectMsgDetail");
+						const msg = document.getElementById("msgContent");
 						inputMsg[0].value=data.messageTitle;
-						inputMsg[1].value=data.messageContent;
-						inputMsg[2].value=data.sender;
+						msg.value=data.messageContent;
+						inputMsg[1].value=data.sender;
 						
 						const reMsgInput = document.getElementsByClassName('reMsgInput');
 						reMsgInput[2].value=data.sender;

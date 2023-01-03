@@ -109,10 +109,10 @@
   		
   		<br><br>
   		
-  		<!-- 오늘의 신상 -->
+  		<!-- 인기 상품 -->
   		<div class="container d-flex flex-wrap css-title">
   			<div>
-  				<p class="px-4">오늘의 신상
+  				<p class="px-4">인기 상품
   			</div>
   		</div>
   		
