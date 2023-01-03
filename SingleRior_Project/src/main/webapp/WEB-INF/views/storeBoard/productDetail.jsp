@@ -464,7 +464,7 @@
        </div>
      </div>
 
-<<<<<<< HEAD
+
                   </div>
                      
                  
@@ -576,7 +576,7 @@
           <c:if test="${ empty iList }">
            <div style="text-align:center;"><h2>상품에 대한 문의가 아직 없습니다 ㅜ.ㅜ</h2><br><img src="${contextPath}/resources/image/reviewZero.jpg" width="200" ></div>
           </c:if>
-=======
+
 						</div>
 							
 		        	
@@ -688,7 +688,7 @@
 		    <c:if test="${ empty iList }">
 		     <div style="text-align:center;"><h2>상품에 대한 문의가 아직 없습니다 ㅜ.ㅜ</h2><br><img src="${contextPath}/resources/image/reviewZero.jpg" width="200" ></div>
 		    </c:if>
->>>>>>> eba3dffdd8c4f4e4f6115c60c907bc9e0702a160
+
           </article>
           <hr>
           
@@ -770,9 +770,7 @@
        </div>
      </div>
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
+
 	<!--문의하기 모달창 -->
 	<div class="modal" tabindex="-1" id="inquiryModal">
 	  <div class="modal-dialog">
@@ -827,10 +825,7 @@
 	    	</div>
 	  	</div>
 	</div>
-=======
-=======
->>>>>>> bella
->>>>>>> eba3dffdd8c4f4e4f6115c60c907bc9e0702a160
+
    <!--문의하기 모달창 -->
    <div class="modal" tabindex="-1" id="inquiryModal">
      <div class="modal-dialog">
