@@ -123,21 +123,21 @@ public class StoreBoardController {
 		ArrayList<ProductReview> prList=sService.selectReviewList(productNo);
 		//괜히 리스트로 받았네... TotalReview 객체로 받아도 상관없어용 ㅠㅠ 
 		ArrayList<TotalReview> trList=sService.selectTotalReview(productNo);
-		
-		
-		double reviewCount=trList.get(0).getReviewCount();
-		double sumStar=trList.get(0).getSumStar();
-		double avgResult=sumStar/reviewCount;
-		
-		String strAvgResult = avgResult + "";
-		int dotIndex = strAvgResult.indexOf(".");
-		String realWantIt = strAvgResult.substring(0, dotIndex+2);
-		
-		double avgStar=Double.parseDouble(realWantIt);
-
-		trList.get(0).setAvgStar(avgStar);
-		
-		
+		System.out.println(trList);
+		if(trList.get(0).getSumStar()!=0.0) {
+			double reviewCount=trList.get(0).getReviewCount();
+			double sumStar=trList.get(0).getSumStar();
+			double avgResult=sumStar/reviewCount;
+			
+			String strAvgResult = avgResult + "";
+			int dotIndex = strAvgResult.indexOf(".");
+			String realWantIt = strAvgResult.substring(0, dotIndex+2);
+			
+			double avgStar=Double.parseDouble(realWantIt);
+			
+			trList.get(0).setAvgStar(avgStar);
+		}
+		 System.out.println(trList);
 		
 		if(iList != null) {
 		   model.addAttribute("iList", iList);

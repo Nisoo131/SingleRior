@@ -270,40 +270,49 @@
 
 								<%
 									ArrayList<TotalReview> trList = (ArrayList)request.getAttribute("trList");
-									if(trList.get(0).getAvgStar() > 4.5){
+								
+									if(trList.get(0).getAvgStar()==5){
+										System.out.println(trList.get(0).getAvgStar());
+								%>
+									<span class="starView">★★★★★<span>★★★★★</span><input class="starViewValue" type="range" value="10"></span>
+								<%
+									}else if(trList.get(0).getAvgStar() >= 4.5){
+										
 								%>
 									<span class="starView">★★★★★<span>★★★★★</span><input class="starViewValue" type="range" value="9"></span>
 								<%	
-									}else if(trList.get(0).getAvgStar()>4){
+									}else if(trList.get(0).getAvgStar()>=4.0){
 								%>
 									<span class="starView">★★★★★<span>★★★★★</span><input class="starViewValue" type="range" value="8"></span>
 								<%
-									}else if(trList.get(0).getAvgStar()>3.5){
+									}else if(trList.get(0).getAvgStar()>=3.5){
 								%>
 									<span class="starView">★★★★★<span>★★★★★</span><input class="starViewValue" type="range" value="7"></span>
 								<%
-									}else if(trList.get(0).getAvgStar()>3){
+									}else if(trList.get(0).getAvgStar()>=3.0){
 								%>
 									<span class="starView">★★★★★<span>★★★★★</span><input class="starViewValue" type="range" value="6"></span>	
 								
 								<%
-									}else if(trList.get(0).getAvgStar()>2.5){
+									}else if(trList.get(0).getAvgStar()>=2.5){
+										System.out.println(trList.get(0).getAvgStar());
 								%>
 									<span class="starView">★★★★★<span>★★★★★</span><input class="starViewValue" type="range" value="5"></span>
 								<%
-									}else if(trList.get(0).getAvgStar()>2){
+									}else if(trList.get(0).getAvgStar()>=2.0){
+										System.out.println(trList.get(0).getAvgStar());
 								%>
 									<span class="starView">★★★★★<span>★★★★★</span><input class="starViewValue" type="range" value="4"></span>
 								<%
-									}else if(trList.get(0).getAvgStar()>1.5){
+									}else if(trList.get(0).getAvgStar()>=1.5){
 								%>
 									<span class="starView">★★★★★<span>★★★★★</span><input class="starViewValue" type="range" value="3"></span>
 								<%
-									}else if(trList.get(0).getAvgStar()>1){
+									}else if(trList.get(0).getAvgStar()>=1.0){
 								%>
 									<span class="starView">★★★★★<span>★★★★★</span><input class="starViewValue" type="range" value="2"></span>
 								<%
-									}else if(trList.get(0).getAvgStar()>0.5){
+									}else if(trList.get(0).getAvgStar()>=0.5){
 								%>
 									<span class="starView">★★★★★<span>★★★★★</span><input class="starViewValue" type="range" value="1"></span>
 								<%
