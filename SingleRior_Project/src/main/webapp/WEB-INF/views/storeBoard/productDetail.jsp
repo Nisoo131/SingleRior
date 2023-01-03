@@ -365,7 +365,7 @@
           </div>
           <%--  ${ iList } --%>
           <c:if test="${! empty iList }">
-             <c:forEach items="${ iList }" var="i" begin="1" end="5">
+             <c:forEach items="${ iList }" var="i" begin="0" end="4">
              <div style="border:black solid 1px; width:600px; padding:10px 10px; border-radius:10px;">
                  <p class="blog-post-meta">${i.inquiryTitle} | 
                     <c:if test="${ i.inquiryAnswer == null }">
@@ -656,7 +656,6 @@
        </div>
      </div>
 
-<<<<<<< HEAD
 	<!--문의하기 모달창 -->
 	<div class="modal" tabindex="-1" id="inquiryModal">
 	  <div class="modal-dialog">
@@ -711,9 +710,6 @@
 	    	</div>
 	  	</div>
 	</div>
-=======
-=======
->>>>>>> bella
    <!--문의하기 모달창 -->
    <div class="modal" tabindex="-1" id="inquiryModal">
      <div class="modal-dialog">
@@ -768,10 +764,6 @@
           </div>
         </div>
    </div>
-<<<<<<< HEAD
->>>>>>> donni
-=======
->>>>>>> bella
 </main>
 
     <footer>
