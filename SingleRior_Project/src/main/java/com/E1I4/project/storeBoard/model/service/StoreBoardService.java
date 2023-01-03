@@ -75,44 +75,11 @@ public interface StoreBoardService {
 	
 	String getTopCateName2(HashMap<String, Integer> map);
 
-	ArrayList<ProductInquiry> selectMoreInquiryList(PageInfo pi, int productNo);
-
-	ArrayList<ProductReview> selectReviewList(int productNo);
-
 	int insertPayment(Pay pay);
 
 	int insertDirectOrderDetail(OrderDetail od);
 
 
 	
->>>>>>> Sue
-
-
-
-
-
-   
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-   
-
-
-
-
-   
-
-   
 
 }

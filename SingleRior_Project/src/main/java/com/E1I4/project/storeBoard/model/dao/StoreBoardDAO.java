@@ -161,6 +161,7 @@ public class StoreBoardDAO {
 	public String getTopCateName2(SqlSessionTemplate sqlSession, HashMap<String, Integer> map) {
 		return sqlSession.selectOne("storeMapper.getTopCateName2", map);
 
+	}
 	public int insertPayment(SqlSessionTemplate sqlSession, Pay pay) {
 		return sqlSession.insert("storeMapper.insertPayment", pay);
 	}

@@ -778,6 +778,7 @@
 	       </article>
 	       
 	      </div>
+	      </c:if>
 	     
 	      <c:if test="${empty prList}">
 	    <div style="text-align:center;"><h2>상품에 대한 리뷰가 아직 없습니다 ㅜ.ㅜ</h2><br><img src="${contextPath}/resources/image/reviewZero.jpg" width="200" ></div>

@@ -139,10 +139,6 @@ public class StoreBoardController {
 			} return "categoryList"; 
 			
 
-	@RequestMapping("storeList.st")
-	public String storeList() {
-		return "storeList";
-
 	}
 
 	// subCate 리스트
@@ -231,69 +227,69 @@ public class StoreBoardController {
 			double reviewCount=trList.get(0).getReviewCount();
 			double sumStar=trList.get(0).getSumStar();
 			double avgResult=sumStar/reviewCount;
-			
+
 			String strAvgResult = avgResult + "";
 			int dotIndex = strAvgResult.indexOf(".");
 			String realWantIt = strAvgResult.substring(0, dotIndex+2);
-			
+
 			double avgStar=Double.parseDouble(realWantIt);
-			
+
 			trList.get(0).setAvgStar(avgStar);
 		}
-		 System.out.println(trList);
-		
+		System.out.println(trList);
+
 		if(iList != null) {
-		   model.addAttribute("iList", iList);
-
-		ArrayList<ProductReview> prList = sService.selectReviewList(productNo);
-
-		// System.out.println(prList);
-
-		if (iList != null) {
 			model.addAttribute("iList", iList);
 
-		} else {
-			throw new BoardException("문의하기 조회 실패.");
+
+			// System.out.println(prList);
+
+			if (iList != null) {
+				model.addAttribute("iList", iList);
+
+			} else {
+				throw new BoardException("문의하기 조회 실패.");
+			}
+
+			WishList wl = new WishList();
+			ProductInquiry pi = new ProductInquiry();
+
+			int result1 = 0;
+			int result2 = 0;
+
+			if (loginUser != null) {
+
+				wl.setProductNo(productNo);
+				wl.setMemberId(loginUser.getMemberId());
+
+				pi.setMemberId(loginUser.getMemberId());
+				pi.setProductNo(productNo);
+
+				result1 = sService.wishListCount(wl);
+				result2 = sService.InquiryCount(pi);
+			}
+
+			if (pList != null) {
+				model.addAttribute("pList", pList);
+				model.addAttribute("count", result1);
+
+				model.addAttribute("piCount",result2);
+				model.addAttribute("prList",prList);
+				model.addAttribute("trList",trList);
+
+
+				model.addAttribute("piCount", result2);
+				model.addAttribute("prList", prList);
+
+
+
+			} else {
+				throw new BoardException("제품 상세 조회 실패.");
+			}
+
 		}
-
-		WishList wl = new WishList();
-		ProductInquiry pi = new ProductInquiry();
-
-		int result1 = 0;
-		int result2 = 0;
-
-		if (loginUser != null) {
-
-			wl.setProductNo(productNo);
-			wl.setMemberId(loginUser.getMemberId());
-
-			pi.setMemberId(loginUser.getMemberId());
-			pi.setProductNo(productNo);
-
-			result1 = sService.wishListCount(wl);
-			result2 = sService.InquiryCount(pi);
-		}
-
-		if (pList != null) {
-			model.addAttribute("pList", pList);
-			model.addAttribute("count", result1);
-
-			model.addAttribute("piCount",result2);
-			model.addAttribute("prList",prList);
-			model.addAttribute("trList",trList);
-		
-
-			model.addAttribute("piCount", result2);
-			model.addAttribute("prList", prList);
-
-			return "productDetail";
-
-		} else {
-			throw new BoardException("제품 상세 조회 실패.");
-		}
-
+		return "productDetail";
 	}
-
 	// 문의 더보기
 	@RequestMapping("moreInquiry.st")
 	public String moreInquiry(@RequestParam(value = "page", required = false) Integer page,

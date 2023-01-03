@@ -312,7 +312,6 @@
 	where img_b_type=7 and r.product_no=#{productNo}
   
   </select>
-<<<<<<< HEAD
   <select id="getMoreReviewCount" resultType="_int">
    		select count(*)
         from product_review
@@ -349,7 +348,6 @@
    	where pro_topcate_code = #{topCate}
    </select>
    
-=======
   
   <insert id="insertPayment">
      insert into pay
@@ -361,5 +359,4 @@
 	values (SEQ_ODID.nextval, #{productNo} , '결제완료', #{quantity}, #{finalPrice}, #{productOption}, SEQ_OID.currval)
   </insert>
 
->>>>>>> Sue
 </mapper>
