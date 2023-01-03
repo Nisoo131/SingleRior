@@ -463,14 +463,6 @@
          </div>
        </div>
      </div>
-
-						</div>
-							
-		        	
-		
-		        	
-		        	
-		        </div> 
 		        <br><br>
 		        		<c:if test="${fn:length(prList)<6}">
 						 <c:forEach items="${prList}" var="pr">
