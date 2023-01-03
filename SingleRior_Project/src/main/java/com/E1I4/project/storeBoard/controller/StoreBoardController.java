@@ -143,10 +143,6 @@ public class StoreBoardController {
 		}
 
 
-
-
-	
-
 	// 상품 상세보기
 	@RequestMapping("productDetail.st")
 	public String productDetail(@RequestParam("productNo") int productNo, @RequestParam("boardNo") int boardNo,

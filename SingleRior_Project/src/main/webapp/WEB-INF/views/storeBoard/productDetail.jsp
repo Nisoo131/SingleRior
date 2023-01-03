@@ -98,7 +98,6 @@
   </head>
   <body>
   
-<<<<<<< HEAD
       <header class="sticky-top">
          <div>
             <jsp:include page="../storeBoard/navbar.jsp"/>
@@ -264,12 +263,6 @@
                  <div class="reviewContent">
                     
                      <h2><div id="avgRating"></div></h2>
-                     
-                 
-                 
-                 
-                 
-                 
               </div> 
               <br><br>
                     <c:if test="${fn:length(prList)<6}">
