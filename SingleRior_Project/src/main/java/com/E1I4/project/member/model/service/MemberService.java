@@ -13,6 +13,7 @@ import com.E1I4.project.common.model.vo.ProductInquiry;
 import com.E1I4.project.common.model.vo.Reply;
 import com.E1I4.project.common.model.vo.Review;
 import com.E1I4.project.common.model.vo.WishList;
+import com.E1I4.project.member.model.vo.LoginLog;
 import com.E1I4.project.member.model.vo.Member;
 import com.E1I4.project.member.model.vo.Order;
 import com.E1I4.project.member.model.vo.ProductCancel;
@@ -138,6 +139,17 @@ public interface MemberService {
 	int deleteInquiry(int inquiryNo);
 
 	Pay getPayInfo(int orderNo);
+
+	LoginLog searchLog(String memberId);
+
+	int insertTime(String memberId);
+
+	LoginLog loginCheck(String memberId);
+
+	int updateTime(String memberId);
+
+	int updateCheck(String memberId);
+
 
 
 }

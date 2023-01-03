@@ -17,6 +17,7 @@ import com.E1I4.project.common.model.vo.ProductInquiry;
 import com.E1I4.project.common.model.vo.Reply;
 import com.E1I4.project.common.model.vo.Review;
 import com.E1I4.project.common.model.vo.WishList;
+import com.E1I4.project.member.model.vo.LoginLog;
 import com.E1I4.project.member.model.vo.Member;
 import com.E1I4.project.member.model.vo.Order;
 import com.E1I4.project.member.model.vo.ProductCancel;
@@ -282,6 +283,26 @@ public class MemberDAO {
 
 	public Pay getPayInfo(SqlSessionTemplate sqlSession, int orderNo) {
 		return sqlSession.selectOne("memberMapper.getPayInfo", orderNo);
+	}
+
+	public LoginLog searchLog(SqlSessionTemplate sqlSession, String memberId) {
+		return sqlSession.selectOne("memberMapper.searchLog",memberId);
+	}
+
+	public int insertTime(SqlSessionTemplate sqlSession, String memberId) {
+		return sqlSession.insert("memberMapper.insertTime",memberId);
+	}
+
+	public LoginLog loginCheck(SqlSessionTemplate sqlSession, String memberId) {
+		return sqlSession.selectOne("memberMapper.loginCheck",memberId);
+	}
+
+	public int updateTime(SqlSessionTemplate sqlSession, String memberId) {
+		return sqlSession.update("memberMapper.updateTime",memberId);
+	}
+
+	public int updateCheck(SqlSessionTemplate sqlSession, String memberId) {
+		return sqlSession.update("memberMapper.updateCheck",memberId);
 	}
 
 

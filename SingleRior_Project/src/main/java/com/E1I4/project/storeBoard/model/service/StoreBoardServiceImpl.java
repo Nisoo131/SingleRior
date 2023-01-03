@@ -12,10 +12,12 @@ import com.E1I4.project.common.model.vo.Attachment;
 import com.E1I4.project.common.model.vo.Cart;
 import com.E1I4.project.common.model.vo.OrderProductDetail;
 import com.E1I4.project.common.model.vo.PageInfo;
+import com.E1I4.project.common.model.vo.Pay;
 import com.E1I4.project.common.model.vo.ProductInquiry;
 import com.E1I4.project.common.model.vo.WishList;
 import com.E1I4.project.member.model.vo.Member;
 import com.E1I4.project.storeBoard.model.dao.StoreBoardDAO;
+import com.E1I4.project.storeBoard.model.vo.OrderDetail;
 import com.E1I4.project.storeBoard.model.vo.OrderItem;
 import com.E1I4.project.storeBoard.model.vo.OrderResult;
 import com.E1I4.project.storeBoard.model.vo.ProductReview;
@@ -145,6 +147,10 @@ public class StoreBoardServiceImpl implements StoreBoardService{
 		return sDAO.selectTotalReview(sqlSession,productNo);
 	}
 
+	public int insertPayment(Pay pay) {
+		return  sDAO.insertPayment(sqlSession, pay);
+	}
+
 	@Override
 	public int getMoreReviewCount(int productNo) {
 		return sDAO.getMoreReviewCount(sqlSession,productNo);
@@ -153,6 +159,21 @@ public class StoreBoardServiceImpl implements StoreBoardService{
 	@Override
 	public ArrayList<ProductReview> selectMoreReviewList(PageInfo pi, int productNo) {
 		return sDAO.selectMoreReviewList(sqlSession,pi,productNo);
+	}
+
+	@Override
+	public String getSubCateName(HashMap<String, Integer> map) {
+		return sDAO.getSubCateName(sqlSession,map);
+	}
+
+	@Override
+	public String getTopCateName(HashMap<String, Integer> map) {
+		return sDAO.getTopCateName(sqlSession,map);
+	}
+
+	@Override
+	public String getTopCateName2(HashMap<String, Integer> map) {
+		return sDAO.getTopCateName2(sqlSession,map);
 	}
 
 

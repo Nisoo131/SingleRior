@@ -8,9 +8,11 @@ import com.E1I4.project.common.model.vo.Attachment;
 import com.E1I4.project.common.model.vo.Cart;
 import com.E1I4.project.common.model.vo.OrderProductDetail;
 import com.E1I4.project.common.model.vo.PageInfo;
+import com.E1I4.project.common.model.vo.Pay;
 import com.E1I4.project.common.model.vo.ProductInquiry;
 import com.E1I4.project.common.model.vo.WishList;
 import com.E1I4.project.member.model.vo.Member;
+import com.E1I4.project.storeBoard.model.vo.OrderDetail;
 import com.E1I4.project.storeBoard.model.vo.OrderItem;
 import com.E1I4.project.storeBoard.model.vo.OrderResult;
 import com.E1I4.project.storeBoard.model.vo.ProductReview;
@@ -49,56 +51,31 @@ public interface StoreBoardService {
 
    int InsertOrderProduct(OrderResult r);
 
-
-	Cart selectCartInfo(int i);
-
-	int insertProductDetail(Cart cart);
-
-	int deleteCart(Cart cart);
-
+   Cart selectCartInfo(int i);
+	
+   int insertProductDetail(Cart cart);
+	
+   int deleteCart(Cart cart);
 
    int getMoreInquiryCount(int productNo);
-
 
    ArrayList<ProductInquiry> selectMoreInquiryList(PageInfo pi, int productNo);
 
    ArrayList<ProductReview> selectReviewList(int productNo);
 
-ArrayList<TotalReview> selectTotalReview(int productNo);
+	ArrayList<TotalReview> selectTotalReview(int productNo);
+	
+	int getMoreReviewCount(int productNo);
+	
+	ArrayList<ProductReview> selectMoreReviewList(PageInfo pi, int productNo);
+	
+	String getSubCateName(HashMap<String, Integer> map);
+	
+	String getTopCateName(HashMap<String, Integer> map);
+	
+	String getTopCateName2(HashMap<String, Integer> map);
 
-int getMoreReviewCount(int productNo);
+	int insertPayment(Pay pay);
 
-ArrayList<ProductReview> selectMoreReviewList(PageInfo pi, int productNo);
-
-
-   
-
-
-
-
-
-   
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-   
-
-
-
-
-   
-
-   
 
 }

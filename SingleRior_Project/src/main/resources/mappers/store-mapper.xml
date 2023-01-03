@@ -63,7 +63,13 @@
 		from board b
         join product p using(board_no)
          join product_sub_Cate psc using(pro_subcate_code)
-		where b.board_type='1' and product_status = 'Y' and pro_subcate_code = #{subCate}
+		where b.board_type='1' and product_status = 'Y'
+		<if test="subCate != null">
+		 and pro_subcate_code = #{subCate}
+		</if>
+		<if test="topCate != null">
+		 and pro_topcate_code = #{topCate}
+		</if>
 	</select>
 	
 	<select id="selectStoreBoardList" resultMap="StoreBoardResultSet">
@@ -72,7 +78,13 @@
 		     join product using (board_no)
 		     join product_sub_Cate using(pro_subcate_code)
 		     join product_top_Cate using(pro_topcate_code) 
-		where product_status = 'Y' and board_type='1' and pro_subcate_code=#{subCate}
+		where product_status = 'Y' and board_type='1' 
+		<if test="subCate != null">
+		 and pro_subcate_code = #{subCate}
+		</if>
+		<if test="topCate != null">
+		 and pro_topcate_code = #{topCate}
+		</if>
 		<if test="cateNo == 1">
 			order by board_count desc
 		</if>
@@ -298,8 +310,8 @@
 	    join order_product op on(op.order_no=od.order_no)
 	    join member m on(op.member_id=m.member_id)
 	where img_b_type=7 and r.product_no=#{productNo}
-  
   </select>
+
   <select id="getMoreReviewCount" resultType="_int">
    		select count(*)
         from product_review
@@ -316,4 +328,35 @@
   	order by r.order_detail_no desc
    
    </select>
+   
+   <select id="getSubCateName" resultType="string">
+    select pro_subcate_name
+    from product_sub_cate
+    where pro_subcate_code = #{subCate}
+   </select>
+   
+   <select id="getTopCateName" resultType="string">
+    select pro_topcate_name
+    from product_top_cate
+    join product_sub_cate using(pro_topcate_code)
+	where pro_subcate_code = #{subCate}
+   </select>
+   
+   <select id="getTopCateName2" resultType="string">
+   	select pro_topcate_name
+   	from product_top_cate
+   	where pro_topcate_code = #{topCate}
+   </select>
+   
+  
+  <insert id="insertPayment">
+     insert into pay
+	 values (SEQ_PAYID.nextval, #{payAmount}, sysdate, 'Y', SEQ_OID.currval, #{merchantuid}, #{impuid})
+  </insert>
+  
+  <insert id="insertDirectOrderDetail">
+  	insert into order_detail
+	values (SEQ_ODID.nextval, #{productNo} , '결제완료', #{quantity}, #{finalPrice}, #{productOption}, SEQ_OID.currval)
+  </insert>
+
 </mapper>

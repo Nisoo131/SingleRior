@@ -25,6 +25,7 @@ import com.E1I4.project.common.model.vo.Reply;
 import com.E1I4.project.common.model.vo.Review;
 import com.E1I4.project.common.model.vo.WishList;
 import com.E1I4.project.member.model.dao.MemberDAO;
+import com.E1I4.project.member.model.vo.LoginLog;
 import com.E1I4.project.member.model.vo.Member;
 import com.E1I4.project.member.model.vo.Order;
 import com.E1I4.project.member.model.vo.ProductCancel;
@@ -338,6 +339,31 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public Pay getPayInfo(int orderNo) {
 		return mDAO.getPayInfo(sqlSession, orderNo);
+	}
+
+	@Override
+	public LoginLog searchLog(String memberId) {
+		return mDAO.searchLog(sqlSession,memberId);
+	}
+
+	@Override
+	public int insertTime(String memberId) {
+		return mDAO.insertTime(sqlSession,memberId);
+	}
+
+	@Override
+	public LoginLog loginCheck(String memberId) {
+		return mDAO.loginCheck(sqlSession,memberId);
+	}
+
+	@Override
+	public int updateTime(String memberId) {
+		return mDAO.updateTime(sqlSession,memberId);
+	}
+
+	@Override
+	public int updateCheck(String memberId) {
+		return mDAO.updateCheck(sqlSession,memberId);
 	}
 
 }

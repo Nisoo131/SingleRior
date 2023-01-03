@@ -54,20 +54,20 @@
 	
 	/* Navigation Styles */
 	
-	nav { background: #2ba0db; }
+	.navCate { background: #2ba0db; }
 	
-	nav ul {
+	.navCate ul {
 	  font-size: 15px;
 	  margin: 0;
 	  padding: 0;
 	}
 	
-	nav ul li {
+	.navCate ul li {
 	  display: inline-block;
 	  position: relative;
 	}
 	
-	nav ul li a {
+	.navCate ul li a {
 	  color: #fff;
 	  display: block;
 	  font-size: 15px;
@@ -75,31 +75,31 @@
 	  transition: 0.3s linear;
 	}
 	
-	nav ul li:hover { background: #126d9b; }
+	.navCate ul li:hover { background: #126d9b; }
 	
-	nav ul li ul {
+	.navCate ul li ul {
 	  border-bottom: 5px solid #2ba0db;
 	  display: none;
 	  position: absolute;
 	  width: 250px;
 	}
 	
-	nav ul li ul li {
+	.navCate ul li ul li {
 	  border-top: 1px solid #444;
 	  display: block;
 	}
 	
-	nav ul li ul li:first-child { border-top: none; }
+	.navCate ul li ul li:first-child { border-top: none; }
 	
-	nav ul li ul li a {
+	.navCate ul li ul li a {
 	  background: #373737;
 	  display: block;
 	  padding: 10px 14px;
 	}
 	
-	nav ul li ul li a:hover { background: #126d9b; }
+	.navCate ul li ul li a:hover { background: #126d9b; }
 	
-	nav .fa.fa-angle-down { margin-left: 6px; }
+	.navCate .fa.fa-angle-down { margin-left: 6px; }
 	
 </style>
 </head>
@@ -111,10 +111,10 @@
 	</header>
 	
 	<div id="drop" >
-	<nav>
+	<nav class="navCate">
 	  <div class="container">
 	    <ul>
-	      <li class='top-menu'><a href="">가구<i class='fa fa-angle-down'></i></a>
+	      <li class='top-menu'><a href="${ contextPath }/categoryList.st?topCate=1">가구<i class='fa fa-angle-down'></i></a>
 	      	<ul>
 	          <li><a href="${ contextPath }/categoryList.st?subCate=101">침대</a></li>
 	          <li><a href="${ contextPath }/categoryList.st?subCate=102">테이블</a></li>
@@ -125,7 +125,7 @@
 	        </ul>
 	       </li>
 	 
-	       <li class='top-menu'><a href="">패브릭<i class='fa fa-angle-down'></i></a>
+	       <li class='top-menu'><a href="${ contextPath }/categoryList.st?topCate=2">패브릭<i class='fa fa-angle-down'></i></a>
 	      	<ul>
 	          <li><a href="${ contextPath }/categoryList.st?subCate=201">이불</a></li>
 	          <li><a href="${ contextPath }/categoryList.st?subCate=202">배개</a></li>
@@ -133,7 +133,7 @@
 	          <li><a href="#">러그</a></li>
 	        </ul>
 	       </li>
-	       <li class='top-menu'> <a href="">인테리어소품<i class='fa fa-angle-down'></i></a>
+	       <li class='top-menu'> <a href="${ contextPath }/categoryList.st?topCate=3">인테리어소품<i class='fa fa-angle-down'></i></a>
 	        <ul>
 	          <li><a href="${ contextPath }/categoryList.st?subCate=301">식물</a></li>
 	          <li><a href="${ contextPath }/categoryList.st?subCate=302">시계</a></li>
@@ -141,7 +141,7 @@
 	          <li><a href="${ contextPath }/categoryList.st?subCate=304">윌데코/장식</a></li>
 	        </ul>
 	      </li>
-	        <li class='top-menu'> <a href="">주방용품<i class='fa fa-angle-down'></i></a>
+	        <li class='top-menu'><a href="${ contextPath }/categoryList.st?topCate=4">주방용품<i class='fa fa-angle-down'></i></a>
 	        <ul>
 	          <li><a href="${ contextPath }/categoryList.st?subCate=401">냄비/프라이팬</a></li>
 	          <li><a href="${ contextPath }/categoryList.st?subCate=402">그릇</a></li>
@@ -152,7 +152,7 @@
 	        </ul>
 	      </li>
 	
-	        <li class='top-menu'><a href="">가전제품<i class='fa fa-angle-down'></i></a>
+	        <li class='top-menu'><a href="${ contextPath }/categoryList.st?topCate=5">가전제품<i class='fa fa-angle-down'></i></a>
 	        <ul>
 	          <li><a href="${ contextPath }/categoryList.st?subCate=501">냉장고</a></li>
 	          <li><a href="${ contextPath }/categoryList.st?subCate=502">TV/모니터</a></li>
@@ -162,7 +162,7 @@
 	          <li><a href="${ contextPath }/categoryList.st?subCate=506">계절가전</a></li>
 	        </ul>
 	      </li>
-	        <li class='top-menu'> <a href="">소형가전<i class='fa fa-angle-down'></i></a>
+	        <li class='top-menu'><a href="${ contextPath }/categoryList.st?topCate=6">소형가전<i class='fa fa-angle-down'></i></a>
 	        <ul>
 	          <li><a href="${ contextPath }/categoryList.st?subCate=601">이어폰/헤드셋</a></li>
 	          <li><a href="${ contextPath }/categoryList.st?subCate=602">스피커</a></li>
@@ -177,7 +177,7 @@
 	</div>
 
 	<script>
-	$('nav li').hover(
+	$('.navCate li').hover(
 	  function() {
 	      $('ul', this).stop().slideDown(200);
 	      $('ul', this).css('background','transparent');
