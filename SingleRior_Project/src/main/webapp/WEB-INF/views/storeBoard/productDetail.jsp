@@ -1,5 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="com.E1I4.project.storeBoard.model.vo.TotalReview" %>    
+
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
@@ -24,6 +28,7 @@
 	.opsResultDiv {display:none;}
 	.button_qty {
 	  line-height: 50px;
+	  
 	  text-align: center;
 	  background: white;
 	  border-radius: 12px;
@@ -261,23 +266,57 @@
 	         <h2 class="blog-post-title mb-1" >리뷰  ${trList[0].reviewCount }개</h2>
 	        	<br><br>
 		        	<div class="reviewContent">
-							<h2>총점 : <span class="reviewRatingTable badge badge rounded-pill text-bg-danger" style="font-size: 1rem; ">★${ trList[0].avgStar }</span></h2>
-							<%-- <div>별점 : 
-								<c:if test="${ '0'<trList[0].avgStar<'0.5'}"><span class="starView">★★★★★<span>★★★★★</span><input class="starViewValue" type="range" value="0"></span></c:if>
-								<c:if test="${'0.5'<=trList[0].avgStar <'1'}"><span class="starView">★★★★★<span>★★★★★</span><input class="starViewValue" type="range" value="1"></span></c:if>
-								<c:if test="${'1'<trList[0].avgStar<='1.5'}"><span class="starView">★★★★★<span>★★★★★</span><input class="starViewValue" type="range" value="2"></span></c:if>
-								<c:if test="${'1.5'<trList[0].avgStar<='2'}"><span class="starView">★★★★★<span>★★★★★</span><input class="starViewValue" type="range" value="3"></span></c:if>
-								<c:if test="${'2'<trList[0].avgStar<='2.5'}"><span class="starView">★★★★★<span>★★★★★</span><input class="starViewValue" type="range" value="4"></span></c:if>
-								<c:if test="${'2.5'<trList[0].avgStar<='3'}"><span class="starView">★★★★★<span>★★★★★</span><input class="starViewValue" type="range" value="5"></span></c:if>
-								<c:if test="${'3'<trList[0].avgStar<='3.5'}"><span class="starView">★★★★★<span>★★★★★</span><input class="starViewValue" type="range" value="6"></span></c:if>
-								<c:if test="${'3.5'<trList[0].avgStar<='4'}"><span class="starView">★★★★★<span>★★★★★</span><input class="starViewValue" type="range" value="7"></span></c:if>
-								<c:if test="${'4'<trList[0].avgStar<='4.5'}"><span class="starView">★★★★★<span>★★★★★</span><input class="starViewValue" type="range" value="8"></span></c:if>
-								<c:if test="${'4.5'<trList[0].avgStar<'5'}"><span class="starView">★★★★★<span>★★★★★</span><input class="starViewValue" type="range" value="9"></span></c:if>
-							</div> --%>
+							<h2>총점 : ${ trList[0].avgStar } 점</h2>
+
+								<%
+									ArrayList<TotalReview> trList = (ArrayList)request.getAttribute("trList");
+									if(trList.get(0).getAvgStar() > 4.5){
+								%>
+									<span class="starView">★★★★★<span>★★★★★</span><input class="starViewValue" type="range" value="9"></span>
+								<%	
+									}else if(trList.get(0).getAvgStar()>4){
+								%>
+									<span class="starView">★★★★★<span>★★★★★</span><input class="starViewValue" type="range" value="8"></span>
+								<%
+									}else if(trList.get(0).getAvgStar()>3.5){
+								%>
+									<span class="starView">★★★★★<span>★★★★★</span><input class="starViewValue" type="range" value="7"></span>
+								<%
+									}else if(trList.get(0).getAvgStar()>3){
+								%>
+									<span class="starView">★★★★★<span>★★★★★</span><input class="starViewValue" type="range" value="6"></span>	
+								
+								<%
+									}else if(trList.get(0).getAvgStar()>2.5){
+								%>
+									<span class="starView">★★★★★<span>★★★★★</span><input class="starViewValue" type="range" value="5"></span>
+								<%
+									}else if(trList.get(0).getAvgStar()>2){
+								%>
+									<span class="starView">★★★★★<span>★★★★★</span><input class="starViewValue" type="range" value="4"></span>
+								<%
+									}else if(trList.get(0).getAvgStar()>1.5){
+								%>
+									<span class="starView">★★★★★<span>★★★★★</span><input class="starViewValue" type="range" value="3"></span>
+								<%
+									}else if(trList.get(0).getAvgStar()>1){
+								%>
+									<span class="starView">★★★★★<span>★★★★★</span><input class="starViewValue" type="range" value="2"></span>
+								<%
+									}else if(trList.get(0).getAvgStar()>0.5){
+								%>
+									<span class="starView">★★★★★<span>★★★★★</span><input class="starViewValue" type="range" value="1"></span>
+								<%
+									}else{
+								%>
+									<span class="starView">★★★★★<span>★★★★★</span><input class="starViewValue" type="range" value="0"></span>
+								<%	
+									};
+								%>
+						</div>
 							
 		        	
-		        	
-		        	
+		
 		        	
 		        	
 		        </div> 
@@ -703,14 +742,25 @@
     		location.href='${contextPath}/moreReview.st?productNo=' + productNo;
     	})
     	
+    	// 별점 뿌리기
+	//	console.log(document.querySelectorAll('.starViewValue').length);
+	var starViewValueCount = document.querySelectorAll('.starViewValue').length;
+	//	console.log(starViewValueCount);
+	
+	var starViewValue = document.querySelectorAll('.starViewValue');
+	var num = 0;
+	for(const i of starViewValue){
+		console.log(i.value);
+		document.querySelectorAll('.starView span')[num].style.width = i.value * 10 + '%';
+		num += 1;
+	}
+	
+
     	
     	
     }
 </script>
 <script>
-const drawStar = (target) => {
-	  document.querySelector(`.star span`).style.width = `${target.value * 10}%`;
-	}
 
 </script>
 </html>
