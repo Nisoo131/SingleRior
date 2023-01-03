@@ -62,7 +62,22 @@ public class AdminController {
 	
 	
 	@RequestMapping("index.adm")
-	public String adminView() {
+	public String adminView(OrderProducts op,Model model) {
+		ArrayList<HashMap<String,Object>> loginCount=aService.loginCount();
+		ArrayList<OrderProducts> list = aService.selectOrderProducts();
+		
+		for(int i=0;i<list.size();i++) {
+			String[] arr=list.get(i).getProducts().split(",");
+			int arrLen=arr.length;
+			
+			if(arrLen==1) {
+				list.get(i).setProducts(arr[0]);	
+			}else {
+				list.get(i).setProducts(arr[0]+" 외 "+(arrLen-1)+"개");
+			}
+		}
+		model.addAttribute("list",list);
+		model.addAttribute("logCount",loginCount);
 		return"index";
 	}
 	@RequestMapping("insertProduct.adm")
@@ -498,9 +513,9 @@ public class AdminController {
 			int arrLen=arr.length;
 			
 			if(arrLen==1) {
-			list.get(i).setProducts(arr[0]);	
+				list.get(i).setProducts(arr[0]);	
 			}else {
-			list.get(i).setProducts(arr[0]+" 외 "+(arrLen-1)+"개");
+				list.get(i).setProducts(arr[0]+" 외 "+(arrLen-1)+"개");
 			}
 		}
 		model.addAttribute("list",list);
@@ -895,10 +910,10 @@ public class AdminController {
 
 		ArrayList<HashMap<String,Object>> list = aService.enrollUserSum();
 		ArrayList<HashMap<String,Object>> viewContent = aService.viewContentSum();
-
-		
+		ArrayList<HashMap<String,Object>> loginCount=aService.loginCount();
 		model.addAttribute("list",list);
 		model.addAttribute("viewContent",viewContent);
+		model.addAttribute("logCount",loginCount);
 		return "statUser";
 	}
 	@RequestMapping("detailOrder.adm")

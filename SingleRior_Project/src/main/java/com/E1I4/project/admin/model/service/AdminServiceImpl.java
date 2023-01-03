@@ -277,6 +277,11 @@ public class AdminServiceImpl implements AdminService {
 		return aDAO.orderProductDetail(sqlSession,orNo);
 	}
 
+	@Override
+	public ArrayList<HashMap<String, Object>> loginCount() {
+		return aDAO.loginCount(sqlSession);
+	}
+
 
 
 

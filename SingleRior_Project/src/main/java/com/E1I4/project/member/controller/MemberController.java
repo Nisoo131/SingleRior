@@ -147,10 +147,40 @@ public class MemberController {
 				m.setMemberId("kakao*"+memberId);
 				loginUser = mService.login(m);
 				session.setAttribute("loginUser", loginUser);
+				LoginLog lg=mService.searchLog(loginUser.getMemberId());
+				
+				if(lg==null) {//이 사람 로그인이 처음로그인이면 log 테이블에 넣어줘
+					int insertTime=mService.insertTime(loginUser.getMemberId());
+				}else {//한번이라도 접속을 하였고 오늘날짜에 로그인이 되었는지 확인해줘
+					LoginLog loginCheck=mService.loginCheck(loginUser.getMemberId());
+					
+					if(loginCheck!=null) {//오늘날짜에 로그인을 했으면 시간을 바꿔준다
+						mService.updateTime(loginUser.getMemberId());
+					}else {//마지막로그인이 어제이면 login_check값을 N으로 바꿔주고 오늘날짜 로그인 받기 
+						mService.updateCheck(loginUser.getMemberId());
+						mService.insertTime(loginUser.getMemberId());
+					}
+				}
+				
 				return "redirect:/";
 			}
 		}
 		session.setAttribute("loginUser", loginUser);
+		LoginLog lg=mService.searchLog(loginUser.getMemberId());
+		
+		if(lg==null) {//이 사람 로그인이 처음로그인이면 log 테이블에 넣어줘
+			int insertTime=mService.insertTime(loginUser.getMemberId());
+		}else {//한번이라도 접속을 하였고 오늘날짜에 로그인이 되었는지 확인해줘
+			LoginLog loginCheck=mService.loginCheck(loginUser.getMemberId());
+			
+			if(loginCheck!=null) {//오늘날짜에 로그인을 했으면 시간을 바꿔준다
+				mService.updateTime(loginUser.getMemberId());
+			}else {//마지막로그인이 어제이면 login_check값을 N으로 바꿔주고 오늘날짜 로그인 받기 
+				mService.updateCheck(loginUser.getMemberId());
+				mService.insertTime(loginUser.getMemberId());
+			}
+		}
+		
 		return "redirect:/";
 		
 	}
@@ -190,11 +220,41 @@ public class MemberController {
 				m.setMemberId("naver*"+memberId);
 				loginUser = mService.login(m);
 				session.setAttribute("loginUser", loginUser);
+				LoginLog lg=mService.searchLog(loginUser.getMemberId());
+				
+				if(lg==null) {//이 사람 로그인이 처음로그인이면 log 테이블에 넣어줘
+					int insertTime=mService.insertTime(loginUser.getMemberId());
+				}else {//한번이라도 접속을 하였고 오늘날짜에 로그인이 되었는지 확인해줘
+					LoginLog loginCheck=mService.loginCheck(loginUser.getMemberId());
+					
+					if(loginCheck!=null) {//오늘날짜에 로그인을 했으면 시간을 바꿔준다
+						mService.updateTime(loginUser.getMemberId());
+					}else {//마지막로그인이 어제이면 login_check값을 N으로 바꿔주고 오늘날짜 로그인 받기 
+						mService.updateCheck(loginUser.getMemberId());
+						mService.insertTime(loginUser.getMemberId());
+					}
+				}
+				
 				return "redirect:/";
 			}
 		}
 		
 		session.setAttribute("loginUser", loginUser);
+		LoginLog lg=mService.searchLog(loginUser.getMemberId());
+		
+		if(lg==null) {//이 사람 로그인이 처음로그인이면 log 테이블에 넣어줘
+			int insertTime=mService.insertTime(loginUser.getMemberId());
+		}else {//한번이라도 접속을 하였고 오늘날짜에 로그인이 되었는지 확인해줘
+			LoginLog loginCheck=mService.loginCheck(loginUser.getMemberId());
+			
+			if(loginCheck!=null) {//오늘날짜에 로그인을 했으면 시간을 바꿔준다
+				mService.updateTime(loginUser.getMemberId());
+			}else {//마지막로그인이 어제이면 login_check값을 N으로 바꿔주고 오늘날짜 로그인 받기 
+				mService.updateCheck(loginUser.getMemberId());
+				mService.insertTime(loginUser.getMemberId());
+			}
+		}
+		
 		return "redirect:/";
 	}
 	// 로그아웃

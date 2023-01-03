@@ -115,6 +115,8 @@ public interface AdminService {
 
 	ArrayList<OrderProductDetail> orderProductDetail(int orNo);
 
+	ArrayList<HashMap<String, Object>> loginCount();
+
 
 
 

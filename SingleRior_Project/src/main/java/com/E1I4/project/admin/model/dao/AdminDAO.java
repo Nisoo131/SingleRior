@@ -230,6 +230,9 @@ public class AdminDAO {
 	public ArrayList<HashMap<String, Object>> enrollUserSum(SqlSessionTemplate sqlSession) {
 		return (ArrayList)sqlSession.selectList("adminMapper.selectEnrollUser");
 	}
+	public ArrayList<HashMap<String, Object>> loginCount(SqlSessionTemplate sqlSession) {
+		return (ArrayList)sqlSession.selectList("adminMapper.selectLoginCount");
+	}
 
 	public ArrayList<HashMap<String, Object>> viewContentSum(SqlSessionTemplate sqlSession) {
 		return (ArrayList)sqlSession.selectList("adminMapper.viewCountSum");
@@ -242,6 +245,8 @@ public class AdminDAO {
 	public ArrayList<OrderProductDetail> orderProductDetail(SqlSessionTemplate sqlSession, int orNo) {
 		return (ArrayList)sqlSession.selectList("adminMapper.orderProductDetail",orNo);
 	}
+
+
 
 
 

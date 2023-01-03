@@ -82,10 +82,10 @@
                         <div class="card mb-4">
                             <div class="card-header">
                                 <i class="fas fa-chart-area me-1"></i>
-                                회원 가입 현황
+                                일일 로그인 회원 수
                             </div>
-                            <div class="card-body"><canvas id="myAreaChart" width="100%" height="30"></canvas></div>
-                            <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+                            <div class="card-body"><canvas id="dailyLoginUser" width="100%" height="30"></canvas></div>
+                            <div class="card-footer small text-muted">마지막 업데이트 일시: <fmt:formatDate pattern="yyyy년 MM월 dd일 hh시 mm분" value="<%= now %>"/></div>
                         </div>
                         <div class="row">
                             <div class="col-lg-6">
@@ -124,12 +124,82 @@
             
             
             <script>
+            var context = document.getElementById('dailyLoginUser').getContext('2d');
+        	var myChart = new Chart(context, {
+            type: 'line', // 차트의 형태
+            data: { // 차트에 들어갈 데이터
+                labels: [
+                    //x 축
+                    '${logCount[9].A}','${logCount[8].A}','${logCount[7].A}','${logCount[6].A}','${logCount[5].A}','${logCount[4].A}','${logCount[3].A}','${logCount[2].A}','${logCount[1].A}','${logCount[0].A}'
+                ],
+                datasets: [
+                    { //데이터
+                        label: '일일 로그인 회원 수', //차트 제목
+                        fill: true, // line 형태일 때, 선 안쪽을 채우는지 안채우는지
+                        data: [
+                        	 '${logCount[9].B}','${logCount[8].B}','${logCount[7].B}','${logCount[6].B}','${logCount[5].B}','${logCount[4].B}','${logCount[3].B}','${logCount[2].B}','${logCount[1].B}','${logCount[0].B}' //x축 label에 대응되는 데이터 값
+                        ],
+                        backgroundColor: [
+                            //색상
+                            'rgb(54, 162, 235,0.7)',
+                            'rgb(54, 162, 235,0.7)',
+                            'rgb(54, 162, 235,0.7)',
+                            'rgb(54, 162, 235,0.7)',
+                            'rgb(54, 162, 235,0.7)',
+                            'rgb(54, 162, 235,0.7)',
+                            'rgb(54, 162, 235,0.7)',
+                            'rgb(54, 162, 235,0.7)',
+                            'rgb(54, 162, 235,0.7)',
+                            'rgb(54, 162, 235,0.7)',
+                            'rgb(54, 162, 235,0.7)'
+                            
+                            ],
+                        borderColor: [
+                            //경계선 색상
+                        	'rgb(54, 162, 235,1)',
+                            'rgb(54, 162, 235,1)',
+                            'rgb(54, 162, 235,1)',
+                            'rgb(54, 162, 235,1)',
+                            'rgb(54, 162, 235,1)',
+                            'rgb(54, 162, 235,1)',
+                            'rgb(54, 162, 235,1)',
+                            'rgb(54, 162, 235,1)',
+                            'rgb(54, 162, 235,1)',
+                            'rgb(54, 162, 235,1)'
+                            
+                            ],
+                        borderWidth: 1 //경계선 굵기
+                    }/* ,
+                    {
+                        label: 'test2',
+                        fill: false,
+                        data: [
+                            8, 34, 12, 24
+                        ],
+                        backgroundColor: 'rgb(157, 109, 12)',
+                        borderColor: 'rgb(157, 109, 12)'
+                    } */
+                ]
+            },
+            options: {
+                scales: {
+                    yAxes: [
+                        {
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }
+                    ]
+                }
+            }
+        });
+             
             
-            			
+            		/*일일 누적 회원가입 js  */	
             		var max=parseInt('${list[0].C}');
             		var max2=parseInt('${list[0].B}');
-		            var ctx = document.getElementById('userSum').getContext('2d');
-		            var chart = new Chart(ctx, {
+		            var ctx2 = document.getElementById('userSum').getContext('2d');
+		            var chart = new Chart(ctx2, {
 		                // type : 'bar' = 막대차트를 의미합니다.
 		                type: 'bar', // 
 		                data: {

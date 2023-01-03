@@ -566,6 +566,18 @@
 	group by board_type
 	
 	</select>
+	
+	<select id="selectLoginCount" resultType="map">
+		select a,b
+		from(select date_time as a, count(date_time) as b 
+    			from log
+    			group by date_time
+    			order by a desc)
+		where rownum<![CDATA[<]]>=10
+	
+	</select>
+	
+	
 	<select id="selectOrderProducts" resultMap="OrderProductsResultSet">
 	
 		SELECT OP.ORDER_NO,LISTAGG(BOARD_TITLE,',') WITHIN GROUP(ORDER BY BOARD_TITLE) AS "PRODUCTS",ORDER_TOTAL_PRICE,RECIPIENT,RECI_ADDRESS,MEMBER_ID,RECI_PHONE,ORDER_DATE,ORDER_TOTAL_STATUS
@@ -574,6 +586,7 @@
 		   	JOIN PRODUCT P ON(P.PRODUCT_NO=OD.PRODUCT_NO)
 		   	JOIN BOARD B ON(B.BOARD_NO=P.BOARD_NO)
 		GROUP BY OP.ORDER_NO,ORDER_TOTAL_PRICE,RECIPIENT,RECI_ADDRESS,MEMBER_ID,ORDER_DATE,ORDER_TOTAL_STATUS,RECI_PHONE
+		ORDER BY ORDER_DATE DESC
 
 	</select>
 	<select id="orderProductDetail" resultMap="OrderProductDetailResultSet">
