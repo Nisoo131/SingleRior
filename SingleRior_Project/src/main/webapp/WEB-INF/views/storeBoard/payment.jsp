@@ -51,6 +51,7 @@
         white-space: nowrap;
         -webkit-overflow-scrolling: touch;
       }
+      
 </style>
  </head>
  	<header class="sticky-top">
@@ -135,6 +136,7 @@
  <!-- 상품정보 보내기 -->				   
 				   
 				  	 <input type="hidden" name="productNo" value="${ o.productNo }">
+				  	 <input type="hidden" name="cartNo[]" value="${ o.cartNo }">
 				  	 <input type="hidden" name="cartNo" value="${ o.cartNo }">
 				  	 <input type="hidden" name="productQty" value="${ o.productQty }">
 				  	 <input type="hidden" name="productPrice" value="${ o.productPrice }">
@@ -310,12 +312,7 @@
     	 var discount = $('input[name=discount]').val()
     	 var productOption = $('input[name=productOption]').val()
     	 var cartNo = $('input[name=cartNo]').val()
-    	 console.log(productNo);
-    	 console.log(productQty);
-    	 console.log(productPrice);
-    	 console.log(discount);
-    	 console.log(productOption); 
-    	 console.log(productOption); 
+     
     	 
    		  // 상품단가*개수 = 주문상품별 가격
    		   var pricesArr=[];
@@ -329,37 +326,11 @@
    		  $.each($("input[name='cartNo[]']"),function(k,v){
    			cartArr[cartArr.length] = $(v).val();
    			});   		  
+   		  console.log(cartArr);
    		
-    	  console.log(memberName);
-    	  console.log(email);
-    	  console.log(buyer_phone);
-    	  console.log(deliveryMsg);
-    	  console.log(recipient);
-    	  console.log(recipient_phone); 
-    	  console.log(address);
-    	  console.log(address_detail);
 
     	  var amount = finalPrice;
     	  console.log(finalPrice);
-    	  
-    	/*   var allData ={"memberName":memberName,
-    			         "email":email,
-    			         "buyer_phone":buyer_phone,
-    			         "recipient":recipient,
-    			         "recipient_phone":recipient_phone,
-    			         "address":address,
-    			         "address_detail":address_detail,
-    			         "deliveryMsg":deliveryMsg,
-    			         "finalPrice":finalPrice,
-    			         "pricesArr":pricesArr,
-    			         "cartArr":cartArr};
-    	  //console.log(allData);
-    	  
-    	 var OrderItem ={"productNo":productNo,
-	   			            "productQty":productQty,
-	   			            "productPrice":productPrice,
-	   			            "discount":discount,
-	   			            "productOption":productOption};  */
     	
    	      IMP.request_pay({ 
    	          pg: "html5_inicis",
@@ -374,6 +345,8 @@
    	      }, function (rsp) { // callback
    	          if (rsp.success) {
 	   	       //controller에 DB 넘기기
+	   	         
+	   	         console.log(rsp);	   	       
    	                    $.ajax({
 			            	  url: "${contextPath}/orderResult.st", 
 			            	  type: "post",
@@ -394,7 +367,9 @@
 			   			             productQty:productQty,
 			   			             productPrice:productPrice,
 			   			             discount:discount,
-			   			             productOption:productOption},
+			   			             productOption:productOption,
+				   			         imp_uid: rsp.imp_uid,
+				   	                 merchant_uid: rsp.merchant_uid},
 							  success: function(data){
 								  location.href='${contextPath}/finalOrder.st?cartList=' + data;
 			  		    }
