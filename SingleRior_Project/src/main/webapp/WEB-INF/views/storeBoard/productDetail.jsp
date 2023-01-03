@@ -365,7 +365,7 @@
           </div>
           <%--  ${ iList } --%>
           <c:if test="${! empty iList }">
-             <c:forEach items="${ iList }" var="i" begin="1" end="5">
+             <c:forEach items="${ iList }" var="i" begin="0" end="4">
              <div style="border:black solid 1px; width:600px; padding:10px 10px; border-radius:10px;">
                  <p class="blog-post-meta">${i.inquiryTitle} | 
                     <c:if test="${ i.inquiryAnswer == null }">
@@ -464,191 +464,198 @@
        </div>
      </div>
 
+                  </div>
+                     
+                 
+      
+                 
+                 
+              </div> 
+              <br><br>
+                    <c:if test="${fn:length(prList)<6}">
+                   <c:forEach items="${prList}" var="pr">
+                    <table class="reviewTable">
+                   <tr>
+                      <td>
+                      <img src="${ contextPath }/resources/uploadFiles/${pr.imgServerName}" width="160" class="img">
+                      </td>
+                      <td>
+                      <span><b>${pr.nickName }</b>의 리뷰</span><br><br>
+                      <span>${pr.reviewContent}</span><br><br>
+                      <span>${pr.productOption}&nbsp;&nbsp;&nbsp;</span><br>
+                      <span>작성일 : ${pr.reviewDate }&nbsp;&nbsp;&nbsp;</span>
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                      <span class="reviewRatingTable badge badge rounded-pill text-bg-danger" style="font-size: 1rem; float: right;">★${ pr.reviewRating }</span>
+                      </td>
+                   </tr>
+                   </table>
+                  </c:forEach>
+                   </c:if>
+                   <c:if test="${fn:length(prList)>5}">
+                   <c:forEach items="${prList}" var="pr" begin="0" end="4">
+                   <table class="reviewTable">
+                   <tr>
+                      <td>
+                      <img src="${ contextPath }/resources/uploadFiles/${pr.imgServerName}" width="160" class="img">
+                      </td>
+                      <td>
+                      <span><b>${pr.nickName }</b>의 리뷰</span><br><br>
+                      <span>${pr.reviewContent}</span><br><br>
+                      <span>${pr.productOption}&nbsp;&nbsp;&nbsp;</span><br>
+                      <span>작성일 : ${pr.reviewDate }&nbsp;&nbsp;&nbsp;</span>
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                      <span class="reviewRatingTable badge badge rounded-pill text-bg-danger" style="font-size: 1rem; float: right;">★${ pr.reviewRating }</span>
+                      </td>
+                   </tr>
+                   </table>
+                  </c:forEach>
+                  <div id="moreReview">더보기</div><br>
+               </c:if>
+               
+          </article>
+          
+         </div>
+        
+         <c:if test="${empty prList}">
+       <div style="text-align:center;"><h2>상품에 대한 리뷰가 아직 없습니다 ㅜ.ㅜ</h2><br><img src="${contextPath}/resources/image/reviewZero.jpg" width="200" ></div>
+         
+         </c:if>
+          <hr>
+          
+      <!-- 문의하기 -->
+          <article class="blog-post" id="inquiry">
+           <div class="blog-post-title mb-1">
+              <form>
+                 <table>
+                    <tr>
+                       <td class="inquiry">문의</td>
+                    
+                       <td colspan="3" width="650px"></td>
+                       <c:if test="${ empty loginUser  }">
+                          <td><button type="button" class="btn btn-primary" id="inquiryBtn1" onclick="location.href='${contextPath}/loginView.me'" >문의하기</button></td>
+                       </c:if>
+                       <c:if test="${ !empty loginUser }">
+                          <td><button type="button" class="btn btn-primary" id="inquiryBtn2" data-bs-toggle="modal" data-bs-target="#inquiryModal">문의하기</button></td>
+                       </c:if>
+                       
+                       <%-- <c:if test="${ !empty loginUser and piCount == 1 }">
+                          <td><button type="button" class="btn btn-primary" id="inquiryUpdate" data-bs-toggle="modal" data-bs-target="#updateModal">수정</button></td>
+                          <td><button type="button" class="btn btn-primary" id="inquiryDelete" data-bs-toggle="modal" data-bs-target="#deleteModal">삭제</button></td>
+                       </c:if> --%>
+                    </tr>
+                 </table>
+              </form>
+          </div>
+<%--            ${ iList } --%>
+             <c:if test="${ !empty iList }">
+             <c:forEach items="${ iList }" var="i" begin="0" end="4">
+             <div style="border:black solid 1px; width:600px; padding:10px 10px; border-radius:10px;">
+                 <p class="blog-post-meta">${i.inquiryTitle} | 
+                    <c:if test="${ i.inquiryAnswer == null }">
+                       <span style="color:#008cd4;">답변대기</span>
+                    </c:if>
+                    <c:if test="${ i.inquiryAnswer != null }">
+                       <span style="color:#008cd4;">답변완료</span>
+                    </c:if>
+                    </p>
+               <p> ${i.memberId} | ${i.inquiryDate}</p>
+               <p><img src="https://cdn-icons-png.flaticon.com/512/8371/8371275.png" width="20px" height="20px"> ${ i.inquiryContent }</p>
+               <p><img src="https://cdn-icons-png.flaticon.com/512/25/25628.png" width="20px" height="20px"> ${ i.inquiryAnswer }</p>
+             </div>
+             <br>
+             </c:forEach>
+             <div id="moreInquiry">더보기</div><br>
+          </c:if>
+          <c:if test="${ empty iList }">
+           <div style="text-align:center;"><h2>상품에 대한 문의가 아직 없습니다 ㅜ.ㅜ</h2><br><img src="${contextPath}/resources/image/reviewZero.jpg" width="200" ></div>
+          </c:if>
+          </article>
+          <hr>
+          
+      <!-- 배송/환불 -->
+          <article class="blog-post" id="delievery">
+           <h2 class="blog-post-title mb-1">배송/환불</h2>
+           <br>
+           <p class="blog-post-meta">▶배송</p>
+         <table>
+            <tr>
+               <td width="150px">배송방법</td>
+               <td>일반택배</td>
+            </tr>
+            <tr>
+               <td>배송비</td>
+               <td>2,500원</td>
+            </tr>
+            <tr>
+               <td></td>
+               <td>50,000원 이상 주문시 무료배송</td>
+            </tr>
+            <tr>
+               <td>배송 불가 지역</td>
+               <td>도서산간 지역 / 제주도</td>
+            </tr>
+         </table>
+         <br><br>
+         <p class="blog-post-meta">▶교환/환불</p>
+         <table>
+            <tr>
+               <td width="150px">반품배송비</td>
+               <td>50,000원</td>
+            </tr>
+            <tr>
+               <td>교환배송비</td>
+               <td>100,000원</td>
+            </tr>
+            <tr>
+               <td>보내실 곳</td>
+               <td>서울특별시 중구 남대문로 120 그레이츠 청계(구 대일빌딩) 2F, 3F</td>
+            </tr>
+         </table>
+          </article>
+       </div>
+        
+       <!-- 스크롤 옵션바 -->
+       <div class="col-md-4">
+         <div class="position-sticky" style="top: 15rem;">
+           <div class="p-4">
+             <label for ="options">옵션선택</label>
+                  <select id="changeOpiton1" class="form-select" onChange="selectChange(this.value);" aria-label="Default select example">
+               <option class="opsBasic" selected >상품 옵션을 선택해주세요</option>
+                <c:forEach items="${ fn:split( pList[0].option, ',') }" var="p">
+                 <option value="${ p }" class="option">${ p }</option>
+               </c:forEach>
+             </select>
+             <br>
+            <!--  <div class="opsResultDiv1" style="border:1px solid black; width:450px; height:100px;"> -->
+            <!--      <input type="text" id="inputOption"><br> -->
+                 <span class="count-wrap _count">
+                      <button type="button" class="minus_btn" style="height:35px;">-</button>
+                         <input type="text" class="quantity_input" value="1" style="width:70px;height:30px" id="qty"/>
+                      <button type="button" class="plus_btn" style="height:35px;">+</button>
+               </span>
+                <fmt:parseNumber var="i" type="number" value="${ totalPrice }"/>
+               
+                <!-- <span id="finalPrice"></span>원 -->
+                </div>
+           <br><br>
+         
+           <br>
+           <h2>총 <span id="changedQty1">1</span>개　<span id="finalPrice3">${ totalPrice }</span>원</h2>
+              <div class="btn-group">
+                 <button type="button" class="cart" style="width:200px;height:50px;font-size:20px;">장바구니</button>
+                 <button type="button" class="payment" style="width:200px;height:50px;font-size:20px;" onclick="location.href='${ contextPath }/payment.st'">결제하기</button>
+              </div>
+           </div>
+         </div>
+       </div>
+     </div>
 
-	       
-	   <!-- 문의하기 -->
-	       <article class="blog-post" id="inquiry">
-	        <div class="blog-post-title mb-1">
-	        	<form>
-		        	<table>
-		        		<tr>
-		        			<td class="inquiry">문의</td>
-		        		
-		        			<td colspan="3" width="650px"></td>
-		        			<c:if test="${ empty loginUser  }">
-							  	<td><button type="button" class="btn btn-primary" id="inquiryBtn1" onclick="location.href='${contextPath}/loginView.me'" >문의하기</button></td>
-						  	</c:if>
-						  	<c:if test="${ !empty loginUser }">
-							  	<td><button type="button" class="btn btn-primary" id="inquiryBtn2" data-bs-toggle="modal" data-bs-target="#inquiryModal">문의하기</button></td>
-						  	</c:if>
-						  	
-						  	<%-- <c:if test="${ !empty loginUser and piCount == 1 }">
-							  	<td><button type="button" class="btn btn-primary" id="inquiryUpdate" data-bs-toggle="modal" data-bs-target="#updateModal">수정</button></td>
-							  	<td><button type="button" class="btn btn-primary" id="inquiryDelete" data-bs-toggle="modal" data-bs-target="#deleteModal">삭제</button></td>
-						  	</c:if> --%>
-		        		</tr>
-		        	</table>
-	        	</form>
-	 		</div>
-	 		<%--  ${ iList } --%>
-	 		<c:if test="${! empty iList }">
-		 		<c:forEach items="${ iList }" var="i" begin="1" end="5">
-		 		<div style="border:black solid 1px; width:600px; padding:10px 10px; border-radius:10px;">
-			        <p class="blog-post-meta">${i.inquiryTitle} | 
-				        <c:if test="${ i.inquiryAnswer == null }">
-				        	<span style="color:#008cd4;">답변대기</span>
-				        </c:if>
-				        <c:if test="${ i.inquiryAnswer != null }">
-				        	<span style="color:#008cd4;">답변완료</span>
-				        </c:if>
-				        </p>
-					<p> ${i.memberId} | ${i.inquiryDate}</p>
-					<p><img src="https://cdn-icons-png.flaticon.com/512/8371/8371275.png" width="20px" height="20px"> ${ i.inquiryContent }</p>
-					<p><img src="https://cdn-icons-png.flaticon.com/512/25/25628.png" width="20px" height="20px"> ${ i.inquiryAnswer }</p>
-		    	</div>
-		    	<br>
-		    	</c:forEach>
-		    	<div id="moreInquiry">더보기</div><br>
-		    	</c:if>
-		    <c:if test="${ empty iList }">
-		     <div style="text-align:center;"><h2>상품에 대한 문의가 아직 없습니다 ㅜ.ㅜ</h2><br><img src="${contextPath}/resources/image/reviewZero.jpg" width="200" ></div>
-		    </c:if>
-	    	</article>
-	    	<hr>
-	    	
-	   <!-- 배송/환불 -->
-	       <article class="blog-post" id="delievery">
-	        <h2 class="blog-post-title mb-1">배송/환불</h2>
-	        <br>
-	        <p class="blog-post-meta">▶배송</p>
-			<table>
-				<tr>
-					<td width="150px">배송방법</td>
-					<td>일반택배</td>
-				</tr>
-				<tr>
-					<td>배송비</td>
-					<td>2,500원</td>
-				</tr>
-				<tr>
-					<td></td>
-					<td>50,000원 이상 주문시 무료배송</td>
-				</tr>
-				<tr>
-					<td>배송 불가 지역</td>
-					<td>도서산간 지역 / 제주도</td>
-				</tr>
-			</table>
-			<br><br>
-			<p class="blog-post-meta">▶교환/환불</p>
-			<table>
-				<tr>
-					<td width="150px">반품배송비</td>
-					<td>50,000원</td>
-				</tr>
-				<tr>
-					<td>교환배송비</td>
-					<td>100,000원</td>
-				</tr>
-				<tr>
-					<td>보내실 곳</td>
-					<td>서울특별시 중구 남대문로 120 그레이츠 청계(구 대일빌딩) 2F, 3F</td>
-				</tr>
-			</table>
-	    	</article>
-	    </div>
-	     
-	    <!-- 스크롤 옵션바 -->
-	    <div class="col-md-4">
-	      <div class="position-sticky" style="top: 15rem;">
-	        <div class="p-4">
-	          <label for ="options">옵션선택</label>
-	           	 <select id="changeOpiton1" class="form-select" onChange="selectChange(this.value);" aria-label="Default select example">
-					<option class="opsBasic" selected >상품 옵션을 선택해주세요</option>
-					 <c:forEach items="${ fn:split( pList[0].option, ',') }" var="p">
-					  <option value="${ p }" class="option">${ p }</option>
-					</c:forEach>
-				 </select>
-				 <br>
-				<!--  <div class="opsResultDiv1" style="border:1px solid black; width:450px; height:100px;"> -->
-				<!--   	<input type="text" id="inputOption"><br> -->
-				  	<span class="count-wrap _count">
-						    <button type="button" class="minus_btn" style="height:35px;">-</button>
-						   	 <input type="text" class="quantity_input" value="1" style="width:70px;height:30px" id="qty"/>
-						    <button type="button" class="plus_btn" style="height:35px;">+</button>
-					</span>
-				    <fmt:parseNumber var="i" type="number" value="${ totalPrice }"/>
-				   
-				    <!-- <span id="finalPrice"></span>원 -->
-	             </div>
-			  <br><br>
-			
-			  <br>
-			  <h2>총 <span id="changedQty1">1</span>개　<span id="finalPrice3">${ totalPrice }</span>원</h2>
-				  <div class="btn-group">
-					  <button type="button" class="cart" style="width:200px;height:50px;font-size:20px;">장바구니</button>
-					  <button type="button" class="payment" style="width:200px;height:50px;font-size:20px;" onclick="location.href='${ contextPath }/payment.st'">결제하기</button>
-				  </div>
-	        </div>
-	      </div>
-	    </div>
-	  </div>
-
-	<!--문의하기 모달창 -->
-	<div class="modal" tabindex="-1" id="inquiryModal">
-	  <div class="modal-dialog">
-	    <div class="modal-content">
-	      <div class="modal-header">
-	        <h5 class="modal-title">문의하기</h5>
-	        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-	      </div>
-	      <form action="${ contextPath }/productInquiry.st" method="post">
-	       <input type="hidden" name="productNo" value="${ pList[0].productNo }">
-	       <input type="hidden" name="boardNo" value="${ pList[0].boardNo }">
-		      <div class="modal-body">
-		        <p>문의유형</p>
-		        	<select class="form-select" aria-label="Default select example" name="inquiryTitle" id="inquiry_ops">
-						  <option value="상품">상품</option>
-						  <option value="배송">배송</option>
-						  <option value="반품">반품</option>
-						  <option value="교환">교환</option>
-						  <option value="환불">환불</option>
-						  <option value="기타">기타</option>
-					</select>
-				 	<br>
-				<p>문의내용 <span id="counter">0</span>/300</p>
-				<textarea cols="50" rows="3" id="textarea" name="inquiryContent"></textarea>
-		      </div>
-		      <div style="color:#008cd4;">
-		      　문의 답변은 ‘My Page> 나의 문의' 또는 ‘상품 상세페이지’에서 확인 가능합니다.<br>
-		      </div>
-			  <div class="modal-footer">
-			  	<button type="submit" class="btn btn-primary" id="inquiry_modal" >완료</button>
-			  </div>
-		   </form>
-	      </div>
-	  	</div>
-	</div>
-	
-	
-	<!-- 장바구니 모달창 -->	
-	<div class="modal fade" tabindex="-1" role="dialog" id="cartModal">
-		<div class="modal-dialog" role="document">
-	    	<div class="modal-content rounded-3 shadow">
-	      		<div class="modal-body p-4 text-center">
-	        		<h3 class="mb-0">장바구니에 상품이 추가되었습니다. </h3>
-	        		<p class="mb-0"></p>
-	      		</div>
-	      		<div class="modal-footer flex-nowrap p-0">
-	      			<button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0 border-end" data-bs-dismiss="modal">계속 쇼핑하기</button>
-	        		<button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0" id="yes" onclick="location.href='${ contextPath }/myCart.me'">
-	        			<strong>장바구니</strong>
-	        		</button>
-	      		</div>
-	    	</div>
-	  	</div>
-	</div>
-=======
    <!--문의하기 모달창 -->
    <div class="modal" tabindex="-1" id="inquiryModal">
      <div class="modal-dialog">
@@ -703,7 +710,60 @@
           </div>
         </div>
    </div>
->>>>>>> donni
+   <!--문의하기 모달창 -->
+   <div class="modal" tabindex="-1" id="inquiryModal">
+     <div class="modal-dialog">
+       <div class="modal-content">
+         <div class="modal-header">
+           <h5 class="modal-title">문의하기</h5>
+           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+         </div>
+         <form action="${ contextPath }/productInquiry.st" method="post">
+          <input type="hidden" name="productNo" value="${ pList[0].productNo }">
+          <input type="hidden" name="boardNo" value="${ pList[0].boardNo }">
+            <div class="modal-body">
+              <p>문의유형</p>
+                 <select class="form-select" aria-label="Default select example" name="inquiryTitle" id="inquiry_ops">
+                    <option value="상품">상품</option>
+                    <option value="배송">배송</option>
+                    <option value="반품">반품</option>
+                    <option value="교환">교환</option>
+                    <option value="환불">환불</option>
+                    <option value="기타">기타</option>
+               </select>
+                <br>
+            <p>문의내용 <span id="counter">0</span>/300</p>
+            <textarea cols="50" rows="3" id="textarea" name="inquiryContent"></textarea>
+            </div>
+            <div style="color:#008cd4;">
+            　문의 답변은 ‘My Page> 나의 문의' 또는 ‘상품 상세페이지’에서 확인 가능합니다.<br>
+            </div>
+           <div class="modal-footer">
+              <button type="submit" class="btn btn-primary" id="inquiry_modal" >완료</button>
+           </div>
+         </form>
+         </div>
+        </div>
+   </div>
+   
+   
+   <!-- 장바구니 모달창 -->   
+   <div class="modal fade" tabindex="-1" role="dialog" id="cartModal">
+      <div class="modal-dialog" role="document">
+          <div class="modal-content rounded-3 shadow">
+               <div class="modal-body p-4 text-center">
+                 <h3 class="mb-0">장바구니에 상품이 추가되었습니다. </h3>
+                 <p class="mb-0"></p>
+               </div>
+               <div class="modal-footer flex-nowrap p-0">
+                  <button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0 border-end" data-bs-dismiss="modal">계속 쇼핑하기</button>
+                 <button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0" id="yes" onclick="location.href='${ contextPath }/myCart.me'">
+                    <strong>장바구니</strong>
+                 </button>
+               </div>
+          </div>
+        </div>
+   </div>
 </main>
 
     <footer>
