@@ -27,4 +27,5 @@ public class Reply {
 	private String profileImg;
 //	private String boardTitle;
 //	private int boardType;
+	private int groupNo;
 }

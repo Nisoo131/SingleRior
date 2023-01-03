@@ -127,7 +127,7 @@
 			 join member on (b.board_writer = member_id)
      		 join product p on (b.board_no = p.board_no)
 		where b.b_status = 'Y' and b.board_type = '1'
-		order by b.create_date desc
+		order by b.board_count desc
 	</select>
 	
 	<select id="selectPdAttmList" resultMap="attachmentResultSet">
@@ -143,7 +143,7 @@
 			 join member on (b.board_writer = member_id)
      		 join market m on (b.board_no = m.board_no)
 		where b.b_status = 'Y' and b.board_type = '3'
-		order by b.create_date desc
+		order by m.like_count desc
 	</select>
 	
 	<select id="selectMarketAttmList" resultMap="attachmentResultSet">
@@ -159,7 +159,7 @@
 			 join member on (b.board_writer = member_id)
      		 join community c on (b.board_no = c.board_no)
 		where b.b_status = 'Y' and b.board_type = '2'
-		order by b.create_date desc
+		order by c.sympt_count desc
 	</select>
 	
 	<select id="selectCommuAttmList" resultMap="attachmentResultSet">
