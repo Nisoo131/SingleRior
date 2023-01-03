@@ -17,6 +17,7 @@
 	* {
 		font-family: 'BMJUA';
 	}
+	.topCate{cursor:pointer}
 </style>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
@@ -85,37 +86,37 @@
 		<div class="collapse bg-white" id="navbarHeader">
 			<div class="container" style="text-align: center;">
 				<div class="row justify-content-center">
-					<div class="col-sm-2 py-4">
+					<div class="topCate col-sm-2 py-4" onclick="location.href='${ contextPath }/categoryList.st?topCate=1'">
 						<div>
 							<img src="https://image.ohou.se/image/resize/bucketplace-v2-development/uploads-category-store_hamburger_categories-165698405465057590.png/1280/none" style="width: 100px; height: 100px;">
 						</div>
 						<h6>가구</h6>
 					</div>
-					<div class="col-sm-2 py-4">
+					<div class="topCate col-sm-2 py-4" onclick="location.href='${ contextPath }/categoryList.st?topCate=2'">
 						<div>
 							<img src="https://image.ohou.se/image/resize/bucketplace-v2-development/uploads-category-store_hamburger_categories-166010551527923872.png/1280/none" style="width: 100px; height: 100px;">
 						</div>
 						<h6>패브릭</h6>
 					</div>
-					<div class="col-sm-2 py-4">
+					<div class="topCate col-sm-2 py-4" onclick="location.href='${ contextPath }/categoryList.st?topCate=3'">
 						<div>
 							<img src="https://image.ohou.se/image/resize/bucketplace-v2-development/uploads-category-store_hamburger_categories-166936363673607278.png/1280/none" style="width: 100px; height: 100px;">
 						</div>
 						<h6>인테리어 소품</h6>
 					</div>
-					<div class="col-sm-2 py-4">
+					<div class="topCate col-sm-2 py-4" onclick="location.href='${ contextPath }/categoryList.st?topCate=4'">
 						<div>
 							<img src="https://image.ohou.se/image/resize/bucketplace-v2-development/uploads-category-store_hamburger_categories-165580420382620877.png/1280/none" style="width: 100px; height: 100px;">
 						</div>
 						<h6>주방용품</h6>
 					</div>
-					<div class="col-sm-2 py-4">
+					<div class="topCate col-sm-2 py-4" onclick="location.href='${ contextPath }/categoryList.st?topCate=5'">
 						<div>
 							<img src="https://image.ohou.se/image/resize/bucketplace-v2-development/uploads-category-store_hamburger_categories-166072987520626215.png/1280/none" style="width: 100px; height: 100px;">
 						</div>
 						<h6>가전제품</h6>
 					</div>
-					<div class="col-sm-2 py-4">
+					<div class="topCate col-sm-2 py-4" onclick="location.href='${ contextPath }/categoryList.st?topCate=6'">
 						<div>
 							<img src="https://image.ohou.se/i/bucketplace-v2-development/uploads/productions/165035964910967853.jpg?gif=1&w=850&h=850&c=c&webp=1" style="width: 100px; height: 100px;">
 						</div>
@@ -186,6 +187,7 @@
 					});
 			 	},1000);
 		 }
+      
    </script>
 </body>
 </html>

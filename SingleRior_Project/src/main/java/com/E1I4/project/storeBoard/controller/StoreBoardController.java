@@ -49,9 +49,11 @@ public class StoreBoardController {
 	
 	// subCate 리스트 
 	@RequestMapping("categoryList.st")
-	public String storeList(@RequestParam(value="page", required=false) Integer page, @RequestParam("subCate") int subCate,
+	public String storeList(@RequestParam(value="page", required=false) Integer page, @RequestParam(value="subCate", required=false)  Integer subCate,
+								@RequestParam(value="topCate", required=false)  Integer topCate,
 								Model model,@RequestParam(value="category", required=false) String category) {
-			
+		
+			System.out.println(topCate);
 			if(category == null) {
 				category = "인기순";
 			}
@@ -78,20 +80,35 @@ public class StoreBoardController {
 			if(page != null && page > 1) {
 				currentPage = page; 
 			}
-	
+//	
 			HashMap<String, Integer> map = new HashMap<String, Integer>();
-			map.put("subCate", subCate);
+			String topCateName = null;
+
+			if(subCate != null) {
+				map.put("subCate", subCate);
+				topCateName = sService.getTopCateName(map);
+			}
+			
+			if(topCate != null) {
+				map.put("topCate", topCate);
+				topCateName = sService.getTopCateName2(map);
+			}
+			
+			String subCateName = sService.getSubCateName(map);
+			
+			
 			map.put("boardType", 1);
 			map.put("cateNo", cateNo);
 			int listCount = sService.getStoreListCount(map); //board type 스토어 1인 것만 가져오기
 	
-//			System.out.println(listCount);
+			System.out.println(listCount);
 			
 			PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 12); //boardLimit: 카드 12개
 			
 			ArrayList<StoreBoard> sList = sService.selectStoreBoardList(pi, map);
 			ArrayList<Attachment> aList = new ArrayList<Attachment>();
 		    
+			System.out.println("tdd : "+topCateName);
 			for(int i=0; i<sList.size(); i++) {
 				int bNo = sList.get(i).getBoardNo();
 				Attachment a = sService.selectAttmList(bNo);
@@ -99,12 +116,19 @@ public class StoreBoardController {
 				aList.add(a);
 				
 			};
-
+			if(subCate != null) {
+				model.addAttribute("subCate", subCate);
+			}
+			if(topCate != null) {
+				model.addAttribute("topCate", topCate);
+			}
+			
+			model.addAttribute("subCateName", subCateName);
+			model.addAttribute("topCateName", topCateName);
 			if(sList != null) {
 				model.addAttribute("pi", pi);
 				model.addAttribute("sList", sList);
 				model.addAttribute("aList", aList);
-				model.addAttribute("subCate", subCate);
 				model.addAttribute("category",category);
 					
 			} return "categoryList"; 
