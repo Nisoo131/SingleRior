@@ -774,7 +774,7 @@
 	</select>
 	<update id="updateTime">
 		update log
-		set login_time=to_char(sysdate,'YYYY-MM-DD HH:MI:SS')
+		set login_time=to_char(sysdate,'YYYY-MM-DD HH24:MI:SS')
 		where member_id=#{memberId}
 	</update>
 	<update id="updateCheck">

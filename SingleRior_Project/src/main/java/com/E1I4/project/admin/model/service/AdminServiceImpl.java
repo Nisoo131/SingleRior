@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.E1I4.project.admin.model.dao.AdminDAO;
+import com.E1I4.project.admin.model.vo.MemberManage;
 import com.E1I4.project.admin.model.vo.OrderProducts;
 import com.E1I4.project.common.model.vo.Attachment;
 import com.E1I4.project.common.model.vo.Board;
@@ -43,7 +44,7 @@ public class AdminServiceImpl implements AdminService {
 	}
 
 	@Override
-	public ArrayList<Member> selectMemberList() {
+	public ArrayList<MemberManage> selectMemberList() {
 		return aDAO.selectMemberList(sqlSession);
 	}
 

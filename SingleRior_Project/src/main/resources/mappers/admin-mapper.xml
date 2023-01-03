@@ -49,6 +49,19 @@
 		<result column="STATUS" property="memberStatus"/>
 		<result column="AUTHORITY" property="memberAuthority"/>
 	</resultMap>
+	<resultMap type="MemberManage" id="MemberManageResultSet">
+		<id column="MEMBER_ID" property="memberId"/>
+		<result column="MEMBER_PWD" property="memberPwd"/>
+		<result column="MEMBER_NAME" property="memberName"/>
+		<result column="NICKNAME" property="nickName"/>
+		<result column="PHONE" property="phone"/>
+		<result column="EMAIL" property="email"/>
+		<result column="ADDRESS" property="address"/>
+		<result column="STATUS" property="memberStatus"/>
+		<result column="AUTHORITY" property="memberAuthority"/>
+		<result column="ENROLLDATE" property="enrollDate"/>
+		<result column="MEMBER_LOG" property="memberLog"/>
+	</resultMap>
 	
 	<resultMap type="ProductList" id="ProductListResultSet">
 		<id column="BOARD_NO" property="boardNo"/>
@@ -197,9 +210,11 @@
 		select * from dual
 	</insert>
 	
-	<select id="selectMemberList" resultMap="MemberResultSet">
-		select *
-		from member	
+	<select id="selectMemberList" resultMap="MemberManageResultSet">
+		select member_id, nvl(login_time, '로그기록 없음') member_log,member_pwd,member_name,nickname,phone,email,address,status,authority,enrolldate
+		from member
+    		left join log using(member_id)
+		where login_check='Y' or login_check is null
 	</select>
 	<select id="selectMember" resultMap="MemberResultSet">
 		select *

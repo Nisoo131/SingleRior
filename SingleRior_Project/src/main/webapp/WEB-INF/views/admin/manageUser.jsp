@@ -87,7 +87,7 @@
                                        	<td>${m.email}</td>
                                        	<td><c:if test="${m.memberStatus eq 'Y'}">정상</c:if><c:if test="${m.memberStatus eq 'N'}">탈퇴</c:if></td>
                                        	<td>${m.enrollDate }</td>
-                                       	<td>2022.12.13 08:00</td>
+                                       	<td>${m.memberLog }</td>
                                        </tr>          
                                        </c:forEach>
                                     </tbody>

@@ -3,6 +3,7 @@ package com.E1I4.project.admin.model.service;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import com.E1I4.project.admin.model.vo.MemberManage;
 import com.E1I4.project.admin.model.vo.OrderProducts;
 import com.E1I4.project.common.model.vo.Attachment;
 import com.E1I4.project.common.model.vo.Board;
@@ -22,7 +23,7 @@ public interface AdminService {
 
 	int insertAttm(ArrayList<Attachment> list);
 
-	ArrayList<Member> selectMemberList();
+	ArrayList<MemberManage> selectMemberList();
 
 	Member selectMember(String memberId);
 

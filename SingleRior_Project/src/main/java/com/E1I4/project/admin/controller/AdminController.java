@@ -20,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.E1I4.project.admin.model.service.AdminService;
+import com.E1I4.project.admin.model.vo.MemberManage;
 import com.E1I4.project.admin.model.vo.OrderProducts;
 import com.E1I4.project.common.Pagination;
 import com.E1I4.project.common.exception.AdminException;
@@ -96,9 +97,9 @@ public class AdminController {
 	@RequestMapping("manageUser.adm")
 	public String manageUser(Model model, HttpSession session) {
 		
-		ArrayList<Member> selectMember=aService.selectMemberList();
+		ArrayList<MemberManage> selectMember=aService.selectMemberList();
 		
-		
+		System.out.println(selectMember);
 		
 		if(selectMember!=null) {
 			model.addAttribute("mList",selectMember);
