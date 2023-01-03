@@ -880,7 +880,7 @@
           </div>
         </div>
    </div>
-<<<<<<< HEAD
+
    <!--문의하기 모달창 -->
    <div class="modal" tabindex="-1" id="inquiryModal">
      <div class="modal-dialog">
@@ -935,12 +935,7 @@
           </div>
         </div>
    </div>
-=======
-<<<<<<< HEAD
->>>>>>> donni
-=======
->>>>>>> bella
->>>>>>> eba3dffdd8c4f4e4f6115c60c907bc9e0702a160
+
 </main>
 
     <footer>
