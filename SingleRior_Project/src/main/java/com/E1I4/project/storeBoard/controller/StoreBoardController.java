@@ -322,7 +322,6 @@ public class StoreBoardController {
 			throw new BoardException("장바구니에 상품을 1개 이상 담아주세요.");
 		}
 	}
-
 	// 상품 문의하기
 	@RequestMapping("productInquiry.st")
 	public String productInquiry(@RequestParam("productNo") int productNo, @RequestParam("boardNo") int boardNo,
