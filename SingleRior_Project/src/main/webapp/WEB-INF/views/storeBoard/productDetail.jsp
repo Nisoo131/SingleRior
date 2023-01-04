@@ -16,7 +16,8 @@
     <style>
    .category{padding:20px 200px 20px 200px;}
    .wishlist {color: #008cd4;}
-   .payment{background-color:#008cd4; color:white; }
+   .payment_1{background-color:#008cd4; color:white; }
+   .payment_2{background-color:#008cd4; color:white; }
    .inquiry{font-size:30px}
    #inquiryBtn{size: 100px; background-color:#008cd4;}
    .star{text-align:center; display:table; width:300px; height:100px; margin:0 auto;}
@@ -153,7 +154,7 @@
         <p><s>${ commaPrice } 원</s></p>
         <h1><span>${ pList[0].discount }%</span>　<span style="color:#008cd4;">${ totalPrice } 원</span></h1>
         <br><br>
-        <p>구매리뷰 (개수)</p>
+        <p>구매리뷰 (${trList[0].reviewCount }) 개</p>
         <p>배송비 2,500원</p>
         <hr>
         
@@ -196,25 +197,26 @@
               <button type="button" class="cart" style="width:200px;height:50px;font-size:20px;"> 장바구니 </button>
             </c:if>
             <c:if test="${ empty loginUser }">   
-              <button type="button" class="payment"  style="width:200px;height:50px;font-size:20px;" onclick="location.href='${contextPath}/loginView.me'">결제하기</button>
+              <button type="button" class="payment_1"  style="width:200px;height:50px;font-size:20px;" onclick="location.href='${contextPath}/loginView.me'">결제하기</button>
              </c:if> 
              <c:if test="${ !empty loginUser }">   
-              <button type="button" class="payment"  style="width:200px;height:50px;font-size:20px;" onclick="location.href='${ contextPath }/payment.st'">결제하기</button>
+              <button type="button" class="payment_2"  style="width:200px;height:50px;font-size:20px;" onclick="location.href='${ contextPath }/payment.st'">결제하기</button>
              </c:if>
            </div>
            </div>
         </div>
         
    <!-- 바로결제 주문시 전달 데이터-->
-    <form action="${ contextPath }/payment.st" method="post" class="order_form">
-      <input type="hidden" name="productNo" value="${ pList[0].productNo }">
-      <input type="hidden" name="productQty" value="">
-      <input type="hidden" name="productPrice" value="${ pList[0].price}">
-      <input type="hidden" name="productPrice" value="${ pList[0].price}">
-      <input type="hidden" name="discount" value="${ pList[0].discount }">
-      <input type="hidden" name="boardTitle" value="${ pList[0].boardTitle }">
-      <input type="hidden" name="imgRename" value="${ pList[0].imgServerName }">
-   </form> 
+   <form action="${ contextPath }/payment.st" method="post" class="order_form">
+		<input type="hidden" name="productNo" value="${ pList[0].productNo }">
+		<input type="hidden" name="productQty" value="">
+		<input type="hidden" name="productPrice" value="${ pList[0].price}">
+		<input type="hidden" name="productPrice" value="${ pList[0].price}">
+		<input type="hidden" name="discount" value="${ pList[0].discount }">
+		<input type="hidden" name="boardTitle" value="${ pList[0].boardTitle }">
+		<input type="hidden" name="productOption" value="${ p }">
+		<input type="hidden" name="imgRename" value="${ pList[0].imgServerName }">
+	</form> 
         
    <!--상세정보 네비바 -->
     <div class="row mb-1">
@@ -229,7 +231,7 @@
                   <span class="navbar-toggler-icon"></span>
                 </button>
              
-             <a class="navbar-brand" href="#review">리뷰(100)</a>
+             <a class="navbar-brand" href="#review">리뷰( ${trList[0].reviewCount } )개</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
                   <span class="navbar-toggler-icon"></span>
                 </button>
@@ -258,7 +260,7 @@
           <div id="review">
          <hr>
          <article class="blog-post" >
-            <h2 class="blog-post-title mb-1" >리뷰  ${trList[0].reviewCount }개</h2>
+            <h2 class="blog-post-title mb-1" >리뷰 ${trList[0].reviewCount }개</h2>
               <br><br>
                  <div class="reviewContent">
                     
@@ -317,8 +319,8 @@
         
          </c:if>
          <c:if test="${empty prList}">
-       <div style="text-align:center;"><h2>상품에 대한 리뷰가 아직 없습니다 ㅜ.ㅜ</h2><br><img src="${contextPath}/resources/image/reviewZero.jpg" width="200" ></div>
-         
+         <hr>
+  		     <div style="text-align:center;"><h2>상품에 대한 리뷰가 아직 없습니다 ㅜ.ㅜ</h2><br><img src="${contextPath}/resources/image/reviewZero.jpg" width="200" ></div>
          </c:if>
           <hr>
           
@@ -337,11 +339,7 @@
 						  	<c:if test="${ !empty loginUser }">
 							  	<td><button type="button" class="btn btn-primary" id="inquiryBtn2" data-bs-toggle="modal" data-bs-target="#inquiryModal">문의하기</button></td>
 						  	</c:if>
-						  	
-						  	<%-- <c:if test="${ !empty loginUser and piCount == 1 }">
-							  	<td><button type="button" class="btn btn-primary" id="inquiryUpdate" data-bs-toggle="modal" data-bs-target="#updateModal">수정</button></td>
-							  	<td><button type="button" class="btn btn-primary" id="inquiryDelete" data-bs-toggle="modal" data-bs-target="#deleteModal">삭제</button></td>
-						  	</c:if> --%>
+						 
 		        		</tr>
 		        	</table>
 	        	</form>
@@ -368,7 +366,9 @@
 		    	<div id="moreInquiry">더보기</div><br>
 		    	</c:if>
 		    </c:if>
+		    
 		    <c:if test="${ empty iList }">
+		    <hr>
 		     <div style="text-align:center;"><h2>상품에 대한 문의가 아직 없습니다 ㅜ.ㅜ</h2><br><img src="${contextPath}/resources/image/reviewZero.jpg" width="200" ></div>
 		    </c:if>
 
@@ -424,7 +424,7 @@
              <label for ="options">옵션선택</label>
                   <select id="changeOpiton1" class="form-select" onChange="selectChange(this.value);" aria-label="Default select example">
                <option class="opsBasic" selected >상품 옵션을 선택해주세요</option>
-                <c:forEach items="${ fn:split( pList[0].option, ',') }" var="p">
+                <c:forEach items="${fn:split( pList[0].option, ',')}" var="p">
                  <option value="${ p }" class="option">${ p }</option>
                </c:forEach>
              </select>
@@ -445,15 +445,23 @@
            <br>
            <h2>총 <span id="changedQty1">1</span>개　<span id="finalPrice3">${ totalPrice }</span>원</h2>
               <div class="btn-group">
-                 <button type="button" class="cart" style="width:200px;height:50px;font-size:20px;">장바구니</button>
-                 <button type="button" class="payment" style="width:200px;height:50px;font-size:20px;" onclick="location.href='${ contextPath }/payment.st'">결제하기</button>
+              <c:if test="${ empty loginUser }">
+              <button type="button" class="cart" style="width:200px;height:50px;font-size:20px;" onclick="location.href='${contextPath}/loginView.me'"> 장바구니 </button>
+            </c:if>
+            <c:if test="${ !empty loginUser }">
+              <button type="button" class="cart" style="width:200px;height:50px;font-size:20px;"> 장바구니 </button>
+            </c:if>
+             <c:if test="${ empty loginUser }">   
+              <button type="button" class="payment_1" style="width:200px;height:50px;font-size:20px;" onclick="location.href='${contextPath}/loginView.me'">결제하기</button>
+             </c:if> 
+             <c:if test="${ !empty loginUser }">   
+              <button type="button" class="payment_2" style="width:200px;height:50px;font-size:20px;" onclick="location.href='${contextPath}/payment.st'">결제하기</button>
+             </c:if>
               </div>
            </div>
          </div>
        </div>
      </div>
-
-
       
    <!--문의하기 모달창 -->
    <div class="modal" tabindex="-1" id="inquiryModal">
@@ -633,6 +641,22 @@
                   $(this).attr("class","btn btn-outline-danger wishListBtn");
             }
          })
+     	  // 문의 더보기
+          //window.onload = function(){
+		    var moreInquiry = document.getElementById("moreInquiry");
+		    moreInquiry.addEventListener("click",function(){
+		       var productNo = '${pList[0].productNo}';
+		//        console.log(productNo);
+		       location.href='${contextPath}/moreInquiry.st?productNo=' + productNo;
+		    })
+		    var moreReview = document.getElementById("moreReview");
+		    moreReview.addEventListener("click",function(){
+		       var productNo = '${pList[0].productNo}';
+		//        console.log(productNo);
+		       location.href='${contextPath}/moreReview.st?productNo=' + productNo;
+		    })
+		  //} 
+         
     }
     
    // 문의하기 글자수 제한
@@ -655,14 +679,14 @@
    });
    
     // 바로구매시 수량, 옵션 확정하기
-   $('.payment').on('click', function(){
+   $('.payment_2').on('click', function(){
       let productQty = $('.quantity_input').val();
-       let productOps = $('.option:selected').val();
-       /* console.log(productQty);  
-       console.log(productOps); */
+      let productOps = $('.option:selected').val();
+       //console.log(productQty);  
+       //console.log(productOps); 
        $('.order_form').find("input[name='productQty']").val(productQty);
-       $('.order_form').find("input[name='productOption']").val(productOps);       
-       $('.order_form').submit();   
+       $('.order_form').find("input[name='productOption']").val(productOps);    
+       $('.order_form').submit() ;   
    }); 
 
     // URL 공유하기
@@ -680,35 +704,16 @@
         
         alert("URL이 복사되었습니다.") 
     }
-    
-    window.onload = () =>{
-       var moreInquiry = document.getElementById("moreInquiry");
-       moreInquiry.addEventListener("click",function(){
-          var productNo = '${pList[0].productNo}';
-//           console.log(productNo);
-          location.href='${contextPath}/moreInquiry.st?productNo=' + productNo;
-       })
-       var moreReview = document.getElementById("moreReview");
-       moreReview.addEventListener("click",function(){
-          var productNo = '${pList[0].productNo}';
-//           console.log(productNo);
-          location.href='${contextPath}/moreReview.st?productNo=' + productNo;
-       })
-       
-       
-       
-    }
+
 </script>
 <script>
+			
 		// 평점 구하기
-		//    console.log(${ review.movieRating });
-		   
 		   const avgRating = document.getElementById("avgRating");
 		   const rating = '${ trList[0].avgStar }';
-		//    console.log(rating);
 		   
 		   let print = '';
-		   
+
 		   if(rating >= 5 ){
 		      print = '평균점수 '+ rating + '점 <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>';
 		   }else if(rating >= 4.5){
@@ -734,7 +739,7 @@
 		   } else{
 		      print = '평균점수 0점 <i class="bi bi-star"></i><i class="bi bi-star"></i><i class="bi bi-star"></i><i class="bi bi-star"></i><i class="bi bi-star"></i>';
 		   }
-		   
-		   avgRating.innerHTML = print;
+		   avgRating.innerHTML = print; 
+		
 </script>
 </html>
