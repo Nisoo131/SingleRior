@@ -285,8 +285,8 @@
         from product_inquiry
         where product_no = #{productNo} and inquiry_status = 'Y'
   </select>
-  <select id="selectReviewList" resultMap="productReviewResultSet">
-	  
+  
+  <select id="selectReviewList" resultMap="productReviewResultSet">  
 	select r.review_no,r.review_content,r.review_date,img_server_name,r.review_rating,r.order_detail_no,od.product_option,m.nickname
 	from product_review r
 	    join img_repository on(img_repository.img_key=to_char(review_no))
@@ -348,15 +348,9 @@
    	where pro_topcate_code = #{topCate}
    </select>
    
-  
   <insert id="insertPayment">
      insert into pay
 	 values (SEQ_PAYID.nextval, #{payAmount}, sysdate, 'Y', SEQ_OID.currval, #{merchantuid}, #{impuid})
-  </insert>
-  
-  <insert id="insertDirectOrderDetail">
-  	insert into order_detail
-	values (SEQ_ODID.nextval, #{productNo} , '결제완료', #{quantity}, #{finalPrice}, #{productOption}, SEQ_OID.currval)
   </insert>
 
 </mapper>
