@@ -8,7 +8,6 @@ import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.ibatis.reflection.SystemMetaObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,7 +23,6 @@ import com.E1I4.project.common.model.vo.Attachment;
 import com.E1I4.project.common.model.vo.Cart;
 import com.E1I4.project.common.model.vo.PageInfo;
 import com.E1I4.project.common.model.vo.Pay;
-import com.E1I4.project.common.model.vo.Product;
 import com.E1I4.project.common.model.vo.ProductInquiry;
 import com.E1I4.project.common.model.vo.WishList;
 import com.E1I4.project.member.model.vo.Member;
@@ -44,21 +42,19 @@ public class StoreBoardController {
 
 	@Autowired
 	private StoreBoardService sService;
-
-	// 스토어 메인페이지
-
+	
+		// 스토어 메인페이지
 		@RequestMapping("storeList.st")
 		public String storeList() {
 			return "storeList";
 		}
 	
-		// subCate 리스트 
+		// topCate - subCate 리스트 
 		@RequestMapping("categoryList.st")
 		public String storeList(@RequestParam(value="page", required=false) Integer page, @RequestParam(value="subCate", required=false)  Integer subCate,
 				@RequestParam(value="topCate", required=false)  Integer topCate,
 				Model model,@RequestParam(value="category", required=false) String category) {
 
-			System.out.println(topCate);
 			if(category == null) {
 				category = "인기순";
 			}
@@ -79,13 +75,11 @@ public class StoreBoardController {
 				break;
 			}
 
-			//			System.out.println(cateNo);
-
 			int currentPage = 1;
 			if(page != null && page > 1) {
 				currentPage = page; 
 			}
-			//	
+			
 			HashMap<String, Integer> map = new HashMap<String, Integer>();
 			String topCateName = null;
 
@@ -106,21 +100,19 @@ public class StoreBoardController {
 			map.put("cateNo", cateNo);
 			int listCount = sService.getStoreListCount(map); //board type 스토어 1인 것만 가져오기
 
-			System.out.println(listCount);
-
 			PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 12); //boardLimit: 카드 12개
 
 			ArrayList<StoreBoard> sList = sService.selectStoreBoardList(pi, map);
 			ArrayList<Attachment> aList = new ArrayList<Attachment>();
 
-			System.out.println("tdd : "+topCateName);
+			// System.out.println("tdd : "+topCateName);
 			for(int i=0; i<sList.size(); i++) {
 				int bNo = sList.get(i).getBoardNo();
 				Attachment a = sService.selectAttmList(bNo);
 
 				aList.add(a);
-
 			};
+			
 			if(subCate != null) {
 				model.addAttribute("subCate", subCate);
 			}
@@ -138,9 +130,7 @@ public class StoreBoardController {
 
 			} return "categoryList"; 
 
-
 		}
-
 
 	// 상품 상세보기
 	@RequestMapping("productDetail.st")
@@ -170,23 +160,9 @@ public class StoreBoardController {
 
 			trList.get(0).setAvgStar(avgStar);
 		}
-		System.out.println(trList);
-
-		if(iList != null) {
-
-		   model.addAttribute("iList", iList);
-
-
-		if (iList != null) {
-
-			model.addAttribute("iList", iList);
-
-
-			// System.out.println(prList);
-
+		
 			if (iList != null) {
 				model.addAttribute("iList", iList);
-
 			} else {
 				throw new BoardException("문의하기 조회 실패.");
 			}
@@ -222,52 +198,14 @@ public class StoreBoardController {
 				model.addAttribute("prList", prList);
 
 
-
 			} else {
 				throw new BoardException("제품 상세 조회 실패.");
 			}
-
-		}
-
-		WishList wl = new WishList();
-		ProductInquiry pi = new ProductInquiry();
-
-		int result1 = 0;
-		int result2 = 0;
-
-		if (loginUser != null) {
-
-			wl.setProductNo(productNo);
-			wl.setMemberId(loginUser.getMemberId());
-
-			pi.setMemberId(loginUser.getMemberId());
-			pi.setProductNo(productNo);
-
-			result1 = sService.wishListCount(wl);
-			result2 = sService.InquiryCount(pi);
-		}
-
-		if (pList != null) {
-			model.addAttribute("pList", pList);
-			model.addAttribute("count", result1);
-
-			model.addAttribute("piCount",result2);
-			model.addAttribute("prList",prList);
-			model.addAttribute("trList",trList);
 		
-
-			model.addAttribute("piCount", result2);
-			model.addAttribute("prList", prList);
-
-
-		} else {
-			throw new BoardException("제품 상세 조회 실패.");
-			}
-		}
 		return "productDetail";
-		
 	}
-	// 문의 더보기
+	
+	// 문의하기 더보기
 	@RequestMapping("moreInquiry.st")
 	public String moreInquiry(@RequestParam(value = "page", required = false) Integer page,
 			@RequestParam("productNo") int productNo, Model model) {
@@ -277,13 +215,10 @@ public class StoreBoardController {
 			currentPage = page;
 		}
 
-//			System.out.println(productNo);
 		int listCount = sService.getMoreInquiryCount(productNo);
 		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 10);
 
 		ArrayList<ProductInquiry> iList = sService.selectMoreInquiryList(pi, productNo);
-
-		// System.out.println(iList);
 
 		model.addAttribute("iList", iList);
 		model.addAttribute("pi", pi);
@@ -292,8 +227,7 @@ public class StoreBoardController {
 	}
 
 	
-	//리뷰 더 보기
-	
+	// 리뷰 더보기
 	@RequestMapping("moreReview.st")
 	public String moreReview(@RequestParam(value="page", required=false) Integer page,@RequestParam("productNo")  int productNo,Model model) {
 		
@@ -302,14 +236,14 @@ public class StoreBoardController {
 				currentPage = page; 
 			}
 		
-//			System.out.println(productNo);
+
 		int listCount = sService.getMoreReviewCount(productNo);
-		System.out.println(listCount);
+	
 		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 5);
 		
 		ArrayList<ProductReview> prList = sService.selectMoreReviewList(pi,productNo);
 		
-		System.out.println(prList);
+		//System.out.println(prList);
 		
 		model.addAttribute("prList", prList);
 		model.addAttribute("pi", pi);
@@ -378,8 +312,6 @@ public class StoreBoardController {
 		cart.setMemberId(memberId);
 		cart.setProductOption(productOption);
 
-		// System.out.println(productOption);
-
 		int result = sService.insertCart(cart);
 
 		if (result != 0 && quantity != 0) {
@@ -395,8 +327,6 @@ public class StoreBoardController {
 	@RequestMapping("productInquiry.st")
 	public String productInquiry(@RequestParam("productNo") int productNo, @RequestParam("boardNo") int boardNo,
 			HttpSession session, @ModelAttribute ProductInquiry productInquiry, Model model) {
-
-		// System.out.println(boardNo);
 
 		String id = ((Member) session.getAttribute("loginUser")).getMemberId();
 		productInquiry.setMemberId(id);
@@ -438,15 +368,14 @@ public class StoreBoardController {
 				orderList.setImgRename(imgRename);
 
 				orderItem.add(orderList);
-
 			}
-
 		} else {
 			orderItem.add(orderList);
 		}
 
 		model.addAttribute("orderItem", orderItem);
 		model.addAttribute("member", member);
+		
 		return "payment";
 	}
 
@@ -463,8 +392,6 @@ public class StoreBoardController {
 			@RequestParam(value = "buyer_phone", required = false) String buyer_phone,
 			@RequestParam(value = "finalPrice", required = false) Integer finalPrice,
 			@RequestParam(value = "cartArr[]", required = false) ArrayList<Integer> cartArr,
-			@RequestParam(value = "cartNo", required = false) Integer cartNo,
-			@RequestParam(value = "pricesArr[]", required = false) ArrayList<String> pricesArr,
 			@RequestParam(value = "productNo", required = false) Integer productNo,
 			@RequestParam(value = "productQty", required = false) Integer productQty,
 			@RequestParam(value = "productPrice", required = false) Integer productPrice,
@@ -473,26 +400,8 @@ public class StoreBoardController {
 			@RequestParam(value = "imp_uid", required = false) String impuid,
 			@RequestParam(value = "merchant_uid", required = false) String merchantuid,
 			@ModelAttribute OrderDetail orderdetail, HttpSession session, Model model) {
+			
 		String id = ((Member) session.getAttribute("loginUser")).getMemberId();
-
-//		System.out.println(merchantuid);
-//		System.out.println(impuid);
-//		System.out.println(recipient); 
-//		System.out.println(recipient_phone); 
-//		System.out.println(address); 
-//		System.out.println(address_detail); 
-//		System.out.println(deliveryMsg); 
-//		System.out.println(memberName); 
-//		System.out.println(email); 
-//		System.out.println(buyer_phone); 
-//		System.out.println(productNo);
-//		System.out.println(productQty);
-//		System.out.println(productPrice);
-//		System.out.println(discount);
-//		System.out.println(productOption);
-//		System.out.println(finalPrice);
-
-
 		
 		ArrayList<Cart> cartList = new ArrayList<Cart>();
 
@@ -509,12 +418,9 @@ public class StoreBoardController {
 		//System.out.println("r :" + r);
 		int result = sService.InsertOrderProduct(r);
 		if (result > 0) {
-			System.out.println("1" + cartArr);
 			Cart cart = new Cart();
 			if (cartArr.get(0) != 0) {
-				System.out.println("2" + cartArr);
 				for (int i : cartArr) {
-					System.out.println("3 : " + cartArr);
 					cart = sService.selectCartInfo(i);
 
 					double pp = cart.getProductPrice();
@@ -526,9 +432,7 @@ public class StoreBoardController {
 
 					cartList.add(cart);
 				}
-
 			} else {
-
 				// 바로가기 결제
 				cart.setProductNo(productNo);
 				cart.setQuantity(productQty);
@@ -540,12 +444,9 @@ public class StoreBoardController {
 
 				int lp = (int) ((pp * (1 - (pd / 100))) * qt);
 				cart.setLastPrice(lp);
-
-				//System.out.println("cart: " + cart);
+		
 				cartList.add(cart);
 			}
-
-			 //System.out.println("cart가격 확인" + cartList);
 	
 			int result1 = 0;
 			for (int i = 0; i < cartList.size(); i++) {
@@ -556,9 +457,7 @@ public class StoreBoardController {
 						int cartDelete = sService.deleteCart(cart);
 					}
 				}
-
 			}
-
 			int result2 = 0;
 			Pay pay = new Pay();
 			pay.setPayAmount(finalp);
@@ -567,13 +466,15 @@ public class StoreBoardController {
 			
 			result2 = sService.insertPayment(pay);
 		}
+		System.out.println(r);
 		
 		return r;
+		
 	}
 	
 	@RequestMapping("finalOrder.st")
-	public String finalOrder(@ModelAttribute OrderResult r,Model model) {
-		System.out.println(r);
+	public String finalOrder(@ModelAttribute OrderResult r, Model model) {
+        
 		model.addAttribute("orderResult", r);
 		return "orderResult";
 	}

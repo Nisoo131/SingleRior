@@ -12,7 +12,6 @@
 <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
-
     <style>
    .category{padding:20px 200px 20px 200px;}
    .wishlist {color: #008cd4;}
@@ -182,9 +181,7 @@
                    </td>
                 </tr>
              </table>
-            
-                <fmt:parseNumber var="i" type="number" value="${ totalPrice }"/>
-               
+                <fmt:parseNumber var="i" type="number" value="${ totalPrice }"/>   
                 </div>
          
            <br>
@@ -256,15 +253,17 @@
             <img src="resources/uploadFiles/${ pList[1].imgServerName }" width="100%" height="100%">
             <img src="resources/uploadFiles/${ pList[2].imgServerName }" width="100%" height="100%">           
           </article>
+          
+       <!-- 리뷰하기 -->   
           <c:if test="${!empty prList }">
-          <div id="review">
-         <hr>
-         <article class="blog-post" >
-            <h2 class="blog-post-title mb-1" >리뷰 ${trList[0].reviewCount }개</h2>
+          <div> 
+         	<hr>
+        	 <article class="blog-post" id="review">
+        	 
+           	  <h2 class="blog-post-title mb-1" >리뷰 ${trList[0].reviewCount }개</h2>
               <br><br>
                  <div class="reviewContent">
-                    
-                     <h2><div id="avgRating"></div></h2>
+                     <h2><span id="avgRating" style="color:#008cd4;"></span></h2>
               </div> 
               <br><br>
                     <c:if test="${fn:length(prList)<6}">
@@ -297,7 +296,9 @@
                       <img src="${ contextPath }/resources/uploadFiles/${pr.imgServerName}" width="160" class="img">
                       </td>
                       <td>
-                      <span><b>${pr.nickName }</b>의 리뷰</span><br><br>
+                      <span><b>${pr.nickName }</b>의 리뷰</span>
+                      
+                      <br><br>
                       <span>${pr.reviewContent}</span><br><br>
                       <span>${pr.productOption}&nbsp;&nbsp;&nbsp;</span><br>
                       <span>작성일 : ${pr.reviewDate }&nbsp;&nbsp;&nbsp;</span>
@@ -312,26 +313,24 @@
                   </c:forEach>
                   <div id="moreReview">더보기</div><br>
                </c:if>
-               
-          </article>
-          
-         </div>
+         	 </article>
+          </div>
         
          </c:if>
          <c:if test="${empty prList}">
          <hr>
+         	<h2 class="blog-post-title mb-1" >리뷰 ${trList[0].reviewCount }개</h2>
   		     <div style="text-align:center;"><h2>상품에 대한 리뷰가 아직 없습니다 ㅜ.ㅜ</h2><br><img src="${contextPath}/resources/image/reviewZero.jpg" width="200" ></div>
          </c:if>
           <hr>
           
       <!-- 문의하기 -->
-             <article class="blog-post" id="inquiry">
+           <article class="blog-post" id="inquiry">
 	        <div class="blog-post-title mb-1">
 	        	<form>
 		        	<table>
 		        		<tr>
 		        			<td class="inquiry">문의</td>
-		        		
 		        			<td colspan="3" width="650px"></td>
 		        			<c:if test="${ empty loginUser  }">
 							  	<td><button type="button" class="btn btn-primary" id="inquiryBtn1" onclick="location.href='${contextPath}/loginView.me'" >문의하기</button></td>
@@ -344,7 +343,8 @@
 		        	</table>
 	        	</form>
 	 		</div>
-<%--            ${ iList } --%>
+        <%--  ${ iList }  --%>
+      
        		<c:if test="${ !empty iList }">
 		 		<c:forEach items="${ iList }" var="i" begin="0" end="4">
 		 		<div style="border:black solid 1px; width:600px; padding:10px 10px; border-radius:10px;">
@@ -355,9 +355,19 @@
 				        <c:if test="${ i.inquiryAnswer != null }">
 				        	<span style="color:#008cd4;">답변완료</span>
 				        </c:if>
-				        </p>
-					<p> ${i.memberId} | ${i.inquiryDate}</p>
-					<p><img src="https://cdn-icons-png.flaticon.com/512/8371/8371275.png" width="20px" height="20px"> ${ i.inquiryContent }</p>
+	<!--  수정하기 -->
+				         <span>
+					         <c:if test="${ loginUser.memberId eq i.memberId }">
+					  			<button type="button" class="btn btn-primary" id="inquiry_update" >수정</button>
+					        </c:if>
+				        </span>
+				       </p>    
+					<p> ${i.memberId} | <span id="updateDate">${i.inquiryDate}</span></p>
+					<P><img src="https://cdn-icons-png.flaticon.com/512/8371/8371275.png" width="20px" height="20px">
+					<textarea readonly>
+					${ i.inquiryContent }
+					</textarea>
+					</p>
 					<p><img src="https://cdn-icons-png.flaticon.com/512/25/25628.png" width="20px" height="20px"> ${ i.inquiryAnswer }</p>
 		    	</div>
 		    	<br>
@@ -365,19 +375,16 @@
 		    	 <c:if test="${fn:length(iList)>5}">
 		    	<div id="moreInquiry">더보기</div><br>
 		    	</c:if>
-		    </c:if>
-		    
+		    </c:if>	    
 		    <c:if test="${ empty iList }">
-		    <hr>
 		     <div style="text-align:center;"><h2>상품에 대한 문의가 아직 없습니다 ㅜ.ㅜ</h2><br><img src="${contextPath}/resources/image/reviewZero.jpg" width="200" ></div>
 		    </c:if>
-
           </article>
           <hr>
           
       <!-- 배송/환불 -->
-          <article class="blog-post" id="delievery">
-           <h2 class="blog-post-title mb-1">배송/환불</h2>
+          <article class="blog-post" >
+           <h2 class="blog-post-title mb-1" id="delivery">배송/환불</h2>
            <br>
            <p class="blog-post-meta">▶배송</p>
          <table>
@@ -517,6 +524,8 @@
           </div>
         </div>
    </div>
+   
+
 
 </main>
 
@@ -602,7 +611,21 @@
           }
        }) 
     });
-    
+    // 문의하기 수정
+    $('#inquiry_update').on('click',function(){
+    	console.log('수정');
+    	const textArea = this.parentNode.parentNode.parentNode.querySelector('textarea');
+    	console.log(textArea);
+    	
+    	textArea.removeAttribute('readOnly');
+    	textArea.focus();
+    	textArea.parentNode.innerHTML += '<button type="button" class="btn btn-primary">등록</button></span>';
+    	
+    	const updateDate = this.
+    	console.log(updateDate);
+    	
+        
+    });
     // 찜하기
     window.onload =()=>{
        $(".wishListBtn").click(function(){
