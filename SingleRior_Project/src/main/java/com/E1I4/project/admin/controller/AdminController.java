@@ -864,6 +864,9 @@ public class AdminController {
 		int cancelStatusReply=aService.cancelStatusReply(rNo);// 신고대상 글이 아니니까 신고 상태 바꿔준다.
 		int reportReply=aService.reportTableReply(rNo);//신고 처리 이후 report테이블 내용 삭제
 		int result = cancelStatusReply+reportReply;
+		System.out.println(result);
+		System.out.println(cancelStatusReply);
+		System.out.println(reportReply);
 		
 		if(result>1) {
 			return "redirect:manageReportReply.adm";

@@ -22,7 +22,6 @@ public class KakaoLogin {
 		public String getAccessToken(String code) {
 			
 			String access_Token = "";
-			String refresh_Token = "";
 			String reqURL = "https://kauth.kakao.com/oauth/token";
 			
 			try {
@@ -55,14 +54,12 @@ public class KakaoLogin {
 				while ((line = br.readLine()) != null) {
 					result += line;
 				}
-//				System.out.println("response body : " + result);
 	            
-				// Gson 라이브러리에 포함된 클래스로 JSON파싱 객체 생성
 				JsonParser parser = new JsonParser();
 				JsonElement element = parser.parse(result);
 	            
 				access_Token = element.getAsJsonObject().get("access_token").getAsString();
-				refresh_Token = element.getAsJsonObject().get("refresh_token").getAsString();
+//				String refresh_Token = element.getAsJsonObject().get("refresh_token").getAsString();
 	            
 //				System.out.println("access_token : " + access_Token);
 //				System.out.println("refresh_token : " + refresh_Token);
@@ -85,11 +82,9 @@ public class KakaoLogin {
 				HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 				conn.setRequestMethod("GET");
 
-				// 요청에 필요한 Header에 포함될 내용
 				conn.setRequestProperty("Authorization", "Bearer " + access_Token);
 
 				int responseCode = conn.getResponseCode();
-//				System.out.println("responseCode : " + responseCode);
 
 				BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
 

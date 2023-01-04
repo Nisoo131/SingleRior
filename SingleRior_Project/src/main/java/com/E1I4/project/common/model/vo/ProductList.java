@@ -30,7 +30,6 @@ public class ProductList {
 	private String option;
 	private String modelName;
 	private String brand;
-	private String dPayment;
 	private String productStatus;
 	private int subCateCode;
 	private String subCateName;

@@ -208,8 +208,8 @@
 		                        label: '일일 회원 가입자 수',
 		                        type : 'line',         // 'line' type
 		                        fill : false,         // 채우기 없음
-		                        lineTension : 0.2,  // 0이면 꺾은선 그래프, 숫자가 높을수록 둥글해짐
-		                        pointRadius : 0,    // 각 지점에 포인트 주지 않음
+		                        lineTension : 0,  // 0이면 꺾은선 그래프, 숫자가 높을수록 둥글해짐
+		                        pointRadius : 1,    // 각 지점에 포인트 주지 않음
 		                        backgroundColor: 'rgb(255, 99, 132,0.7)',
 		                        borderColor: 'rgb(255, 99, 132,0.7)',
 		                        data: ['${list[4].B}','${list[3].B}','${list[2].B}','${list[1].B}','${list[0].B}'],
