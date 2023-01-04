@@ -20,7 +20,6 @@
 		<result column="product_option" property="productOption"/>
 		<result column="model_name" property="modelName"/>
 		<result column="brand" property="brand"/>
-		<result column="delivery_payment" property="delivertPayment"/>
 		<result column="PRODUCT_STATUS" property="productStatus"/>
 		<result column="PRO_SUBCATE_CODE" property="proSubCateCode"/>
 	</resultMap>
@@ -78,7 +77,6 @@
 		<result column="PRODUCT_OPTION" property="option"/>
 		<result column="MODEL_NAME" property="modelName"/>
 		<result column="BRAND" property="brand"/>
-		<result column="delivery_payment" property="dPayment"/>
 		<result column="PRODUCT_STATUS" property="productStatus"/>
 		<result column="PRO_SUBCATE_CODE" property="subCateCode"/>
 		<result column="PRO_SUBCATE_NAME" property="subCateName"/>
@@ -244,7 +242,7 @@
    
    <select id="selectProductList" resultMap="ProductListResultSet">
    
-	    select b.board_no,b.board_type,b.board_title,b.create_date,b.modify_date,b.b_status,b.board_writer,b.board_count,p.product_no,p.product_price,p.product_discount,p.product_option,p.model_name,p.brand,p.delivery_payment,p.product_status,ps.pro_subcate_code,ps.pro_subcate_name,pt.pro_topcate_code,pt.pro_topcate_name
+	    select b.board_no,b.board_type,b.board_title,b.create_date,b.modify_date,b.b_status,b.board_writer,b.board_count,p.product_no,p.product_price,p.product_discount,p.product_option,p.model_name,p.brand,p.product_status,ps.pro_subcate_code,ps.pro_subcate_name,pt.pro_topcate_code,pt.pro_topcate_name
 		from board b
 		    join product p on (b.board_no=p.board_no)
 		    join product_sub_cate ps on(p.pro_subcate_code=ps.pro_subcate_code)
@@ -255,7 +253,7 @@
    </select>
 	<select id="selectProductDetail" resultMap="ProductListResultSet">
 	
-		select b.board_no,b.board_type,b.board_title,b.create_date,b.modify_date,b.b_status,b.board_writer,b.board_count,p.product_no,p.product_price,p.product_discount,p.product_option,p.model_name,p.brand,p.delivery_payment,p.product_status,ps.pro_subcate_code,ps.pro_subcate_name,pt.pro_topcate_code,pt.pro_topcate_name
+		select b.board_no,b.board_type,b.board_title,b.create_date,b.modify_date,b.b_status,b.board_writer,b.board_count,p.product_no,p.product_price,p.product_discount,p.product_option,p.model_name,p.brand,p.product_status,ps.pro_subcate_code,ps.pro_subcate_name,pt.pro_topcate_code,pt.pro_topcate_name
 		from board b
 		    join product p on (b.board_no=p.board_no)
 		    join product_sub_cate ps on(p.pro_subcate_code=ps.pro_subcate_code)
@@ -504,7 +502,7 @@
 		set report_status='N'
 		where reply_no=(select reply_no
 						from reply
-						join report on(reply.reply_no=report.report_no)
+						join report on(reply.reply_no=report.content_no)
 						where report_no=#{rNo} and report_cate='R')
 	</update>
 	<select id="manageInquiry" resultMap="InquiryAdminResultSet">

@@ -267,7 +267,11 @@
 		            }
 		        }
 		    });
-        
+		       	
+	        $(document).on('click','.btn-danger',function(){
+	    		const orderNo=$(this).parents('tr').children().eq(0).text();
+	        	location.href="${contextPath}/detailOrder.adm?orderNo="+orderNo;
+	        });
         
         </script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
