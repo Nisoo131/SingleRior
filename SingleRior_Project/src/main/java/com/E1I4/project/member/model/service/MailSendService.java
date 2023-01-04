@@ -28,16 +28,11 @@ public class MailSendService {
 	// 회원가입 본인 인증
 	public String joinEmail(String email) {
 		makeRandomNumber();
-//		System.out.println("인증" + email);
-		String setFrom = "singlerior8080@gmail.com"; // email-context에 설정한 자신의 이메일 주소를 입력 
+		String setFrom = "singlerior8080@gmail.com"; 
 		String toMail = email;
-		String title = "회원 가입 인증 이메일 입니다."; // 이메일 제목 
+		String title = "회원 가입 인증 이메일 입니다."; 
 		String content = 
-				"SingleRior를 방문해주셔서 감사합니다." + 	//html 형식으로 작성 ! 
-                "<br><br>" + 
-			    "인증 번호는 " + authNumber + "입니다." + 
-			    "<br>" + 
-			    "해당 인증번호를 인증번호 확인란에 기입하여 주세요."; //이메일 내용 삽입
+				"SingleRior를 방문해주셔서 감사합니다." + "<br><br>" +  "인증 번호는 " + authNumber + "입니다." +  "<br>" +  "해당 인증번호를 인증번호 확인란에 기입하여 주세요."; 
 		mailSend(setFrom, toMail, title, content);
 		return Integer.toString(authNumber);
 	}
@@ -45,16 +40,10 @@ public class MailSendService {
 	// 아이디 찾기
 	public void findId(String email, String id) {
 
-//		System.out.println("인증" + email);
-		String setFrom = "singlerior8080@gmail.com"; // email-context에 설정한 자신의 이메일 주소를 입력 
+		String setFrom = "singlerior8080@gmail.com"; 
 		String toMail = email;
-		String title = "싱글리어 아이디 찾기입니다."; // 이메일 제목 
-		String content = 
-				"SingleRior를 방문해주셔서 감사합니다." + 	//html 형식으로 작성 ! 
-                "<br><br>" + 
-			    "회원님의 아이디는 " + id + "입니다." + 
-			    "<br>" + 
-			    "해당 아이디로 로그인해주세요."; //이메일 내용 삽입
+		String title = "싱글리어 아이디 찾기입니다."; 
+		String content = "SingleRior를 방문해주셔서 감사합니다." + "<br><br>" +  "회원님의 아이디는 " + id + "입니다." +  "<br>" + "해당 아이디로 로그인해주세요.";
 		mailSend(setFrom, toMail, title, content);
 		
 	}
@@ -66,31 +55,24 @@ public class MailSendService {
 
         String str = "";
 
-        // 문자 배열 길이의 값을 랜덤으로 10개를 뽑아 구문을 작성함
         int idx = 0;
         for (int i = 0; i < 10; i++) {
             idx = (int) (charSet.length * Math.random());
             str += charSet[idx];
         }
+        
         return str;
     }
 	
-	// 비밀번호 새로 발급
 	public String findPwd(String email) {
 		
 		String str = getTempPassword();
 		System.out.println("난수: " +str);
 		
-//		System.out.println("인증" + email);
-		String setFrom = "singlerior8080@gmail.com"; // email-context에 설정한 자신의 이메일 주소를 입력 
+		String setFrom = "singlerior8080@gmail.com"; 
 		String toMail = email;
-		String title = "싱글리어에서 임시 비밀번호를 발급해드립니다."; // 이메일 제목 
-		String content = 
-				"SingleRior를 방문해주셔서 감사합니다." + 	//html 형식으로 작성 ! 
-                "<br><br>" + 
-			    "회원님의 새로운 비밀번호는 " + str + " 입니다." + 
-			    "<br>" + 
-			    "해당 비밀번호로 로그인 하신 후, 반드시 비밀번호를 다시 변경해주세요. "; //이메일 내용 삽입
+		String title = "싱글리어에서 임시 비밀번호를 발급해드립니다.";
+		String content = "SingleRior를 방문해주셔서 감사합니다." +  "<br><br>" +  "회원님의 새로운 비밀번호는 " + str + " 입니다." +  "<br>" +  "해당 비밀번호로 로그인 하신 후, 반드시 비밀번호를 다시 변경해주세요. ";
 		mailSend(setFrom, toMail, title, content);
 		return str;
 	}
@@ -102,7 +84,6 @@ public class MailSendService {
 			helper.setFrom(setFrom);
 			helper.setTo(toMail);
 			helper.setSubject(title);
-			// true 전달 > html 형식으로 전송 , 작성하지 않으면 단순 텍스트로 전달.
 			helper.setText(content,true);
 			mailSender.send(message);
 		} catch (MessagingException e) {
