@@ -96,8 +96,6 @@ public class MemberController {
 			}
 			
 			
-			
-			
 			 return "redirect:/";
 		} else {
 			model.addAttribute("msg", "로그인실패");
@@ -111,10 +109,10 @@ public class MemberController {
 //		System.out.println(code);
 //		System.out.println(code);
 		
-		String access_Token = kl.getAccessToken(code);
+		String accessToken = kl.getAccessToken(code);
 //		System.out.println(access_Token);
 		
-		HashMap<String, Object> userInfo = kl.getUserInfo(access_Token);
+		HashMap<String, Object> userInfo = kl.getUserInfo(accessToken);
 //		System.out.println("access_Token : " + access_Token);
 //		System.out.println("nickname : " + userInfo.get("nickname"));
 //		System.out.println("email : " + userInfo.get("email"));
@@ -173,6 +171,7 @@ public class MemberController {
 		int count = mService.checkId("naver*" + memberId);
 		
 		Member loginUser = null;
+		
 		if(count == 1) {
 			m.setMemberId("naver*" +memberId);
 			loginUser = mService.login(m);
@@ -238,12 +237,12 @@ public class MemberController {
 	public String checkMail(@RequestParam("email") String email) {
 		
 //		System.out.println(email);
-		return mss.joinEmail(email);
+		return mss.sendEmail(email);
 	}
 	
 	// 회원가입 
 	@RequestMapping("insertMember.me")
-	public String insertMember(@ModelAttribute Member m) {
+	public String insertMember(@ModelAttribute Member m,Model model) {
 //		System.out.println(m);
 		
 		String encPwd = bcrypt.encode(m.getMemberPwd());
@@ -251,7 +250,8 @@ public class MemberController {
 		
 		int result = mService.insertMember(m);
 		if(result > 0) {
-			return "redirect:home.do";
+			model.addAttribute("msg", "회원가입 성공에 성공하셨습니다.");
+			return "enrollDone";
 		}else {
 			throw new MemberException("회원가입 실패");
 		}
