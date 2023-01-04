@@ -168,12 +168,12 @@
    <select id="selectInquiryList" resultMap="ProductInquiryResultSet">
       select *
 	  from product_inquiry
-      where product_no = #{productNo}
+      where product_no = #{productNo}  and inquiry_status = 'Y'
    </select>
    <select id="selectMoreInquiryList" resultMap="ProductInquiryResultSet">
    	select *
    	from product_inquiry
-   	where product_no=#{productNo}
+   	where product_no=#{productNo}  and inquiry_status = 'Y'
    
    </select>
    
