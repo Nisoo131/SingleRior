@@ -242,7 +242,7 @@
       $('#finalPrice').text(finalPrice.toLocaleString()+"원");
     }
     
-	// 주문서 공란 결제 못하게 막기 +  아임포트 API
+	// 결제하기
      document.getElementById("order_btn").addEventListener("click", function(){
     	   
     	  var IMP = window.IMP;   // 생략 가능함
@@ -267,13 +267,6 @@
     	 var discount = $('input[name=discount]').val()
     	 var productOption = $('input[name=productOption]').val()
     	 var cartNo = $('input[name=cartNo]').val()
-     
-   		  // 상품단가*개수 = 주문상품별 가격
-   		 var pricesArr=[];
-   		  $.each($("input[name='prices[]']"),function(k,v){
-   			pricesArr[pricesArr.length] = $(v).val();
-   			});
-   		  console.log(pricesArr);
    		  
    		  // 카트넘버 넘기기
    		 var cartArr=[];
@@ -309,11 +302,8 @@
 			    			         address_detail:address_detail,
 			    			         deliveryMsg:deliveryMsg,
 			    			         finalPrice:finalPrice,
-			    			         pricesArr:pricesArr,
-			    			         pricesArr:pricesArr,
 			    			         cartArr:cartArr,
 			            		     productNo:productNo,
-			            		     cartNo:cartNo,
 			   			             productQty:productQty,
 			   			             productPrice:productPrice,
 			   			             discount:discount,
@@ -321,7 +311,7 @@
 				   			         imp_uid: rsp.imp_uid,
 				   	                 merchant_uid: rsp.merchant_uid},
 							  success: function(data){
-								  location.href='${contextPath}/finalOrder.st?cartList=' + data;
+								  location.href='${contextPath}/finalOrder.st?OrderResult=' + data;
 			  		   	 }
 		              })
    	              alert("결제성공");     
