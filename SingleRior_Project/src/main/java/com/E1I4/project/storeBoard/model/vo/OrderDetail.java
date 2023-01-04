@@ -18,4 +18,5 @@ public class OrderDetail {
 	private int lastPrice;
 	private int discount;
 	private String productOption;
+
 }
