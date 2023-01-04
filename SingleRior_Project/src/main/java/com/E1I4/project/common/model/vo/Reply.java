@@ -28,5 +28,4 @@ public class Reply {
 	private int	groupNo;
 //	private String boardTitle;
 //	private int boardType;
-	private int groupNo;
 }
