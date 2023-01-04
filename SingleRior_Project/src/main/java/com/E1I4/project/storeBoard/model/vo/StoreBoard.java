@@ -15,7 +15,7 @@ import lombok.ToString;
 @ToString
 public class StoreBoard {
 	// boardType:1
-	// board에서 content(=상품등록), writer(=관리자) 제외 
+	// board에서 content(=상품등록), writer(=관리자) 제외, 
 	// product model_name, brand 
 	private int boardNo;             // BOARD
 	private int boardType;
