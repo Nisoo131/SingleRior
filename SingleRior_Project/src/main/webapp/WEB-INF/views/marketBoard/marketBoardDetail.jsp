@@ -322,7 +322,7 @@
 							</c:if>
 						</div>
 						<div class="justify-content-center" style="padding-bottom: 50px; padding-right: 100px; color: #A9A9A9; text-align: right; font-size: 20px;">
-							<span>0 / 600</span>
+							<span id="counter">0</span><span style="padding-right: 30px;"> / 600</span>
 							<label for="replySecret">비밀댓글</label>
 							<input type="checkbox" id="replySecret" value="N">
 						</div>
@@ -369,7 +369,7 @@
 									<td class="px-5 py-3 " colspan="5">
 										<div class="input-group replyContentArea" >
 										<c:if test="${r.replySecret == 'Y' and (loginUser.memberId eq r.memberId  or loginUser.memberId eq mkBoard.writer or loginUser.memberAuthority eq 'Y')}">
-											<textarea readonly class="reContent" style=" width: 1000px; border: none; resize: none;">${r.replyContent }</textarea>
+											<textarea readonly class="reContent " style=" width: 1000px; border: none; resize: none;">${r.replyContent }</textarea>
 										</c:if>
 										<c:if test="${r.replySecret == 'N' }">
 											<textarea readonly class="reContent" style="width: 1000px; border: none; resize: none;">${r.replyContent }</textarea>
@@ -688,6 +688,24 @@
 					$('#reportModal').modal('show');	
 				}
 				
+			});
+			
+			//댓글글자 카운트
+			$('#replyContent').keyup(function(){
+				const input = $(this).val();
+				const inputLength = input.length;
+				
+				$('#counter').html('<b>' + inputLength + '</b>');
+				
+				if(inputLength > 600){
+					$('#counter').css('color', 'red');
+					$('#counter').html('<b>600</b>');
+				} else {
+					$('#counter').css('color', '#A9A9A9');
+				}
+				
+				const piece = input.substr(0, 600);
+				$(this).val(piece);
 			});
 			
 			//댓글입력
@@ -1018,6 +1036,26 @@
 			console.log("수정");
 			const textArea = this.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.querySelector('textarea');
 			
+			//글자수 카운트
+			$('.reContent').keyup(function(){
+				console.log("얍");
+				const input = $(this).val();
+				const inputLength = input.length;
+				
+				$('.counter').html('<b>' + inputLength + '</b>');
+				
+				if(inputLength > 600){
+					$('.counter').css('color', 'red');
+					$('.counter').html('<b>600</b>');
+				} else {
+					$('.counter').css('color', 'black');
+				}
+				
+				const piece = input.substr(0, 600);
+				$(this).val(piece);
+			});
+			
+			
 			textArea.removeAttribute('readOnly');
 			textArea.focus();
 			textArea.parentNode.innerHTML += '<button type="button" class="btn btn-outline-primary btn-lg reUpdateSubmit" style="width: 100px;">등록</button><span>비밀댓글&nbsp;&nbsp;<input type="checkbox" class="replyUpateSecret" value="N"></span>';
@@ -1130,7 +1168,7 @@
 						str +='<tr><td width="1em"><img src="https://cdn-icons-png.flaticon.com/512/9058/9058850.png" width="20" height="20"></td>';	
 						str +='	<td ><input type="hidden" name="replyNo" value="'+r.replyNo+'">';
 						str +='	<div class="input-group" >';
-						str +='	<textarea  style="width: 1000px; border: none; resize: none;"></textarea>';
+						str +='	<textarea  style="width: 1000px; height:50px; border: none; resize: none;"></textarea>';
 						str +='	<button class="btn btn-outline-primary btn-lg reReplySubmit" type="button" style="width: 100px;">등록</button>';
 						str +='<br>&nbsp;<label for="replySecret">비밀댓글</label>&nbsp;&nbsp;<input type="checkbox" class="reReplySecret" value="N">';
 						str +='</div></td></tr></table>';
