@@ -28,7 +28,7 @@
 		<jsp:include page="../common/top.jsp"/>
 	</header>
 	<section>
-			<h1 class="title" style="color: #008cd4">나의 게시글</h1>
+			<h1 class="title" style="color: #008cd4">상품 문의</h1>
 		<div class="inquiry">
 			<c:if test="${! empty iList }">
 		 		<c:forEach items="${ iList }" var="i">

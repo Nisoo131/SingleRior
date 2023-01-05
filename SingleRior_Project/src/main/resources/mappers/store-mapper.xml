@@ -359,4 +359,22 @@
 		where INQUIRY_NO = #{inquiryNo}
   </update>
   
+  <select id="getReviewCount" resultType="_int">
+ 		 select count(*)
+         from product_review
+         where board_no = #{bNo} 
+  
+  </select>
+  <select id="getReviewRating" resultType="double">
+  		select avg(review_rating)
+         from product_review
+         where board_no = #{bNo} 
+  </select>
+  
+  <select id="getWishCount" resultType="_int">
+         select count(*)
+         from wishlist
+         where board_no = #{bNo}
+  </select>
+  
 </mapper>

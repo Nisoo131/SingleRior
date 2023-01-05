@@ -79,5 +79,11 @@ public interface StoreBoardService {
 
 	int deleteInquiry(int inquiryNo);
 
+	double getReviewRating(int bNo);
+
+	int getReviewCount(int bNo);
+
+	int getWishCount(int bNo);
+
 
 }
