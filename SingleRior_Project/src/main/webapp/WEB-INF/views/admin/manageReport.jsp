@@ -64,9 +64,6 @@
 									id="reportReply" onclick="${contextPath}/manageReportReply.adm"> <label
 									class="btn btn-outline-primary" for="reportReply">댓글 신고 목록</label>
 
-								<input type="button" class="btn-check"
-									id="reportReReply" onclick="${contextPath}/manageReportReReply.adm"> <label
-									class="btn btn-outline-primary" for="reportReReply">대댓글 신고 목록</label>
 							</div>
 							<br><br>
                         <div class="card mb-4">
