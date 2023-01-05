@@ -844,14 +844,16 @@ public class MemberController {
 
 			int orderDetailNo = orList.get(i).getOrderDetailNo();
 			Review r = mService.getMyReviewList(orderDetailNo);
-			System.out.println(r);
 			
 			int reviewNo = r.getReviewNo();
+			
 			String reviewNoStr = Integer.toString(reviewNo);
 			String rImg = mService.getImgReview(reviewNoStr);
 			
+			System.out.println("dssdd"+rImg);
 			r.setImgRename(rImg);
-			
+
+//			System.out.println("뭐지..?"+r);
 			rList.add(r);
 			
 		}
