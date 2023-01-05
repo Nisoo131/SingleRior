@@ -250,6 +250,14 @@ public class AdminDAO {
 		return (ArrayList)sqlSession.selectList("adminMapper.dailyOrderList");
 	}
 
+	public ArrayList<HashMap<String, Object>> dailySales(SqlSessionTemplate sqlSession) {
+		return (ArrayList)sqlSession.selectList("adminMapper.dailySales");
+	}
+
+	public ArrayList<HashMap<String, Object>> dailyTopCate(SqlSessionTemplate sqlSession) {
+		return (ArrayList)sqlSession.selectList("adminMapper.dailyTopCate");
+	}
+
 
 
 

@@ -269,7 +269,7 @@
 		from img_repository 
 		where img_B_type= '1'
 		      and img_status='Y'
-		      and img_key=#{bId}
+		      and img_key=to_char(#{bId})
 	</select>
 	<delete id="deleteAttm">
 		delete from img_repository
@@ -525,7 +525,7 @@
 		update product_inquiry
 		set admin_status='Y', inquiry_answer=#{inquiryContent}
 		where inquiry_no=#{inquiryNo}
-		order by inquiry_date desc
+		
 	
 	</update>
 	<select id="inquiryQue" resultMap="InquiryAdminResultSet">
@@ -612,6 +612,25 @@
 		group by to_char(order_date)
 		order by to_char(order_date) desc
 	
+	</select>
+	<select id="dailySales" resultType="map">
+		
+		select to_char(order_date) as A,sum(order_total_price) as B
+		from order_product
+		where order_total_status='결제완료'
+		group by to_char(order_date)
+		order by to_char(order_date) desc
+		
+	</select>
+	<select id="dailyTopCate" resultType="map">
+		select pt.pro_topcate_name as A,count(pt.pro_topcate_name) as B
+		from order_detail o
+		    join product p on(p.product_no=o.product_no)
+		    join product_sub_cate ps on (ps.pro_subcate_code=p.pro_subcate_code)
+		    left join product_top_cate pt on (ps.pro_topcate_code=pt.pro_topcate_code)
+		where status!='주문취소'
+		group by pt.pro_topcate_name
+		
 	</select>
 	
 	

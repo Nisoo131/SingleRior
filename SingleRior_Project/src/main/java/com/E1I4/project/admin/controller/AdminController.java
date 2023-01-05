@@ -65,7 +65,8 @@ public class AdminController {
 	public String adminView(OrderProducts op,Model model) {
 		ArrayList<HashMap<String,Object>> loginCount=aService.loginCount();
 		ArrayList<OrderProducts> list = aService.selectOrderProducts();
-		
+		ArrayList<HashMap<String,Object>> bList = aService.dailySales();
+
 		for(int i=0;i<list.size();i++) {
 			String[] arr=list.get(i).getProducts().split(",");
 			int arrLen=arr.length;
@@ -77,6 +78,7 @@ public class AdminController {
 			}
 		}
 		model.addAttribute("list",list);
+		model.addAttribute("bList",bList);
 		model.addAttribute("logCount",loginCount);
 		return"index";
 	}
@@ -931,10 +933,16 @@ public class AdminController {
 	
 	@RequestMapping("statProduct.adm")
 	public String statProduct(Model model) {
-		/*
-		 * // ArrayList<HashMap<String,Object>> dList = aService.dailyOrderList();
-		 * System.out.println(dList); ArrayList<HashMap<String,Object>>
-		 */
+		//일일 매출량 
+		ArrayList<HashMap<String,Object>> aList = aService.dailyOrderList();
+		//일일 판매 매출액
+		ArrayList<HashMap<String,Object>> bList = aService.dailySales();
+		//큰카테고리별 주문수 
+		ArrayList<HashMap<String,Object>> cList = aService.dailyTopCate();
+		
+		model.addAttribute("aList",aList);
+		model.addAttribute("bList",bList);
+		model.addAttribute("cList",cList);
 		
 		return "statProduct";
 	}

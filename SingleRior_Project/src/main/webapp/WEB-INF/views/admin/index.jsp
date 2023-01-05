@@ -127,7 +127,7 @@
                                         <i class="fas fa-chart-bar me-1"></i>
                                         일별 매출 현황
                                     </div>
-                                    <div class="card-body"><canvas id="myBarChart" width="100%" height="40"></canvas></div>
+                                    <div class="card-body"><canvas id="userSum" width="100%" height="40"></canvas></div>
                                 </div>
                             </div>
                         </div>
@@ -264,6 +264,40 @@
 		            }
 		        }
 		    });
+		    	  var ctx2 = document.getElementById('userSum').getContext('2d');
+		            var chart = new Chart(ctx2, {
+		                // type : 'bar' = 막대차트를 의미합니다.
+		                type: 'bar', // 
+		                data: {
+		                    labels: ['${bList[4].A}','${bList[3].A}','${bList[2].A}','${bList[1].A}','${bList[0].A}'],
+		                    datasets: [{
+		                       
+		                        label: '일일 판매 금액 ',
+		                        backgroundColor: 'rgb(54, 162, 235,0.7)',
+		                        borderColor: 'rgb(54, 162, 235,0.7)',
+		                        data: ['${bList[4].B}','${bList[3].B}','${bList[2].B}','${bList[1].B}','${bList[0].B}'],
+		                        yAxisID: 'left-y-axis'
+		                    
+		                    }]
+		                },
+		                options: {
+		                    scales: {
+		                        yAxes: [{
+		                            id: 'left-y-axis',
+		                            scaleShowGridLines : false,
+		                            type: 'linear',
+		                            position: 'left',
+		                            ticks:{
+		                            	min:0,
+		                            	stepSize:5000000,
+		                            	max:30000000,
+		                            	display:true
+		                            }
+		                        }]
+		                    }
+		                }
+		                
+		            });
 		       	
 	        $(document).on('click','.btn-danger',function(){
 	    		const orderNo=$(this).parents('tr').children().eq(0).text();
