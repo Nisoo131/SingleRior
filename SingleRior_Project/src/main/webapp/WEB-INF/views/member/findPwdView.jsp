@@ -6,7 +6,7 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style>
-	.form-findPwd {margin:auto; margin-top:200px; max-width: 500px; padding:50px;}
+	.form-findPwd {margin:auto; margin-top:100px; max-width: 500px; padding:50px;}
 	@font-face {
 	    font-family: 'BMJUA';
 	    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/BMJUA.woff') format('woff');
@@ -59,13 +59,14 @@ $(function(){
 				data : {memberId:memberId, email:email },
 				success: (data) =>{
 					console.log(data);
-					$('#findPwdMsg').html("입력하신 이메일로 새로운 비밀번호를 보내드렸습니다.");
+					
 				},
 				error:(data)=>{
 // 					console.log(data);
 					$('#findPwdMsg').html("아이디 또는 이메일을 잘못 입력하셨습니다. 다시 입력해주세요.");
 				}
 			});
+			$('#findPwdMsg').html("입력하신 이메일로 새로운 비밀번호를 보내드렸습니다.");
 		});
 	});
 	

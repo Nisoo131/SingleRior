@@ -74,7 +74,7 @@ public class MemberController {
 //		System.out.println(m);
 		Member loginUser = mService.login(m);
 //		System.out.println("뭔가 잘못됨:" +loginUser);
-//		System.out.println(bcrypt.encode(m.getMemberPwd()));  // 암호화 비밀번호
+		System.out.println(bcrypt.encode(m.getMemberPwd()));  // 암호화 비밀번호
 		if(bcrypt.matches(m.getMemberPwd(), loginUser.getMemberPwd())) {
 			session.setAttribute("loginUser", loginUser);
 //			model.addAttribute("loginUser",loginUser);

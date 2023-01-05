@@ -217,8 +217,12 @@
 //							e.preventDefault();
 					}else if(data == 'kakao'){
 						alert("해당 이메일로 등록된 카카오 계정이 있습니다.");
+						$('#emailCheckConfirmMsg').html("");
+						$('#email').value("");
 					}else if(data == 'naver'){
 						alert("해당 이메일로 등록된 네이버 계정이 있습니다.");
+						$('#emailCheckConfirmMsg').html("");
+						$('#email').value("");
 					}
 				},
 				error:(data)=>{
