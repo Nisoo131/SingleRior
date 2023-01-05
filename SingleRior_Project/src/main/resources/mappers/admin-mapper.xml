@@ -196,7 +196,7 @@
 	<insert id="insertProduct">
 		insert all
 			into board values(seq_bid.nextval,1,#{productName},#{productContent},sysdate,sysdate,default,default,#{boardWriter},default,default)
-			into product values(seq_pid.nextval,#{productPrice},#{productDiscount},#{productOption},#{modelName},#{brand},null,default,#{proSubCateCode},seq_bid.currval)
+			into product values(seq_pid.nextval,#{productPrice},#{productDiscount},#{productOption},#{modelName},#{brand},default,#{proSubCateCode},seq_bid.currval)
 		select *from dual
 	</insert>
 	<insert id="insertProductAttm" >
