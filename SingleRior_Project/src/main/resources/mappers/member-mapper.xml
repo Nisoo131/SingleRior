@@ -783,4 +783,10 @@
 		set login_check='N'
 		where member_id=#{memberId} and login_check='Y'
 	</update>
+	
+	<select id="checkKNLogin" resultType="string">
+	select member_id
+	from member
+	where email = #{email}
+	</select>
 </mapper>

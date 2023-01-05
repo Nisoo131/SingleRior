@@ -305,6 +305,10 @@ public class MemberDAO {
 		return sqlSession.update("memberMapper.updateCheck",memberId);
 	}
 
+	public String checkKNLogin(SqlSessionTemplate sqlSession, String email) {
+		return sqlSession.selectOne("memberMapper.checkKNLogin",email);
+	}
+
 
 
 

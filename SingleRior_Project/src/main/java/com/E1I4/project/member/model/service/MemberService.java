@@ -150,6 +150,8 @@ public interface MemberService {
 
 	int updateCheck(String memberId);
 
+	String checkKNLogin(String email);
+
 
 
 }

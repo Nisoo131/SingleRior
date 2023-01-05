@@ -224,10 +224,24 @@ public class MemberController {
 	// 회원가입 이메일 중복확인
 	@RequestMapping(value="checkEmailConfirm.me", method=RequestMethod.POST)
 	@ResponseBody
-	public int checkEmailConfirm(@RequestParam("email") String email) {
+	public String checkEmailConfirm(@RequestParam("email") String email) {
 		
 		int count = mService.checkEmailConfirm(email);
-		return count;
+		
+		String check = "possible";
+		if(count > 0) {
+			
+			String knId = mService.checkKNLogin(email);
+			String subStrId = knId.substring(0, 6);
+			if(subStrId.equals("kakao*")) {
+				check = "kakao";
+			}else if(subStrId.equals("naver*")) {
+				check="naver";
+			}else {
+				check = "impossible";
+			}
+		}
+		return check;
 	}
 	
 	
