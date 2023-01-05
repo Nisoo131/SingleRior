@@ -54,14 +54,14 @@
 	</div>
 	<div id="today_special_price" class="carousel carousel-dark slide"
 		data-bs-ride="true">
-		<div class="carousel-inner">
+		<div class="carousel-inner" >
 			<div class="carousel-item active" data-bs-interval="10000">
 				<div class="album py-5">
-					<div class="container">
-						<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3 p-5 px-5">
+					<div class="container" >
+						<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3 p-5 px-5" >
 							<c:forEach items="${ topBList }" var="tb" begin="0" end="2" step="1">
 							<div class="col px-5 p-5 g-3" >
-								<div class="carouselCardSec shadow-sm">
+								<div class="carouselCardSec shadow-sm" style="cursor: pointer; height: 380px">
 									<c:forEach items="${ mkAList }" var="mkA" >
 										<c:if test="${ tb.boardNo eq mkA.imgKey }">
 											<c:if test="${ mkA.imgOriginalName != '' }">
@@ -106,7 +106,7 @@
 						<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3 p-5 px-5">
 							<c:forEach items="${ topBList }" var="tb" begin="3" end="5" step="1">
 							<div class="col p-5 px-5 g-3">
-								<div class="carouselCardSec shadow-sm">
+								<div class="carouselCardSec shadow-sm" style="cursor: pointer; height: 380px">
 									<c:forEach items="${ mkAList }" var="mkA" >
 									<c:if test="${ tb.boardNo eq mkA.imgKey }">
 										<c:if test="${ mkA.imgOriginalName != '' }">
@@ -205,7 +205,7 @@
 	<div class="row row-cols-1 row-cols-md-4 g-4" style="margin-left: 350px; margin-right: 350px;">
 		<c:forEach items="${ mkBList }" var="mkB">
 		<div class="col px-4">
-			<div class="cards shadow-sm">
+			<div class="cards shadow-sm" style="cursor: pointer; height: 380px;">
 			<c:forEach items="${ mkAList }" var="mkA">
 			<c:if test="${ mkB.boardNo eq mkA.imgKey }">
 				<c:if test="${ a.originalName != '' }">
@@ -238,7 +238,8 @@
 		<br>
 		<br>
 	</div>
-	     <ul class="pagination" style="justify-content: center;">
+	   <div style="padding-top: 100px;">
+	    <ul class="pagination" style="justify-content: center;">
 		<c:if test="${ pi.currentPage > 1 }">
 			<li class="page-item"><c:url var="goBack" value="${ loc }">
 				<c:param name="page" value="${ pi.currentPage-1 }"></c:param>
@@ -259,7 +260,7 @@
 			</li>
 		</c:if>
 		</ul>
-				        	
+		</div>		        	
 				        	
 	        
 	 <div class="py-4">

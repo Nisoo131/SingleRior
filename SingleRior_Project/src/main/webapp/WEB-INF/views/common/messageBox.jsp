@@ -37,6 +37,11 @@
 	</nav>
 	<section>
 		<h1 style="text-align:left">나의 메시지</h1><br><br>
+		<c:if test="${ empty msgList}">
+							<div >
+							<div class="alert alert-secondary" role="alert">메시지가 없습니다.</div>
+						</div>
+						</c:if>
 			<c:if test="${ ! empty msgList }">
 					<table class="table table-hover" id="sendBox" style="text-align: center;">
 						<thead>
@@ -80,7 +85,6 @@
 						    </c:forEach>				  
 					  </tbody>
 					</table>
-			</c:if>
 		<nav aria-label="Standard pagination example">
 				<ul class="pagination justify-content-center">
 					<li class="page-item"><c:url var="goBack" value="${ loc }">
@@ -104,6 +108,7 @@
 					</a></li>
 				</ul>
 			</nav>
+			</c:if>
 	</section>
 	
 			<div class="modal fade" tabindex="-1" role="dialog" id="modalChoice">
