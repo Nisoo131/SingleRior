@@ -73,8 +73,6 @@ public class HomeController {
 				pdList.get(i).setReviewRating(reviewRating);
 			}
 			
-			System.out.println(reviewRating);
-			System.out.println(reviewCount);
 		}
 		ArrayList<Attachment> pdAttmList = mainService.selectPdAttmList();
 		
