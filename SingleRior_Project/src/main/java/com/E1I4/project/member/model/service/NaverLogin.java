@@ -60,7 +60,7 @@ public class NaverLogin {
 			URL url = new URL(reqURL);
 			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 			
-			conn.setRequestMethod("POST");
+			conn.setRequestMethod("GET");
 			conn.setRequestProperty("Authorization", "Bearer " + accessToken);
 			
 			BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
