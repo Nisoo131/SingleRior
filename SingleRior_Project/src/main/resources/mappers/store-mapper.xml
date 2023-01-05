@@ -377,7 +377,6 @@
          from wishlist
          where board_no = #{bNo}
   </select>
-=======
           
 	<select id="getReviewRating" resultType="_double">
          select avg(review_rating)
@@ -390,6 +389,6 @@
          from product_review
          where board_no = #{boardNo} and product_no = #{productNo}
    </select>
->>>>>>> Sue
+
   
 </mapper>
