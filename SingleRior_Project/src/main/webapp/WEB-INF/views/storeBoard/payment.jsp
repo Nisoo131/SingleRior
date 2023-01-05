@@ -312,7 +312,7 @@
 				   	                 merchant_uid: rsp.merchant_uid},
 							  success: function(data){
 								  console.log(data);
-			                	  location.href='${contextPath}/finalOrder.st?OrderResult=' + data;
+			                	  location.href='${contextPath}/finalOrder.st;
 			  		   	    }
 		              })
    	              alert("결제성공");     

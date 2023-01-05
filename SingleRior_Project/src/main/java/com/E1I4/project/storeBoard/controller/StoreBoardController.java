@@ -512,7 +512,7 @@ public class StoreBoardController {
 	@RequestMapping("finalOrder.st")
 	public String finalOrder(@ModelAttribute OrderResult r, Model model) {
         //System.out.println(r);
-		model.addAttribute("orderResult", r);
+//		model.addAttribute("orderResult", r);
 		return "orderResult";
 	}
 }
