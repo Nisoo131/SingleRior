@@ -104,14 +104,30 @@ public class StoreBoardController {
 
 			ArrayList<StoreBoard> sList = sService.selectStoreBoardList(pi, map);
 			ArrayList<Attachment> aList = new ArrayList<Attachment>();
-
+			
+			
 			// System.out.println("tdd : "+topCateName);
 			for(int i=0; i<sList.size(); i++) {
 				int bNo = sList.get(i).getBoardNo();
 				Attachment a = sService.selectAttmList(bNo);
-
+				
+				double productRating = 0.0;
+				
+				
+				int rCounting = sService.getReviewCount(bNo);
+				
+				int wishCounting = sService.getWishCount(bNo);
+				
+				sList.get(i).setWishListCount(wishCounting);
+				if(rCounting != 0) {
+					productRating = sService.getReviewRating(bNo);
+				}
+				
+				sList.get(i).setReviewRating(productRating);
 				aList.add(a);
 			};
+			
+			System.out.println("sList : " + sList);
 			
 			if(subCate != null) {
 				model.addAttribute("subCate", subCate);

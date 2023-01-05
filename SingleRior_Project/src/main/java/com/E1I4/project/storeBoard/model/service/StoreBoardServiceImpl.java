@@ -181,6 +181,21 @@ public class StoreBoardServiceImpl implements StoreBoardService{
 		return sDAO.deleteInquiry(sqlSession,inquiryNo);
 	}
 
+	@Override
+	public double getReviewRating(int bNo) {
+		return sDAO.getReviewRating(sqlSession,bNo);
+	}
+
+	@Override
+	public int getReviewCount(int bNo) {
+		return sDAO.getReviewCount(sqlSession,bNo);
+	}
+
+	@Override
+	public int getWishCount(int bNo) {
+		return sDAO.getWishCount(sqlSession,bNo);
+	}
+
 
 	
 	

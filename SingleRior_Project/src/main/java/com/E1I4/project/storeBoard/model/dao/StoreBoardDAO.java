@@ -170,6 +170,18 @@ public class StoreBoardDAO {
 		return sqlSession.update("storeMapper.deleteInquiry", inquiryNo);
 	}
 
+	public double getReviewRating(SqlSessionTemplate sqlSession, int bNo) {
+		return sqlSession.selectOne("storeMapper.getReviewRating", bNo);
+	}
+
+	public int getReviewCount(SqlSessionTemplate sqlSession, int bNo) {
+		return sqlSession.selectOne("storeMapper.getReviewCount", bNo);
+	}
+
+	public int getWishCount(SqlSessionTemplate sqlSession, int bNo) {
+		return sqlSession.selectOne("storeMapper.getWishCount", bNo);
+	}
+
 
 
 
