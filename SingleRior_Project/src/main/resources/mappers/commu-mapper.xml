@@ -375,11 +375,6 @@
 			set REPORT_STATUS = 'Y'
 			where REPLY_NO = #{cNo}
 		</if>
-		<if test='cate.equals("RR")'>
-			update Re_Reply
-			set REPORT_STATUS = 'Y'
-			where RE_REPLY_NO = #{cNo}
-		</if>
 	</update>
 	
 	<!-- 신고여부 확인 -->

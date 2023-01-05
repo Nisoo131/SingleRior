@@ -3,6 +3,7 @@ package com.E1I4.project;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
 
 import org.slf4j.Logger;
@@ -14,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.E1I4.project.common.exception.BoardException;
 import com.E1I4.project.common.model.vo.Attachment;
 import com.E1I4.project.commuBoard.model.vo.CommuBoard;
 import com.E1I4.project.mainPage.model.service.MainPageService;
@@ -50,6 +50,32 @@ public class HomeController {
 		ArrayList<Attachment> bnAttmList = mainService.selectBnAttmList();
 		
 		ArrayList<StoreBoard> pdList = mainService.selectPdList();
+		
+		HashMap<String, Integer> map = new HashMap<String, Integer>();
+		
+		for(int i = 0; i<pdList.size(); i++) {
+			int boardNo = pdList.get(i).getBoardNo();
+			int productNo = pdList.get(i).getProductNo();
+			
+			map.put("boardNo", boardNo);
+			map.put("productNo", productNo);
+			
+			int reviewCount = mainService.getReviewCount(map);
+			pdList.get(i).setReviewCount(reviewCount);
+			
+			double reviewRating = 0.0;
+			
+			if(pdList.get(i).getReviewCount() != 0) {
+				double fullReviewRating = mainService.getReviewRating(map);
+				reviewRating = Math.floor(fullReviewRating * 10) / 10.0;
+				pdList.get(i).setReviewRating(reviewRating);
+			} else {
+				pdList.get(i).setReviewRating(reviewRating);
+			}
+			
+			System.out.println(reviewRating);
+			System.out.println(reviewCount);
+		}
 		ArrayList<Attachment> pdAttmList = mainService.selectPdAttmList();
 		
 		ArrayList<MarketBoard> marketList = mainService.selectMarketList();

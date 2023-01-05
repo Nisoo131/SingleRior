@@ -261,7 +261,7 @@ public class CommuBoardController {
 		return mv;
 	}
 	
-	// 공감하기 버튼 on (사용자가 공감 버튼을 눌렀을 때)
+	// 좋아요 버튼 on (사용자가 좋아요 버튼을 눌렀을 때)
 	@RequestMapping("symptOn.co")
 	public void symptOn(@RequestParam("boardNo") int bNo, HttpSession session, Model model, HttpServletResponse response) {
 		String id = ((Member)session.getAttribute("loginUser")).getMemberId();
@@ -284,7 +284,7 @@ public class CommuBoardController {
 		}
 	}
 		
-	// 공감하기 버튼 off (사용자가 공감 버튼을 취소했을 때)
+	// 좋아요 버튼 off (사용자가 좋아요 버튼을 취소했을 때)
 	@RequestMapping("symptOff.co")
 	public void symptOff(@RequestParam("boardNo") int bNo, HttpSession session, Model model, HttpServletResponse response) {
 		String id = ((Member)session.getAttribute("loginUser")).getMemberId();
@@ -318,9 +318,6 @@ public class CommuBoardController {
 		int result1 = cService.replyCountUp(bNo);
 		
 		ArrayList<Reply> list = cService.selectReply(r.getBoardNo());
-		
-//		System.out.println(r);
-//		System.out.println(list);
 		
 		response.setContentType("application/json; charset=UTF-8");
 		GsonBuilder gb = new GsonBuilder();
@@ -387,9 +384,6 @@ public class CommuBoardController {
 			int result1 = cService.replyCountUp(bNo);
 			
 			ArrayList<Reply> list = cService.selectReply(r.getBoardNo());
-			
-//			System.out.println(r);
-//			System.out.println(list);
 			
 			response.setContentType("application/json; charset=UTF-8");
 			GsonBuilder gb = new GsonBuilder();

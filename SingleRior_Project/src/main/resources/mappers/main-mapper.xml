@@ -130,6 +130,18 @@
 		order by b.board_count desc
 	</select>
 	
+	<select id="getReviewRating" resultType="_double">
+	select avg(review_rating)
+		   from product_review
+		   where board_no = #{boardNo} and product_no = #{productNo}
+	</select>
+	
+	<select id="getReviewCount" resultType="_int">
+		select count(*)
+			from product_review
+			where board_no = #{boardNo} and product_no = #{productNo}
+	</select>
+	
 	<select id="selectPdAttmList" resultMap="attachmentResultSet">
 		select *
 		from IMG_REPOSITORY
@@ -226,4 +238,5 @@
 		from IMG_REPOSITORY
 		where IMG_B_TYPE = '6' and IMG_STATUS = 'Y' and IMG_LEVEL = 1 and img_key = #{imgKey}
 	</select>
+	
 </mapper>
