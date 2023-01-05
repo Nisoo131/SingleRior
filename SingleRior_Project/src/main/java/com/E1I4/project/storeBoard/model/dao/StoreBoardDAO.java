@@ -38,8 +38,8 @@ public class StoreBoardDAO {
 		
 	}
 
-	public Attachment selectAttmList(SqlSessionTemplate sqlSession, int bNo) {
-		return sqlSession.selectOne("storeMapper.selectAttmList",bNo);
+	public Attachment selectAttmList(SqlSessionTemplate sqlSession, String strBoardNo) {
+		return sqlSession.selectOne("storeMapper.selectAttmList",strBoardNo);
 	}
 
 	public ArrayList<StoreBoard> selectProduct(SqlSessionTemplate sqlSession, int productNo) {

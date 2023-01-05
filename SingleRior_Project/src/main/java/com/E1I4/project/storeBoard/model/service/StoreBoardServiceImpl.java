@@ -44,8 +44,8 @@ public class StoreBoardServiceImpl implements StoreBoardService{
 	}
 
 	@Override
-	public Attachment selectAttmList(int bNo) {
-		return sDAO.selectAttmList(sqlSession,bNo);
+	public Attachment selectAttmList(String strBoardNo) {
+		return sDAO.selectAttmList(sqlSession,strBoardNo);
 	}
 
 	@Override

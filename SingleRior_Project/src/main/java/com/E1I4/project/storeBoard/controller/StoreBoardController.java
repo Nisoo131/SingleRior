@@ -110,7 +110,8 @@ public class StoreBoardController {
 			// System.out.println("tdd : "+topCateName);
 			for(int i=0; i<sList.size(); i++) {
 				int bNo = sList.get(i).getBoardNo();
-				Attachment a = sService.selectAttmList(bNo);
+				String strBoardNo = Integer.toString(bNo);
+				Attachment a = sService.selectAttmList(strBoardNo);
 				
 				double productRating = 0.0;
 				
