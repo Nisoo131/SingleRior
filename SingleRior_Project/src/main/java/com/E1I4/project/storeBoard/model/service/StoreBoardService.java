@@ -25,7 +25,7 @@ public interface StoreBoardService {
 
    ArrayList<StoreBoard> selectStoreBoardList(PageInfo pi, HashMap<String, Integer> map);
 
-   Attachment selectAttmList(int bNo);
+   Attachment selectAttmList(String strBoardNo);
 
    ArrayList<StoreBoard> selectProduct(int productNo, int boardNo);
 
