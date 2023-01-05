@@ -119,6 +119,10 @@ public interface AdminService {
 
 	ArrayList<HashMap<String, Object>> dailyOrderList();
 
+	ArrayList<HashMap<String, Object>> dailySales();
+
+	ArrayList<HashMap<String, Object>> dailyTopCate();
+
 
 
 
