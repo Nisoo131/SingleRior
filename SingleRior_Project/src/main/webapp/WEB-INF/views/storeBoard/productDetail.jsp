@@ -115,9 +115,7 @@
    <main class="container">
       <div class="row mx-md-n5">
         <div class="col px-md-5"><div class="p-3 border bg-light">
-           <c:if test="${ fn:containsIgnoreCase( pList[0].imgServerName, 'jpg') or fn:containsIgnoreCase( pList[0].imgServerName, 'png') }">
               <img src="resources/uploadFiles/${ pList[0].imgServerName }" width="100%" height="100%">
-         </c:if>
         </div>
        </div> 
    
