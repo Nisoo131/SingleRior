@@ -18,19 +18,19 @@ public class MailSendService {
 	private int authNumber; 
 	
 	// 회원가입 인증 난수
-	public void makeRandomNumber() {
+	public void randomNumber() {
 		Random r = new Random();
-		int checkNum = r.nextInt(999999);
-		System.out.println("인증번호 : " + checkNum);
-		authNumber = checkNum;
+		int randomNo = r.nextInt(999999);
+		System.out.println("인증번호 : " + randomNo);
+		authNumber = randomNo;
 	}
 	
 	// 회원가입 본인 인증
-	public String joinEmail(String email) {
-		makeRandomNumber();
+	public String sendEmail(String email) {
+		randomNumber();
 		String setFrom = "singlerior8080@gmail.com"; 
 		String toMail = email;
-		String title = "회원 가입 인증 이메일 입니다."; 
+		String title = "SingleRior 회원 가입 인증 이메일 입니다."; 
 		String content = 
 				"SingleRior를 방문해주셔서 감사합니다." + "<br><br>" +  "인증 번호는 " + authNumber + "입니다." +  "<br>" +  "해당 인증번호를 인증번호 확인란에 기입하여 주세요."; 
 		mailSend(setFrom, toMail, title, content);
@@ -67,7 +67,7 @@ public class MailSendService {
 	public String findPwd(String email) {
 		
 		String str = getTempPassword();
-		System.out.println("난수: " +str);
+		System.out.println("임시비밀번호: " +str);
 		
 		String setFrom = "singlerior8080@gmail.com"; 
 		String toMail = email;

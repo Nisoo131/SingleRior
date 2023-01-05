@@ -366,4 +366,9 @@ public class MemberServiceImpl implements MemberService {
 		return mDAO.updateCheck(sqlSession,memberId);
 	}
 
+	@Override
+	public String checkKNLogin(String email) {
+		return mDAO.checkKNLogin(sqlSession,email);
+	}
+
 }

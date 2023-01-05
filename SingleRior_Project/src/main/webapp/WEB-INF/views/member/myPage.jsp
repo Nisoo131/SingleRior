@@ -73,9 +73,6 @@
 					</td>
 					<td colspan="2"><h2>${ loginUser.nickName }</h2></td>
 				</tr>
-				<tr>
-					<td>내 포인트</td>
-				</tr>
 			</table>
 		</div>
 		<div id="menubar">

@@ -166,6 +166,10 @@ public class StoreBoardDAO {
 		return sqlSession.insert("storeMapper.insertPayment", pay);
 	}
 
+	public int deleteInquiry(SqlSessionTemplate sqlSession, int inquiryNo) {
+		return sqlSession.update("storeMapper.deleteInquiry", inquiryNo);
+	}
+
 
 
 

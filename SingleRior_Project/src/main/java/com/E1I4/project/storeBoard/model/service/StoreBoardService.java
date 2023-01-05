@@ -77,5 +77,7 @@ public interface StoreBoardService {
 
 	int insertPayment(Pay pay);
 
+	int deleteInquiry(int inquiryNo);
+
 
 }

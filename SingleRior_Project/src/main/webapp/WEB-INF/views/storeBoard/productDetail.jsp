@@ -337,13 +337,12 @@
 						  	</c:if>
 						  	<c:if test="${ !empty loginUser }">
 							  	<td><button type="button" class="btn btn-primary" id="inquiryBtn2" data-bs-toggle="modal" data-bs-target="#inquiryModal">문의하기</button></td>
-						  	</c:if>
-						 
+						  	</c:if> 
 		        		</tr>
 		        	</table>
 	        	</form>
 	 		</div>
-        <%--  ${ iList }  --%>
+           ${ iList } 
       
        		<c:if test="${ !empty iList }">
 		 		<c:forEach items="${ iList }" var="i" begin="0" end="4">
@@ -355,18 +354,17 @@
 				        <c:if test="${ i.inquiryAnswer != null }">
 				        	<span style="color:#008cd4;">답변완료</span>
 				        </c:if>
-	<!--  수정하기 -->
-				         <span>
+	
+				         <span style="display: inline-block; margin: 0 5px;  float:right;">
 					         <c:if test="${ loginUser.memberId eq i.memberId }">
-					  			<button type="button" class="btn btn-primary" id="inquiry_update" >수정</button>
+	<!--  삭제하기 -->				<button type="button" class="btn btn-primary" id="inquiry_delete" >삭제</button>
+								<input type="hidden" name="inquiryNo" value="${ i.inquiryNo }">
 					        </c:if>
 				        </span>
 				       </p>    
 					<p> ${i.memberId} | <span id="updateDate">${i.inquiryDate}</span></p>
 					<P><img src="https://cdn-icons-png.flaticon.com/512/8371/8371275.png" width="20px" height="20px">
-					<textarea readonly>
 					${ i.inquiryContent }
-					</textarea>
 					</p>
 					<p><img src="https://cdn-icons-png.flaticon.com/512/25/25628.png" width="20px" height="20px"> ${ i.inquiryAnswer }</p>
 		    	</div>
@@ -525,6 +523,28 @@
         </div>
    </div>
    
+   <!-- 문의삭제 모달 -->
+	<div class="modal" tabindex="-1" id="deleteModal">
+	  <div class="modal-dialog">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <h5 class="modal-title">문의 내용을 삭제하시겠습니까?</h5>
+	        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+	      </div>
+	      <div class="modal-body">
+	        <p>삭제 후에는 복구가 불구합니다.</p>
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+	      <form action="deleteInquiry.st">
+	      	<input type="hidden" id="inquiryNo" name="inquiryNo">
+	      	<input type="hidden" id="productNo" name="productNo" value="${ pList[0].productNo }">
+	        <button type="button" class="btn btn-primary" id="confirm" >확인</button>
+	      </form>
+	      </div>
+	    </div>
+	  </div>
+	</div>
 
 
 </main>
@@ -611,21 +631,34 @@
           }
        }) 
     });
-    // 문의하기 수정
-    $('#inquiry_update').on('click',function(){
-    	console.log('수정');
-    	const textArea = this.parentNode.parentNode.parentNode.querySelector('textarea');
-    	console.log(textArea);
-    	
-    	textArea.removeAttribute('readOnly');
-    	textArea.focus();
-    	textArea.parentNode.innerHTML += '<button type="button" class="btn btn-primary">등록</button></span>';
-    	
-    	const updateDate = this.
-    	console.log(updateDate);
-    	
-        
+   
+    // 문의하기 삭제
+    $('#inquiry_delete').on('click',function(){
+       const no = this.nextElementSibling.value;
+       document.getElementById("inquiryNo").value = no;
+       $('#deleteModal').modal('show');
+     
     });
+    
+    $('#confirm').on('click',function(){
+    	const inquiryNo = document.getElementById("inquiryNo").value 
+    	const productNo = document.getElementById("productNo").value 
+    	
+    	$.ajax({
+              url: '${contextPath}/deleteInquiry.st',
+              data: {inquiryNo:inquiryNo,productNo:productNo},
+              success:(data)=>{
+                 console.log(data);
+                location.reload();
+            
+              },
+              error: (data)=>{
+               console.log(data);
+            }
+           });
+    	
+    });
+    
     // 찜하기
     window.onload =()=>{
        $(".wishListBtn").click(function(){
