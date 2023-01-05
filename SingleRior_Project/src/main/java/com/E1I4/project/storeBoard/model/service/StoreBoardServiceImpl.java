@@ -176,6 +176,11 @@ public class StoreBoardServiceImpl implements StoreBoardService{
 		return sDAO.getTopCateName2(sqlSession,map);
 	}
 
+	@Override
+	public int deleteInquiry(int inquiryNo) {
+		return sDAO.deleteInquiry(sqlSession,inquiryNo);
+	}
+
 
 	
 	
