@@ -282,6 +282,11 @@ public class AdminServiceImpl implements AdminService {
 		return aDAO.loginCount(sqlSession);
 	}
 
+	@Override
+	public ArrayList<HashMap<String, Object>> dailyOrderList() {
+		return aDAO.dailyOrderList(sqlSession);
+	}
+
 
 
 

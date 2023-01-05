@@ -930,7 +930,12 @@ public class AdminController {
 	
 	
 	@RequestMapping("statProduct.adm")
-	public String statProduct() {
+	public String statProduct(Model model) {
+		/*
+		 * // ArrayList<HashMap<String,Object>> dList = aService.dailyOrderList();
+		 * System.out.println(dList); ArrayList<HashMap<String,Object>>
+		 */
+		
 		return "statProduct";
 	}
 	

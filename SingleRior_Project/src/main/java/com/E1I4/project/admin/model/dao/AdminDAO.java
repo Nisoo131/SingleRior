@@ -246,6 +246,10 @@ public class AdminDAO {
 		return (ArrayList)sqlSession.selectList("adminMapper.orderProductDetail",orNo);
 	}
 
+	public ArrayList<HashMap<String, Object>> dailyOrderList(SqlSessionTemplate sqlSession) {
+		return (ArrayList)sqlSession.selectList("adminMapper.dailyOrderList");
+	}
+
 
 
 

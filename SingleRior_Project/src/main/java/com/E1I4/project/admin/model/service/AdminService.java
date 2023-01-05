@@ -117,6 +117,8 @@ public interface AdminService {
 
 	ArrayList<HashMap<String, Object>> loginCount();
 
+	ArrayList<HashMap<String, Object>> dailyOrderList();
+
 
 
 

@@ -196,7 +196,7 @@
 	<insert id="insertProduct">
 		insert all
 			into board values(seq_bid.nextval,1,#{productName},#{productContent},sysdate,sysdate,default,default,#{boardWriter},default,default)
-			into product values(seq_pid.nextval,#{productPrice},#{productDiscount},#{productOption},#{modelName},#{brand},null,default,#{proSubCateCode},seq_bid.currval)
+			into product values(seq_pid.nextval,#{productPrice},#{productDiscount},#{productOption},#{modelName},#{brand},default,#{proSubCateCode},seq_bid.currval)
 		select *from dual
 	</insert>
 	<insert id="insertProductAttm" >
@@ -603,6 +603,15 @@
 		    join img_repository i on(to_char(b.board_no)=i.img_key)
 		where op.order_no=#{orNo} and img_level=0
 		
+	</select>
+	<select id="dailyOrderList" resultType="map">
+	
+		select to_char(order_date) as A,count(*) as B
+		from order_product
+		where order_total_status='결제완료'
+		group by to_char(order_date)
+		order by to_char(order_date) desc
+	
 	</select>
 	
 	
