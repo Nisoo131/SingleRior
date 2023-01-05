@@ -344,8 +344,8 @@
 	 		</div>
           <%--  ${ iList }  --%>
       
-       		<c:if test="${ !empty iList }">
-		 		<c:forEach items="${ iList }" var="i" begin="0" end="4">
+      		<c:if test="${fn:length(iList)<6}">
+		 		<c:forEach items="${ iList }" var="i">
 		 		<div style="border:black solid 1px; width:600px; padding:10px 10px; border-radius:10px;">
 			        <p class="blog-post-meta">${i.inquiryTitle} | 
 				        <c:if test="${ i.inquiryAnswer == null }">
@@ -357,7 +357,7 @@
 	
 				         <span style="display: inline-block; margin: 0 5px;  float:right;">
 					         <c:if test="${ loginUser.memberId eq i.memberId }">
-	<!--  삭제하기 -->				<button type="button" class="btn btn-primary" id="inquiry_delete" >삭제</button>
+	<!--  삭제하기 -->				<button type="button" class="inquiry_delete btn btn-primary">삭제</button>
 								<input type="hidden" name="inquiryNo" value="${ i.inquiryNo }">
 					        </c:if>
 				        </span>
@@ -370,10 +370,35 @@
 		    	</div>
 		    	<br>
 		    	</c:forEach>
+		    </c:if>	    
 		    	 <c:if test="${fn:length(iList)>5}">
+		    	 <c:forEach items="${ iList }" var="i"  begin="0" end="4">
+		 		<div style="border:black solid 1px; width:600px; padding:10px 10px; border-radius:10px;" class="inquiryDiv">
+			        <p class="blog-post-meta">${i.inquiryTitle} | 
+				        <c:if test="${ i.inquiryAnswer == null }">
+				        	<span style="color:#008cd4;">답변대기</span>
+				        </c:if>
+				        <c:if test="${ i.inquiryAnswer != null }">
+				        	<span style="color:#008cd4;">답변완료</span>
+				        </c:if>
+	
+				         <span style="display: inline-block; margin: 0 5px;  float:right;">
+					         <c:if test="${ loginUser.memberId eq i.memberId }">
+	<!--  삭제하기 -->				<button type="button" class="inquiry_delete btn btn-primary">삭제</button>
+								<input type="hidden" name="inquiryNo" value="${ i.inquiryNo }">
+					        </c:if>
+				        </span>
+				       </p>    
+					<p> ${i.memberId} | <span id="updateDate">${i.inquiryDate}</span></p>
+					<P><img src="https://cdn-icons-png.flaticon.com/512/8371/8371275.png" width="20px" height="20px">
+					${ i.inquiryContent }
+					</p>
+					<p><img src="https://cdn-icons-png.flaticon.com/512/25/25628.png" width="20px" height="20px"> ${ i.inquiryAnswer }</p>
+		    	</div>
+		    	<br>
+		    	</c:forEach>
 		    	<div id="moreInquiry">더보기</div><br>
 		    	</c:if>
-		    </c:if>	    
 		    <c:if test="${ empty iList }">
 		     <div style="text-align:center;"><h2>상품에 대한 문의가 아직 없습니다 ㅜ.ㅜ</h2><br><img src="${contextPath}/resources/image/reviewZero.jpg" width="200" ></div>
 		    </c:if>
@@ -632,18 +657,27 @@
        }) 
     });
    
-    // 문의하기 삭제
-    $('#inquiry_delete').on('click',function(){
-       const no = this.nextElementSibling.value;
-       document.getElementById("inquiryNo").value = no;
-       $('#deleteModal').modal('show');
-     
-    });
+    	var ideletes = document.getElementsByClassName("inquiry_delete");
+    	var iqn;
+    	console.log(ideletes);
+    	for(idelete of ideletes){
+    		idelete.addEventListener("click",function(){
+    			const no = this.nextElementSibling.value;
+    			document.getElementById("inquiryNo").value = no;
+    		
+//     			document.getElementById('deleteModal').modal('show');
+    			$('#deleteModal').modal('show');
+    		})
+    	}
+    
+    
     
     $('#confirm').on('click',function(){
-    	const inquiryNo = document.getElementById("inquiryNo").value 
-    	const productNo = document.getElementById("productNo").value 
     	
+    	var inquiryNo = document.getElementById("inquiryNo").value;
+    	const productNo = document.getElementById("productNo").value; 
+    	console.log(inquiryNo);
+    	console.log(productNo);
     	$.ajax({
               url: '${contextPath}/deleteInquiry.st',
               data: {inquiryNo:inquiryNo,productNo:productNo},
@@ -696,23 +730,33 @@
                   $(this).attr("class","btn btn-outline-danger wishListBtn");
             }
          })
-     	  // 문의 더보기
-          //window.onload = function(){
-		    var moreInquiry = document.getElementById("moreInquiry");
-		    moreInquiry.addEventListener("click",function(){
-		       var productNo = '${pList[0].productNo}';
-		//        console.log(productNo);
-		       location.href='${contextPath}/moreInquiry.st?productNo=' + productNo;
-		    })
-		    var moreReview = document.getElementById("moreReview");
-		    moreReview.addEventListener("click",function(){
-		       var productNo = '${pList[0].productNo}';
-		//        console.log(productNo);
-		       location.href='${contextPath}/moreReview.st?productNo=' + productNo;
-		    })
-		  //} 
-         
+
+
     }
+    
+    // 문의 더보기
+    
+        var moreReview = document.getElementById("moreReview");
+    if(moreReview != null){
+  		  moreReview.addEventListener("click",function(){
+       var productNo = '${pList[0].productNo}';
+//        console.log(productNo);
+       location.href='${contextPath}/moreReview.st?productNo=' + productNo;
+  	  })
+    	
+    }
+    
+   	 var moreInquiry = document.getElementById("moreInquiry");
+  		  console.log(moreInquiry);
+  		  if(moreInquiry != null){
+	   	 moreInquiry.addEventListener("click",function(){
+	       var productNo = '${pList[0].productNo}';
+	//        console.log(productNo);
+	       location.href='${contextPath}/moreInquiry.st?productNo=' + productNo;
+	    })
+  			  
+  		  }
+
     
    // 문의하기 글자수 제한
    $(function(){
@@ -760,8 +804,6 @@
         alert("URL이 복사되었습니다.") 
     }
 
-</script>
-<script>
 			
 		// 평점 구하기
 		   const avgRating = document.getElementById("avgRating");
@@ -794,6 +836,7 @@
 		   } else{
 		      print = '평균점수 0점 <i class="bi bi-star"></i><i class="bi bi-star"></i><i class="bi bi-star"></i><i class="bi bi-star"></i><i class="bi bi-star"></i>';
 		   }
+		   
 		   avgRating.innerHTML = print; 
 		
 </script>

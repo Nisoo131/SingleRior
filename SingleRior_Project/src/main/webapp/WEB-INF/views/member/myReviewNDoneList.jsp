@@ -73,7 +73,7 @@
 		<c:if test="${ !empty orList  }">
 			<c:forEach items="${orList }" var="o">
 				<div class="orderCancelProduct done">
-					주문번호 : <span>${ o.orderNo }</span>&nbsp;&nbsp;&nbsp;
+					주문번호 : <span>${fn:replace(o.orderDate, '-', '')}${o.orderNo }</span>&nbsp;&nbsp;&nbsp;
 					주문일자 : <span>${ o.orderDate }</span>&nbsp;&nbsp;&nbsp;
 					<input type="hidden" value="${ o.orderDetailNo }">
 					<button type="button" class="btn btn-light reviewBtn" data-bs-toggle="modal" data-bs-target="#orderRatingModal" style="background:#008cd4; color:white; float:right">리뷰작성</button>

@@ -63,7 +63,7 @@
 				          <h5 class="card-text">${ s.boardTitle }</h5>
 				          <span><s>${ commaPrice }</s>원</span><br>
 				          <span style="width:20px">${ s.discount }%</span><span>　</span><span style="color:#008cd4; font-size: 25px;">${ totalPrice } 원</span><br>
-				          <span>★4.9</span>			          
+				          <span>★${ s.reviewRating }&nbsp;&nbsp;&nbsp;♥${ s.wishListCount }</span>
 				          <input type="hidden" value="${ s.productNo }" name="productNo">
 				          <input type="hidden" value="${ s.boardNo }" name="boardNo">
 				        </div>

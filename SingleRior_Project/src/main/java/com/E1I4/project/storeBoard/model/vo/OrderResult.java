@@ -20,14 +20,6 @@ public class OrderResult {
  private String deliveryMsg;
  
 
-
-
-
-
- 
-
- 
- 
 }
   
 

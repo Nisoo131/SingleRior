@@ -98,7 +98,7 @@
 			<c:forEach items="${ orList }" var="o" varStatus="r">
 				<form method="POST" class="reviewForm">
 					<div class="orderCancelProduct done">
-						주문번호 : <span>${ o.orderNo }</span>&nbsp;&nbsp;&nbsp;
+						주문번호 : <span>${fn:replace(o.orderDate, '-', '')}${o.orderNo }</span>&nbsp;&nbsp;&nbsp;
 						주문일자 : <span>${ o.orderDate }</span>&nbsp;&nbsp;&nbsp;
 						<input type="hidden" name="orderDetailNo" value="${ o.orderDetailNo }">
 						<table class="table">

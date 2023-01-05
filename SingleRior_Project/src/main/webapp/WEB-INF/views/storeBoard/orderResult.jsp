@@ -39,6 +39,13 @@
   width: 400px; height:300px;
 }
 
+.find-btn{
+	text-align: center;
+}
+.find-btn1{
+	display :inline-block;
+}
+
 </style>
 </head>
 <body>
@@ -49,10 +56,13 @@
 	</header>
 	
 <div class="wrapper" >
-  <div class="content"><img src="https://cdn-icons-png.flaticon.com/512/4003/4003644.png" width="70px">주문이 완료되었습니다.
- 	 <div class="content">
- 	 <span style="font-size:25px;">주문내역</span>
- 	 	<table>
+  <div class="content"><img src="https://cdn-icons-png.flaticon.com/512/4003/4003644.png" width="70px"> <br>
+  <span>고객님 주문이 완료되었습니다.</span><br>
+  
+ 	 <!-- <div class="content">
+ 	 <span style="font-size:25px;">　</span><br>
+ 	 <br><br> -->
+ 	 <!-- 	<table>
  	 		<tr>
  	 			<td style="width:80px" class="tds">주문번호</td>
  	 			<td style="width:280px"> 20230102</td>
@@ -69,11 +79,11 @@
  	 			<td class="tds">주문금액</td>
  	 			<td>23,000원</td>
  	 		</tr>	  
- 	 	</table>
+ 	 	</table> -->
  	 	<br>
- 	 	<div class="btn">
- 	 		<button type="button" class="btn1" style="width:150px;height:50px;font-size:20px;" onclick="location.href='${contextPath}/storeList.st'">계속 쇼핑하기</button>
-			<button type="button" class="btn1" style="width:150px;height:50px;font-size:20px;" onclick="location.href='${contextPath}/orderList.me'">구매내역 보기</button>
+ 	 	<div class="find-btn">
+ 	 		<button type="button" class="find-btn1" style="width:150px;height:50px;font-size:20px;background-color:#008cd4; color:white;" onclick="location.href='${contextPath}/storeList.st'">계속 쇼핑하기</button>
+			<button type="button" class="find-btn1" style="width:150px;height:50px;font-size:20px;" onclick="location.href='${contextPath}/orderList.me'">구매내역 보기</button>
  	 	</div>
  	 </div>
   </div>
