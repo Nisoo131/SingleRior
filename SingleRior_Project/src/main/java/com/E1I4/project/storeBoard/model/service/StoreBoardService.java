@@ -79,5 +79,11 @@ public interface StoreBoardService {
 
 	int deleteInquiry(int inquiryNo);
 
+	ArrayList<StoreBoard> selectPdList();
+
+	int getReviewCount(HashMap<String, Integer> map);
+
+
+
 
 }

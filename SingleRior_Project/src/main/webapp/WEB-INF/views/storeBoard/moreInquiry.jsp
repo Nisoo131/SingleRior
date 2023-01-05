@@ -27,6 +27,7 @@
 	<header>
 		<jsp:include page="../common/top.jsp"/>
 	</header>
+	
 	<section>
 			<h1 class="title" style="color: #008cd4">나의 게시글</h1>
 		<div class="inquiry">
@@ -40,6 +41,13 @@
 					        <c:if test="${ i.inquiryAnswer != null }">
 					        	<span style="color:#008cd4;">답변완료</span>
 					        </c:if>
+					        
+	<!--  삭제하기 -->		   <span style="display: inline-block; margin: 0 5px;  float:right;">
+					         	<c:if test="${ loginUser.memberId eq i.memberId }">
+								<button type="button" class="inquiry_delete btn btn-primary">삭제</button>
+									<input type="hidden" name="inquiryNo" value="${ i.inquiryNo }">
+					        	</c:if>
+				            </span>
 					        </p>
 						<p> ${i.memberId} | ${i.inquiryDate}</p>
 						<p><img src="https://cdn-icons-png.flaticon.com/512/8371/8371275.png" width="20px" height="20px"> ${ i.inquiryContent }</p>
@@ -47,10 +55,13 @@
 			    	</div>
 		    	<br>
 		    	</c:forEach>
+		    	<input type="hidden" name="productNo" id="productNo" value="${ iList[0].productNo }">
 			</c:if>
 		</div>
 	</section>
 	<br><br>
+	
+	
 	<c:if test="${! empty iList }">
 		<nav aria-label="Standard pagination example">
 			<ul class="pagination justify-content-center">
@@ -80,8 +91,70 @@
 			</ul>
 		</nav>
 	</c:if>
+	
+	  <!-- 문의삭제 모달 -->
+	<div class="modal" tabindex="-1" id="deleteModal">
+	  <div class="modal-dialog">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <h5 class="modal-title">문의 내용을 삭제하시겠습니까?</h5>
+	        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+	      </div>
+	      <div class="modal-body">
+	        <p>삭제 후에는 복구가 불구합니다.</p>
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+	      <form action="deleteInquiry.st">
+	      	<input type="hidden" id="inquiryNo" name="inquiryNo">
+	      	<input type="hidden" id="productNo" name="productNo" value="${ pList[0].productNo }">
+	        <button type="button" class="btn btn-primary" id="confirm" >확인</button>
+	      </form>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+	
 	<footer>
 		<jsp:include page="../common/footer.jsp"/>
 	</footer>
 </body>
+<script>
+	
+	window.onload = () => {
+		var iqds = document.getElementsByClassName("inquiry_delete");
+		
+		for(iqd of iqds){
+			iqd.addEventListener('click',function(){
+				const no = this.nextElementSibling.value;
+				document.getElementById("inquiryNo").value = no;
+				$('#deleteModal').modal('show');
+				console.log(no);
+			})
+		}
+		
+	}
+    
+    $('#confirm').on('click',function(){
+    	
+    	var inquiryNo = document.getElementById("inquiryNo").value;
+    	const productNo = document.getElementById("productNo").value; 
+    	console.log(inquiryNo);
+    	console.log(productNo);
+    	$.ajax({
+              url: '${contextPath}/deleteInquiry.st',
+              data: {inquiryNo:inquiryNo,productNo:productNo},
+              success:(data)=>{
+                 console.log(data);
+                location.reload();
+            
+              },
+              error: (data)=>{
+               console.log(data);
+            }
+           });
+    });
+    
+
+</script>
 </html>
