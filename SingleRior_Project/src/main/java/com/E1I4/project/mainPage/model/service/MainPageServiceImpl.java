@@ -1,6 +1,7 @@
 package com.E1I4.project.mainPage.model.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,16 @@ public class MainPageServiceImpl implements MainPageService {
 	@Override
 	public ArrayList<StoreBoard> selectPdList() {
 		return mainDAO.selectPdList(sqlSession);
+	}
+	
+	@Override
+	public double getReviewRating(HashMap<String, Integer> map) {
+		return mainDAO.getReviewRating(sqlSession, map);
+	}
+
+	@Override
+	public int getReviewCount(HashMap<String, Integer> map) {
+		return mainDAO.getReviewCount(sqlSession, map);
 	}
 
 	@Override
@@ -93,4 +104,5 @@ public class MainPageServiceImpl implements MainPageService {
 	public ArrayList<Attachment> selectBannerList(String imgKey) {
 		return mainDAO.selectBannerList(sqlSession, imgKey);
 	}
+
 }

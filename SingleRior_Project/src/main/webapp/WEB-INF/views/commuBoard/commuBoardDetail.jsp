@@ -42,7 +42,7 @@
 					<div class="col py-2 d-flex flex-column position-static">
 						<table>
 							<tr>
-								<td><a href="${ contextPath }/commuAllList.co" class="nav-link link-dark"><img src="https://www.flaticon.com/svg/vstatic/svg/3916/3916912.svg?token=exp=1670460369~hmac=675d0b7c5b02f035ed8a059ae5814294" width="15" height="15"> 목록 보기</a></td>
+								<td><a href="${ contextPath }/commuAllList.co" class="nav-link link-dark"><img src="${ contextPath }/resources/image/angle-left.png" width="15" height="15"> 목록 보기</a></td>
 							</tr>
 						</table>
 					</div>
@@ -64,9 +64,9 @@
 					<table>
 						<tr>
 							<td class="fs-3 px-5 py-3" width="1100">${ coBoard.boardTitle }</td>
-							<td width="20"><img src="https://cdn-icons.flaticon.com/svg/3916/3916586.svg?token=exp=1670462433~hmac=154ca1ce619f5c92644b4e20378081cd" width="20" height="20"></td>
+							<td width="20"><img src="${ contextPath }/resources/image/social-network.png" width="20" height="20"></td>
 							<td class="fs-5" style="text-align: center;" width="60" id="symptCount">${ coBoard.symptCount }</td>
-							<td width="20"><img src="https://cdn-icons.flaticon.com/svg/3916/3916603.svg?token=exp=1670462662~hmac=f05590d1f51351a3e5542f67adfcb754" width="20" height="20"></td>
+							<td width="20"><img src="${ contextPath }/resources/image/comment.png" width="20" height="20"></td>
 							<td class="fs-5" style="text-align: center;" width="60" id="replyCount">${ coBoard.replyCount }</td>
 						</tr>
 					</table>
@@ -183,6 +183,7 @@
 													<ul class="dropdown-menu" style="text-align: center;">
 														<c:if test="${ loginUser.memberId eq r.memberId }">
 															<input type="hidden" value="${ r.replyNo }">
+															<input type="hidden" value="${ r.replySecret }">
 															<li class="reReplyBtn"><a class="dropdown-item">답글달기</a></li>
 															<li class="replyUpdate"><a class="dropdown-item">수정</a></li>
 															<li class="replyDelete"><a class="dropdown-item">삭제</a></li>
@@ -216,10 +217,10 @@
 														<textarea class="updateContent" style="width: 1000px; border: none; resize: none;" readonly>${ r.replyContent }</textarea>
 													</c:if>
 													<c:if test="${r.replySecret == 'Y' and loginUser.memberId ne r.memberId and loginUser.memberId ne coBoard.writer and loginUser.memberAuthority eq 'N'}">
-														<textarea class="updateContent" style="width: 1000px; border: none; resize: none;" readonly>비밀 댓글입니다.</textarea>
+														<textarea class="updateContent" style="width: 1000px; border: none; resize: none; color: #008cd4;" readonly>비밀 댓글입니다.</textarea>
 													</c:if>
 													<c:if test="${r.replySecret == 'Y' and loginUser eq null}">
-														<textarea style="width: 1000px; border: none; resize: none;" readonly>비밀 댓글입니다.</textarea>
+														<textarea style="width: 1000px; border: none; resize: none; color: #008cd4;" readonly>비밀 댓글입니다.</textarea>
 													</c:if>
 													<input type="hidden" value="${ r.replyNo }">
 												</div>
@@ -272,6 +273,7 @@
 															<ul class="dropdown-menu" style="text-align: center;">
 																<c:if test="${ loginUser.memberId eq rr.memberId }">
 																	<input type="hidden" value="${ rr.replyNo }">
+																	<input type="hidden" value="${ rr.replySecret }">
 																	<li class="replyUpdate"><a class="dropdown-item">수정</a></li>
 																	<li class="replyDelete"><a class="dropdown-item">삭제</a></li>
 																</c:if>
@@ -302,10 +304,10 @@
 																<textarea class="updateContent" style="width: 900px; border: none; resize: none;" readonly>${ rr.replyContent }</textarea>
 															</c:if>
 															<c:if test="${rr.replySecret == 'Y' and loginUser.memberId ne rr.memberId and loginUser.memberId ne coBoard.writer and loginUser.memberAuthority eq 'N'}">
-																<textarea class="updateContent" style="width: 900px; border: none; resize: none;" readonly>비밀 댓글입니다.</textarea>
+																<textarea class="updateContent" style="width: 900px; border: none; resize: none; color: #008cd4;" readonly>비밀 댓글입니다.</textarea>
 															</c:if>
 															<c:if test="${rr.replySecret == 'Y' and loginUser eq null}">
-																<textarea style="width: 900px; border: none; resize: none;" readonly>비밀 댓글입니다.</textarea>
+																<textarea style="width: 900px; border: none; resize: none; color: #008cd4;" readonly>비밀 댓글입니다.</textarea>
 															</c:if>
 															<input type="hidden" value="${ rr.replyNo }">
 														</div>
@@ -324,10 +326,10 @@
 					<!-- 이동 -->
 					<div class="row px-5 py-4">
 						<div class="col-md-1" style="text-align: center; width: 150px;">
-							<button class="w-100 btn btn-outline-dark btn-lg" type="button" id="preForm" onclick="location.href='${contextPath}/selectCommuBoard.co?bNo=${ coBoard.boardNo - 1 }&writer=${ coBoard.writer }'">이전글</button>
+							<%-- <button class="w-100 btn btn-outline-dark btn-lg" type="button" id="preForm" onclick="location.href='${contextPath}/selectCommuBoard.co?bNo=${ coBoard.boardNo - 1 }&writer=${ coBoard.writer }'">이전글</button> --%>
 						</div>
 						<div class="col-md-1" style="text-align: center; width: 150px;">
-							<button class="w-100 btn btn-outline-dark btn-lg" type="button" id="nextForm" onclick="location.href='${contextPath}/selectCommuBoard.co?bNo=${ coBoard.boardNo + 1 }&writer=${ coBoard.writer }'">다음글</button>
+							<%-- <button class="w-100 btn btn-outline-dark btn-lg" type="button" id="nextForm" onclick="location.href='${contextPath}/selectCommuBoard.co?bNo=${ coBoard.boardNo + 1 }&writer=${ coBoard.writer }'">다음글</button> --%>
 						</div>
 						
 						<c:if test="${ loginUser.memberId eq coBoard.writer }">
@@ -452,7 +454,6 @@
 					success:(data)=>{
 						console.log(data);
 						var symptCount = parseInt($('#symptCount').html());
-						console.log(symptCount);
 						$('#symptCount').html(symptCount + data);
 					},
 					error: (data)=>{
@@ -469,7 +470,6 @@
 					success:(data)=>{
 						console.log(data);
 						var symptCount = parseInt($('#symptCount').html());
-						console.log(symptCount);
 						$('#symptCount').html(symptCount - data);
 					},
 					error: (data)=>{
@@ -480,6 +480,19 @@
 				$(this).attr("class","btn btn-outline-danger symptClick");
 			}
 		})
+		
+		// 신고 다중 선택
+		$(document).on('click', "input[type='checkbox']", function(){
+			if(this.checked) {
+				const checkboxes = $("input[type='checkbox']");
+				for(let ind = 0; ind < checkboxes.length; ind++){
+					checkboxes[ind].checked = false;
+				}
+				this.checked = true;
+			} else {
+				this.checked = false;
+			}
+		});
 		
 		// 댓글 수 count
 		$('#replyContent').keyup(function(){
@@ -535,8 +548,6 @@
 			const input = $(this).val();
 			const inputLength = input.length;
 			
-			console.log($(this).parent().find('.counter'))
-			
 			const counter = $(this).parent().find('.counter')
 			
 			counter.html('<b>' + inputLength + '</b>');
@@ -555,7 +566,6 @@
 		// 대댓글 insert
 		$(document).on('click', ".reReplySubmit", function(){
 			var groupNo = this.parentNode.parentNode.querySelector('.groupNo').value;
-			console.log(this.parentNode.parentNode.querySelector('textarea').value); 
 			
 			if(this.parentNode.querySelector('.reReplySecret').checked){
 				this.parentNode.querySelector('.reReplySecret').value = 'Y';
@@ -589,24 +599,31 @@
 			textArea.removeAttribute('readonly');
 			textArea.style.border = "1px solid";
 			textArea.focus();
-			textArea.parentNode.innerHTML += '<button type="button" class="btn btn-outline-primary btn-lg reUpdateSubmit" style="width: 100px;">등록</button><span>비밀댓글&nbsp;&nbsp;<input type="checkbox" class="replyUpateSecret" value="N"></span><span class="counter" style="padding-left: 30px;">0</span><span> / 600</span>';
+			textArea.parentNode.innerHTML += '<button type="button" class="btn btn-outline-primary btn-lg reUpdateSubmit" style="width: 100px;">등록</button><span>비밀댓글&nbsp;&nbsp;<input type="checkbox" class="replyUpdateSecret" value="N"></span><span class="counter" style="padding-left: 30px;">0</span><span> / 600</span>';
+			
+			const replySecret = this.parentNode.querySelectorAll('input')[1].value;
+			const replyUpdateSecret = this.parentNode.parentNode.parentNode.parentNode.parentNode.querySelector('.replyUpdateSecret');
+			if(replySecret == 'Y'){
+				replyUpdateSecret.checked = true;
+			}
 			
 			const updateCounter = this.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.querySelector('.counter');
 			updateCounter.innerText = textArea.innerText.length;
 			
 			// 댓글 수 count
 			$('.updateContent').keyup(function(){
-				console.log("얍");
 				const input = $(this).val();
 				const inputLength = input.length;
 				
-				$('.counter').html('<b>' + inputLength + '</b>');
+				const counter = $(this).parent().find('.counter')
+				
+				counter.html('<b>' + inputLength + '</b>');
 				
 				if(inputLength > 600){
-					$('.counter').css('color', 'red');
-					$('.counter').html('<b>600</b>');
+					counter.css('color', 'red');
+					counter.html('<b>600</b>');
 				} else {
-					$('.counter').css('color', 'black');
+					counter.css('color', 'black');
 				}
 				
 				const piece = input.substr(0, 600);
@@ -648,7 +665,6 @@
 		
 		// 댓글 삭제 (delete)
 		$(document).on('click', ".replyDelete", function(){
-			console.log(this.parentNode.querySelector('input').value);
 			var replyNo = this.parentNode.querySelector('input').value;
 			
 			$.ajax({
@@ -692,6 +708,7 @@
 					if('${ loginUser.memberId }' == data[i].memberId){
 						listHtml += "<ul class='dropdown-menu' style='text-align: center;'>";
 						listHtml += '<input type="hidden" value="' + data[i].replyNo + '">';
+						listHtml += '<input type="hidden" value="' + data[i].replySecret + '">';
 						listHtml += '<li class="reReplyBtn"><a class="dropdown-item">답글달기</a></li>';
 						listHtml += '<li class="replyUpdate"><a class="dropdown-item">수정</a></li>';
 						listHtml += '<li class="replyDelete"><a class="dropdown-item">삭제</a></li>';
@@ -724,9 +741,9 @@
 					} else if(data[i].replySecret =='N'){
 						listHtml += "<textarea class='updateContent' style='width: 1000px; border: none; resize: none;' readonly>" + data[i].replyContent + "</textarea>";
 					} else if(data[i].replySecret =='Y' && '${ loginUser.memberId }' != '${ coBoard.writer }' && '${ loginUser.memberId }' != data[i].memberId && '${ loginUser.memberAuthority }' == 'N'){
-						listHtml += "<textarea class='updateContent' style='width: 1000px; border: none; resize: none;' readonly>비밀 댓글입니다.</textarea>";
+						listHtml += "<textarea class='updateContent' style='width: 1000px; border: none; resize: none; color: #008cd4;' readonly>비밀 댓글입니다.</textarea>";
 					} else if(data[i].replySecret =='Y' && '${loginUser}' == null){
-						listHtml += "<textarea style='width: 1000px; border: none; resize: none;' readonly>비밀 댓글입니다.</textarea>";
+						listHtml += "<textarea style='width: 1000px; border: none; resize: none; color: #008cd4;' readonly>비밀 댓글입니다.</textarea>";
 					}
 					listHtml += '<input type="hidden" value="' + data[i].replyNo + '">';
 					listHtml += "</div>";
@@ -775,6 +792,7 @@
 							if('${ loginUser.memberId }' == data[ii].memberId){
 								listHtml += "<ul class='dropdown-menu' style='text-align: center;'>";
 								listHtml += '<input type="hidden" value="' + data[ii].replyNo + '">';
+								listHtml += '<input type="hidden" value="' + data[ii].replySecret + '">';
 								listHtml += '<li class="replyUpdate"><a class="dropdown-item">수정</a></li>';
 								listHtml += '<li class="replyDelete"><a class="dropdown-item">삭제</a></li>';
 								listHtml += "</ul>";
@@ -799,14 +817,14 @@
 							listHtml += "<tr style='font-size: 20px;'>";
 							listHtml += "<td class='px-5 py-3' colspan='6'>";
 							listHtml += "<div class='input-group'>";
-							if(data[i].replySecret =='Y' && ('${ loginUser.memberId }' == '${ coBoard.writer }' || '${ loginUser.memberId }' == data[ii].memberId || '${ loginUser.memberAuthority }' == 'Y')){
-								listHtml += "<textarea style='width: 900px; border: none; resize: none;' readonly>" + data[ii].replyContent + "</textarea>";
+							if(data[ii].replySecret =='Y' && ('${ loginUser.memberId }' == '${ coBoard.writer }' || '${ loginUser.memberId }' == data[ii].memberId || '${ loginUser.memberAuthority }' == 'Y')){
+								listHtml += "<textarea class='updateContent' style='width: 900px; border: none; resize: none;' readonly>" + data[ii].replyContent + "</textarea>";
 							} else if(data[ii].replySecret =='N'){
 								listHtml += "<textarea class='updateContent' style='width: 900px; border: none; resize: none;' readonly>" + data[ii].replyContent + "</textarea>";
 							} else if(data[ii].replySecret =='Y' && '${ loginUser.memberId }' != '${ coBoard.writer }' && '${ loginUser.memberId }' != data[ii].memberId && '${ loginUser.memberAuthority }' == 'N'){
-								listHtml += "<textarea class='updateContent' style='width: 900px; border: none; resize: none;' readonly>비밀 댓글입니다.</textarea>";
+								listHtml += "<textarea class='updateContent' style='width: 900px; border: none; resize: none; color: #008cd4;' readonly>비밀 댓글입니다.</textarea>";
 							} else if(data[ii].replySecret =='Y' && '${loginUser}' == null){
-								listHtml += "<textarea style='width: 900px; border: none; resize: none;' readonly>비밀 댓글입니다.</textarea>";
+								listHtml += "<textarea class='updateContent' style='width: 900px; border: none; resize: none; color: #008cd4;' readonly>비밀 댓글입니다.</textarea>";
 							}
 							listHtml += '<input type="hidden" value="' + data[ii].replyNo + '">';
 							listHtml += "</div>";
@@ -820,12 +838,39 @@
 			}
 			$("#replyList").html(listHtml);
 			
-			var textArea = $('textarea');
+			/* var textArea = $('textarea');
 		    if (textArea) {
 		        textArea.each(function(){
 		            $(this).height(this.scrollHeight);
 		        });
-		    }
+		    } */
+		    
+			$(document).ready(function() {
+	        	$(document).on('keyup', 'textarea', function(e){
+	        		$(this).css('height', 'auto');
+	        		$(this).height( this.scrollHeight);
+	        	});
+	        	$( 'textarea' ).keyup();
+	        });
+		    
+			$('.replyContent').keyup(function(){
+				const input = $(this).val();
+				const inputLength = input.length;
+				
+				const counter = $(this).parent().find('.counter')
+				
+				counter.html('<b>' + inputLength + '</b>');
+				
+				if(inputLength > 600){
+					counter.css('color', 'red');
+					counter.html('<b>600</b>');
+				} else {
+					counter.css('color', 'black');
+				}
+				
+				const piece = input.substr(0, 600);
+				$(this).val(piece);
+			});
 		}
 		
 		// 글 edit 페이지로 넘어가기 (update)
@@ -867,19 +912,25 @@
 		});
 		
 		// textarea 높이 지정
-		console.log($('textarea'));
+		/* console.log($('textarea'));
 		var textArea = $('textarea');
 	    if (textArea) {
 	        textArea.each(function(){
 	            $(this).height(this.scrollHeight);
 	        });
-	    }
+	    } */
+	    
+        $(document).ready(function() {
+        	$(document).on('keyup', 'textarea', function(e){
+        		$(this).css('height', 'auto');
+        		$(this).height( this.scrollHeight);
+        	});
+        	$( 'textarea' ).keyup();
+        });
 	    
 		// 답글 textarea 보이게 하기
 		$(document).on("click", ".reReplyBtn", function(){
 			const input = this.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.nextElementSibling;
-			console.log(input);
-			console.log(input.querySelector('textarea'));
 			
 			if(input.style.display == 'none') {
 				input.style.display = 'inline';

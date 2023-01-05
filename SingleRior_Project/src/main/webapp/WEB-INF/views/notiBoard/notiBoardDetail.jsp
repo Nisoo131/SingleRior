@@ -33,7 +33,7 @@
 					<div class="col py-2 d-flex flex-column position-static">
 						<table>
 							<tr>
-								<td><a href="${ contextPath }/notiAllList.no" class="nav-link link-dark"><img src="https://www.flaticon.com/svg/vstatic/svg/3916/3916912.svg?token=exp=1670460369~hmac=675d0b7c5b02f035ed8a059ae5814294" width="15" height="15"> 목록 보기</a></td>
+								<td><a href="${ contextPath }/notiAllList.no" class="nav-link link-dark"><img src="${ contextPath }/resources/image/angle-left.png" width="15" height="15"> 목록 보기</a></td>
 							</tr>
 						</table>
 					</div>

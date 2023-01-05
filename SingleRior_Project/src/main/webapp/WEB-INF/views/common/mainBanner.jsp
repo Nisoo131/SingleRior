@@ -28,7 +28,8 @@
 	
 	<main>
 		<div class="container">
-			<div class="col-md-1" style="text-align: center; padding-top: 100px;"></div>
+			<h1 style="text-align: center; padding-top: 100px;">기 획 전</h1>
+			<div class="col-md-1" style="text-align: center; padding-top: 50px;"></div>
 			<div class="col-12 border rounded overflow-hidden">
 				<!-- 본문 -->
 				<div class="p-5">

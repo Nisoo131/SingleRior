@@ -1,6 +1,7 @@
 package com.E1I4.project.mainPage.model.dao;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
@@ -22,6 +23,14 @@ public class MainPageDAO {
 	// 스토어 리스트
 	public ArrayList<StoreBoard> selectPdList(SqlSessionTemplate sqlSession) {
 		return (ArrayList)sqlSession.selectList("mainMapper.selectPdList");
+	}
+	
+	public double getReviewRating(SqlSessionTemplate sqlSession, HashMap<String, Integer> map) {
+		return sqlSession.selectOne("mainMapper.getReviewRating", map);
+	}
+
+	public int getReviewCount(SqlSessionTemplate sqlSession, HashMap<String, Integer> map) {
+		return sqlSession.selectOne("mainMapper.getReviewCount", map);
 	}
 
 	public ArrayList<Attachment> selectPdAttmList(SqlSessionTemplate sqlSession) {
@@ -73,4 +82,5 @@ public class MainPageDAO {
 	public ArrayList<Attachment> selectBannerList(SqlSessionTemplate sqlSession, String imgKey) {
 		return (ArrayList)sqlSession.selectList("mainMapper.selectBannerList", imgKey);
 	}
+
 }

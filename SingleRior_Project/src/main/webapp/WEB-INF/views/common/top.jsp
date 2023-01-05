@@ -167,9 +167,8 @@
       ChannelIO('boot', {
          "pluginKey" : "10a22f6a-22c4-4cd7-9a9f-d85a11e58ddb"
       });
-<<<<<<< HEAD
+
       
-<<<<<<< HEAD
       if(${ !empty loginUser }){
     	  
 		setInterval(
@@ -189,13 +188,6 @@
 					});
 			 	},1000);
 		 }
-      
-=======
-
->>>>>>> Sue
-=======
-    
->>>>>>> elly
    </script>
 </body>
 </html>

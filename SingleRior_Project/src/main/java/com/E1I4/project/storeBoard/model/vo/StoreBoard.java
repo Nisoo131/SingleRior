@@ -46,4 +46,6 @@ public class StoreBoard {
 	private String imgPath;
 	private int imgBoardtype;
 	private int lmgLevel;
+	private double reviewRating;
+	private int reviewCount;
 }

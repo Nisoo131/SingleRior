@@ -905,43 +905,47 @@ public class MemberController {
 		
 		System.out.println(review.getReviewNo());
 		
-		Attachment attm = new Attachment();
-		
-		String fileName = file.getOriginalFilename();
-		if(!fileName.equals("")) {
-			String fileType = fileName.substring(fileName.lastIndexOf(".")+1).toLowerCase();
+		if(file != null) {
+			String fileName = file.getOriginalFilename();
 			
-			if(fileType.equals("png") || fileType.equals("jpg") || fileType.equals("gif") || fileType.equals("jpeg") || fileType.equals("jfif")) {
-				String[] returnArr = saveFile(file, request);
+			if(fileName != "") {
+				Attachment attm = new Attachment();
 				
-				if(returnArr[1] != null) {
-					attm.setImgOriginalName(file.getOriginalFilename());
-					attm.setImgRename(returnArr[1]);
-					attm.setImgPath(returnArr[0]);
-					attm.setBoardType(7);
+				System.out.println("새로 들어온 파일 이름" + fileName);
+				
+				String fileType = fileName.substring(fileName.lastIndexOf(".")+1).toLowerCase();
+				
+				if(fileType.equals("png") || fileType.equals("jpg") || fileType.equals("gif") || fileType.equals("jpeg") || fileType.equals("jfif")) {
+					String[] returnArr = saveFile(file, request);
+					
+					if(returnArr[1] != null) {
+						attm.setImgOriginalName(file.getOriginalFilename());
+						attm.setImgRename(returnArr[1]);
+						attm.setImgPath(returnArr[0]);
+						attm.setBoardType(7);
+					}
 				}
+				
+				String strBNo = Integer.toString(review.getReviewNo());
+				
+				HashMap<String, Object> map = new HashMap<String, Object>();
+				map.put("attm", attm);
+				map.put("reviewNo", strBNo);
+				
+				int attmResult = mService.insertReviewAttm(map);
 			}
 		}
 		
-		String strBNo = Integer.toString(review.getReviewNo());
-		
-		HashMap<String, Object> map1 = new HashMap<String, Object>();
-		map1.put("attm", attm);
-		map1.put("reviewNo", strBNo);
-		
-		int attmResult = mService.insertReviewAttm(map1);
-		
 		String status = "리뷰작성";
-		HashMap<String, Object> map = new HashMap<String, Object>();
-		map.put("status", status);
-		map.put("orderDetailNo", orderDetailNo);
+		HashMap<String, Object> map1 = new HashMap<String, Object>();
+		map1.put("status", status);
+		map1.put("orderDetailNo", orderDetailNo);
 		
-		int updateReviewStatus = mService.updateReviewStatus(map);
+		int updateReviewStatus = mService.updateReviewStatus(map1);
 		
 		if(reviewResult + updateReviewStatus == 2) {
 			return "redirect:myReviewDoneList.me";
 		} else {
-			deleteFile(attm.getImgRename(), request);
 			throw new BoardException("글이 정상적으로 등록되지 않았습니다.");
 		}
 	}
@@ -978,8 +982,6 @@ public class MemberController {
 			deleteFile(review.getImgRename(), request);
 		}
 		
-		System.out.println("새로 들어왔다면 들어온 파일" + file);
-		
 		// 새로운 리뷰 사진 등록
 		if(file != null) {
 			String fileName = file.getOriginalFilename();
@@ -988,22 +990,19 @@ public class MemberController {
 				Attachment attm = new Attachment();
 				
 				System.out.println("새로 들어온 파일 이름" + fileName);
-				if(!fileName.equals("")) {
-					String fileType = fileName.substring(fileName.lastIndexOf(".")+1).toLowerCase();
+				
+				String fileType = fileName.substring(fileName.lastIndexOf(".")+1).toLowerCase();
+				
+				if(fileType.equals("png") || fileType.equals("jpg") || fileType.equals("gif") || fileType.equals("jpeg") || fileType.equals("jfif")) {
+					String[] returnArr = saveFile(file, request);
 					
-					if(fileType.equals("png") || fileType.equals("jpg") || fileType.equals("gif") || fileType.equals("jpeg") || fileType.equals("jfif")) {
-						String[] returnArr = saveFile(file, request);
-						
-						if(returnArr[1] != null) {
-							attm.setImgOriginalName(file.getOriginalFilename());
-							attm.setImgRename(returnArr[1]);
-							attm.setImgPath(returnArr[0]);
-							attm.setBoardType(7);
-						}
+					if(returnArr[1] != null) {
+						attm.setImgOriginalName(file.getOriginalFilename());
+						attm.setImgRename(returnArr[1]);
+						attm.setImgPath(returnArr[0]);
+						attm.setBoardType(7);
 					}
 				}
-				
-	//			System.out.println(attm);
 				
 				String strBNo = Integer.toString(review.getReviewNo());
 				
