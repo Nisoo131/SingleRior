@@ -165,7 +165,6 @@ public class StoreBoardController {
 		ArrayList<ProductReview> prList=sService.selectReviewList(productNo);
 		//괜히 리스트로 받았네... TotalReview 객체로 받아도 상관없어용 ㅠㅠ 
 		ArrayList<TotalReview> trList=sService.selectTotalReview(productNo);
-		System.out.println(trList);
 		if(trList.get(0).getSumStar()!=0.0) {
 			double reviewCount=trList.get(0).getReviewCount();
 			double sumStar=trList.get(0).getSumStar();
