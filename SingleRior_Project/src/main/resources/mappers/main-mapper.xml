@@ -126,7 +126,7 @@
 		from board b
 			 join member on (b.board_writer = member_id)
      		 join product p on (b.board_no = p.board_no)
-		where b.b_status = 'Y' and b.board_type = '1'
+		where p.product_status = 'Y' and b.board_type = '1'
 		order by b.board_count desc
 	</select>
 	
