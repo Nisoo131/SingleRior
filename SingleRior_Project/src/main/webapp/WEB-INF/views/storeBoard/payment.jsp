@@ -311,8 +311,9 @@
 				   			         imp_uid: rsp.imp_uid,
 				   	                 merchant_uid: rsp.merchant_uid},
 							  success: function(data){
-								  location.href='${contextPath}/finalOrder.st?OrderResult=' + data;
-			  		   	 }
+								  console.log(data);
+			                	  location.href='${contextPath}/finalOrder.st?OrderResult=' + data;
+			  		   	    }
 		              })
    	              alert("결제성공");     
    	          } else {

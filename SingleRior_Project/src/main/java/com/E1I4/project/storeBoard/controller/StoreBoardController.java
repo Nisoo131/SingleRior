@@ -94,6 +94,7 @@ public class StoreBoardController {
 			}
 
 			String subCateName = sService.getSubCateName(map);
+			
 
 
 			map.put("boardType", 1);
@@ -138,11 +139,13 @@ public class StoreBoardController {
 
 			model.addAttribute("subCateName", subCateName);
 			model.addAttribute("topCateName", topCateName);
+			
 			if(sList != null) {
 				model.addAttribute("pi", pi);
 				model.addAttribute("sList", sList);
 				model.addAttribute("aList", aList);
 				model.addAttribute("category",category);
+			
 
 			} return "categoryList"; 
 
@@ -501,7 +504,7 @@ public class StoreBoardController {
 			
 			result2 = sService.insertPayment(pay);
 		}
-		System.out.println(r);
+		// System.out.println(r);
 		
 		return r;
 		
@@ -509,7 +512,7 @@ public class StoreBoardController {
 	
 	@RequestMapping("finalOrder.st")
 	public String finalOrder(@ModelAttribute OrderResult r, Model model) {
-       System.out.println(r);
+        //System.out.println(r);
 		model.addAttribute("orderResult", r);
 		return "orderResult";
 	}

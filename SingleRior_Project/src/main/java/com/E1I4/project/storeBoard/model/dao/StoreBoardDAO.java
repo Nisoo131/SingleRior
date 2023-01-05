@@ -183,6 +183,16 @@ public class StoreBoardDAO {
 	}
 
 
+	public ArrayList<StoreBoard> selectPdList(SqlSessionTemplate sqlSession) {
+		return (ArrayList)sqlSession.selectList("storeMapper.selectPdList");
+	}
+
+
+	public int getReviewCount(SqlSessionTemplate sqlSession, HashMap<String, Integer> map) {
+		return sqlSession.selectOne("storeMapper.getReviewCount", map);
+	}
+
+	
 
 
 
