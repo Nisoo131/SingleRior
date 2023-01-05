@@ -85,7 +85,7 @@
                                 일일 로그인 회원 수
                             </div>
                             <div class="card-body"><canvas id="dailyLoginUser" width="100%" height="30"></canvas></div>
-                            <div class="card-footer small text-muted">마지막 업데이트 일시: <fmt:formatDate pattern="yyyy년 MM월 dd일 hh시 mm분" value="<%= now %>"/></div>
+                            <div class="card-footer small text-muted">마지막 업데이트 일시: <fmt:formatDate pattern="yyyy년 MM월 dd일 HH시 mm분" value="<%= now %>"/></div>
                         </div>
                         <div class="row">
                             <div class="col-lg-6">
@@ -95,7 +95,7 @@
                                         일일/누적 회원가입 통계
                                     </div>
                                     <div class="card-body"><canvas id="userSum"></canvas></div>
-                                    <div class="card-footer small text-muted">마지막 업데이트 일시: <fmt:formatDate pattern="yyyy년 MM월 dd일 hh시 mm분" value="<%= now %>"/></div>
+                                    <div class="card-footer small text-muted">마지막 업데이트 일시: <fmt:formatDate pattern="yyyy년 MM월 dd일 HH시 mm분" value="<%= now %>"/></div>
                                 </div>
                             </div>
                             <div class="col-lg-6">
@@ -105,7 +105,7 @@
                                         사용자 컨텐츠 조회수
                                     </div>
                                     <div class="card-body"><canvas id="viewContentChart" width="100%" height="50"></canvas></div>
-                                    <div class="card-footer small text-muted">마지막 업데이트 일시: <fmt:formatDate pattern="yyyy년 MM월 dd일 hh시 mm분" value="<%= now %>"/></div>
+                                    <div class="card-footer small text-muted">마지막 업데이트 일시: <fmt:formatDate pattern="yyyy년 MM월 dd일 HH시 mm분" value="<%= now %>"/></div>
                                 </div>
                             </div>
                         </div>
@@ -243,8 +243,8 @@
 		                            position: 'right',
 		                            ticks:{
 		                            	min:0,
-		                            	stepSize:10,
-		                            	max:10,
+		                            	stepSize:20,
+		                            	max:20,
 		                           		display: true
 		                            }
 		                        }]

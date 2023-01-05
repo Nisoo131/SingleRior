@@ -242,7 +242,10 @@
    
    <select id="selectProductList" resultMap="ProductListResultSet">
    
-	    select b.board_no,b.board_type,b.board_title,b.create_date,b.modify_date,b.b_status,b.board_writer,b.board_count,p.product_no,p.product_price,p.product_discount,p.product_option,p.model_name,p.brand,p.product_status,ps.pro_subcate_code,ps.pro_subcate_name,pt.pro_topcate_code,pt.pro_topcate_name
+	    select b.board_no,b.board_type,b.board_title,b.create_date,b.modify_date,
+	    b.b_status,b.board_writer,b.board_count,p.product_no,
+	    p.product_price,p.product_discount,p.product_option,p.model_name,
+	    p.brand,p.product_status,ps.pro_subcate_code,ps.pro_subcate_name,pt.pro_topcate_code,pt.pro_topcate_name
 		from board b
 		    join product p on (b.board_no=p.board_no)
 		    join product_sub_cate ps on(p.pro_subcate_code=ps.pro_subcate_code)
@@ -251,6 +254,7 @@
 	    order by p.product_no
    
    </select>
+   
 	<select id="selectProductDetail" resultMap="ProductListResultSet">
 	
 		select b.board_no,b.board_type,b.board_title,b.create_date,b.modify_date,b.b_status,b.board_writer,b.board_count,p.product_no,p.product_price,p.product_discount,p.product_option,p.model_name,p.brand,p.product_status,ps.pro_subcate_code,ps.pro_subcate_name,pt.pro_topcate_code,pt.pro_topcate_name
@@ -513,6 +517,7 @@
 		    join product_sub_cate on(product.pro_subcate_code=product_sub_cate.pro_subcate_code)
 		    join product_top_cate on(product_top_cate.pro_topcate_code=product_sub_cate.pro_topcate_code)
 		    join board on(product.board_no=board.board_no)
+		order by inquiry_date desc
 	
 	</select>
 	
@@ -520,7 +525,7 @@
 		update product_inquiry
 		set admin_status='Y', inquiry_answer=#{inquiryContent}
 		where inquiry_no=#{inquiryNo}
-	
+		order by inquiry_date desc
 	
 	</update>
 	<select id="inquiryQue" resultMap="InquiryAdminResultSet">
@@ -532,6 +537,7 @@
 		    join product_top_cate on(product_top_cate.pro_topcate_code=product_sub_cate.pro_topcate_code)
 		    join board on(product.board_no=board.board_no)
 		where admin_status='N'
+		order by inquiry_date desc
 
 	</select>
 	
