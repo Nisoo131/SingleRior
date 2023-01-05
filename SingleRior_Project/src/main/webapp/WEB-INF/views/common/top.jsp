@@ -167,10 +167,9 @@
       ChannelIO('boot', {
          "pluginKey" : "10a22f6a-22c4-4cd7-9a9f-d85a11e58ddb"
       });
-<<<<<<< HEAD
+
       
       if(${ !empty loginUser }){
-    	  
 		setInterval(
 				function alarm() {
 					$.ajax({
@@ -188,10 +187,7 @@
 					});
 			 	},1000);
 		 }
-      
-=======
-
->>>>>>> Sue
+     
    </script>
 </body>
 </html>

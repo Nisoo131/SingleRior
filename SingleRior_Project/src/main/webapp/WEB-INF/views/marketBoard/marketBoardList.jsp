@@ -235,6 +235,8 @@
 			</div>
 		</div>
 		</c:forEach>
+		<br>
+		<br>
 	</div>
 	     <ul class="pagination" style="justify-content: center;">
 		<c:if test="${ pi.currentPage > 1 }">

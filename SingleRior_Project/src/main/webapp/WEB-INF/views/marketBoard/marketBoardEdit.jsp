@@ -53,9 +53,9 @@
 						</select>
 						
 							<label for="boardTitle" class="form-label">TITLE</label>
-							<input type="text" class="form-control" id="boardTitle" name="boardTitle" value="${mkBoard.boardTitle }">
+							<input type="text" class="form-control" id="boardTitle" name="boardTitle" value="${mkBoard.boardTitle}">
 							<label for="marketPrice" class="form-label">PRICE</label>
-							<input type="number" class="form-control" id="marketPrice" name="marketPrice" value="${mkBoard.marketPrice }">
+							<input type="number" class="form-control" id="marketPrice" name="marketPrice" value="${mkBoard.marketPrice}">
 							<label for="marketPrice" class="form-label">lOCATION</label>
 							<input type="text"  class="form-control" id="location" name="location" value="${mkBoard.location }">
 						</div>
@@ -97,7 +97,6 @@
 					</div>
 				</form>
 			</div>
-			
 		<footer>
 			<jsp:include page="../common/footer.jsp"/>
 		</footer>
