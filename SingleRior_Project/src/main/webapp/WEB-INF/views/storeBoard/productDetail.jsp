@@ -342,7 +342,7 @@
 		        	</table>
 	        	</form>
 	 		</div>
-           ${ iList } 
+          <%--  ${ iList }  --%>
       
        		<c:if test="${ !empty iList }">
 		 		<c:forEach items="${ iList }" var="i" begin="0" end="4">
@@ -656,7 +656,6 @@
                console.log(data);
             }
            });
-    	
     });
     
     // 찜하기

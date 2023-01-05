@@ -378,6 +378,26 @@ public class StoreBoardController {
 		return "payment";
 	}
 
+	@RequestMapping("deleteInquiry.st")
+	 public void deleteInquiry(@RequestParam ("inquiryNo") int inquiryNo,@RequestParam ("productNo") int  productNo,HttpServletResponse response) {
+		System.out.println(inquiryNo);
+		System.out.println(productNo);
+		
+		int result = sService.deleteInquiry(inquiryNo);
+		System.out.println(result);
+		ArrayList<ProductInquiry> iList = sService.selectInquiryList(productNo);
+       response.setContentType("application/json; charset=UTF-8");
+       
+       GsonBuilder gb = new GsonBuilder();
+       Gson gson = gb.create();
+       
+       try {
+          gson.toJson(iList, response.getWriter());
+       } catch (JsonIOException | IOException e) {
+          e.printStackTrace();
+       }
+	}
+	
 	// 결제정보 DB 입력하기
 	@RequestMapping("orderResult.st")
 	@ResponseBody
@@ -473,7 +493,7 @@ public class StoreBoardController {
 	
 	@RequestMapping("finalOrder.st")
 	public String finalOrder(@ModelAttribute OrderResult r, Model model) {
-        
+       System.out.println(r);
 		model.addAttribute("orderResult", r);
 		return "orderResult";
 	}

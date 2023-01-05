@@ -348,10 +348,15 @@
    	where pro_topcate_code = #{topCate}
    </select>
    
-  
   <insert id="insertPayment">
      insert into pay
 	 values (SEQ_PAYID.nextval, #{payAmount}, sysdate, 'Y', SEQ_OID.currval, #{merchantuid}, #{impuid})
   </insert>
+  
+  <update id="deleteInquiry">
+  	    update PRODUCT_INQUIRY
+		set INQUIRY_STATUS = 'N'
+		where INQUIRY_NO = #{inquiryNo}
+  </update>
   
 </mapper>
