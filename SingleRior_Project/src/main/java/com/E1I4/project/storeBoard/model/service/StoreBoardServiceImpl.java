@@ -197,16 +197,4 @@ public class StoreBoardServiceImpl implements StoreBoardService{
 	}
 
 
-	public ArrayList<StoreBoard> selectPdList() {
-		return sDAO.selectPdList(sqlSession);
-	}
-
-	@Override
-	public int getReviewCount(HashMap<String, Integer> map) {
-		return sDAO.getReviewCount(sqlSession, map);
-	
-
-	
-	
-	}	
 }

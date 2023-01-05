@@ -378,17 +378,7 @@
          where board_no = #{bNo}
   </select>
           
-	<select id="getReviewRating" resultType="_double">
-         select avg(review_rating)
-         from product_review
-         where board_no = #{boardNo} and product_no = #{productNo}
-   </select>
-   
-   <select id="getReviewCount" resultType="_int">
-      select count(*)
-         from product_review
-         where board_no = #{boardNo} and product_no = #{productNo}
-   </select>
+	
 
   
 </mapper>

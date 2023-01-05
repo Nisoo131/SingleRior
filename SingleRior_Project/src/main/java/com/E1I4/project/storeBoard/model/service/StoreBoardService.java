@@ -85,11 +85,5 @@ public interface StoreBoardService {
 
 	int getWishCount(int bNo);
 
-	ArrayList<StoreBoard> selectPdList();
-
-	int getReviewCount(HashMap<String, Integer> map);
-
-
-
 
 }
