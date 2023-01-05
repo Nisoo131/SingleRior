@@ -397,7 +397,7 @@
 		                        	<td >
 		                           		<input type="hidden" name="replyNo" value="${r.replyNo}">
 		                           		<div class="input-group" >
-		                           			<textarea  class="reReplyContent" style="width: 800px; height:50px; border: none; resize: none;"></textarea>
+		                           			<textarea  class="reReplyContent" style="width: 1000px; height:50px; border: none; resize: none;"></textarea>
 											<button class="btn btn-outline-primary btn-lg reReplySubmit" type="button" style="width: 100px;">등록</button>
 											<br>&nbsp;
 											<label for="replySecret">비밀댓글</label>&nbsp;&nbsp;<input type="checkbox" class="reReplySecret" value="N">	
@@ -449,10 +449,10 @@
 								<td class="px-5 py-3 " colspan="5">
 										<div class="input-group replyContentArea" >
 										<c:if test="${rr.replySecret == 'Y' and (loginUser.memberId eq rr.memberId  or loginUser.memberId eq mkBoard.writer or loginUser.memberAuthority eq 'Y')}">
-											<textarea readonly class="reContent" style="width: 1000px; border: none; resize: none;">${rr.replyContent }</textarea>
+											<textarea readonly class="reContent" style="width: 800px; border: none; resize: none;">${rr.replyContent }</textarea>
 										</c:if>
 										<c:if test="${rr.replySecret == 'N' }">
-											<textarea readonly class="reContent" style="width: 1000px; border: none; resize: none;">${rr.replyContent }</textarea>
+											<textarea readonly class="reContent" style="width: 800px; border: none; resize: none;">${rr.replyContent }</textarea>
 										</c:if>
 										<c:if test="${rr.replySecret == 'Y' and loginUser.memberId ne rr.memberId and loginUser.memberId ne mkBoard.writer and loginUser.memberAuthority eq 'N'}">
 											<textarea readonly style="width: 1000px; border: none; resize: none;">비밀 댓글입니다.</textarea>
@@ -1036,25 +1036,6 @@
 			console.log("수정");
 			const textArea = this.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.querySelector('textarea');
 			
-			//글자수 카운트
-			$('.reContent').keyup(function(){
-				const input = $(this).val();
-				const inputLength = input.length;
-				
-				$('.counter').html('<b>' + inputLength + '</b>');
-				
-				if(inputLength > 600){
-					$('.counter').css('color', 'red');
-					$('.counter').html('<b>600</b>');
-				} else {
-					$('.counter').css('color', 'black');
-				}
-				
-				const piece = input.substr(0, 600);
-				$(this).val(piece);
-			});
-			
-			
 			textArea.removeAttribute('readOnly');
 			textArea.focus();
 			textArea.parentNode.innerHTML += '<button type="button" class="btn btn-outline-primary btn-lg reUpdateSubmit" style="width: 100px;">등록</button><span>비밀댓글&nbsp;&nbsp;<input type="checkbox" class="replyUpateSecret" value="N"></span>';
@@ -1150,16 +1131,16 @@
 					str +='<td class="px-5 py-3 " colspan="5">';
 					str +='<div class="input-group replyContentArea" >';		
 					if(r.replySecret =='Y' && ('${ loginUser.memberId }' == '${ mkBoard.writer }' || '${ loginUser.memberId }' == r.memberId || '${ loginUser.memberAuthority }' == 'Y')){
-						str +='<textarea readonly class="reContent" style="width: 1000px; border: none; resize: none;">'+r.replyContent+ '</textarea>';
+						str +='<textarea readonly class="reContent" style="width: 900px; border: none; resize: none;">'+r.replyContent+ '</textarea>';
 					}else if(r.replySecret =='N'){
-						str +='<textarea readonly class="reContent" style="width: 1000px; border: none; resize: none;">'+r.replyContent+ '</textarea>';
+						str +='<textarea readonly class="reContent" style="width: 900px; border: none; resize: none;">'+r.replyContent+ '</textarea>';
 					}else if(r.replySecret =='Y' && '${ loginUser.memberId }' != '${ mkBoard.writer }' && '${ loginUser.memberId }' != r.memberId && '${ loginUser.memberAuthority }' == 'N'){
 						str +='<textarea readonly style="width: 1000px; border: none; resize: none;">비밀 댓글입니다.</textarea>';
 					}else if(r.replySecret =='Y' && '${loginUser}' == null){
 						str +='<textarea readonly style="width: 1000px; border: none; resize: none;">비밀 댓글입니다.</textarea>';
 					}
 					
-					str +='<input type="hidden"  value="'+ r.replyNo+ '">';					
+					str +='<input type="hidden" value="'+ r.replyNo+ '">';					
 					str +='</div></td></tr></table>';						
 					
 					if('${loginUser!=null}'){
@@ -1167,7 +1148,7 @@
 						str +='<tr><td width="1em"><img src="https://cdn-icons-png.flaticon.com/512/9058/9058850.png" width="20" height="20"></td>';	
 						str +='	<td ><input type="hidden" name="replyNo" value="'+r.replyNo+'">';
 						str +='	<div class="input-group" >';
-						str +='	<textarea style="width: 800px; height:50px; border: none; resize: none;"></textarea>';
+						str +='	<textarea  style="width: 1000px; height:50px; border: none; resize: none;"></textarea>';
 						str +='	<button class="btn btn-outline-primary btn-lg reReplySubmit" type="button" style="width: 100px;">등록</button>';
 						str +='<br>&nbsp;<label for="replySecret">비밀댓글</label>&nbsp;&nbsp;<input type="checkbox" class="reReplySecret" value="N">';
 						str +='</div></td></tr></table>';
@@ -1187,7 +1168,7 @@
 						str += '<td class="px-4"  style="width: 150px;">';
 						str += '<span class=" dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">'+rr.nickName+'</span>';
 						str += '<ul class="dropdown-menu" style="text-align: center;">';
-						str += '<li><a class="dropdown-item sendMsg">쪽지보내기</a></li>';
+						str += '<li><a class="dropdown-item sendMsg" >쪽지보내기</a></li>';
 						str += '</ul>';
 						str += '</td>';
 						str += '<td class="px-4" style="width: 150px;">'+rr.replyModifyDate+'</td>';
@@ -1211,9 +1192,9 @@
 						str += '<td class="px-5 py-3 " colspan="5">';
 						str += '<div class="input-group replyContentArea" >';
 						if(rr.replySecret =='Y' && ('${ loginUser.memberId }' == '${ mkBoard.writer }' || '${ loginUser.memberId }' == rr.memberId || '${ loginUser.memberAuthority }' == 'Y')){
-							str +='<textarea readonly class="reContent" style="width: 1000px; border: none; resize: none;">'+rr.replyContent+ '</textarea>';
+							str +='<textarea readonly class="reContent" style="width: 800px; border: none; resize: none;">'+rr.replyContent+ '</textarea>';
 						}else if(rr.replySecret =='N'){
-							str +='<textarea readonly class="reContent" style="width: 1000px; border: none; resize: none;">'+rr.replyContent+ '</textarea>';
+							str +='<textarea readonly class="reContent" style="width: 800px; border: none; resize: none;">'+rr.replyContent+ '</textarea>';
 						}else if(rr.replySecret =='Y' && '${ loginUser.memberId }' != '${ mkBoard.writer }' && '${ loginUser.memberId }' != rr.memberId && '${ loginUser.memberAuthority }' == 'N'){
 							str +='<textarea readonly style="width: 1000px; border: none; resize: none;">비밀 댓글입니다.</textarea>';
 						}else if(rr.replySecret =='Y' && '${loginUser}' == null){
@@ -1228,17 +1209,16 @@
 					}
 					}
 			}
-				
-				
 				document.getElementById('replyDiv').innerHTML += str;
 				$("#replyCount").html(replyCount);
-				 $(document).ready(function() {
+			
+				$(document).ready(function() {
 				      $(document).on( 'keyup', 'textarea', function (e){
 				        $(this).css('height', 'auto' );
 				        $(this).height( this.scrollHeight );
 				      });
 				      $( 'textarea' ).keyup();
-				    });
+				 });
 				
 			}
 		}
