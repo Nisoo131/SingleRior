@@ -64,7 +64,9 @@
 				</a>
 			</div><br>
 			<div>
-				<a  id="naverIdLogin_loginButton" href="https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=csSoyGLeoDJrrYsbQ_Vt&state=singlerior&redirect_uri=http://localhost:8088/SingleRior/naverLogin.me" ><img src="${ contextPath }/resources/image/naver_login.png" alt="네이버계정 로그인" style="width:300px; height:50px;"></a>
+				<a id="naverIdLogin_loginButton"
+				 href="https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=csSoyGLeoDJrrYsbQ_Vt&state=singlerior&redirect_uri=http://localhost:8088/SingleRior/naverLogin.me" >
+				<img src="${ contextPath }/resources/image/naver_login.png" alt="네이버계정 로그인" style="width:300px; height:50px;"></a>
 			</div>
 	</main>
 	

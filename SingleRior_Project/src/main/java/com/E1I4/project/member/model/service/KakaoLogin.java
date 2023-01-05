@@ -9,6 +9,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.HashMap;
 
+import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 
 import com.google.gson.JsonElement;
@@ -21,8 +22,7 @@ public class KakaoLogin {
 	// 카카오 로그인
 		public String getAccessToken(String code) {
 			
-			String access_Token = "";
-			String refresh_Token = "";
+			String accessToken = "";
 			String reqURL = "https://kauth.kakao.com/oauth/token";
 			
 			try {
@@ -45,7 +45,6 @@ public class KakaoLogin {
 				bw.write(sb.toString());
 				bw.flush();
 				
-				int responseCode = conn.getResponseCode();
 //				System.out.println("responseCode : " + responseCode);
 				
 				BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
@@ -55,17 +54,11 @@ public class KakaoLogin {
 				while ((line = br.readLine()) != null) {
 					result += line;
 				}
-//				System.out.println("response body : " + result);
 	            
-				// Gson 라이브러리에 포함된 클래스로 JSON파싱 객체 생성
-				JsonParser parser = new JsonParser();
-				JsonElement element = parser.parse(result);
-	            
-				access_Token = element.getAsJsonObject().get("access_token").getAsString();
-				refresh_Token = element.getAsJsonObject().get("refresh_token").getAsString();
-	            
-//				System.out.println("access_token : " + access_Token);
-//				System.out.println("refresh_token : " + refresh_Token);
+				JSONObject jObject = new JSONObject(result);
+				accessToken = jObject.getString("access_token");
+				
+//				System.out.println(accessToken);
 	            
 				br.close();
 				bw.close();
@@ -74,10 +67,10 @@ public class KakaoLogin {
 				e.printStackTrace();
 			}
 			
-			return access_Token;
+			return accessToken;
 		}
 
-		public HashMap<String, Object> getUserInfo(String access_Token) {
+		public HashMap<String, Object> getUserInfo(String accessToken) {
 			HashMap<String, Object> userInfo = new HashMap<String, Object>();
 			String reqURL = "https://kapi.kakao.com/v2/user/me";
 			try {
@@ -85,11 +78,8 @@ public class KakaoLogin {
 				HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 				conn.setRequestMethod("GET");
 
-				// 요청에 필요한 Header에 포함될 내용
-				conn.setRequestProperty("Authorization", "Bearer " + access_Token);
+				conn.setRequestProperty("Authorization", "Bearer " + accessToken);
 
-				int responseCode = conn.getResponseCode();
-//				System.out.println("responseCode : " + responseCode);
 
 				BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
 
@@ -101,26 +91,24 @@ public class KakaoLogin {
 				}
 //				System.out.println("response body : " + result);
 
-				JsonParser parser = new JsonParser();
-				JsonElement element = parser.parse(result);
+				JSONObject jObject = new JSONObject(result);
 				
-					
+				JSONObject properties = jObject.getJSONObject("properties");
+				JSONObject kakao_account = jObject.getJSONObject("kakao_account");
 				
-				JsonObject properties = element.getAsJsonObject().get("properties").getAsJsonObject();
-				JsonObject kakao_account = element.getAsJsonObject().get("kakao_account").getAsJsonObject();
-				JsonElement kakaoId = element.getAsJsonObject().get("id");
+				long idlong = (long)jObject.get("id");
+				String id = Long.toString(idlong);
 				
+				String nickName = properties.getString("nickname");
+				String email = kakao_account .getString("email");
+//				System.out.println("nickName"+nickName);
+//				System.out.println("id" +id);
+//				System.out.println("email" +email);
 				
-				String id = kakaoId.toString();
-				
-//				System.out.println("ddd "+ id);
-				String nickname = properties.getAsJsonObject().get("nickname").getAsString();
-				String email = kakao_account.getAsJsonObject().get("email").getAsString();
 
-				userInfo.put("nickname", nickname);
+				userInfo.put("nickname", nickName);
 				userInfo.put("email", email);
 				userInfo.put("kakaoId", id);
-				userInfo.put("provider", "kakao");
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

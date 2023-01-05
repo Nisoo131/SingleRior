@@ -204,17 +204,21 @@
 				url : '${contextPath}/checkEmailConfirm.me?email='+email,
 				success: (data)=>{
 					console.log(data);
-					if(data == 0){
+					if(data == 'possible'){
 						$('#emailCheckBtn').attr('disabled', false);
 						$('#emailCheckConfirmMsg').html("사용가능한 이메일입니다. 인증번호를 입력해주세요.");
 						$('#emailCheckConfirmMsg').css('color','green');
 						emailChecked = true;
-					}else{
+					}else if(data == 'impossible'){
 						$('#emailCheckBtn').attr("disabled", true);
 						$('#emailCheckConfirmMsg').html("이미 사용중인 이메일입니다.");
 						$('#emailCheckConfirmMsg').css('color','red');
 						emailChecked = false;
 //							e.preventDefault();
+					}else if(data == 'kakao'){
+						alert("해당 이메일로 등록된 카카오 계정이 있습니다.");
+					}else if(data == 'naver'){
+						alert("해당 이메일로 등록된 네이버 계정이 있습니다.");
 					}
 				},
 				error:(data)=>{
