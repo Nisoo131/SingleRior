@@ -30,13 +30,13 @@
 	<nav class="navbar navbar-expand-lg" id="nav">
 			<div class="collapse navbar-collapse" id="navbarNavAltMarkup">
 				<div class="navbar-nav">
-					<a class="nav-link" aria-current="page" onclick="location.href='${contextPath}/messageBox.cm?msgType=0'" id="receiveMsg">받은 메세지</a>
-					<a class="nav-link" onclick="location.href='${contextPath}/messageBox.cm?msgType=1'" id="sendMsg">보낸 메세지</a>
+					<a class="nav-link" aria-current="page" onclick="location.href='${contextPath}/messageBox.cm?msgType=0'" id="receiveMsg">받은 메시지</a>
+					<a class="nav-link" onclick="location.href='${contextPath}/messageBox.cm?msgType=1'" id="sendMsg">보낸 메시지</a>
 				</div>
 			</div>
 	</nav>
 	<section>
-		<h1 style="text-align:left">나의 메세지</h1><br><br>
+		<h1 style="text-align:left">나의 메시지</h1><br><br>
 			<c:if test="${ ! empty msgList }">
 					<table class="table table-hover" id="sendBox" style="text-align: center;">
 						<thead>
@@ -110,7 +110,7 @@
 			<div class="modal-dialog" role="document">
 	    		<div class="modal-content rounded-3 shadow">
 	      			<div class="modal-body p-4 text-center">
-	        			<h3 class="mb-0">쪽지를 삭제하시겠습니까?</h3>
+	        			<h3 class="mb-0">메시지를 삭제하시겠습니까?</h3>
 	      			</div>
 	      			<div class="modal-footer flex-nowrap p-0">
 	        			<button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0 border-end" id="delete">

@@ -134,7 +134,7 @@ public class CommonController {
 		}
 	}
 	
-	// 메세지 삭제
+	// 메시지 삭제
 	@RequestMapping("deleteMsg.cm")
 	public String deleteMsg(@RequestParam("mNo") int mNo,@RequestParam(value="msgType", required=false) Integer type, HttpSession session) {
 		String nickName=((Member)session.getAttribute("loginUser")).getNickName();
@@ -157,7 +157,7 @@ public class CommonController {
 		}
 		
 	}
-	
+	// 메시지 알람
 	@RequestMapping("msgAlarm.cm")
 	public void msgAlarm(HttpSession session, HttpServletResponse response) {
 		String nickName =((Member)session.getAttribute("loginUser")).getNickName();

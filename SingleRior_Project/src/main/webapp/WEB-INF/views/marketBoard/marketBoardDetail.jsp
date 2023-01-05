@@ -200,11 +200,15 @@
 					</div>
 					<table>
 						<tr>
-							<td class="fs-3 px-5 py-3" width="1100">${ mkBoard.boardTitle }</td>
+							
+							<td class="fs-3 px-5" width="1100">${ mkBoard.boardTitle }</td>
 							<td width="20"><img src="https://cdn-icons-png.flaticon.com/512/2589/2589197.png" width="20" height="20"></td>
 							<td class="fs-5" style="text-align: center;" width="60" id="likeCount">${ mkBoard.likeCount }</td>
 							<td width="20"><img src="https://cdn-icons-png.flaticon.com/512/7789/7789458.png" width="20" height="20"></td>
 							<td class="fs-5" style="text-align: center;" width="60" id="replyCount" >${ mkBoard.replyCount }</td>
+						</tr>
+						<tr>
+							<td col class="fs-3 px-5" width="1100" style="font-size: 15px;">가격 : ${ mkBoard.marketPrice }원</td>
 						</tr>
 					</table>
 					<span class="px-5" width="200">${ mkBoard.createDate }</span>
@@ -318,7 +322,7 @@
 							</c:if>
 						</div>
 						<div class="justify-content-center" style="padding-bottom: 50px; padding-right: 100px; color: #A9A9A9; text-align: right; font-size: 20px;">
-							<span>0 / 600</span>
+							<span id="counter">0</span><span style="padding-right: 30px;"> / 600</span>
 							<label for="replySecret">비밀댓글</label>
 							<input type="checkbox" id="replySecret" value="N">
 						</div>
@@ -365,7 +369,7 @@
 									<td class="px-5 py-3 " colspan="5">
 										<div class="input-group replyContentArea" >
 										<c:if test="${r.replySecret == 'Y' and (loginUser.memberId eq r.memberId  or loginUser.memberId eq mkBoard.writer or loginUser.memberAuthority eq 'Y')}">
-											<textarea readonly class="reContent" style="width: 1000px; border: none; resize: none;">${r.replyContent }</textarea>
+											<textarea readonly class="reContent " style=" width: 1000px; border: none; resize: none;">${r.replyContent }</textarea>
 										</c:if>
 										<c:if test="${r.replySecret == 'N' }">
 											<textarea readonly class="reContent" style="width: 1000px; border: none; resize: none;">${r.replyContent }</textarea>
@@ -393,7 +397,7 @@
 		                        	<td >
 		                           		<input type="hidden" name="replyNo" value="${r.replyNo}">
 		                           		<div class="input-group" >
-		                           			<textarea  style="width: 800px; border: none; resize: none;"></textarea>
+		                           			<textarea  class="reReplyContent" style="width: 800px; height:50px; border: none; resize: none;"></textarea>
 											<button class="btn btn-outline-primary btn-lg reReplySubmit" type="button" style="width: 100px;">등록</button>
 											<br>&nbsp;
 											<label for="replySecret">비밀댓글</label>&nbsp;&nbsp;<input type="checkbox" class="reReplySecret" value="N">	
@@ -589,7 +593,7 @@
 	  <div class="modal-dialog modal-dialog-centered">
 			<div class="modal-content">
 			  	<div class="modal-header">
-			        <h1 class="modal-title fs-5" id="exampleModalToggleLabel2"><img style="width:40px; height: 40px; " alt="" src="resources/image/msg.png">&nbsp;&nbsp;SEND MESSAGE</h1>
+			        <h1 class="modal-title fs-5" id="exampleModalToggleLabel2"><img style="width:40px; height: 40px; " alt="" src="resources/image/msg.png">&nbsp;&nbsp;MESSAGE</h1>
 			        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 			    </div>
 			 	<div class="modal-body" style="text-align: left">
@@ -686,6 +690,24 @@
 				
 			});
 			
+			//댓글글자 카운트
+			$('#replyContent').keyup(function(){
+				const input = $(this).val();
+				const inputLength = input.length;
+				
+				$('#counter').html('<b>' + inputLength + '</b>');
+				
+				if(inputLength > 600){
+					$('#counter').css('color', 'red');
+					$('#counter').html('<b>600</b>');
+				} else {
+					$('#counter').css('color', '#A9A9A9');
+				}
+				
+				const piece = input.substr(0, 600);
+				$(this).val(piece);
+			});
+			
 			//댓글입력
 			if(${ !empty loginUser }){
 				document.getElementById('replySubmit').addEventListener('click', ()=> {
@@ -719,7 +741,7 @@
 				
 				if(input.style.display == 'none') {
 		        	input.style.display = 'inline';
-		        	input.querySelector('textarea').style.height = '50px';
+		        	input.querySelector('.reReplyContent').style.height = '50px';
 		        } else {
 		        	input.style.display = 'none';
 		        }
@@ -762,10 +784,10 @@
 			
 			//지도
 			if(${mkBoard.location != null}){
-				var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+				var mapContainer = document.getElementById('map'),
 				mapOption = {
-		        center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
-		        level: 4 // 지도의 확대 레벨
+		        center: new kakao.maps.LatLng(33.450701, 126.570667),
+		        level: 5 
 		    	}; 
 				
 				var latitude = "", longitude = "";
@@ -779,19 +801,18 @@
 				function onSuccess(position) {
 					latitude = position.coords.latitude; //y
 					longitude = position.coords.longitude; //x
-				    console.log(latitude);
+				   
 				    
-				
-
 				var map = new kakao.maps.Map(mapContainer, mapOption); 
 				map.addOverlayMapTypeId(kakao.maps.MapTypeId.TRAFFIC);   
 				var geocoder = new kakao.maps.services.Geocoder();
 				var coords = "";
+				
+				
 				geocoder.addressSearch('${ mkBoard.location}', function(result, status) {
 				     if (status === kakao.maps.services.Status.OK) {
-				    	console.log(result);
-				        coords = new kakao.maps.LatLng(result[0].y, result[0].x);
-				        here = new kakao.maps.LatLng(latitude,longitude );
+				    	coords = new kakao.maps.LatLng(result[0].y, result[0].x); //직거래장소
+				        here = new kakao.maps.LatLng(latitude,longitude ); //현재위치
 				        
 				        var marker = new kakao.maps.Marker({
 				            map: map,
@@ -813,275 +834,76 @@
 				        	 document.querySelector("#myLocation").style.display = "block";
 				        });
 				        
-				        var drawingFlag = false; // 선이 그려지고 있는 상태를 가지고 있을 변수입니다
-				        var moveLine; // 선이 그려지고 있을때 마우스 움직임에 따라 그려질 선 객체 입니다
-				        var clickLine // 마우스로 클릭한 좌표로 그려질 선 객체입니다
-				        var distanceOverlay; // 선의 거리정보를 표시할 커스텀오버레이 입니다
-				        var dots = {}; // 선이 그려지고 있을때 클릭할 때마다 클릭 지점과 거리를 표시하는 커스텀 오버레이 배열입니다.
-				        
-				     // 지도에 클릭 이벤트를 등록합니다
-				     // 지도를 클릭하면 선 그리기가 시작됩니다 그려진 선이 있으면 지우고 다시 그립니다
-				     kakao.maps.event.addListener(map, 'click', function(mouseEvent) {
-
-				         // 마우스로 클릭한 위치입니다 
-				         var clickPosition = mouseEvent.latLng;
-
-				         // 지도 클릭이벤트가 발생했는데 선을 그리고있는 상태가 아니면
-				         if (!drawingFlag) {
-
-				             // 상태를 true로, 선이 그리고있는 상태로 변경합니다
-				             drawingFlag = true;
-				             
-				             // 지도 위에 선이 표시되고 있다면 지도에서 제거합니다
-				             deleteClickLine();
-				             
-				             // 지도 위에 커스텀오버레이가 표시되고 있다면 지도에서 제거합니다
-				             deleteDistnce();
-
-				             // 지도 위에 선을 그리기 위해 클릭한 지점과 해당 지점의 거리정보가 표시되고 있다면 지도에서 제거합니다
-				             deleteCircleDot();
+				        var distanceOverlay; // 선의 거리정보를 표시할 커스텀오버레이
+				        var clickPosition = here
 				         
-				             // 클릭한 위치를 기준으로 선을 생성하고 지도위에 표시합니다
-				             clickLine = new kakao.maps.Polyline({
-				                 map: map, // 선을 표시할 지도입니다 
-				                 path: [clickPosition], // 선을 구성하는 좌표 배열입니다 클릭한 위치를 넣어줍니다
-				                 strokeWeight: 3, // 선의 두께입니다 
-				                 strokeColor: '#db4040', // 선의 색깔입니다
-				                 strokeOpacity: 1, // 선의 불투명도입니다 0에서 1 사이값이며 0에 가까울수록 투명합니다
-				                 strokeStyle: 'solid' // 선의 스타일입니다
-				             });
+				        clickLine = new kakao.maps.Polyline({
+				        	map: map, 
+				     		path: [clickPosition], 
+							strokeWeight: 3, 
+				 			strokeColor: '#db4040', 
+				    		strokeOpacity: 1, 
+				 			strokeStyle: 'solid'
+				        });
 				             
-				             // 선이 그려지고 있을 때 마우스 움직임에 따라 선이 그려질 위치를 표시할 선을 생성합니다
-				             moveLine = new kakao.maps.Polyline({
-				                 strokeWeight: 3, // 선의 두께입니다 
-				                 strokeColor: '#db4040', // 선의 색깔입니다
-				                 strokeOpacity: 0.5, // 선의 불투명도입니다 0에서 1 사이값이며 0에 가까울수록 투명합니다
-				                 strokeStyle: 'solid' // 선의 스타일입니다    
-				             });
+				             
+				        moveLine = new kakao.maps.Polyline({
+				        	strokeWeight: 3,
+				        	strokeColor: '#db4040',
+				       		strokeOpacity: 0.5,
+				       		strokeStyle: 'solid'
+				        });
+				             
+				        var mousePosition = coords;
+
+				        var path = clickLine.getPath();
+				             
+				       	var movepath = [path[path.length-1], mousePosition];
+				        moveLine.setPath(movepath);    
+				        moveLine.setMap(map);
+				             
+				        var distance = Math.round(clickLine.getLength() + moveLine.getLength()),
+				        content = '<div class="dotOverlay distanceInfo">총거리 <span class="number">' + distance + '</span>m</div>';
+				             
+				        var walkkTime = distance / 67 | 0;
+				        var walkHour = '', walkMin = '';
+
+				        if (walkkTime > 60) {
+				        	walkHour = '<span class="number">' + Math.floor(walkkTime / 60) + '</span>시간 '
+				        }
+				        walkMin = '<span class="number">' + walkkTime % 60 + '</span>분'
+
+				        var bycicleTime = distance / 227 | 0;
+				        var bycicleHour = '', bycicleMin = '';
+
+				        if (bycicleTime > 60) {
+				            bycicleHour = '<span class="number">' + Math.floor(bycicleTime / 60) + '</span>시간 '
+				        }
+				        bycicleMin = '<span class="number">' + bycicleTime % 60 + '</span>분'
+
+				        var content = '<ul style="color:white; background-color:rgba(0, 0, 0, 0.5);" class="dotOverlay distanceInfo" >';
+				        content += '<li>';
+				        content += '<span class="label">총거리</span><span class="number">' + distance + '</span>m';
+				        content += '</li>';
+				        content += '<li>';
+				        content += '<span class="label">도보</span>' + walkHour + walkMin;
+				        content += '</li>';
+				        content += '<li>';
+				        content += '<span class="label">자전거</span>' + bycicleHour + bycicleMin;
+				        content += '</li>';
+				        content += '</ul>'
 				         
-				             // 클릭한 지점에 대한 정보를 지도에 표시합니다
-				             displayCircleDot(clickPosition, 0);
-
-				                 
-				         } else { // 선이 그려지고 있는 상태이면
-
-				             // 그려지고 있는 선의 좌표 배열을 얻어옵니다
-				             var path = clickLine.getPath();
-
-				             // 좌표 배열에 클릭한 위치를 추가합니다
-				             path.push(clickPosition);
-				             
-				             // 다시 선에 좌표 배열을 설정하여 클릭 위치까지 선을 그리도록 설정합니다
-				             clickLine.setPath(path);
-
-				             var distance = Math.round(clickLine.getLength());
-				             displayCircleDot(clickPosition, distance);
-				         }
-				     });
-				         
-				     // 지도에 마우스무브 이벤트를 등록합니다
-				     // 선을 그리고있는 상태에서 마우스무브 이벤트가 발생하면 그려질 선의 위치를 동적으로 보여주도록 합니다
-				     kakao.maps.event.addListener(map, 'mousemove', function (mouseEvent) {
-
-				         // 지도 마우스무브 이벤트가 발생했는데 선을 그리고있는 상태이면
-				         if (drawingFlag){
-				             
-				             // 마우스 커서의 현재 위치를 얻어옵니다 
-				             var mousePosition = mouseEvent.latLng; 
-
-				             // 마우스 클릭으로 그려진 선의 좌표 배열을 얻어옵니다
-				             var path = clickLine.getPath();
-				             
-				             // 마우스 클릭으로 그려진 마지막 좌표와 마우스 커서 위치의 좌표로 선을 표시합니다
-				             var movepath = [path[path.length-1], mousePosition];
-				             moveLine.setPath(movepath);    
-				             moveLine.setMap(map);
-				             
-				             var distance = Math.round(clickLine.getLength() + moveLine.getLength()), // 선의 총 거리를 계산합니다
-				                 content = '<div class="dotOverlay distanceInfo">총거리 <span class="number">' + distance + '</span>m</div>'; // 커스텀오버레이에 추가될 내용입니다
-				             
-				             // 거리정보를 지도에 표시합니다
-				             showDistance(content, mousePosition);   
-				         }             
-				     });                 
-
-				     // 지도에 마우스 오른쪽 클릭 이벤트를 등록합니다
-				     // 선을 그리고있는 상태에서 마우스 오른쪽 클릭 이벤트가 발생하면 선 그리기를 종료합니다
-				     kakao.maps.event.addListener(map, 'rightclick', function (mouseEvent) {
-
-				         // 지도 오른쪽 클릭 이벤트가 발생했는데 선을 그리고있는 상태이면
-				         if (drawingFlag) {
-				             
-				             // 마우스무브로 그려진 선은 지도에서 제거합니다
-				             moveLine.setMap(null);
-				             moveLine = null;  
-				             
-				             // 마우스 클릭으로 그린 선의 좌표 배열을 얻어옵니다
-				             var path = clickLine.getPath();
-				         
-				             // 선을 구성하는 좌표의 개수가 2개 이상이면
-				             if (path.length > 1) {
-
-				                 // 마지막 클릭 지점에 대한 거리 정보 커스텀 오버레이를 지웁니다
-				                 if (dots[dots.length-1].distance) {
-				                     dots[dots.length-1].distance.setMap(null);
-				                     dots[dots.length-1].distance = null;    
-				                 }
-
-				                 var distance = Math.round(clickLine.getLength()), // 선의 총 거리를 계산합니다
-				                     content = getTimeHTML(distance); // 커스텀오버레이에 추가될 내용입니다
-				                     
-				                 // 그려진 선의 거리정보를 지도에 표시합니다
-				                 showDistance(content, path[path.length-1]);  
-				                  
-				             } else {
-
-				                 // 선을 구성하는 좌표의 개수가 1개 이하이면 
-				                 // 지도에 표시되고 있는 선과 정보들을 지도에서 제거합니다.
-				                 deleteClickLine();
-				                 deleteCircleDot(); 
-				                 deleteDistnce();
-
-				             }
-				             
-				             // 상태를 false로, 그리지 않고 있는 상태로 변경합니다
-				             drawingFlag = false;          
-				         }  
-				     });    
-
-				     // 클릭으로 그려진 선을 지도에서 제거하는 함수입니다
-				     function deleteClickLine() {
-				         if (clickLine) {
-				             clickLine.setMap(null);    
-				             clickLine = null;        
-				         }
-				     }
-
-				     // 마우스 드래그로 그려지고 있는 선의 총거리 정보를 표시하거
-				     // 마우스 오른쪽 클릭으로 선 그리가 종료됐을 때 선의 정보를 표시하는 커스텀 오버레이를 생성하고 지도에 표시하는 함수입니다
-				     function showDistance(content, position) {
-				         
-				         if (distanceOverlay) { // 커스텀오버레이가 생성된 상태이면
-				             
-				             // 커스텀 오버레이의 위치와 표시할 내용을 설정합니다
-				             distanceOverlay.setPosition(position);
-				             distanceOverlay.setContent(content);
-				             
-				         } else { // 커스텀 오버레이가 생성되지 않은 상태이면
-				             
-				             // 커스텀 오버레이를 생성하고 지도에 표시합니다
-				             distanceOverlay = new kakao.maps.CustomOverlay({
-				                 map: map, // 커스텀오버레이를 표시할 지도입니다
-				                 content: content,  // 커스텀오버레이에 표시할 내용입니다
-				                 position: position, // 커스텀오버레이를 표시할 위치입니다.
-				                 xAnchor: 0,
-				                 yAnchor: 0,
-				                 zIndex: 3  
-				             });      
-				         }
-				     }
-
-				     // 그려지고 있는 선의 총거리 정보와 
-				     // 선 그리가 종료됐을 때 선의 정보를 표시하는 커스텀 오버레이를 삭제하는 함수입니다
-				     function deleteDistnce () {
-				         if (distanceOverlay) {
-				             distanceOverlay.setMap(null);
-				             distanceOverlay = null;
-				         }
-				     }
-
-				     // 선이 그려지고 있는 상태일 때 지도를 클릭하면 호출하여 
-				     // 클릭 지점에 대한 정보 (동그라미와 클릭 지점까지의 총거리)를 표출하는 함수입니다
-				     function displayCircleDot(position, distance) {
-
-				         // 클릭 지점을 표시할 빨간 동그라미 커스텀오버레이를 생성합니다
-				         var circleOverlay = new kakao.maps.CustomOverlay({
-				             content: '<span class="dot"></span>',
-				             position: position,
-				             zIndex: 1
-				         });
-
-				         // 지도에 표시합니다
-				         circleOverlay.setMap(map);
-
-				         if (distance > 0) {
-				             // 클릭한 지점까지의 그려진 선의 총 거리를 표시할 커스텀 오버레이를 생성합니다
-				             var distanceOverlay = new kakao.maps.CustomOverlay({
-				                 content: '<div class="dotOverlay">거리 <span class="number">' + distance + '</span>m</div>',
-				                 position: position,
-				                 yAnchor: 1,
-				                 zIndex: 2
-				             });
-
-				             // 지도에 표시합니다
-				             distanceOverlay.setMap(map);
-				         }
-
-				         // 배열에 추가합니다
-				         dots.push({circle:circleOverlay, distance: distanceOverlay});
-				     }
-
-				     // 클릭 지점에 대한 정보 (동그라미와 클릭 지점까지의 총거리)를 지도에서 모두 제거하는 함수입니다
-				     function deleteCircleDot() {
-				         var i;
-
-				         for ( i = 0; i < dots.length; i++ ){
-				             if (dots[i].circle) { 
-				                 dots[i].circle.setMap(null);
-				             }
-
-				             if (dots[i].distance) {
-				                 dots[i].distance.setMap(null);
-				             }
-				         }
-
-				         dots = [];
-				     }
-
-				     // 마우스 우클릭 하여 선 그리기가 종료됐을 때 호출하여 
-				     // 그려진 선의 총거리 정보와 거리에 대한 도보, 자전거 시간을 계산하여
-				     // HTML Content를 만들어 리턴하는 함수입니다
-				     function getTimeHTML(distance) {
-
-				         // 도보의 시속은 평균 4km/h 이고 도보의 분속은 67m/min입니다
-				         var walkkTime = distance / 67 | 0;
-				         var walkHour = '', walkMin = '';
-
-				         // 계산한 도보 시간이 60분 보다 크면 시간으로 표시합니다
-				         if (walkkTime > 60) {
-				             walkHour = '<span class="number">' + Math.floor(walkkTime / 60) + '</span>시간 '
-				         }
-				         walkMin = '<span class="number">' + walkkTime % 60 + '</span>분'
-
-				         // 자전거의 평균 시속은 16km/h 이고 이것을 기준으로 자전거의 분속은 267m/min입니다
-				         var bycicleTime = distance / 227 | 0;
-				         var bycicleHour = '', bycicleMin = '';
-
-				         // 계산한 자전거 시간이 60분 보다 크면 시간으로 표출합니다
-				         if (bycicleTime > 60) {
-				             bycicleHour = '<span class="number">' + Math.floor(bycicleTime / 60) + '</span>시간 '
-				         }
-				         bycicleMin = '<span class="number">' + bycicleTime % 60 + '</span>분'
-
-				         // 거리와 도보 시간, 자전거 시간을 가지고 HTML Content를 만들어 리턴합니다
-				         var content = '<ul class="dotOverlay distanceInfo">';
-				         content += '    <li>';
-				         content += '        <span class="label">총거리</span><span class="number">' + distance + '</span>m';
-				         content += '    </li>';
-				         content += '    <li>';
-				         content += '        <span class="label">도보</span>' + walkHour + walkMin;
-				         content += '    </li>';
-				         content += '    <li>';
-				         content += '        <span class="label">자전거</span>' + bycicleHour + bycicleMin;
-				         content += '    </li>';
-				         content += '</ul>'
-
-				         return content;
-				     }
+				       	distanceOverlay = new kakao.maps.CustomOverlay({
+				        	map: map,
+				        	content: content, 
+				        	position: coords,
+				       		xAnchor: 0,
+				      		yAnchor: 0,
+				     		zIndex: 3  
+				        });
 				    } 
 				});
 			}
-				
 				function onError() {
 					alert("현재위치를 가져오지 못했습니다.");
 				}
@@ -1179,7 +1001,7 @@
 		}
 		
 		
-		//비밀댓글
+		//신고중복체크막기
 		$(document).on('click', "input[type='checkbox']", function(){
 			    if(this.checked) {
 			        const checkboxes = $("input[type='checkbox']");
@@ -1213,6 +1035,26 @@
 		$(document).on('click', '.updateReBtn', function(){
 			console.log("수정");
 			const textArea = this.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.querySelector('textarea');
+			
+			//글자수 카운트
+			$('.reContent').keyup(function(){
+				console.log("얍");
+				const input = $(this).val();
+				const inputLength = input.length;
+				
+				$('.counter').html('<b>' + inputLength + '</b>');
+				
+				if(inputLength > 600){
+					$('.counter').css('color', 'red');
+					$('.counter').html('<b>600</b>');
+				} else {
+					$('.counter').css('color', 'black');
+				}
+				
+				const piece = input.substr(0, 600);
+				$(this).val(piece);
+			});
+			
 			
 			textArea.removeAttribute('readOnly');
 			textArea.focus();
@@ -1326,7 +1168,7 @@
 						str +='<tr><td width="1em"><img src="https://cdn-icons-png.flaticon.com/512/9058/9058850.png" width="20" height="20"></td>';	
 						str +='	<td ><input type="hidden" name="replyNo" value="'+r.replyNo+'">';
 						str +='	<div class="input-group" >';
-						str +='	<textarea  style="width: 1000px; border: none; resize: none;"></textarea>';
+						str +='	<textarea  style="width: 1000px; height:50px; border: none; resize: none;"></textarea>';
 						str +='	<button class="btn btn-outline-primary btn-lg reReplySubmit" type="button" style="width: 100px;">등록</button>';
 						str +='<br>&nbsp;<label for="replySecret">비밀댓글</label>&nbsp;&nbsp;<input type="checkbox" class="reReplySecret" value="N">';
 						str +='</div></td></tr></table>';
@@ -1389,12 +1231,14 @@
 			}
 				document.getElementById('replyDiv').innerHTML += str;
 				$("#replyCount").html(replyCount);
-				var textArea = $('textarea');
-			       if (textArea) {
-			           textArea.each(function(){
-			               $(this).height(this.scrollHeight);
-			           });
-			       }
+				 $(document).ready(function() {
+				      $(document).on( 'keyup', 'textarea', function (e){
+				        $(this).css('height', 'auto' );
+				        $(this).height( this.scrollHeight );
+				      });
+				      $( 'textarea' ).keyup();
+				    });
+				
 			}
 		}
 		
@@ -1444,14 +1288,16 @@
 			var title = '${mkBoard.boardTitle}';
 			window.open('http://www.facebook.com/sharer.php?u=' + url);
 		}
-		
-		var textArea = $('textarea');
-	       if (textArea) {
-	           textArea.each(function(){
-	               $(this).height(this.scrollHeight);
-	           });
-	       }
+	       
+		$(document).ready(function() {
+		      $(document).on( 'keyup', 'textarea', function (e){
+		        $(this).css('height', 'auto' );
+		        $(this).height( this.scrollHeight );
+		      });
+		      $( 'textarea' ).keyup();
+		 });
 	</script>
+	 
    
 	
 </body>

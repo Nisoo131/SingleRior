@@ -249,7 +249,7 @@ public class MarketBoardController {
 		return returnArr;
 	}
 	
-	//상세페이지
+		//상세페이지
 		@RequestMapping("marketBoardDetail.ma")
 		public String marketBoardDetail(@RequestParam("bNo") int bNo, @RequestParam(value="boardWriter", required=false) String boardWriter, HttpSession session, Model model) {
 			Member loginUser = (Member)session.getAttribute("loginUser");
