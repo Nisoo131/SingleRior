@@ -186,7 +186,7 @@ public class AdminController {
 			return 106;
 		case "이불" : 
 			return 201;
-		case "배게" : 
+		case "배개" : 
 			return 202;
 		case "커튼/블라인드" : 
 			return 203;
@@ -216,7 +216,7 @@ public class AdminController {
 			return 501;
 		case "TV/모니터" : 
 			return 502;
-		case "세탁기/건조대" : 
+		case "세탁기/건조기" : 
 			return 503;
 		case "컴퓨터/노트북/태블릿" : 
 			return 504;
