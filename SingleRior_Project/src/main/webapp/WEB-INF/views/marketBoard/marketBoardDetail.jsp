@@ -1038,7 +1038,6 @@
 			
 			//글자수 카운트
 			$('.reContent').keyup(function(){
-				console.log("얍");
 				const input = $(this).val();
 				const inputLength = input.length;
 				
@@ -1168,7 +1167,7 @@
 						str +='<tr><td width="1em"><img src="https://cdn-icons-png.flaticon.com/512/9058/9058850.png" width="20" height="20"></td>';	
 						str +='	<td ><input type="hidden" name="replyNo" value="'+r.replyNo+'">';
 						str +='	<div class="input-group" >';
-						str +='	<textarea  style="width: 1000px; height:50px; border: none; resize: none;"></textarea>';
+						str +='	<textarea style="width: 800px; height:50px; border: none; resize: none;"></textarea>';
 						str +='	<button class="btn btn-outline-primary btn-lg reReplySubmit" type="button" style="width: 100px;">등록</button>';
 						str +='<br>&nbsp;<label for="replySecret">비밀댓글</label>&nbsp;&nbsp;<input type="checkbox" class="reReplySecret" value="N">';
 						str +='</div></td></tr></table>';
@@ -1188,7 +1187,7 @@
 						str += '<td class="px-4"  style="width: 150px;">';
 						str += '<span class=" dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">'+rr.nickName+'</span>';
 						str += '<ul class="dropdown-menu" style="text-align: center;">';
-						str += '<li><a class="dropdown-item sendMsg" >쪽지보내기</a></li>';
+						str += '<li><a class="dropdown-item sendMsg">쪽지보내기</a></li>';
 						str += '</ul>';
 						str += '</td>';
 						str += '<td class="px-4" style="width: 150px;">'+rr.replyModifyDate+'</td>';
@@ -1229,6 +1228,8 @@
 					}
 					}
 			}
+				
+				
 				document.getElementById('replyDiv').innerHTML += str;
 				$("#replyCount").html(replyCount);
 				 $(document).ready(function() {
