@@ -172,11 +172,13 @@
 					iPrice = parseInt(prices);
 					totalPrice += iPrice;
 					
+					console.log(totalPrice);
 				}else{
 					price = $(this).parent().parent().parent().find('.price').text();
 					prices = price.replace(/\,/g,'');
 					iPrice = parseInt(prices);
 					totalPrice -= iPrice;
+					console.log(totalPrice);
 				}
 				$('#sItems').text(totalPrice.toLocaleString()+"원");
 				if(totalPrice>50000 || totalPrice ==0){
@@ -195,6 +197,7 @@
 		});
 		
 		$('#selectAll').change(function(){
+			totalPrice = 0;
 			if($("#selectAll").prop("checked")){
 				$('.checkbox').prop("checked",true);
 				
@@ -204,6 +207,7 @@
 					iPrice = parseInt(prices);
 					totalPrice += iPrice;
 				});
+					console.log(totalPrice);
 				
 // 					console.log("+ : "+ totalPrice);
 					$('#sItems').text(totalPrice.toLocaleString()+"원");
@@ -223,7 +227,7 @@
 					price = $(element).text();
 					prices = price.replace(/\,/g,'');
 					iPrice = parseInt(prices);
-					totalPrice -= iPrice;
+					totalPrice = 0
 				});
 // 				console.log("- : "+totalPrice);
 				$('#sItems').text(totalPrice.toLocaleString()+"원");
