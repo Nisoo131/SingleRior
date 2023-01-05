@@ -102,7 +102,7 @@
     <select id="selectAttmList" resultMap="attmResultSet">
      select *
 		from img_repository 
-		where img_B_type= '1' and img_level=0 and img_status='Y' and img_key = #{bNo}
+		where img_B_type= '1' and img_level=0 and img_status='Y' and img_key = #{strBoardNo}
 	    order by img_key desc
    </select>
 

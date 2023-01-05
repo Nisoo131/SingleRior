@@ -102,14 +102,14 @@
 	// 아이디 중복체크, 유효성 검사
 	$(function(){
 		$('#memberId').on('focus', function(e){
-			$('#idCheckMsg').html('영문, 숫자를 포함한 6~20자 이상의 아이디를 입력해주세요.');
+			$('#idCheckMsg').html('영문, 숫자를 포함한 6~20자 이상의 아이디를 입력해주세요.(특수문자 사용 불가)');
 			$('#idCheckMsg').css('color','black');
 		});
 		
 		$('#memberId').on('focusout',function(){
 			let memberId = $('#memberId').val();
 //	 		console.log(memberId);
-			const idReg = /^[a-zA-Z]{1}[a-zA-Z0-9]{5,19}$/;
+			const idReg = /^(?=.*[0-9]+)[a-zA-Z][a-zA-Z0-9]{6,20}$/g;
 			if(!idReg.test(memberId)){
 				$('#idCheckMsg').css('color','red');
 				idChecked = false;
@@ -217,8 +217,12 @@
 //							e.preventDefault();
 					}else if(data == 'kakao'){
 						alert("해당 이메일로 등록된 카카오 계정이 있습니다.");
+						$('#emailCheckConfirmMsg').html("");
+						$('#email').value("");
 					}else if(data == 'naver'){
 						alert("해당 이메일로 등록된 네이버 계정이 있습니다.");
+						$('#emailCheckConfirmMsg').html("");
+						$('#email').value("");
 					}
 				},
 				error:(data)=>{
@@ -269,6 +273,7 @@
 
 		if(idChecked == false){
 			$('#memberId').focus();
+			$('#idCheckMsg').css('color','red');
 			return false;
 		}
 		if(nickNameChecked == false){

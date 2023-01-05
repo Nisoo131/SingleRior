@@ -313,6 +313,7 @@
 							  success: function(data){
 								  console.log(data);
 			                	  location.href='${contextPath}/finalOrder.st;
+
 			  		   	    }
 		              })
    	              alert("결제성공");     

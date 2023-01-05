@@ -7,7 +7,7 @@
 <title>Insert title here</title>
 <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
 <style>
-	.form-findId {margin:auto; margin-top:200px; max-width: 500px; padding:50px;}
+	.form-findId {margin:auto; margin-top:100px; max-width: 500px; padding:50px;}
 	@font-face {
 	    font-family: 'BMJUA';
 	    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/BMJUA.woff') format('woff');
@@ -56,14 +56,14 @@
 				url : '${contextPath}/findId.me',
 				data : {memberName:memberName, email:email },
 				success: (data) =>{
-// 					console.log(data);
-					$('#findIdMsg').html("입력하신 이메일로 아이디를 보내드렸습니다.");
+					console.log(data);
 				},
 				error:(data)=>{
 // 					console.log(data);
 					$('#findIdMsg').html("이름 또는 이메일을 잘못 입력하셨습니다. 다시 입력해주세요.");
 				}
 			});
+			$('#findIdMsg').html("입력하신 이메일로 아이디를 보내드렸습니다.");
 		});
 	});
 	

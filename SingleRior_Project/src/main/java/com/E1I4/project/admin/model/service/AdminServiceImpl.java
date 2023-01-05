@@ -287,6 +287,16 @@ public class AdminServiceImpl implements AdminService {
 		return aDAO.dailyOrderList(sqlSession);
 	}
 
+	@Override
+	public ArrayList<HashMap<String, Object>> dailySales() {
+		return aDAO.dailySales(sqlSession);
+	}
+
+	@Override
+	public ArrayList<HashMap<String, Object>> dailyTopCate() {
+		return aDAO.dailyTopCate(sqlSession);
+	}
+
 
 
 

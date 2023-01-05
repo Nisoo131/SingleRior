@@ -176,7 +176,7 @@
 					<div class="col py-2 d-flex flex-column position-static">
 						<table>
 							<tr>
-								<td><a href="javascript:history.back();" class="nav-link link-dark"><img src="https://www.flaticon.com/svg/vstatic/svg/3916/3916912.svg?token=exp=1670460369~hmac=675d0b7c5b02f035ed8a059ae5814294" width="15" height="15">목록 보기</a></td>
+								<td><a href="javascript:history.back();" class="nav-link link-dark"><img src="resources/image/angle-left.png" width="15" height="15">목록 보기</a></td>
 							</tr>
 						</table>
 					</div>
@@ -232,7 +232,7 @@
 				<div id="slideShow">
 				    <ul class="slides">
 				    	<c:forEach items="${mkAList}" var="mkA">
-				      	<li ><img class="img" src="resources/uploadFiles/${ mkA.imgRename}" alt="" style="width: 280px; height: 280px; "></li>
+				      	<li ><img class="img" src="resources/uploadFiles/${ mkA.imgRename}" alt="" style="width: 280px; height: 280px; cursor: pointer; "></li>
 				    	</c:forEach>
 				    </ul>  
 				    <p class="controller">
@@ -248,8 +248,8 @@
 					
 					<div id="map" class="mx-auto" style=" width:300px;height:200px;"></div>
 					<br>
-					<div id="myLocation" class="mx-auto" style="width:230px; text-align:center; border-radius:2em;padding: 20px; "><img style="width: 30px; height: 30px;" alt="" src="resources/image/pick.png">&nbsp;&nbsp;내 위치 확인하기</div>
-					<div id="tranLocation" class="mx-auto" style="width:230px; text-align:center; border-radius:2em; padding: 20px; display: none;"><img style="width: 30px; height: 30px;" alt="" src="resources/image/pick.png">&nbsp;&nbsp;직거래 위치 확인하기 </div>
+					<div id="myLocation" class="mx-auto" style="cursor: pointer; width:230px; text-align:center; border-radius:2em;padding: 20px; "><img style="width: 30px; height: 30px; " alt="" src="resources/image/pick.png">&nbsp;&nbsp;내 위치 확인하기</div>
+					<div id="tranLocation" class="mx-auto" style="cursor: pointer; width:230px; text-align:center; border-radius:2em; padding: 20px; display: none;"><img style="width: 30px; height: 30px; cursor: pointer;" alt="" src="resources/image/pick.png">&nbsp;&nbsp;직거래 위치 확인하기 </div>
 					<div class="mx-auto" style="text-align:center; background: #D9E5FF; border-radius:2em; padding: 20px; width: 650px;"  >${mkBoard.nickName}님은  ${mkBoard.location }에서 직거래하고 싶어해요!</div>
 				</c:if>		
 									
@@ -257,19 +257,19 @@
 	                  <div class="row g-0 flex-md-row shadow-sm h-md-250 position-relative mt-2 mb-4">
 	                     <c:if test="${ empty loginUser }">
 	                        <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#loginForm">
-							<img alt="" src="https://cdn-icons-png.flaticon.com/512/3945/3945691.png" style="width: 20px; height: 20px;">
+							<img alt="" src="https://cdn-icons-png.flaticon.com/512/3945/3945691.png" style="width: 20px; height: 20px; cursor: pointer;">
 	                           좋아요
 	                        </button>
 	                     </c:if>
 	                     <c:if test="${ !empty loginUser && wishList == null }">
 	                        <button type="button" class="btn btn-outline-danger symptClick">
-	                   		<img alt="" src="https://cdn-icons-png.flaticon.com/512/3945/3945691.png" style="width: 20px; height: 20px;">
+	                   		<img alt="" src="https://cdn-icons-png.flaticon.com/512/3945/3945691.png" style="width: 20px; height: 20px; cursor: pointer;">
 	                           좋아요
 	                        </button>
 	                     </c:if>
 	                     <c:if test="${ !empty loginUser && wishList != null }">
 	                        <button type="button" class="btn btn-outline-danger active symptClick">
-	                        <img alt="" src="https://cdn-icons-png.flaticon.com/512/3945/3945691.png" style="width: 20px; height: 20px;">
+	                        <img alt="" src="https://cdn-icons-png.flaticon.com/512/3945/3945691.png" style="width: 20px; height: 20px; cursor: pointer; ">
 	                           좋아요
 	                        </button>
 	                     </c:if>
@@ -290,12 +290,12 @@
 									</c:if>
 								</td>
 								<td >
-									<span class=" dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" style="font-size: 25px;" >&nbsp;&nbsp;${ mkBoard.nickName }</span>
+									<span class=" dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" style="font-size: 25px; cursor: pointer;" >&nbsp;&nbsp;${ mkBoard.nickName }</span>
 									<ul class="dropdown-menu" style="text-align: center;">
 										<li><a class="dropdown-item sendMsg">쪽지보내기</a></li>
 									</ul>
 								</td>									
-								<td rowspan="2" style="float: right; margin-right: 12px; "><img src="${ contextPath }/resources/image/report.png" style="width: 60px; height: 60px; " id="reportBtn"></td>
+								<td rowspan="2" style="float: right; margin-right: 12px; "><img src="${ contextPath }/resources/image/report.png" style="width: 60px; height: 60px; cursor: pointer; " id="reportBtn"></td>
 								</tr>
 							<tr>
 								<td>&nbsp;&nbsp;
@@ -350,16 +350,16 @@
 									<td width="850px;"></td>
 									<td>
 										<div class="dropdown">
-											<img class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" src="resources/image/menu-dots.png" width="20" height="20">
+											<img class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" style="cursor: pointer;"  src="resources/image/menu-dots.png" width="20" height="20">
 											<ul class="dropdown-menu" style="text-align: center;">
 												<c:if test="${ loginUser.memberId eq r.memberId }">
-													<li class="reReplyBtn"><a class="dropdown-item">답글달기</a></li>
-													<li class="updateReBtn"><a class="dropdown-item">수정</a></li>
-													<li class="deleteReBtn"><a class="dropdown-item ">삭제</a><input type="hidden" id="replyNo" class="replyNo" value="${ r.replyNo }"></li>
+													<li class="reReplyBtn"><a class="dropdown-item" style="cursor: pointer;" >답글달기</a></li>
+													<li class="updateReBtn"><a class="dropdown-item" style="cursor: pointer;"  >수정</a></li>
+													<li class="deleteReBtn"><a class="dropdown-item " style="cursor: pointer;" >삭제</a><input type="hidden" id="replyNo" class="replyNo" value="${ r.replyNo }"></li>
 												</c:if>
 												<c:if test="${ !(loginUser.memberId eq r.memberId) }">
-													<li class="reReplyBtn"><a class="dropdown-item" >답글달기</a></li>
-													<li class="reReportBtn"><input type="hidden" class="reportReplyNo" value="${ r.replyNo }"><input type="hidden" class="reportStatus" value="${ r.reportStatus }"><a class="dropdown-item" >신고</a></li>
+													<li class="reReplyBtn"><a class="dropdown-item" style="cursor: pointer;" >답글달기</a></li>
+													<li class="reReportBtn"><input type="hidden" class="reportReplyNo" value="${ r.replyNo }"><input type="hidden" class="reportStatus" value="${ r.reportStatus }"><a class="dropdown-item" style="cursor: pointer;" >신고</a></li>
 												</c:if>
 											</ul>
 										</div>
@@ -397,7 +397,7 @@
 		                        	<td >
 		                           		<input type="hidden" name="replyNo" value="${r.replyNo}">
 		                           		<div class="input-group" >
-		                           			<textarea  class="reReplyContent" style="width: 800px; height:50px; border: none; resize: none;"></textarea>
+		                           			<textarea  class="reReplyContent" style="width: 1000px; height:50px; border: none; resize: none;"></textarea>
 											<button class="btn btn-outline-primary btn-lg reReplySubmit" type="button" style="width: 100px;">등록</button>
 											<br>&nbsp;
 											<label for="replySecret">비밀댓글</label>&nbsp;&nbsp;<input type="checkbox" class="reReplySecret" value="N">	
@@ -425,7 +425,7 @@
 								<td class="px-4"  style="width: 150px;">
 									<span class="reNickName dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">${rr.nickName}</span>
 									<ul class="dropdown-menu" style="text-align: center;">
-										<li><a class="dropdown-item sendMsg" >쪽지보내기</a></li>
+										<li><a class="dropdown-item sendMsg" style="cursor: pointer;" >쪽지보내기</a></li>
 									</ul>
 								</td>
 								<td class="px-4" style="width: 150px;">${rr.replyModifyDate}</td>
@@ -449,16 +449,16 @@
 								<td class="px-5 py-3 " colspan="5">
 										<div class="input-group replyContentArea" >
 										<c:if test="${rr.replySecret == 'Y' and (loginUser.memberId eq rr.memberId  or loginUser.memberId eq mkBoard.writer or loginUser.memberAuthority eq 'Y')}">
-											<textarea readonly class="reContent" style="width: 1000px; border: none; resize: none;">${rr.replyContent }</textarea>
+											<textarea readonly class="reContent" style="width: 800px; border: none; resize: none;">${rr.replyContent }</textarea>
 										</c:if>
 										<c:if test="${rr.replySecret == 'N' }">
-											<textarea readonly class="reContent" style="width: 1000px; border: none; resize: none;">${rr.replyContent }</textarea>
+											<textarea readonly class="reContent" style="width: 800px; border: none; resize: none;">${rr.replyContent }</textarea>
 										</c:if>
 										<c:if test="${rr.replySecret == 'Y' and loginUser.memberId ne rr.memberId and loginUser.memberId ne mkBoard.writer and loginUser.memberAuthority eq 'N'}">
-											<textarea readonly style="width: 1000px; border: none; resize: none;">비밀 댓글입니다.</textarea>
+											<textarea readonly style="width: 1000px; border: none; resize: none;color: #008cd4">비밀 댓글입니다.</textarea>
 										</c:if>
 										<c:if test="${rr.replySecret == 'Y' and loginUser eq null}">
-											<textarea readonly style="width: 1000px; border: none; resize: none;">비밀 댓글입니다.</textarea>
+											<textarea readonly style="width: 1000px; border: none; resize: none;color: #008cd4">비밀 댓글입니다.</textarea>
 										</c:if>
 										<input type="hidden"  value="${ rr.replyNo }">
 										</div>
@@ -540,23 +540,23 @@
 	       <br> <br>
 			 <form action="${ contextPath }/marketReport.ma">
 			 <div class="form-check">
+			 <label class="form-check-label" >
 			  <input  name="reportType" class="form-check-input" type="checkbox" value="홍보도배" id="flexCheckDefault">
 			  <input type="hidden" id="contentNo" name="contentNo" value="${mkBoard.boardNo }">
 			  <input type="hidden" id="boardNo" name="boardNo" value="${mkBoard.boardNo }">
 			  <input type="hidden" id="reportCate" name="reportCate" value="B">
-			  <label class="form-check-label" >
 			    홍보/도배글이예요
 			  </label>
 			</div>
 			<div class="form-check">
+			<label class="form-check-label" >
 			  <input name="reportType" class="form-check-input" type="checkbox" value="유해내용"  >
-			  <label class="form-check-label" >
 			    청소년에게 유해한 내용이예요
 			  </label>
 			</div>
 			<div class="form-check">
+			<label class="form-check-label" >
 			  <input name="reportType" class="form-check-input" type="checkbox" value="불법" >
-			  <label class="form-check-label" >
 			    불법이예요
 			  </label>
 			</div>
@@ -567,8 +567,8 @@
 			  </label>
 			</div>
 			 <div class="modal-footer">
-	        <button class="btn btn-secondary" data-bs-dismiss="modal" type="reset" aria-label="Close">닫기</button>
-	        <button class="btn btn-primary">신고하기</button>
+	        <button class="btn btn-secondary" data-bs-dismiss="modal" type="reset" aria-label="Close" style="cursor: pointer;">닫기</button>
+	        <button class="btn btn-primary" style="cursor: pointer;">신고하기</button>
 	       	</div>
 	       	</form>
 		  </div>
@@ -577,7 +577,7 @@
 	</div>
 	
 	<!-- 이미지 슬라이드 -->
-	<div class="container-fluid ">
+	<div class="container-fluid " >
     <div class="row lightbox-container align-items-center">
       <div class="col-10 col-md-10 mx-auto text-right lightbox-holder">
         <span class="lightbox-close"><i class="fas fa-window-close"></i></span>
@@ -615,15 +615,15 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title"><img src="https://cdn-icons-png.flaticon.com/512/8301/8301971.png" style="width:50px; height:50px;" >&nbsp;&nbsp;공유하기</h5>
+        <h5 class="modal-title"><img src="https://cdn-icons-png.flaticon.com/512/8301/8301971.png" style="width:50px; height:50px; cursor: pointer;" >&nbsp;&nbsp;공유하기</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       
        <div style="text-align:center; padding: 5px; padding-bottom: 50px;">
-	      <img src="resources/image/kakao.PNG" style="width:80px; height:80px; padding: 10px; " id="btnKakao" onclick="kakaoShare()" class="kakaotalk" target="_self" title="카카오톡 새창열림">
-	      <img src="resources/image/naver.PNG" style="width:80px; height:80px;  padding: 10px; " onclick="naverShare()">
-	      <img src="resources/image/facebook.png" style="width:90px; height:90px;  padding: 10px; " onclick="facebookShare()">
-	      <img src="resources/image/twitter.png" style="width:80px; height:80px;  padding: 10px; " onclick="twitterShare()"></div>
+	      <img src="resources/image/kakao.PNG" style="width:80px; height:80px; padding: 10px; cursor: pointer; " id="btnKakao" onclick="kakaoShare()" class="kakaotalk" target="_self" title="카카오톡 새창열림">
+	      <img src="resources/image/naver.PNG" style="width:80px; height:80px;  padding: 10px; cursor: pointer; " onclick="naverShare()">
+	      <img src="resources/image/facebook.png" style="width:90px; height:90px;  padding: 10px; cursor: pointer;" onclick="facebookShare()">
+	      <img src="resources/image/twitter.png" style="width:80px; height:80px;  padding: 10px; cursor: pointer; " onclick="twitterShare()"></div>
 	    </div>
     </div>
   </div>
@@ -1036,25 +1036,6 @@
 			console.log("수정");
 			const textArea = this.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.querySelector('textarea');
 			
-			//글자수 카운트
-			$('.reContent').keyup(function(){
-				const input = $(this).val();
-				const inputLength = input.length;
-				
-				$('.counter').html('<b>' + inputLength + '</b>');
-				
-				if(inputLength > 600){
-					$('.counter').css('color', 'red');
-					$('.counter').html('<b>600</b>');
-				} else {
-					$('.counter').css('color', 'black');
-				}
-				
-				const piece = input.substr(0, 600);
-				$(this).val(piece);
-			});
-			
-			
 			textArea.removeAttribute('readOnly');
 			textArea.focus();
 			textArea.parentNode.innerHTML += '<button type="button" class="btn btn-outline-primary btn-lg reUpdateSubmit" style="width: 100px;">등록</button><span>비밀댓글&nbsp;&nbsp;<input type="checkbox" class="replyUpateSecret" value="N"></span>';
@@ -1150,16 +1131,16 @@
 					str +='<td class="px-5 py-3 " colspan="5">';
 					str +='<div class="input-group replyContentArea" >';		
 					if(r.replySecret =='Y' && ('${ loginUser.memberId }' == '${ mkBoard.writer }' || '${ loginUser.memberId }' == r.memberId || '${ loginUser.memberAuthority }' == 'Y')){
-						str +='<textarea readonly class="reContent" style="width: 1000px; border: none; resize: none;">'+r.replyContent+ '</textarea>';
+						str +='<textarea readonly class="reContent" style="width: 900px; border: none; resize: none;">'+r.replyContent+ '</textarea>';
 					}else if(r.replySecret =='N'){
-						str +='<textarea readonly class="reContent" style="width: 1000px; border: none; resize: none;">'+r.replyContent+ '</textarea>';
+						str +='<textarea readonly class="reContent" style="width: 900px; border: none; resize: none;">'+r.replyContent+ '</textarea>';
 					}else if(r.replySecret =='Y' && '${ loginUser.memberId }' != '${ mkBoard.writer }' && '${ loginUser.memberId }' != r.memberId && '${ loginUser.memberAuthority }' == 'N'){
-						str +='<textarea readonly style="width: 1000px; border: none; resize: none;">비밀 댓글입니다.</textarea>';
+						str +='<textarea readonly style="width: 1000px; border: none; resize: none; color: #008cd4">비밀 댓글입니다.</textarea>';
 					}else if(r.replySecret =='Y' && '${loginUser}' == null){
-						str +='<textarea readonly style="width: 1000px; border: none; resize: none;">비밀 댓글입니다.</textarea>';
+						str +='<textarea readonly style="width: 1000px; border: none; resize: none; color: #008cd4">비밀 댓글입니다.</textarea>';
 					}
 					
-					str +='<input type="hidden"  value="'+ r.replyNo+ '">';					
+					str +='<input type="hidden" value="'+ r.replyNo+ '">';					
 					str +='</div></td></tr></table>';						
 					
 					if('${loginUser!=null}'){
@@ -1167,7 +1148,7 @@
 						str +='<tr><td width="1em"><img src="https://cdn-icons-png.flaticon.com/512/9058/9058850.png" width="20" height="20"></td>';	
 						str +='	<td ><input type="hidden" name="replyNo" value="'+r.replyNo+'">';
 						str +='	<div class="input-group" >';
-						str +='	<textarea style="width: 800px; height:50px; border: none; resize: none;"></textarea>';
+						str +='	<textarea  class="reReplyContent" style="width: 1000px; height:50px; border: none; resize: none;"></textarea>';
 						str +='	<button class="btn btn-outline-primary btn-lg reReplySubmit" type="button" style="width: 100px;">등록</button>';
 						str +='<br>&nbsp;<label for="replySecret">비밀댓글</label>&nbsp;&nbsp;<input type="checkbox" class="reReplySecret" value="N">';
 						str +='</div></td></tr></table>';
@@ -1187,7 +1168,7 @@
 						str += '<td class="px-4"  style="width: 150px;">';
 						str += '<span class=" dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">'+rr.nickName+'</span>';
 						str += '<ul class="dropdown-menu" style="text-align: center;">';
-						str += '<li><a class="dropdown-item sendMsg">쪽지보내기</a></li>';
+						str += '<li><a class="dropdown-item sendMsg" >쪽지보내기</a></li>';
 						str += '</ul>';
 						str += '</td>';
 						str += '<td class="px-4" style="width: 150px;">'+rr.replyModifyDate+'</td>';
@@ -1211,9 +1192,9 @@
 						str += '<td class="px-5 py-3 " colspan="5">';
 						str += '<div class="input-group replyContentArea" >';
 						if(rr.replySecret =='Y' && ('${ loginUser.memberId }' == '${ mkBoard.writer }' || '${ loginUser.memberId }' == rr.memberId || '${ loginUser.memberAuthority }' == 'Y')){
-							str +='<textarea readonly class="reContent" style="width: 1000px; border: none; resize: none;">'+rr.replyContent+ '</textarea>';
+							str +='<textarea readonly class="reContent" style="width: 800px; border: none; resize: none;">'+rr.replyContent+ '</textarea>';
 						}else if(rr.replySecret =='N'){
-							str +='<textarea readonly class="reContent" style="width: 1000px; border: none; resize: none;">'+rr.replyContent+ '</textarea>';
+							str +='<textarea readonly class="reContent" style="width: 800px; border: none; resize: none;">'+rr.replyContent+ '</textarea>';
 						}else if(rr.replySecret =='Y' && '${ loginUser.memberId }' != '${ mkBoard.writer }' && '${ loginUser.memberId }' != rr.memberId && '${ loginUser.memberAuthority }' == 'N'){
 							str +='<textarea readonly style="width: 1000px; border: none; resize: none;">비밀 댓글입니다.</textarea>';
 						}else if(rr.replySecret =='Y' && '${loginUser}' == null){
@@ -1228,17 +1209,16 @@
 					}
 					}
 			}
-				
-				
 				document.getElementById('replyDiv').innerHTML += str;
 				$("#replyCount").html(replyCount);
-				 $(document).ready(function() {
+			
+				$(document).ready(function() {
 				      $(document).on( 'keyup', 'textarea', function (e){
 				        $(this).css('height', 'auto' );
 				        $(this).height( this.scrollHeight );
 				      });
 				      $( 'textarea' ).keyup();
-				    });
+				 });
 				
 			}
 		}

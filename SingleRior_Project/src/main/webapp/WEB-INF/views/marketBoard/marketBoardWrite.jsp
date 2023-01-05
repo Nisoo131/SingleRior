@@ -47,9 +47,9 @@
 						</select>
 						
 							<label for="boardTitle" class="form-label" style="font-size: 14px;">제목</label>
-							<input type="text" class="form-control" id="boardTitle" name="boardTitle" placeholder="제목을 입력해주세요.">
+							<input type="text" maxlength="27" class="form-control" id="boardTitle" name="boardTitle" placeholder="제목을 입력해주세요." required="required">
 							<label for="marketPrice" class="form-label"  style="font-size: 14px;">가격</label>
-							<input type="number" min="0" class="form-control" id="marketPrice" name="marketPrice" placeholder="가격을 입력해주세요.">
+							<input type="number" min="0" class="form-control" id="marketPrice" name="marketPrice" placeholder="가격을 입력해주세요." required="required">
 							<label for="marketPrice" class="form-label"  style="font-size: 14px;">직거래 장소</label>
 							<input type="text"  class="form-control" id="location" name="location" placeholder="직거래 장소를 입력해주세요." onclick="openAddress();">
 						</div>
@@ -57,7 +57,7 @@
 
 						<div class="col-12">
 							<div class="input-group">
-					          <textarea class="form-control" rows="10" name="boardContent" style="resize: none;"></textarea>
+					          <textarea class="form-control" rows="10" name="boardContent" style="resize: none;" placeholder="내용을 입력해주세요." required="required"></textarea>
 					        </div>
 						</div>
 						
