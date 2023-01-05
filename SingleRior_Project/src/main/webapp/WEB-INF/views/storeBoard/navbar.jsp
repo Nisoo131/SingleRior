@@ -130,7 +130,7 @@
 	          <li><a href="${ contextPath }/categoryList.st?subCate=201">이불</a></li>
 	          <li><a href="${ contextPath }/categoryList.st?subCate=202">배개</a></li>
 	          <li><a href="${ contextPath }/categoryList.st?subCate=203">커튼/블라인드</a></li>
-	          <li><a href="#">러그</a></li>
+	          <li><a href="${ contextPath }/categoryList.st?subCate=204">러그</a></li>
 	        </ul>
 	       </li>
 	       <li class='top-menu'> <a href="${ contextPath }/categoryList.st?topCate=3">인테리어소품<i class='fa fa-angle-down'></i></a>
