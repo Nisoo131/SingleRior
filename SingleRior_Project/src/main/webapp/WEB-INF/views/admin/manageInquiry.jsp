@@ -226,15 +226,7 @@
         
         <script>
         
-			 $(function(){
-				 $(document).on('click','.btn-primary',function(){
-					const productNo=$(this).parents('tr').children().eq(1).text();
-						document.getElementById('showProduct').addEventListener('click',function(){
-							console.log(productNo);
-							location.href="${contextPath}/productDetail.st?productNo="+productNo;
-						})					
-				 });
-				 
+			
 				 
 				 
 				 $('#textarea').keyup(function(e){
