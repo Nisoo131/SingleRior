@@ -160,9 +160,15 @@ public class CommonController {
 	// 메시지 알람
 	@RequestMapping("msgAlarm.cm")
 	public void msgAlarm(HttpSession session, HttpServletResponse response) {
-		String nickName =((Member)session.getAttribute("loginUser")).getNickName();
-	
-		int result = coService.msgAlarm(nickName);
+		
+		Member m =((Member)session.getAttribute("loginUser"));
+		int result = 0;
+		if(m != null) {
+			String nickName = m.getNickName();
+			result = coService.msgAlarm(nickName);
+		}
+		
+		
 		response.setContentType("application/json; charset=UTF-8");
 		GsonBuilder gb = new GsonBuilder();
 		Gson gson = gb.create();
