@@ -453,7 +453,6 @@ public class StoreBoardController {
 
 		int finalp = r.getFinalPrice();
 
-		//System.out.println("r :" + r);
 		int result = sService.InsertOrderProduct(r);
 		if (result > 0) {
 			Cart cart = new Cart();
@@ -504,10 +503,7 @@ public class StoreBoardController {
 			
 			result2 = sService.insertPayment(pay);
 		}
-		// System.out.println(r);
-		
-		return r;
-		
+		return r;	
 	}
 	
 	@RequestMapping("finalOrder.st")
