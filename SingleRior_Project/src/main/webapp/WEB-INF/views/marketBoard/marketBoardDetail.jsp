@@ -597,8 +597,8 @@
 			        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 			    </div>
 			 	<div class="modal-body" style="text-align: left">
-				    	제목<input type="text" class="form-control input" name="messageTitle">
-				    	내용<input class="form-control input" style="height: 300px" name="messageContent">
+				    	제목<input id="messageTitle" type="text" class="form-control input" name="messageTitle">
+				    	내용<input id="messageContent" class="form-control input" style="height: 300px" name="messageContent">
 				      	<br>
 				      	받는 사람 : <input id="receiver" type="text" name="receiver" class="input" readonly style="border: none;">
 				 </div>
@@ -905,7 +905,7 @@
 				});
 			}
 				function onError() {
-					alert("현재위치를 가져오지 못했습니다.");
+					alert("위치권한을 확인해주세요 ^-^~!");
 				}
 				
 				
@@ -966,7 +966,8 @@
 				const sender = senderNickname.trim();
 				const id = '${loginUser.nickName}';
 				document.getElementById('receiver').value = sender;
-				
+				document.getElementById('messageTitle').value =" ";
+				document.getElementById('messageContent').value = " ";
 				if(id != sender){
 					$('#msgModal').modal('show');
 				}
