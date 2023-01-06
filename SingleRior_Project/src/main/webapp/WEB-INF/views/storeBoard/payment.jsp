@@ -276,11 +276,12 @@
    		  console.log(cartArr);
    		
     	 var amount = finalPrice;
-    	
+    	 
+    	 // 결제시스템 실행함수 
    	      IMP.request_pay({ 
    	          pg: "html5_inicis",
    	          pay_method: "card",
-   	          merchant_uid: new Date().getTite,   // 주문번호(DB 전달 필요)
+   	          merchant_uid: new Date().getTime(),   // 주문번호(DB 전달 필요)
    	          name: "SingleRior_스토어",
    	          amount: 100, // 결제 테스트 이후 amount 수정 
    	       	  buyer_email: email,
