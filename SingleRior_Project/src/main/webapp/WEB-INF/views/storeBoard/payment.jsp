@@ -313,7 +313,7 @@
 				   	                 merchant_uid: rsp.merchant_uid},
 							  success: function(data){
 								  console.log(data);
-			                	  location.href='${contextPath}/finalOrder.st;
+			                	  location.href='${contextPath}/finalOrder.st;'
 
 			  		   	    }
 		              })
