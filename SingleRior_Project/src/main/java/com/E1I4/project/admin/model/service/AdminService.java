@@ -3,7 +3,9 @@ package com.E1I4.project.admin.model.service;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import com.E1I4.project.admin.model.vo.ChangeDeli;
 import com.E1I4.project.admin.model.vo.MemberManage;
+import com.E1I4.project.admin.model.vo.OrderPerson;
 import com.E1I4.project.admin.model.vo.OrderProducts;
 import com.E1I4.project.common.model.vo.Attachment;
 import com.E1I4.project.common.model.vo.Board;
@@ -122,6 +124,14 @@ public interface AdminService {
 	ArrayList<HashMap<String, Object>> dailySales();
 
 	ArrayList<HashMap<String, Object>> dailyTopCate();
+
+	int changeDeli(ChangeDeli cd);
+
+	int selectOrderNo(int odNo);
+
+	OrderPerson selectOrderPerson(int orNo);
+
+
 
 
 

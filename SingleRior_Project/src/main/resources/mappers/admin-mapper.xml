@@ -190,6 +190,18 @@
 		<result column="PRODUCT_OPTION" property="productOption"/>
 		<result column="STATUS" property="status"/>
 		<result column="IMG_SERVER_NAME" property="imgServerName"/>
+		<result column="MERCHANTU_ID" property="mId"/>
+		<result column="IMP_UID" property="uId"/>
+	</resultMap>
+	<resultMap type="OrderPerson" id="OrderPersonResultSet">
+		<id column="MEMBER_ID" property="memberId"/>
+		<result column="RECIPIENT" property="recipient"/>
+		<result column="RECI_ADDRESS" property="reciAddress"/>
+		<result column="RECI_PHONE" property="reciPhone"/>
+		<result column="DELIVERY_MSG" property="deliveryMsg"/>
+		<result column="MEMBER_NAME" property="memberName"/>
+		<result column="PHONE" property="phone"/>
+		<result column="EMAIL" property="email"/>
 	</resultMap>
 	
 	
@@ -227,9 +239,7 @@
 			</if>
 		where member_id=#{memberId}
 	</update>
-	
-	
-   
+
   	<!-- 썸네일 -->
     <select id="selectAttmList" resultMap="attachmentResultSet">
      select *
@@ -595,8 +605,9 @@
 	</select>
 	<select id="orderProductDetail" resultMap="OrderProductDetailResultSet">
 	
-		select op.order_no, op.order_date,op.order_total_price,od.order_detail_no,b.board_title,od.product_quantity,od.product_price,od.product_option,od.status,img_Server_Name
+		select op.order_no, op.order_date,op.order_total_price,od.order_detail_no,b.board_title,od.product_quantity,od.product_price,od.product_option,od.status,img_Server_Name,merchantu_id,imp_uid
 		from order_product op
+		 	join pay p on(p.order_no=op.order_no)
 		    join order_detail od on(op.order_no=od.order_no)
 		    join product p on(od.product_no=p.product_no)
 		    join board b on(p.board_no=b.board_no)
@@ -632,7 +643,21 @@
 		group by pt.pro_topcate_name
 		
 	</select>
-	
-	
+	<update id="changeDeli">
+		update order_detail
+		set status=#{changeDeli}
+		where order_detail_no=#{orderDetailNo}
+	</update>
+	<select id="selectOrderNo" resultType="_int">
+		select order_no
+		from order_detail
+		where order_detail_no=#{odNo}
+	</select>
+	<select id="selectOrderPerson" resultMap="OrderPersonResultSet">
+		select m.MEMBER_ID,op.RECIPIENT,op.RECI_ADDRESS,op.RECI_PHONE,op.DELIVERY_MSG,m.MEMBER_NAME,m.PHONE,m.EMAIL
+		from order_product op
+			join member m on(op.member_id=m.member_id)
+		where order_no=#{orNo}
+	</select>
 	
 </mapper>
