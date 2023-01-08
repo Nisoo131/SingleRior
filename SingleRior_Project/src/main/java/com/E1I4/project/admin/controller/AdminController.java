@@ -20,7 +20,9 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.E1I4.project.admin.model.service.AdminService;
+import com.E1I4.project.admin.model.vo.ChangeDeli;
 import com.E1I4.project.admin.model.vo.MemberManage;
+import com.E1I4.project.admin.model.vo.OrderPerson;
 import com.E1I4.project.admin.model.vo.OrderProducts;
 import com.E1I4.project.common.Pagination;
 import com.E1I4.project.common.exception.AdminException;
@@ -921,16 +923,6 @@ public class AdminController {
 		model.addAttribute("logCount",loginCount);
 		return "statUser";
 	}
-	@RequestMapping("detailOrder.adm")
-	public String detailOrder(@RequestParam("orderNo") int orNo,Model model) {
-		ArrayList<OrderProductDetail> list = aService.orderProductDetail(orNo);
-		
-		model.addAttribute("list",list);
-		
-		return "detailOrderProduct";
-	}
-	
-	
 	@RequestMapping("statProduct.adm")
 	public String statProduct(Model model) {
 		//일일 매출량 
@@ -945,6 +937,33 @@ public class AdminController {
 		model.addAttribute("cList",cList);
 		
 		return "statProduct";
+	}
+	@RequestMapping("detailOrder.adm")
+	public String detailOrder(@RequestParam("orderNo") int orNo,Model model) {
+		ArrayList<OrderProductDetail> list = aService.orderProductDetail(orNo);
+		OrderPerson op = aService.selectOrderPerson(orNo);
+		System.out.println(op);
+		
+		model.addAttribute("list",list);
+		model.addAttribute("op",op);
+		return "detailOrderProduct";
+	}
+	
+	
+
+	@RequestMapping("changeDeli.adm")
+	public String changeDeli(@RequestParam("orderDetailNo") int odNo,@RequestParam("changeDeli") String cDeli) {
+		ChangeDeli cd = new ChangeDeli(); 
+		cd.setOrderDetailNo(odNo);
+		cd.setChangeDeli(cDeli);
+		int orderNo=aService.selectOrderNo(odNo);
+		
+		int result=aService.changeDeli(cd); 
+		if(result>0) {
+			return"redirect:detailOrder.adm?orderNo="+orderNo;
+		}else {
+			throw new AdminException("변경 실패");
+		}
 	}
 	
 }
