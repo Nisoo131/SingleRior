@@ -7,7 +7,9 @@ import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.E1I4.project.admin.model.vo.ChangeDeli;
 import com.E1I4.project.admin.model.vo.MemberManage;
+import com.E1I4.project.admin.model.vo.OrderPerson;
 import com.E1I4.project.admin.model.vo.OrderProducts;
 import com.E1I4.project.common.model.vo.Attachment;
 import com.E1I4.project.common.model.vo.Board;
@@ -257,6 +259,21 @@ public class AdminDAO {
 	public ArrayList<HashMap<String, Object>> dailyTopCate(SqlSessionTemplate sqlSession) {
 		return (ArrayList)sqlSession.selectList("adminMapper.dailyTopCate");
 	}
+
+	public int changeDeli(SqlSessionTemplate sqlSession, ChangeDeli cd) {
+		return sqlSession.update("adminMapper.changeDeli",cd);
+	}
+
+	public int selectOrderNo(SqlSessionTemplate sqlSession, int odNo) {
+		return sqlSession.selectOne("adminMapper.selectOrderNo",odNo);
+	}
+
+	public OrderPerson selectOrderPerson(SqlSessionTemplate sqlSession, int orNo) {
+		return sqlSession.selectOne("adminMapper.selectOrderPerson",orNo);
+	}
+
+
+
 
 
 

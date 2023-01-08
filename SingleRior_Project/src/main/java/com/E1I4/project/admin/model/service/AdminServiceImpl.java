@@ -9,7 +9,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.E1I4.project.admin.model.dao.AdminDAO;
+import com.E1I4.project.admin.model.vo.ChangeDeli;
 import com.E1I4.project.admin.model.vo.MemberManage;
+import com.E1I4.project.admin.model.vo.OrderPerson;
 import com.E1I4.project.admin.model.vo.OrderProducts;
 import com.E1I4.project.common.model.vo.Attachment;
 import com.E1I4.project.common.model.vo.Board;
@@ -296,6 +298,23 @@ public class AdminServiceImpl implements AdminService {
 	public ArrayList<HashMap<String, Object>> dailyTopCate() {
 		return aDAO.dailyTopCate(sqlSession);
 	}
+
+	@Override
+	public int changeDeli(ChangeDeli cd) {
+		return aDAO.changeDeli(sqlSession,cd);
+	}
+
+	@Override
+	public int selectOrderNo(int odNo) {
+		return aDAO.selectOrderNo(sqlSession,odNo);
+	}
+
+	@Override
+	public OrderPerson selectOrderPerson(int orNo) {
+		return aDAO.selectOrderPerson(sqlSession,orNo);
+	}
+
+
 
 
 

@@ -79,7 +79,7 @@
 							      	<td><h4>상품 금액</h4>
 							      	</td>
 							      	<td><h4>상태</h4></td>
-							      	<td><c:if test=""></c:if></td>
+							      	<td><h4>결제취소</h4></td>
 							   	</tr>
 							   	<tr>
 							   		<td>${l.orderDetailNo}</td>
@@ -95,9 +95,46 @@
 							      	<td>
 							      		<fmt:formatNumber value="${l.productPrice}" pattern="#,###"/>원
 							      	</td>
-							      	<td>${l.status }</td>
+							      	<td>${l.status }<br>
+							      	<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop${l.orderDetailNo }">
+							      	상태 변경
+							      	</button>
+							      	</td>
+							      	<td><br><button type="button" class="btn btn-danger">결제취소</button></td>
 							   	</tr>
-							   	</c:forEach>
+
+								<div class="modal fade" id="staticBackdrop${l.orderDetailNo }"
+									data-bs-backdrop="static" data-bs-keyboard="false"
+									tabindex="-1" aria-labelledby="staticBackdropLabel"
+									aria-hidden="true">
+									<div class="modal-dialog">
+										<div class="modal-content">
+											<div class="modal-header">
+												<h1 class="modal-title fs-5" id="staticBackdropLabel">
+													상태값 변경 ${l.orderDetailNo }</h1>
+												<button type="button" class="btn-close"
+													data-bs-dismiss="modal" aria-label="Close"></button>
+											</div>
+											<form action="${contextPath}/changeDeli.adm" method="post">
+											<div class="modal-body">
+												<input type="hidden" name="orderDetailNo" value="${l.orderDetailNo}">
+												<select id="changeDeli" class="form-select form-select-lg mb-3" name="changeDeli" aria-label=".form-select-lg example">
+												  <option name="changeDeli" value="결제완료" selected>결제완료</option>
+												  <option name="changeDeli" value="배송준비">배송준비</option>
+												  <option name="changeDeli" value="배송중">배송중</option>
+												  <option name="changeDeli" value="배송완료">배송완료</option>
+												</select>
+											</div>
+											<div class="modal-footer">
+												<button type="button" class="btn btn-secondary"
+													data-bs-dismiss="modal">닫기</button>
+												<button type="submit" class="btn btn-primary" id="changeState">변경</button>
+											</div>
+											</form>
+										</div>
+									</div>
+								</div>
+							</c:forEach>
 							   	<tr>
 							      <td scope="row" colspan="7"></td>
 							    </tr>
@@ -107,30 +144,28 @@
 							<h3>배송지 정보</h3>
 							<hr>
 							<h5>받는 사람</h5>
-							<p>김로즈</p>
+							<p>${op.recipient }</p>
 							<br>
 							<h5>연락처</h5>
-							<p>010-1111-2222</p>
+							<p>${op.reciPhone }</p>
 							<br>
 							<h5>주소</h5>
-							<p>서울특별시 강남구 역삼동</p>
+							<p>${op.reciAddress }</p>
 							<br>
 							<h5>배송 메모</h5>
-							<p>부재시 현관앞에 놓아주세요</p>
+							<p>${op.deliveryMsg }</p>
 						</div>
 						<br><br>
 						<div class="orderInfo pay">
 							<h3>결제 정보</h3>
 							<hr>
-							<h5>결제 방법</h5><p>카드결제</p><br>
 							<h5>상품 금액</h5><p>12,500원</p><br>
 							<h5>배송비</h5><p>2,500원</p><br>
-							<h5>사용 포인트</h5><p>0원</p><br>
-							<h5>결제금액</h5><p>15,000원</p><br>
+							<h5>결제금액</h5><p><fmt:formatNumber value="${list[0].orderTotalPrice}" pattern="#,###"/>원</p><br>
 							<h5>결제방법</h5><p>카드결제</p><br>
-							<h5>주문자</h5><p>김이현</p><br>
-							<h5>연락처</h5><p>010-1111-2222</p><br>
-							<h5>이메일</h5><p>rose@ro.se</p><br>
+							<h5>주문자</h5><p>${op.memberName }</p><br>
+							<h5>연락처</h5><p>${op.phone}</p><br>
+							<h5>이메일</h5><p>${op.email }</p><br>
 						</div>
 						<br><br>
 						<div class="orderInfo Account">
@@ -149,7 +184,7 @@
                     
                     
                     
-                </main>
+                
 <!-------------------------------------------------------- 내용 ----------------------------------------------------------------------- -->                
                 <footer class="py-4 bg-light mt-auto">
                     <div class="container-fluid px-4">
@@ -224,15 +259,11 @@
 	    </div>
 	  </div>
 	</div>
-	
-            
-            </div>
-        
-        <script>
-        console.log(typeof ${list.imgPath})
-        
-        
-        </script>
+		
+
+</main>
+	</div>
+
         
         
         

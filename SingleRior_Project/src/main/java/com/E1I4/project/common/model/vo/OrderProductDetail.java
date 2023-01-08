@@ -26,6 +26,8 @@ public class OrderProductDetail {
 	private String productOption;
 	private String status;
 	private String imgServerName;
+	private int mId;
+	private String uId;
 	
 }
 

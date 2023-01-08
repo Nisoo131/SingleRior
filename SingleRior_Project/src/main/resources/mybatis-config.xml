@@ -43,6 +43,8 @@
 		<typeAlias type="com.E1I4.project.common.model.vo.Pay" alias="Pay"/>
 		<typeAlias type="com.E1I4.project.storeBoard.model.vo.TotalReview" alias="TotalReview"/>
 		<typeAlias type="com.E1I4.project.member.model.vo.LoginLog" alias="LoginLog"/>
+		<typeAlias type="com.E1I4.project.admin.model.vo.ChangeDeli" alias="ChangeDeli"/>
+		<typeAlias type="com.E1I4.project.admin.model.vo.OrderPerson" alias="OrderPerson"/>
 	</typeAliases>
 	
 	<mappers>
