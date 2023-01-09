@@ -86,6 +86,7 @@
 					    		<img class='img' src="${ contextPath }/resources/uploadFiles/${o.imgRename}" width="160">
 					    		<input type="hidden" name="productNo" value="${o.productNo}">
 					    		<input type="hidden" name="boardNo" value="${o.boardNo}">
+					    		<input type="hidden" name="orderNo" value="${o.orderNo}">
 					    	</td>
 					     	<td width="200">상품</td>
 					      	<td width="200">옵션</td>
@@ -216,7 +217,7 @@
 	
 	$(document).on('click', ".reviewBtn", function(){
 		var orderDetailNo = this.parentNode.querySelector('input[type="hidden"]').value;
-		var orderNo = this.parentNode.querySelector('span').innerText;
+		var orderNo = this.parentNode.querySelectorAll('input[type="hidden"]')[3].value;
 		var productNo = this.parentNode.querySelectorAll('input[type="hidden"]')[1].value;
 		var boardNo = this.parentNode.querySelectorAll('input[type="hidden"]')[2].value;
 		console.log(orderDetailNo);

@@ -111,6 +111,7 @@
 						    		<input type="hidden" name="productNo" value="${o.productNo}">
 						    		<input type="hidden" name="boardNo" value="${o.boardNo}">
 						    		<input type="hidden" name="reviewNo" value="${rList[r.index].reviewNo}">
+						    		<input type="hidden" name="orderNo" value="${o.orderNo}">
 						    	</td>
 						     	<td width="400">상품</td>
 						      	<td>옵션</td>
@@ -293,7 +294,7 @@
 	var starViewValue = document.querySelectorAll('.starViewValue');
 	var num = 0;
 	for(const i of starViewValue){
-		console.log(i.value);
+//		console.log(i.value);
 		document.querySelectorAll('.starView span')[num].style.width = i.value * 10 + '%';
 		num += 1;
 	}
@@ -304,7 +305,7 @@
 		var reviewRating = this.parentNode.parentNode.querySelectorAll('input')[0].value;
 		var reviewContent = this.parentNode.parentNode.querySelectorAll('span')[2].innerText;
 		var orderDetailNo = this.parentNode.parentNode.parentNode.querySelector('input[type="hidden"]').value;
-		var orderNo = this.parentNode.parentNode.parentNode.querySelector('span').innerText;
+		var orderNo = this.parentNode.parentNode.parentNode.querySelectorAll('input[type="hidden"]')[4].value;
 		var productNo = this.parentNode.parentNode.parentNode.querySelectorAll('input[type="hidden"]')[1].value;
 		var boardNo = this.parentNode.parentNode.parentNode.querySelectorAll('input[type="hidden"]')[2].value;
 		var reviewNo = this.parentNode.parentNode.parentNode.querySelectorAll('input[type="hidden"]')[3].value;
@@ -321,15 +322,15 @@
 			document.getElementById("deleteAttm").style.display = 'none';
 		}
 		
-		console.log("원래 별점 : " + reviewRating);
-		console.log("원래 내용 : " + reviewContent);
-		console.log("orderDetailNo : " + orderDetailNo);
-		console.log("orderNo : " + orderNo);
-		console.log("productNo : " + productNo);
-		console.log("boardNo : " + boardNo);
-		console.log("reviewNo : " + reviewNo);
-		console.log("oriImg : " + oriImg);
-		console.log("oriImgName : " + oriImgName);
+//		console.log("원래 별점 : " + reviewRating);
+//		console.log("원래 내용 : " + reviewContent);
+//		console.log("orderDetailNo : " + orderDetailNo);
+//		console.log("orderNo : " + orderNo);
+//		console.log("productNo : " + productNo);
+//		console.log("boardNo : " + boardNo);
+//		console.log("reviewNo : " + reviewNo);
+//		console.log("oriImg : " + oriImg);
+//		console.log("oriImgName : " + oriImgName);
 		
 		document.getElementById("reviewRating").value = reviewRating;
 		document.getElementById("starNum").value = reviewRating/2;
@@ -343,11 +344,11 @@
 		document.getElementById("boardNo").value = boardNo;
 		document.getElementById("reviewNo").value = reviewNo;
 		
-		console.log(document.getElementById("orderDetailNo").value);
-		console.log(document.getElementById("orderNo").value);
-		console.log(document.getElementById("productNo").value);
-		console.log(document.getElementById("boardNo").value);
-		console.log(document.getElementById("reviewNo").value);
+//		console.log(document.getElementById("orderDetailNo").value);
+//		console.log(document.getElementById("orderNo").value);
+//		console.log(document.getElementById("productNo").value);
+//		console.log(document.getElementById("boardNo").value);
+//		console.log(document.getElementById("reviewNo").value);
 		
 		if(($('#deleteAttm').text() === "삭제 X") && ($('#deleteAttm').css('display') === 'none')){ // 원래 리뷰 사진이 없는 경우 -> 사진 첨부 가능
 			document.getElementById("file").removeAttribute('disabled');
@@ -355,8 +356,8 @@
 			document.getElementById("file").setAttribute('disabled', true);
 		}
 		
-		console.log($('#deleteAttm').css('display') === 'none');
-		console.log($('#deleteAttm').text() === '삭제 X');
+//		console.log($('#deleteAttm').css('display') === 'none');
+//		console.log($('#deleteAttm').text() === '삭제 X');
 		
 		document.getElementById("deleteAttm").addEventListener('click', function(){
 			const nextHidden = this.nextElementSibling;
@@ -382,13 +383,13 @@
 	
 	document.getElementById("reviewRating").addEventListener('input', e=>{
 		document.querySelector('#starNum').value = e.target.value/2;
-		console.log(document.querySelector('#starNum').value);
+//		console.log(document.querySelector('#starNum').value);
 	});
 	
 	// 리뷰 삭제
 	$(document).on('click', ".deleteReview", function(){
 		var reviewForm = this.parentNode.parentNode.parentNode.parentNode.parentNode.querySelector('form');
-		console.log(reviewForm);
+//		console.log(reviewForm);
 		
 		reviewForm.action = '${contextPath}/deleteReview.me';
 		reviewForm.submit();
