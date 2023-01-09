@@ -98,7 +98,7 @@
         	
         $(document).on('click','.btn-danger',function(){
     		const orderNo=$(this).parents('tr').children().eq(0).text();
-        	location.href="${contextPath}/detailOrder.adm?orderNo="+orderNo;
+        	location.href="${contextPath}/detailOrderProduct.adm?orderNo="+orderNo;
         });
         
         

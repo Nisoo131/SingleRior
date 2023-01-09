@@ -100,7 +100,7 @@
 							      	상태 변경
 							      	</button>
 							      	</td>
-							      	<td><br><button type="button" class="btn btn-danger">결제취소</button></td>
+							      	<td><br><button type="button" class="btn btn-danger" onclick="cancelProduct('${l.merId}','${l.impUid}');">결제취소</button></td>
 							   	</tr>
 
 								<div class="modal fade" id="staticBackdrop${l.orderDetailNo }"
@@ -256,6 +256,7 @@
 				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">창닫기</button>
 				<button type="button" class="btn btn-light" style="background:#008cd4; color:white">배송지변경</button>
 	     	 </div>
+	     	 
 	    </div>
 	  </div>
 	</div>
@@ -263,18 +264,51 @@
 
 </main>
 	</div>
-
+   
+        <script>
+        
+        	const cancelProduct = (impUid,merId) =>{
+        		
+        		console.log(impUid);
+        		console.log(merId);
+        		
+			/* 	fetch('http://localhost:8088/SingleRior/cancelProduct.adm',{
+        			method : "POST",
+        			header : {
+        				"Content-Type" : "application/json",
+        			},
+        			body:JSON.stringify({
+        				"memId" : merId,
+        				"impUid" : impUid
+        			})  
+        		})
+        		.then(res=>{
+        			console.log('통신성공');
+        		})  */
+        		
+        		$.ajax({
+        			type: "POST",  
+        			url: "${contextPath}/cancelProduct.adm", 
+        			data: JSON.stringify({
+        		        merId: merId,
+        		        impUid: impUid 
+        		      }),
+        		   contentType: "application/json",
+        		      
+        		    }); 
+        		
+        		}
+        		
+        	</script>
         
         
-        
-        
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
-        <script src='${ pageContext.servletContext.contextPath }/resources/js/scripts.js'></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
-        <script src="${ pageContext.servletContext.contextPath }/resources/assets/demo/chart-area-demo.js"></script>
-        <script src="${ pageContext.servletContext.contextPath }/resources/assets/demo/chart-bar-demo.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
-        <script src="${ pageContext.servletContext.contextPath }/resources/js/datatables-simple-demo.js"></script>
+<!--         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script> -->
+<%--         <script src='${ pageContext.servletContext.contextPath }/resources/js/scripts.js'></script> --%>
+<!--         <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script> -->
+<%--         <script src="${ pageContext.servletContext.contextPath }/resources/assets/demo/chart-area-demo.js"></script> --%>
+<%--         <script src="${ pageContext.servletContext.contextPath }/resources/assets/demo/chart-bar-demo.js"></script> --%>
+<!--         <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script> -->
+<%--         <script src="${ pageContext.servletContext.contextPath }/resources/js/datatables-simple-demo.js"></script> --%>
     </body>
 </html>
 

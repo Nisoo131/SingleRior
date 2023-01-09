@@ -190,8 +190,8 @@
 		<result column="PRODUCT_OPTION" property="productOption"/>
 		<result column="STATUS" property="status"/>
 		<result column="IMG_SERVER_NAME" property="imgServerName"/>
-		<result column="MERCHANTU_ID" property="mId"/>
-		<result column="IMP_UID" property="uId"/>
+		<result column="MERCHANTU_ID" property="merId"/>
+		<result column="IMP_UID" property="impUid"/>
 	</resultMap>
 	<resultMap type="OrderPerson" id="OrderPersonResultSet">
 		<id column="MEMBER_ID" property="memberId"/>
