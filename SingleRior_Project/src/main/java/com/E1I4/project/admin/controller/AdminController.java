@@ -1,6 +1,7 @@
 package com.E1I4.project.admin.controller;
 
 import java.io.File;
+import java.io.IOException;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -9,16 +10,28 @@ import java.util.HashMap;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.E1I4.project.admin.dto.CancelProductReqDto;
+import com.E1I4.project.admin.dto.ImportTokenDto;
 import com.E1I4.project.admin.model.service.AdminService;
 import com.E1I4.project.admin.model.vo.ChangeDeli;
 import com.E1I4.project.admin.model.vo.MemberManage;
@@ -938,14 +951,15 @@ public class AdminController {
 		
 		return "statProduct";
 	}
-	@RequestMapping("detailOrder.adm")
+	@RequestMapping("detailOrderProduct.adm")
 	public String detailOrder(@RequestParam("orderNo") int orNo,Model model) {
 		ArrayList<OrderProductDetail> list = aService.orderProductDetail(orNo);
 		OrderPerson op = aService.selectOrderPerson(orNo);
-		System.out.println(op);
 		
 		model.addAttribute("list",list);
 		model.addAttribute("op",op);
+		
+		System.out.println(list);
 		return "detailOrderProduct";
 	}
 	
@@ -965,5 +979,45 @@ public class AdminController {
 			throw new AdminException("변경 실패");
 		}
 	}
+	
+	@RequestMapping(value="/cancelProduct.adm",method = RequestMethod.POST,produces="application/json;")
+	public void payMentCancle(@RequestBody CancelProductReqDto cancelProductReqDto) throws IOException  {
+		
+		String token = getToken(); //토큰 ㅜ.ㅜ
+		
+	
+		
+		
+	
+	}
+
+	public String getToken() {
+		String apiKey="7352801505860085";
+		String apiSecret="fHFLkPCxosVgCLwpdKtsR36eDYhUvWXCedKEh49XgDwx6SjYSiOSmfKVBW5UqszEAqpIAxW3K9ChANER";
+		
+		RestTemplate rt =new RestTemplate();
+		HttpHeaders headers=new HttpHeaders();
+		headers.add("content-type","application/json; charset=UTF-8");
+
+		JSONObject json = new JSONObject();
+		json.put("imp_key",apiKey);
+		json.put("imp_secret",apiSecret);
+		
+		HttpEntity<String> impTokenRequest= new HttpEntity<>(json.toString(),headers);
+		
+		ImportTokenDto tokenDto =rt.postForObject(
+				"https://api.iamport.kr/users/getToken",
+				impTokenRequest,
+				ImportTokenDto.class
+				);
+				
+		
+		String token=tokenDto.getResponse().get("access_token");
+		
+		return token;
+	}
+	
+	
+	
 	
 }
