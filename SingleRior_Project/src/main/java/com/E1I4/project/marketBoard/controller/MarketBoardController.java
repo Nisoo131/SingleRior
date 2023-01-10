@@ -460,7 +460,6 @@ public class MarketBoardController {
 				productNo = pn;
 				sBoard = mkService.selectProduct(productNo);
 			}
-			System.out.println(sBoard);
 			if(mkBoard != null) {
 				model.addAttribute("mkBoard", mkBoard);
 				model.addAttribute("mkAList", mkAList);
