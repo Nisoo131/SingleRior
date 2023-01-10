@@ -57,9 +57,12 @@
                     <section >
 						<h1 style="text-align:left"></h1><br><br>
 						<div id="orderProduct">
+							<span><button type="button" class="btn btn-danger" onclick="cancelTotalProduct('${list[0].merId}','${list[0].impUid}',${list[0].orderNo })" >전체 취소</button></span>
+							<br>
 							<span>주문번호 : ${list[0].orderNo}</span>&nbsp;&nbsp;&nbsp;
 							<span>주문일자 : ${list[0].orderDate}</span>
 							<span style="float:right;">총 주문 금액 : <fmt:formatNumber value="${list[0].orderTotalPrice}" pattern="#,###"/>원</span>
+							
 							<table class="table">
 							    <c:forEach items="${list}" var="l">
 							    
@@ -82,7 +85,7 @@
 							      	<td><h4>결제취소</h4></td>
 							   	</tr>
 							   	<tr>
-							   		<td>${l.orderDetailNo}</td>
+							   		<td class="orderDetailNo">${l.orderDetailNo}</td>
 							     	<td>
 							      		${l.productName}
 							      	</td>
@@ -96,12 +99,20 @@
 							      		<fmt:formatNumber value="${l.productPrice}" pattern="#,###"/>원
 							      	</td>
 							      	<td>${l.status }<br>
+							      	<c:if test="${l.status ne '주문취소'  }">
 							      	<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop${l.orderDetailNo }">
 							      	상태 변경
 							      	</button>
+							      	</c:if>
 							      	</td>
-							      	<td><br><button type="button" class="btn btn-danger" onclick="cancelProduct('${l.merId}','${l.impUid}','${l.orderDetailNo}','${l.orderNo }');">결제취소</button></td>
-							   	</tr>
+							      	<c:if test="${l.status ne '주문취소'  }">
+							      	<td><br>
+							      	
+							      	<button type="button" class="btn btn-danger" onclick="cancelProduct('${l.merId}','${l.impUid}','${l.orderDetailNo}','${l.orderNo }');">결제취소</button>
+							      	
+							      	</td>
+									</c:if>
+								   	</tr>
 
 								<div class="modal fade" id="staticBackdrop${l.orderDetailNo }"
 									data-bs-backdrop="static" data-bs-keyboard="false"
@@ -267,26 +278,8 @@
    
         <script>
         
-        	const cancelProduct = (impUid,merId,orderDetailNo,orderNo) =>{
-        		
-        		console.log(impUid);
-        		console.log(merId);
-        		console.log(orderDetailNo);
-        		console.log(orderNo);
-        		
-			/* 	fetch('http://localhost:8088/SingleRior/cancelProduct.adm',{
-        			method : "POST",
-        			header : {
-        				"Content-Type" : "application/json",
-        			},
-        			body:JSON.stringify({
-        				"memId" : merId,
-        				"impUid" : impUid
-        			})  
-        		})
-        		.then(res=>{
-        			console.log('통신성공');
-        		})  */
+        	const cancelProduct = (merId,impUid,orderDetailNo,orderNo) =>{
+	
         		const yn=confirm('결제 취소하시겠습니까?')
         		
         		
@@ -305,19 +298,49 @@
         		   success:(data)=>{
         			   if(data==0){
         				   alert("결제 취소가 성공 하였습니다.");
+        				   location.href="${contextPath}/detailOrderProduct.adm?orderNo="+orderNo;
         			   }else{
         				   alert("결제 취소가 실패 하였습니다.")
         			   }
         		   }
-        		   
-        		   
         		   
         		    }); 
         		}else{
         			alert("결제취소를 취소합니다람쥐")
         		}
         		}
+        	
+			const cancelTotalProduct=(merId,impUid,orderNo)=>{
+							
+			const yn=confirm('전체 결제 취소하시겠습니까?')
         		
+        		
+        		if(yn){
+        			
+        		$.ajax({
+        			type: "POST",  
+        			url: "${contextPath}/cancelTotalProduct.adm", 
+        			data: JSON.stringify({
+        		        merId: merId,
+        		        impUid: impUid,
+        		        orderNo:orderNo
+        		      }),
+        		   contentType: "application/json",
+        		    success:(data)=>{
+        			   if(data==0){
+        				   alert("전체 결제 취소가 성공 하였습니다.");
+        				   location.href="${contextPath}/detailOrderProduct.adm?orderNo="+orderNo;
+        			   }else{
+        				   alert("결제 취소가 실패 하였습니다.")
+        			   } 
+        		   }
+        		   
+        		    }); 
+        		}else{
+        			alert("결제취소를 취소합니다람쥐")
+        		}
+								
+			}
         	</script>
         
         

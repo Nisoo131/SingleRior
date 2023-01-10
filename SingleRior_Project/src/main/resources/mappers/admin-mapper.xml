@@ -662,7 +662,7 @@
 	
 	<update id="statusDetailNo">
 		update order_detail
-		set status='결제취소'
+		set status='주문취소'
 		where order_detail_no=#{odNo}
 	</update>
 	<update id="statusOrderNo">
@@ -670,5 +670,12 @@
 		set order_total_status='부분취소'
 		where order_No=#{orNo}
 	</update>
+	<select id="selectProductDetailNo" resultType="Map">
+	
+		select order_detail_no as A
+		from order_detail
+		where order_no=#{orNo}
+		
+	</select>
 	
 </mapper>

@@ -280,6 +280,10 @@ public class AdminDAO {
 		return sqlSession.update("adminMapper.statusOrderNo",orNo);
 	}
 
+	public ArrayList<HashMap<String,String>> selectProductDetailNo(SqlSessionTemplate sqlSession, int orNo) {
+		return (ArrayList)sqlSession.selectList("adminMapper.selectProductDetailNo",orNo);
+	}
+
 
 
 

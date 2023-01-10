@@ -28,6 +28,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.E1I4.project.admin.dto.CancelProductReqDto;
+import com.E1I4.project.admin.dto.CancelTotalProductReqDto;
 import com.E1I4.project.admin.dto.ImportTokenDto;
 import com.E1I4.project.admin.dto.ResponseDto;
 import com.E1I4.project.admin.model.service.AdminService;
@@ -979,7 +980,7 @@ public class AdminController {
 	
 	@ResponseBody
 	@RequestMapping(value="cancelProduct.adm",method = RequestMethod.POST,produces="application/json;")
-	public String payMentCancle(@RequestBody CancelProductReqDto cancelProductReqDto) throws IOException  {
+	public String paymentCancle(@RequestBody CancelProductReqDto cancelProductReqDto) throws IOException  {
 		
 		String token = getToken(); //토큰 ㅜ.ㅜ
 		
@@ -992,7 +993,7 @@ public class AdminController {
 		JSONObject json = new JSONObject();
 		json.put("imp_uid", cancelProductReqDto.getImpUid());
 		json.put("merchant_uid", cancelProductReqDto.getMerId());
-		json.put("amount", 10);
+		json.put("amount", 100);
 		HttpEntity<String> cancelProduct = new HttpEntity<>(json.toString(),headers);
 		
 		ResponseDto rDto =rt.postForObject(
@@ -1016,8 +1017,58 @@ public class AdminController {
 			}
 	
 	}
+	@ResponseBody
+	@RequestMapping(value="cancelTotalProduct.adm",method = RequestMethod.POST,produces="application/json;")
+	public String paymentTotalCancle(@RequestBody CancelTotalProductReqDto cancelTotalProductReqDto) throws IOException  {
+		
+
+		String token = getToken(); //토큰 ㅜ.ㅜ
+		
+		RestTemplate rt = new RestTemplate();
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("content-type","application/json; charset=UTF-8");
+		headers.add("Authorization",token);
+		
+		
+		JSONObject json = new JSONObject();
+		json.put("imp_uid", cancelTotalProductReqDto.getImpUid());
+		json.put("merchant_uid", cancelTotalProductReqDto.getMerId());
+		HttpEntity<String> cancelProduct = new HttpEntity<>(json.toString(),headers);
+		
+		ResponseDto rDto =rt.postForObject(
+				"https://api.iamport.kr/payments/cancel",
+				cancelProduct, 
+				ResponseDto.class);
+		Integer code=rDto.getCode();
+			System.out.println(code);
+			
+			
+			
+			
+			
+
+			if(code==0) {
+				
+				int orNo=cancelTotalProductReqDto.getOrderNo();
+				int orderNoResult=aService.statusOrderNo(orNo);
+				ArrayList<HashMap<String,String>> odList=aService.selectProductDetailNo(orNo);
+				
+				for(int i=0;i<odList.size();i++) {
+					int odNo=Integer.parseInt(odList.get(i).toString().split("=")[1].substring(0,3));
+					int result=aService.statusDetailNo(odNo);
+				}
+				
+				return "0";
+			}else {
+				return "1";
+			}	}
+	
 
 	public String getToken() {
+		
+		
+		
+		
 		String apiKey="7352801505860085";
 		String apiSecret="fHFLkPCxosVgCLwpdKtsR36eDYhUvWXCedKEh49XgDwx6SjYSiOSmfKVBW5UqszEAqpIAxW3K9ChANER";
 		
