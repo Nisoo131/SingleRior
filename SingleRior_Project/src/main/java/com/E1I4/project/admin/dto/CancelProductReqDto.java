@@ -9,6 +9,8 @@ public class CancelProductReqDto {
 	
 	private String merId;
 	private String impUid;
+	private int orderDetailNo;
+	private int orderNo;
 	
 	
 	

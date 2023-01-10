@@ -314,6 +314,16 @@ public class AdminServiceImpl implements AdminService {
 		return aDAO.selectOrderPerson(sqlSession,orNo);
 	}
 
+	@Override
+	public int statusDetailNo(int odNo) {
+		return aDAO.statusDetailNo(sqlSession,odNo);
+	}
+
+	@Override
+	public int statusOrderNo(int orNo) {
+		return aDAO.statusOrder(sqlSession,orNo);
+	}
+
 
 
 
