@@ -283,7 +283,7 @@
    	          pay_method: "card",
    	          merchant_uid: new Date().getTime(),   // 주문번호(DB 전달 필요)
    	          name: "SingleRior_스토어",
-   	          amount: 100, // 결제 테스트 이후 amount 수정 
+   	          amount: 500, // 결제 테스트 이후 amount 수정 
    	       	  buyer_email: email,
  	          buyer_name: memberName,
  	          buyer_tel: buyer_phone,
