@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -48,28 +49,37 @@
 						<div class="col-12">
 						<select name="marketType" class="form-select form-select-sm" aria-label=".form-select-sm example" style="width: 120px; margin-bottom: 15px;">
 							<option value="1">같이사요</option>
+							<c:if test="${sBoard.boardTitle == null}">
 							<option value="2">팝니다</option>
 							<option value="3">삽니다</option>
+							</c:if>
 						</select>
-						
-							<label for="boardTitle" class="form-label">TITLE</label>
-							<input type="text" class="form-control" id="boardTitle" name="boardTitle" value="${mkBoard.boardTitle}">
-							<label for="marketPrice" class="form-label">PRICE</label>
-							<input type="number" class="form-control" id="marketPrice" name="marketPrice" value="${mkBoard.marketPrice}">
-							<label for="marketPrice" class="form-label">lOCATION</label>
-							<input type="text"  class="form-control" id="location" name="location" value="${mkBoard.location }">
+							<label for="boardTitle" class="form-label" style="font-size: 14px;">제목</label>
+							<input type="text" maxlength="27" class="form-control" value="${mkBoard.boardTitle}" id="boardTitle" name="boardTitle" required="required">
+							<label for="marketPrice" class="form-label"  style="font-size: 14px;">가격</label>
+							<input type="number" min="0" class="form-control" id="marketPrice" value="${mkBoard.marketPrice}" name="marketPrice"  required="required">
+							<label for="location" class="form-label"  style="font-size: 14px;">직거래 장소</label>
+							<input type="text"  class="form-control" id="location" name="location" value="${mkBoard.location}" onclick="openAddress();">
 						</div>
 						
 
 						<div class="col-12">
+							<c:if test="${ sBoard.boardTitle != null}">
+							<div style="text-align: center; ">
+							 	<fmt:formatNumber type="number" maxFractionDigits="3" value="${ sBoard.price-(sBoard.price*sBoard.discount/100)}" var="totalPrice" />
+							 	<p style="font-size: 22px;">[${sBoard.boardTitle}은 ${totalPrice}원입니다.]<p>
+								 <img src="resources/uploadFiles/${ sBoard.imgServerName }"  style="width: 250px; height: 250px; border-radius: 10%">
+					        </div>
+					        </c:if>
+						
 							<div class="input-group">
 					          <textarea class="form-control" rows="10" name="boardContent" style="resize: none;">${mkBoard.boardContent }</textarea>
 					        </div>
 						</div>
 						
 						<div>
+						<c:if test="${ sBoard.boardTitle == null}">
 							<c:forEach items="${mkAList }" var="a">
-								
 									<a href="${contextPath }/resources/uploadFiles/${a.imgRename}" download="${a.imgOriginalName }">
 										${a.imgOriginalName }
 									</a>
@@ -79,6 +89,7 @@
 									<input type="hidden" name="deleteAttm" >
 								<br>
 							</c:forEach>
+						</c:if>
 						</div>
 						
 						<div id="fileArea">
@@ -89,9 +100,10 @@
 							</div>
 						</div>
 						<br><br><br><br><br>
-						<input type="hidden" name="writer" value="${mkBoard.writer }">
+						<input type="hidden" name="writer" value="${mkBoard.writer}">
 						<input type="hidden" name="boardNo" value="${mkBoard.boardNo }">
 						<input type="hidden" name="boardType" value="3">
+						<input type="hidden" value="${sBoard.productNo}" name="productNo">
 						<button class="btn btn-outline-primary"  id="submitAttm">UPDATE</button>
 						<button class="btn btn-outline-primary" type="button" onclick="javascript:history.back();">BACK</button>
 					</div>
@@ -104,7 +116,7 @@
 
 
 	</div>
-	
+	<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 		<script>
 		window.onload=()=>{
 			
@@ -139,11 +151,22 @@
 			
 			
 		
-			$(document).on('click', '.deleteFile', function(){
+		$(document).on('click', '.deleteFile', function(){
 				$(this).parent().remove();
 			});
-		}
 		
+		}
+		const searchAddress = document.getElementById('location');
+		const openAddress = function(){
+	    		new daum.Postcode({
+	    			oncomplete: function(data){
+	    				searchAddress.value = data.address;
+	    			}
+	    			
+	    			}).open({
+	    				 popupTitle: '주소 검색'
+	    			})
+	    };
 		
 		
 		

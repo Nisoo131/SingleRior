@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%> 
 <!DOCTYPE html>
 <html>
 <head>
@@ -34,10 +35,7 @@
 	rel="stylesheet"
 	integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi"
 	crossorigin="anonymous">
-<script
-	src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
-	integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
-	crossorigin="anonymous"></script>
+
 <body>
 	<header class="sticky-top">
 		<div>
@@ -79,9 +77,11 @@
 										<p class="card-text">${tb.boardTitle }</p>
 										<input  id="bNo" type="hidden" value="${ tb.boardNo }">
 										<input  id="writer" type="hidden" value="${ tb.writer}">
+										<input id="productNo" type="hidden" value="${ tb.productNo}">
 										<input type="hidden" value="${ tb.boardNo }">
 										<div class="d-flex justify-content-between align-items-center">
-											<p class="card-text" style="width: 280px;">${tb.marketPrice }원</p>
+											
+											<p class="card-text" style="width: 280px;"><fmt:formatNumber value="${tb.marketPrice}" pattern="#,###"/>원</p>
 											<div class="btn-group">
 												<img src="https://cdn-icons-png.flaticon.com/512/2589/2589197.png"style="width: 30px; height: 30px;">${tb.likeCount }<img src="https://cdn-icons-png.flaticon.com/512/2589/2589054.png" style="width: 30px; height: 30px; display: none;">
 										  &nbsp;<img src="https://cdn-icons-png.flaticon.com/512/7789/7789458.png" style="width: 30px; height: 30px;">${tb.replyCount }
@@ -124,9 +124,10 @@
 										<p class="card-text">${tb.boardTitle }</p>
 										<input id="bNo" type="hidden" value="${ tb.boardNo }">
 										<input id="writer" type="hidden" value="${ tb.writer}">
+										<input id="productNo" type="hidden" value="${ tb.productNo}">
 										<input type="hidden" value="${ tb.boardNo }">
 										<div class="d-flex justify-content-between align-items-center">
-											<p class="card-text" style="width: 280px;">${ tb.marketPrice }원</p>
+											<p class="card-text" style="width: 280px;"><fmt:formatNumber value="${tb.marketPrice}" pattern="#,###"/>원</p>
 											<div class="btn-group">
 												<img src="https://cdn-icons-png.flaticon.com/512/2589/2589197.png"style="width: 30px; height: 30px;">${tb.likeCount }<img src="https://cdn-icons-png.flaticon.com/512/2589/2589054.png" style="width: 30px; height: 30px; display: none;">
 										  &nbsp;<img src="https://cdn-icons-png.flaticon.com/512/7789/7789458.png" style="width: 30px; height: 30px;">${tb.replyCount }
@@ -218,14 +219,14 @@
 				<img class="bd-placeholder-img card-img-top" width="100%" height="225"  src="https://ifh.cc/g/1Lygac.png">
 			</c:if>
 			<c:set var="listCheck" value="false"></c:set>
-			
 				<div class="card-body" style="padding:15px;">
 				<span style="font-size: 13px;" class="card-text">${ mkB.nickName }</span>
 					<p class="card-text" style="font-size: 18px;">${ mkB.boardTitle }</p>
 					<input id="bNo" type="hidden" value="${ mkB.boardNo }">
 					<input id="writer" type="hidden" value="${ mkB.writer}">
+					<input id="productNo" type="hidden" value="${ mkB.productNo}">
 					<div class="d-flex justify-content-between align-items-center">
-						<p class="card-text" style="width: 280px;">${ mkB.marketPrice }원</p>
+						<p class="card-text" style="width: 280px;"><fmt:formatNumber value="${mkB.marketPrice}" pattern="#,###"/>원</p>
 						<div class="btn-group">
 							<img src="https://cdn-icons-png.flaticon.com/512/2589/2589197.png" style="width: 30px; height: 30px;">${mkB.likeCount}&nbsp;&nbsp;
 							<img src="https://cdn-icons-png.flaticon.com/512/7789/7789458.png" style="width: 30px; height: 30px;">${mkB.replyCount}
@@ -320,7 +321,8 @@
 			card.addEventListener('click', function() {
 				const bNo = this.querySelector('#bNo').value;
 				const boardWriter = this.querySelector('#writer').value;
-				location.href='${contextPath}/marketBoardDetail.ma?bNo=' + bNo +'&boardWriter=' + boardWriter;
+				const productNo = this.querySelector('#productNo').value;
+				location.href='${contextPath}/marketBoardDetail.ma?bNo=' + bNo +'&boardWriter=' + boardWriter  +'&productNo=' + productNo;
 			});
 		}
 		
@@ -330,16 +332,19 @@
 			card.addEventListener('click', function() {
 				const bNo = this.querySelector('#bNo').value;
 				const boardWriter = this.querySelector('#writer').value;
-				location.href='${contextPath}/marketBoardDetail.ma?bNo=' + bNo  +'&boardWriter=' + boardWriter;
+				const productNo = this.querySelector('#productNo').value;
+				location.href='${contextPath}/marketBoardDetail.ma?bNo=' + bNo  +'&boardWriter=' + boardWriter +'&productNo=' + productNo;
 			});
 		}
+		
 		//게시글 상세페이지
 		const cards = document.getElementsByClassName('cards');
 		for(const card of cards){
 			card.addEventListener('click', function() {
 				const bNo = this.querySelector('#bNo').value;
 				const boardWriter = this.querySelector('#writer').value;
-				location.href='${contextPath}/marketBoardDetail.ma?bNo=' + bNo +'&boardWriter=' + boardWriter;
+				const productNo = this.querySelector('#productNo').value;
+				location.href='${contextPath}/marketBoardDetail.ma?bNo=' + bNo +'&boardWriter=' + boardWriter +'&productNo=' + productNo;
 			});
 		}
 	}

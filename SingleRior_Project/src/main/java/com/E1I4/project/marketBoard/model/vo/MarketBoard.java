@@ -34,6 +34,7 @@ public class MarketBoard {
 	private String location;
 	private String profileImg;
 	private String address;
+	private int productNo;
 	//boardType 3 market
 	//marketType 같이사요 1, 팝니다2, 삽니다3
 	//marketArray 최신순1, 좋아요수2, 댓글수3

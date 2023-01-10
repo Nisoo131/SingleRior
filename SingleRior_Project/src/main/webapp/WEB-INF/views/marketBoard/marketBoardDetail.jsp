@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -200,7 +201,6 @@
 					</div>
 					<table>
 						<tr>
-							
 							<td class="fs-3 px-5" width="1100">${ mkBoard.boardTitle }</td>
 							<td width="20"><img src="https://cdn-icons-png.flaticon.com/512/2589/2589197.png" width="20" height="20"></td>
 							<td class="fs-5" style="text-align: center;" width="60" id="likeCount">${ mkBoard.likeCount }</td>
@@ -208,16 +208,37 @@
 							<td class="fs-5" style="text-align: center;" width="60" id="replyCount" >${ mkBoard.replyCount }</td>
 						</tr>
 						<tr>
-							<td col class="fs-3 px-5" width="1100" style="font-size: 15px;">가격 : ${ mkBoard.marketPrice }원</td>
+							<td col class="fs-3 px-5" width="1100" style="font-size: 15px;">가격 : <fmt:formatNumber value="${mkBoard.marketPrice}" pattern="#,###"/>원</td>
 						</tr>
 					</table>
+					
 					<span class="px-5" width="200">${ mkBoard.createDate }</span>
 					<span style="float: right; padding-right: 12px;">조회수 ${ mkBoard.count }</span>
 					
 					<div style="border-bottom: 1px solid #DCDCDC; padding-top: 10px;"></div>
 					
 					<!-- 본문 -->
+					
 					<div class="p-5" style="font-size: 20px;">
+					<c:if test="${sBoard ne null }">
+						<div class="mx-auto" style="text-align:center; background: #D9E5FF; margin-bottom:25px; border-radius:2em; padding: 20px; width: 650px;"  >
+						[${sBoard.boardTitle}] 같이 사요! 
+						<br><fmt:formatNumber type="number" maxFractionDigits="3" value="${ sBoard.price-(sBoard.price*sBoard.discount/100)}" var="totalPrice" />
+						가격: ${totalPrice}
+						<br>
+						제품보러가기&nbsp;&nbsp;<img id="productDetail" src="https://cdn-icons-png.flaticon.com/512/7381/7381966.png" style="width: 20px; height: 20px;">
+					</div>
+					<div id="slideShow">
+				    <ul class="slides">
+						<li><img class="img" src="resources/uploadFiles/${ sBoard.imgServerName}" alt="" style="width: 280px; height: 280px; cursor: pointer; "></li>
+				    </ul>  
+				    <p class="controller">
+				      <span class="prev">&lang;</span>  
+				      <span class="next">&rang;</span>
+				    </p>
+					</div>
+					<script src="JS/slideShow.js"></script>
+					</c:if>
 						<textarea style="width: 100%; border: none; resize: none;" readonly>${ mkBoard.boardContent }</textarea>
 					</div>
 					
@@ -232,7 +253,7 @@
 				<div id="slideShow">
 				    <ul class="slides">
 				    	<c:forEach items="${mkAList}" var="mkA">
-				      	<li ><img class="img" src="resources/uploadFiles/${ mkA.imgRename}" alt="" style="width: 280px; height: 280px; cursor: pointer; "></li>
+						<li><img class="img" src="resources/uploadFiles/${ mkA.imgRename}" alt="" style="width: 280px; height: 280px; cursor: pointer; "></li>
 				    	</c:forEach>
 				    </ul>  
 				    <p class="controller">
@@ -242,18 +263,17 @@
 				 </div>
 				<script src="JS/slideShow.js"></script>
 				</c:if>	
-
+				
 				<!-- 지도영역  -->
 				<c:if test="${mkBoard.location ne null }">
-					
-					<div id="map" class="mx-auto" style=" width:300px;height:200px;"></div>
+					<div id="map" class="mx-auto" style=" width:300px; height:200px;"></div>
 					<br>
-					<div id="myLocation" class="mx-auto" style="cursor: pointer; width:230px; text-align:center; border-radius:2em;padding: 20px; "><img style="width: 30px; height: 30px; " alt="" src="resources/image/pick.png">&nbsp;&nbsp;내 위치 확인하기</div>
-					<div id="tranLocation" class="mx-auto" style="cursor: pointer; width:230px; text-align:center; border-radius:2em; padding: 20px; display: none;"><img style="width: 30px; height: 30px; cursor: pointer;" alt="" src="resources/image/pick.png">&nbsp;&nbsp;직거래 위치 확인하기 </div>
-					<div class="mx-auto" style="text-align:center; background: #D9E5FF; border-radius:2em; padding: 20px; width: 650px;"  >${mkBoard.nickName}님은  ${mkBoard.location }에서 직거래하고 싶어해요!</div>
-				</c:if>		
-									
-				<div class="col-md-1" style="text-align: center; padding-top: 30px; padding-left: 50px; width: 170px;">
+					<div id="myLocation" class="mx-auto" style="cursor: pointer; width:230px; text-align:center; border-radius:2em;padding: 10px; "><img style="width: 30px; height: 30px; " alt="" src="resources/image/pick.png">&nbsp;&nbsp;내 위치 확인하기</div>
+					<div id="tranLocation" class="mx-auto" style="cursor: pointer; width:230px; text-align:center; border-radius:2em; padding: 10px; display: none;"><img style="width: 30px; height: 30px; cursor: pointer;" alt="" src="resources/image/pick.png">&nbsp;&nbsp;직거래 위치 확인하기 </div>
+					<div class="mx-auto" style="text-align:center; background: #D9E5FF; border-radius:2em; padding: 10px; width: 650px;"  >${mkBoard.nickName}님은  ${mkBoard.location }에서 직거래하고 싶어해요!</div>
+				</c:if>	
+								
+				<div class="col-md-1" style="text-align: center; padding-top: 20px; padding-left: 50px; width: 170px;">
 	                  <div class="row g-0 flex-md-row shadow-sm h-md-250 position-relative mt-2 mb-4">
 	                     <c:if test="${ empty loginUser }">
 	                        <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#loginForm">
@@ -354,7 +374,7 @@
 											<ul class="dropdown-menu" style="text-align: center;">
 												<c:if test="${ loginUser.memberId eq r.memberId }">
 													<li class="reReplyBtn"><a class="dropdown-item" style="cursor: pointer;" >답글달기</a></li>
-													<li class="updateReBtn"><a class="dropdown-item" style="cursor: pointer;"  >수정</a></li>
+													<li class="updateReBtn"><a class="dropdown-item" style="cursor: pointer;">수정</a></li>
 													<li class="deleteReBtn"><a class="dropdown-item " style="cursor: pointer;" >삭제</a><input type="hidden" id="replyNo" class="replyNo" value="${ r.replyNo }"></li>
 												</c:if>
 												<c:if test="${ !(loginUser.memberId eq r.memberId) }">
@@ -449,10 +469,10 @@
 								<td class="px-5 py-3 " colspan="5">
 										<div class="input-group replyContentArea" >
 										<c:if test="${rr.replySecret == 'Y' and (loginUser.memberId eq rr.memberId  or loginUser.memberId eq mkBoard.writer or loginUser.memberAuthority eq 'Y')}">
-											<textarea readonly class="reContent" style="width: 800px; border: none; resize: none;">${rr.replyContent }</textarea>
+											<textarea readonly class="reContent" style="width: 850px; border: none; resize: none;">${rr.replyContent }</textarea>
 										</c:if>
 										<c:if test="${rr.replySecret == 'N' }">
-											<textarea readonly class="reContent" style="width: 800px; border: none; resize: none;">${rr.replyContent }</textarea>
+											<textarea readonly class="reContent" style="width: 850px; border: none; resize: none;">${rr.replyContent }</textarea>
 										</c:if>
 										<c:if test="${rr.replySecret == 'Y' and loginUser.memberId ne rr.memberId and loginUser.memberId ne mkBoard.writer and loginUser.memberAuthority eq 'N'}">
 											<textarea readonly style="width: 1000px; border: none; resize: none;color: #008cd4">비밀 댓글입니다.</textarea>
@@ -487,7 +507,7 @@
 						
 						<c:if test="${ loginUser.memberId eq mkBoard.writer }">
 						<div class="col-md-1" style="text-align: center; width: 100px;">
-							<button class="w-100 btn btn-outline-primary btn-lg" type="button"  onclick="location.href='${contextPath}/mkBoardUpdateView.ma?bNo=${mkBoard.boardNo}'">수정</button>
+							<button class="w-100 btn btn-outline-primary btn-lg" type="button"  onclick="location.href='${contextPath}/mkBoardUpdateView.ma?bNo=${mkBoard.boardNo}&productNo=${sBoard.productNo}'">수정</button>
 						</div>
 						<div class="col-md-1" style="text-align: center; width: 100px;">
 							<button class="w-100 btn btn-outline-danger btn-lg" type="button" id="deleteBtn">삭제</button>
@@ -766,11 +786,11 @@
 			            success:(data)=>{
 			               for(const r of data){
 			               
-			               this.previousElementSibling.value = '';
-			               this.parentNode.querySelector('.reReplySecret').checked = false;
-			               var replyCount = data.length;
-			               this.parentNode.parentNode.parentNode.parentNode.parentNode.style.display = "none";
-			               selectRList(data);  
+				               this.previousElementSibling.value = '';
+				               this.parentNode.querySelector('.reReplySecret').checked = false;
+				               var replyCount = data.length;
+				               this.parentNode.parentNode.parentNode.parentNode.parentNode.style.display = "none";
+				               selectRList(data);  
 			            
 			               }
 			                  
@@ -786,12 +806,11 @@
 			if(${mkBoard.location != null}){
 				var mapContainer = document.getElementById('map'),
 				mapOption = {
-		        center: new kakao.maps.LatLng(33.450701, 126.570667),
-		        level: 5 
-		    	}; 
+		        	center: new kakao.maps.LatLng(33.450701, 126.570667),
+		        	level: 5 
+		    	};
 				
 				var latitude = "", longitude = "";
-				    
 				if (navigator.geolocation) {
 					navigator.geolocation.getCurrentPosition(onSuccess, onError);
 				} else {
@@ -799,8 +818,8 @@
 				}   
 				    
 				function onSuccess(position) {
-					latitude = position.coords.latitude; //y
-					longitude = position.coords.longitude; //x
+					latitude = position.coords.latitude;
+					longitude = position.coords.longitude;
 				   
 				    
 				var map = new kakao.maps.Map(mapContainer, mapOption); 
@@ -1132,9 +1151,9 @@
 					str +='<td class="px-5 py-3 " colspan="5">';
 					str +='<div class="input-group replyContentArea" >';		
 					if(r.replySecret =='Y' && ('${ loginUser.memberId }' == '${ mkBoard.writer }' || '${ loginUser.memberId }' == r.memberId || '${ loginUser.memberAuthority }' == 'Y')){
-						str +='<textarea readonly class="reContent" style="width: 900px; border: none; resize: none;">'+r.replyContent+ '</textarea>';
+						str +='<textarea readonly class="reContent" style="width: 1000px; border: none; resize: none;">'+r.replyContent+ '</textarea>';
 					}else if(r.replySecret =='N'){
-						str +='<textarea readonly class="reContent" style="width: 900px; border: none; resize: none;">'+r.replyContent+ '</textarea>';
+						str +='<textarea readonly class="reContent" style="width: 1000px; border: none; resize: none;">'+r.replyContent+ '</textarea>';
 					}else if(r.replySecret =='Y' && '${ loginUser.memberId }' != '${ mkBoard.writer }' && '${ loginUser.memberId }' != r.memberId && '${ loginUser.memberAuthority }' == 'N'){
 						str +='<textarea readonly style="width: 1000px; border: none; resize: none; color: #008cd4">비밀 댓글입니다.</textarea>';
 					}else if(r.replySecret =='Y' && '${loginUser}' == null){
@@ -1193,9 +1212,9 @@
 						str += '<td class="px-5 py-3 " colspan="5">';
 						str += '<div class="input-group replyContentArea" >';
 						if(rr.replySecret =='Y' && ('${ loginUser.memberId }' == '${ mkBoard.writer }' || '${ loginUser.memberId }' == rr.memberId || '${ loginUser.memberAuthority }' == 'Y')){
-							str +='<textarea readonly class="reContent" style="width: 800px; border: none; resize: none;">'+rr.replyContent+ '</textarea>';
+							str +='<textarea readonly class="reContent" style="width: 850px; border: none; resize: none;">'+rr.replyContent+ '</textarea>';
 						}else if(rr.replySecret =='N'){
-							str +='<textarea readonly class="reContent" style="width: 800px; border: none; resize: none;">'+rr.replyContent+ '</textarea>';
+							str +='<textarea readonly class="reContent" style="width: 850px; border: none; resize: none;">'+rr.replyContent+ '</textarea>';
 						}else if(rr.replySecret =='Y' && '${ loginUser.memberId }' != '${ mkBoard.writer }' && '${ loginUser.memberId }' != rr.memberId && '${ loginUser.memberAuthority }' == 'N'){
 							str +='<textarea readonly style="width: 1000px; border: none; resize: none;">비밀 댓글입니다.</textarea>';
 						}else if(rr.replySecret =='Y' && '${loginUser}' == null){
@@ -1278,6 +1297,15 @@
 		      });
 		      $( 'textarea' ).keyup();
 		 });
+		
+		$(document).on('click', "#productDetail", function(){
+				const productNo = '${sBoard.productNo}';
+				const boardNo = '${sBoard.boardNo}';
+ 				location.href='${contextPath}/productDetail.st?productNo='+productNo+'&boardNo='+boardNo;
+ 			})
+		
+		
+		 
 	</script>
 	 
    

@@ -17,6 +17,7 @@ import com.E1I4.project.marketBoard.model.dao.MarketBoardDAO;
 import com.E1I4.project.marketBoard.model.vo.MarketBoard;
 import com.E1I4.project.member.model.vo.Member;
 import com.E1I4.project.notiBoard.model.vo.NotiBoard;
+import com.E1I4.project.storeBoard.model.vo.StoreBoard;
 
 
 
@@ -192,6 +193,11 @@ public class MarketBoardServiceImpl implements MarketBoardService{
 	@Override
 	public int updateReportStatus(HashMap<String, Object> map) {
 		return mkDAO.updateReportStatus(sqlSession, map);
+	}
+
+	@Override
+	public StoreBoard selectProduct(Integer productNo) {
+		return mkDAO.selectProduct(sqlSession, productNo);
 	}
 
 	
