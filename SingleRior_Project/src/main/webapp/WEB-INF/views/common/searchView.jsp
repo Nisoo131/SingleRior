@@ -123,16 +123,16 @@
 						  								<fmt:formatNumber type="number" maxFractionDigits="3" value="${p.price}" var="commaPrice"/>
 						  								<c:set var="discountPrice" value="${ p.price-(p.price*p.discount/100)}"/>
 														<fmt:formatNumber type="number" maxFractionDigits="3" value="${ p.price-(p.price*p.discount/100)}" var="totalPrice" />
-						  								<span class="item-price">${ totalPrice }</span> 원
+						  								<span class="item-price" style="color: #008cd4;">${ totalPrice }</span> 원
 						  								<input type="hidden" class="PNo" value="${ p.productNo }">
 						  								<input type="hidden" class="BNo" value="${ p.boardNo }">
 						  							</span>
 						  							<div class="today-special-price-review">
-						  								<svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" style="margin-bottom: 3px;" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
+						  								<svg xmlns="http://www.w3.org/2000/svg" style="color: #008cd4;" width="13" height="13" style="margin-bottom: 3px;" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
 						  									<path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
 														</svg>
-						  								<span class="item-star-review">4.8</span>
-						  								<span class="item-review-count">리뷰 500</span>
+						  								<span class="item-star-review">${ p.reviewRating }</span>
+						  								<span class="item-review-count">리뷰 ${ p.reviewCount }</span>
 						  							</div>
 						  						</div>
 					  						</div>
@@ -174,7 +174,7 @@
 					  							<div class="col p-4 d-flex flex-column position-static" style="height: 250px;">
 					  								<h3 class="mb-0 boardTitle">${ m.boardTitle }</h3>
 					  								<div class="mt-2 mb-2">
-					  									<span class="ssingssing-itemPrice">${ m.marketPrice } 원</span>
+					  									<span class="ssingssing-itemPrice"><fmt:formatNumber type="number" maxFractionDigits="3" value="${ m.marketPrice }"/> 원</span>
 					  								</div>
 					  								<p class="card-text mb-auto boardContent" style="overflow: hidden;">${ m.boardContent }</p>
 					  								<input type="hidden" class="marketBNo" value="${ m.boardNo }">

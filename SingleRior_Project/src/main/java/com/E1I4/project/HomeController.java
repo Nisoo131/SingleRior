@@ -102,6 +102,30 @@ public class HomeController {
 		}
 		
 		ArrayList<StoreBoard> pdList = mainService.searchPdList(findKeyword);
+		
+		HashMap<String, Integer> map = new HashMap<String, Integer>();
+		
+		for(int i = 0; i<pdList.size(); i++) {
+			int boardNo = pdList.get(i).getBoardNo();
+			int productNo = pdList.get(i).getProductNo();
+			
+			map.put("boardNo", boardNo);
+			map.put("productNo", productNo);
+			
+			int reviewCount = mainService.getReviewCount(map);
+			pdList.get(i).setReviewCount(reviewCount);
+			
+			double reviewRating = 0.0;
+			
+			if(pdList.get(i).getReviewCount() != 0) {
+				double fullReviewRating = mainService.getReviewRating(map);
+				reviewRating = Math.floor(fullReviewRating * 10) / 10.0;
+				pdList.get(i).setReviewRating(reviewRating);
+			} else {
+				pdList.get(i).setReviewRating(reviewRating);
+			}
+			
+		}
 		ArrayList<Attachment> pdAttmList = mainService.selectPdAttmList();
 		
 		ArrayList<MarketBoard> marketList = mainService.searchMarketList(findKeyword);
