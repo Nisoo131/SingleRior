@@ -300,7 +300,15 @@ public class MarketBoardController {
 			MarketBoard mkBoard = mkService.marketBoardSelect(bNo, yn);
 			ArrayList<Attachment> mkAList = mkService.selectAttm(strBNo);
 			ArrayList<Reply> mkRList = mkService.replySelect(bNo);
-			StoreBoard sBoard = mkService.selectProduct(productNo);
+			
+			StoreBoard sBoard = null;
+			if(productNo !=0) {
+				 sBoard = mkService.selectProduct(productNo);
+				 System.out.println(sBoard);
+				 model.addAttribute("sBoard", sBoard);
+				 
+			}
+			
 			
 			Member m = new Member();
 			m.setMemberId(boardWriter);
@@ -308,7 +316,6 @@ public class MarketBoardController {
 			
 			String memberId = boardWriter;
 			Attachment profileAttm = mService.selectProfile(memberId);
-			System.out.println(sBoard);
 			
 			if(mkBoard != null) {
 				
@@ -318,7 +325,6 @@ public class MarketBoardController {
 				model.addAttribute("mkRList", mkRList);
 				model.addAttribute("reportSelect", reportSelect);
 				model.addAttribute("sBoard", sBoard);
-				
 				return "marketBoardDetail";
 			
 			} else {
@@ -458,6 +464,7 @@ public class MarketBoardController {
 			StoreBoard sBoard = null;
 			if(pn != 0) {
 				productNo = pn;
+				
 				sBoard = mkService.selectProduct(productNo);
 			}
 			if(mkBoard != null) {
