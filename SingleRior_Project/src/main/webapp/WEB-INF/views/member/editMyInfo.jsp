@@ -54,7 +54,7 @@
 								<span id="pwdCheckMsg"></span>
 							</div>
 							<div class="col-12">
-								<label for="pwdConfirm" class="form-label">새로운 비밀번호</label>
+								<label for="pwdConfirm" class="form-label">새로운 비밀번호(비밀번호를 변경 할 경우에만 입력해주세요.)</label>
 								<input type="password" class="form-control" id="newPwd" name="newPwd">
 								<span id="newPwdCheckMsg"></span>
 							</div>
