@@ -302,7 +302,7 @@ public class MarketBoardController {
 			ArrayList<Reply> mkRList = mkService.replySelect(bNo);
 			
 			StoreBoard sBoard = null;
-			if(productNo !=0) {
+			if(productNo !=null) {
 				 sBoard = mkService.selectProduct(productNo);
 				 System.out.println(sBoard);
 				 model.addAttribute("sBoard", sBoard);
@@ -325,6 +325,7 @@ public class MarketBoardController {
 				model.addAttribute("mkRList", mkRList);
 				model.addAttribute("reportSelect", reportSelect);
 				model.addAttribute("sBoard", sBoard);
+				
 				return "marketBoardDetail";
 			
 			} else {
@@ -603,7 +604,7 @@ public class MarketBoardController {
 		
 		//신고하기
 		@RequestMapping("marketReport.ma")
-		public String marketReport(HttpSession session, @ModelAttribute Report report, Model model) {
+		public String marketReport(HttpSession session, @ModelAttribute Report report, Model model,@RequestParam(value="productNo", required=false) Integer pn) {
 			String id = ((Member)session.getAttribute("loginUser")).getMemberId();
 			report.setMemberId(id);
 			HashMap<String, Object> map = new HashMap<String, Object>();
@@ -614,10 +615,11 @@ public class MarketBoardController {
 			Report reportSelect =  mkService.reportSelect(map);
 			int result = mkService.updateReportStatus(map);
 			int result1 = mkService.marketReport(report);
-			
+			StoreBoard sBoard = mkService.selectProduct(pn);
 			if(result>0) {
 				model.addAttribute("bNo", report.getBoardNo());
 				model.addAttribute("reportSelect", reportSelect);
+				model.addAttribute("sBoard", sBoard);
 				return "redirect:marketBoardDetail.ma";
 			}else {
 				throw new BoardException("신고 실패");

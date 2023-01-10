@@ -565,6 +565,7 @@
 			  <input type="hidden" id="contentNo" name="contentNo" value="${mkBoard.boardNo }">
 			  <input type="hidden" id="boardNo" name="boardNo" value="${mkBoard.boardNo }">
 			  <input type="hidden" id="reportCate" name="reportCate" value="B">
+			  <input type="hidden" id="productNo" name="productNo" value="${mkBoard.productNo }">
 			    홍보/도배글이예요
 			  </label>
 			</div>
