@@ -974,7 +974,7 @@ public class AdminController {
 		
 		int result=aService.changeDeli(cd); 
 		if(result>0) {
-			return"redirect:detailOrder.adm?orderNo="+orderNo;
+			return"redirect:detailOrderProduct.adm?orderNo="+orderNo;
 		}else {
 			throw new AdminException("변경 실패");
 		}
