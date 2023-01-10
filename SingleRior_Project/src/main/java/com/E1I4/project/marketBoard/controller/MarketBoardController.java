@@ -6,6 +6,7 @@ import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -32,6 +33,8 @@ import com.E1I4.project.member.model.service.MemberService;
 import com.E1I4.project.member.model.vo.Member;
 import com.E1I4.project.notiBoard.model.service.NotiBoardService;
 import com.E1I4.project.notiBoard.model.vo.NotiBoard;
+import com.E1I4.project.storeBoard.model.service.StoreBoardService;
+import com.E1I4.project.storeBoard.model.vo.StoreBoard;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonIOException;
@@ -50,14 +53,16 @@ public class MarketBoardController {
 	@Autowired
 	private NotiBoardService nService;
 	
+	@Autowired
+	private StoreBoardService sService;
 	//글리스트
 	@RequestMapping("marketBoardList.ma")
-	public String marketBoardList(@RequestParam(value="page", required=false) Integer page, Model model, @RequestParam(value="marketType", required=false) Integer mkType,
+	public String marketBoardList(@RequestParam(value="page", required=false) Integer page, @RequestParam(value="productNo", required=false) Integer productNo,Model model, @RequestParam(value="marketType", required=false) Integer mkType,
 			   @RequestParam(value="marketSearch", required=false) String search, @RequestParam(value="searchType", required=false) Integer sType, @RequestParam(value="marketArray", required=false) Integer mkArray) {
 		
 		//boardType 3 market
 		//marketType 같이사요 1, 팝니다2, 삽니다3
-		//marketArray 조회수1, 댓글2, 
+		//marketArray 조회수1, 댓글2 
 		//searchType 1제목, 2내용, 3글쓴이
 		
 		int marketType = 0;
@@ -142,43 +147,53 @@ public class MarketBoardController {
 	
 	//글작성페이지
 	@RequestMapping("marketBoardWrite.ma")
-	public String marketBoardWrite() {
+	public String marketBoardWrite(Model model,@ModelAttribute StoreBoard sBoard) {
+		System.out.println(sBoard);
+		model.addAttribute("sBoard", sBoard);
 		return "marketBoardWrite";
 	}
 	
 	//글insert
 	@RequestMapping("marketBoardInsert.ma")
-	public String marketBoardInsert(HttpServletRequest request,@ModelAttribute MarketBoard mkBoard, @RequestParam("file") ArrayList<MultipartFile> files ) {
+	public String marketBoardInsert(HttpServletRequest request,@ModelAttribute MarketBoard mkBoard,@RequestParam(value="productNo", required=false) Integer pn,@RequestParam(value="file", required=false) ArrayList<MultipartFile> files ) {
 		String id = ((Member)request.getSession().getAttribute("loginUser")).getMemberId();
 		mkBoard.setWriter(id);
 		mkBoard.setMarketType(mkBoard.getMarketType());
+		int productNo = 0;
+		if(pn != 0) {
+			productNo = pn;
+		}
+		mkBoard.setProductNo(productNo);
+		
+		System.out.println(mkBoard);
 		
 		int boardResult = mkService.marketBoardInsert(mkBoard);
 		
 		ArrayList<Attachment> list = new ArrayList<>();
 		
-		for(MultipartFile file : files) {
-			String fileName = file.getOriginalFilename();
-			if(!fileName.equals("")) {
-				String fileType = fileName.substring(fileName.lastIndexOf(".") + 1).toLowerCase();
-				
-				if(fileType.equals("png") || fileType.equals("jpg") || fileType.equals("gif") || fileType.equals("jpeg") || fileType.equals("jfif")) {
+		if(files!=null) {
+			for(MultipartFile file : files) {
+				String fileName = file.getOriginalFilename();
+				if(!fileName.equals("")) {
+					String fileType = fileName.substring(fileName.lastIndexOf(".") + 1).toLowerCase();
 					
-					String[] returnArr = saveFile(file, request);
-					
-					
-					if(returnArr[1] != null) {
-						Attachment attm = new Attachment();
-						attm.setImgOriginalName(file.getOriginalFilename());
-						attm.setImgRename(returnArr[1]);
-						attm.setImgPath(returnArr[0]);
+					if(fileType.equals("png")||fileType.equals("webp")|| fileType.equals("jpg") || fileType.equals("gif") || fileType.equals("jpeg") || fileType.equals("jfif")) {
 						
-						list.add(attm);
+						String[] returnArr = saveFile(file, request);
+						
+						
+						if(returnArr[1] != null) {
+							Attachment attm = new Attachment();
+							attm.setImgOriginalName(file.getOriginalFilename());
+							attm.setImgRename(returnArr[1]);
+							attm.setImgPath(returnArr[0]);
+							
+							list.add(attm);
+						}
 					}
 				}
 			}
 		}
-		
 		for(int i = 0; i < list.size(); i++) {
 			Attachment a = list.get(i);
 			if(i == 0) {
@@ -251,7 +266,7 @@ public class MarketBoardController {
 	
 		//상세페이지
 		@RequestMapping("marketBoardDetail.ma")
-		public String marketBoardDetail(@RequestParam("bNo") int bNo, @RequestParam(value="boardWriter", required=false) String boardWriter, HttpSession session, Model model) {
+		public String marketBoardDetail(@RequestParam("bNo") int bNo, @RequestParam(value="boardWriter", required=false) String boardWriter, @RequestParam(value="productNo", required=false) Integer productNo ,HttpSession session, Model model) {
 			Member loginUser = (Member)session.getAttribute("loginUser");
 			boolean yn = true;
 			String strBNo = Integer.toString(bNo);
@@ -285,7 +300,7 @@ public class MarketBoardController {
 			MarketBoard mkBoard = mkService.marketBoardSelect(bNo, yn);
 			ArrayList<Attachment> mkAList = mkService.selectAttm(strBNo);
 			ArrayList<Reply> mkRList = mkService.replySelect(bNo);
-	
+			StoreBoard sBoard = mkService.selectProduct(productNo);
 			
 			Member m = new Member();
 			m.setMemberId(boardWriter);
@@ -293,6 +308,7 @@ public class MarketBoardController {
 			
 			String memberId = boardWriter;
 			Attachment profileAttm = mService.selectProfile(memberId);
+			System.out.println(sBoard);
 			
 			if(mkBoard != null) {
 				
@@ -301,7 +317,7 @@ public class MarketBoardController {
 				model.addAttribute("wishList", wishList);
 				model.addAttribute("mkRList", mkRList);
 				model.addAttribute("reportSelect", reportSelect);
-				
+				model.addAttribute("sBoard", sBoard);
 				
 				return "marketBoardDetail";
 			
@@ -434,14 +450,21 @@ public class MarketBoardController {
 
 		//게시글 수정페이지
 		@RequestMapping("mkBoardUpdateView.ma")
-		public String mkBoardUpdateView(@RequestParam("bNo") int bNo, Model model) {
+		public String mkBoardUpdateView(@RequestParam("bNo") int bNo, Model model,@RequestParam(value="productNo", required=false) Integer pn) {
 			String strBNo = Integer.toString(bNo);
 			MarketBoard mkBoard= mkService.marketBoardSelect(bNo, false);
 			ArrayList<Attachment> mkAList = mkService.selectAttm(strBNo);
-			
+			int productNo = 0;
+			StoreBoard sBoard = null;
+			if(pn != 0) {
+				productNo = pn;
+				sBoard = mkService.selectProduct(productNo);
+			}
+			System.out.println(sBoard);
 			if(mkBoard != null) {
 				model.addAttribute("mkBoard", mkBoard);
 				model.addAttribute("mkAList", mkAList);
+				model.addAttribute("sBoard", sBoard);
 				return "marketBoardEdit";
 			} else {
 				throw new BoardException("게시글 조회 실패.");
@@ -452,7 +475,7 @@ public class MarketBoardController {
 		// 게시글 수정
 		@RequestMapping("marketBoardUpdate.ma")
 		public String updateVolBoard(@ModelAttribute MarketBoard mkBoard, @RequestParam(value="deleteAttm", required = false) String[] deleteAttm, 
-									 @RequestParam("file") ArrayList<MultipartFile> files, HttpServletRequest request, Model model) {
+									 @RequestParam(value="file", required = false) ArrayList<MultipartFile> files, HttpServletRequest request, Model model) {
 			int boardResult = mkService.marketboardUpdate(mkBoard);
 			// 새파일 저장
 			ArrayList<Attachment> list = new ArrayList<>();
@@ -460,7 +483,7 @@ public class MarketBoardController {
 				String fileName = file.getOriginalFilename();
 				if(!fileName.equals("")) {
 					String fileType = fileName.substring(fileName.lastIndexOf(".")+1).toLowerCase();
-					if(fileType.equals("png") || fileType.equals("jpg") || fileType.equals("gif") || fileType.equals("jpeg")) {
+					if(fileType.equals("png")||fileType.equals("webp")|| fileType.equals("jpg") || fileType.equals("gif") || fileType.equals("jpeg") || fileType.equals("jfif")) {
 						String[] returnArr = saveFile(file, request);
 					
 						if(returnArr[1] != null) {
@@ -596,7 +619,5 @@ public class MarketBoardController {
 			
 
 		}
-			
-			
 	
 }

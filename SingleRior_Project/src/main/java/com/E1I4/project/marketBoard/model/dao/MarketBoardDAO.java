@@ -17,6 +17,7 @@ import com.E1I4.project.common.model.vo.WishList;
 import com.E1I4.project.marketBoard.model.vo.MarketBoard;
 import com.E1I4.project.member.model.vo.Member;
 import com.E1I4.project.notiBoard.model.vo.NotiBoard;
+import com.E1I4.project.storeBoard.model.vo.StoreBoard;
 
 @Repository("mkDAO")
 public class MarketBoardDAO {
@@ -160,6 +161,10 @@ public class MarketBoardDAO {
 
 	public int updateReportStatus(SqlSessionTemplate sqlSession, HashMap<String, Object> map) {
 		return sqlSession.update("marketMapper.updateReportStatus", map);
+	}
+
+	public StoreBoard selectProduct(SqlSessionTemplate sqlSession, Integer productNo) {
+		return sqlSession.selectOne("marketMapper.selectProduct", productNo);
 	}
 
 	

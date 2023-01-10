@@ -127,8 +127,8 @@
            <table>
               <tr>
                  <td style="font-size:22px;">${ pList[0].brand }</td>
-                 <td width="240px"></td>
-                 <td>
+                 <td width="180px"></td>
+                 <td style="padding-right: 5px;">
                      <c:if test="${ empty loginUser }">
                      <button type="button" class="btn btn-outline-danger wishListBtn" onclick="location.href='${contextPath}/loginView.me'">찜하기♥
                   </button>
@@ -140,10 +140,18 @@
                      <button type="button" class="btn btn-outline-danger active wishListBtn" id="wishListOff">찜하기♥</button>
                   </c:if>
                  </td>
-                 <td>
+                 <td style="padding-right: 5px;" >
                  <a href="#" id="sns_urlCoby" class="btn_share_sns" onclick="shareURL(); return false;">
-                    <button type="button" class="btn btn btn-primary active" id="shareURL">공유하기</button>
+                    <button type="button" class="btn btn-outline-primary" id="shareURL">공유하기</button>
                  </a>
+                 </td>
+                 <td>
+                   <c:if test="${ empty loginUser }">
+                    <button type="button" class="btn btn-outline-warning" onclick="location.href='${contextPath}/loginView.me'" >같이사요</button>
+                   </c:if>
+                     <c:if test="${ !empty loginUser }">
+                    <button type="button" class="btn btn-outline-warning" onclick="$('#writeTogether').modal('show')" >같이사요</button>
+                    </c:if>
                  </td>
               </tr>
            </table>　　　　　　　　　
@@ -341,7 +349,6 @@
 	        	</form>
 	 		</div>
           <%--  ${ iList }  --%>
-      
       		<c:if test="${fn:length(iList)<6}">
 		 		<c:forEach items="${ iList }" var="i">
 		 		<div style="border:black solid 1px; width:600px; padding:10px 10px; border-radius:10px;">
@@ -569,6 +576,32 @@
 	  </div>
 	</div>
 
+	<!-- 같이사요  글쓰기모달 -->
+	<div class="modal" tabindex="-1" id="writeTogether">
+	  <div class="modal-dialog">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <h4 class="modal-title"><img alt="" src="https://cdn-icons-png.flaticon.com/512/595/595752.png" style="width: 30px; height: 30px;">&nbsp;씽씽마켓에 글을 작성하시겠습니까?</h4>
+	        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+	      </div>
+	      <div class="modal-body">
+	        <p>씽씽마켓 같이사요 글쓰기 페이지로 이동합니다!</p>
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+	      <form action="marketBoardWrite.ma">
+	      	<input type="hidden" value="${ pList[0].imgServerName }" name="imgServerName">
+	      	<input type="hidden" value="${ pList[0].boardTitle }" name="boardTitle">
+	      	<input type="hidden" value="${ pList[0].price }" name="price">
+	      	<input type="hidden" value="${ pList[0].discount }" name="discount">
+	      	<input type="hidden" value="${ pList[0].boardNo }" name="boardNo">
+	      	<input type="hidden" value="${ pList[0].productNo}" name="productNo">
+	        <button class="btn btn-primary">확인</button>
+	      </form>
+	      </div>
+	    </div>
+	  </div>
+	</div>
 
 </main>
 

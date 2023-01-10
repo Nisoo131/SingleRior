@@ -36,12 +36,13 @@
 		<result property="boardType" column="IMG_B_TYPE"/>
 	</resultMap>
 	
+	
 	<insert id="marketBoardInsert">
 		insert all
 			into board
 		values(SEQ_BID.nextval, #{boardType}, #{boardTitle}, #{boardContent}, sysdate, sysdate, default, default, #{writer}, default, default)
 			into MARKET
-		values(SEQ_BID.currval, #{marketPrice}, #{marketType}, default, default, #{location})
+		values(SEQ_BID.currval, #{marketPrice}, #{marketType}, default, default, #{location}, #{productNo})
 		select * from dual
 	</insert>
 	
@@ -388,4 +389,32 @@
 		</if>
 	</update>
 	
+	 <resultMap type="StoreBoard" id="StoreBoardResultSet">
+		<id column="BOARD_NO" property="boardNo"/>
+		<result column="BOARD_TITLE" property="boardTitle"/>
+		<result column="CREATE_DATE" property="createDate"/>
+		<result column="B_STATUS" property="boardStatus"/>
+		<result column="BOARD_WRITER" property="boardWriter"/>
+		<result column="BOARD_COUNT" property="boardCount"/>
+		<result column="PRODUCT_NO" property="productNo"/>
+		<result column="PRODUCT_PRICE" property="price"/>
+		<result column="PRODUCT_DISCOUNT" property="discount"/>
+		<result column="PRODUCT_OPTION" property="option"/>
+		<result column="MODEL_NAME" property="modelName"/>
+		<result column="PRODUCT_STATUS" property="productStatus"/>
+		<result column="IMG_SERVER_NAME" property="imgServerName"/>
+		<result column="IMG_CREATE_DATE" property="imgCreateDate"/>
+		<result column="IMG_STATUS" property="imgStatus"/>
+		<result column="IMG_KEY" property="imgKey"/>
+		<result column="IMG_B_TYPE" property="imgBoardtype"/>
+		<result column="IMG_LEVEL" property="lmgLevel"/>
+	</resultMap>
+	
+	<select id="selectProduct" resultMap="StoreBoardResultSet"> 
+	SELECT *
+	 FROM PRODUCT p
+	     JOIN BOARD USING(BOARD_NO)
+	     JOIN IMG_REPOSITORY on(IMG_KEY = (SELECT TO_CHAR(( SELECT BOARD_NO FROM PRODUCT WHERE PRODUCT_NO = ${productNo})) FROM DUAL))
+	 where p.product_no =${productNo} and p.product_status = 'Y' AND img_level=0
+	 </select>
 </mapper>
