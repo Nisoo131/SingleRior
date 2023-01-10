@@ -324,6 +324,11 @@ public class AdminServiceImpl implements AdminService {
 		return aDAO.statusOrder(sqlSession,orNo);
 	}
 
+	@Override
+	public ArrayList<HashMap<String,String>>selectProductDetailNo(int orNo) {
+		return aDAO.selectProductDetailNo(sqlSession,orNo);
+	}
+
 
 
 

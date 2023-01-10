@@ -135,6 +135,8 @@ public interface AdminService {
 
 	int statusOrderNo(int orNo);
 
+	ArrayList<HashMap<String,String>> selectProductDetailNo(int orNo);
+
 
 
 
