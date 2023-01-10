@@ -14,12 +14,9 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,6 +29,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.E1I4.project.admin.dto.CancelProductReqDto;
 import com.E1I4.project.admin.dto.ImportTokenDto;
+import com.E1I4.project.admin.dto.ResponseDto;
 import com.E1I4.project.admin.model.service.AdminService;
 import com.E1I4.project.admin.model.vo.ChangeDeli;
 import com.E1I4.project.admin.model.vo.MemberManage;
@@ -45,7 +43,6 @@ import com.E1I4.project.common.model.vo.Board;
 import com.E1I4.project.common.model.vo.InquiryAdmin;
 import com.E1I4.project.common.model.vo.Notice;
 import com.E1I4.project.common.model.vo.OrderProductDetail;
-//import com.E1I4.project.common.model.vo.OrderProductDetail;
 import com.E1I4.project.common.model.vo.PageInfo;
 import com.E1I4.project.common.model.vo.Product;
 import com.E1I4.project.common.model.vo.ProductList;
@@ -980,14 +977,43 @@ public class AdminController {
 		}
 	}
 	
-	@RequestMapping(value="/cancelProduct.adm",method = RequestMethod.POST,produces="application/json;")
-	public void payMentCancle(@RequestBody CancelProductReqDto cancelProductReqDto) throws IOException  {
+	@ResponseBody
+	@RequestMapping(value="cancelProduct.adm",method = RequestMethod.POST,produces="application/json;")
+	public String payMentCancle(@RequestBody CancelProductReqDto cancelProductReqDto) throws IOException  {
 		
 		String token = getToken(); //토큰 ㅜ.ㅜ
 		
-	
+		RestTemplate rt = new RestTemplate();
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("content-type","application/json; charset=UTF-8");
+		headers.add("Authorization",token);
 		
 		
+		JSONObject json = new JSONObject();
+		json.put("imp_uid", cancelProductReqDto.getImpUid());
+		json.put("merchant_uid", cancelProductReqDto.getMerId());
+		json.put("amount", 10);
+		HttpEntity<String> cancelProduct = new HttpEntity<>(json.toString(),headers);
+		
+		ResponseDto rDto =rt.postForObject(
+				"https://api.iamport.kr/payments/cancel",
+				cancelProduct, 
+				ResponseDto.class);
+		Integer code=rDto.getCode();
+			System.out.println(code);
+			
+			if(code==0) {
+				
+				int odNo=cancelProductReqDto.getOrderDetailNo();
+				int orNo=cancelProductReqDto.getOrderNo();
+				
+				int detailNoResult=aService.statusDetailNo(odNo);
+				int orderNoResult=aService.statusOrderNo(orNo);
+				
+				return "0";
+			}else {
+				return "1";
+			}
 	
 	}
 

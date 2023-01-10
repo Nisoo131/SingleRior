@@ -100,7 +100,7 @@
 							      	상태 변경
 							      	</button>
 							      	</td>
-							      	<td><br><button type="button" class="btn btn-danger" onclick="cancelProduct('${l.merId}','${l.impUid}');">결제취소</button></td>
+							      	<td><br><button type="button" class="btn btn-danger" onclick="cancelProduct('${l.merId}','${l.impUid}','${l.orderDetailNo}','${l.orderNo }');">결제취소</button></td>
 							   	</tr>
 
 								<div class="modal fade" id="staticBackdrop${l.orderDetailNo }"
@@ -267,10 +267,12 @@
    
         <script>
         
-        	const cancelProduct = (impUid,merId) =>{
+        	const cancelProduct = (impUid,merId,orderDetailNo,orderNo) =>{
         		
         		console.log(impUid);
         		console.log(merId);
+        		console.log(orderDetailNo);
+        		console.log(orderNo);
         		
 			/* 	fetch('http://localhost:8088/SingleRior/cancelProduct.adm',{
         			method : "POST",
@@ -285,18 +287,35 @@
         		.then(res=>{
         			console.log('통신성공');
         		})  */
+        		const yn=confirm('결제 취소하시겠습니까?')
         		
+        		
+        		if(yn){
+        			
         		$.ajax({
         			type: "POST",  
         			url: "${contextPath}/cancelProduct.adm", 
         			data: JSON.stringify({
         		        merId: merId,
-        		        impUid: impUid 
+        		        impUid: impUid,
+        		        orderDetailNo:orderDetailNo,
+        		        orderNo:orderNo
         		      }),
         		   contentType: "application/json",
-        		      
+        		   success:(data)=>{
+        			   if(data==0){
+        				   alert("결제 취소가 성공 하였습니다.");
+        			   }else{
+        				   alert("결제 취소가 실패 하였습니다.")
+        			   }
+        		   }
+        		   
+        		   
+        		   
         		    }); 
-        		
+        		}else{
+        			alert("결제취소를 취소합니다람쥐")
+        		}
         		}
         		
         	</script>

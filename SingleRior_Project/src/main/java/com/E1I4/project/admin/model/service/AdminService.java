@@ -131,6 +131,10 @@ public interface AdminService {
 
 	OrderPerson selectOrderPerson(int orNo);
 
+	int statusDetailNo(int odNo);
+
+	int statusOrderNo(int orNo);
+
 
 
 

@@ -272,6 +272,14 @@ public class AdminDAO {
 		return sqlSession.selectOne("adminMapper.selectOrderPerson",orNo);
 	}
 
+	public int statusDetailNo(SqlSessionTemplate sqlSession, int odNo) {
+		return sqlSession.update("adminMapper.statusDetailNo",odNo);
+	}
+
+	public int statusOrder(SqlSessionTemplate sqlSession, int orNo) {
+		return sqlSession.update("adminMapper.statusOrderNo",orNo);
+	}
+
 
 
 
