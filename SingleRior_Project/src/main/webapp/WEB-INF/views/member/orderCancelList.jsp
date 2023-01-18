@@ -56,6 +56,7 @@
 					   	</tr>
 					</table>
 					<table class="table">
+					<c:if test="${ ! empty pcList[pc.index].cancelCate}">
 						<tr height="50">
 							<td width="100">취소 사유: ${ pcList[pc.index].cancelCate}</td>
 							<td width="300">취소 이유: ${ pcList[pc.index].cancelReason}</td>
@@ -72,6 +73,25 @@
 								</c:if>
 							</td>
 						</tr>
+					</c:if>
+					<c:if test="${ empty pcList[pc.index].cancelCate}">
+						<tr height="50">
+							<td width="100">취소 사유: 판매자 측 주문 취소</td>
+							<td width="300">취소 이유: 자세한 내용은 고객센터를 이용해주세요.</td>
+							<td width="120">
+								<c:if test="${oc.status == '주문취소'}">
+								예상 
+								</c:if>
+								환불 금액: 
+								<c:if test="${oc.orderTotalPrice - oc.salePrice > 50000 }">
+								<fmt:formatNumber value="${oc.salePrice }" pattern="#,###"/>원
+								</c:if>
+								<c:if test="${oc.orderTotalPrice - oc.salePrice < 50000 }">
+								<fmt:formatNumber value="${oc.salePrice - 2500}" pattern="#,###"/>원
+								</c:if>
+							</td>
+						</tr>
+					</c:if>
 					</table>
 				</div><br><br>
 			</c:forEach>

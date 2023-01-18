@@ -196,6 +196,7 @@
 		<result column="BOARD_WRITER" property="writer"/>
 		<result column="BOARD_COUNT" property="count"/>
 		<result column="QNA_CATEGORY" property="qnaCategory"/>
+		<result column="PRODUCTNO" property="productNo"/>
 	</resultMap>
 	
 	<resultMap type="Reply" id="replyResultSet">
@@ -213,6 +214,7 @@
 	<select id="selectBoardList" resultMap="boardResultSet">
 		select *
 		from board
+		left join market mk using(BOARD_NO)
 		where board_writer = #{memberId}
 		<if test='category != "전체"'>
 			<if test='category == "싱글벙글"'>
@@ -270,6 +272,7 @@
 	<select id="selectReplyBoardList" resultMap="boardResultSet">
 		select *
 		from board
+		left join market using(board_no)
 		<if test='boardType == 2'>
 			join community using(board_no)
 		</if>

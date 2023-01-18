@@ -1272,6 +1272,7 @@ public class MemberController {
 			bList.get(i).setReplyCount(replyCount);
 		}
 		
+//		System.out.println(bList);
 		
 		if(bList != null) {
 			model.addAttribute("pi", pi);

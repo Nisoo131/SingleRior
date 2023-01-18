@@ -45,7 +45,13 @@
 						</div>
 						<div class="col-12">
 							<label for="id" class="form-label">아이디</label>
-							<input type="text" class="form-control" id="memberId" name="memberId" readonly value="${loginUser.memberId }">
+							<c:if test="${ (loginUser.memberId).indexOf('kakao*') != -1 or (loginUser.memberId).indexOf('naver*') != -1}">
+								<input type="text" class="form-control" id="subMemberId" name="subMemberId" readonly value="${fn:substring(loginUser.memberId,0,6) }">
+								<input type="hidden" class="form-control" id="memberId" name="memberId" readonly value="${loginUser.memberId }">
+							</c:if>
+							<c:if test="${ (loginUser.memberId).indexOf('kakao*') == -1 and (loginUser.memberId).indexOf('naver*') == -1}">
+								<input type="text" class="form-control" id="memberId" name="memberId" readonly value="${loginUser.memberId }">
+							</c:if>
 						</div>
 						<c:if test="${ (loginUser.memberId).indexOf('kakao*') == -1 and (loginUser.memberId).indexOf('naver*') == -1}">
 							<div class="col-12">

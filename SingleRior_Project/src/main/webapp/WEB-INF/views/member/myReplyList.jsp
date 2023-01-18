@@ -64,6 +64,7 @@
 								<div style="display:none" class="boardNo">${r.boardNo }</div>
 								<div style="display:none" class="boardType">${ bList[b.index].boardType}</div>
 								<div style="display:none" class="boardWriter">${ bList[b.index].writer}</div>
+								<div style="display:none" class="productNo">${ bList[b.index].productNo}</div>
 							</div>
 						</div>
 						<br><br>
@@ -120,11 +121,12 @@
 				const cate = this.childNodes[3].childNodes[7].innerText;
 				const boardNo = this.childNodes[3].childNodes[5].innerText;
 				const writer = this.childNodes[3].childNodes[9].innerText;
-				
+				const productNo = this.childNodes[3].childNodes[11].innerText;
+				console.log(boardNo);
 				if(cate == "2"){
 					location.href='${contextPath}/selectCommuBoard.co?bNo=' + boardNo + '&writer=' + writer + '&page=' + ${pi.currentPage};
 				}else if(cate == "3"){
-					location.href='${contextPath}/marketBoardDetail.ma?bNo=' + boardNo  +'&boardWriter=' + writer + '&page=' + ${pi.currentPage};
+					location.href='${contextPath}/marketBoardDetail.ma?bNo=' + boardNo  +'&boardWriter=' + writer + '&page=' + ${pi.currentPage}+'&productNo=' + productNo;
 				}
 				
 			});

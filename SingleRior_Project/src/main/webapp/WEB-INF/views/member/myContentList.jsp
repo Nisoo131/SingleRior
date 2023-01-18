@@ -58,6 +58,7 @@
 					</c:if>
 					<c:if test="${ b.boardType == 3 }">
 						<span class="category">[씽씽마켓]</span>
+						<input type="hidden" value="${ b.productNo}">
 					</c:if>
 				<span>&nbsp;&nbsp;&nbsp;${ b.boardTitle}</span>
 				</div>
@@ -122,12 +123,14 @@
 				const cate = this.childNodes[1].childNodes[1].innerText;
 				
 				const boardNo = this.childNodes[3].childNodes[9].innerText;
+				const productNo = this.childNodes[1].childNodes[3].value;
+				
 				console.log(boardNo);
 				const writer = '${loginUser.nickName}';
 				if(cate == "[싱글벙글]"){
 					location.href='${contextPath}/selectCommuBoard.co?bNo=' + boardNo + '&writer=' + writer + '&page=' + ${pi.currentPage};
 				}else if(cate == "[씽씽마켓]"){
-					location.href='${contextPath}/marketBoardDetail.ma?bNo=' + boardNo  +'&boardWriter=' + writer + '&page=' + ${pi.currentPage};
+					location.href='${contextPath}/marketBoardDetail.ma?bNo=' + boardNo  +'&boardWriter=' + writer + '&page=' + ${pi.currentPage}+'&productNo=' + productNo;
 				}
 			});
 			

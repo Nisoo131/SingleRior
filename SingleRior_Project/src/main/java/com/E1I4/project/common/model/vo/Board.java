@@ -28,4 +28,5 @@ public class Board {
 	private int replyCount;
 	private String qnaCategory;
 	private String reportStatus;
+	private int productNo;
 }
