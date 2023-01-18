@@ -134,12 +134,6 @@ public class CommuBoardServiceImpl implements CommuBoardService{
 		return cDAO.replyCountDown(sqlSession, bNo);
 	}
 	
-	// 대댓글 불러오기
-	@Override
-	public ArrayList<ReReply> selectReReply(int bNo) {
-		return cDAO.selectReReply(sqlSession, bNo);
-	}
-	
 	
 	/* 게시글 수정 (update) */
 	// 첨부파일 삭제
