@@ -116,11 +116,6 @@ public class CommuBoardDAO {
 		return sqlSession.update("commuMapper.replyCountDown", bNo);
 	}
 	
-	// 대댓글 불러오기
-	public ArrayList<ReReply> selectReReply(SqlSessionTemplate sqlSession, int bNo) {
-		return (ArrayList)sqlSession.selectList("commuMapper.selectReReply", bNo);
-	}
-	
 	
 	/* 게시글 수정 (update) */
 	// 첨부파일 삭제

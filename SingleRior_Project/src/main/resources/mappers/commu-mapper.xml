@@ -48,20 +48,6 @@
 		<result column="GROUP_NO" property="groupNo"/>
 	</resultMap>
 	
-	<resultMap type="ReReply" id="rReplyResultSet">
-		<id column="RE_REPLY_NO" property="rReplyNo"/>
-		<result column="RE_REPLY_CONTENT" property="rReplyContent"/>
-		<result column="RE_REPLY_CREATE_DATE" property="rReplyCreateDate"/>
-		<result column="RE_REPLY_MODIFY_DATE" property="rReplyModifyDate"/>
-		<result column="RE_REPLY_SECRET" property="rReplySecret"/>
-		<result column="RE_REPLY_STATUS" property="rReplyStatus"/>
-		<result column="REPLY_NO" property="replyNo"/>
-		<result column="MEMBER_ID" property="memberId"/>
-		<result column="BOARD_NO" property="boardNo"/>
-		<result column="NICKNAME" property="nickName"/>
-		<result column="REPORT_STATUS" property="reportStatus"/>
-	</resultMap>
-	
 	<resultMap type="WishList" id="wishListResultSet">
 		<id property="boardNo" column="BOARD_NO"/>
 		<id property="memberId" column="MEMBER_ID"/>
@@ -298,14 +284,6 @@
 		insert into reply
 		values(seq_rid.nextval, #{r.replyContent}, sysdate, sysdate, #{r.replySecret}, default, #{r.memberId}, #{r.boardNo}, default, #{gNo})
 	</insert>
-	
-	<!-- 대댓글 불러오기 -->
-	<select id="selectReReply" resultMap="rReplyResultSet">
-		select *
-		from re_reply
-		where board_no = #{boardNo} and re_reply_status = 'Y'
-		order by re_reply_no desc
-	</select>
 	
 	
 	<!-- 게시글 수정 (update) -->

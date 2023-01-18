@@ -64,9 +64,6 @@ public interface CommuBoardService {
 	// 댓글 count down
 	int replyCountDown(int bNo);
 	
-	// 대댓글 불러오기
-	ArrayList<ReReply> selectReReply(int bNo);
-	
 	
 	/* 게시글 수정 (update) */
 	// 첨부파일 삭제

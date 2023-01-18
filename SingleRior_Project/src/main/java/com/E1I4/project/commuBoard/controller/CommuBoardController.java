@@ -241,7 +241,6 @@ public class CommuBoardController {
 		ArrayList<Attachment> list = cService.selectAttmBoard(strBNo);
 		
 		ArrayList<Reply> coRList = cService.selectReply(bNo);
-		ArrayList<ReReply> coRRList = cService.selectReReply(bNo);
 		
 		String memberId = writer;
 		Attachment profileAttm = mService.selectProfile(memberId);
@@ -249,7 +248,6 @@ public class CommuBoardController {
 		if(coBoard != null) {
 			mv.addObject("coBoard", coBoard);
 			mv.addObject("coRList", coRList);
-			mv.addObject("coRRList", coRRList);
 			mv.addObject("wishList", wishList);
 			mv.addObject("list", list);
 			mv.addObject("profileAttm", profileAttm);
