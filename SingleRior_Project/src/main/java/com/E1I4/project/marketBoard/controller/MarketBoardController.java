@@ -103,7 +103,6 @@ public class MarketBoardController {
 		ArrayList<Attachment> mkAList = mkService.attmListSelect();
 		ArrayList<MarketBoard> topBList = mkService.marketTopList(map);
 		
-		
 		if(mkBList != null) {
 			model.addAttribute("pi", pi);
 			model.addAttribute("mkBList", mkBList);

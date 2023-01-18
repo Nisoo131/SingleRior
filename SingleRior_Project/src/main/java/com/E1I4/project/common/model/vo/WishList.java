@@ -20,4 +20,5 @@ public class WishList {
 	private String imgRename;
 	private int productNo;
 	private int productPrice;
+	private int tProductNo;
 }

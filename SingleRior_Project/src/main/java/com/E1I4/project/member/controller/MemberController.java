@@ -633,6 +633,7 @@ public class MemberController {
 			currentPage = page;
 		}
 		
+//		System.out.println(category);
 		HashMap<String,String> map = new HashMap<String,String>();
 		map.put("memberId", memberId);
 		map.put("category", category);
@@ -649,6 +650,11 @@ public class MemberController {
 			map.put("imgKey", imgKey);
 			String imgRename = mService.getImgWishList(map);
 			wlList.get(i).setImgRename(imgRename);
+			
+			if(wlList.get(i).getTProductNo() != 0) {
+				int tProductNo = wlList.get(i).getTProductNo();
+				wlList.get(i).setProductNo(tProductNo);
+			}
 		}
 		
 //		System.out.println("wishList : "+wlList);

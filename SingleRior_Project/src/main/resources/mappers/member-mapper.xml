@@ -376,6 +376,7 @@
 		<result column="BOARD_TITLE" property="boardTitle"/>
 		<result column="IMG_SERVER_NAME" property="imgRename"/>
 		<result column="product_no" property="productNo"/>
+		<result column="productno" property="tProductNo"/>
 		<result column="product_price" property="productPrice"/>
 	</resultMap>
 	
@@ -385,6 +386,9 @@
 		join board b using(board_no)
 		<if test="category == '스토어'">
 			join product p using(board_no)
+		</if>
+		<if test="category == '씽씽마켓'">
+			join market mk using(BOARD_NO)
 		</if>
 		where member_id = #{memberId} 
 		<if test="category != null">
