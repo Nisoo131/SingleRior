@@ -642,18 +642,20 @@ public class MemberController {
 		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 8);
 		ArrayList<WishList> wlList = mService.selectWishList(pi,map);
 
-		
+
 		for(int i =0; i<wlList.size(); i++) {
-			int boardNum = wlList.get(i).getBoardNo();
-			String imgKey = Integer.toString(boardNum);
-			
-			map.put("imgKey", imgKey);
-			String imgRename = mService.getImgWishList(map);
-			wlList.get(i).setImgRename(imgRename);
-			
-			if(wlList.get(i).getTProductNo() != 0) {
-				int tProductNo = wlList.get(i).getTProductNo();
-				wlList.get(i).setProductNo(tProductNo);
+			if(wlList.get(i).getBoardType() != 2) {
+				int boardNum = wlList.get(i).getBoardNo();
+				String imgKey = Integer.toString(boardNum);
+				
+				map.put("imgKey", imgKey);
+				String imgRename = mService.getImgWishList(map);
+				wlList.get(i).setImgRename(imgRename);
+				
+				if(wlList.get(i).getTProductNo() != 0) {
+					int tProductNo = wlList.get(i).getTProductNo();
+					wlList.get(i).setProductNo(tProductNo);
+				}
 			}
 		}
 		
