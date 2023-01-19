@@ -364,7 +364,6 @@ public class AdminController {
 	public String manageProduct(Model model) {
 
 		ArrayList<ProductList> sList=aService.selectProductList(1);
-		ArrayList<Attachment> aList=aService.selectAttmList(1);
 		
 		if(sList!=null) {
 			model.addAttribute("sList",sList);

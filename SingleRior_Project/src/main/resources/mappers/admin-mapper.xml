@@ -261,7 +261,7 @@
 		    join product_sub_cate ps on(p.pro_subcate_code=ps.pro_subcate_code)
 		    join product_top_cate pt on(ps.pro_topcate_code=pt.pro_topcate_code)
 		where board_type=#{i}
-	    order by p.product_no
+	    order by p.product_no desc
    
    </select>
    
