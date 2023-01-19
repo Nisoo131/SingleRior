@@ -248,7 +248,7 @@
     					const memberId = '${m.memberId }';
     					console.log(memberId);
     					location.href='${contextPath}/deleteMember.adm?memberId='+memberId;
-    					alert('싱글리어를 이용해 주셔서 감사합니다. 회원 탈퇴되었습니다.');
+    					alert('관리자의 권한으로 회원을 탈퇴하였습니다.');
     				}
     		});
     	})

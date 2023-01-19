@@ -90,7 +90,10 @@
                                        	<td><c:if test="${m.memberStatus eq 'Y'}">정상</c:if><c:if test="${m.memberStatus eq 'N'}">탈퇴</c:if></td>
                                        	<td>${m.enrollDate }</td>
                                        	<td>${m.memberLog }</td>
-                                       	<td><button type="button" class="btn btn-primary" onclick="location.href='${contextPath}/updateManageUser.adm?memberId=${m.memberId}'">수정</button></td>
+                                       	<td><c:if test="${m.memberStatus eq 'Y'}"><button type="button" class="btn btn-primary" onclick="location.href='${contextPath}/updateManageUser.adm?memberId=${m.memberId}'">정보 수정</button></c:if>
+                                       		<c:if test="${m.memberStatus eq 'N'}"><button type="button" class="btn btn-danger" disabled>탈퇴 회원</button></c:if>
+                                       	
+                                       	</td>
                                        </tr>          
                                        </c:forEach>
                                     </tbody>
