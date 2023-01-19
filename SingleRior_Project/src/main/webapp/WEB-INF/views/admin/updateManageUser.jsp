@@ -67,13 +67,19 @@
 		<main>
 			<div class="py-5 text-center">
 			<img class="d-block mx-auto mb-4" src="${ contextPath }/resources/image/SingleRior_logo.png" alt="" width="330">
+			
+			
+			
 			</div>
+			
+			
 
 			<div style="margin-left: 350px; margin-right: 350px;">
 				<div style="text-align:center;"><h3>회원정보 수정</h3></div><br><br>
 				<form class="needs-validation" action="${ contextPath }/editMember.adm" method="POST" onsubmit="return newSubmit()">
 					<div class="row g-3">
 						<div class="col-12">
+							
 							<label for="id" class="form-label">아이디</label>
 							<input type="text" class="form-control" id="memberId" value="${m.memberId}" name="memberId" readonly>
 							<span id="idCheckMsg"></span>
@@ -104,7 +110,7 @@
 
 							<label for="email" class="form-label">이메일</label>
 						<div class="input-group mb-3">
- 							 <input type="email" class="form-control" id="email" name="email" value=${m.email } aria-label="Recipient's username" aria-describedby="button-addon2" required>
+ 							 <input type="email" class="form-control" id="email" name="email" value=${m.email } aria-label="Recipient's username" aria-describedby="button-addon2" readonly>
 						</div>
 							 
 						<div class="col-12">

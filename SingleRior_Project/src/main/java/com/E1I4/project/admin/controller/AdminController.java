@@ -142,7 +142,7 @@ public class AdminController {
 	@RequestMapping("updateManageUser.adm")
 	public String updateManageMember(@RequestParam("memberId") String memberId,Model model) {
 		Member member=aService.selectMember(memberId);
-
+		System.out.println(member);
 		model.addAttribute("m", member);
 		
 		

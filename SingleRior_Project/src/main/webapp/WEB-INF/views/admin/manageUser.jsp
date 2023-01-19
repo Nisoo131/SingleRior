@@ -65,6 +65,7 @@
                                             <th>상태</th>
              								<th>가입일</th>
                                             <th>최종 로그인</th>
+                                             <th>정보 수정</th>
                                         </tr>
                                     </thead>
                                     <tfoot>
@@ -76,11 +77,12 @@
                                             <th>상태</th>
              								<th>가입일</th>
                                             <th>최종 로그인</th>
+                                            <th>정보 수정</th>
                                         </tr>
                                     </tfoot>
                                     <tbody>
                                     <c:forEach items="${ mList}" var="m" varStatus="status">
-                                       <tr class="trs">
+                                       <tr>
                                        	<td><c:out value="${status.count}"/></td>
                                        	<td>${m.memberId}</td>
                                        	<td>${m.memberName}</td>
@@ -88,6 +90,7 @@
                                        	<td><c:if test="${m.memberStatus eq 'Y'}">정상</c:if><c:if test="${m.memberStatus eq 'N'}">탈퇴</c:if></td>
                                        	<td>${m.enrollDate }</td>
                                        	<td>${m.memberLog }</td>
+                                       	<td><button type="button" class="btn btn-primary" onclick="location.href='${contextPath}/updateManageUser.adm?memberId=${m.memberId}'">수정</button></td>
                                        </tr>          
                                        </c:forEach>
                                     </tbody>
@@ -107,19 +110,6 @@
             </div>
         <script>
         
-         $(function(){
-        	
-        	$(document).on('click','.trs',function(){
-        	
-        		const memberId=this.childNodes[1].innerText;
-        		
-        		location.href='${contextPath}/updateManageUser.adm?memberId='+memberId;
-        		
-        	});
-        });
-        
-    
-     
         
 /*         
     	 window.onload=()=>{
