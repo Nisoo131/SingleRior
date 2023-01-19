@@ -110,7 +110,7 @@
                                             <td>${r.boardTitle }</td>
                                             <td>${r.createDate }</td>
                                             <td>${r.memberId }</td>
-                                            <td><button type="button" class="btn btn-primary" data-bs-toggle="modal" style="display:inline-block;" data-bs-target="#viewModal${r.reportNo}">글 보기</button>&nbsp;&nbsp;<button type="button" class="btn btn-danger" data-bs-toggle="modal" style="display:inline-block;" data-bs-target="#reportModal${r.reportNo}">신고 처리</button></td>
+                                            <td><button type="button" class="btn btn-primary" data-bs-toggle="modal" style="display:inline-block;" data-bs-target="#viewModal${r.reportNo}">글 보기</button>  <button type="button" class="btn btn-danger" data-bs-toggle="modal" style="display:inline-block;" data-bs-target="#reportModal${r.reportNo}">신고 처리</button></td>
                                         </tr>
                                         <!-- 작성글 봃수 있는 모달 -->
 										<div class="modal fade" id="viewModal${r.reportNo}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

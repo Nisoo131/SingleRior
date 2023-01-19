@@ -82,7 +82,7 @@
                                             <th>수정일</th>
                                             <th>조회수</th>
                                             <th>상태 변경</th>
-                                            
+                                            <th>주문 취소</th>                                            
                                         </tr>
                                     </tfoot>
                                     <tbody>
@@ -98,7 +98,7 @@
                                             <td>${ s.createDate}</td>
                                             <td>${ s.modifyDate }</td>
                                             <td>${ s.boardCount }</td>
-                                            <td><button style="display:inline-block;" type="button"  class="btn btn-primary">수정</button>&nbsp;
+                                            <td><button style="display:inline-block;" type="button"  class="btn btn-primary">수정</button>
                                             <c:if test="${s.productStatus eq 'Y' }"><button style="display:inline-block;" type="button" class="btn btn-danger">판매중단</button></c:if>
                                             <c:if test="${s.productStatus eq 'N' }"><button style="display:inline-block;" type="button" class="btn btn-success">판매실시</button></c:if>
                                             </td>
@@ -159,5 +159,8 @@
         <script src="${ pageContext.servletContext.contextPath }/resources/assets/demo/chart-area-demo.js"></script>
         <script src="${ pageContext.servletContext.contextPath }/resources/assets/demo/chart-bar-demo.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
+        <script src="${ pageContext.servletContext.contextPath }/resources/js/datatables-simple-demo.js"></script>
+        
+        
     </body>
 </html>

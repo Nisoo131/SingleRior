@@ -116,7 +116,7 @@
                                             <td>${i.memberId}</td>
                                             <td>${i.inquiryDate }</td>
                                             <td>
-                                            <c:if test="${i.adminStatus eq 'N' }"><button type="button" class="btn btn-primary" data-bs-toggle="modal" style="display:inline-block;" data-bs-target="#viewModal${i.inquiryNo}">글 보기</button>&nbsp;&nbsp;<button type="button" class="btn btn-danger" data-bs-toggle="modal" style="display:inline-block;" data-bs-target="#inquiryModal${i.inquiryNo}">답변달기</button></c:if>
+                                            <c:if test="${i.adminStatus eq 'N' }"><button type="button" class="btn btn-primary" data-bs-toggle="modal" style="display:inline-block;" data-bs-target="#viewModal${i.inquiryNo}">글 보기</button> <button type="button" class="btn btn-danger" data-bs-toggle="modal" style="display:inline-block;" data-bs-target="#inquiryModal${i.inquiryNo}">답변달기</button></c:if>
                                             <c:if test="${i.adminStatus eq 'Y' }"><button type="button" class="btn btn-success" data-bs-toggle="modal" style="display:inline-block;" data-bs-target="#answerModal${i.inquiryNo}">답변 보기</button></c:if>
                                             </td>
                                         </tr>

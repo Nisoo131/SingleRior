@@ -149,6 +149,7 @@
                                             <th>연락처</th>
                                             <th>주소</th>
                                             <th>처리상태</th>
+                                            <th>상세보기</th>
                                         </tr>
                                     </thead>
                                     <tfoot>
@@ -162,7 +163,7 @@
                                             <th>연락처</th>
                                             <th>주소</th>
                                             <th>처리상태</th>
-                                        	<th>주문 내역</th>
+                                            <th>상세보기</th>
                                         </tr>
                                     </tfoot>
                                     <tbody>
