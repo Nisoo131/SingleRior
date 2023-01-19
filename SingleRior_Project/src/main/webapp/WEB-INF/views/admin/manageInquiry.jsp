@@ -62,7 +62,7 @@
                 <main>
                      <div class="container-fluid px-4">
                         <h1 class="mt-4"> 상품 문의함 목록</h1>
-                        ${list[0] }
+                      
 							<div class="btn-group"  id="btnGroup" role="group" aria-label="Basic outlined example">
 							  <button type="button" class="btn btn-outline-primary" onclick="location.href='${contextPath}/manageInquiry.adm'">전체 보기</button>
 							  <button type="button" class="btn btn-outline-primary" onclick="location.href='${contextPath}/manageInquiryQue.adm'">미답변 내역</button>
