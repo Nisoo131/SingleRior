@@ -1068,8 +1068,8 @@ public class AdminController {
 		
 		
 		
-		String apiKey="7352801505860085";
-		String apiSecret="fHFLkPCxosVgCLwpdKtsR36eDYhUvWXCedKEh49XgDwx6SjYSiOSmfKVBW5UqszEAqpIAxW3K9ChANER";
+		String apiKey="iamport키";
+		String apiSecret="secret키";
 		
 		RestTemplate rt =new RestTemplate();
 		HttpHeaders headers=new HttpHeaders();
