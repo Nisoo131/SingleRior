@@ -109,7 +109,7 @@
 		$('#memberId').on('focusout',function(){
 			let memberId = $('#memberId').val();
 //	 		console.log(memberId);
-			const idReg = /^(?=.*[0-9]+)[a-zA-Z][a-zA-Z0-9]{6,20}$/g;
+			const idReg = /^(?=.*[0-9]+)[a-zA-Z][a-zA-Z0-9]{5,20}$/g;
 			if(!idReg.test(memberId)){
 				$('#idCheckMsg').css('color','red');
 				idChecked = false;
