@@ -40,7 +40,7 @@ public class MailSendService {
 	// 아이디 찾기
 	public void findId(String email, String id) {
 
-		String setFrom = "singlerior8080@gmail.com"; 
+		String setFrom = "singlerior"; 
 		String toMail = email;
 		String title = "싱글리어 아이디 찾기입니다."; 
 		String content = "SingleRior를 방문해주셔서 감사합니다." + "<br><br>" +  "회원님의 아이디는 " + id + "입니다." +  "<br>" + "해당 아이디로 로그인해주세요.";

@@ -59,13 +59,13 @@
 			<span>SNS계정으로 간편 로그인</span>
 			<hr>
 			<div>
-				<a href='https://kauth.kakao.com/oauth/authorize?client_id=3511f863b828fb1a348dbb6100a0ddb0&redirect_uri=http://localhost:8088/SingleRior/kakaoLogin.me&response_type=code'>
+				<a href='https://kauth.kakao.com/oauth/authorize?client_id=id&redirect_uri=http://localhost:8088/SingleRior/kakaoLogin.me&response_type=code'>
 					<img src="${ contextPath }/resources/image/kakao_login_large_wide.png" alt="카카오계정 로그인" style="width:300px;  height:50px;">
 				</a>
 			</div><br>
 			<div>
 				<a id="naverIdLogin_loginButton"
-				 href="https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=csSoyGLeoDJrrYsbQ_Vt&state=singlerior&redirect_uri=http://localhost:8088/SingleRior/naverLogin.me" >
+				 href="https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=id&state=singlerior&redirect_uri=http://localhost:8088/SingleRior/naverLogin.me" >
 				<img src="${ contextPath }/resources/image/naver_login.png" alt="네이버계정 로그인" style="width:300px; height:50px;"></a>
 			</div>
 	</main>
