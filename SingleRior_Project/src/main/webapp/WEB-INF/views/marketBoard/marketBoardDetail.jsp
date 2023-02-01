@@ -650,7 +650,7 @@
   </div>
 	
 	
-	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=798f33ea8b65e2cf58f7aae47be6ed55&libraries=services"></script>	
+	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey="></script>	
 	<script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
 		
 	
